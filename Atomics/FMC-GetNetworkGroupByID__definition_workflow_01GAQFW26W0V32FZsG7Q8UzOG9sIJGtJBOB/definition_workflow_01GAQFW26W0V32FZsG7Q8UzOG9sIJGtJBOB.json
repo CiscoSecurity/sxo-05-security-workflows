@@ -1,0 +1,136 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01GAQFW26W0V32FZsG7Q8UzOG9sIJGtJBOB",
+    "name": "FMC - Get Network Group by ID",
+    "title": "FMC - Get Network Group by ID",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Network Group ID",
+          "type": "datatype.string",
+          "description": "ID of the network group to fetch",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01GAQGHE1KMEO1yM0FEOylTCizAqnfr7mwD",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Auth Access Token",
+          "type": "datatype.secure_string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01GAQFW1TS5WF1AqzmX8bMh0ajJRqfgU8gI",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Domain UUID",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01GAQFW1TS79S1XRz4olTenl56t7JTI917S",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Network Group",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01GAQFW1TS8Q42xmMQcgyzXNLeuMlacnqkR",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "Cisco FMC",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": true,
+      "description": "Gets a single network group using its ID for the given domain UUID.\n\n[] Execute the API request to get the network group\n[] Set the output variables with the results",
+      "display_name": "FMC - Get Network Group by ID",
+      "runtime_user": {
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "specify_on_workflow_start": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01GAQFWRTQQ6P7cEH1j4RUqoRdpP5P0YTwF",
+        "name": "HTTP Request",
+        "title": "Execute API request",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "X-auth-access-token",
+              "value": "$workflow.definition_workflow_01GAQFW26W0V32FZsG7Q8UzOG9sIJGtJBOB.input.variable_workflow_01GAQFW1TS5WF1AqzmX8bMh0ajJRqfgU8gI$"
+            }
+          ],
+          "display_name": "Execute API request",
+          "method": "GET",
+          "relative_url": "fmc_config/v1/domain/$workflow.definition_workflow_01GAQFW26W0V32FZsG7Q8UzOG9sIJGtJBOB.input.variable_workflow_01GAQFW1TS79S1XRz4olTenl56t7JTI917S$/object/networkgroups/$workflow.definition_workflow_01GAQFW26W0V32FZsG7Q8UzOG9sIJGtJBOB.input.variable_workflow_01GAQGHE1KMEO1yM0FEOylTCizAqnfr7mwD$",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01GAQFWXEOSKM0samc4Gzh9pS23vlG8Z8Y0",
+        "name": "Set Variables",
+        "title": "Set output variables",
+        "type": "core.set_multiple_variables",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Set output variables",
+          "skip_execution": false,
+          "variables_to_update": [
+            {
+              "variable_to_update": "$workflow.definition_workflow_01GAQFW26W0V32FZsG7Q8UzOG9sIJGtJBOB.output.variable_workflow_01GAQFW1TS8Q42xmMQcgyzXNLeuMlacnqkR$",
+              "variable_value_new": "$activity.definition_activity_01GAQFWRTQQ6P7cEH1j4RUqoRdpP5P0YTwF.output.response_body$"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}

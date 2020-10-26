@@ -1,0 +1,274 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01JAOY79IPUOM3MQuc4B6y2JTExdPZkDG5h",
+    "name": "Umbrella - Management V1 - Get Organizations",
+    "title": "Umbrella - Management V1 - Get Organizations",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Organization Name",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01JAP0R02X3HY3RwQK01dYDTvF2g0EkyPAW",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Organization List",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01JAP1HEZQIWX0Y8Na6iXImPqoUdAcsBqt8",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Organization ID",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01JAP0M5J3FM83u9Fn1du63FTD7akJZnUSJ",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "Cisco Umbrella",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": false,
+      "description": "Gets a list of organizations the current API client has access to.\n\nNote: This atomic returns the raw list of organizations as well as the name and ID of the first organization in the list.\n\nTarget: HTTP endpoint for \"management.api.umbrella.com\"\n\nAccount Key: HTTP basic with Umbrella Network and Devices API key (client ID as username, client secret as password)\n\nSteps:\n[] Make the API request to get the organization list\n[] Check if the API request succeeded:\n[]\u003e If it did, attempt to extract the first organization's details and set the workflow's output variables\n[]\u003e If it didn't, output an error",
+      "display_name": "Umbrella - Management V1 - Get Organizations",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "specify_on_workflow_start": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01JAOY80SQX8D2Kwl3IBaRsWzBINcDy3izs",
+        "name": "HTTP Request",
+        "title": "Request organization list",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "application/json",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "continue_on_error_status_code": true,
+          "continue_on_failure": false,
+          "display_name": "Request organization list",
+          "method": "GET",
+          "relative_url": "v1/organizations",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01JAOY8AKR9C36viDGvezIGmtDqsv1v0dKA",
+        "name": "Condition Block",
+        "title": "Was the request successful?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Was the request successful?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01JAOY8LDUZ9J4m9ZJpT5I5sYrGmAbsr14t",
+            "name": "Condition Branch",
+            "title": "Success/200",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01JAOY80SQX8D2Kwl3IBaRsWzBINcDy3izs.output.status_code$",
+                "operator": "eq",
+                "right_operand": 200
+              },
+              "continue_on_failure": false,
+              "display_name": "Success/200",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01JAOY8R0LWWP1jL1fygu5Dx5fe347U9kQz",
+                "name": "JSONPath Query",
+                "title": "Extract the first organization",
+                "type": "corejava.jsonpathquery",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "continue_on_failure": true,
+                  "display_name": "Extract the first organization",
+                  "input_json": "$activity.definition_activity_01JAOY80SQX8D2Kwl3IBaRsWzBINcDy3izs.output.response_body$",
+                  "jsonpath_queries": [
+                    {
+                      "jsonpath_query": "$.[0].organizationId",
+                      "jsonpath_query_name": "organizationId",
+                      "jsonpath_query_type": "string"
+                    },
+                    {
+                      "jsonpath_query": "$.[0].name",
+                      "jsonpath_query_name": "organizationName",
+                      "jsonpath_query_type": "string"
+                    }
+                  ],
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01JAOY922R0177hvGFkipcTJyaaWSebvE5a",
+                "name": "Condition Block",
+                "title": "Was extraction successful?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Was extraction successful?",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                  {
+                    "unique_name": "definition_activity_01JAOY9C5QLIH3TIVbdJrAvoXTTNoGDukOh",
+                    "name": "Condition Branch",
+                    "title": "No",
+                    "type": "logic.condition_block",
+                    "base_type": "activity",
+                    "properties": {
+                      "condition": {
+                        "left_operand": "$activity.definition_activity_01JAOY8R0LWWP1jL1fygu5Dx5fe347U9kQz.output.succeeded$",
+                        "operator": "eq",
+                        "right_operand": false
+                      },
+                      "continue_on_failure": false,
+                      "display_name": "No",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity",
+                    "actions": [
+                      {
+                        "unique_name": "definition_activity_01JAOY9HH2GT03pJLyi6a6hKnrY6J71Ukeo",
+                        "name": "Completed",
+                        "title": "Failed",
+                        "type": "logic.completed",
+                        "base_type": "activity",
+                        "properties": {
+                          "completion_type": "failed-completed",
+                          "continue_on_failure": false,
+                          "display_name": "Failed",
+                          "result_message": "Failed to extract organization from response\n\nStatus code: $activity.definition_activity_01JAOY80SQX8D2Kwl3IBaRsWzBINcDy3izs.output.status_code$\nResponse body: $activity.definition_activity_01JAOY80SQX8D2Kwl3IBaRsWzBINcDy3izs.output.response_body$",
+                          "skip_execution": false
+                        },
+                        "object_type": "definition_activity"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "unique_name": "definition_activity_01JAOY9RN22UP1cqDYRu08b3g3n6AjAF4nc",
+                "name": "Set Variables",
+                "title": "Set output variables",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Set output variables",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01JAOY79IPUOM3MQuc4B6y2JTExdPZkDG5h.output.variable_workflow_01JAP0M5J3FM83u9Fn1du63FTD7akJZnUSJ$",
+                      "variable_value_new": "$activity.definition_activity_01JAOY8R0LWWP1jL1fygu5Dx5fe347U9kQz.output.jsonpath_queries.organizationId$"
+                    },
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01JAOY79IPUOM3MQuc4B6y2JTExdPZkDG5h.output.variable_workflow_01JAP0R02X3HY3RwQK01dYDTvF2g0EkyPAW$",
+                      "variable_value_new": "$activity.definition_activity_01JAOY8R0LWWP1jL1fygu5Dx5fe347U9kQz.output.jsonpath_queries.organizationName$"
+                    },
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01JAOY79IPUOM3MQuc4B6y2JTExdPZkDG5h.output.variable_workflow_01JAP1HEZQIWX0Y8Na6iXImPqoUdAcsBqt8$",
+                      "variable_value_new": "$activity.definition_activity_01JAOY80SQX8D2Kwl3IBaRsWzBINcDy3izs.output.response_body$"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01JAOYA3L3B2U6swKUPLS92y4vvexKYAOFP",
+            "name": "Condition Branch",
+            "title": "Anything else",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01JAOY80SQX8D2Kwl3IBaRsWzBINcDy3izs.output.status_code$",
+                "operator": "ne",
+                "right_operand": 200
+              },
+              "continue_on_failure": false,
+              "display_name": "Anything else",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01JAOYA8QY9GE0G19IlZfVdZdR6xdHpV8OG",
+                "name": "Completed",
+                "title": "Failed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Failed",
+                  "result_message": "Failed to retrieve organization list\n\nStatus code: $activity.definition_activity_01JAOY80SQX8D2Kwl3IBaRsWzBINcDy3izs.output.status_code$\nResponse body: $activity.definition_activity_01JAOY80SQX8D2Kwl3IBaRsWzBINcDy3izs.output.response_body$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}

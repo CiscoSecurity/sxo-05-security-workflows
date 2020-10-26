@@ -1,0 +1,347 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW",
+    "name": "ServiceNow - Create Incident",
+    "title": "ServiceNow - Create Incident",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.integer",
+        "properties": {
+          "value": 2,
+          "scope": "input",
+          "name": "Urgency",
+          "type": "datatype.integer",
+          "description": "The urgency of the incident:\n1 - High\n2 - Medium\n3 - Low",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01FGYGPFJYM4L5aVpzNOhRwMmzKJDofqufe",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Ticket Number",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01C0EMLG2EEYD14wKqkFjhK8dTwJa20Jihp",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "System Id",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01C0F7F9L7IYM3YXHCizJhunwKtPlSJWEWM",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "API Response",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01C0C3F7WJAUK0TfekEO4H2SeSvFJxIC38A",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Work Notes",
+          "type": "datatype.string",
+          "description": "Notes to include in a work note entry. Certain tags and formatting can be used in this field. See the ServiceNow documentation for more information",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01FGYGZ0OYYNM5pWjyyreMjNHDjusjNe8jx",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "ServiceNow User ID",
+          "type": "datatype.string",
+          "description": "The user ID of the user who is submitting the ticket",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01FGYI8HES41K63G3UzMinBH3iApm37fBGt",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Incident Title",
+          "type": "datatype.string",
+          "description": "A short title for the incident",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01C0CK2MY2SLG1FXph6ZHp7iHmRw1KvUFlN",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Description",
+          "type": "datatype.string",
+          "description": "A description for the incident",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01FGYF0DUR8HV2TMpEKctsYjQR4mzjD5OTu",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.integer",
+        "properties": {
+          "value": 2,
+          "scope": "input",
+          "name": "Impact",
+          "type": "datatype.integer",
+          "description": "The impact of the incident:\n1 - High\n2 - Medium\n3 - Low",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01FGYGCZL5M2E1m1O5tvVVn0DVzVTLwytei",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "v2",
+          "scope": "input",
+          "name": "API Version",
+          "type": "datatype.string",
+          "description": "Version of the ServiceNow API to use",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01FMQD0HIJIDU5kce0VNx4HQiMYjMfUvBlj",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "ServiceNow",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": true,
+      "description": "Creates a ServiceNow incident ticket.\n\nTarget: HTTP endpoint for \"\u003cyour tenant\u003e.service-now.com\" with a path of \"/api\"\n\nAccount Key: HTTP basic with a ServiceNow account username and password\n\nSteps:\n[] Generate the JSON for the ticket\n[] Send a request to the ServiceNow API to create the incident\n[] Check if the request was successful\n[]\u003e If it was, extract the incident details and set the output variables\n[]\u003e If it wasn't, output an error\n\nMore information about this API: https://docs.servicenow.com/bundle/paris-application-development/page/integrate/inbound-rest/concept/c_TableAPI.html#c_TableAPI",
+      "display_name": "ServiceNow - Create Incident",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "specify_on_workflow_start": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01FMQDN7IGGUC13fTW2mdV3GfK9uwP8CD3Z",
+        "name": "Execute Python Script",
+        "title": "Generate ticket JSON",
+        "type": "python3.script",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Generate ticket JSON",
+          "script": "import sys,json\n\ndescription = sys.argv[1]\nshort_description = sys.argv[2]\nwork_notes = sys.argv[3]\nimpact = sys.argv[4]\nurgency = sys.argv[5]\ncaller_id = sys.argv[6]\n\nticket_object = {}\nticket_object[\"description\"] = description\nticket_object[\"short_description\"] = short_description\nif len(work_notes) \u003e 0:ticket_object[\"work_notes\"] = work_notes\nticket_object[\"urgency\"] = urgency\nticket_object[\"impact\"] = impact\nticket_object[\"caller_id\"] = caller_id\n\nticket_json = json.dumps(ticket_object)\n",
+          "script_arguments": [
+            "$workflow.definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW.input.variable_workflow_01FGYF0DUR8HV2TMpEKctsYjQR4mzjD5OTu$",
+            "$workflow.definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW.input.variable_workflow_01C0CK2MY2SLG1FXph6ZHp7iHmRw1KvUFlN$",
+            "$workflow.definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW.input.variable_workflow_01FGYGZ0OYYNM5pWjyyreMjNHDjusjNe8jx$",
+            "$workflow.definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW.input.variable_workflow_01FGYGCZL5M2E1m1O5tvVVn0DVzVTLwytei$",
+            "$workflow.definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW.input.variable_workflow_01FGYGPFJYM4L5aVpzNOhRwMmzKJDofqufe$",
+            "$workflow.definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW.input.variable_workflow_01FGYI8HES41K63G3UzMinBH3iApm37fBGt$"
+          ],
+          "script_queries": [
+            {
+              "script_query": "ticket_json",
+              "script_query_name": "ticket_json",
+              "script_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01C0BYNJQZXMH0AGmj2jV0xnl3zoM4hbvbj",
+        "name": "HTTP Request",
+        "title": "Create incident",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "application/json",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "$activity.definition_activity_01FMQDN7IGGUC13fTW2mdV3GfK9uwP8CD3Z.output.script_queries.ticket_json$",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "display_name": "Create incident",
+          "method": "POST",
+          "relative_url": "/now/$workflow.definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW.input.variable_workflow_01FMQD0HIJIDU5kce0VNx4HQiMYjMfUvBlj$/table/incident",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01C0C0FJ1F1KQ0CM4DVj2o1Xip1uXFa62c4",
+        "name": "Condition Block",
+        "title": "Was the request successful?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Was the request successful?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01C0C0FLYWRJI4gRDGH80epgxIW4OsSX0aP",
+            "name": "Condition Branch",
+            "title": "Success/201",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01C0BYNJQZXMH0AGmj2jV0xnl3zoM4hbvbj.output.status_code$",
+                "operator": "eq",
+                "right_operand": 201
+              },
+              "continue_on_failure": false,
+              "display_name": "Success/201",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01C0EJ94EM9266yu6xsTso2MMt6xtFngPXo",
+                "name": "JSONPath Query",
+                "title": "Read incident details",
+                "type": "corejava.jsonpathquery",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "continue_on_failure": false,
+                  "display_name": "Read incident details",
+                  "input_json": "$activity.definition_activity_01C0BYNJQZXMH0AGmj2jV0xnl3zoM4hbvbj.output.response_body$",
+                  "jsonpath_queries": [
+                    {
+                      "jsonpath_query": "$.result.number",
+                      "jsonpath_query_name": "Number",
+                      "jsonpath_query_type": "string"
+                    },
+                    {
+                      "jsonpath_query": "$.result.sys_id",
+                      "jsonpath_query_name": "System ID",
+                      "jsonpath_query_type": "string"
+                    }
+                  ],
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01C0C0W70T2GS1ffRIIqGszfkh92xeteAzp",
+                "name": "Set Variables",
+                "title": "Set output variables",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Set output variables",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW.output.variable_workflow_01C0C3F7WJAUK0TfekEO4H2SeSvFJxIC38A$",
+                      "variable_value_new": "$activity.definition_activity_01C0BYNJQZXMH0AGmj2jV0xnl3zoM4hbvbj.output.response_body$"
+                    },
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW.output.variable_workflow_01C0EMLG2EEYD14wKqkFjhK8dTwJa20Jihp$",
+                      "variable_value_new": "$activity.definition_activity_01C0EJ94EM9266yu6xsTso2MMt6xtFngPXo.output.jsonpath_queries.Number$"
+                    },
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW.output.variable_workflow_01C0F7F9L7IYM3YXHCizJhunwKtPlSJWEWM$",
+                      "variable_value_new": "$activity.definition_activity_01C0EJ94EM9266yu6xsTso2MMt6xtFngPXo.output.jsonpath_queries.System ID$"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01C0C0FMLH45C1B2XnC6zTEOxeXhnWJyIxQ",
+            "name": "Condition Branch",
+            "title": "Anything else",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01C0BYNJQZXMH0AGmj2jV0xnl3zoM4hbvbj.output.status_code$",
+                "operator": "ne",
+                "right_operand": 201
+              },
+              "continue_on_failure": false,
+              "display_name": "Anything else",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01C0C0I5Q4CNU4N62TBLLRf5XBoF7p0x2u1",
+                "name": "Completed",
+                "title": "Failed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Failed",
+                  "result_message": "Failed to create incident ticket\n\nResponse: $activity.definition_activity_01C0BYNJQZXMH0AGmj2jV0xnl3zoM4hbvbj.output.response_body$\nHTTP Code: $activity.definition_activity_01C0BYNJQZXMH0AGmj2jV0xnl3zoM4hbvbj.output.status_code$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}

@@ -1,0 +1,348 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01GAPSU13QWGT5aCU7ByGC7drrA4iqw5WGZ",
+    "name": "FMC - Get Access Tokens",
+    "title": "FMC - Get Access Tokens",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Domain UUID",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01GAPW6A4SH6U2RtINvhiTCoJlPqYnpXcoh",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Domain List",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01GAPWA6UB6ZF1xhLrDMta8G0jWSgeme32N",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Auth Access Token",
+          "type": "datatype.secure_string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01GAQAJYI05GO10AE0oUFmgN8BF3e4bmliN",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Auth Refresh Token",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01GAPW14GTPVP1r51ANlkDgxfMACifjsjGc",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "Cisco FMC",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": true,
+      "description": "Gets access token and domain information from FMC for subsequent API requests.\n\n[] Request a new access token and domain information\n[] Check if the request succeeded (if not, end the workflow)\n[] Loop through each header, extracting the ones we need to set to output variables",
+      "display_name": "FMC - Get Access Tokens",
+      "runtime_user": {
+        "specify_on_workflow_start": true,
+        "runtime_user_type": "runtime_user.web-service_basic_credentials"
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "specify_on_workflow_start": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01GAPT3S14OH15H45sIN43zIAt8rwUsJTBZ",
+        "name": "HTTP Request",
+        "title": "Fetch a new token",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "content_type": "application/json",
+          "continue_on_error_status_code": true,
+          "continue_on_failure": false,
+          "display_name": "Fetch a new token",
+          "method": "POST",
+          "relative_url": "fmc_platform/v1/auth/generatetoken",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01GAPT5767DGW4vJ9mVZ7Cf1kJhPW54JEfs",
+        "name": "Condition Block",
+        "title": "Did we get a token?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Did we get a token?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01GAPT5BE37RJ5iua1bgIcKg1BBD4tv6iYa",
+            "name": "Condition Branch",
+            "title": "No",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01GAPT3S14OH15H45sIN43zIAt8rwUsJTBZ.output.status_code$",
+                "operator": "ne",
+                "right_operand": 204
+              },
+              "continue_on_failure": false,
+              "display_name": "No",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01GAPUAAR3B276tLAYQExDmHCGbroENk1su",
+                "name": "Completed",
+                "title": "Failed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Failed",
+                  "result_message": "Failed to fetch FMC access token\n\nStatus Code: $activity.definition_activity_01GAPT3S14OH15H45sIN43zIAt8rwUsJTBZ.output.status_code$\nResponse Body: $activity.definition_activity_01GAPT3S14OH15H45sIN43zIAt8rwUsJTBZ.output.response_body$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01GAPUNCAM8EX6pEnQy12BY8VHZSt1YNjOt",
+        "name": "For Each",
+        "title": "For each response header",
+        "type": "logic.for_each",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "For each response header",
+          "skip_execution": false,
+          "source_array": "$activity.definition_activity_01GAPT3S14OH15H45sIN43zIAt8rwUsJTBZ.output.response_headers$"
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01GAPUXY2FUYX3E4BXkbPAMgggLL1jTFbiV",
+            "name": "Condition Block",
+            "title": "Is this a header we care about?",
+            "type": "logic.if_else",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Is this a header we care about?",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "blocks": [
+              {
+                "unique_name": "definition_activity_01GAPUY16FZ3G4ehDmpeyDDa1UbMQakkOfo",
+                "name": "Condition Branch",
+                "title": "Auth access token",
+                "type": "logic.condition_block",
+                "base_type": "activity",
+                "properties": {
+                  "condition": {
+                    "left_operand": "$activity.definition_activity_01GAPUNCAM8EX6pEnQy12BY8VHZSt1YNjOt.input.source_array[@].name$",
+                    "operator": "eqi",
+                    "right_operand": "X-auth-access-token"
+                  },
+                  "continue_on_failure": false,
+                  "display_name": "Auth access token",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01GAPWIVVJSMD75uVJDVFIvnuWYHnZa0YMw",
+                    "name": "Set Variables",
+                    "title": "Set output variables",
+                    "type": "core.set_multiple_variables",
+                    "base_type": "activity",
+                    "properties": {
+                      "continue_on_failure": false,
+                      "display_name": "Set output variables",
+                      "skip_execution": false,
+                      "variables_to_update": [
+                        {
+                          "variable_to_update": "$workflow.definition_workflow_01GAPSU13QWGT5aCU7ByGC7drrA4iqw5WGZ.output.variable_workflow_01GAQAJYI05GO10AE0oUFmgN8BF3e4bmliN$",
+                          "variable_value_new": "$activity.definition_activity_01GAPUNCAM8EX6pEnQy12BY8VHZSt1YNjOt.input.source_array[@].value$"
+                        }
+                      ]
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              },
+              {
+                "unique_name": "definition_activity_01GAPUY2PMKHV0SBs3nAvDWjTqhOd54CRBU",
+                "name": "Condition Branch",
+                "title": "Auth refresh token",
+                "type": "logic.condition_block",
+                "base_type": "activity",
+                "properties": {
+                  "condition": {
+                    "left_operand": "$activity.definition_activity_01GAPUNCAM8EX6pEnQy12BY8VHZSt1YNjOt.input.source_array[@].name$",
+                    "operator": "eqi",
+                    "right_operand": "X-auth-refresh-token"
+                  },
+                  "continue_on_failure": false,
+                  "display_name": "Auth refresh token",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01GAPWJOKMTWX6MxIZ6VWKYsSJxLNEp1gJO",
+                    "name": "Set Variables",
+                    "title": "Set output variables",
+                    "type": "core.set_multiple_variables",
+                    "base_type": "activity",
+                    "properties": {
+                      "continue_on_failure": false,
+                      "display_name": "Set output variables",
+                      "skip_execution": false,
+                      "variables_to_update": [
+                        {
+                          "variable_to_update": "$workflow.definition_workflow_01GAPSU13QWGT5aCU7ByGC7drrA4iqw5WGZ.output.variable_workflow_01GAPW14GTPVP1r51ANlkDgxfMACifjsjGc$",
+                          "variable_value_new": "$activity.definition_activity_01GAPUNCAM8EX6pEnQy12BY8VHZSt1YNjOt.input.source_array[@].value$"
+                        }
+                      ]
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              },
+              {
+                "unique_name": "definition_activity_01GAPWCZZQW991lXPd8MebTlfyv1eLF5BNR",
+                "name": "Condition Branch",
+                "title": "Domain UUID",
+                "type": "logic.condition_block",
+                "base_type": "activity",
+                "properties": {
+                  "condition": {
+                    "left_operand": "$activity.definition_activity_01GAPUNCAM8EX6pEnQy12BY8VHZSt1YNjOt.input.source_array[@].name$",
+                    "operator": "eqi",
+                    "right_operand": "DOMAIN_UUID"
+                  },
+                  "continue_on_failure": false,
+                  "display_name": "Domain UUID",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01GAPWKFZ43Q52Wd7FJcgWcB7umCZI9YFHK",
+                    "name": "Set Variables",
+                    "title": "Set output variables",
+                    "type": "core.set_multiple_variables",
+                    "base_type": "activity",
+                    "properties": {
+                      "continue_on_failure": false,
+                      "display_name": "Set output variables",
+                      "skip_execution": false,
+                      "variables_to_update": [
+                        {
+                          "variable_to_update": "$workflow.definition_workflow_01GAPSU13QWGT5aCU7ByGC7drrA4iqw5WGZ.output.variable_workflow_01GAPW6A4SH6U2RtINvhiTCoJlPqYnpXcoh$",
+                          "variable_value_new": "$activity.definition_activity_01GAPUNCAM8EX6pEnQy12BY8VHZSt1YNjOt.input.source_array[@].value$"
+                        }
+                      ]
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              },
+              {
+                "unique_name": "definition_activity_01GAPXJ5V9L4U7dmpIS1U532JsP0ix4R5K0",
+                "name": "Condition Branch",
+                "title": "Domain list",
+                "type": "logic.condition_block",
+                "base_type": "activity",
+                "properties": {
+                  "condition": {
+                    "left_operand": "$activity.definition_activity_01GAPUNCAM8EX6pEnQy12BY8VHZSt1YNjOt.input.source_array[@].name$",
+                    "operator": "eqi",
+                    "right_operand": "DOMAINS"
+                  },
+                  "continue_on_failure": false,
+                  "display_name": "Domain list",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01GAPXVTEJDNA06pyF5zoUeeHtokm6fVkl7",
+                    "name": "Set Variables",
+                    "title": "Set output variables",
+                    "type": "core.set_multiple_variables",
+                    "base_type": "activity",
+                    "properties": {
+                      "continue_on_failure": false,
+                      "display_name": "Set output variables",
+                      "skip_execution": false,
+                      "variables_to_update": [
+                        {
+                          "variable_to_update": "$workflow.definition_workflow_01GAPSU13QWGT5aCU7ByGC7drrA4iqw5WGZ.output.variable_workflow_01GAPWA6UB6ZF1xhLrDMta8G0jWSgeme32N$",
+                          "variable_value_new": "$activity.definition_activity_01GAPUNCAM8EX6pEnQy12BY8VHZSt1YNjOt.input.source_array[@].value$"
+                        }
+                      ]
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}

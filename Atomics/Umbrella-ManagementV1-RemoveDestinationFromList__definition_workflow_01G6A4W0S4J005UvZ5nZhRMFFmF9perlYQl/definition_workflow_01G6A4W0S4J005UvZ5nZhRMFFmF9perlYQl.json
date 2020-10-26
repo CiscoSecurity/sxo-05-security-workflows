@@ -1,0 +1,245 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01G6A4W0S4J005UvZ5nZhRMFFmF9perlYQl",
+    "name": "Umbrella - Management V1 - Remove Destination from List",
+    "title": "Umbrella - Management V1 - Remove Destination from List",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Destination ID",
+          "type": "datatype.string",
+          "description": "The ID of the destination to be removed. This can be obtained by getting a destination list's destinations and looking for the domain you want to remove",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01G6A4W0G6MPH50rUr7ILB26YYiKNBEu58u",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Destination List ID",
+          "type": "datatype.string",
+          "description": "ID of the destination list to remove the record from",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01G6A4W0G6P2F6eCuEv2sQ3oZqJ5N0mo9R6",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Organization ID",
+          "type": "datatype.string",
+          "description": "The organization ID to get entries for",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01G6A4W0G6F273Ng63rOBBsaa7PdBEPr2W8",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "Cisco Umbrella",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": true,
+      "description": "Removes a domain from a destination list by its destination ID.\n\nTarget: HTTP endpoint for \"management.api.umbrella.com\"\n\nAccount Key: HTTP basic with Umbrella Management API key (client ID as username, client secret as password)\n\nSteps:\n[] Execute the API request to remove the destination\n[] Check if the API request succeeded:\n[]\u003e If it did, attempt to extract the list data (to make sure the response was what we expected)\n[]\u003e If it didn't, output an error\n\nMore information about this API: https://docs.umbrella.com/umbrella-api/reference#delete_v1-organizations-organizationid-destinationlists-destinationlistid-destinations-remove",
+      "display_name": "Umbrella - Management V1 - Remove Destination from List",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "specify_on_workflow_start": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01G6A4WT0V1WN53nXMDqXYc0NXWhEeHDEkY",
+        "name": "HTTP Request",
+        "title": "Execute API request",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "[ \"$workflow.definition_workflow_01G6A4W0S4J005UvZ5nZhRMFFmF9perlYQl.input.variable_workflow_01G6A4W0G6MPH50rUr7ILB26YYiKNBEu58u$\" ]",
+          "content_type": "application/json",
+          "continue_on_error_status_code": true,
+          "continue_on_failure": false,
+          "display_name": "Execute API request",
+          "method": "DELETE",
+          "relative_url": "v1/organizations/$workflow.definition_workflow_01G6A4W0S4J005UvZ5nZhRMFFmF9perlYQl.input.variable_workflow_01G6A4W0G6F273Ng63rOBBsaa7PdBEPr2W8$/destinationlists/$workflow.definition_workflow_01G6A4W0S4J005UvZ5nZhRMFFmF9perlYQl.input.variable_workflow_01G6A4W0G6P2F6eCuEv2sQ3oZqJ5N0mo9R6$/destinations/remove",
+          "runtime_user": {
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01JARIXUQHAR70ZR62Mpqm8ZUhOdT4jBOrq",
+        "name": "Condition Block",
+        "title": "Was the request successful?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Was the request successful?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01JARIY7PC1SJ5lH83taj2cTr1D1fENZgTY",
+            "name": "Condition Branch",
+            "title": "Success/200",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01G6A4WT0V1WN53nXMDqXYc0NXWhEeHDEkY.output.status_code$",
+                "operator": "eq",
+                "right_operand": 200
+              },
+              "continue_on_failure": false,
+              "display_name": "Success/200",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01G6A4WYJFIL35jEYTzrTUtQ8X9Zr1OTGAc",
+                "name": "JSONPath Query",
+                "title": "Extract the list data",
+                "type": "corejava.jsonpathquery",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "continue_on_failure": true,
+                  "display_name": "Extract the list data",
+                  "input_json": "$activity.definition_activity_01G6A4WT0V1WN53nXMDqXYc0NXWhEeHDEkY.output.response_body$",
+                  "jsonpath_queries": [
+                    {
+                      "jsonpath_query": "$.data",
+                      "jsonpath_query_name": "destinationList",
+                      "jsonpath_query_type": "string"
+                    }
+                  ],
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01G6A4X53FKS96sOW0irPn4VWrrQc7X98Ib",
+                "name": "Condition Block",
+                "title": "Did we get results?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Did we get results?",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                  {
+                    "unique_name": "definition_activity_01G6A4XAPIA4Z1bSnYVEjxpUyxQoIhAq4nr",
+                    "name": "Condition Branch",
+                    "title": "No",
+                    "type": "logic.condition_block",
+                    "base_type": "activity",
+                    "properties": {
+                      "condition": {
+                        "left_operand": "$activity.definition_activity_01G6A4WYJFIL35jEYTzrTUtQ8X9Zr1OTGAc.output.succeeded$",
+                        "operator": "eq",
+                        "right_operand": false
+                      },
+                      "continue_on_failure": false,
+                      "display_name": "No",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity",
+                    "actions": [
+                      {
+                        "unique_name": "definition_activity_01G6A4XG64IER1OBA12KXiAiwMm8Q3y2vLU",
+                        "name": "Completed",
+                        "title": "Failed",
+                        "type": "logic.completed",
+                        "base_type": "activity",
+                        "properties": {
+                          "completion_type": "failed-completed",
+                          "continue_on_failure": false,
+                          "display_name": "Failed",
+                          "result_message": "Failed to remove the destination from the destination list\n\nStatus code: $activity.definition_activity_01G6A4WT0V1WN53nXMDqXYc0NXWhEeHDEkY.output.status_code$\nResponse body: $activity.definition_activity_01G6A4WT0V1WN53nXMDqXYc0NXWhEeHDEkY.output.response_body$\n",
+                          "skip_execution": false
+                        },
+                        "object_type": "definition_activity"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01JARIY8X8V8S7O25hRUWU9SJV86KEBkY6y",
+            "name": "Condition Branch",
+            "title": "Anything else",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01G6A4WT0V1WN53nXMDqXYc0NXWhEeHDEkY.output.status_code$",
+                "operator": "ne",
+                "right_operand": 200
+              },
+              "continue_on_failure": false,
+              "display_name": "Anything else",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01JARK08Y403W3g8BxltUnNwJLRffzZXHRt",
+                "name": "Completed",
+                "title": "Failed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Failed",
+                  "result_message": "Failed to remove the destination from the destination list\n\nStatus code: $activity.definition_activity_01G6A4WT0V1WN53nXMDqXYc0NXWhEeHDEkY.output.status_code$\nResponse body: $activity.definition_activity_01G6A4WT0V1WN53nXMDqXYc0NXWhEeHDEkY.output.response_body$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01JANGI152PWM5WXe1bvW1lHwfhcBNBpd6M",
+    "name": "Time - DateTime to Unix Epoch",
+    "title": "Time - DateTime to Unix Epoch",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.date",
+        "properties": {
+          "value": "0001-01-01T00:00:00+00:00",
+          "scope": "input",
+          "name": "Input DateTime",
+          "type": "datatype.date",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01JANHKV6WKB96lM2LlSTFSxZ8NHGD4L6D3",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Unix Timestamp",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01JANHVRPCMHX3aHZM786dCYAUyKT1VzVFW",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "Utilities",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": false,
+      "description": "Converts a DateTime input into a Unix Epoch timestamp",
+      "display_name": "Time - DateTime to Unix Epoch",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": false,
+        "execute_on_workflow_target": false,
+        "no_target": true,
+        "specify_on_workflow_start": false
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01JANGWBBQ54N2wBumBTRtHiac454QbgI1q",
+        "name": "Execute Python Script",
+        "title": "Convert DateTime to timestamp",
+        "type": "python3.script",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Convert DateTime to timestamp",
+          "script": "import sys, time\n\n# Input format from orchestration: 2020-10-08T15:04:51.141081599Z\n\ntime1 = sys.argv[1]\n\n# Convert the incomming timestamp from nanoseconds to microseconds\ntime1Parts = time1.split('.')\ntime1 = time1Parts[0] + '.' + str(int(int(time1Parts[1].replace('Z', '')) / 1000)) + 'Z'\n\n# Parse the timestamp from a string and convert to an Epoch\nepoch1 = int(time.mktime(time.strptime(time1, '%Y-%m-%dT%H:%M:%S.%fZ')))",
+          "script_arguments": [
+            "$workflow.definition_workflow_01JANGI152PWM5WXe1bvW1lHwfhcBNBpd6M.input.variable_workflow_01JANHKV6WKB96lM2LlSTFSxZ8NHGD4L6D3$"
+          ],
+          "script_queries": [
+            {
+              "script_query": "epoch1",
+              "script_query_name": "epoch1",
+              "script_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01JANJ2BF7KII6a7rAXarObJt4RmFio66IX",
+        "name": "Set Variables",
+        "title": "Set output variable",
+        "type": "core.set_multiple_variables",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Set output variable",
+          "skip_execution": false,
+          "variables_to_update": [
+            {
+              "variable_to_update": "$workflow.definition_workflow_01JANGI152PWM5WXe1bvW1lHwfhcBNBpd6M.output.variable_workflow_01JANHVRPCMHX3aHZM786dCYAUyKT1VzVFW$",
+              "variable_value_new": "$activity.definition_activity_01JANGWBBQ54N2wBumBTRtHiac454QbgI1q.output.script_queries.epoch1$"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}

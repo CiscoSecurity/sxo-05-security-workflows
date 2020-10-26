@@ -1,0 +1,247 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01HS6KZH9MMMA6EJWkn7pNTVB0RrW7r3Bsb",
+    "name": "Slack - Join Channel",
+    "title": "Slack - Join Channel",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Authorization Token",
+          "type": "datatype.secure_string",
+          "description": "Token for accessing the Slack API. If using a bot: after adding your app/bot to your workspace, Slack will give you an OAuth token for the workspace. It'll look something like this: xoxb-2565875412001-2658854120325-X5dX6ABe1XhA1aY32W1bUIjV",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01HS6KZGXS07J17mLW03YSNh1LzKXXTNu25",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Channel ID",
+          "type": "datatype.string",
+          "description": "Unique ID of the channel to join",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01HS6KZGXRUEZ7E87EzeOMJWb8xq4RDTVha",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "Slack",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": true,
+      "description": "Joins the user whose authorization token is provided to a Slack channel.\n\nTarget: HTTP endpoint for \"slack.com\" with a path of \"/api\"\n\nAccount Keys: None\n\nSteps:\n[] Execute the API request to join the user to the channel\n[] Check if the request was successful\n[]\u003e If it wasn't, output an error\n\nMore information about this API: https://api.slack.com/methods/conversations.join",
+      "display_name": "Slack - Join Channel",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "specify_on_workflow_start": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01HS6L06TNUQJ1HF2EdgfKO9tDW8S4JyLeg",
+        "name": "HTTP Request",
+        "title": "Join Slack channel",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"channel\": \"$workflow.definition_workflow_01HS6KZH9MMMA6EJWkn7pNTVB0RrW7r3Bsb.input.variable_workflow_01HS6KZGXRUEZ7E87EzeOMJWb8xq4RDTVha$\"  \n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": true,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $workflow.definition_workflow_01HS6KZH9MMMA6EJWkn7pNTVB0RrW7r3Bsb.input.variable_workflow_01HS6KZGXS07J17mLW03YSNh1LzKXXTNu25$"
+            }
+          ],
+          "display_name": "Join Slack channel",
+          "method": "POST",
+          "relative_url": "conversations.join",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01JBGKT15Z45X45z0OS2S2BgBYa6wDgMFOt",
+        "name": "Condition Block",
+        "title": "Was the request successful?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Was the request successful?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01JBGKTE5BZOT2SWLG2kjZbTjAQvNlofrGM",
+            "name": "Condition Branch",
+            "title": "Success/200",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01HS6L06TNUQJ1HF2EdgfKO9tDW8S4JyLeg.output.status_code$",
+                "operator": "eq",
+                "right_operand": 200
+              },
+              "continue_on_failure": false,
+              "display_name": "Success/200",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01HS6L0DZNORJ0Q6C4BopAHR5KRh57x5Gzi",
+                "name": "JSONPath Query",
+                "title": "Extract the response type",
+                "type": "corejava.jsonpathquery",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "continue_on_failure": true,
+                  "display_name": "Extract the response type",
+                  "input_json": "$activity.definition_activity_01HS6L06TNUQJ1HF2EdgfKO9tDW8S4JyLeg.output.response_body$",
+                  "jsonpath_queries": [
+                    {
+                      "jsonpath_query": "$.ok",
+                      "jsonpath_query_name": "succeeded",
+                      "jsonpath_query_type": "boolean"
+                    }
+                  ],
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01HS6L0KIUT793QI7WVvzusurbyM0RWRdAN",
+                "name": "Condition Block",
+                "title": "Was the channel joined?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Was the channel joined?",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                  {
+                    "unique_name": "definition_activity_01HS6L0QSU6KL3wjry9OGcd9orTphjUwMPa",
+                    "name": "Condition Branch",
+                    "title": "No",
+                    "type": "logic.condition_block",
+                    "base_type": "activity",
+                    "properties": {
+                      "condition": {
+                        "left_operand": {
+                          "left_operand": "$activity.definition_activity_01HS6L0DZNORJ0Q6C4BopAHR5KRh57x5Gzi.output.succeeded$",
+                          "operator": "eq",
+                          "right_operand": false
+                        },
+                        "operator": "or",
+                        "right_operand": {
+                          "left_operand": "$activity.definition_activity_01HS6L0DZNORJ0Q6C4BopAHR5KRh57x5Gzi.output.jsonpath_queries.succeeded$",
+                          "operator": "eq",
+                          "right_operand": false
+                        }
+                      },
+                      "continue_on_failure": false,
+                      "display_name": "No",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity",
+                    "actions": [
+                      {
+                        "unique_name": "definition_activity_01HS6L0VEIJEW5JVBsuoDvgQnfAOMlkJcHx",
+                        "name": "Completed",
+                        "title": "Failed",
+                        "type": "logic.completed",
+                        "base_type": "activity",
+                        "properties": {
+                          "completion_type": "failed-completed",
+                          "continue_on_failure": false,
+                          "display_name": "Failed",
+                          "result_message": "Failed to join Slack channel\n\nStatus code: $activity.definition_activity_01HS6L06TNUQJ1HF2EdgfKO9tDW8S4JyLeg.output.status_code$\nResponse body: $activity.definition_activity_01HS6L06TNUQJ1HF2EdgfKO9tDW8S4JyLeg.output.response_body$",
+                          "skip_execution": false
+                        },
+                        "object_type": "definition_activity"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01JBGKTFGM6RB0BQjaWtLNoe34QGO6VGQFT",
+            "name": "Condition Branch",
+            "title": "Anything else",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01HS6L06TNUQJ1HF2EdgfKO9tDW8S4JyLeg.output.status_code$",
+                "operator": "ne",
+                "right_operand": 200
+              },
+              "continue_on_failure": false,
+              "display_name": "Anything else",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01JBGLAX7WRWN10iQ4dv49R9mYkD60lfyvH",
+                "name": "Completed",
+                "title": "Failed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Failed",
+                  "result_message": "Failed to join Slack channel\n\nStatus code: $activity.definition_activity_01HS6L06TNUQJ1HF2EdgfKO9tDW8S4JyLeg.output.status_code$\nResponse body: $activity.definition_activity_01HS6L06TNUQJ1HF2EdgfKO9tDW8S4JyLeg.output.response_body$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}

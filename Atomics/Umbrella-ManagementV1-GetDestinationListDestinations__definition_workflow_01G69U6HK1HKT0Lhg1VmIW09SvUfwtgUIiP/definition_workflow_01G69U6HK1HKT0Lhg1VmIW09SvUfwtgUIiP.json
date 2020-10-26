@@ -1,0 +1,288 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01G69U6HK1HKT0Lhg1VmIW09SvUfwtgUIiP",
+    "name": "Umbrella - Management V1 - Get Destination List Entries",
+    "title": "Umbrella - Management V1 - Get Destination List Entries",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Organization ID",
+          "type": "datatype.string",
+          "description": "The organization ID to get entries for",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01G69U6H8A3RL5ZQFM6VS1pHJlhQsoU7RoE",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Destination List Entries",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01G69U6H8A19V4YInPyVZglctZm4mw5EF6x",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Destination List ID",
+          "type": "datatype.string",
+          "description": "ID of the destination list to get entries for",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01G69V8BV9CR8140ZOI6K6Tp4mKQxdYQAhh",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.integer",
+        "properties": {
+          "value": 1,
+          "scope": "input",
+          "name": "Page",
+          "type": "datatype.integer",
+          "description": "Which page of records to fetch",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01G6A0UAB0T4Q4R8ZcVZIBIiXc5J6aEqorZ",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.integer",
+        "properties": {
+          "value": 100,
+          "scope": "input",
+          "name": "Limit",
+          "type": "datatype.integer",
+          "description": "How many records to return",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01G6A11II1EO55LhySkLLzlrtSN6cHVzAfQ",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "Cisco Umbrella",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": true,
+      "description": "Gets a list of destinations for a given destination list ID.\n\nTarget: HTTP endpoint for \"management.api.umbrella.com\"\n\nAccount Key: HTTP basic with Umbrella Management API key (client ID as username, client secret as password)\n\nSteps:\n[] Request the destination list from Umbrella\n[] Check if the API request succeeded:\n[]\u003e If it did, attempt to extract the list of records and set the output variable\n[]\u003e If it didn't, output an error\n\nMore information about this API: https://docs.umbrella.com/umbrella-api/reference#get_v1-organizations-organizationid-destinationlists-destinationlistid",
+      "display_name": "Umbrella - Management V1 - Get Destination List Entries",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "specify_on_workflow_start": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01G69U7792V3B57x0qHSeKWP2Y6Ke630I6G",
+        "name": "HTTP Request",
+        "title": "Execute API request",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "content_type": "application/json",
+          "continue_on_error_status_code": true,
+          "continue_on_failure": false,
+          "display_name": "Execute API request",
+          "method": "GET",
+          "relative_url": "v1/organizations/$workflow.definition_workflow_01G69U6HK1HKT0Lhg1VmIW09SvUfwtgUIiP.input.variable_workflow_01G69U6H8A3RL5ZQFM6VS1pHJlhQsoU7RoE$/destinationlists/$workflow.definition_workflow_01G69U6HK1HKT0Lhg1VmIW09SvUfwtgUIiP.input.variable_workflow_01G69V8BV9CR8140ZOI6K6Tp4mKQxdYQAhh$/destinations?page=$workflow.definition_workflow_01G69U6HK1HKT0Lhg1VmIW09SvUfwtgUIiP.input.variable_workflow_01G6A0UAB0T4Q4R8ZcVZIBIiXc5J6aEqorZ$\u0026limit=$workflow.definition_workflow_01G69U6HK1HKT0Lhg1VmIW09SvUfwtgUIiP.input.variable_workflow_01G6A11II1EO55LhySkLLzlrtSN6cHVzAfQ$",
+          "runtime_user": {
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01JAQTZPBYUSQ3bpCm2aDMCXjrR0yxNV8M5",
+        "name": "Condition Block",
+        "title": "Was the request successful?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Was the request successful?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01JAQU02KADBD3f5bZB0bSWa87giEx34Czr",
+            "name": "Condition Branch",
+            "title": "Success/200",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01G69U7792V3B57x0qHSeKWP2Y6Ke630I6G.output.status_code$",
+                "operator": "eq",
+                "right_operand": 200
+              },
+              "continue_on_failure": false,
+              "display_name": "Success/200",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01G69U7CQE5FB09VDLuF3YtZY2TIg0Ff5Yb",
+                "name": "JSONPath Query",
+                "title": "Extract the list data",
+                "type": "corejava.jsonpathquery",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "continue_on_failure": true,
+                  "display_name": "Extract the list data",
+                  "input_json": "$activity.definition_activity_01G69U7792V3B57x0qHSeKWP2Y6Ke630I6G.output.response_body$",
+                  "jsonpath_queries": [
+                    {
+                      "jsonpath_query": "$.data",
+                      "jsonpath_query_name": "destinationList",
+                      "jsonpath_query_type": "string"
+                    }
+                  ],
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01G69U7IQZN4J1ZGWc7IIGog8mfdTNqFDUC",
+                "name": "Condition Block",
+                "title": "Did we get results?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Did we get results?",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                  {
+                    "unique_name": "definition_activity_01G69U7Q738KS4ZHl4ezuvZh0dIwkFJeMKs",
+                    "name": "Condition Branch",
+                    "title": "No",
+                    "type": "logic.condition_block",
+                    "base_type": "activity",
+                    "properties": {
+                      "condition": {
+                        "left_operand": "$activity.definition_activity_01G69U7CQE5FB09VDLuF3YtZY2TIg0Ff5Yb.output.succeeded$",
+                        "operator": "eq",
+                        "right_operand": false
+                      },
+                      "continue_on_failure": false,
+                      "display_name": "No",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity",
+                    "actions": [
+                      {
+                        "unique_name": "definition_activity_01G69U803XUN35QwLtuSEdOmqEUgggxcyj3",
+                        "name": "Completed",
+                        "title": "Failed",
+                        "type": "logic.completed",
+                        "base_type": "activity",
+                        "properties": {
+                          "completion_type": "failed-completed",
+                          "continue_on_failure": false,
+                          "display_name": "Failed",
+                          "result_message": "Failed to fetch destination list entries for the list ID provided\n\nStatus code: $activity.definition_activity_01G69U7792V3B57x0qHSeKWP2Y6Ke630I6G.output.status_code$\nResponse body: $activity.definition_activity_01G69U7792V3B57x0qHSeKWP2Y6Ke630I6G.output.response_body$\n",
+                          "skip_execution": false
+                        },
+                        "object_type": "definition_activity"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "unique_name": "definition_activity_01G69U86699ZD4LYAzrAskygxOT5Mnq8PRQ",
+                "name": "Set Variables",
+                "title": "Set output variables",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Set output variables",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01G69U6HK1HKT0Lhg1VmIW09SvUfwtgUIiP.output.variable_workflow_01G69U6H8A19V4YInPyVZglctZm4mw5EF6x$",
+                      "variable_value_new": "$activity.definition_activity_01G69U7792V3B57x0qHSeKWP2Y6Ke630I6G.output.response_body$"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01JAQU03SLUA66K7pUW4oPvTW131aFBjFKx",
+            "name": "Condition Branch",
+            "title": "Anything else",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01G69U7792V3B57x0qHSeKWP2Y6Ke630I6G.output.status_code$",
+                "operator": "ne",
+                "right_operand": 200
+              },
+              "continue_on_failure": false,
+              "display_name": "Anything else",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01JAQUMF3BCUH3GMNu2WBUWMXCF9aNBXyo2",
+                "name": "Completed",
+                "title": "Failed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Failed",
+                  "result_message": "Failed to fetch destinations for the list requested\n\nStatus code: $activity.definition_activity_01G69U7792V3B57x0qHSeKWP2Y6Ke630I6G.output.status_code$\nResponse body: $activity.definition_activity_01G69U7792V3B57x0qHSeKWP2Y6Ke630I6G.output.response_body$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}

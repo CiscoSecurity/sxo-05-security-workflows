@@ -1,0 +1,234 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01G69XFFLC3O94DC4lJCtqSiuUqtz259IS0",
+    "name": "Umbrella - Add Record to Destination List",
+    "title": "Umbrella - Add Record to Destination List",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Comment",
+          "type": "datatype.string",
+          "description": "An optional comment to add to the destination",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01G69YNV23UZ71b2pOX15WUHGqceHm9hXUO",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Response Code",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01G69XFF4HRMY6gWFE9vPo6zWAaCdZ3xUYo",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Destination List ID",
+          "type": "datatype.string",
+          "description": "ID of the destination list",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01G69XFF4HSX14Tl2ZeZ5IltuMfgtTvdvaR",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Organization ID",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01G69XFF4HLEZ7QayzU2DO9thN3J5u0SoSV",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Response Body",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01G69XFF4HQA36fL27EaqvGIUoQlvRCodiK",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Destination FQDN",
+          "type": "datatype.string",
+          "description": "Fully qualified domain name you want to add to the destination list",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01G69YIDRG6EL4aPWYIhXOayFu3Myu8ZgI1",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "Cisco Umbrella",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": true,
+      "description": "Adds a new record to a destination list\n\n[] Execute the API request to add the new destination\n[] Attempt to extract the result\n[] Check if we got valid response JSON (if not, end the workflow)\n[] Set the output variables",
+      "display_name": "Umbrella - Add Record to Destination List",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "specify_on_workflow_start": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01G69XG3UMIOW1iWhMVTIHqVgR6Ze5c9sp5",
+        "name": "HTTP Request",
+        "title": "Execute API request",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "[\n  {\n    \"destination\": \"$workflow.definition_workflow_01G69XFFLC3O94DC4lJCtqSiuUqtz259IS0.input.variable_workflow_01G69YIDRG6EL4aPWYIhXOayFu3Myu8ZgI1$\",\n    \"comment\": \"$workflow.definition_workflow_01G69XFFLC3O94DC4lJCtqSiuUqtz259IS0.input.variable_workflow_01G69YNV23UZ71b2pOX15WUHGqceHm9hXUO$\"\n  }\n]",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "display_name": "Execute API request",
+          "method": "POST",
+          "relative_url": "organizations/$workflow.definition_workflow_01G69XFFLC3O94DC4lJCtqSiuUqtz259IS0.input.variable_workflow_01G69XFF4HLEZ7QayzU2DO9thN3J5u0SoSV$/destinationlists/$workflow.definition_workflow_01G69XFFLC3O94DC4lJCtqSiuUqtz259IS0.input.variable_workflow_01G69XFF4HSX14Tl2ZeZ5IltuMfgtTvdvaR$/destinations",
+          "runtime_user": {
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01G69XG9FAYKD5cZc9JHUrxzJavo6EXgRWe",
+        "name": "JSONPath Query",
+        "title": "Extract the list data",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": true,
+          "display_name": "Extract the list data",
+          "input_json": "$activity.definition_activity_01G69XG3UMIOW1iWhMVTIHqVgR6Ze5c9sp5.output.response_body$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$.data",
+              "jsonpath_query_name": "destinationList",
+              "jsonpath_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01G69XGFPN46J3QzSq0CWIADbkjyLOVrqtg",
+        "name": "Condition Block",
+        "title": "Did we get results?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Did we get results?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01G69XGLK7H2267HDHPsKwlfhioihV7HsaA",
+            "name": "Condition Branch",
+            "title": "No",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01G69XG9FAYKD5cZc9JHUrxzJavo6EXgRWe.output.succeeded$",
+                "operator": "eq",
+                "right_operand": false
+              },
+              "continue_on_failure": false,
+              "display_name": "No",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01G69XGQXYW8C0sFPGLeEFiJBHSdN2dqi2c",
+                "name": "Completed",
+                "title": "Failed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Failed",
+                  "result_message": "Failed to add destination to destination list\n\nStatus Code: $activity.definition_activity_01G69XG3UMIOW1iWhMVTIHqVgR6Ze5c9sp5.output.status_code$\nResponse Body: $activity.definition_activity_01G69XG3UMIOW1iWhMVTIHqVgR6Ze5c9sp5.output.response_body$\n",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01G69XGWQCB1X4ECDW5pbQhIMl37Qi1rU3E",
+        "name": "Set Variables",
+        "title": "Set output variables",
+        "type": "core.set_multiple_variables",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Set output variables",
+          "skip_execution": false,
+          "variables_to_update": [
+            {
+              "variable_to_update": "$workflow.definition_workflow_01G69XFFLC3O94DC4lJCtqSiuUqtz259IS0.output.variable_workflow_01G69XFF4HQA36fL27EaqvGIUoQlvRCodiK$",
+              "variable_value_new": "$activity.definition_activity_01G69XG3UMIOW1iWhMVTIHqVgR6Ze5c9sp5.output.response_body$"
+            },
+            {
+              "variable_to_update": "$workflow.definition_workflow_01G69XFFLC3O94DC4lJCtqSiuUqtz259IS0.output.variable_workflow_01G69XFF4HRMY6gWFE9vPo6zWAaCdZ3xUYo$",
+              "variable_value_new": "$activity.definition_activity_01G69XG3UMIOW1iWhMVTIHqVgR6Ze5c9sp5.output.status_code$"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}

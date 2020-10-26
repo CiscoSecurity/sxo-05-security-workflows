@@ -1,0 +1,248 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01G8U9MA4V7UD4N9ykGevKaSlSmGTFnefoP",
+    "name": "CDO - Get Devices",
+    "title": "CDO - Get Devices",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Device List",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01G8V068AHI473J5Uqs2w0CrSrxMGzOcYXK",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.integer",
+        "properties": {
+          "value": 0,
+          "scope": "input",
+          "name": "Offset",
+          "type": "datatype.integer",
+          "description": "Index of the record at which to start returning records",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01G8UA51OXOVG7a2KAl0UbuON6YBiuxh5R0",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Access Token",
+          "type": "datatype.secure_string",
+          "description": "Bearer token to use when accessing CDO",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01J90DAW3WVGC11OuOvgtAaAe6UET9bKTyh",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.integer",
+        "properties": {
+          "value": 0,
+          "scope": "output",
+          "name": "Record Count",
+          "type": "datatype.integer",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01JAUR66T207D3a8weznw0ePX7q4L83bTfT",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.integer",
+        "properties": {
+          "value": 100,
+          "scope": "input",
+          "name": "Limit",
+          "type": "datatype.integer",
+          "description": "How many records to return",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01G8UCRI7SFW44sI56aGRRnQQQr0YnMkSBp",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "Cisco Defense Orchestrator",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": false,
+      "description": "Gets a list of devices from Cisco Defense Orchestrator.\n\nTarget: HTTP endpoint for \"defenseorchestrator.com\" with a path of \"/aegis/rest/v1/\"\n\nAccount Key: None\n\nSteps:\n[] Request the list of devices\n[]  Check if the request was successful:\n[]\u003e If it was, set the output variables\n[]\u003e If it wasn't, output an error",
+      "display_name": "CDO - Get Devices",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "specify_on_workflow_start": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01G8U9WLOAFMZ7MIjFynwjEd3eGasFEmhI7",
+        "name": "HTTP Request",
+        "title": "Get device list",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "content_type": "application/json",
+          "continue_on_error_status_code": true,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $workflow.definition_workflow_01G8U9MA4V7UD4N9ykGevKaSlSmGTFnefoP.input.variable_workflow_01J90DAW3WVGC11OuOvgtAaAe6UET9bKTyh$"
+            }
+          ],
+          "display_name": "Get device list",
+          "method": "GET",
+          "relative_url": "services/targets/devices?limit=$workflow.definition_workflow_01G8U9MA4V7UD4N9ykGevKaSlSmGTFnefoP.input.variable_workflow_01G8UCRI7SFW44sI56aGRRnQQQr0YnMkSBp$\u0026offset=$workflow.definition_workflow_01G8U9MA4V7UD4N9ykGevKaSlSmGTFnefoP.input.variable_workflow_01G8UA51OXOVG7a2KAl0UbuON6YBiuxh5R0$",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01G93BZ6MIERS02r1vKfPQhDgpyjNJ5J8X1",
+        "name": "Condition Block",
+        "title": "Was the request successful?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Was the request successful?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01G93BZA8IUHZ2YB4uXE9MXnWC3wlfH9zMc",
+            "name": "Condition Branch",
+            "title": "Success/200",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01G8U9WLOAFMZ7MIjFynwjEd3eGasFEmhI7.output.status_code$",
+                "operator": "eq",
+                "right_operand": 200
+              },
+              "continue_on_failure": false,
+              "display_name": "Success/200",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01JAUQBP8CRZV6ySH7rC4lKmvxcOFWGuoa0",
+                "name": "JSONPath Query",
+                "title": "Extract the count of records",
+                "type": "corejava.jsonpathquery",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "continue_on_failure": false,
+                  "display_name": "Extract the count of records",
+                  "input_json": "$activity.definition_activity_01G8U9WLOAFMZ7MIjFynwjEd3eGasFEmhI7.output.response_body$",
+                  "jsonpath_queries": [
+                    {
+                      "jsonpath_query": "$.length()",
+                      "jsonpath_query_name": "recordCount",
+                      "jsonpath_query_type": "integer"
+                    }
+                  ],
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01G8V0FLXIOKL2wISn0JqZ2LXpbkHhvOG4d",
+                "name": "Set Variables",
+                "title": "Set output variables",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Set output variables",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01G8U9MA4V7UD4N9ykGevKaSlSmGTFnefoP.output.variable_workflow_01G8V068AHI473J5Uqs2w0CrSrxMGzOcYXK$",
+                      "variable_value_new": "$activity.definition_activity_01G8U9WLOAFMZ7MIjFynwjEd3eGasFEmhI7.output.response_body$"
+                    },
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01G8U9MA4V7UD4N9ykGevKaSlSmGTFnefoP.output.variable_workflow_01JAUR66T207D3a8weznw0ePX7q4L83bTfT$",
+                      "variable_value_new": "$activity.definition_activity_01JAUQBP8CRZV6ySH7rC4lKmvxcOFWGuoa0.output.jsonpath_queries.recordCount$"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01G93BZBHVUKC6T7Rz0udUyHO5d5SYjGnrU",
+            "name": "Condition Branch",
+            "title": "Anything else",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01G8U9WLOAFMZ7MIjFynwjEd3eGasFEmhI7.output.status_code$",
+                "operator": "ne",
+                "right_operand": 200
+              },
+              "continue_on_failure": false,
+              "display_name": "Anything else",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01G93CDOT8OBL5PPNi1hUDIM8TfJfxMs5Rw",
+                "name": "Completed",
+                "title": "Failed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Failed",
+                  "result_message": "Failed to retrieve device list from CDO\n\nStatus code: $activity.definition_activity_01G8U9WLOAFMZ7MIjFynwjEd3eGasFEmhI7.output.status_code$\nResponse body: $activity.definition_activity_01G8U9WLOAFMZ7MIjFynwjEd3eGasFEmhI7.output.response_body$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}

@@ -1,0 +1,301 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01JAMQ4S6WHO74CYowCZfhcBD4b6k8Zt7gi",
+    "name": "Umbrella - Reporting v2 - Get Top Internal IPs",
+    "title": "Umbrella - Reporting v2 - Get Top Internal IPs",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "From Time",
+          "type": "datatype.string",
+          "description": "Timestamp to start getting entries from. This should be either a timestamp in milliseconds or a relative time such as \"-1days\"",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01JAMQ4RTMCY67YQ7ZPIIpwR5PCan4vtf2N",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Report Data",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01JAMQ4RTM60F3r1TTOoriGvhNW7h7w7rTM",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "To Time",
+          "type": "datatype.string",
+          "description": "Timestamp to stop getting entries at. This should be either a timestamp in milliseconds or a relative time such as \"now\"",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01JAMQ4RTMFAG7j91o3U7nx6kq6PTlhC4yD",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Access Token",
+          "type": "datatype.secure_string",
+          "description": "Bearer token retrieved using the \"Umbrella Reporting v2 - Get Token\" atomic action",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01JAMQ4RTM8DT29Eson7oww4tMZXZ6AUmgK",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.integer",
+        "properties": {
+          "value": 0,
+          "scope": "input",
+          "name": "Offset",
+          "type": "datatype.integer",
+          "description": "The index of the initial entry to retrieve \"limit\" entries from",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01JAMQ4RTM7965Ffwlv8XW0ld7x9bQSP13h",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.integer",
+        "properties": {
+          "value": 0,
+          "scope": "output",
+          "name": "Entry Count",
+          "type": "datatype.integer",
+          "description": "The number of entries returned by Umbrella",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01JAMQ4RTMBU91ZDHDg6YsE9zRV77zl9r7L",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Additional Parameters",
+          "type": "datatype.string",
+          "description": "Extra parameters that should be appended to the report request. These should be formatted as a query string. For example: \"domains=test.com\u0026ports=443\u0026verdict=blocked\"",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01JAMQ4RTM2JM2bGs2dQ23A37Gyfttq3S5i",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Organization ID",
+          "type": "datatype.string",
+          "description": "The organization ID to get entries for",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01JAMQ4RTMAL70PQltAHldZepe04pF5C3wA",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.integer",
+        "properties": {
+          "value": 100,
+          "scope": "input",
+          "name": "Limit",
+          "type": "datatype.integer",
+          "description": "The maximum number of entries to retrieve",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01JAMQ4RTM9HI4dTXwf4K8AyO9D7QknXco1",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "Cisco Umbrella",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": false,
+      "description": "Gets a list of the top internal IPs from within the given timeframe. The \"Additional Parameters\" input variable can be used to provide additional query string parameters which will be passed through to Umbrella.\n\nTarget: HTTP endpoint for \"reports.api.umbrella.com\"\n\nAccount Key: None\n\nSteps:\n[] Make the API request for the report entries\n[] Check if the API request succeeded:\n[]\u003e If it did, set the output variable\n[]\u003e If it didn't, output an error\n\nMore information about this API: https://docs.umbrella.com/umbrella-api/reference#top-ips",
+      "display_name": "Umbrella - Reporting v2 - Get Top Internal IPs",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "specify_on_workflow_start": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01JAMQ6DPYJ8U2rENl2NYS64NGR7Vowq2KW",
+        "name": "HTTP Request",
+        "title": "Request entries",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "application/json",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "continue_on_error_status_code": true,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $workflow.definition_workflow_01JAMQ4S6WHO74CYowCZfhcBD4b6k8Zt7gi.input.variable_workflow_01JAMQ4RTM8DT29Eson7oww4tMZXZ6AUmgK$"
+            }
+          ],
+          "display_name": "Request entries",
+          "method": "GET",
+          "relative_url": "v2/organizations/$workflow.definition_workflow_01JAMQ4S6WHO74CYowCZfhcBD4b6k8Zt7gi.input.variable_workflow_01JAMQ4RTMAL70PQltAHldZepe04pF5C3wA$/top-ips/internal?from=$workflow.definition_workflow_01JAMQ4S6WHO74CYowCZfhcBD4b6k8Zt7gi.input.variable_workflow_01JAMQ4RTMCY67YQ7ZPIIpwR5PCan4vtf2N$\u0026to=$workflow.definition_workflow_01JAMQ4S6WHO74CYowCZfhcBD4b6k8Zt7gi.input.variable_workflow_01JAMQ4RTMFAG7j91o3U7nx6kq6PTlhC4yD$\u0026limit=$workflow.definition_workflow_01JAMQ4S6WHO74CYowCZfhcBD4b6k8Zt7gi.input.variable_workflow_01JAMQ4RTM9HI4dTXwf4K8AyO9D7QknXco1$\u0026offset=$workflow.definition_workflow_01JAMQ4S6WHO74CYowCZfhcBD4b6k8Zt7gi.input.variable_workflow_01JAMQ4RTM7965Ffwlv8XW0ld7x9bQSP13h$\u0026$workflow.definition_workflow_01JAMQ4S6WHO74CYowCZfhcBD4b6k8Zt7gi.input.variable_workflow_01JAMQ4RTM2JM2bGs2dQ23A37Gyfttq3S5i$",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01JAMQ6NLW50N2por2lXt1sCkkWf3EqZtc7",
+        "name": "Condition Block",
+        "title": "Was the request successful?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Was the request successful?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01JAMQ6XGHQXE1RFShe1opdiZ4d6kohl9hA",
+            "name": "Condition Branch",
+            "title": "Success/200",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01JAMQ6DPYJ8U2rENl2NYS64NGR7Vowq2KW.output.status_code$",
+                "operator": "eq",
+                "right_operand": 200
+              },
+              "continue_on_failure": false,
+              "display_name": "Success/200",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01JAMQ74Y5FSP15SeHDpKPcM640SIa7hPg5",
+                "name": "JSONPath Query",
+                "title": "Get entry count",
+                "type": "corejava.jsonpathquery",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "continue_on_failure": false,
+                  "display_name": "Get entry count",
+                  "input_json": "$activity.definition_activity_01JAMQ6DPYJ8U2rENl2NYS64NGR7Vowq2KW.output.response_body$",
+                  "jsonpath_queries": [
+                    {
+                      "jsonpath_query": "$.data.length()",
+                      "jsonpath_query_name": "entryCount",
+                      "jsonpath_query_type": "integer"
+                    }
+                  ],
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01JAMQ7GGTKDM0P1tHcF8h4zojQh3BCkfSJ",
+                "name": "Set Variables",
+                "title": "Set output variables",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Set output variables",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01JAMQ4S6WHO74CYowCZfhcBD4b6k8Zt7gi.output.variable_workflow_01JAMQ4RTM60F3r1TTOoriGvhNW7h7w7rTM$",
+                      "variable_value_new": "$activity.definition_activity_01JAMQ6DPYJ8U2rENl2NYS64NGR7Vowq2KW.output.response_body$"
+                    },
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01JAMQ4S6WHO74CYowCZfhcBD4b6k8Zt7gi.output.variable_workflow_01JAMQ4RTMBU91ZDHDg6YsE9zRV77zl9r7L$",
+                      "variable_value_new": "$activity.definition_activity_01JAMQ74Y5FSP15SeHDpKPcM640SIa7hPg5.output.jsonpath_queries.entryCount$"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01JAMQ7REL39N2gEWY77nLa8TpcM5vb1Oyp",
+            "name": "Condition Branch",
+            "title": "Anything else",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01JAMQ6DPYJ8U2rENl2NYS64NGR7Vowq2KW.output.status_code$",
+                "operator": "ne",
+                "right_operand": 200
+              },
+              "continue_on_failure": false,
+              "display_name": "Anything else",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01JAMQ7WS7BJ21vbZ7e1MZgah9UCXt9GC6T",
+                "name": "Completed",
+                "title": "Failed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Failed",
+                  "result_message": "Failed to fetch report contents\n\nStatus code: $activity.definition_activity_01JAMQ6DPYJ8U2rENl2NYS64NGR7Vowq2KW.output.status_code$\nResponse body: $activity.definition_activity_01JAMQ6DPYJ8U2rENl2NYS64NGR7Vowq2KW.output.response_body$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}

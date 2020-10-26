@@ -1,0 +1,161 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01GBHXD643I474hBOwNZkizMwiq5rrL3YbG",
+    "name": "FMC - Create Network Group",
+    "title": "FMC - Create Network Group",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Group Description",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01GBI20N3EZAS5fXLR15RULX44GAaTb4mIz",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Group Literals",
+          "type": "datatype.string",
+          "description": "JSON-formatted list of \"type\" and \"value\" pairs",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01GBI28ZVAGXW1Zk2ToiPnUmrWE1tpRRq4H",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Auth Access Token",
+          "type": "datatype.secure_string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01GBHXD5R9WKE6IQsVDjuhJ7KNcCjGS999v",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Domain UUID",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01GBHXD5R9XT36CBcTwHzEyEY1uplHVpqgl",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Network Group",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01GBHXD5R9YZZ2Vm9atKiGHfyzka5FqKpXz",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Group Name",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01GBHXD5R9OQ13thMwZJlrznypN6XKv1kZ0",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "Cisco FMC",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": true,
+      "description": "Creates a new network for the given domain UUID.\n\n[] Execute the API request to create the network group\n[] Set the output variables with the results",
+      "display_name": "FMC - Create Network Group",
+      "runtime_user": {
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "specify_on_workflow_start": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01GBHXDY9TXXQ1AF1LwqNkVCXm6oorfmjFI",
+        "name": "HTTP Request",
+        "title": "Execute API request",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"literals\": $workflow.definition_workflow_01GBHXD643I474hBOwNZkizMwiq5rrL3YbG.input.variable_workflow_01GBI28ZVAGXW1Zk2ToiPnUmrWE1tpRRq4H$,\n  \"name\": \"$workflow.definition_workflow_01GBHXD643I474hBOwNZkizMwiq5rrL3YbG.input.variable_workflow_01GBHXD5R9OQ13thMwZJlrznypN6XKv1kZ0$\",\n  \"description\": \"$workflow.definition_workflow_01GBHXD643I474hBOwNZkizMwiq5rrL3YbG.input.variable_workflow_01GBI20N3EZAS5fXLR15RULX44GAaTb4mIz$\",\n  \"type\": \"networkObject\"\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "X-auth-access-token",
+              "value": "$workflow.definition_workflow_01GBHXD643I474hBOwNZkizMwiq5rrL3YbG.input.variable_workflow_01GBHXD5R9WKE6IQsVDjuhJ7KNcCjGS999v$"
+            }
+          ],
+          "display_name": "Execute API request",
+          "method": "POST",
+          "relative_url": "fmc_config/v1/domain/$workflow.definition_workflow_01GBHXD643I474hBOwNZkizMwiq5rrL3YbG.input.variable_workflow_01GBHXD5R9XT36CBcTwHzEyEY1uplHVpqgl$/object/networkgroups",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01GBHXE3J138I1smabNM7CNu33KvvWnawBO",
+        "name": "Set Variables",
+        "title": "Set output variables",
+        "type": "core.set_multiple_variables",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Set output variables",
+          "skip_execution": false,
+          "variables_to_update": [
+            {
+              "variable_to_update": "$workflow.definition_workflow_01GBHXD643I474hBOwNZkizMwiq5rrL3YbG.output.variable_workflow_01GBHXD5R9YZZ2Vm9atKiGHfyzka5FqKpXz$",
+              "variable_value_new": "$activity.definition_activity_01GBHXDY9TXXQ1AF1LwqNkVCXm6oorfmjFI.output.response_body$"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}

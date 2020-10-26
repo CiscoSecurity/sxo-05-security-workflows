@@ -1,0 +1,310 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01ES67LMZNNYA5uKi54cBCWN6tjOEYYT4zS",
+    "name": "Duo - Check",
+    "title": "Duo - Check",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "/auth/v2/check",
+          "scope": "local",
+          "name": "path",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01ES6O1XUR11R14F2FCLj0xyhKyiDo7xLku",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "GET",
+          "scope": "local",
+          "name": "method",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01ES6OHHNR0J56ymkQu6lpC4U1wOP3katOf",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.integer",
+        "properties": {
+          "value": 0,
+          "scope": "output",
+          "name": "Response Code",
+          "type": "datatype.integer",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01ES8P5G83H8S2NwXBaqW89BEBXgSVbKF6Z",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Integration Key",
+          "type": "datatype.string",
+          "description": "Your Duo API integration key. This is obtained from your application information within the Duo admin interface",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01FHM5QGUFXA47cqf34IeEfEN3GlBDCIPoM",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Secret Key",
+          "type": "datatype.secure_string",
+          "description": "Your Duo API secret key. This is obtained from your application information within the Duo admin interface",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01ES6G3YJIY0S6wh4VbxNOWl71fb5Zvyurd",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Response Body",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01ES8PBQYT9R64rNK9Hgr8f4qPOwZ1Mell8",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Hostname",
+          "type": "datatype.string",
+          "description": "Your Duo API hostname. This is obtained from your application information within the Duo admin interface",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01ES6N3LYADBT0Y55UNmAx1ZXCsQSdqbaaM",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "Cisco Duo Security",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": true,
+      "description": "Verifies that the Duo Auth API integration and secret keys are valid and that the signature is being generated properly.\n\n[] Generate a signed signature for the request\n[] Send the request to Duo\n[] Extract the response values\n[] Check if the status was OK\n[] Set the workflow's output variables\n\nAPI information: https://duo.com/docs/authapi#/check",
+      "display_name": "Duo - Check",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "specify_on_workflow_start": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01ES6Q4HVCOAF1uDQVSLey7gjJ4iU9kKguA",
+        "name": "Execute Python Script",
+        "title": "Generate request signature",
+        "type": "python3.script",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "description": "Generates and signs the signature for this request",
+          "display_name": "Generate request signature",
+          "script": "import sys, json, base64, email.utils, hmac, hashlib, urllib, codecs\n\n(method,host,path,params,skey,ikey) = sys.argv[1:]\nparams = json.loads(params)\n\n\"\"\"\nReturn HTTP Basic Authentication (\"Authorization\" and \"Date\") headers.\nmethod, host, path: strings from request\nparams: dict of request parameters\nskey: secret key\nikey: integration key\n\"\"\"\n\n# create canonical string\nnow = email.utils.formatdate()\ncanon = [now, method.upper(), host.lower(), path]\nargs = []\nfor key in sorted(params.keys()):\n   val = params[key]\n   if isinstance(val, str):\n      val = val.encode(\"utf-8\")\n      args.append('%s=%s' % (urllib.parse.quote(key, '~'), urllib.parse.quote(val, '~')))\ncanon.append('\u0026'.join(args))\ncanon = '\\n'.join(canon)\n\n# sign canonical string\nsig = hmac.new(codecs.encode(skey,'latin-1'), codecs.encode(canon), hashlib.sha1)\nauth = '%s:%s' % (ikey, sig.hexdigest())\n\nAuthorization = 'Basic %s' % base64.b64encode(codecs.encode(auth)).decode('utf-8')",
+          "script_arguments": [
+            "$workflow.definition_workflow_01ES67LMZNNYA5uKi54cBCWN6tjOEYYT4zS.local.variable_workflow_01ES6OHHNR0J56ymkQu6lpC4U1wOP3katOf$",
+            "$workflow.definition_workflow_01ES67LMZNNYA5uKi54cBCWN6tjOEYYT4zS.input.variable_workflow_01ES6N3LYADBT0Y55UNmAx1ZXCsQSdqbaaM$",
+            "$workflow.definition_workflow_01ES67LMZNNYA5uKi54cBCWN6tjOEYYT4zS.local.variable_workflow_01ES6O1XUR11R14F2FCLj0xyhKyiDo7xLku$",
+            "{}",
+            "$workflow.definition_workflow_01ES67LMZNNYA5uKi54cBCWN6tjOEYYT4zS.input.variable_workflow_01ES6G3YJIY0S6wh4VbxNOWl71fb5Zvyurd$",
+            "$workflow.definition_workflow_01ES67LMZNNYA5uKi54cBCWN6tjOEYYT4zS.input.variable_workflow_01FHM5QGUFXA47cqf34IeEfEN3GlBDCIPoM$"
+          ],
+          "script_queries": [
+            {
+              "script_query": "now",
+              "script_query_name": "Date",
+              "script_query_type": "secure_string"
+            },
+            {
+              "script_query": "Authorization",
+              "script_query_name": "Authorization",
+              "script_query_type": "secure_string"
+            },
+            {
+              "script_query": "canon",
+              "script_query_name": "canon",
+              "script_query_type": "secure_string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01ES6WSZPH46U72TCZho2XTHNshykmSnCMk",
+        "name": "HTTP Request",
+        "title": "Execute Duo API call",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "$activity.definition_activity_01ES6Q4HVCOAF1uDQVSLey7gjJ4iU9kKguA.output.script_queries.canon$",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Date",
+              "value": "$activity.definition_activity_01ES6Q4HVCOAF1uDQVSLey7gjJ4iU9kKguA.output.script_queries.Date$"
+            },
+            {
+              "name": "Authorization",
+              "value": "$activity.definition_activity_01ES6Q4HVCOAF1uDQVSLey7gjJ4iU9kKguA.output.script_queries.Authorization$"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/x-www-form-urlencoded"
+            },
+            {
+              "name": "Host",
+              "value": "$workflow.definition_workflow_01ES67LMZNNYA5uKi54cBCWN6tjOEYYT4zS.input.variable_workflow_01ES6N3LYADBT0Y55UNmAx1ZXCsQSdqbaaM$"
+            }
+          ],
+          "display_name": "Execute Duo API call",
+          "method": "$workflow.definition_workflow_01ES67LMZNNYA5uKi54cBCWN6tjOEYYT4zS.local.variable_workflow_01ES6OHHNR0J56ymkQu6lpC4U1wOP3katOf$",
+          "relative_url": "$workflow.definition_workflow_01ES67LMZNNYA5uKi54cBCWN6tjOEYYT4zS.local.variable_workflow_01ES6O1XUR11R14F2FCLj0xyhKyiDo7xLku$",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01ES9K5HXXR9G27RxfoujHDVHCvrjTHt4oy",
+        "name": "JSONPath Query",
+        "title": "Extract response values",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Extract response values",
+          "input_json": "$activity.definition_activity_01ES6WSZPH46U72TCZho2XTHNshykmSnCMk.output.response_body$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$.response.time",
+              "jsonpath_query_name": "time",
+              "jsonpath_query_type": "string"
+            },
+            {
+              "jsonpath_query": "$.stat",
+              "jsonpath_query_name": "status",
+              "jsonpath_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01FMXEK67BXYI6bVrC8Wd2sMfNnUETSYLEx",
+        "name": "Condition Block",
+        "title": "Was the status OK?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Was the status OK?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01FMXEKCZXIUX2KoXi0uUKvXvwRoXmvjO2m",
+            "name": "Condition Branch",
+            "title": "No",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01ES9K5HXXR9G27RxfoujHDVHCvrjTHt4oy.output.jsonpath_queries.status$",
+                "operator": "ne",
+                "right_operand": "OK"
+              },
+              "continue_on_failure": false,
+              "display_name": "No",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01FMXEUY4WR403wVDgMgiouK7RfXsAMWGAF",
+                "name": "Completed",
+                "title": "Failed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Failed",
+                  "result_message": "The connection check to Duo failed\n\nStatus code: $activity.definition_activity_01ES6WSZPH46U72TCZho2XTHNshykmSnCMk.output.status_code$\n\nResponse body: $activity.definition_activity_01ES6WSZPH46U72TCZho2XTHNshykmSnCMk.output.response_body$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01ES8PGATRLTV6wnDhkSZCmnYtl5U40rPEE",
+        "name": "Set Variables",
+        "title": "Set output variables",
+        "type": "core.set_multiple_variables",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Set output variables",
+          "skip_execution": false,
+          "variables_to_update": [
+            {
+              "variable_to_update": "$workflow.definition_workflow_01ES67LMZNNYA5uKi54cBCWN6tjOEYYT4zS.output.variable_workflow_01ES8P5G83H8S2NwXBaqW89BEBXgSVbKF6Z$",
+              "variable_value_new": "$activity.definition_activity_01ES6WSZPH46U72TCZho2XTHNshykmSnCMk.output.status_code$"
+            },
+            {
+              "variable_to_update": "$workflow.definition_workflow_01ES67LMZNNYA5uKi54cBCWN6tjOEYYT4zS.output.variable_workflow_01ES8PBQYT9R64rNK9Hgr8f4qPOwZ1Mell8$",
+              "variable_value_new": "$activity.definition_activity_01ES6WSZPH46U72TCZho2XTHNshykmSnCMk.output.response_body$"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}

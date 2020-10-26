@@ -1,0 +1,105 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01J3STRKBDJ7H4DZmPyS7xOkHlrhXKxkH34",
+    "name": "String - Get Length",
+    "title": "String - Get Length",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.integer",
+        "properties": {
+          "value": 0,
+          "scope": "output",
+          "name": "String Length",
+          "type": "datatype.integer",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01J3SUDYUOACX2GDpJTR9b55hdFMhbqRRWi",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Input String",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01J3SU7SDQUQW2jXUJjQXaM47b4BYg7mxcD",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "Utilities",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": false,
+      "description": "Returns the length of the string provided as input.\n\nLicense: https://developer.cisco.com/site/license/cisco-sample-code-license/",
+      "display_name": "String - Get Length",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": false,
+        "execute_on_workflow_target": false,
+        "no_target": true,
+        "specify_on_workflow_start": false
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01J3SUG7XO1B51jNkKkE2n8vkqCCVg0kmSN",
+        "name": "Execute Python Script",
+        "title": "Get length of input string",
+        "type": "python3.script",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Get length of input string",
+          "script": "import sys\n\ninputString = sys.argv[1]\n\nstringLength = len(inputString)",
+          "script_arguments": [
+            "$workflow.definition_workflow_01J3STRKBDJ7H4DZmPyS7xOkHlrhXKxkH34.input.variable_workflow_01J3SU7SDQUQW2jXUJjQXaM47b4BYg7mxcD$"
+          ],
+          "script_queries": [
+            {
+              "script_query": "stringLength",
+              "script_query_name": "stringLength",
+              "script_query_type": "integer"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01J3SUI4T57MI0Qg5AAe7PoK8tTQnXfiUWh",
+        "name": "Set Variables",
+        "title": "Set output variable",
+        "type": "core.set_multiple_variables",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Set output variable",
+          "skip_execution": false,
+          "variables_to_update": [
+            {
+              "variable_to_update": "$workflow.definition_workflow_01J3STRKBDJ7H4DZmPyS7xOkHlrhXKxkH34.output.variable_workflow_01J3SUDYUOACX2GDpJTR9b55hdFMhbqRRWi$",
+              "variable_value_new": "$activity.definition_activity_01J3SUG7XO1B51jNkKkE2n8vkqCCVg0kmSN.output.script_queries.stringLength$"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}

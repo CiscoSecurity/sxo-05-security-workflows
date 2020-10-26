@@ -1,0 +1,180 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01FMQTAT3H5VC4NVbonulAhVztfqidbUGlJ",
+    "name": "ServiceNow - Add Work Note to Incident",
+    "title": "ServiceNow - Add Work Note to Incident",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "v2",
+          "scope": "input",
+          "name": "API Version",
+          "type": "datatype.string",
+          "description": "Version of the ServiceNow API to use",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01FMQTASNW78T0tgvbFoES84str3rrkOfBq",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Work Notes",
+          "type": "datatype.string",
+          "description": "Notes to include in the work note entry. Certain tags and formatting can be used in this field. See the ServiceNow documentation for more information",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01FMQTASNW19F198DyWHV14WHmkxNhmxaQu",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "System Id",
+          "type": "datatype.string",
+          "description": "The ServiceNow \"System Id\" of the incident ticket to add the work note to",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01FMQVGD9LTQK0vkSN3y7c0YHxc5cWQnVRt",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "ServiceNow",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": true,
+      "description": "Adds a work note to an existing ServiceNow incident ticket.\n\nTarget: HTTP endpoint for \"\u003cyour tenant\u003e.service-now.com\" with a path of \"/api\"\n\nAccount Key: HTTP basic with a ServiceNow account username and password\n\nSteps:\n[] Generate the JSON for the work note\n[] Send a request to the ServiceNow API to create the entry\n[] Check if the request was successful\n[]\u003e If it wasn't, output an error\n\nMore information about this API: https://docs.servicenow.com/bundle/paris-application-development/page/integrate/inbound-rest/concept/c_TableAPI.html#c_TableAPI",
+      "display_name": "ServiceNow - Add Work Note to Incident",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "specify_on_workflow_start": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01FMQTCH9QKFN5myG9Jvsx2Kc1Kj2SQMZ1H",
+        "name": "Execute Python Script",
+        "title": "Generate work note JSON",
+        "type": "python3.script",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Generate work note JSON",
+          "script": "import sys,json\n\nwork_notes = sys.argv[1]\n\nticket_object = {}\nticket_object[\"work_notes\"] = work_notes\n\nticket_json = json.dumps(ticket_object)\n",
+          "script_arguments": [
+            "$workflow.definition_workflow_01FMQTAT3H5VC4NVbonulAhVztfqidbUGlJ.input.variable_workflow_01FMQTASNW19F198DyWHV14WHmkxNhmxaQu$"
+          ],
+          "script_queries": [
+            {
+              "script_query": "ticket_json",
+              "script_query_name": "ticket_json",
+              "script_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01FMQTCPOKVUI5BrfqXTYILjibXS0IjNGHH",
+        "name": "HTTP Request",
+        "title": "Update incident",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "application/json",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "$activity.definition_activity_01FMQTCH9QKFN5myG9Jvsx2Kc1Kj2SQMZ1H.output.script_queries.ticket_json$",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "display_name": "Update incident",
+          "method": "PATCH",
+          "relative_url": "/now/$workflow.definition_workflow_01FMQTAT3H5VC4NVbonulAhVztfqidbUGlJ.input.variable_workflow_01FMQTASNW78T0tgvbFoES84str3rrkOfBq$/table/incident/$workflow.definition_workflow_01FMQTAT3H5VC4NVbonulAhVztfqidbUGlJ.input.variable_workflow_01FMQVGD9LTQK0vkSN3y7c0YHxc5cWQnVRt$",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01FMQTCYLM8VL0xKdjzj67CHvVMsYidiIUX",
+        "name": "Condition Block",
+        "title": "Was the request successful?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Was the request successful?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01FMQTDZPNLBS7PFpAHZUrq2VV8GaFjydQC",
+            "name": "Condition Branch",
+            "title": "No",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01FMQTCPOKVUI5BrfqXTYILjibXS0IjNGHH.output.status_code$",
+                "operator": "ne",
+                "right_operand": 200
+              },
+              "continue_on_failure": false,
+              "display_name": "No",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01FMQTE7JV5C40xkbQQayzvv5BzDrMeUEPk",
+                "name": "Completed",
+                "title": "Failed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Failed",
+                  "result_message": "Failed to post work note to incident\n\nResponse: $activity.definition_activity_01FMQTCPOKVUI5BrfqXTYILjibXS0IjNGHH.output.response_body$\nHTTP Code: $activity.definition_activity_01FMQTCPOKVUI5BrfqXTYILjibXS0IjNGHH.output.status_code$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}

@@ -1,0 +1,278 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01HQN7N57GLKN780LTDUabTblE3OpMPQVfx",
+    "name": "Azure Graph - Get Access Token",
+    "title": "Azure Graph - Get Access Token",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Access Token",
+          "type": "datatype.secure_string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01HQN7N4UOY2Q02vRhF0zXjAJoPNBVNKV9Q",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Token Expires In (seconds)",
+          "type": "datatype.string",
+          "description": "How long in seconds the token will be valid for",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01HQN881R4X0B46bxSEN4iNEulbNSw9eXnS",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Tenant ID",
+          "type": "datatype.string",
+          "description": "The tenant ID you want to get a token for (example: d74e8049-5c41-4l87-b6 f-035z)",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01HQN7N4UOTC65YnWUlkyv9piykyDJH4Mzv",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "Microsoft Azure",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": true,
+      "description": "Gets an OAuth access token for the Azure Graph API.\n\nTarget: HTTP endpoint for \"login.microsoftonline.com\"\n\nAccount Key: HTTP basic with Graph API key (client ID as username, client secret as password)\n\nSteps:\n[] Make the API request to get a token\n[] Check if the API request succeeded:\n[]\u003e If it did, attempt to extract the bearer token and expiration time and set the workflow's output variables\n[]\u003e If it didn't, output an error\n\nMore information about this API: https://docs.microsoft.com/en-us/graph/auth-v2-service?view=graph-rest-1.0#4-get-an-access-token",
+      "display_name": "Azure Graph - Get Access Token",
+      "favorite": false,
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "specify_on_workflow_start": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01HQN7NPLHD434mv4qjvH98UvULhXgeyryl",
+        "name": "HTTP Request",
+        "title": "Request access token",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "scope=https://graph.microsoft.com/.default\u0026grant_type=client_credentials",
+          "continue_on_error_status_code": true,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Content-Type",
+              "value": "application/x-www-form-urlencoded"
+            }
+          ],
+          "display_name": "Request access token",
+          "method": "POST",
+          "relative_url": "/$workflow.definition_workflow_01HQN7N57GLKN780LTDUabTblE3OpMPQVfx.input.variable_workflow_01HQN7N4UOTC65YnWUlkyv9piykyDJH4Mzv$/oauth2/v2.0/token",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "use_workflow_target": true
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01HQN7NVFQWJD5V4E4Sx0mzJ4RHHvjmW6IW",
+        "name": "Condition Block",
+        "title": "Was the request successful?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Was the request successful?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01HQN7O1IRFEL0QrOj0XWPSc1gHY5Ks3rdi",
+            "name": "Condition Branch",
+            "title": "Success/200",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01HQN7NPLHD434mv4qjvH98UvULhXgeyryl.output.status_code$",
+                "operator": "eq",
+                "right_operand": 200
+              },
+              "continue_on_failure": false,
+              "display_name": "Success/200",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01HQN7O6YKMA168aKPw9B0y86UW7DMkykRP",
+                "name": "JSONPath Query",
+                "title": "Extract token",
+                "type": "corejava.jsonpathquery",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "continue_on_failure": true,
+                  "display_name": "Extract token",
+                  "input_json": "$activity.definition_activity_01HQN7NPLHD434mv4qjvH98UvULhXgeyryl.output.response_body$",
+                  "jsonpath_queries": [
+                    {
+                      "jsonpath_query": "$.access_token",
+                      "jsonpath_query_name": "Access Token",
+                      "jsonpath_query_type": "string",
+                      "zdate_type_format": ""
+                    },
+                    {
+                      "jsonpath_query": "$.expires_in",
+                      "jsonpath_query_name": "Expires In",
+                      "jsonpath_query_type": "string"
+                    }
+                  ],
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01JAU3VCNKOJC4tiP95E4T8RBNQW2z6RJ03",
+                "name": "Condition Block",
+                "title": "Was extraction successful?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Was extraction successful?",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                  {
+                    "unique_name": "definition_activity_01JAU3VRAO2MR5lTD2WDsHUiGPYFLWZtVbd",
+                    "name": "Condition Branch",
+                    "title": "No",
+                    "type": "logic.condition_block",
+                    "base_type": "activity",
+                    "properties": {
+                      "condition": {
+                        "left_operand": "$activity.definition_activity_01HQN7O6YKMA168aKPw9B0y86UW7DMkykRP.output.succeeded$",
+                        "operator": "eq",
+                        "right_operand": false
+                      },
+                      "continue_on_failure": false,
+                      "display_name": "No",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity",
+                    "actions": [
+                      {
+                        "unique_name": "definition_activity_01JAU4TQKANHA6lksgNaTWE4nLAq0IpOoLH",
+                        "name": "Failed",
+                        "title": "Failed",
+                        "type": "logic.completed",
+                        "base_type": "activity",
+                        "properties": {
+                          "completion_type": "failed-completed",
+                          "continue_on_failure": false,
+                          "display_name": "Failed",
+                          "result_message": "Failed to extract access token\n\nStatus code: $activity.definition_activity_01HQN7NPLHD434mv4qjvH98UvULhXgeyryl.output.status_code$\nResponse body : $activity.definition_activity_01HQN7NPLHD434mv4qjvH98UvULhXgeyryl.output.response_body$",
+                          "skip_execution": false
+                        },
+                        "object_type": "definition_activity"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "unique_name": "definition_activity_01HQN7ODUAUKT1rSdlMFCiJ8Bb3dF67OUeW",
+                "name": "Set Variables",
+                "title": "Set output variables",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Set output variables",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01HQN7N57GLKN780LTDUabTblE3OpMPQVfx.output.variable_workflow_01HQN7N4UOY2Q02vRhF0zXjAJoPNBVNKV9Q$",
+                      "variable_value_new": "$activity.definition_activity_01HQN7O6YKMA168aKPw9B0y86UW7DMkykRP.output.jsonpath_queries.Access Token$"
+                    },
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01HQN7N57GLKN780LTDUabTblE3OpMPQVfx.output.variable_workflow_01HQN881R4X0B46bxSEN4iNEulbNSw9eXnS$",
+                      "variable_value_new": "$activity.definition_activity_01HQN7O6YKMA168aKPw9B0y86UW7DMkykRP.output.jsonpath_queries.Expires In$"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01HQN7OKUAQWQ1g1bSPWANiODC9EsdUOL1c",
+            "name": "Condition Branch",
+            "title": "Anything else",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01HQN7NPLHD434mv4qjvH98UvULhXgeyryl.output.status_code$",
+                "operator": "ne",
+                "right_operand": 200
+              },
+              "continue_on_failure": false,
+              "display_name": "Anything else",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01HQN7OPHFJ6D4E3mGeoPpjw3tjJKlAXELg",
+                "name": "Failed",
+                "title": "Failed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Failed",
+                  "result_message": "Failed to get access token\n\nStatus code: $activity.definition_activity_01HQN7NPLHD434mv4qjvH98UvULhXgeyryl.output.status_code$\nResponse body : $activity.definition_activity_01HQN7NPLHD434mv4qjvH98UvULhXgeyryl.output.response_body$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}

@@ -1,0 +1,289 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01IX8GGX9MV8B5ihSMEc7KHwEmgTSLojS1m",
+    "name": "Time - Get X Hour Window",
+    "title": "Time - Get X Hour Window",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.date",
+        "properties": {
+          "value": "0001-01-01T00:00:00+00:00",
+          "scope": "output",
+          "name": "Window End Time",
+          "type": "datatype.date",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01IX8H3ACM1UE6liaN2Axf7QZvGmYeFwQyZ",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.date",
+        "properties": {
+          "value": "0001-01-01T00:00:00+00:00",
+          "scope": "output",
+          "name": "Window Start Time",
+          "type": "datatype.date",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01IX8GYT9CBMT5PeCD6IeXcC9h92BtaV6iw",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.integer",
+        "properties": {
+          "value": 24,
+          "scope": "input",
+          "name": "Number of Hours",
+          "type": "datatype.integer",
+          "description": "How many hours the window should be",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01J33OSN1BHDV1RAyTK6c6R3Q4mAb2uX2b9",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.date",
+        "properties": {
+          "value": "0001-01-01T00:00:00+00:00",
+          "scope": "input",
+          "name": "Window Start",
+          "type": "datatype.date",
+          "description": "When the window should start. If this is provided, the Window End input is ignored",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01J33P2M1J0SE7OlAW5e3kyi3cqIhBI7vkn",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.date",
+        "properties": {
+          "value": "0001-01-01T00:00:00+00:00",
+          "scope": "input",
+          "name": "Window End",
+          "type": "datatype.date",
+          "description": "When the window should end. If a Window Start is provided, this input is ignored",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01J33P7EL7N9Z2D3fmNjs46CQD8rJi6rMgC",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "Utilities",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": false,
+      "description": "Calculates a window of X hours starting from \"Window Start\" or ending at \"Window End.\" If neither of these inputs are provided, the window will start X hours ago and end at the atomic's start time. If both of these inputs are provided, the start time is used and the end time is ignored.\n\nLicense: https://developer.cisco.com/site/license/cisco-sample-code-license/",
+      "display_name": "Time - Get X Hour Window",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": false,
+        "execute_on_workflow_target": false,
+        "no_target": true,
+        "specify_on_workflow_start": false
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01J33P9CKAQ4A7JGCnm5y8ywbne6jwOSESX",
+        "name": "Condition Block",
+        "title": "What should we calculate?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "What should we calculate?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01J33P9OLDH9Z3eA8I9FHff2nUAIHI0V6po",
+            "name": "Condition Branch",
+            "title": "Window using start time",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$workflow.definition_workflow_01IX8GGX9MV8B5ihSMEc7KHwEmgTSLojS1m.input.variable_workflow_01J33P2M1J0SE7OlAW5e3kyi3cqIhBI7vkn$",
+                "operator": "ne",
+                "right_operand": "0001-01-01T00:00:00+00:00"
+              },
+              "continue_on_failure": false,
+              "display_name": "Window using start time",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01J33QUVYMO9T1E1myE6LaX4hQ6yuKWmn73",
+                "name": "Calculate Date",
+                "title": "Calculate date",
+                "type": "core.calculate_date",
+                "base_type": "activity",
+                "properties": {
+                  "adjustment": "(3600 * $workflow.definition_workflow_01IX8GGX9MV8B5ihSMEc7KHwEmgTSLojS1m.input.variable_workflow_01J33OSN1BHDV1RAyTK6c6R3Q4mAb2uX2b9$)",
+                  "continue_on_failure": false,
+                  "display_name": "Calculate date",
+                  "original_date": "$workflow.definition_workflow_01IX8GGX9MV8B5ihSMEc7KHwEmgTSLojS1m.input.variable_workflow_01J33P2M1J0SE7OlAW5e3kyi3cqIhBI7vkn$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01J33RF9CJB4J4AkT4wmVmVhmnq21GXgomm",
+                "name": "Set Variables",
+                "title": "Set output variables",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Set output variables",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01IX8GGX9MV8B5ihSMEc7KHwEmgTSLojS1m.output.variable_workflow_01IX8GYT9CBMT5PeCD6IeXcC9h92BtaV6iw$",
+                      "variable_value_new": "$workflow.definition_workflow_01IX8GGX9MV8B5ihSMEc7KHwEmgTSLojS1m.input.variable_workflow_01J33P2M1J0SE7OlAW5e3kyi3cqIhBI7vkn$"
+                    },
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01IX8GGX9MV8B5ihSMEc7KHwEmgTSLojS1m.output.variable_workflow_01IX8H3ACM1UE6liaN2Axf7QZvGmYeFwQyZ$",
+                      "variable_value_new": "$activity.definition_activity_01J33QUVYMO9T1E1myE6LaX4hQ6yuKWmn73.output.result$"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01J33P9PYMA2Q5QrkJiGZYk5Ch8h7okHASQ",
+            "name": "Condition Branch",
+            "title": "Window using end time",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$workflow.definition_workflow_01IX8GGX9MV8B5ihSMEc7KHwEmgTSLojS1m.input.variable_workflow_01J33P7EL7N9Z2D3fmNjs46CQD8rJi6rMgC$",
+                "operator": "ne",
+                "right_operand": "0001-01-01T00:00:00+00:00"
+              },
+              "continue_on_failure": false,
+              "display_name": "Window using end time",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01J33QSI1C0XT3hxTFXt2EbfwPefYOxM8V9",
+                "name": "Calculate Date",
+                "title": "Calculate date",
+                "type": "core.calculate_date",
+                "base_type": "activity",
+                "properties": {
+                  "adjustment": "-(3600 * $workflow.definition_workflow_01IX8GGX9MV8B5ihSMEc7KHwEmgTSLojS1m.input.variable_workflow_01J33OSN1BHDV1RAyTK6c6R3Q4mAb2uX2b9$)",
+                  "continue_on_failure": false,
+                  "display_name": "Calculate date",
+                  "original_date": "$workflow.definition_workflow_01IX8GGX9MV8B5ihSMEc7KHwEmgTSLojS1m.input.variable_workflow_01J33P7EL7N9Z2D3fmNjs46CQD8rJi6rMgC$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01J33RCILV37D45Vvm1SaJuYMxGqlT0y9yF",
+                "name": "Set Variables",
+                "title": "Set output variables",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Set output variables",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01IX8GGX9MV8B5ihSMEc7KHwEmgTSLojS1m.output.variable_workflow_01IX8GYT9CBMT5PeCD6IeXcC9h92BtaV6iw$",
+                      "variable_value_new": "$activity.definition_activity_01J33QSI1C0XT3hxTFXt2EbfwPefYOxM8V9.output.result$"
+                    },
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01IX8GGX9MV8B5ihSMEc7KHwEmgTSLojS1m.output.variable_workflow_01IX8H3ACM1UE6liaN2Axf7QZvGmYeFwQyZ$",
+                      "variable_value_new": "$workflow.definition_workflow_01IX8GGX9MV8B5ihSMEc7KHwEmgTSLojS1m.input.variable_workflow_01J33P7EL7N9Z2D3fmNjs46CQD8rJi6rMgC$"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01J33PO2ZPM725GEwoY7qymj6bhoDr3dsNy",
+            "name": "Condition Branch",
+            "title": "Default window",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$workflow.definition_workflow_01IX8GGX9MV8B5ihSMEc7KHwEmgTSLojS1m.output.instance_id$",
+                "operator": "eq",
+                "right_operand": "$workflow.definition_workflow_01IX8GGX9MV8B5ihSMEc7KHwEmgTSLojS1m.output.instance_id$"
+              },
+              "continue_on_failure": false,
+              "display_name": "Default window",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01IX8H7IAY93D57CLmj5jvPc590ilRXVSZg",
+                "name": "Calculate Date",
+                "title": "Calculate date",
+                "type": "core.calculate_date",
+                "base_type": "activity",
+                "properties": {
+                  "adjustment": "-(3600 * $workflow.definition_workflow_01IX8GGX9MV8B5ihSMEc7KHwEmgTSLojS1m.input.variable_workflow_01J33OSN1BHDV1RAyTK6c6R3Q4mAb2uX2b9$)",
+                  "continue_on_failure": false,
+                  "display_name": "Calculate date",
+                  "original_date": "$workflow.definition_workflow_01IX8GGX9MV8B5ihSMEc7KHwEmgTSLojS1m.output.start_time$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01IX8GT8QR92J6ZYiWLsHAJFvhBG1Wm16GX",
+                "name": "Set Variables",
+                "title": "Set output variables",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Set output variables",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01IX8GGX9MV8B5ihSMEc7KHwEmgTSLojS1m.output.variable_workflow_01IX8GYT9CBMT5PeCD6IeXcC9h92BtaV6iw$",
+                      "variable_value_new": "$activity.definition_activity_01IX8H7IAY93D57CLmj5jvPc590ilRXVSZg.output.result$"
+                    },
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01IX8GGX9MV8B5ihSMEc7KHwEmgTSLojS1m.output.variable_workflow_01IX8H3ACM1UE6liaN2Axf7QZvGmYeFwQyZ$",
+                      "variable_value_new": "$workflow.definition_workflow_01IX8GGX9MV8B5ihSMEc7KHwEmgTSLojS1m.output.start_time$"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}

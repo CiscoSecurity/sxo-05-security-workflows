@@ -1,0 +1,296 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01GBIARM4WEH2632KABYZqMbofAlDwfa5sJ",
+    "name": "FMC - Get Network Group by Name",
+    "title": "FMC - Get Network Group by Name",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Network Group",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01GBIARLR8FVS5EWjW5U3JColMUnleJ2nvq",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Network Group Name",
+          "type": "datatype.string",
+          "description": "Name of the network group to fetch",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01GBIARLR88DC3dU9Ep2tOZ2oE6FVkYChc2",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Auth Access Token",
+          "type": "datatype.secure_string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01GBIARLR8D6N3Yt97AIVbWWxZ59Jh2E4A6",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Network Group ID",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01GBIENY7JCNV1czW0f1n2Fccxdpf80nehL",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Domain UUID",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01GBIARLR8ENZ20ZGuCFIB83Ihm7lBDM4zC",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "Cisco FMC",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": true,
+      "description": "Gets a single network group using its name for the given domain UUID.\n\nNote: This only searches the first 100 groups\n\n[] Execute the API request to get the network group\n[] Attempt to extract the group by name\n[] Set the output variables with the results",
+      "display_name": "FMC - Get Network Group by Name",
+      "runtime_user": {
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "specify_on_workflow_start": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01GBIASAQTWB50uGkcCxXfpdg6HgvycNTFu",
+        "name": "HTTP Request",
+        "title": "Execute API request",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "content_type": "application/json",
+          "continue_on_error_status_code": true,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "X-auth-access-token",
+              "value": "$workflow.definition_workflow_01GBIARM4WEH2632KABYZqMbofAlDwfa5sJ.input.variable_workflow_01GBIARLR8D6N3Yt97AIVbWWxZ59Jh2E4A6$"
+            }
+          ],
+          "display_name": "Execute API request",
+          "method": "GET",
+          "relative_url": "fmc_config/v1/domain/$workflow.definition_workflow_01GBIARM4WEH2632KABYZqMbofAlDwfa5sJ.input.variable_workflow_01GBIARLR8ENZ20ZGuCFIB83Ihm7lBDM4zC$/object/networkgroups?offset=0\u0026limit=100",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01GBIBQI6HNB71oXpET2zVjQe80h4L4Zkx0",
+        "name": "Condition Block",
+        "title": "Was the request successful?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Was the request successful?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01GBIBQN0ELZ76sUoVFzoNTI2Tommpyq1cv",
+            "name": "Condition Branch",
+            "title": "No",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01GBIASAQTWB50uGkcCxXfpdg6HgvycNTFu.output.status_code$",
+                "operator": "ne",
+                "right_operand": 200
+              },
+              "continue_on_failure": false,
+              "display_name": "No",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01GBIC0J7IQMJ3Ql5A9VMJaBDvaMJPmczea",
+                "name": "Completed",
+                "title": "Failed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Failed",
+                  "result_message": "Failed to fetch network groups from FMC.\n\nStatus Code: $activity.definition_activity_01GBIASAQTWB50uGkcCxXfpdg6HgvycNTFu.output.status_code$\nResponse Body: $activity.definition_activity_01GBIASAQTWB50uGkcCxXfpdg6HgvycNTFu.output.response_body$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01GBIBKLQ84KI28BXT2HADTlwlAOkUKy7av",
+        "name": "JSONPath Query",
+        "title": "Attempt to extract the network group",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": true,
+          "display_name": "Attempt to extract the network group",
+          "input_json": "$activity.definition_activity_01GBIASAQTWB50uGkcCxXfpdg6HgvycNTFu.output.response_body$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$.items[?(@.name == \"$workflow.definition_workflow_01GBIARM4WEH2632KABYZqMbofAlDwfa5sJ.input.variable_workflow_01GBIARLR88DC3dU9Ep2tOZ2oE6FVkYChc2$\")]",
+              "jsonpath_query_name": "networkGroup",
+              "jsonpath_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01GBICUGYFQM51zc4aeO5N2V59zqTijVviJ",
+        "name": "Condition Block",
+        "title": "Did we get a group?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Did we get a group?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01GBICUM831RA4UHhyE0PG07bkwedErPE6d",
+            "name": "Condition Branch",
+            "title": "No",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01GBIBKLQ84KI28BXT2HADTlwlAOkUKy7av.output.succeeded$",
+                "operator": "eq",
+                "right_operand": false
+              },
+              "continue_on_failure": false,
+              "display_name": "No",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01GBID47F20JB1ThwxpJVa0xFvgWo8vUluj",
+                "name": "Completed",
+                "title": "Failed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Failed",
+                  "result_message": "Failed to extract the request network group. Maybe it doesn't exist?",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01GBIEPHPO4OU5boPcxr2enJjXpYLavud9k",
+        "name": "JSONPath Query",
+        "title": "Extract the group ID",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Extract the group ID",
+          "input_json": "$activity.definition_activity_01GBIBKLQ84KI28BXT2HADTlwlAOkUKy7av.output.jsonpath_queries.networkGroup$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$.id",
+              "jsonpath_query_name": "groupId",
+              "jsonpath_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01GBIASG740VM4nNAKBXMMr8f6AbhBfDq8E",
+        "name": "Set Variables",
+        "title": "Set output variables",
+        "type": "core.set_multiple_variables",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Set output variables",
+          "skip_execution": false,
+          "variables_to_update": [
+            {
+              "variable_to_update": "$workflow.definition_workflow_01GBIARM4WEH2632KABYZqMbofAlDwfa5sJ.output.variable_workflow_01GBIARLR8FVS5EWjW5U3JColMUnleJ2nvq$",
+              "variable_value_new": "$activity.definition_activity_01GBIBKLQ84KI28BXT2HADTlwlAOkUKy7av.output.jsonpath_queries.networkGroup$"
+            },
+            {
+              "variable_to_update": "$workflow.definition_workflow_01GBIARM4WEH2632KABYZqMbofAlDwfa5sJ.output.variable_workflow_01GBIENY7JCNV1czW0f1n2Fccxdpf80nehL$",
+              "variable_value_new": "$activity.definition_activity_01GBIEPHPO4OU5boPcxr2enJjXpYLavud9k.output.jsonpath_queries.groupId$"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}

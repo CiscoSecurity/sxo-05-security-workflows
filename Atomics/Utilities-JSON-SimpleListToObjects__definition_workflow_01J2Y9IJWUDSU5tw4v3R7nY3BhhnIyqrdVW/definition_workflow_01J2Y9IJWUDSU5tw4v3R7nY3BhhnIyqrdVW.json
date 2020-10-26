@@ -1,0 +1,107 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01J2Y9IJWUDSU5tw4v3R7nY3BhhnIyqrdVW",
+    "name": "JSON - Simple List to Objects",
+    "title": "JSON - Simple List to Objects",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "List of JSON Objects",
+          "type": "datatype.string",
+          "description": "Sample output:\n[ { \"item\": \"item1\" }, { \"item\": \"item2\" }, ... ]",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01J2YA8G1XGTX3acXrULEnlBmkYcqQEL7od",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "JSON List",
+          "type": "datatype.string",
+          "description": "Sample input:\n[ \"item1\", \"item2\", ... ]",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01J2YA3YNJ2CR00ET5kM07Me0cUCap9FjkZ",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "Utilities",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": false,
+      "description": "Converts a JSON-formatted list to a list of objects that can be converted to a table. Each object will have one element with a key of \"item\" and a value of one of the input list items.\n\nSample input:\n[ \"item1\", \"item2\", ... ]\n\nSample output:\n[ { \"item\": \"item1\" }, { \"item\": \"item2\" }, ... ]\n\nLicense: https://developer.cisco.com/site/license/cisco-sample-code-license/",
+      "display_name": "JSON - Simple List to Objects",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": false,
+        "execute_on_workflow_target": false,
+        "no_target": true,
+        "specify_on_workflow_start": false
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01J2YAB4OCJX34b3wUsrKt4PF1UYQeS7Eyk",
+        "name": "Execute Python Script",
+        "title": "Convert list to objects",
+        "type": "python3.script",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Convert list to objects",
+          "script": "import sys,json\n\nrawList = json.loads(sys.argv[1])\noutList = []\n\nfor item in rawList:\n  outList.append({ \"item\": item })\n\noutJson = json.dumps(outList)",
+          "script_arguments": [
+            "$workflow.definition_workflow_01J2Y9IJWUDSU5tw4v3R7nY3BhhnIyqrdVW.input.variable_workflow_01J2YA3YNJ2CR00ET5kM07Me0cUCap9FjkZ$"
+          ],
+          "script_queries": [
+            {
+              "script_query": "outJson",
+              "script_query_name": "outJson",
+              "script_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01J2YBIN03DC76aOCHG0YbYfmvkSOzqtk5W",
+        "name": "Set Variables",
+        "title": "Set output variable",
+        "type": "core.set_multiple_variables",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Set output variable",
+          "skip_execution": false,
+          "variables_to_update": [
+            {
+              "variable_to_update": "$workflow.definition_workflow_01J2Y9IJWUDSU5tw4v3R7nY3BhhnIyqrdVW.output.variable_workflow_01J2YA8G1XGTX3acXrULEnlBmkYcqQEL7od$",
+              "variable_value_new": "$activity.definition_activity_01J2YAB4OCJX34b3wUsrKt4PF1UYQeS7Eyk.output.script_queries.outJson$"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}

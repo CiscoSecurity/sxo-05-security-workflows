@@ -1,0 +1,256 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01HS6UP39X6S406HSEux7ICNDx72uDgTYKL",
+    "name": "Slack - Get List of Channels",
+    "title": "Slack - Get List of Channels",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Authorization Token",
+          "type": "datatype.secure_string",
+          "description": "Token for accessing the Slack API. If using a bot: after adding your app/bot to your workspace, Slack will give you an OAuth token for the workspace. It'll look something like this: xoxb-2565875412001-2658854120325-X5dX6ABe1XhA1aY32W1bUIjV",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01HS6UP2Y45850q8iMfA92Ewfiq3trCjLPF",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Channel List",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01HS6VVDKNYQ70xTVucwsTCJx95cYoXSiIM",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "Slack",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": true,
+      "description": "Gets a list of channels available to the user whose authorization token was provided.\n\nTarget: HTTP endpoint for \"slack.com\" with a path of \"/api\"\n\nAccount Keys: None\n\nSteps:\n[] Execute the API request to get a list of channels\n[] Check if the request succeeded\n[]\u003e If it did, attempt to extract the channel list and set the output variable\n[]\u003e If it didn't, output an error\n\nMore information about this API: https://api.slack.com/methods/conversations.list",
+      "display_name": "Slack - Get List of Channels",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "specify_on_workflow_start": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01HS6UPTOOD2H0gS3wiiy3r6sKe5dWVJXvZ",
+        "name": "HTTP Request",
+        "title": "Get list of channels",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "content_type": "application/json",
+          "continue_on_error_status_code": true,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $workflow.definition_workflow_01HS6UP39X6S406HSEux7ICNDx72uDgTYKL.input.variable_workflow_01HS6UP2Y45850q8iMfA92Ewfiq3trCjLPF$"
+            }
+          ],
+          "display_name": "Get list of channels",
+          "method": "GET",
+          "relative_url": "conversations.list",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01JBGCB31XZOA5qqZW3BJdo6sGuhdsvVZdk",
+        "name": "Condition Block",
+        "title": "Was the request successful?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Was the request successful?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01JBGCBHBIREZ3SjkhWmG1R3P0CYUkweIsY",
+            "name": "Condition Branch",
+            "title": "Success/200",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01HS6UPTOOD2H0gS3wiiy3r6sKe5dWVJXvZ.output.status_code$",
+                "operator": "eq",
+                "right_operand": 200
+              },
+              "continue_on_failure": false,
+              "display_name": "Success/200",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01HS6WQQ5FLH56CIndFzrVw4HCXHF1MAYQK",
+                "name": "JSONPath Query",
+                "title": "Extract channels",
+                "type": "corejava.jsonpathquery",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "continue_on_failure": true,
+                  "display_name": "Extract channels",
+                  "input_json": "$activity.definition_activity_01HS6UPTOOD2H0gS3wiiy3r6sKe5dWVJXvZ.output.response_body$",
+                  "jsonpath_queries": [
+                    {
+                      "jsonpath_query": "$.channels",
+                      "jsonpath_query_name": "channelList",
+                      "jsonpath_query_type": "string"
+                    }
+                  ],
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01HS6X9JOABR24Ex0gWv7HpxcJgFlDn1YEC",
+                "name": "Condition Block",
+                "title": "Did we get channels?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Did we get channels?",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                  {
+                    "unique_name": "definition_activity_01JBGE4LC1BU05JPBUxQfIYCOjGug8aYrEr",
+                    "name": "Condition Branch",
+                    "title": "No",
+                    "type": "logic.condition_block",
+                    "base_type": "activity",
+                    "properties": {
+                      "condition": {
+                        "left_operand": "$activity.definition_activity_01HS6WQQ5FLH56CIndFzrVw4HCXHF1MAYQK.output.succeeded$",
+                        "operator": "eq",
+                        "right_operand": false
+                      },
+                      "continue_on_failure": false,
+                      "display_name": "No",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity",
+                    "actions": [
+                      {
+                        "unique_name": "definition_activity_01JBGEGO8WJMO6Po3laIp7Htfza06KZpuSO",
+                        "name": "Completed",
+                        "title": "Failed",
+                        "type": "logic.completed",
+                        "base_type": "activity",
+                        "properties": {
+                          "completion_type": "failed-completed",
+                          "continue_on_failure": false,
+                          "display_name": "Failed",
+                          "result_message": "Failed to extract the channel list\n\nStatus code: $activity.definition_activity_01HS6UPTOOD2H0gS3wiiy3r6sKe5dWVJXvZ.output.status_code$\nResponse body: $activity.definition_activity_01HS6UPTOOD2H0gS3wiiy3r6sKe5dWVJXvZ.output.response_body$",
+                          "skip_execution": false
+                        },
+                        "object_type": "definition_activity"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "unique_name": "definition_activity_01HS6WXESKR0F3JcSmKArISHMHIfkz7naLG",
+                "name": "Set Variables",
+                "title": "Set the output variable",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Set the output variable",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01HS6UP39X6S406HSEux7ICNDx72uDgTYKL.output.variable_workflow_01HS6VVDKNYQ70xTVucwsTCJx95cYoXSiIM$",
+                      "variable_value_new": "$activity.definition_activity_01HS6WQQ5FLH56CIndFzrVw4HCXHF1MAYQK.output.jsonpath_queries.channelList$"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01JBGDE266TYW27RrbB89aIJl74acrwQ5J2",
+            "name": "Condition Branch",
+            "title": "Anything else",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01HS6UPTOOD2H0gS3wiiy3r6sKe5dWVJXvZ.output.status_code$",
+                "operator": "ne",
+                "right_operand": 200
+              },
+              "continue_on_failure": false,
+              "display_name": "Anything else",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01HS6UQIGZ3YX3xo47o1OdWNDXS7cnqTpvk",
+                "name": "Completed",
+                "title": "Failed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Failed",
+                  "result_message": "Failed to request the channel list\n\nStatus code: $activity.definition_activity_01HS6UPTOOD2H0gS3wiiy3r6sKe5dWVJXvZ.output.status_code$\nResponse body: $activity.definition_activity_01HS6UPTOOD2H0gS3wiiy3r6sKe5dWVJXvZ.output.response_body$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}
