@@ -1,0 +1,258 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01HA9LSTKCF3Z5LMCftEC0DD2ALn9S4uZQC",
+    "name": "SWC - Add Domain to Watchlist",
+    "title": "SWC - Add Domain to Watchlist",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Reason",
+          "type": "datatype.string",
+          "description": "Optional reason why the domain was added to the watch list",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01JQWNDPCNU4U4LMD2jUF0wOEQFiS7pJwig",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Watchlist Entry ID",
+          "type": "datatype.string",
+          "description": "The ID of the new entry on the watchlist",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01JQWS5V0OT9P7mKUeMNdhtheIdYb8kXcVC",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Domain",
+          "type": "datatype.string",
+          "description": "The domain to add to the watch list",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01HA9LST82JXH2VgHIsOSXoFYrXYK5MygFR",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Stealthwatch API Key",
+          "type": "datatype.secure_string",
+          "description": "You can generate or regenerate an API key on your user page in your Stealthwatch portal",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01JJQGTPX0H8T7CjeKsx8vjHNdsHlxyOz9e",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "Cisco Stealthwatch Cloud",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": false,
+      "description": "Adds a domain to a watchlist in Stealthwatch Cloud \n\nTarget: HTTP endpoint for \"\u003cyour tenant\u003e.obsrvbl.com\" with a path of \"/api\"\n\nAccount Key: None\n\nSteps:\n[] Build the JSON payload to POST\n[] Request the domain be added to the watchlist\n[] Check if the request was successful\n[] If it was, extract the entry ID and set the output variable\n[] If it wasn't, return an error\n\nMore information about this API: https://developer.cisco.com/docs/stealthwatch/cloud/#!stealthwatch-cloud-api-version-3",
+      "display_name": "SWC - Add Domain to Watchlist",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "specify_on_workflow_start": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01JQWNNMM9WEI6t1KwHFRMt3rhxeGRdj0VZ",
+        "name": "Execute Python Script",
+        "title": "Build the JSON payload",
+        "type": "python3.script",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Build the JSON payload",
+          "script": "import sys,json\n\n(domain, reason) = sys.argv[1:]\n\njsonOut = {}\n\njsonOut['category'] = 'domain'\njsonOut['list_on'] = 'watchlist'\njsonOut['identifier'] = domain\n\nif len(reason) \u003e 0: jsonOut['reason'] = reason\n\njsonOut = json.dumps(jsonOut)",
+          "script_arguments": [
+            "$workflow.definition_workflow_01HA9LSTKCF3Z5LMCftEC0DD2ALn9S4uZQC.input.variable_workflow_01HA9LST82JXH2VgHIsOSXoFYrXYK5MygFR$",
+            "$workflow.definition_workflow_01HA9LSTKCF3Z5LMCftEC0DD2ALn9S4uZQC.input.variable_workflow_01JQWNDPCNU4U4LMD2jUF0wOEQFiS7pJwig$"
+          ],
+          "script_queries": [
+            {
+              "script_query": "jsonOut",
+              "script_query_name": "jsonOut",
+              "script_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01HA9LTHED58C64xhfy3es5Kad5YEYFVbM6",
+        "name": "HTTP Request",
+        "title": "Add domain to watchlist",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "application/json",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "$activity.definition_activity_01JQWNNMM9WEI6t1KwHFRMt3rhxeGRdj0VZ.output.script_queries.jsonOut$",
+          "content_type": "application/json",
+          "continue_on_error_status_code": true,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "ApiKey $workflow.definition_workflow_01HA9LSTKCF3Z5LMCftEC0DD2ALn9S4uZQC.input.variable_workflow_01JJQGTPX0H8T7CjeKsx8vjHNdsHlxyOz9e$"
+            }
+          ],
+          "display_name": "Add domain to watchlist",
+          "method": "POST",
+          "relative_url": "v3/watchlist/domains/",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "use_workflow_target": true
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01JDR84JILLTQ5I2vEKOeSmdqxAgPSZYrL0",
+        "name": "Condition Block",
+        "title": "Was the request successful?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Was the request successful?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01JDR84YHJ6TW2s0X7SBDUkWCZMQtfP3jcR",
+            "name": "Condition Branch",
+            "title": "Success/201",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01HA9LTHED58C64xhfy3es5Kad5YEYFVbM6.output.status_code$",
+                "operator": "eq",
+                "right_operand": 201
+              },
+              "continue_on_failure": false,
+              "display_name": "Success/201",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01JQWQYMSWL6J2dofQ5eRV35eCedix9cZVG",
+                "name": "JSONPath Query",
+                "title": "Extract watchlist entry ID",
+                "type": "corejava.jsonpathquery",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "continue_on_failure": false,
+                  "display_name": "Extract watchlist entry ID",
+                  "input_json": "$activity.definition_activity_01HA9LTHED58C64xhfy3es5Kad5YEYFVbM6.output.response_body$",
+                  "jsonpath_queries": [
+                    {
+                      "jsonpath_query": "$.id",
+                      "jsonpath_query_name": "id",
+                      "jsonpath_query_type": "string"
+                    }
+                  ],
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01JQWRDTVWW4B0oB15TfqE56nr9PfYzlgey",
+                "name": "Set Variables",
+                "title": "Set output variables",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Set output variables",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01HA9LSTKCF3Z5LMCftEC0DD2ALn9S4uZQC.output.variable_workflow_01JQWS5V0OT9P7mKUeMNdhtheIdYb8kXcVC$",
+                      "variable_value_new": "$activity.definition_activity_01JQWQYMSWL6J2dofQ5eRV35eCedix9cZVG.output.jsonpath_queries.id$"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01JDR84ZNP5NT0RQYlIM6Re1hl66r4r6SE1",
+            "name": "Condition Branch",
+            "title": "Anything else",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01HA9LTHED58C64xhfy3es5Kad5YEYFVbM6.output.status_code$",
+                "operator": "ne",
+                "right_operand": 201
+              },
+              "continue_on_failure": false,
+              "display_name": "Anything else",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01JDRES2SP36U0uWSAU7deAMLPwEOwbiNS6",
+                "name": "Completed",
+                "title": "Failed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Failed",
+                  "result_message": "Failed to add the domain to the watch list\n\nStatus code: $activity.definition_activity_01HA9LTHED58C64xhfy3es5Kad5YEYFVbM6.output.status_code$\nResponse body: $activity.definition_activity_01HA9LTHED58C64xhfy3es5Kad5YEYFVbM6.output.response_body$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}
