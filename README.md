@@ -13,7 +13,7 @@ Atomic actions are self-contained workflows that are similar to a function in tr
 ## Workflows
 Workflows are the larger component of orchestration and are similar to a script in traditional programming. A workflow can be simple and only have a few actions or be complex and string together many different actions for different products.
 
-## How to Configure
+## Configuring this Repo in SecureX
 To use this repository, you need to configure three things in SecureX orchestration: an account key and two Git repositories.
 
 ### Generating a Personal Access Token
