@@ -1,4 +1,5 @@
 # SecureX orchestration atomic actions
+Atomic actions are self-contained workflows that are similar to a function in traditional programming. They can consume input, perform various actions, and then return output. They're designed to be portable, re-usable, and make building workflows more efficient.
 
 ## Best practices
 The following best practices should be followed when building an atomic action.
