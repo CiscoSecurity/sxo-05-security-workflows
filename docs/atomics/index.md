@@ -52,4 +52,4 @@ More information about this API: https://docs.umbrella.com/umbrella-api/referenc
 
 ### Activities
 * Give all of your activities (including logic components) meaningful display names.
-* More information about specific activities can be found in [this section](/activities/).
+* More information about specific activities can be found in [this section]({{ site.baseurl }}/activities/).

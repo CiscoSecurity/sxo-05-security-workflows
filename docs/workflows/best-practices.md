@@ -38,7 +38,7 @@ Steps:
 * When using date/time stamps, try to use the actual `Date Time` variable type where possible, especially for input and output variables. You can always use the `Format Date` and `Parse Date` activities to convert to/from strings.
 
 ## Targets
-* Workflows should use Target Groups where possible to make them more portable. See [this page](/workflows/target-groups) for more information.
+* Workflows should use Target Groups where possible to make them more portable. See [this page]({{ site.baseurl }}/workflows/target-groups) for more information.
 
 ## Account Keys
 * Workflows and their activities should use their targets' default account keys whenever possible. As in, account keys should be defined as part of the target's configuration. Overriding a target's account keys within a workflow is uncommon.

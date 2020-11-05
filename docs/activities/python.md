@@ -16,4 +16,4 @@ Since SecureX orchestration is cloud-based and containerized, the Python activit
 help("modules")
 ```
 
-After running the workflow, the `Execute Python Script` activity's output should show a list of available modules. Sample output from this command can be found [here](/activities/python/modules).
+After running the workflow, the `Execute Python Script` activity's output should show a list of available modules. Sample output from this command can be found [here]({{ site.baseurl }}/activities/python/modules).
