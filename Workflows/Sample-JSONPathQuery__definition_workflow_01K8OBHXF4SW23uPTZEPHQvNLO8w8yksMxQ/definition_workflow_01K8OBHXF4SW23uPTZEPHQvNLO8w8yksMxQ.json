@@ -1,0 +1,239 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01K8OBHXF4SW23uPTZEPHQvNLO8w8yksMxQ",
+    "name": "Sample - JSONPath Query",
+    "title": "Sample - JSONPath Query",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "{\n  \"firstName\": \"John\",\n  \"lastName\" : \"doe\",\n  \"age\"      : 26,\n  \"address\"  : {\n    \"streetAddress\": \"naist street\",\n    \"city\"         : \"Nara\",\n    \"postalCode\"   : \"630-0192\"\n  },\n  \"phoneNumbers\": [\n    {\n      \"type\"  : \"iPhone\",\n      \"number\": \"0123-4567-8888\"\n    },\n    {\n      \"type\"  : \"home\",\n      \"number\": \"0123-4567-8910\"\n    }\n  ]\n}",
+          "scope": "input",
+          "name": "Sample JSON",
+          "type": "datatype.string",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01K8OCKQJFISY1RVLKFPQJVQtFm9BPSwWK8",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "description": "This workflow shows how to use the \"JSONPath Query\" activity to extract information from JSON-formatted text. Note that this workflow will fail when you run it but that's intentional.\n\nThe first JSONPath Query shows multiple examples of valid path queries for the sample JSON provided with the workflow.\n\nThe second JSONPath Query contains an invalid query that fails so we can show how to do proper error handling. To catch JSONPath Query failures, you should set the activity to \"Continue Workflow Execution on Failure\" and then use a \"Condition Block\" to test whether or not the activity was successful.\n\nMore information about JSONPath Query and some helpful links can be found in our GitHub documentation.\n\nRun this workflow and inspect each activity's output carefully.",
+      "display_name": "Sample - JSONPath Query",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": false,
+        "execute_on_workflow_target": false,
+        "no_target": true,
+        "specify_on_workflow_start": false
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01K8OEA73TMXB2x4FhCFOaHPEkFsd36LqCq",
+        "name": "Group",
+        "title": "Valid queries",
+        "type": "logic.group",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Valid queries",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01K8OCPD6ZKCZ3gZdsOwolDA5tRAXzqoWNi",
+            "name": "JSONPath Query",
+            "title": "JSONPath Query",
+            "type": "corejava.jsonpathquery",
+            "base_type": "activity",
+            "properties": {
+              "action_timeout": 180,
+              "continue_on_failure": false,
+              "display_name": "JSONPath Query",
+              "input_json": "$workflow.definition_workflow_01K8OBHXF4SW23uPTZEPHQvNLO8w8yksMxQ.input.variable_workflow_01K8OCKQJFISY1RVLKFPQJVQtFm9BPSwWK8$",
+              "jsonpath_queries": [
+                {
+                  "jsonpath_query": "$.firstName",
+                  "jsonpath_query_name": "first_name",
+                  "jsonpath_query_type": "string"
+                },
+                {
+                  "jsonpath_query": "$.address.city",
+                  "jsonpath_query_name": "city",
+                  "jsonpath_query_type": "string"
+                },
+                {
+                  "jsonpath_query": "$.phoneNumbers.*.number",
+                  "jsonpath_query_name": "all_phone_numbers",
+                  "jsonpath_query_type": "string"
+                },
+                {
+                  "jsonpath_query": "$.phoneNumbers[1].number",
+                  "jsonpath_query_name": "second_phone_number",
+                  "jsonpath_query_type": "string"
+                },
+                {
+                  "jsonpath_query": "$.phoneNumbers[?(@.type == 'iPhone')].number",
+                  "jsonpath_query_name": "iphone_number",
+                  "jsonpath_query_type": "string"
+                }
+              ],
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01K8ODZO9LZII1ZjLNCQEQ0UI1DFzc0jXaR",
+        "name": "Group",
+        "title": "Invalid query with error handling",
+        "type": "logic.group",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Invalid query with error handling",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01K8OE8IL84O937p6Z0b4Qi9vWitdK8yl35",
+            "name": "JSONPath Query",
+            "title": "JSONPath Query",
+            "type": "corejava.jsonpathquery",
+            "base_type": "activity",
+            "properties": {
+              "action_timeout": 180,
+              "continue_on_failure": true,
+              "display_name": "JSONPath Query",
+              "input_json": "$workflow.definition_workflow_01K8OBHXF4SW23uPTZEPHQvNLO8w8yksMxQ.input.variable_workflow_01K8OCKQJFISY1RVLKFPQJVQtFm9BPSwWK8$",
+              "jsonpath_queries": [
+                {
+                  "jsonpath_query": "$.something_fake",
+                  "jsonpath_query_name": "fake_variable",
+                  "jsonpath_query_type": "string"
+                }
+              ],
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01K8OE4LUBWWM16tP2qjmykfP3PAPc7aiRd",
+            "name": "Condition Block",
+            "title": "Was the query successful?",
+            "type": "logic.if_else",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Was the query successful?",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "blocks": [
+              {
+                "unique_name": "definition_activity_01K8OE4ZICFRG6Z73hcE2kaUyhVkxWVMjta",
+                "name": "Condition Branch",
+                "title": "Yes",
+                "type": "logic.condition_block",
+                "base_type": "activity",
+                "properties": {
+                  "condition": {
+                    "left_operand": "$activity.definition_activity_01K8OE8IL84O937p6Z0b4Qi9vWitdK8yl35.output.succeeded$",
+                    "operator": "eq",
+                    "right_operand": true
+                  },
+                  "continue_on_failure": false,
+                  "display_name": "Yes",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01K8OF5LMTZON0T5dE4ytsBPnZpV0cIlCen",
+                    "name": "Completed",
+                    "title": "Success!",
+                    "type": "logic.completed",
+                    "base_type": "activity",
+                    "properties": {
+                      "completion_type": "succeeded",
+                      "continue_on_failure": false,
+                      "display_name": "Success!",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              },
+              {
+                "unique_name": "definition_activity_01K8OE50NZUBX1O3UbigXubqNlx90B2D6Vs",
+                "name": "Condition Branch",
+                "title": "No",
+                "type": "logic.condition_block",
+                "base_type": "activity",
+                "properties": {
+                  "condition": {
+                    "left_operand": "$activity.definition_activity_01K8OE8IL84O937p6Z0b4Qi9vWitdK8yl35.output.succeeded$",
+                    "operator": "eq",
+                    "right_operand": false
+                  },
+                  "continue_on_failure": false,
+                  "display_name": "No",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01K8OEXU631LL6Ng247kFVNLc7D0V1GIXyV",
+                    "name": "Completed",
+                    "title": "Failed",
+                    "type": "logic.completed",
+                    "base_type": "activity",
+                    "properties": {
+                      "completion_type": "failed-completed",
+                      "continue_on_failure": false,
+                      "display_name": "Failed",
+                      "result_message": "Failed to extract the query specified",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_01K8NQAII212R5jdJi1LLd5SCDT9F91tvBR"
+    ]
+  },
+  "categories": {
+    "category_01K8NQAII212R5jdJi1LLd5SCDT9F91tvBR": {
+      "unique_name": "category_01K8NQAII212R5jdJi1LLd5SCDT9F91tvBR",
+      "name": "Sample Workflow",
+      "title": "Sample Workflow",
+      "type": "basic.category",
+      "base_type": "category",
+      "description": "Simple workflows that show how to use various aspects of SecureX orchestration",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  }
+}

@@ -1,0 +1,395 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01K8OUE30UIFT3L8Ugle9RMwhs5kIutlfUr",
+    "name": "Sample - HTTP Requests",
+    "title": "Sample - HTTP Requests",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "*****",
+          "scope": "local",
+          "name": "Sample Super Secure String",
+          "type": "datatype.secure_string",
+          "description": "This variable is simply to illustrate how to use a secure string in an HTTP request header. You can put any value you want here",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01K8PQE92A9ZB6V4avr2JzOvpSVVh7WsAUA",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.integer",
+        "properties": {
+          "value": 2,
+          "scope": "local",
+          "name": "Sample User ID",
+          "type": "datatype.integer",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01K8PIDNDR66T3mq04ZdB95HWRjbQuGUF5C",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "{\n    \"name\": \"Ervin Howell\",\n    \"username\": \"Antonette\",\n    \"email\": \"Shanna@melissa.tv\",\n    \"address\": {\n      \"street\": \"Victor Plains\",\n      \"suite\": \"Suite 879\",\n      \"city\": \"Wisokyburgh\",\n      \"zipcode\": \"90566-7771\",\n      \"geo\": {\n        \"lat\": \"-43.9509\",\n        \"lng\": \"-34.4618\"\n      }\n    },\n    \"phone\": \"010-692-6593 x09125\",\n    \"website\": \"anastasia.net\",\n    \"company\": {\n      \"name\": \"Deckow-Crist\",\n      \"catchPhrase\": \"Proactive didactic contingency\",\n      \"bs\": \"synergize scalable supply-chains\"\n    }\n}",
+          "scope": "local",
+          "name": "Sample User JSON",
+          "type": "datatype.string",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01K8PI4IXTVU64flLv3gE90G6YBPI10T4WT",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "description": "This workflow shows how to use the \"HTTP Request\" activity to make API requests. Note that this workflow will fail when you run it but that's intentional.\n\nThe first request performs a GET using a local variable in the URL. This should return a 200/OK.\n\nThe second request performs a POST using a local variable as the payload. This should return a 201/Created.\n\nThe third request performs a GET with a custom Authorization header. If your API uses HTTP BASIC authentication, you can put your username/password in an Account Key as part of the Target. If your API uses a static API key or bearer token, you can store it in a Secure String and provide it in a custom header. This should return a 200/OK.\n\nFinally, the last request performs a GET to an invalid URL to force a failure. To catch an HTTP Request failures, you should set the activity to \"Continue on HTTP Error Status Code\" and then use a \"Condition Block\" to check the HTTP code.\n\nRun this workflow and inspect each activity's output carefully.",
+      "display_name": "Sample - HTTP Requests",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "target_id": "definition_target_01K8PG8NQBUL34PRlsDXNWNSHUXydaRkocw",
+        "execute_on_workflow_target": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01K8PGFSED3590fPijmXb8XPQV6wK84uESi",
+        "name": "Group",
+        "title": "HTTP GET",
+        "type": "logic.group",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "HTTP GET",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01K8OWTRHIEBX4LpIUi5HgzzfItaRAjg3eO",
+            "name": "HTTP Request",
+            "title": "HTTP GET Request",
+            "type": "web-service.http_request",
+            "base_type": "activity",
+            "properties": {
+              "accept": "application/json",
+              "action_timeout": 180,
+              "allow_auto_redirect": true,
+              "continue_on_error_status_code": false,
+              "continue_on_failure": false,
+              "display_name": "HTTP GET Request",
+              "method": "GET",
+              "relative_url": "/users/$workflow.definition_workflow_01K8OUE30UIFT3L8Ugle9RMwhs5kIutlfUr.local.variable_workflow_01K8PIDNDR66T3mq04ZdB95HWRjbQuGUF5C$/",
+              "runtime_user": {
+                "override_target_runtime_user": false,
+                "target_default": true
+              },
+              "skip_execution": false,
+              "target": {
+                "override_workflow_target": false,
+                "override_workflow_target_group_criteria": false,
+                "use_workflow_target": true,
+                "use_workflow_target_group": false
+              }
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01K8QCMBWUQGQ3C85hsAcSzcE6LGALqzsDk",
+            "name": "JSONPath Query",
+            "title": "JSONPath Query (to show using the HTTP response)",
+            "type": "corejava.jsonpathquery",
+            "base_type": "activity",
+            "properties": {
+              "action_timeout": 180,
+              "continue_on_failure": false,
+              "display_name": "JSONPath Query (to show using the HTTP response)",
+              "input_json": "$activity.definition_activity_01K8OWTRHIEBX4LpIUi5HgzzfItaRAjg3eO.output.response_body$",
+              "jsonpath_queries": [
+                {
+                  "jsonpath_query": "$.name",
+                  "jsonpath_query_name": "name",
+                  "jsonpath_query_type": "string"
+                }
+              ],
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01K8PGMANDB8R4kfq6afVGIEdSR8Xzo2xvM",
+        "name": "Group",
+        "title": "HTTP POST",
+        "type": "logic.group",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "HTTP POST",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01K8PGMFKZTC94ygLVFFjY36yYSfNObR62N",
+            "name": "HTTP Request",
+            "title": "HTTP POST Request",
+            "type": "web-service.http_request",
+            "base_type": "activity",
+            "properties": {
+              "accept": "application/json",
+              "action_timeout": 180,
+              "allow_auto_redirect": true,
+              "body": "$workflow.definition_workflow_01K8OUE30UIFT3L8Ugle9RMwhs5kIutlfUr.local.variable_workflow_01K8PI4IXTVU64flLv3gE90G6YBPI10T4WT$",
+              "content_type": "application/json",
+              "continue_on_error_status_code": false,
+              "continue_on_failure": false,
+              "display_name": "HTTP POST Request",
+              "method": "POST",
+              "relative_url": "/users",
+              "runtime_user": {
+                "override_target_runtime_user": false,
+                "target_default": true
+              },
+              "skip_execution": false,
+              "target": {
+                "override_workflow_target": false,
+                "override_workflow_target_group_criteria": false,
+                "use_workflow_target": true,
+                "use_workflow_target_group": false
+              }
+            },
+            "object_type": "definition_activity"
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01K8PIKZVBU1C6SFSfUk8ytRsLFrpxFDCn8",
+        "name": "Group",
+        "title": "HTTP GET with Headers",
+        "type": "logic.group",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "HTTP GET with Headers",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01K8PIRKJK2892TAjy0Djfk8bh9ncx2Aicu",
+            "name": "HTTP Request",
+            "title": "HTTP GET with Headers",
+            "type": "web-service.http_request",
+            "base_type": "activity",
+            "properties": {
+              "action_timeout": 180,
+              "allow_auto_redirect": true,
+              "continue_on_error_status_code": false,
+              "continue_on_failure": false,
+              "custom_headers": [
+                {
+                  "name": "Authorization",
+                  "value": "Bearer $workflow.definition_workflow_01K8OUE30UIFT3L8Ugle9RMwhs5kIutlfUr.local.variable_workflow_01K8PQE92A9ZB6V4avr2JzOvpSVVh7WsAUA$"
+                }
+              ],
+              "display_name": "HTTP GET with Headers",
+              "method": "GET",
+              "relative_url": "/users/2/",
+              "runtime_user": {
+                "override_target_runtime_user": false,
+                "target_default": true
+              },
+              "skip_execution": false,
+              "target": {
+                "override_workflow_target": false,
+                "override_workflow_target_group_criteria": false,
+                "use_workflow_target": true,
+                "use_workflow_target_group": false
+              }
+            },
+            "object_type": "definition_activity"
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01K8PR2EHUKJP1aMwnkkhHEBk7htd7XvkLL",
+        "name": "Group",
+        "title": "Invalid HTTP GET",
+        "type": "logic.group",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Invalid HTTP GET",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01K8PR8RL8J373NVcYHlOifYmynixphDK0s",
+            "name": "HTTP Request",
+            "title": "HTTP GET Request",
+            "type": "web-service.http_request",
+            "base_type": "activity",
+            "properties": {
+              "accept": "application/json",
+              "action_timeout": 180,
+              "allow_auto_redirect": true,
+              "continue_on_error_status_code": true,
+              "continue_on_failure": false,
+              "display_name": "HTTP GET Request",
+              "method": "GET",
+              "relative_url": "/something_invalid_here/",
+              "runtime_user": {
+                "override_target_runtime_user": false,
+                "target_default": true
+              },
+              "skip_execution": false,
+              "target": {
+                "override_workflow_target": false,
+                "override_workflow_target_group_criteria": false,
+                "use_workflow_target": true,
+                "use_workflow_target_group": false
+              }
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01K8PRB6M56NF5p63LZIWEe6i7vrTMWdYYh",
+            "name": "Condition Block",
+            "title": "Was the request successful?",
+            "type": "logic.if_else",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Was the request successful?",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "blocks": [
+              {
+                "unique_name": "definition_activity_01K8PRBB3VAAM2GcQNJX1D1JTsbbACOJMk9",
+                "name": "Condition Branch",
+                "title": "Success/200",
+                "type": "logic.condition_block",
+                "base_type": "activity",
+                "properties": {
+                  "condition": {
+                    "left_operand": "$activity.definition_activity_01K8PR8RL8J373NVcYHlOifYmynixphDK0s.output.status_code$",
+                    "operator": "eq",
+                    "right_operand": 200
+                  },
+                  "continue_on_failure": false,
+                  "display_name": "Success/200",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01K8PS0H7MDSP5VBf5jGBp3fpR6qyd3wnUt",
+                    "name": "Completed",
+                    "title": "Success!",
+                    "type": "logic.completed",
+                    "base_type": "activity",
+                    "properties": {
+                      "completion_type": "succeeded",
+                      "continue_on_failure": false,
+                      "display_name": "Success!",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              },
+              {
+                "unique_name": "definition_activity_01K8PRBC6A1MP4njSYFFMD2zXS5FOwl4dug",
+                "name": "Condition Branch",
+                "title": "Anything else",
+                "type": "logic.condition_block",
+                "base_type": "activity",
+                "properties": {
+                  "condition": {
+                    "left_operand": "$activity.definition_activity_01K8PR8RL8J373NVcYHlOifYmynixphDK0s.output.status_code$",
+                    "operator": "ne",
+                    "right_operand": 200
+                  },
+                  "continue_on_failure": false,
+                  "display_name": "Anything else",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01K8PRPSYW5WD02Teh3ocvcrjlTeHMUAZvj",
+                    "name": "Completed",
+                    "title": "Failed",
+                    "type": "logic.completed",
+                    "base_type": "activity",
+                    "properties": {
+                      "completion_type": "failed-completed",
+                      "continue_on_failure": false,
+                      "display_name": "Failed",
+                      "result_message": "Failed to execute HTTP request\n\nStatus code: $activity.definition_activity_01K8PR8RL8J373NVcYHlOifYmynixphDK0s.output.status_code$\nRespone body: $activity.definition_activity_01K8PR8RL8J373NVcYHlOifYmynixphDK0s.output.response_body$",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_01K8NQAII212R5jdJi1LLd5SCDT9F91tvBR"
+    ]
+  },
+  "categories": {
+    "category_01K8NQAII212R5jdJi1LLd5SCDT9F91tvBR": {
+      "unique_name": "category_01K8NQAII212R5jdJi1LLd5SCDT9F91tvBR",
+      "name": "Sample Workflow",
+      "title": "Sample Workflow",
+      "type": "basic.category",
+      "base_type": "category",
+      "description": "Simple workflows that show how to use various aspects of SecureX orchestration",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  },
+  "targets": {
+    "definition_target_01K8PG8NQBUL34PRlsDXNWNSHUXydaRkocw": {
+      "unique_name": "definition_target_01K8PG8NQBUL34PRlsDXNWNSHUXydaRkocw",
+      "name": "JSONPlaceholder",
+      "title": "JSONPlaceholder",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "description": "This target is provided as part of some of our sample workflows so they have a target to send HTTP requests to",
+        "disable_certificate_validation": false,
+        "display_name": "JSONPlaceholder",
+        "host": "jsonplaceholder.typicode.com",
+        "ignore_proxy": false,
+        "no_runtime_user": true,
+        "protocol": "https"
+      }
+    }
+  }
+}
