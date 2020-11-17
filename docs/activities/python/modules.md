@@ -7,7 +7,7 @@ grand_parent: Activities
 ---
 
 # Python Module List
-Here's a sample of the Python modules available:
+Here's a sample of the Python modules available in the `Execute Python Script` activity:
 
 ```text
 __future__

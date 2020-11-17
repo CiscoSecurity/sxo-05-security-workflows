@@ -5,14 +5,9 @@ nav_order: 1
 ---
 
 # Cisco SecureX orchestration
-SecureX orchestration provides a no-to-low code approach for building automated workflows. These workflows can interact with various types of resources and systems, whether they're from Cisco or a third-party.
+SecureX orchestration provides a no-to-low code approach for building automated workflows. These workflows can interact with various types of resources and systems, whether they're from Cisco or a third-party. This repository contains [atomic actions](#atomic-actions) and [workflows](#workflows) that can be imported into SecureX orchestration as well as a variety of documentation.
 
-*Resources*
-* [SecureX orchestration GitHub](https://github.com/CiscoSecurity/sxo-05-security-workflows)
-* [SecureX orchestration video series](https://www.youtube.com/playlist?list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo)
-* [SecureX product page](https://cisco.com/go/securex)
-
-This repository contains [atomic actions](#atomic-actions) and [workflows](#workflows) that can be imported into SecureX orchestration. To get started, check out the [Using this Repository]({{ site.baseurl }}/configuration) page.
+[Get Started!]({{ site.baseurl }}/getting-started){: .btn .btn-blue }
 
 ---
 
@@ -31,11 +26,11 @@ Workflows are the larger component of orchestration and are similar to a script 
 ---
 
 ## Activities
-SecureX orchestration comes with a variety of built-in activities for core functionality. These activities handle things like date and time manipulation, JSON and XML parsing, HTTP requests, and more. This section contains helpful hints and best practices for using some of these activities.
+SecureX orchestration comes with a variety of built-in activities for core functionality. These activities handle things like date and time manipulation, JSON and XML parsing, HTTP requests, and more. This section contains helpful hints, best practices, and sample workflows for some of these activities.
 
 [Documentation]({{ site.baseurl }}/activities/){: .btn .btn-blue }
 
 ---
 
 ## Disclaimer
-All content in this documentation and associated repository is provided AS-IS under the [Cisco Sample Code License](https://developer.cisco.com/site/license/cisco-sample-code-license/).
+All content in this repository is provided AS-IS under the [Cisco Sample Code License](https://github.com/CiscoSecurity/sxo-05-security-workflows/blob/Main/LICENSE.md).
