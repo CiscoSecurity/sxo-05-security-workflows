@@ -1,0 +1,119 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01K876BUQ4HEH6IFMs1eWbqeo9c4ZxlzQfH",
+    "name": "Sample - Execute Python Script",
+    "title": "Sample - Execute Python Script",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Output JSON",
+          "type": "datatype.string",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01K876ZOOO54E4qYddVHMzEnR3iUU1PiusL",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "This is some test input for the workflow!",
+          "scope": "input",
+          "name": "Input Text",
+          "type": "datatype.string",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01K876TTJU05Q6KWpbmGXEBLP35prs8hUF4",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "description": "This sample workflow shows how to use the Execute Python Script activity. The workflow has one input and one output. The input is provided to the Python script in addition to the workflow's instance ID. The script creates a JSON object out of these two inputs and returns a JSON-formatted string as output. It also prints a message to show how to use the activity's response body. Finally, the script's json_out variable is put in the workflow's output variable.\n\nRun this workflow and inspect each activity's output carefully.",
+      "display_name": "Sample - Execute Python Script",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": false,
+        "execute_on_workflow_target": false,
+        "no_target": true,
+        "specify_on_workflow_start": false
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01K8774PH3SG67CCYDWEmZu2wbAX1a393rf",
+        "name": "Execute Python Script",
+        "title": "Execute Python script",
+        "type": "python3.script",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Execute Python script",
+          "script": "import sys,json\n\njson_object = {}\njson_object['text'] = sys.argv[1]\njson_object['instance_id'] = sys.argv[2]\n\njson_out = json.dumps(json_object)\n\nprint(\"Printed output will be sent to the activity's \\\"Response Body\\\" variable\")",
+          "script_arguments": [
+            "$workflow.definition_workflow_01K876BUQ4HEH6IFMs1eWbqeo9c4ZxlzQfH.input.variable_workflow_01K876TTJU05Q6KWpbmGXEBLP35prs8hUF4$",
+            "$workflow.definition_workflow_01K876BUQ4HEH6IFMs1eWbqeo9c4ZxlzQfH.output.instance_id$"
+          ],
+          "script_queries": [
+            {
+              "script_query": "json_out",
+              "script_query_name": "json_out",
+              "script_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01K879A14H2H74eh1jLGOeInSuv42Q8J4MJ",
+        "name": "Set Variables",
+        "title": "Set output variable",
+        "type": "core.set_multiple_variables",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Set output variable",
+          "skip_execution": false,
+          "variables_to_update": [
+            {
+              "variable_to_update": "$workflow.definition_workflow_01K876BUQ4HEH6IFMs1eWbqeo9c4ZxlzQfH.output.variable_workflow_01K876ZOOO54E4qYddVHMzEnR3iUU1PiusL$",
+              "variable_value_new": "$activity.definition_activity_01K8774PH3SG67CCYDWEmZu2wbAX1a393rf.output.script_queries.json_out$"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_01K8NQAII212R5jdJi1LLd5SCDT9F91tvBR"
+    ]
+  },
+  "categories": {
+    "category_01K8NQAII212R5jdJi1LLd5SCDT9F91tvBR": {
+      "unique_name": "category_01K8NQAII212R5jdJi1LLd5SCDT9F91tvBR",
+      "name": "Sample Workflow",
+      "title": "Sample Workflow",
+      "type": "basic.category",
+      "base_type": "category",
+      "description": "Simple workflows that show how to use various aspects of SecureX orchestration",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  }
+}
