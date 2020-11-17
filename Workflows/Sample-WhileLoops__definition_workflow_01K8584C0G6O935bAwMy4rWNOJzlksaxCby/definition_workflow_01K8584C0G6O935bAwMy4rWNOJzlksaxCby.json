@@ -1,0 +1,221 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01K8584C0G6O935bAwMy4rWNOJzlksaxCby",
+    "name": "Sample - While Loops",
+    "title": "Sample - While Loops",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.boolean",
+        "properties": {
+          "value": true,
+          "scope": "local",
+          "name": "Keep Running",
+          "type": "datatype.boolean",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01K85D4WLSDC11M8aG5Au8x4jhYhj6Z4gbb",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "description": "This workflow shows two different while loops, each with their own way of controlling and stopping the loop.\n\nThe first sample uses the \"Keep Running\" local variable to control the loop. As long as this variable is true, the loop will continue. To stop the loop, we set the variable to false.\n\nThe second sample controls the loop by checking if the workflow's instance ID is equal to itself (which will always be true). This is effectively an infinite loop. To stop the loop, we use the \"Break\" activity. A \"Break\" anywhere within a while loop will cause the loop to stop.",
+      "display_name": "Sample - While Loops",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": false,
+        "execute_on_workflow_target": false,
+        "no_target": true,
+        "specify_on_workflow_start": false
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01K8586YX79X37GWV1xTGmnDQ6PFmlqF1o0",
+        "name": "While Loop",
+        "title": "While Loop (Sample 1)",
+        "type": "logic.while",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "While Loop (Sample 1)",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01K8587292AGV7QhCWApcWHt18zKAzMpCO3",
+            "name": "Condition Branch",
+            "title": "If loop variable is true...",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$workflow.definition_workflow_01K8584C0G6O935bAwMy4rWNOJzlksaxCby.local.variable_workflow_01K85D4WLSDC11M8aG5Au8x4jhYhj6Z4gbb$",
+                "operator": "eq",
+                "right_operand": true
+              },
+              "continue_on_failure": false,
+              "display_name": "If loop variable is true...",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01K8NRAW0A3LC3YNLTs2ViYWjHgY5HSzvca",
+                "name": "Sleep",
+                "title": "This will execute once",
+                "type": "core.sleep",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "This will execute once",
+                  "skip_execution": false,
+                  "sleep_interval": 2
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01K8NRY03EPQR6oVan9siECHmrNsf0vRncu",
+                "name": "Group",
+                "title": "Stop loop by setting variable to false",
+                "type": "logic.group",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Stop loop by setting variable to false",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01K85F2YU8PAK7SZrAby2XXSLf42TKpuRsV",
+                    "name": "Set Variables",
+                    "title": "Set loop variable to false",
+                    "type": "core.set_multiple_variables",
+                    "base_type": "activity",
+                    "properties": {
+                      "continue_on_failure": false,
+                      "display_name": "Set loop variable to false",
+                      "skip_execution": false,
+                      "variables_to_update": [
+                        {
+                          "variable_to_update": "$workflow.definition_workflow_01K8584C0G6O935bAwMy4rWNOJzlksaxCby.local.variable_workflow_01K85D4WLSDC11M8aG5Au8x4jhYhj6Z4gbb$",
+                          "variable_value_new": false
+                        }
+                      ]
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01K8NRT3B04NI37ETHsd50GWnA3PEL6xTFo",
+        "name": "While Loop",
+        "title": "While Loop (Sample 2)",
+        "type": "logic.while",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "While Loop (Sample 2)",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01K8NRT71NSDI2KBLup0dHt3tw6yerb6OQe",
+            "name": "Condition Branch",
+            "title": "Instance ID = Instance ID",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$workflow.definition_workflow_01K8584C0G6O935bAwMy4rWNOJzlksaxCby.output.instance_id$",
+                "operator": "eq",
+                "right_operand": "$workflow.definition_workflow_01K8584C0G6O935bAwMy4rWNOJzlksaxCby.output.instance_id$"
+              },
+              "continue_on_failure": false,
+              "display_name": "Instance ID = Instance ID",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01K8NRT83EDL16rGOjVUZ9Bwt43mtCKTEof",
+                "name": "Sleep",
+                "title": "This will execute once",
+                "type": "core.sleep",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "This will execute once",
+                  "skip_execution": false,
+                  "sleep_interval": 2
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01K8NT1FD0OTS7AZmIkxXZF7Iej4xcQN4dA",
+                "name": "Group",
+                "title": "Stop loop using a Break",
+                "type": "logic.group",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Stop loop using a Break",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01K8NRTK4FWEC7Fjq6NU3ItfUSquNeTkD7g",
+                    "name": "Break",
+                    "title": "Break",
+                    "type": "logic.break",
+                    "base_type": "activity",
+                    "properties": {
+                      "continue_on_failure": false,
+                      "display_name": "Break",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_01K8NQAII212R5jdJi1LLd5SCDT9F91tvBR"
+    ]
+  },
+  "categories": {
+    "category_01K8NQAII212R5jdJi1LLd5SCDT9F91tvBR": {
+      "unique_name": "category_01K8NQAII212R5jdJi1LLd5SCDT9F91tvBR",
+      "name": "Sample Workflow",
+      "title": "Sample Workflow",
+      "type": "basic.category",
+      "base_type": "category",
+      "description": "Simple workflows that show how to use various aspects of SecureX orchestration",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  }
+}
