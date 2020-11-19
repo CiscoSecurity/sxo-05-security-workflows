@@ -1,0 +1,160 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01KANSOLF1JJE7HlmFljhTIQYU9iXtdpl9E",
+    "name": "Sample - For Each Loop",
+    "title": "Sample - For Each Loop",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "User List",
+          "type": "datatype.string",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01KANUWTR16OI2NyoLv5AT56gPI9trF23H9",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "[\n  {\n    \"id\": 1,\n    \"name\": \"Leanne Graham\",\n    \"username\": \"lgraham\",\n    \"email\": \"leanne@company.com\"\n  },\n  {\n    \"id\": 2,\n    \"name\": \"Ervin Howell\",\n    \"username\": \"ehowell\",\n    \"email\": \"ervin@company.com\"\n  },\n  {\n    \"id\": 3,\n    \"name\": \"Clementine Bauch\",\n    \"username\": \"wrongusername\",\n    \"email\": \"clementine@company.com\"\n  },\n  {\n    \"id\": 4,\n    \"name\": \"Patricia Lebsack\",\n    \"username\": \"plebsack\",\n    \"email\": \"patricia@company.com\"\n  }\n]",
+          "scope": "input",
+          "name": "Sample JSON",
+          "type": "datatype.string",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01KANSOL333PK4gf29EusWx1cUvOrEOGlhh",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "description": "This workflow shows how to use the \"For Each\" loop to iterate through items in a table.\n\nThe first activity parses some sample JSON into a table with four rows. Then, we feed that into a for each loop. Notice that the loop runs four times, once for each row in the table. Inside the loop, we append the current row's username to a local variable. At the end of the workflow, the local variable has all four usernames in it.\n\nMore information about For Each loops and some helpful links can be found in our GitHub documentation at https://cs.co/SXO_docs\n\nRun this workflow and inspect each activity's output carefully.",
+      "display_name": "Sample - For Each Loop",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": false,
+        "execute_on_workflow_target": false,
+        "no_target": true,
+        "specify_on_workflow_start": false
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01KANSP0PQ5PK4xczVLDe2M9SudEJP0ZXzf",
+        "name": "Group",
+        "title": "Parse sample JSON to table",
+        "type": "logic.group",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Parse sample JSON to table",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01KANTT3E9LJI05FAft8W5T4GVp3Yeid84e",
+            "name": "Read Table from JSON",
+            "title": "Read Table from JSON",
+            "type": "corejava.read_table_from_json",
+            "base_type": "activity",
+            "properties": {
+              "action_timeout": 180,
+              "continue_on_failure": false,
+              "display_name": "Read Table from JSON",
+              "input_json": "$workflow.definition_workflow_01KANSOLF1JJE7HlmFljhTIQYU9iXtdpl9E.input.variable_workflow_01KANSOL333PK4gf29EusWx1cUvOrEOGlhh$",
+              "jsonpath_query": "$.",
+              "persist_output": false,
+              "populate_columns": false,
+              "skip_execution": false,
+              "table_columns": [
+                {
+                  "column_name": "id",
+                  "column_type": "integer"
+                },
+                {
+                  "column_name": "name",
+                  "column_type": "string"
+                },
+                {
+                  "column_name": "username",
+                  "column_type": "string"
+                },
+                {
+                  "column_name": "email",
+                  "column_type": "string"
+                }
+              ]
+            },
+            "object_type": "definition_activity"
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01KANTVMDG73906C5bPmE4wg91CwHV9OWDq",
+        "name": "For Each",
+        "title": "For each row in table",
+        "type": "logic.for_each",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "For each row in table",
+          "skip_execution": false,
+          "source_array": "$activity.definition_activity_01KANTT3E9LJI05FAft8W5T4GVp3Yeid84e.output.read_table_from_json$"
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01KANUR1WZCEN1k7iPyuwFn3zRj7Ge1K2Pt",
+            "name": "Set Variables",
+            "title": "Add this row to local variable",
+            "type": "core.set_multiple_variables",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Add this row to local variable",
+              "skip_execution": false,
+              "variables_to_update": [
+                {
+                  "variable_to_update": "$workflow.definition_workflow_01KANSOLF1JJE7HlmFljhTIQYU9iXtdpl9E.local.variable_workflow_01KANUWTR16OI2NyoLv5AT56gPI9trF23H9$",
+                  "variable_value_new": "$workflow.definition_workflow_01KANSOLF1JJE7HlmFljhTIQYU9iXtdpl9E.local.variable_workflow_01KANUWTR16OI2NyoLv5AT56gPI9trF23H9$\n$activity.definition_activity_01KANTVMDG73906C5bPmE4wg91CwHV9OWDq.input.source_array[@].username$"
+                }
+              ]
+            },
+            "object_type": "definition_activity"
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_01K8NQAII212R5jdJi1LLd5SCDT9F91tvBR"
+    ]
+  },
+  "categories": {
+    "category_01K8NQAII212R5jdJi1LLd5SCDT9F91tvBR": {
+      "unique_name": "category_01K8NQAII212R5jdJi1LLd5SCDT9F91tvBR",
+      "name": "Sample Workflow",
+      "title": "Sample Workflow",
+      "type": "basic.category",
+      "base_type": "category",
+      "description": "Simple workflows that show how to use various aspects of SecureX orchestration",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  }
+}
