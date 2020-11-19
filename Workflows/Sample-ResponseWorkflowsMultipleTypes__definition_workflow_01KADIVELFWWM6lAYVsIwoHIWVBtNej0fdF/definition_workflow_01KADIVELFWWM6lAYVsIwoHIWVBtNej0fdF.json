@@ -1,0 +1,300 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01KADIVELFWWM6lAYVsIwoHIWVBtNej0fdF",
+    "name": "Sample - Response Workflow (Multiple Types)",
+    "title": "Sample - Response Workflow (Multiple Types)",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "observable_value",
+          "type": "datatype.string",
+          "description": "The value of the observable that was pivoted on",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01KADIVEAC27L6MFsQVUnoOl8dS2XQn7Sjz",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "observable_type",
+          "type": "datatype.string",
+          "description": "The type of observable pivoted on. Examples include: url, domain, ip, sha256, and so on",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01KADIVEABXRA2o4TDDmW7TvKo7VpseFhAa",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "description": "This sample shows how a response workflow works. These workflows appear in Threat Response and SecureX pivot menus so you can take custom actions on an observable.\n\nThe primary requirements for these workflows are:\n1. A category of \"response\"\n2. An input variable named \"observable_type\"\n3. An input variable named \"observable_value\"\n4. That they be in a \"Validated\" state\n\nFor this sample, we're showing how to support multiple types of observables: URLs, domains, IPv4, hostnames, and AMP computer GUIDs.\n\nMore information about response workflows and some helpful links can be found in our GitHub documentation.\n\nTo run this workflow, open a pivot menu from an observable in Threat Response or the SecureX ribbon and select it under the SecureX orchestration section. Pivoting on a supported observable should result in success, pivoting on anything else will result in the workflow failing.",
+      "display_name": "Sample - Response Workflow (Multiple Types)",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": false,
+        "execute_on_workflow_target": false,
+        "no_target": true,
+        "specify_on_workflow_start": false
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01KADIWRBX8DC0tUyFpwrhpjLJd0vfgkmZ0",
+        "name": "Condition Block",
+        "title": "What type of observable was provided?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "What type of observable was provided?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01KADIWXSLALI4bS6OjWpFeksdDAyPX8aYX",
+            "name": "Condition Branch",
+            "title": "URL",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$workflow.definition_workflow_01KADIVELFWWM6lAYVsIwoHIWVBtNej0fdF.input.variable_workflow_01KADIVEABXRA2o4TDDmW7TvKo7VpseFhAa$",
+                "operator": "eqi",
+                "right_operand": "url"
+              },
+              "continue_on_failure": false,
+              "display_name": "URL",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01KADIX2X987F2XT7XRRsM8boSE8Ynu25aA",
+                "name": "Completed",
+                "title": "Do something with URL",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "succeeded",
+                  "continue_on_failure": false,
+                  "display_name": "Do something with URL",
+                  "result_message": "Observable type: $workflow.definition_workflow_01KADIVELFWWM6lAYVsIwoHIWVBtNej0fdF.input.variable_workflow_01KADIVEABXRA2o4TDDmW7TvKo7VpseFhAa$\n\nObservable value: $workflow.definition_workflow_01KADIVELFWWM6lAYVsIwoHIWVBtNej0fdF.input.variable_workflow_01KADIVEAC27L6MFsQVUnoOl8dS2XQn7Sjz$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01KADIX99G2D475Nm8Lwt3W1zIy3l0O8xu9",
+            "name": "Condition Branch",
+            "title": "Domain",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$workflow.definition_workflow_01KADIVELFWWM6lAYVsIwoHIWVBtNej0fdF.input.variable_workflow_01KADIVEABXRA2o4TDDmW7TvKo7VpseFhAa$",
+                "operator": "eqi",
+                "right_operand": "domain"
+              },
+              "continue_on_failure": false,
+              "display_name": "Domain",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01KADIXCYJ79K3lYot7rBbJwiy24ze5onUt",
+                "name": "Completed",
+                "title": "Do something with domain",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "succeeded",
+                  "continue_on_failure": false,
+                  "display_name": "Do something with domain",
+                  "result_message": "Observable type: $workflow.definition_workflow_01KADIVELFWWM6lAYVsIwoHIWVBtNej0fdF.input.variable_workflow_01KADIVEABXRA2o4TDDmW7TvKo7VpseFhAa$\n\nObservable value: $workflow.definition_workflow_01KADIVELFWWM6lAYVsIwoHIWVBtNej0fdF.input.variable_workflow_01KADIVEAC27L6MFsQVUnoOl8dS2XQn7Sjz$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01KADIXJFL0SK6oClfipYmE2jQ8heFIv4AM",
+            "name": "Condition Branch",
+            "title": "IP (v4)",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$workflow.definition_workflow_01KADIVELFWWM6lAYVsIwoHIWVBtNej0fdF.input.variable_workflow_01KADIVEABXRA2o4TDDmW7TvKo7VpseFhAa$",
+                "operator": "eqi",
+                "right_operand": "ip"
+              },
+              "continue_on_failure": false,
+              "display_name": "IP (v4)",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01KADIXNC51FI50VN5XahTR84LtnyZA7nqe",
+                "name": "Completed",
+                "title": "Do something with IP",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "succeeded",
+                  "continue_on_failure": false,
+                  "display_name": "Do something with IP",
+                  "result_message": "Observable type: $workflow.definition_workflow_01KADIVELFWWM6lAYVsIwoHIWVBtNej0fdF.input.variable_workflow_01KADIVEABXRA2o4TDDmW7TvKo7VpseFhAa$\n\nObservable value: $workflow.definition_workflow_01KADIVELFWWM6lAYVsIwoHIWVBtNej0fdF.input.variable_workflow_01KADIVEAC27L6MFsQVUnoOl8dS2XQn7Sjz$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01KADIXTZ2NIK0vRX46Ealq1OFYOZ8FTB66",
+            "name": "Condition Branch",
+            "title": "Hostname",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$workflow.definition_workflow_01KADIVELFWWM6lAYVsIwoHIWVBtNej0fdF.input.variable_workflow_01KADIVEABXRA2o4TDDmW7TvKo7VpseFhAa$",
+                "operator": "eqi",
+                "right_operand": "hostname"
+              },
+              "continue_on_failure": false,
+              "display_name": "Hostname",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01KADIXYQWU8F3fY3qOoK8Lk8c5DMYMnO3R",
+                "name": "Completed",
+                "title": "Do something with hostname",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "succeeded",
+                  "continue_on_failure": false,
+                  "display_name": "Do something with hostname",
+                  "result_message": "Observable type: $workflow.definition_workflow_01KADIVELFWWM6lAYVsIwoHIWVBtNej0fdF.input.variable_workflow_01KADIVEABXRA2o4TDDmW7TvKo7VpseFhAa$\n\nObservable value: $workflow.definition_workflow_01KADIVELFWWM6lAYVsIwoHIWVBtNej0fdF.input.variable_workflow_01KADIVEAC27L6MFsQVUnoOl8dS2XQn7Sjz$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01KADIY59FYEB4pU2O7AiY2ghg0lijszs1N",
+            "name": "Condition Branch",
+            "title": "AMP Computer GUID",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$workflow.definition_workflow_01KADIVELFWWM6lAYVsIwoHIWVBtNej0fdF.input.variable_workflow_01KADIVEABXRA2o4TDDmW7TvKo7VpseFhAa$",
+                "operator": "eqi",
+                "right_operand": "amp_computer_guid"
+              },
+              "continue_on_failure": false,
+              "display_name": "AMP Computer GUID",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01KADIY99G1LX5Gk4wSU7uFRlwwTiwrvPm7",
+                "name": "Completed",
+                "title": "Do something with AMP GUID",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "succeeded",
+                  "continue_on_failure": false,
+                  "display_name": "Do something with AMP GUID",
+                  "result_message": "Observable type: $workflow.definition_workflow_01KADIVELFWWM6lAYVsIwoHIWVBtNej0fdF.input.variable_workflow_01KADIVEABXRA2o4TDDmW7TvKo7VpseFhAa$\n\nObservable value: $workflow.definition_workflow_01KADIVELFWWM6lAYVsIwoHIWVBtNej0fdF.input.variable_workflow_01KADIVEAC27L6MFsQVUnoOl8dS2XQn7Sjz$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01KADIYJ5AQRN5a3Ww6edrYFqQ8upMKUuf8",
+            "name": "Condition Branch",
+            "title": "Anything else",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$workflow.definition_workflow_01KADIVELFWWM6lAYVsIwoHIWVBtNej0fdF.output.instance_id$",
+                "operator": "eq",
+                "right_operand": "$workflow.definition_workflow_01KADIVELFWWM6lAYVsIwoHIWVBtNej0fdF.output.instance_id$"
+              },
+              "continue_on_failure": false,
+              "display_name": "Anything else",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01KADIYNBRC0V3UmXdgpNS4vE3MXkIHeXoh",
+                "name": "Completed",
+                "title": "End the workflow",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "End the workflow",
+                  "result_message": "The observable type \"$workflow.definition_workflow_01KADIVELFWWM6lAYVsIwoHIWVBtNej0fdF.input.variable_workflow_01KADIVEABXRA2o4TDDmW7TvKo7VpseFhAa$\" is not supported by this workflow",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m"
+    ]
+  },
+  "categories": {
+    "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m": {
+      "unique_name": "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m",
+      "name": "response",
+      "title": "response",
+      "type": "basic.category",
+      "base_type": "category",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  }
+}
