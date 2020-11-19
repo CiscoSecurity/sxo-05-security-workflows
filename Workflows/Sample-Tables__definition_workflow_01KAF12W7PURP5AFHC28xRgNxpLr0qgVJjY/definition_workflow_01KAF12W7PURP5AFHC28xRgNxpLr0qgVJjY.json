@@ -1,0 +1,553 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01KAF12W7PURP5AFHC28xRgNxpLr0qgVJjY",
+    "name": "Sample - Tables",
+    "title": "Sample - Tables",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "User List After",
+          "type": "datatype.string",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01KAF7CKU0LWV4qoXb04gpJYVaw6NJ4mlMV",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "User List Before",
+          "type": "datatype.string",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01KAF5CXB9W7X1ss4dHktxedIMv8vQQ96mJ",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "description": "This sample shows how to parse data into tables. The left branch shows how to parse JSON into a table and then manipulate the resulting table. The middle branch shows how to parse text into a table. The right branch shows how to parse XML into a table. Note that the tables produced by these three parsing functions are all the same and can be used with the same add, select, update, and delete activities.\n\nMore information about tables can be found in our GitHub documentation at https://cs.co/SXO_docs",
+      "display_name": "Sample - Tables",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": false,
+        "execute_on_workflow_target": false,
+        "no_target": true,
+        "specify_on_workflow_start": false
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01KAGY9SWCWWT6WCeAZajRyphBbzd87DNrv",
+        "name": "Parallel Block",
+        "title": "Three examples of parsing data to tables",
+        "type": "logic.parallel",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Three examples of parsing data to tables",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01KAGYA0LF2YA25LobSYXcMZJGPKIvqzaLQ",
+            "name": "Parallel Branch",
+            "title": "Table from JSON",
+            "type": "logic.parallel_block",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Table from JSON",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01KAF1GSEI7TZ7m15SnE0n0imh0HwjpDpKt",
+                "name": "Read Table from JSON",
+                "title": "Read Table from JSON",
+                "type": "corejava.read_table_from_json",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "continue_on_failure": false,
+                  "description": "Note that \"Persist Table\" is checked to keep the table available for manipulation later. If you don't check this, you can only read from the table",
+                  "display_name": "Read Table from JSON",
+                  "input_json": "[\n  {\n    \"id\": 1,\n    \"name\": \"Leanne Graham\",\n    \"username\": \"lgraham\",\n    \"email\": \"leanne@company.com\"\n  },\n  {\n    \"id\": 2,\n    \"name\": \"Ervin Howell\",\n    \"username\": \"ehowell\",\n    \"email\": \"ervin@company.com\"\n  },\n  {\n    \"id\": 3,\n    \"name\": \"Clementine Bauch\",\n    \"username\": \"wrongusername\",\n    \"email\": \"clementine@company.com\"\n  },\n  {\n    \"id\": 4,\n    \"name\": \"Patricia Lebsack\",\n    \"username\": \"plebsack\",\n    \"email\": \"patricia@company.com\"\n  }\n]",
+                  "jsonpath_query": "$.",
+                  "persist_output": true,
+                  "populate_columns": false,
+                  "skip_execution": false,
+                  "table_columns": [
+                    {
+                      "column_name": "id",
+                      "column_type": "integer"
+                    },
+                    {
+                      "column_name": "name",
+                      "column_type": "string"
+                    },
+                    {
+                      "column_name": "username",
+                      "column_type": "string"
+                    },
+                    {
+                      "column_name": "email",
+                      "column_type": "string"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01KAF4EXBXP2S4Q2BSl7fjkEZGUWWGbo1xB",
+                "name": "Group",
+                "title": "Loop through each item in the resulting table",
+                "type": "logic.group",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Loop through each item in the resulting table",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01KAF4FTM14RI1EeniCAAsndBE5GFTOyLWi",
+                    "name": "For Each",
+                    "title": "For each row",
+                    "type": "logic.for_each",
+                    "base_type": "activity",
+                    "properties": {
+                      "continue_on_failure": false,
+                      "display_name": "For each row",
+                      "skip_execution": false,
+                      "source_array": "$activity.definition_activity_01KAF1GSEI7TZ7m15SnE0n0imh0HwjpDpKt.output.read_table_from_json$"
+                    },
+                    "object_type": "definition_activity",
+                    "actions": [
+                      {
+                        "unique_name": "definition_activity_01KAF575DB2EU72QfJbxZ8iWADKV3pFiVtC",
+                        "name": "Set Variables",
+                        "title": "Add user to local variable list",
+                        "type": "core.set_multiple_variables",
+                        "base_type": "activity",
+                        "properties": {
+                          "continue_on_failure": false,
+                          "display_name": "Add user to local variable list",
+                          "skip_execution": false,
+                          "variables_to_update": [
+                            {
+                              "variable_to_update": "$workflow.definition_workflow_01KAF12W7PURP5AFHC28xRgNxpLr0qgVJjY.local.variable_workflow_01KAF5CXB9W7X1ss4dHktxedIMv8vQQ96mJ$",
+                              "variable_value_new": "$workflow.definition_workflow_01KAF12W7PURP5AFHC28xRgNxpLr0qgVJjY.local.variable_workflow_01KAF5CXB9W7X1ss4dHktxedIMv8vQQ96mJ$\nName: $activity.definition_activity_01KAF4FTM14RI1EeniCAAsndBE5GFTOyLWi.input.source_array[@].name$, Username: $activity.definition_activity_01KAF4FTM14RI1EeniCAAsndBE5GFTOyLWi.input.source_array[@].username$"
+                            }
+                          ]
+                        },
+                        "object_type": "definition_activity"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "unique_name": "definition_activity_01KAF687KXWUX2QAmEbnphyKLrAZOaZTZxF",
+                "name": "Group",
+                "title": "Add a new row to the table",
+                "type": "logic.group",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Add a new row to the table",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01KAF1I84TW9O7YttcS55umiVt1TclbJT4w",
+                    "name": "Add Row to Table",
+                    "title": "Add Row to Table",
+                    "type": "core.addrowtotable",
+                    "base_type": "activity",
+                    "properties": {
+                      "action_timeout": 180,
+                      "continue_on_failure": false,
+                      "display_name": "Add Row to Table",
+                      "input_table": "$activity.definition_activity_01KAF1GSEI7TZ7m15SnE0n0imh0HwjpDpKt.output.read_table_from_json$",
+                      "row": [
+                        {
+                          "key": "id",
+                          "type": "integer",
+                          "value": 5
+                        },
+                        {
+                          "key": "name",
+                          "type": "string",
+                          "value": "Bob Jones"
+                        },
+                        {
+                          "key": "username",
+                          "type": "string",
+                          "value": "bjones"
+                        },
+                        {
+                          "key": "email",
+                          "type": "string",
+                          "value": "bjones@company.com"
+                        }
+                      ],
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              },
+              {
+                "unique_name": "definition_activity_01KAF6GUYKB7X7SpnzSL9pv479mAvxD7jRz",
+                "name": "Group",
+                "title": "Select a row from the table",
+                "type": "logic.group",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Select a row from the table",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01KAF1JLSE2PI1GNrIkhaQl4dSVEVF89gM5",
+                    "name": "Select from Table",
+                    "title": "Select from Table",
+                    "type": "core.selectfromtable",
+                    "base_type": "activity",
+                    "properties": {
+                      "action_timeout": 180,
+                      "columns": [
+                        {
+                          "column_name": "id",
+                          "column_type": "integer"
+                        },
+                        {
+                          "column_name": "name",
+                          "column_type": "string"
+                        },
+                        {
+                          "column_name": "username",
+                          "column_type": "string"
+                        },
+                        {
+                          "column_name": "email",
+                          "column_type": "string"
+                        }
+                      ],
+                      "continue_on_failure": false,
+                      "display_name": "Select from Table",
+                      "input_table": "$activity.definition_activity_01KAF1GSEI7TZ7m15SnE0n0imh0HwjpDpKt.output.read_table_from_json$",
+                      "number_of_rows": {
+                        "at_most": true,
+                        "first_n_rows": 1
+                      },
+                      "persist_output": false,
+                      "skip_execution": false,
+                      "sorting": {
+                        "no_sort": true,
+                        "sort_by": false
+                      },
+                      "where_clause": "id == 3"
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              },
+              {
+                "unique_name": "definition_activity_01KAF6PMYU0AI6IpUWJdDNZcVdXGW9o903i",
+                "name": "Group",
+                "title": "Update an existing row in the table",
+                "type": "logic.group",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Update an existing row in the table",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01KAF1KJSKNLY1pVQlmeJyAR0Pizrvtlhuf",
+                    "name": "Update Row in Table",
+                    "title": "Update Row in Table",
+                    "type": "core.updaterowintable",
+                    "base_type": "activity",
+                    "properties": {
+                      "action_timeout": 180,
+                      "columns": [
+                        {
+                          "column_name": "username",
+                          "column_type": "string"
+                        }
+                      ],
+                      "continue_on_failure": false,
+                      "display_name": "Update Row in Table",
+                      "input_table": "$activity.definition_activity_01KAF1GSEI7TZ7m15SnE0n0imh0HwjpDpKt.output.read_table_from_json$",
+                      "row": [
+                        {
+                          "key": "username",
+                          "type": "string",
+                          "value": "cbauch"
+                        }
+                      ],
+                      "rows": {
+                        "rows_matching_criteria": true,
+                        "where_clause": "id == $activity.definition_activity_01KAF1JLSE2PI1GNrIkhaQl4dSVEVF89gM5.output.output_table[0].id$"
+                      },
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              },
+              {
+                "unique_name": "definition_activity_01KAF71C9XAUV2wIvjrAW2hLOjZ7nDmqaCD",
+                "name": "Group",
+                "title": "Delete a row from the table",
+                "type": "logic.group",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Delete a row from the table",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01KAF1LSLFTIN01qRWj1rdAOXD2APfY0erq",
+                    "name": "Delete from Table",
+                    "title": "Delete from Table",
+                    "type": "core.deleterowfromtable",
+                    "base_type": "activity",
+                    "properties": {
+                      "action_timeout": 180,
+                      "continue_on_failure": false,
+                      "display_name": "Delete from Table",
+                      "input_table": "$activity.definition_activity_01KAF1GSEI7TZ7m15SnE0n0imh0HwjpDpKt.output.read_table_from_json$",
+                      "rows": {
+                        "rows_matching_criteria": true,
+                        "where_clause": "id == 1"
+                      },
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              },
+              {
+                "unique_name": "definition_activity_01KAF7DS2KLG47P4VaZmzeAx1bJhRA8TvfA",
+                "name": "Group",
+                "title": "Loop through each item in the updated table",
+                "type": "logic.group",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Loop through each item in the updated table",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01KAF7E0WBTPB7WrUaY3iDkqXElKWl9sDb5",
+                    "name": "For Each",
+                    "title": "For each row",
+                    "type": "logic.for_each",
+                    "base_type": "activity",
+                    "properties": {
+                      "continue_on_failure": false,
+                      "display_name": "For each row",
+                      "skip_execution": false,
+                      "source_array": "$activity.definition_activity_01KAF1GSEI7TZ7m15SnE0n0imh0HwjpDpKt.output.read_table_from_json$"
+                    },
+                    "object_type": "definition_activity",
+                    "actions": [
+                      {
+                        "unique_name": "definition_activity_01KAF7E5VWGI42XoQ5nbj8vOxURUzdNz765",
+                        "name": "Set Variables",
+                        "title": "Add user to local variable list",
+                        "type": "core.set_multiple_variables",
+                        "base_type": "activity",
+                        "properties": {
+                          "continue_on_failure": false,
+                          "display_name": "Add user to local variable list",
+                          "skip_execution": false,
+                          "variables_to_update": [
+                            {
+                              "variable_to_update": "$workflow.definition_workflow_01KAF12W7PURP5AFHC28xRgNxpLr0qgVJjY.local.variable_workflow_01KAF7CKU0LWV4qoXb04gpJYVaw6NJ4mlMV$",
+                              "variable_value_new": "$workflow.definition_workflow_01KAF12W7PURP5AFHC28xRgNxpLr0qgVJjY.local.variable_workflow_01KAF7CKU0LWV4qoXb04gpJYVaw6NJ4mlMV$\nName: $activity.definition_activity_01KAF7E0WBTPB7WrUaY3iDkqXElKWl9sDb5.input.source_array[@].name$, Username: $activity.definition_activity_01KAF7E0WBTPB7WrUaY3iDkqXElKWl9sDb5.input.source_array[@].username$"
+                            }
+                          ]
+                        },
+                        "object_type": "definition_activity"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01KAGYA1N5K2N74vYRjl96cAtRfzyIek8aP",
+            "name": "Parallel Branch",
+            "title": "Table from text",
+            "type": "logic.parallel_block",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Table from text",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01KAGYCIS57YE4eNnRLEKzPZDQRQ0WDpwBO",
+                "name": "Read Table from Text",
+                "title": "Read Table from Text",
+                "type": "core.read_table_from_text",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "delimiters": [
+                    {
+                      "delimiter": ","
+                    }
+                  ],
+                  "display_name": "Read Table from Text",
+                  "input_text": "id,name,username,email\n1,Leanne Graham,lgraham,leanne@company.com\n2,Ervin Howell,ehowell,ervin@company.com\n3,Clementine Bauch,wrongusername,clementine@company.com\n4,Patricia Lebsack,plebsack,patricia@company.com",
+                  "persist_output": true,
+                  "populate_columns": true,
+                  "skip_execution": false,
+                  "table_columns": [
+                    {
+                      "column_name": "id",
+                      "column_type": "string"
+                    },
+                    {
+                      "column_name": "name",
+                      "column_type": "string"
+                    },
+                    {
+                      "column_name": "username",
+                      "column_type": "string"
+                    },
+                    {
+                      "column_name": "email",
+                      "column_type": "string"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01KAH3O67O2694cdhkI1l4zm9nNdy0yVRu2",
+                "name": "Sleep",
+                "title": "The same functions as the JSON example could be used here...",
+                "type": "core.sleep",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "The same functions as the JSON example could be used here...",
+                  "skip_execution": false,
+                  "sleep_interval": 1
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01KAGYDDUAEVC0DaimQFKlLV600g6eyWeG5",
+            "name": "Parallel Branch",
+            "title": "Table from XML",
+            "type": "logic.parallel_block",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Table from XML",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01KAGYEGK8O496EkNB5Ri4R1DJr4WC8rF4X",
+                "name": "Read Table from XML",
+                "title": "Read Table from XML",
+                "type": "corejava.read_table_from_xml",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "continue_on_failure": false,
+                  "display_name": "Read Table from XML",
+                  "input_xml": "\u003c?xml version=\"1.0\" encoding=\"UTF-8\" ?\u003e\n\u003croot\u003e\n  \u003crow\u003e\n    \u003cid\u003e1\u003c/id\u003e\n    \u003cname\u003eLeanne Graham\u003c/name\u003e\n    \u003cusername\u003elgraham\u003c/username\u003e\n    \u003cemail\u003eleanne@company.com\u003c/email\u003e\n  \u003c/row\u003e\n  \u003crow\u003e\n    \u003cid\u003e2\u003c/id\u003e\n    \u003cname\u003eErvin Howell\u003c/name\u003e\n    \u003cusername\u003eehowell\u003c/username\u003e\n    \u003cemail\u003eervin@company.com\u003c/email\u003e\n  \u003c/row\u003e\n  \u003crow\u003e\n    \u003cid\u003e3\u003c/id\u003e\n    \u003cname\u003eClementine Bauch\u003c/name\u003e\n    \u003cusername\u003ewrongusername\u003c/username\u003e\n    \u003cemail\u003eclementine@company.com\u003c/email\u003e\n  \u003c/row\u003e\n  \u003crow\u003e\n    \u003cid\u003e4\u003c/id\u003e\n    \u003cname\u003ePatricia Lebsack\u003c/name\u003e\n    \u003cusername\u003eplebsack\u003c/username\u003e\n    \u003cemail\u003epatricia@company.com\u003c/email\u003e\n  \u003c/row\u003e\n\u003c/root\u003e",
+                  "persist_output": true,
+                  "populate_columns": false,
+                  "skip_execution": false,
+                  "table_columns": [
+                    {
+                      "column_name": "id",
+                      "column_type": "integer"
+                    },
+                    {
+                      "column_name": "name",
+                      "column_type": "string"
+                    },
+                    {
+                      "column_name": "username",
+                      "column_type": "string"
+                    },
+                    {
+                      "column_name": "email",
+                      "column_type": "string"
+                    }
+                  ],
+                  "xmlpath_query": "/root/row"
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01KAH3R5M1DQA7Y3jreORcdFNS1ZVirxzD5",
+                "name": "Sleep",
+                "title": "The same functions as the JSON example could be used here...",
+                "type": "core.sleep",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "The same functions as the JSON example could be used here...",
+                  "skip_execution": false,
+                  "sleep_interval": 1
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}
