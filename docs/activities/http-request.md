@@ -6,7 +6,7 @@ parent: Activities
 ---
 
 # HTTP Request
-*Category: Web Service*
+_Category: Web Service_
 
 This activity allows you to make HTTP requests to a target and is highly customizable. You can select what HTTP method to use, define your own headers, provide a payload to send, and more. After the activity completes, it'll provide you information about the request such as the HTTP status code and the response received.
 

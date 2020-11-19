@@ -25,7 +25,7 @@ When configuring a workflow to use a target group, you need to provide criteria 
 * `HTTP Endpoint` targets are being selected; and
 * The default target is an `HTTP Endpoint` whose `Display Name` equals `CTR_API`
 
-*Note: `Choose first with matching criteria` means that the first matching target will be selected. If you select `Choose all with matching criteria` the workflow will execute for each matching target.*
+_Note: `Choose first with matching criteria` means that the first matching target will be selected. If you select `Choose all with matching criteria` the workflow will execute for each matching target._
 
 ![]({{ site.baseurl }}/assets/images/target-groups/workflow.png)
 

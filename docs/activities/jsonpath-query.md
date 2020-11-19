@@ -6,7 +6,7 @@ parent: Activities
 ---
 
 # JSONPath Query
-*Category: Core*
+_Category: Core_
 
 This activity allows you to easily extract information from a JSON-formatted string. Instead of having to use complicated regular expression to parse JSON, you can use a JSONPath to traverse the JSON's structure and extract the data you want. These paths can be simple (`$.user.firstName`) or complex (`$.users[?(@.firstName == 'John')].phoneNumbers[0].number`).
 

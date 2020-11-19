@@ -6,7 +6,7 @@ parent: Activities
 ---
 
 # While Loop
-*Category: Logic*
+_Category: Logic_
 
 While loops are one of the two types of loops available in SecureX orchestration. This type of loop will continue running as long as its control condition is true. You can also stop this type of loop using a `Break` activity.
 
@@ -21,7 +21,7 @@ While loops run as long as their control condition is true. This control conditi
 
 ### Using a Loop Control Variable
 1. Create a local variable using the `Boolean` data type and set its value to `true`
-1. Add a `While Loop` activity and set its condition to check whether or not the local variable you created is *equal* to `true`
+1. Add a `While Loop` activity and set its condition to check whether or not the local variable you created is _equal_ to `true`
 1. Inside the loop, when you're ready for the loop to end, you can either set the local variable to `false` or use a `Break` activity
 
 ---

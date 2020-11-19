@@ -49,11 +49,11 @@ Target Group: `Default TargetGroup`
 
 | Target Name | Type | Details | Account Keys | Notes |
 |:------------|:-----|:--------|:-------------|:------|
-| Talos Intelligence Blog | HTTP Endpoint | *Protocol:* `HTTPS`<br />*Host:* `feeds.feedburner.com`<br />*Path:* `/feedburner/Talos` | None |
-| CTR_For_Access_Token | HTTP Endpoint | *Protocol:* `HTTPS`<br />*Host:* `visibility.amp.cisco.com`<br />*Path:* `/iroh` | CTR_Credentials | Created by default |
-| CTR_API | HTTP Endpoint | *Protocol:* `HTTPS`<br />*Host:* `visibility.amp.cisco.com`<br />*Path:* `/iroh` | None | Created by default |
-| Private_CTIA_Target | HTTP Endpoint | *Protocol:* `HTTPS`<br />*Host:* `private.intel.amp.cisco.com`<br />*Path:* None | None | Created by default |
-| Webex Teams  | HTTP Endpoint | *Protocol:* `HTTPS`<br />*Host:* `webexapis.com`<br />*Path:* None | None | Not required if Webex activities are disabled |
+| Talos Intelligence Blog | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `feeds.feedburner.com`<br />_Path:_ `/feedburner/Talos` | None |
+| CTR_For_Access_Token | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `visibility.amp.cisco.com`<br />_Path:_ `/iroh` | CTR_Credentials | Created by default |
+| CTR_API | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `visibility.amp.cisco.com`<br />_Path:_ `/iroh` | None | Created by default |
+| Private_CTIA_Target | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `private.intel.amp.cisco.com`<br />_Path:_ None | None | Created by default |
+| Webex Teams  | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `webexapis.com`<br />_Path:_ None | None | Not required if Webex activities are disabled |
 
 ---
 
@@ -61,4 +61,4 @@ Target Group: `Default TargetGroup`
 
 | Account Key Name | Type | Details | Notes |
 |:-----------------|:-----|:--------|:------|
-| CTR_Credentials | HTTP Basic Authentication | *Username:* Client ID<br />*Password:* Client Secret | Created by default |
+| CTR_Credentials | HTTP Basic Authentication | _Username:_ Client ID<br />_Password:_ Client Secret | Created by default |

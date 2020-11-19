@@ -8,7 +8,7 @@ has_toc: false
 ---
 
 # Execute Python Script
-*Category: Python*
+_Category: Python_
 
 This activity allows you to run a Python script within an orchestration workflow.
 
