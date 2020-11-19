@@ -1,0 +1,87 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01KANETY9D6814jzM6ZVKRaOJYo0BYULQG3",
+    "name": "Sample - XPath Query",
+    "title": "Sample - XPath Query",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "\u003c?xml version=\"1.0\" encoding=\"UTF-8\" ?\u003e\n\u003croot\u003e\n  \u003crow\u003e\n    \u003cid\u003e1\u003c/id\u003e\n    \u003cname\u003eLeanne Graham\u003c/name\u003e\n    \u003cusername\u003elgraham\u003c/username\u003e\n    \u003cemail\u003eleanne@company.com\u003c/email\u003e\n  \u003c/row\u003e\n  \u003crow\u003e\n    \u003cid\u003e2\u003c/id\u003e\n    \u003cname\u003eErvin Howell\u003c/name\u003e\n    \u003cusername\u003eehowell\u003c/username\u003e\n    \u003cemail\u003eervin@company.com\u003c/email\u003e\n  \u003c/row\u003e\n  \u003crow\u003e\n    \u003cid\u003e3\u003c/id\u003e\n    \u003cname\u003eClementine Bauch\u003c/name\u003e\n    \u003cusername\u003ewrongusername\u003c/username\u003e\n    \u003cemail\u003eclementine@company.com\u003c/email\u003e\n  \u003c/row\u003e\n  \u003crow\u003e\n    \u003cid\u003e4\u003c/id\u003e\n    \u003cname\u003ePatricia Lebsack\u003c/name\u003e\n    \u003cusername\u003eplebsack\u003c/username\u003e\n    \u003cemail\u003epatricia@company.com\u003c/email\u003e\n  \u003c/row\u003e\n\u003c/root\u003e",
+          "scope": "input",
+          "name": "Sample XML",
+          "type": "datatype.string",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01KANETXWM4O61ipTVduKEwiTgJrKYQvA1E",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "description": "This workflow shows how to use the \"XPath Query\" activity to extract information from XML-formatted text.\n\nThe XPath Query activity shows multiple examples of valid path queries for the sample XML provided with the workflow.\n\nMore information about XPath Query and some helpful links can be found in our GitHub documentation at https://cs.co/SXO_docs\n\nRun this workflow and inspect each activity's output carefully.",
+      "display_name": "Sample - XPath Query",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": false,
+        "execute_on_workflow_target": false,
+        "no_target": true,
+        "specify_on_workflow_start": false
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01KANFTG3KLHA6zQx0huHJEW9KebQADUaeb",
+        "name": "XPath Query",
+        "title": "XPath Query",
+        "type": "core.xpathquery",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "XPath Query",
+          "input_xml": "$workflow.definition_workflow_01KANETY9D6814jzM6ZVKRaOJYo0BYULQG3.input.variable_workflow_01KANETXWM4O61ipTVduKEwiTgJrKYQvA1E$",
+          "skip_execution": false,
+          "xpath_queries": [
+            {
+              "xpath_query": "/root/row[1]/username",
+              "xpath_query_name": "row1_username",
+              "xpath_query_type": "string"
+            },
+            {
+              "xpath_query": "/root/row[username = 'ehowell']/email",
+              "xpath_query_name": "email_for_ehowell",
+              "xpath_query_type": "string"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_01K8NQAII212R5jdJi1LLd5SCDT9F91tvBR"
+    ]
+  },
+  "categories": {
+    "category_01K8NQAII212R5jdJi1LLd5SCDT9F91tvBR": {
+      "unique_name": "category_01K8NQAII212R5jdJi1LLd5SCDT9F91tvBR",
+      "name": "Sample Workflow",
+      "title": "Sample Workflow",
+      "type": "basic.category",
+      "base_type": "category",
+      "description": "Simple workflows that show how to use various aspects of SecureX orchestration",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  }
+}
