@@ -11,12 +11,12 @@
         "properties": {
           "value": "",
           "scope": "local",
-          "name": "User List Before",
+          "name": "User List After",
           "type": "datatype.string",
           "is_required": false,
           "is_invisible": false
         },
-        "unique_name": "variable_workflow_01KAF5CXB9W7X1ss4dHktxedIMv8vQQ96mJ",
+        "unique_name": "variable_workflow_01KAF7CKU0LWV4qoXb04gpJYVaw6NJ4mlMV",
         "object_type": "variable_workflow"
       },
       {
@@ -24,12 +24,12 @@
         "properties": {
           "value": "",
           "scope": "local",
-          "name": "User List After",
+          "name": "User List Before",
           "type": "datatype.string",
           "is_required": false,
           "is_invisible": false
         },
-        "unique_name": "variable_workflow_01KAF7CKU0LWV4qoXb04gpJYVaw6NJ4mlMV",
+        "unique_name": "variable_workflow_01KAF5CXB9W7X1ss4dHktxedIMv8vQQ96mJ",
         "object_type": "variable_workflow"
       }
     ],
@@ -57,12 +57,12 @@
       {
         "unique_name": "definition_activity_01KAGY9SWCWWT6WCeAZajRyphBbzd87DNrv",
         "name": "Parallel Block",
-        "title": "Three examples of parsing data to tables",
+        "title": "Four examples of creating tables",
         "type": "logic.parallel",
         "base_type": "activity",
         "properties": {
           "continue_on_failure": false,
-          "display_name": "Three examples of parsing data to tables",
+          "display_name": "Four examples of creating tables",
           "skip_execution": false
         },
         "object_type": "definition_activity",
@@ -268,8 +268,7 @@
                       "persist_output": false,
                       "skip_execution": false,
                       "sorting": {
-                        "no_sort": true,
-                        "sort_by": false
+                        "no_sort": true
                       },
                       "where_clause": "id == 3"
                     },
@@ -440,25 +439,7 @@
                   "input_text": "id,name,username,email\n1,Leanne Graham,lgraham,leanne@company.com\n2,Ervin Howell,ehowell,ervin@company.com\n3,Clementine Bauch,wrongusername,clementine@company.com\n4,Patricia Lebsack,plebsack,patricia@company.com",
                   "persist_output": true,
                   "populate_columns": true,
-                  "skip_execution": false,
-                  "table_columns": [
-                    {
-                      "column_name": "id",
-                      "column_type": "string"
-                    },
-                    {
-                      "column_name": "name",
-                      "column_type": "string"
-                    },
-                    {
-                      "column_name": "username",
-                      "column_type": "string"
-                    },
-                    {
-                      "column_name": "email",
-                      "column_type": "string"
-                    }
-                  ]
+                  "skip_execution": false
                 },
                 "object_type": "definition_activity"
               },
@@ -529,6 +510,71 @@
               },
               {
                 "unique_name": "definition_activity_01KAH3R5M1DQA7Y3jreORcdFNS1ZVirxzD5",
+                "name": "Sleep",
+                "title": "The same functions as the JSON example could be used here...",
+                "type": "core.sleep",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "The same functions as the JSON example could be used here...",
+                  "skip_execution": false,
+                  "sleep_interval": 1
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01KAMIU2FZASI4YqpVIWpuP60r8PTK2t6SF",
+            "name": "Parallel Branch",
+            "title": "Empty table",
+            "type": "logic.parallel_block",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Empty table",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01KAMGPOSVWKF2BeWaT1Q5EQpfN0yssq6M3",
+                "name": "Read Table from JSON",
+                "title": "Read Table from JSON",
+                "type": "corejava.read_table_from_json",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "continue_on_failure": false,
+                  "display_name": "Read Table from JSON",
+                  "input_json": "[]",
+                  "jsonpath_query": "$.",
+                  "persist_output": true,
+                  "populate_columns": false,
+                  "skip_execution": false,
+                  "table_columns": [
+                    {
+                      "column_name": "id",
+                      "column_type": "string"
+                    },
+                    {
+                      "column_name": "name",
+                      "column_type": "string"
+                    },
+                    {
+                      "column_name": "username",
+                      "column_type": "string"
+                    },
+                    {
+                      "column_name": "email",
+                      "column_type": "string"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01KAMJ3HNREM85DGE6NfGWRbOIoDcaY9XBj",
                 "name": "Sleep",
                 "title": "The same functions as the JSON example could be used here...",
                 "type": "core.sleep",
