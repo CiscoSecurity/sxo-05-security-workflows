@@ -27,7 +27,7 @@ When configuring a workflow to use a target group, you need to provide criteria 
 
 _Note: `Choose first with matching criteria` means that the first matching target will be selected. If you select `Choose all with matching criteria` the workflow will execute for each matching target._
 
-![]({{ site.baseurl }}/assets/images/target-groups/workflow.png)
+![]({{ site.baseurl }}/assets/images/workflows/target-groups/workflow.png)
 
 ---
 
@@ -37,12 +37,12 @@ After a workflow is configured to use a target group, you can configure its acti
 ### Using the Default Target
 To use the default target selected at the workflow level, simply select `Use Workflow Target Group` as the activity's target:
 
-![]({{ site.baseurl }}/assets/images/target-groups/activity2.png)
+![]({{ site.baseurl }}/assets/images/workflows/target-groups/activity2.png)
 
 ### Overriding the Target Group Criteria
 To override the default target and select a different target from the group, select `Override Workflow Target Group Critera` and provide alternate criteria. In this example, the workflow's default target is `CTR_API` and this activity is overriding the target to `CTR_For_Access_Token`:
 
-![]({{ site.baseurl }}/assets/images/target-groups/activity1.png)
+![]({{ site.baseurl }}/assets/images/workflows/target-groups/activity1.png)
 
 ---
 

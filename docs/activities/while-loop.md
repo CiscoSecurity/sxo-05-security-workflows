@@ -8,7 +8,13 @@ parent: Activities
 # While Loop
 _Category: Logic_
 
-While loops are one of the two types of loops available in SecureX orchestration. This type of loop will continue running as long as its control condition is true. You can also stop this type of loop using a `Break` activity.
+While loops are one of the two types of loops available in SecureX orchestration. This type of loop will continue running as long as its control condition is true. If you want to loop through a list of objects in a table, you should look at the [`For Each Loop`]({{ site.baseurl }}/activities/foreach-loop).
+
+---
+
+## Hints
+* You can stop a loop using the `Break` activity.
+* You can skip the rest of a single iteration of a loop using the `Continue` activity.
 
 ---
 
@@ -17,7 +23,7 @@ While loops run as long as their control condition is true. This control conditi
 1. Set this condition to something that will always be true and use a `Break` to stop the loop; or
 1. Use a loop control variable that you change the value of when you want the loop to end
 
-**Be careful! If you forget to stop a while loop, it will keep running for quite a while before stopping... If you're iterating through a list of items, it's usually better to use a `For Each Loop`**
+**Be careful! If you forget to stop a while loop, it will keep running for quite a while before stopping... If you're iterating through a list of items, it's usually better to use a [`For Each Loop`]({{ site.baseurl }}/activities/foreach-loop)**
 
 ### Using a Loop Control Variable
 1. Create a local variable using the `Boolean` data type and set its value to `true`
