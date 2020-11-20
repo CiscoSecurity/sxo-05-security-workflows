@@ -1,0 +1,305 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01JQ5LGT2UB1G2SLd05xQjb0EZz2HZn3c0d",
+    "name": "Generate Casebook with SCA Flow Links",
+    "title": "Generate Casebook with SCA Flow Links",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "observable_value",
+          "type": "datatype.string",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01JQ5LGSPSUQ35BkumxxSWnHn3MaaN01lOA",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "observable_type",
+          "type": "datatype.string",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01JQ5LGSPSRLM3pjcr2FL9Ot8FQZCqmDBNG",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "cisco-demo",
+          "scope": "local",
+          "name": "SCA Instance URL",
+          "type": "datatype.string",
+          "description": "This should be the part of your SCA instance's URL before \".obsrvbl.com\". For example, if your URL is \"company.obsrvbl.com\" you would enter \"company\"",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01KB96A1UNN9Z2I2ZJH0MMRzulMXImpRlQz",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "description": "This workflow should be triggered from a SecureX pivot menu and supports IP address observables. When triggered, this workflow generates a Threat Response casebook with links to investigate the IP address in Secure Cloud Analytics (SCA).\n\nConfiguration: You must set your SCA instance URL in the \"SCA Instance URL\" local variable!\n\nTargets: CTR_For_Access_Token, Private_CTIA_Target\n\nSteps:\n[] Calculate date 7 days ago\n[] Format 7 days ago date to SCA format\n[] Format today's date to SCA format\n[] Generate Threat Response access token\n[] Create casebook with investigation links\n\nMore information: https://cs.co/SXO_docs",
+      "display_name": "Generate Casebook with SCA Flow Links",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": true,
+        "target_group": {
+          "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+          "run_on_all_targets": false,
+          "selected_target_types": [
+            "web-service.endpoint"
+          ],
+          "use_criteria": {
+            "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+            "conditions": [
+              {
+                "operator": "eqi",
+                "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                "right_operand": "CTR_For_Access_Token"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01KB94MM3ZP325dwHwzfQdn5yX0yPnZDB33",
+        "name": "Condition Block",
+        "title": "Is this observable supported?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Is this observable supported?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01KB94MVLLZ4P4eRjv9N7Cf012McIrUXPyB",
+            "name": "Condition Branch",
+            "title": "No",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$workflow.definition_workflow_01JQ5LGT2UB1G2SLd05xQjb0EZz2HZn3c0d.input.variable_workflow_01JQ5LGSPSRLM3pjcr2FL9Ot8FQZCqmDBNG$",
+                "operator": "ne",
+                "right_operand": "ip"
+              },
+              "continue_on_failure": false,
+              "display_name": "No",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01KB9539GY1UI2WusrSiL8jSl4gvc14KYQj",
+                "name": "Completed",
+                "title": "End the workflow",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "succeeded",
+                  "continue_on_failure": false,
+                  "display_name": "End the workflow",
+                  "result_message": "The observable type \"$workflow.definition_workflow_01JQ5LGT2UB1G2SLd05xQjb0EZz2HZn3c0d.input.variable_workflow_01JQ5LGSPSRLM3pjcr2FL9Ot8FQZCqmDBNG$\" is not supported by this workflow",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01JQ5LHKCZ4GI2pyGtWDtK5tcPyuycLgpBV",
+        "name": "Calculate Date",
+        "title": "Calculate date seven days ago",
+        "type": "core.calculate_date",
+        "base_type": "activity",
+        "properties": {
+          "adjustment": -604800,
+          "continue_on_failure": false,
+          "display_name": "Calculate date seven days ago",
+          "original_date": "$workflow.definition_workflow_01JQ5LGT2UB1G2SLd05xQjb0EZz2HZn3c0d.output.start_time$",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01JQ5LI60FJQY3hUgO7d2Nh42rfsUEVEePV",
+        "name": "Format Date",
+        "title": "Format the start date",
+        "type": "core.format_date",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Format the start date",
+          "format_string": "2006-01-02T15:04:05Z",
+          "original_date": "$activity.definition_activity_01JQ5LHKCZ4GI2pyGtWDtK5tcPyuycLgpBV.output.result$",
+          "skip_execution": false,
+          "use_custom_format": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01JQ5LHUX3RC92WX1rUz4AB7gyizEM0pmbT",
+        "name": "Format Date",
+        "title": "Format the end date (now)",
+        "type": "core.format_date",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Format the end date (now)",
+          "format_string": "2006-01-02T15:04:05Z",
+          "original_date": "$workflow.definition_workflow_01JQ5LGT2UB1G2SLd05xQjb0EZz2HZn3c0d.output.start_time$",
+          "skip_execution": false,
+          "use_custom_format": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01JQ5LIYRR7411hv6PSyRQcbOBdQkKy4Ewo",
+        "name": "Generate access token for CTR",
+        "title": "Generate access token for CTR",
+        "type": "workflow.atomic_workflow",
+        "base_type": "subworkflow",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Generate access token for CTR",
+          "runtime_user": {
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "use_workflow_target_group": true
+          },
+          "workflow_id": "definition_workflow_01779LB6MV0P02kvka9TGV5cEam84NrCTy4"
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01JQ5LJJV4KIS28SLjKhzByJf7sqxvc1BG5",
+        "name": "Create Casebook",
+        "title": "Create Casebook",
+        "type": "workflow.atomic_workflow",
+        "base_type": "subworkflow",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Create Casebook",
+          "input": {
+            "variable_workflow_01E8OQUDV95VA45dnDR0Kzm5HlMxNSnk7HH": "$activity.definition_activity_01JQ5LIYRR7411hv6PSyRQcbOBdQkKy4Ewo.output.variable_workflow_01BNOOXA3G6MV1PGAvsfZOKDdMYcE6XS726$",
+            "variable_workflow_01FI7GJDK40MI6qNg2jcng0YaHlmz0Zgwq5": "[Flows from this IP](https://$workflow.definition_workflow_01JQ5LGT2UB1G2SLd05xQjb0EZz2HZn3c0d.local.variable_workflow_01KB96A1UNN9Z2I2ZJH0MMRzulMXImpRlQz$.obsrvbl.com/#/traffic/sessions/table?start_datetime=$activity.definition_activity_01JQ5LI60FJQY3hUgO7d2Nh42rfsUEVEePV.output.result$\u0026end_datetime=$activity.definition_activity_01JQ5LHUX3RC92WX1rUz4AB7gyizEM0pmbT.output.result$\u0026ip=$workflow.definition_workflow_01JQ5LGT2UB1G2SLd05xQjb0EZz2HZn3c0d.input.variable_workflow_01JQ5LGSPSUQ35BkumxxSWnHn3MaaN01lOA$)\n\n[Flows to this IP](https://$workflow.definition_workflow_01JQ5LGT2UB1G2SLd05xQjb0EZz2HZn3c0d.local.variable_workflow_01KB96A1UNN9Z2I2ZJH0MMRzulMXImpRlQz$.obsrvbl.com/#/traffic/sessions/table?start_datetime=$activity.definition_activity_01JQ5LI60FJQY3hUgO7d2Nh42rfsUEVEePV.output.result$\u0026end_datetime=$activity.definition_activity_01JQ5LHUX3RC92WX1rUz4AB7gyizEM0pmbT.output.result$\u0026connected_ip=$workflow.definition_workflow_01JQ5LGT2UB1G2SLd05xQjb0EZz2HZn3c0d.input.variable_workflow_01JQ5LGSPSUQ35BkumxxSWnHn3MaaN01lOA$)",
+            "variable_workflow_01FI7JJEVXRFA5s9maRdVwlqV7ENc6KhST2": "Secure Cloud Analytics Forensic Flow Investigation for $workflow.definition_workflow_01JQ5LGT2UB1G2SLd05xQjb0EZz2HZn3c0d.input.variable_workflow_01JQ5LGSPSUQ35BkumxxSWnHn3MaaN01lOA$ - $activity.definition_activity_01JQ5LHUX3RC92WX1rUz4AB7gyizEM0pmbT.output.result$",
+            "variable_workflow_01FI7NA9QZI9I46crflRbf7I6zIfajxuHrX": "[{\"type\":\"$workflow.definition_workflow_01JQ5LGT2UB1G2SLd05xQjb0EZz2HZn3c0d.input.variable_workflow_01JQ5LGSPSRLM3pjcr2FL9Ot8FQZCqmDBNG$\", \"value\":\"$workflow.definition_workflow_01JQ5LGT2UB1G2SLd05xQjb0EZz2HZn3c0d.input.variable_workflow_01JQ5LGSPSUQ35BkumxxSWnHn3MaaN01lOA$\"}]",
+            "variable_workflow_01FRLITVY3NO678mmPZHG5lCdqLjEyY2j1h": "md"
+          },
+          "runtime_user": {
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target_group_criteria": true,
+            "target_group": {
+              "run_on_all_targets": false,
+              "use_criteria": {
+                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                "conditions": [
+                  {
+                    "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                    "operator": "eqi",
+                    "right_operand": "Private_CTIA_Target"
+                  }
+                ]
+              }
+            }
+          },
+          "workflow_id": "definition_workflow_01DS6ELBOO8YR3uFJZju566LqiqR18VlE6r"
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m",
+      "category_01KB985T807PN72HWdrDjvYCedj6wNtjbF6"
+    ]
+  },
+  "categories": {
+    "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m": {
+      "unique_name": "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m",
+      "name": "response",
+      "title": "response",
+      "type": "basic.category",
+      "base_type": "category",
+      "category_type": "custom",
+      "object_type": "category"
+    },
+    "category_01KB985T807PN72HWdrDjvYCedj6wNtjbF6": {
+      "unique_name": "category_01KB985T807PN72HWdrDjvYCedj6wNtjbF6",
+      "name": "Secure Cloud Analytics",
+      "title": "Secure Cloud Analytics",
+      "type": "basic.category",
+      "base_type": "category",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  },
+  "target_groups": {
+    "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+      "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+      "name": "Default TargetGroup",
+      "title": "Default TargetGroup",
+      "type": "generic.target_group",
+      "base_type": "target_group",
+      "version": "1.0.0",
+      "targets": [
+        {
+          "data_target_type": "web-service.endpoint",
+          "view_target_type": "web-service.endpoint",
+          "include_all_targets": true
+        },
+        {
+          "data_target_type": "email.smtp_endpoint",
+          "view_target_type": "email.smtp_endpoint",
+          "include_all_targets": true
+        },
+        {
+          "data_target_type": "terminal.endpoint",
+          "view_target_type": "terminal.endpoint",
+          "include_all_targets": true
+        },
+        {
+          "data_target_type": "aws.endpoint",
+          "view_target_type": "aws.endpoint",
+          "include_all_targets": true
+        }
+      ],
+      "object_type": "target_group"
+    }
+  },
+  "atomic_workflows": [
+    "definition_workflow_01779LB6MV0P02kvka9TGV5cEam84NrCTy4",
+    "definition_workflow_01DS6ELBOO8YR3uFJZju566LqiqR18VlE6r"
+  ]
+}
