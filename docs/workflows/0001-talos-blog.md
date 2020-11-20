@@ -3,10 +3,13 @@ layout: page
 title: Talos - Get New Blog Posts
 permalink: /workflows/0001-talos-blog
 parent: Workflows
-nav_order: 50
 ---
 
 # Talos - Get New Blog Posts
+<div markdown="1">
+Workflow #0001
+{: .label }
+</div>
 
 This workflow consumes the Talos Intelligence Blog RSS feed and converts individual blog posts into Cisco Threat Response casebooks if they contain suspicious observables. These casebooks can then be investigated with one click in Cisco Threat Response.
 
