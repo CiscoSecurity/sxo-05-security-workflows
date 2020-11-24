@@ -1,9 +1,11 @@
 ---
 layout: page
 title: Response Workflows
-permalink: /workflows/response
+permalink: /workflows/response/
 parent: Workflows
-nav_order: 17
+has_children: true
+nav_order: 20
+has_toc: false
 ---
 
 # Response Workflows
@@ -51,6 +53,11 @@ file_path
 ```
 
 For a full list of valid observable types, see the [vocabularies schema](https://github.com/threatgrid/ctim/blob/6053e75846044e56788f201d19e7d731193af0d3/src/ctim/schemas/vocabularies.cljc#L241) in the CTIM specification.
+
+---
+
+## Triggering via the CTR API
+Response workflows can be triggered via the Cisco Threat Response API. This is useful if you want to be able to trigger a workflow from outside of SecureX. For more information about how to do this, see [this page]({{ site.baseurl }}/workflows/response/ctr-api).
 
 ---
 

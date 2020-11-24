@@ -30,4 +30,4 @@ This page contains a list of frequently asked questions about SecureX orchestrat
 **A**: No. Python scripts in SecureX orchestration run inside a container that can't be customized.
 
 ### Q: How do I make a workflow appear in Threat Response/ribbon/product pivot menus?
-**A**: See the [Response Workflows]({{ site.baseurl }}/workflows/response) page.
+**A**: See the [Response Workflows]({{ site.baseurl }}/workflows/response/) page.

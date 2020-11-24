@@ -22,7 +22,7 @@ We recommend checking out the following resources to give yourself a foundation 
 ## Further Learning
 Want to go beyond the basics? Here's some additional content you may find useful:
 
-* [Response Workflows]({{ site.baseurl }}/workflows/response)
+* [Response Workflows]({{ site.baseurl }}/workflows/response/)
 * [Target Groups]({{ site.baseurl }}/workflows/target-groups)
 * [Import and Export](https://www.youtube.com/watch?v=qmJk994qLOg&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo&index=5) (YouTube Video)
 
