@@ -21,9 +21,8 @@ This workflow should be triggered from a SecureX pivot menu and supports IP addr
 
 ---
 
-## Configuration
-* Set your SCA instance URL in the `SCA Instance URL` local variable
-* If you want to change the name of this workflow in the pivot menu, change its display name
+## Requirements
+* A Secure Cloud Analytics instance
 
 ---
 
@@ -36,8 +35,9 @@ This workflow should be triggered from a SecureX pivot menu and supports IP addr
 
 ---
 
-## Requirements
-* A Secure Cloud Analytics instance
+## Configuration
+* Set your SCA instance URL in the `SCA Instance URL` local variable
+* If you want to change the name of this workflow in the pivot menu, change its display name
 
 ---
 

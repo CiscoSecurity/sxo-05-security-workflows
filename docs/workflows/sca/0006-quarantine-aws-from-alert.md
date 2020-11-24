@@ -20,21 +20,10 @@ This workflow fetches `Geographically Unusual Remote Access` alerts from the Sec
 
 ---
 
-## Configuration
-* Make sure `Default TargetGroup` includes the `AWS Endpoint` target type ([more info]({{ site.baseurl }}/workflows/target-groups))
-* Set your AWS region in the `AWS Region` local variable
-* Add the CIDR network you want to exclude from SSH restrictions in the `CIDR IP to Exclude` local variable (so you can still get into the instance to fix it)
-* Add your SCA API key to the `Secure Cloud Analytics API Key` local variable (or, if you have an API key in a global variable already, set the local variable to the global's value using the `Fetch Global Variables` group at the beginning of the workflow)
-* The `Approval request to undo AWS SSH quarantine` activity needs to be configured with a task requestor, owner, and assignees (the assignees will be able to approve or deny)
-* **Important:** Do not change the `Subject Line` of the approval task or the approval event trigger will stop working
-
-### Using Webex?
-* Make sure your bot is added to the room you want to post messages to
-* Add your Webex Bot Token to the `Webex Bot Token` local variable (or, if you have a token in a global variable already, set the local variable to the global's value using the `Fetch Global Variables` group at the beginning of the workflow)
-* Provide either a `Webex Teams Room Name` or `Webex Teams Room ID` in their respective local variable (only one of the two is required)
-
-### Not Using Webex?
-* Check the `Skip Activity Execution` box for all of the Webex activities
+## Requirements
+* A Secure Cloud Analytics instance
+* An Amazon Web Services account with instances monitored by SCA
+* (Optional) Webex Teams
 
 ---
 
@@ -53,10 +42,21 @@ This workflow fetches `Geographically Unusual Remote Access` alerts from the Sec
 
 ---
 
-## Requirements
-* A Secure Cloud Analytics instance
-* An Amazon Web Services account with instances monitored by SCA
-* (Optional) Webex Teams
+## Configuration
+* Make sure `Default TargetGroup` includes the `AWS Endpoint` target type ([more info]({{ site.baseurl }}/workflows/target-groups))
+* Set your AWS region in the `AWS Region` local variable
+* Add the CIDR network you want to exclude from SSH restrictions in the `CIDR IP to Exclude` local variable (so you can still get into the instance to fix it)
+* Add your SCA API key to the `Secure Cloud Analytics API Key` local variable (or, if you have an API key in a global variable already, set the local variable to the global's value using the `Fetch Global Variables` group at the beginning of the workflow)
+* The `Approval request to undo AWS SSH quarantine` activity needs to be configured with a task requestor, owner, and assignees (the assignees will be able to approve or deny)
+* **Important:** Do not change the `Subject Line` of the approval task or the approval event trigger will stop working
+
+### Using Webex?
+* Make sure your bot is added to the room you want to post messages to
+* Add your Webex Bot Token to the `Webex Bot Token` local variable (or, if you have a token in a global variable already, set the local variable to the global's value using the `Fetch Global Variables` group at the beginning of the workflow)
+* Provide either a `Webex Teams Room Name` or `Webex Teams Room ID` in their respective local variable (only one of the two is required)
+
+### Not Using Webex?
+* Check the `Skip Activity Execution` box for all of the Webex activities
 
 ---
 
