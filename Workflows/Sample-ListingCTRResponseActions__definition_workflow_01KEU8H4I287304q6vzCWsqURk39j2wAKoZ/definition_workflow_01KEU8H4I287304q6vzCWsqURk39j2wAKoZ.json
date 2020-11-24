@@ -9,15 +9,15 @@
       {
         "schema_id": "datatype.string",
         "properties": {
-          "value": "ip",
+          "value": "",
           "scope": "input",
-          "name": "Observable Type",
+          "name": "Action to Find",
           "type": "datatype.string",
-          "description": "The type of observable to get actions for. Examples of valid observable types include: domain, ip, hostname, url, and sha256",
-          "is_required": true,
+          "description": "If you're looking for a specific action, enter its name here. For orchestration workflows, this would be the workflow's exact name. If a matching action is found, the workflow will return its information",
+          "is_required": false,
           "is_invisible": false
         },
-        "unique_name": "variable_workflow_01KEV7Z7YL8AC51AMFt4X6AN1yrBbqHoMR4",
+        "unique_name": "variable_workflow_01KEUX9I0HBU40vIeef0Frt1QJNswWubiH6",
         "object_type": "variable_workflow"
       },
       {
@@ -37,15 +37,15 @@
       {
         "schema_id": "datatype.string",
         "properties": {
-          "value": "",
+          "value": "ip",
           "scope": "input",
-          "name": "Action to Find",
+          "name": "Observable Type",
           "type": "datatype.string",
-          "description": "If you're looking for a specific action, enter its name here. For orchestration workflows, this would be the workflow's exact name. If a matching action is found, the workflow will return its information",
-          "is_required": false,
+          "description": "The type of observable to get actions for. Examples of valid observable types include: domain, ip, hostname, url, and sha256",
+          "is_required": true,
           "is_invisible": false
         },
-        "unique_name": "variable_workflow_01KEUX9I0HBU40vIeef0Frt1QJNswWubiH6",
+        "unique_name": "variable_workflow_01KEV7Z7YL8AC51AMFt4X6AN1yrBbqHoMR4",
         "object_type": "variable_workflow"
       }
     ],
@@ -168,7 +168,7 @@
           "continue_on_failure": false,
           "description": "Look at this output's activity for a human readable list of modules and actions",
           "display_name": "Convert module list into readable text",
-          "script": "import sys,json\n\n# Look at this output's activity for a human readable list of modules and actions\n\nctrJson = json.loads(sys.argv[1])\n\nfor module in ctrJson['data']:\n  print('------------------------------------------------------------------------------------------------------------------\\nModule Name: ' + module['module'] + '\\nInstance ID: ' + module['module_instance_id'] + '\\nAction ID: ' + module['id'] + '\\nAction Title: ' + module['title'] + '\\nAction URL: /iroh-response/' + module['url'] + '\\n------------------------------------------------------------------------------------------------------------------')\n",
+          "script": "import sys,json\n\n# Look at this output's activity for a human readable list of modules and actions\n\nctrJson = json.loads(sys.argv[1])\n\nfor module in ctrJson['data']:\n  print('------------------------------------------------------------------------------------------------------------------\\nModule Name: ' + module['module'] + '\\nInstance ID: ' + module['module_instance_id'] + '\\nAction ID: ' + module['id'] + '\\nAction Title: ' + module['title'] + '\\nAction URL: /iroh-response' + module['url'] + '\\n------------------------------------------------------------------------------------------------------------------')\n",
           "script_arguments": [
             "$activity.definition_activity_01KEU8OOOMYPO4NANeFXCz2SCARC73pqc1u.output.variable_workflow_01DBYDZ93SS5K4rAnOFkPjegb7K8ChItJMS$"
           ],
