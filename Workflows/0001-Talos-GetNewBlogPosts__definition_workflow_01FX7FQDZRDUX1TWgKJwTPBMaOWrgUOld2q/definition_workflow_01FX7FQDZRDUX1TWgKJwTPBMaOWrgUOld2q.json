@@ -24,12 +24,40 @@
         "properties": {
           "value": "",
           "scope": "local",
+          "name": "Webex Teams Room Name",
+          "type": "datatype.string",
+          "description": "Name of the Webex Teams room to post messages in. If you leave this blank, no Webex Teams messages will be posted. Note that you should invite your bot to the room before trying to send a message to it",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01KENBU6U91FJ7VFX0bp0c1GGjxLwsTRRIf",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
           "name": "RSS Etag",
           "type": "datatype.string",
           "is_required": false,
           "is_invisible": false
         },
         "unique_name": "variable_workflow_01FX7LYV46SKE1XHJiLwyDP7kYML8kyRlqP",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "Webex Teams Bot Token",
+          "type": "datatype.secure_string",
+          "description": "The access token to use to authenticate to the Webex Teams API",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01KENBNVA0ZXA50LqTd8WTMTlFh9avooUYa",
         "object_type": "variable_workflow"
       }
     ],
@@ -53,6 +81,40 @@
     },
     "object_type": "definition_workflow",
     "actions": [
+      {
+        "unique_name": "definition_activity_01KENB12684VX75icczlpBTh0GreFHUjs2g",
+        "name": "Group",
+        "title": "Fetch global variables",
+        "type": "logic.group",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "description": "If you have information stored in global variables, you can enable this group and use the set variables it contains to update your local variables with the global variable values",
+          "display_name": "Fetch global variables",
+          "skip_execution": true
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01KENB3N7CLSU1TP13DonkishOEzvHp0E5l",
+            "name": "Set Variables",
+            "title": "Set local variables",
+            "type": "core.set_multiple_variables",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Set local variables",
+              "skip_execution": false,
+              "variables_to_update": [
+                {
+                  "variable_to_update": "$workflow.definition_workflow_01FX7FQDZRDUX1TWgKJwTPBMaOWrgUOld2q.local.variable_workflow_01KENBNVA0ZXA50LqTd8WTMTlFh9avooUYa$"
+                }
+              ]
+            },
+            "object_type": "definition_activity"
+          }
+        ]
+      },
       {
         "unique_name": "definition_activity_01JNI4L8DJG5I6D7ykERF7wdOIW6fPZ1ndW",
         "name": "Condition Block",
@@ -511,8 +573,8 @@
               "display_name": "Talos - Convert Blog Post to CTR Casebook",
               "input": {
                 "variable_workflow_01GNC2Q5PQN226WpS2OAKg1ZqL25S1Lrltw": "$activity.definition_activity_01FX7NHTMHY8V4lCoHWZJYhyNMads9IaNH8.input.source_array[@].origLink$",
-                "variable_workflow_01GNDSEOTR7A30vXw75gENSDh58yLJkuDuF": "Teams Room Name",
-                "variable_workflow_01JNHYMLDTBUX5jKfzeqzla5FfDKy95iLTD": "$global.variable_01FWYINUF9P7B2SBISbnzWqggAd6oOHNUIc.global.variable_01FWYINUF9P7B2SBISbnzWqggAd6oOHNUIc$"
+                "variable_workflow_01GNDSEOTR7A30vXw75gENSDh58yLJkuDuF": "$workflow.definition_workflow_01FX7FQDZRDUX1TWgKJwTPBMaOWrgUOld2q.local.variable_workflow_01KENBU6U91FJ7VFX0bp0c1GGjxLwsTRRIf$",
+                "variable_workflow_01JNHYMLDTBUX5jKfzeqzla5FfDKy95iLTD": "$workflow.definition_workflow_01FX7FQDZRDUX1TWgKJwTPBMaOWrgUOld2q.local.variable_workflow_01KENBNVA0ZXA50LqTd8WTMTlFh9avooUYa$"
               },
               "runtime_user": {
                 "target_default": true
@@ -621,19 +683,6 @@
     }
   },
   "variables": {
-    "variable_01FWYINUF9P7B2SBISbnzWqggAd6oOHNUIc": {
-      "unique_name": "variable_01FWYINUF9P7B2SBISbnzWqggAd6oOHNUIc",
-      "properties": {
-        "value": "",
-        "scope": "global",
-        "name": "Webex Teams Access Token",
-        "type": "datatype.secure_string",
-        "description": "The access token of the Webex Teams bot you want to send messages from. More information about Webex bots can be found here: https://developer.webex.com/docs/bots",
-        "is_required": false,
-        "is_invisible": false
-      },
-      "object_type": "variable"
-    },
     "variable_01JNHUXUS6AOJ01kru5YMihoCRZszke5o2c": {
       "unique_name": "variable_01JNHUXUS6AOJ01kru5YMihoCRZszke5o2c",
       "properties": {
@@ -669,6 +718,33 @@
         "base_type": "workflow",
         "variables": [
           {
+            "schema_id": "datatype.secure_string",
+            "properties": {
+              "value": "",
+              "scope": "local",
+              "name": "CTR Access Token",
+              "type": "datatype.secure_string",
+              "is_required": false,
+              "is_invisible": false
+            },
+            "unique_name": "variable_workflow_01GNC2W688P5C1TSTZKf2zJsth2hHp2Blmv",
+            "object_type": "variable_workflow"
+          },
+          {
+            "schema_id": "datatype.string",
+            "properties": {
+              "value": "",
+              "scope": "input",
+              "name": "Webex Teams Room Name",
+              "type": "datatype.string",
+              "description": "Name of the Webex Teams room to post messages in. If you leave this blank, no Webex Teams messages will be posted. Note that you should invite your bot to the room before trying to send a message to it",
+              "is_required": false,
+              "is_invisible": false
+            },
+            "unique_name": "variable_workflow_01GNDSEOTR7A30vXw75gENSDh58yLJkuDuF",
+            "object_type": "variable_workflow"
+          },
+          {
             "schema_id": "datatype.string",
             "properties": {
               "value": "",
@@ -683,24 +759,11 @@
             "object_type": "variable_workflow"
           },
           {
-            "schema_id": "datatype.string",
-            "properties": {
-              "value": "",
-              "scope": "local",
-              "name": "Webex Text",
-              "type": "datatype.string",
-              "is_required": false,
-              "is_invisible": false
-            },
-            "unique_name": "variable_workflow_01GNC39JZI2IM7Y6vsbTdIB0ULZiunCi9oD",
-            "object_type": "variable_workflow"
-          },
-          {
             "schema_id": "datatype.secure_string",
             "properties": {
               "value": "",
               "scope": "input",
-              "name": "Webex Bot Token",
+              "name": "Webex Teams Bot Token",
               "type": "datatype.secure_string",
               "description": "The access token to use to authenticate to the Webex Teams API",
               "is_required": false,
@@ -710,16 +773,16 @@
             "object_type": "variable_workflow"
           },
           {
-            "schema_id": "datatype.secure_string",
+            "schema_id": "datatype.date",
             "properties": {
-              "value": "",
+              "value": "0001-01-01T00:00:00+00:00",
               "scope": "local",
-              "name": "CTR Access Token",
-              "type": "datatype.secure_string",
+              "name": "CTR Access Token Time",
+              "type": "datatype.date",
               "is_required": false,
               "is_invisible": false
             },
-            "unique_name": "variable_workflow_01GNC2W688P5C1TSTZKf2zJsth2hHp2Blmv",
+            "unique_name": "variable_workflow_01GNC31KV01YZ5Dap0foQFbT2sVZcRyI9M8",
             "object_type": "variable_workflow"
           },
           {
@@ -739,27 +802,13 @@
             "schema_id": "datatype.string",
             "properties": {
               "value": "",
-              "scope": "input",
-              "name": "Webex Room Name",
-              "type": "datatype.string",
-              "description": "Name of the Webex Teams room to post messages in. If you leave this blank, no Webex Teams messages will be posted. Note that you should invite your bot to the room before trying to send a message to it",
-              "is_required": false,
-              "is_invisible": false
-            },
-            "unique_name": "variable_workflow_01GNDSEOTR7A30vXw75gENSDh58yLJkuDuF",
-            "object_type": "variable_workflow"
-          },
-          {
-            "schema_id": "datatype.date",
-            "properties": {
-              "value": "0001-01-01T00:00:00+00:00",
               "scope": "local",
-              "name": "CTR Access Token Time",
-              "type": "datatype.date",
+              "name": "Webex Text",
+              "type": "datatype.string",
               "is_required": false,
               "is_invisible": false
             },
-            "unique_name": "variable_workflow_01GNC31KV01YZ5Dap0foQFbT2sVZcRyI9M8",
+            "unique_name": "variable_workflow_01GNC39JZI2IM7Y6vsbTdIB0ULZiunCi9oD",
             "object_type": "variable_workflow"
           }
         ],
@@ -768,7 +817,7 @@
             "is_atomic": false
           },
           "delete_workflow_instance": false,
-          "description": "This workflow takes a Talos blog post, conducts an investigation into it using Cisco Threat Response, and then puts the results in a casebook. If a Webex Teams room name and bot token are provided, a message with the investigation's results will be sent.\n\nTarget Group: Default TargetGroup\n\nTargets Used: CTR_For_Access_Token, CTR_API, Private_CTIA_Target, Webex Teams\n\nSteps:\n[] Fetch the blog post content and strip out any HTML\n[] Request a CTR access token and inspect the blog post content for observables\n[] Loop through each observable and get its CTR disposition\n[] For observables that weren't clean, conduct CTR enrichment to get sightings\n[] For modules with sightings, build the text to post to Webex\n[] Create the CTR casebook and, if a teams room is provided, post a message to Webex",
+          "description": "This workflow takes a Talos blog post, conducts an investigation into it using Cisco Threat Response, and then puts the results in a casebook. If a Webex Teams room name and bot token are provided, a message with the investigation's results will be sent.\n\nTarget Group: Default TargetGroup\n\nTargets Used: CTR_For_Access_Token, CTR_API, Private_CTIA_Target, Webex Teams\n\nSteps:\n[] Fetch the blog post content and strip out any HTML\n[] Request a CTR access token and inspect the blog post content for observables\n[] Loop through each observable and get its CTR disposition\n[] For observables that weren't clean, conduct CTR enrichment to get sightings\n[] For modules with sightings, build the text to post to Webex\n[] Create the CTR casebook and, if a teams room is provided, post a message to Webex\n\nMore information: https://cs.co/SXO_docs",
           "display_name": "0001 - Talos - Blog Post to CTR Casebook",
           "runtime_user": {
             "override_target_runtime_user": false,
@@ -2220,13 +2269,13 @@
     }
   ],
   "atomic_workflows": [
-    "definition_workflow_01D6KGWC1QCSN7f2tnHrhIHVeZHLKBZubRz",
-    "definition_workflow_01J3STRKBDJ7H4DZmPyS7xOkHlrhXKxkH34",
-    "definition_workflow_01DS6ELBOO8YR3uFJZju566LqiqR18VlE6r",
     "definition_workflow_01FGYY44YU521254ygN3Le0In0kEHpiPNpf",
+    "definition_workflow_01DS6ELBOO8YR3uFJZju566LqiqR18VlE6r",
     "definition_workflow_01779LB6MV0P02kvka9TGV5cEam84NrCTy4",
-    "definition_workflow_01FHMU6SD5XPL6eRW4zFXqkA1w8jWiQCIBU",
     "definition_workflow_01C9F1VJ1I5KH26f860hJC5zDSD33548bYS",
-    "definition_workflow_01BMYF7PCRLRM3pfYcuM9yYFsKoYBEBO4PK"
+    "definition_workflow_01BMYF7PCRLRM3pfYcuM9yYFsKoYBEBO4PK",
+    "definition_workflow_01J3STRKBDJ7H4DZmPyS7xOkHlrhXKxkH34",
+    "definition_workflow_01D6KGWC1QCSN7f2tnHrhIHVeZHLKBZubRz",
+    "definition_workflow_01FHMU6SD5XPL6eRW4zFXqkA1w8jWiQCIBU"
   ]
 }
