@@ -1,0 +1,638 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01FTPWFQOJ7TE3SJcsVpnuC4e8ZEEReN1iF",
+    "name": "0004 - Microsoft Online - CDO Group Update",
+    "title": "0004 - Microsoft Online - CDO Group Update",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "CDO Bearer Token",
+          "type": "datatype.secure_string",
+          "description": "This should be a static bearer token for accessing the Cisco Defense Orchestrator API. This token is generated under Settings \u003e Generate API Token",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01FTQACADGVAW52S2Snj2W7OGnTHmeEVMm9",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "O365",
+          "scope": "local",
+          "name": "CDO Object Group Name",
+          "type": "datatype.string",
+          "description": "The name of the object group to reconcile and update",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01FTQB2P3A0AI67bKapNyIDGK3IXvwEfaoq",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "New Objects to Add",
+          "type": "datatype.string",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01FUHPSH0718Q0C2U4TKSBGJGBtKMjI0CGz",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "https://endpoints.office.com/endpoints/worldwide?clientrequestid=GUID-HERE",
+          "scope": "local",
+          "name": "Microsoft Endpoints URL",
+          "type": "datatype.string",
+          "description": "URL of the Microsoft endpoints JSON. This URL must have a unique GUID appended to it! To get your unique URL, go to https://docs.microsoft.com/en-us/microsoft-365/enterprise/microsoft-365-ip-web-service?view=o365-worldwide, click on the link on the second bullet, and copy the URL",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01FTQ7Z0WUO9V5H4vbWE8eJNWCEG3fhPdbp",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "description": "Microsoft provides a JSON-formatted feed of their networks and domains for their various cloud services. This workflow fetches that JSON, filters it, compares it to an existing network group in Cisco Defense Orchestrator, and then updates group as needed.\n\nNote: This workflow only processes IPv4 addresses. It does not update domain names or IPv6\n\nTarget: HTTP endpoint called \"Cisco Defense Orchestrator\" for \"defenseorchestrator.com\" with a path of \"/aegis/rest/v1/\"\n\nAccount Keys: None\n\nSteps:\n[] Fetch the online services information JSON from Microsoft\n[] Get the existing object group from CDO\n[] Figure out what changes are needed\n[] Check if any changes are needed\n[]\u003e If not, end the workflow\n[] Create each new network object\n[] Generate the JSON to update the object group\n[] Update the object group using the CDO API\n\nMore information: https://cs.co/SXO_docs",
+      "display_name": "0004 - Microsoft Online - CDO Group Update",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": true,
+        "target_group": {
+          "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+          "run_on_all_targets": false,
+          "selected_target_types": [
+            "web-service.endpoint"
+          ],
+          "use_criteria": {
+            "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+            "conditions": [
+              {
+                "operator": "eqi",
+                "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                "right_operand": "Cisco Defense Orchestrator"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01KEN0NPLXFY02AkaHaUim7O59rtKlGS2qf",
+        "name": "Group",
+        "title": "Fetch global variables",
+        "type": "logic.group",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "description": "If you have information stored in global variables, you can enable this group and use the set variables it contains to update your local variables with the global variable values",
+          "display_name": "Fetch global variables",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01JGLDQ1IKXFD0D46WD1f4OPZNPdbhfdgHg",
+            "name": "Set Variables",
+            "title": "Set local variables",
+            "type": "core.set_multiple_variables",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "description": "If you have your CDO bearer token in a global variable, you can use this Set Variables activity to update the local token variable with the global value. Otherwise, you need to put the token in the workflow's local variable",
+              "display_name": "Set local variables",
+              "skip_execution": true,
+              "variables_to_update": [
+                {
+                  "variable_to_update": "$workflow.definition_workflow_01FTPWFQOJ7TE3SJcsVpnuC4e8ZEEReN1iF.local.variable_workflow_01FTQACADGVAW52S2Snj2W7OGnTHmeEVMm9$"
+                }
+              ]
+            },
+            "object_type": "definition_activity"
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01FUF45IFZ3RZ5L7doKYN1c3Rp577bnG3er",
+        "name": "Execute Python Script",
+        "title": "Get the JSON from Microsoft",
+        "type": "python3.script",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Get the JSON from Microsoft",
+          "script": "import sys,requests\n\ncontent = requests.request(\"GET\", sys.argv[1])\n\ncontent = content.text",
+          "script_arguments": [
+            "$workflow.definition_workflow_01FTPWFQOJ7TE3SJcsVpnuC4e8ZEEReN1iF.local.variable_workflow_01FTQ7Z0WUO9V5H4vbWE8eJNWCEG3fhPdbp$"
+          ],
+          "script_queries": [
+            {
+              "script_query": "content",
+              "script_query_name": "content",
+              "script_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01FUEHI65Q47E6rHpJcCATslvs8FzAPoCqj",
+        "name": "HTTP Request",
+        "title": "Get the existing CDO object group",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "content_type": "application/json",
+          "continue_on_error_status_code": true,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $workflow.definition_workflow_01FTPWFQOJ7TE3SJcsVpnuC4e8ZEEReN1iF.local.variable_workflow_01FTQACADGVAW52S2Snj2W7OGnTHmeEVMm9$"
+            }
+          ],
+          "display_name": "Get the existing CDO object group",
+          "method": "GET",
+          "relative_url": "services/targets/objects?q=name:$workflow.definition_workflow_01FTPWFQOJ7TE3SJcsVpnuC4e8ZEEReN1iF.local.variable_workflow_01FTQB2P3A0AI67bKapNyIDGK3IXvwEfaoq$",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "use_workflow_target_group": true
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01JGLFAYQYPDO7MkWmstD6MAtE0lju0bH9o",
+        "name": "Condition Block",
+        "title": "Was the request successful?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Was the request successful?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01JGLFBDAXFTN3E8sORZ3YPpcdccUtTkmUN",
+            "name": "Condition Branch",
+            "title": "No",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01FUEHI65Q47E6rHpJcCATslvs8FzAPoCqj.output.status_code$",
+                "operator": "ne",
+                "right_operand": 200
+              },
+              "continue_on_failure": false,
+              "display_name": "No",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01JGLFOT40PP87Qx2bgjekjM3et3ARPwWel",
+                "name": "Completed",
+                "title": "Failed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Failed",
+                  "result_message": "Failed to fetch existing object group from CDO\n\nStatus code: $activity.definition_activity_01FUEHI65Q47E6rHpJcCATslvs8FzAPoCqj.output.status_code$\nResponse body: $activity.definition_activity_01FUEHI65Q47E6rHpJcCATslvs8FzAPoCqj.output.response_body$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01FUEI1GU4DWK0NVZhy2vZEHeCIAIZ64Yfk",
+        "name": "JSONPath Query",
+        "title": "Extract the group components",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Extract the group components",
+          "input_json": "$activity.definition_activity_01FUEHI65Q47E6rHpJcCATslvs8FzAPoCqj.output.response_body$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$.[0].uid",
+              "jsonpath_query_name": "groupUid",
+              "jsonpath_query_type": "string"
+            },
+            {
+              "jsonpath_query": "$.[0].elements",
+              "jsonpath_query_name": "groupElements",
+              "jsonpath_query_type": "string"
+            },
+            {
+              "jsonpath_query": "$.[0].contents",
+              "jsonpath_query_name": "groupContents",
+              "jsonpath_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01FTPWGWB0XI70PB2bUwSad1obHUHvBBN9S",
+        "name": "Execute Python Script",
+        "title": "Process Microsoft JSON into CDO contents",
+        "type": "python3.script",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Process Microsoft JSON into CDO contents",
+          "script": "import sys,json,requests\n\n# get script input\nnetworks = json.loads(sys.argv[1]) # Microsoft JSON\ngroupElements = sys.argv[2] # the group's existing elements\ngroupContents = sys.argv[3] # the group's existing contents\ngroupName = sys.argv[4] # the name of the group\n\n# see if there are existing elements and, if so, parse them\nif len(groupElements) \u003e 0:\n    groupElements = json.loads(groupElements)\nelse:\n    groupElements = []\n\n# see if there are existing contents and, if so, parse them\nif len(groupContents) \u003e 0:\n    groupContents = json.loads(groupContents)\nelse:\n    groupContents = []\n\n# placeholder for Microsoft subnets\nsubnetsV4 = []\nsubnetAddresses = []\nchangesNeeded = False\n\n# parse each Microsoft service and get its IPs\nfor service in networks:\n    if 'ips' in service:\n        for ip in service['ips']:\n            # is this IPv6? Skip it\n            if ip.find(':') != -1:\n                continue\n            \n            subnetsV4.append(ip)\n            subnetAddresses.append(ip[0:ip.find(\"/\")])\n\n# remove duplicates\nsubnetsV4 = list(dict.fromkeys(subnetsV4))\nsubnetAddresses = list(dict.fromkeys(subnetAddresses))\n\n# placeholders for return values\nnewObjects = []\nbaseContents = []\n\n# loop through each Microsoft subnet and see if we need to add it\nfor subnet in subnetsV4:\n    # does this subnet exist already?\n    if not subnet in groupElements:\n        # no, so add it to the new objects to be created\n        subnetAddress = subnet[0:subnet.find(\"/\")]\n        \n        changesNeeded = True\n\n        newObjects.append( { \"name\": groupName + \"_\" + subnetAddress, \"subnet\": subnet } )\n\n# loop through the existing contents and see what we should keep\nfor existing in groupContents:\n    if existing['name'].replace(groupName + \"_\", \"\") in subnetAddresses:\n        baseContents.append(existing)\n    else:\n        changesNeeded = True\n\n# return values\nnewObjects = json.dumps(newObjects)\nbaseContents = json.dumps(baseContents)",
+          "script_arguments": [
+            "$activity.definition_activity_01FUF45IFZ3RZ5L7doKYN1c3Rp577bnG3er.output.script_queries.content$",
+            "$activity.definition_activity_01FUEI1GU4DWK0NVZhy2vZEHeCIAIZ64Yfk.output.jsonpath_queries.groupElements$",
+            "$activity.definition_activity_01FUEI1GU4DWK0NVZhy2vZEHeCIAIZ64Yfk.output.jsonpath_queries.groupContents$",
+            "$workflow.definition_workflow_01FTPWFQOJ7TE3SJcsVpnuC4e8ZEEReN1iF.local.variable_workflow_01FTQB2P3A0AI67bKapNyIDGK3IXvwEfaoq$"
+          ],
+          "script_queries": [
+            {
+              "script_query": "newObjects",
+              "script_query_name": "newObjects",
+              "script_query_type": "string"
+            },
+            {
+              "script_query": "baseContents",
+              "script_query_name": "baseContents",
+              "script_query_type": "string"
+            },
+            {
+              "script_query": "changesNeeded",
+              "script_query_name": "changesNeeded",
+              "script_query_type": "boolean"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01FUHHODHY4IN4XmRM7Ys1CSoFwQIBQ1R4P",
+        "name": "Condition Block",
+        "title": "Are any changes needed?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Are any changes needed?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01FUHHOIV243Y3l5DZaTWi0EEYmpCp6CiRd",
+            "name": "Condition Branch",
+            "title": "No",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01FTPWGWB0XI70PB2bUwSad1obHUHvBBN9S.output.script_queries.changesNeeded$",
+                "operator": "eq",
+                "right_operand": false
+              },
+              "continue_on_failure": false,
+              "display_name": "No",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01FUHHPPQA3ZI14XLLNUUhez203oX9sntf9",
+                "name": "Completed",
+                "title": "Completed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "succeeded",
+                  "continue_on_failure": false,
+                  "display_name": "Completed",
+                  "result_message": "No changes are required",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01FUHG9J29CKV2GuQYBGuzjKmNDQ8oDKCH3",
+        "name": "Read Table from JSON",
+        "title": "Parse new objects to table",
+        "type": "corejava.read_table_from_json",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Parse new objects to table",
+          "input_json": "$activity.definition_activity_01FTPWGWB0XI70PB2bUwSad1obHUHvBBN9S.output.script_queries.newObjects$",
+          "jsonpath_query": "$.*",
+          "persist_output": true,
+          "populate_columns": false,
+          "skip_execution": false,
+          "table_columns": [
+            {
+              "column_name": "name",
+              "column_type": "string"
+            },
+            {
+              "column_name": "subnet",
+              "column_type": "string"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01FUHJEM8KBZK7HB0oPjWP8MCTU8V40QXFB",
+        "name": "For Each",
+        "title": "For each new object",
+        "type": "logic.for_each",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "For each new object",
+          "skip_execution": false,
+          "source_array": "$activity.definition_activity_01FUHG9J29CKV2GuQYBGuzjKmNDQ8oDKCH3.output.read_table_from_json$"
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01FTQ8CZLJU2A1GZxNmlAr1ALrFyEfOQMTt",
+            "name": "HTTP Request",
+            "title": "Create this object in CDO",
+            "type": "web-service.http_request",
+            "base_type": "activity",
+            "properties": {
+              "action_timeout": 180,
+              "allow_auto_redirect": true,
+              "body": "{\n  \"name\": \"$activity.definition_activity_01FUHJEM8KBZK7HB0oPjWP8MCTU8V40QXFB.input.source_array[@].name$\",\n  \"@typeName\": \"LocalObject\",\n  \"objectType\": \"NETWORK_OBJECT\",\n  \"contents\": [\n    {\n      \"@type\": \"NetworkContent\",\n      \"sourceElement\": \"$activity.definition_activity_01FUHJEM8KBZK7HB0oPjWP8MCTU8V40QXFB.input.source_array[@].subnet$\",\n      \"destinationElement\": null\n    }\n  ],\n  \"deviceType\": \"ASA\"\n}",
+              "content_type": "application/json",
+              "continue_on_error_status_code": false,
+              "continue_on_failure": false,
+              "custom_headers": [
+                {
+                  "name": "Authorization",
+                  "value": "Bearer $workflow.definition_workflow_01FTPWFQOJ7TE3SJcsVpnuC4e8ZEEReN1iF.local.variable_workflow_01FTQACADGVAW52S2Snj2W7OGnTHmeEVMm9$"
+                }
+              ],
+              "display_name": "Create this object in CDO",
+              "method": "POST",
+              "relative_url": "services/targets/objects",
+              "runtime_user": {
+                "override_target_runtime_user": false,
+                "target_default": true
+              },
+              "skip_execution": false,
+              "target": {
+                "use_workflow_target_group": true
+              }
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01FUHM7BDTFCF1U8x8teVqvIesZkfwy8Azl",
+            "name": "JSONPath Query",
+            "title": "Get new object UID",
+            "type": "corejava.jsonpathquery",
+            "base_type": "activity",
+            "properties": {
+              "action_timeout": 180,
+              "continue_on_failure": false,
+              "display_name": "Get new object UID",
+              "input_json": "$activity.definition_activity_01FTQ8CZLJU2A1GZxNmlAr1ALrFyEfOQMTt.output.response_body$",
+              "jsonpath_queries": [
+                {
+                  "jsonpath_query": "$.uid",
+                  "jsonpath_query_name": "uid",
+                  "jsonpath_query_type": "string"
+                }
+              ],
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01FUHPYGG1P7E0d4NQNbautQHPXFtG4YeLR",
+            "name": "Set Variables",
+            "title": "Update list of objects to add",
+            "type": "core.set_multiple_variables",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Update list of objects to add",
+              "skip_execution": false,
+              "variables_to_update": [
+                {
+                  "variable_to_update": "$workflow.definition_workflow_01FTPWFQOJ7TE3SJcsVpnuC4e8ZEEReN1iF.local.variable_workflow_01FUHPSH0718Q0C2U4TKSBGJGBtKMjI0CGz$",
+                  "variable_value_new": "$workflow.definition_workflow_01FTPWFQOJ7TE3SJcsVpnuC4e8ZEEReN1iF.local.variable_workflow_01FUHPSH0718Q0C2U4TKSBGJGBtKMjI0CGz$ { \"name\": \"$activity.definition_activity_01FUHJEM8KBZK7HB0oPjWP8MCTU8V40QXFB.input.source_array[@].name$\", \"uid\": \"$activity.definition_activity_01FUHM7BDTFCF1U8x8teVqvIesZkfwy8Azl.output.jsonpath_queries.uid$\" },"
+                }
+              ]
+            },
+            "object_type": "definition_activity"
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01FUHRLBCZF6P3Cgz1fBPSflUKZah7gIMkj",
+        "name": "Execute Python Script",
+        "title": "Generate content JSON",
+        "type": "python3.script",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Generate content JSON",
+          "script": "import sys,json\n\n# get the input\nbaseContent = json.loads(sys.argv[1])\nnewObjects = sys.argv[2]\n\n# check if the new objects end with a command (that'll cause a parsing issue)\nif newObjects[len(newObjects) - 1] == \",\":\n    newObjects = newObjects[0:len(newObjects) - 1]\n\n# parse the JSON\nnewObjects = json.loads(\"[\" + newObjects + \"]\")\n\nfor new in newObjects:\n    baseContent.append( { \"@type\": \"ObjectReferenceContent\", \"name\": new[\"name\"], \"uid\": new[\"uid\"], \"type\": \"NETWORK_OBJECT\" } )\n\ncontentOut = { \"contents\": baseContent }\ncontentOut = json.dumps(contentOut)",
+          "script_arguments": [
+            "$activity.definition_activity_01FTPWGWB0XI70PB2bUwSad1obHUHvBBN9S.output.script_queries.baseContents$",
+            "$workflow.definition_workflow_01FTPWFQOJ7TE3SJcsVpnuC4e8ZEEReN1iF.local.variable_workflow_01FUHPSH0718Q0C2U4TKSBGJGBtKMjI0CGz$"
+          ],
+          "script_queries": [
+            {
+              "script_query": "contentOut",
+              "script_query_name": "contentOut",
+              "script_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01FUHXST340624wiFWrNzuKaFlDiEZKtp5g",
+        "name": "HTTP Request",
+        "title": "Update the group in CDO",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "$activity.definition_activity_01FUHRLBCZF6P3Cgz1fBPSflUKZah7gIMkj.output.script_queries.contentOut$",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $workflow.definition_workflow_01FTPWFQOJ7TE3SJcsVpnuC4e8ZEEReN1iF.local.variable_workflow_01FTQACADGVAW52S2Snj2W7OGnTHmeEVMm9$"
+            }
+          ],
+          "display_name": "Update the group in CDO",
+          "method": "PUT",
+          "relative_url": "services/targets/objects/$activity.definition_activity_01FUEI1GU4DWK0NVZhy2vZEHeCIAIZ64Yfk.output.jsonpath_queries.groupUid$",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "use_workflow_target_group": true
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01JGLHREMR1KU764cnmTJ9pRPoETNeRu5rm",
+        "name": "Condition Block",
+        "title": "Was the request successful?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Was the request successful?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01JGLHRQHASDM5kof7uapfnRR9bB1HNenR1",
+            "name": "Condition Branch",
+            "title": "No",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01FUEHI65Q47E6rHpJcCATslvs8FzAPoCqj.output.status_code$",
+                "operator": "ne",
+                "right_operand": 200
+              },
+              "continue_on_failure": false,
+              "display_name": "No",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01JGLHTMY3TW84vyfilhsVgWNy5zVWjGhMB",
+                "name": "Completed",
+                "title": "Failed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Failed",
+                  "result_message": "Failed to update object group\n\nStatus code: $activity.definition_activity_01FUEHI65Q47E6rHpJcCATslvs8FzAPoCqj.output.status_code$\nResponse body: $activity.definition_activity_01FUEHI65Q47E6rHpJcCATslvs8FzAPoCqj.output.response_body$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_01JFUQPO1XMLT66actth5nIPZxLCRDsgEXd"
+    ]
+  },
+  "categories": {
+    "category_01JFUQPO1XMLT66actth5nIPZxLCRDsgEXd": {
+      "unique_name": "category_01JFUQPO1XMLT66actth5nIPZxLCRDsgEXd",
+      "name": "SecureX TME",
+      "title": "SecureX TME",
+      "type": "basic.category",
+      "base_type": "category",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  },
+  "target_groups": {
+    "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+      "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+      "name": "Default TargetGroup",
+      "title": "Default TargetGroup",
+      "type": "generic.target_group",
+      "base_type": "target_group",
+      "version": "1.0.0",
+      "targets": [
+        {
+          "data_target_type": "web-service.endpoint",
+          "view_target_type": "web-service.endpoint",
+          "include_all_targets": true
+        },
+        {
+          "data_target_type": "email.smtp_endpoint",
+          "view_target_type": "email.smtp_endpoint",
+          "include_all_targets": true
+        },
+        {
+          "data_target_type": "terminal.endpoint",
+          "view_target_type": "terminal.endpoint",
+          "include_all_targets": true
+        },
+        {
+          "data_target_type": "aws.endpoint",
+          "view_target_type": "aws.endpoint",
+          "include_all_targets": true
+        }
+      ],
+      "object_type": "target_group"
+    }
+  }
+}
