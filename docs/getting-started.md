@@ -5,7 +5,7 @@ permalink: /getting-started
 nav_order: 5
 ---
 
-# Getting Started with SecureX orchestration
+# Getting Started
 SecureX orchestration is easy to use, but there are some terms and concepts that you should learn before getting started. Cisco has a wide variety of content available to help you get familiar with orchestration and its components.
 
 ---
@@ -31,4 +31,4 @@ Want to go beyond the basics? Here's some additional content you may find useful
 ## Next Steps
 After you've completed the recommended content, you can move on to configuring SecureX orchestration to connect to this repository. We also have a list of additional resources available.
 
-[Using this Repository]({{ site.baseurl }}/configuration){: .btn .btn-blue .mr-2 } [Additional Resources]({{ site.baseurl }}/resources){: .btn .btn-blue }
+[Using this Repository]({{ site.baseurl }}/configuration){: .btn-cisco-sky-blue .mr-2 } [Additional Resources]({{ site.baseurl }}/resources){: .btn-cisco-outline }

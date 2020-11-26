@@ -13,7 +13,7 @@ Workflow #0003
 
 Microsoft provides a JSON-formatted feed of their networks and domains for their various cloud services. This workflow demonstrates fetching that JSON, converting it into split-tunneling commands for Cisco ASA, and then executing those commands on an ASA.
 
-[Workflow Folder]({{ site.github.repository_url }}/tree/Main/Workflows/0003-MicrosoftOnline-ASASplitTunnel__definition_workflow_01FXTIIRZG1V03F4wJ1BsZoEAYc8NgBCBRP){: .btn .btn-blue .mr-2 } [JSON]({{ site.github.repository_url }}/tree/Main/Workflows/0003-MicrosoftOnline-ASASplitTunnel__definition_workflow_01FXTIIRZG1V03F4wJ1BsZoEAYc8NgBCBRP/definition_workflow_01FXTIIRZG1V03F4wJ1BsZoEAYc8NgBCBRP.json){: .btn .btn-blue }
+[<i class="fab fa-github mr-1"></i> Workflow Folder]({{ site.github.repository_url }}/tree/Main/Workflows/0003-MicrosoftOnline-ASASplitTunnel__definition_workflow_01FXTIIRZG1V03F4wJ1BsZoEAYc8NgBCBRP){: .btn-cisco-sky-blue .mr-2 } [JSON]({{ site.github.repository_url }}/tree/Main/Workflows/0003-MicrosoftOnline-ASASplitTunnel__definition_workflow_01FXTIIRZG1V03F4wJ1BsZoEAYc8NgBCBRP/definition_workflow_01FXTIIRZG1V03F4wJ1BsZoEAYc8NgBCBRP.json){: .btn-cisco-outline }
 
 ---
 

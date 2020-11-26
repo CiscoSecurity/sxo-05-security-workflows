@@ -13,7 +13,7 @@ Workflow #0002
 
 This workflow parses a single Talos blog post and converts it into a Cisco Threat Response casebook if it contains suspicious observables. This casebook can then be investigated with one click in Cisco Threat Response.
 
-[Workflow Folder]({{ site.github.repository_url }}/tree/Main/Workflows/0002-Talos-SingleBlogPostToCTRCasebook__definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ){: .btn .btn-blue .mr-2 } [JSON]({{ site.github.repository_url }}/tree/Main/Workflows/0002-Talos-SingleBlogPostToCTRCasebook__definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ/definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.json){: .btn .btn-blue }
+[<i class="fab fa-github mr-1"></i> Workflow Folder]({{ site.github.repository_url }}/tree/Main/Workflows/0002-Talos-SingleBlogPostToCTRCasebook__definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ){: .btn-cisco-sky-blue .mr-2 } [JSON]({{ site.github.repository_url }}/tree/Main/Workflows/0002-Talos-SingleBlogPostToCTRCasebook__definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ/definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.json){: .btn-cisco-outline }
 
 ---
 

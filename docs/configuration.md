@@ -67,4 +67,4 @@ When communicating with GitHub from SecureX orchestration, we recommend using a 
 ## Next Steps
 Once you have your repositories configured, you can start importing content!
 
-[Importing Content]({{ site.baseurl }}/importing){: .btn .btn-blue }
+[<i class="fa fa-upload mr-1"></i> Importing Content]({{ site.baseurl }}/importing){: .btn-cisco-sky-blue }

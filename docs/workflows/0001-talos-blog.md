@@ -13,7 +13,7 @@ Workflow #0001
 
 This workflow consumes the Talos Intelligence Blog RSS feed and converts individual blog posts into Cisco Threat Response casebooks if they contain suspicious observables. These casebooks can then be investigated with one click in Cisco Threat Response.
 
-[Workflow Folder]({{ site.github.repository_url }}/tree/Main/Workflows/0001-Talos-GetNewBlogPosts__definition_workflow_01FX7FQDZRDUX1TWgKJwTPBMaOWrgUOld2q){: .btn .btn-blue .mr-2 } [JSON]({{ site.github.repository_url }}/tree/Main/Workflows/0001-Talos-GetNewBlogPosts__definition_workflow_01FX7FQDZRDUX1TWgKJwTPBMaOWrgUOld2q/definition_workflow_01FX7FQDZRDUX1TWgKJwTPBMaOWrgUOld2q.json){: .btn .btn-blue }
+[<i class="fab fa-github mr-1"></i> Workflow Folder]({{ site.github.repository_url }}/tree/Main/Workflows/0001-Talos-GetNewBlogPosts__definition_workflow_01FX7FQDZRDUX1TWgKJwTPBMaOWrgUOld2q){: .btn-cisco-sky-blue .mr-2 } [JSON]({{ site.github.repository_url }}/tree/Main/Workflows/0001-Talos-GetNewBlogPosts__definition_workflow_01FX7FQDZRDUX1TWgKJwTPBMaOWrgUOld2q/definition_workflow_01FX7FQDZRDUX1TWgKJwTPBMaOWrgUOld2q.json){: .btn-cisco-outline }
 
 ---
 

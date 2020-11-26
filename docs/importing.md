@@ -8,7 +8,7 @@ nav_order: 15
 # Importing Git Content
 After configuring SecureX orchestration to use this repository using [these instructions]({{ site.baseurl }}/configuration), you can begin importing content.
 
-["Import and Export" Video](https://www.youtube.com/watch?v=qmJk994qLOg&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo&index=5){: .btn .btn-blue }
+[<i class="fa fa-video mr-1"></i> Import and Export](https://www.youtube.com/watch?v=qmJk994qLOg&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo&index=5){: .btn-cisco-sky-blue }
 
 ---
 

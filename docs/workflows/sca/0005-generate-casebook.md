@@ -17,7 +17,7 @@ Response Workflow
 
 This workflow should be triggered from a SecureX pivot menu and supports IP address observables. When triggered, this workflow generates a Threat Response casebook with links to investigate the IP address in Secure Cloud Analytics (SCA).
 
-[Workflow Folder]({{ site.github.repository_url }}/tree/Main/Workflows/0005-SCA-GenerateCasebookWithFlowLinks__definition_workflow_01JQ5LGT2UB1G2SLd05xQjb0EZz2HZn3c0d){: .btn .btn-blue .mr-2 } [JSON]({{ site.github.repository_url }}/tree/Main/Workflows/0005-SCA-GenerateCasebookWithFlowLinks__definition_workflow_01JQ5LGT2UB1G2SLd05xQjb0EZz2HZn3c0d/definition_workflow_01JQ5LGT2UB1G2SLd05xQjb0EZz2HZn3c0d.json){: .btn .btn-blue }
+[<i class="fab fa-github mr-1"></i> Workflow Folder]({{ site.github.repository_url }}/tree/Main/Workflows/0005-SCA-GenerateCasebookWithFlowLinks__definition_workflow_01JQ5LGT2UB1G2SLd05xQjb0EZz2HZn3c0d){: .btn-cisco-sky-blue .mr-2 } [JSON]({{ site.github.repository_url }}/tree/Main/Workflows/0005-SCA-GenerateCasebookWithFlowLinks__definition_workflow_01JQ5LGT2UB1G2SLd05xQjb0EZz2HZn3c0d/definition_workflow_01JQ5LGT2UB1G2SLd05xQjb0EZz2HZn3c0d.json){: .btn-cisco-outline }
 
 ---
 

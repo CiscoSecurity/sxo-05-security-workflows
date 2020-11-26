@@ -9,7 +9,7 @@ nav_order: 5
 # Best Practices
 The following best practices should be followed when building a workflow.
 
-["Building a Workflow" Video](https://www.youtube.com/watch?v=gs-XWrCXQbE&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo&index=2){: .btn .btn-blue }
+[<i class="fa fa-video mr-1"></i> Building a Workflow](https://www.youtube.com/watch?v=gs-XWrCXQbE&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo&index=2){: .btn-cisco-sky-blue }
 
 ---
 

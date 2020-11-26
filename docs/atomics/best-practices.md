@@ -9,7 +9,7 @@ nav_order: 5
 # Best Practices
 The following best practices should be followed when building an atomic action.
 
-["Building an Atomic" Video](https://www.youtube.com/watch?v=sNN6SLgeNpQ&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo&index=3){: .btn .btn-blue }
+[<i class="fa fa-video mr-1"></i> Building an Atomic](https://www.youtube.com/watch?v=sNN6SLgeNpQ&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo&index=3){: .btn-cisco-sky-blue }
 
 ---
 
