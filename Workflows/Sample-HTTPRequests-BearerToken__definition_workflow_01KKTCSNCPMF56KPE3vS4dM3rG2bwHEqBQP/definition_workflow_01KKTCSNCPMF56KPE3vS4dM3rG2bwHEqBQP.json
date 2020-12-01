@@ -1,0 +1,206 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01KKTCSNCPMF56KPE3vS4dM3rG2bwHEqBQP",
+    "name": "Sample - HTTP Requests - Bearer Token",
+    "title": "Sample - HTTP Requests - Bearer Token",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": null,
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "description": "This workflow shows how to fetch a bearer token, extract it from a JSON response, and then use it for a subsequent request in a custom header. Note that the two HTTP Request activities in this workflow are using different targets. It would be a good idea to have a look at each target's configuration.\n\nNote: In a real workflow, you should treat the token as a Secure String. In this sample, it's a normal string so you can see what's happening.\n\nTargets: CTR_For_Access_Token, CTR_API\n\nSteps:\n[] Get an access token for Threat Response\n[] Extract the token from the JSON\n[] Make a second API call to Threat Response using the bearer token in a custom header\n\nMore information about HTTP requests can be found here: https://cs.co/SXO_docs\n\nRun this workflow and inspect each activity's output carefully.",
+      "display_name": "Sample - HTTP Requests - Bearer Token",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": true,
+        "target_group": {
+          "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+          "run_on_all_targets": false,
+          "selected_target_types": [
+            "web-service.endpoint"
+          ],
+          "use_criteria": {
+            "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+            "conditions": [
+              {
+                "operator": "eqi",
+                "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                "right_operand": "CTR_API"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01KKTD1LKJ8DY1ujx6Z6haYlQkLmSXSondF",
+        "name": "HTTP Request",
+        "title": "Fetch Threat Response token",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "application/json",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "grant_type=client_credentials",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Content-Type",
+              "value": "application/x-www-form-urlencoded"
+            }
+          ],
+          "display_name": "Fetch Threat Response token",
+          "method": "POST",
+          "relative_url": "/oauth2/token",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target_group_criteria": true,
+            "target_group": {
+              "use_criteria": {
+                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                "conditions": [
+                  {
+                    "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                    "operator": "eqi",
+                    "right_operand": "CTR_For_Access_Token"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01KKTDS8SVIJ44vaMe9UALwRAXWuyUHxixy",
+        "name": "JSONPath Query",
+        "title": "Extract the token from JSON",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Extract the token from JSON",
+          "input_json": "$activity.definition_activity_01KKTD1LKJ8DY1ujx6Z6haYlQkLmSXSondF.output.response_body$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$.access_token",
+              "jsonpath_query_name": "access_token",
+              "jsonpath_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01KKTE2A081JA0Z5SpH2FhZzrtY0hniYsEZ",
+        "name": "HTTP Request",
+        "title": "Make a request using the token",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"content\": \"google.com\"\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $activity.definition_activity_01KKTDS8SVIJ44vaMe9UALwRAXWuyUHxixy.output.jsonpath_queries.access_token$"
+            }
+          ],
+          "display_name": "Make a request using the token",
+          "method": "POST",
+          "relative_url": "iroh-inspect/inspect",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target_group_criteria": true,
+            "target_group": {
+              "use_criteria": {
+                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                "conditions": [
+                  {
+                    "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                    "operator": "eqi",
+                    "right_operand": "CTR_API"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_01K8NQAII212R5jdJi1LLd5SCDT9F91tvBR"
+    ]
+  },
+  "categories": {
+    "category_01K8NQAII212R5jdJi1LLd5SCDT9F91tvBR": {
+      "unique_name": "category_01K8NQAII212R5jdJi1LLd5SCDT9F91tvBR",
+      "name": "Sample Workflow",
+      "title": "Sample Workflow",
+      "type": "basic.category",
+      "base_type": "category",
+      "description": "Simple workflows that show how to use various aspects of SecureX orchestration",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  },
+  "target_groups": {
+    "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+      "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+      "name": "Default TargetGroup",
+      "title": "Default TargetGroup",
+      "type": "generic.target_group",
+      "base_type": "target_group",
+      "version": "1.0.0",
+      "targets": [
+        {
+          "data_target_type": "web-service.endpoint",
+          "view_target_type": "web-service.endpoint",
+          "include_all_targets": true
+        },
+        {
+          "data_target_type": "email.smtp_endpoint",
+          "view_target_type": "email.smtp_endpoint",
+          "include_all_targets": true
+        },
+        {
+          "data_target_type": "terminal.endpoint",
+          "view_target_type": "terminal.endpoint",
+          "include_all_targets": true
+        },
+        {
+          "data_target_type": "aws.endpoint",
+          "view_target_type": "aws.endpoint",
+          "include_all_targets": true
+        }
+      ],
+      "object_type": "target_group"
+    }
+  }
+}
