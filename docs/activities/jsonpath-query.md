@@ -13,7 +13,7 @@ This activity allows you to easily extract information from a JSON-formatted str
 ---
 
 ## Best Practices
-* Check the `Continue Workflow Execution on Failure` box and use a `Condition Block` to check whether or not the path query was successful. This helps make sure your workflow fails with a useful error message and only continues if the path query succeeds.
+* Check the `Continue Workflow Execution on Failure` box and use a [`Condition Block`]({{ site.baseurl }}/activities/condition-block) to check whether or not the path query was successful. This helps make sure your workflow fails with a useful error message and only continues if the path query succeeds.
 
 ---
 
