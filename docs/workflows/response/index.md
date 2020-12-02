@@ -4,7 +4,7 @@ title: Response Workflows
 permalink: /workflows/response/
 parent: Workflows
 has_children: true
-nav_order: 20
+nav_order: 15
 has_toc: false
 ---
 
@@ -56,8 +56,8 @@ For a full list of valid observable types, see the [vocabularies schema](https:/
 
 ---
 
-## Triggering via the CTR API
-Response workflows can be triggered via the Cisco Threat Response API. This is useful if you want to be able to trigger a workflow from outside of SecureX. For more information about how to do this, see [this page]({{ site.baseurl }}/workflows/response/ctr-api).
+## Triggering via the Threat Response API
+Response workflows can be triggered via the Threat Response API. This is useful if you want to be able to trigger a workflow from outside of SecureX. For more information about how to do this, see [this page]({{ site.baseurl }}/workflows/response/ctr-api).
 
 ---
 

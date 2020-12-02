@@ -3,7 +3,7 @@ layout: page
 title: Best Practices
 permalink: /workflows/best-practices
 parent: Workflows
-nav_order: 5
+nav_order: 10
 ---
 
 # Best Practices
@@ -18,7 +18,7 @@ The following best practices should be followed when building a workflow.
 * Provide a detailed description. For example:
 
 ```text
-This workflow takes a Talos blog post, conducts an investigation into it using Cisco Threat Response, and then puts the results in a casebook. If a Webex Teams room name and bot token are provided, a message with the investigation's results will be sent.
+This workflow takes a Talos blog post, conducts an investigation into it using Threat Response, and then puts the results in a casebook. If a Webex Teams room name and bot token are provided, a message with the investigation's results will be sent.
 
 Target Group: Default TargetGroup
 
@@ -26,11 +26,11 @@ Targets Used: CTR_For_Access_Token, CTR_API, Private_CTIA_Target, Webex Teams
 
 Steps:
 [] Fetch the blog post content and strip out any HTML
-[] Request a CTR access token and inspect the blog post content for observables
-[] Loop through each observable and get its CTR disposition
-[] For observables that weren't clean, conduct CTR enrichment to get sightings
+[] Request a Threat Response access token and inspect the blog post content for observables
+[] Loop through each observable and get its Threat Response disposition
+[] For observables that weren't clean, conduct Threat Response enrichment to get sightings
 [] For modules with sightings, build the text to post to Webex
-[] Create the CTR casebook and, if a teams room is provided, post a message to Webex
+[] Create the Threat Response casebook and, if a teams room is provided, post a message to Webex
 ```
 
 ---

@@ -2,7 +2,7 @@
 layout: page
 title: Frequently Asked Questions
 permalink: /faqs
-nav_order: 17
+nav_order: 20
 ---
 
 # Frequently Asked Questions
@@ -29,5 +29,5 @@ This page contains a list of frequently asked questions about SecureX orchestrat
 ### Q: Can I install custom Python modules?
 **A**: No. Python scripts in SecureX orchestration run inside a container that can't be customized.
 
-### Q: How do I make a workflow appear in Threat Response/ribbon/product pivot menus?
+### Q: How do I make a workflow appear in Threat Response/SecureX ribbon/product pivot menus?
 **A**: See the [Response Workflows]({{ site.baseurl }}/workflows/response/) page.

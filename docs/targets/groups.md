@@ -1,9 +1,8 @@
 ---
 layout: page
 title: Target Groups
-permalink: /workflows/target-groups
-parent: Workflows
-nav_order: 15
+permalink: /targets/groups
+parent: Targets
 ---
 
 # Target Groups

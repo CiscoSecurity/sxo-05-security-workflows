@@ -1,17 +1,17 @@
 ---
 layout: page
-title: Talos - Single Blog Post to CTR Casebook
+title: Talos - Single Blog Post to SecureX Casebook
 permalink: /workflows/0002-talos-single-post
 parent: Workflows
 ---
 
-# Talos - Single Blog Post to CTR Casebook
+# Talos - Single Blog Post to SecureX Casebook
 <div markdown="1">
 Workflow #0002
 {: .label }
 </div>
 
-This workflow parses a single Talos blog post and converts it into a Cisco Threat Response casebook if it contains suspicious observables. This casebook can then be investigated with one click in Cisco Threat Response.
+This workflow parses a single Talos blog post and converts it into a SecureX casebook if it contains suspicious observables. This casebook can then be investigated with one click in Threat Response.
 
 [<i class="fab fa-github mr-1"></i> Workflow Folder]({{ site.github.repository_url }}/tree/Main/Workflows/0002-Talos-SingleBlogPostToCTRCasebook__definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ){: .btn-cisco-sky-blue .mr-2 } [JSON]({{ site.github.repository_url }}/tree/Main/Workflows/0002-Talos-SingleBlogPostToCTRCasebook__definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ/definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.json){: .btn-cisco-outline }
 
@@ -31,11 +31,11 @@ This workflow is an adaptation of the sub-workflow used by the [Talos - Get New 
 This workflow is designed to parse a single blog post into a casebook.
 
 1. Fetch the blog post content and strip out any HTML
-1. Request a CTR access token and inspect the blog post content for observables
-1. Loop through each observable and get its CTR disposition
-1. For observables that weren't clean, conduct CTR enrichment to get sightings
+1. Request a Threat Response access token and inspect the blog post content for observables
+1. Loop through each observable and get its Threat Response disposition
+1. For observables that weren't clean, conduct Threat Response enrichment to get sightings
 1. For modules with sightings, build the text to post to Webex
-1. Create the CTR casebook and, if a teams room is provided, post a message to Webex
+1. Create the Threat Response casebook and, if a teams room is provided, post a message to Webex
 
 ---
 

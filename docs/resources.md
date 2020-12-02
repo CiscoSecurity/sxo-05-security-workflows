@@ -2,7 +2,7 @@
 layout: page
 title: Additional Resources
 permalink: /resources
-nav_order: 40
+nav_order: 105
 ---
 
 # Additional Resources

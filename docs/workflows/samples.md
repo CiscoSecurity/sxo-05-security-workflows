@@ -3,7 +3,7 @@ layout: page
 title: Samples
 permalink: /workflows/samples
 parent: Workflows
-nav_order: 10
+nav_order: 20
 ---
 
 # Samples
@@ -14,7 +14,7 @@ This page contains an index of sample workflows available for various SecureX or
 * [HTTP Request]({{ site.baseurl }}/activities/http-request#sample-workflows)
 * [JSONPath Query]({{ site.baseurl }}/activities/jsonpath-query#sample-workflows)
 * [Response Workflows]({{ site.baseurl }}/workflows/response/#sample-workflows)
-* [Response Workflows - CTR API]({{ site.baseurl }}/workflows/response/ctr-api#sample-workflows)
+* [Response Workflows - Threat Response API]({{ site.baseurl }}/workflows/response/tr-api#sample-workflows)
 * [Tables]({{ site.baseurl }}/activities/tables#sample-workflows)
 * [Target Groups]({{ site.baseurl }}/workflows/target-groups#sample-workflows)
 * [While Loop]({{ site.baseurl }}/activities/while-loop#sample-workflows)

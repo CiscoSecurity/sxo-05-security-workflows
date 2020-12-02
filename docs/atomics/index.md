@@ -3,7 +3,7 @@ layout: page
 title: Atomic Actions
 permalink: /atomics/
 has_children: true
-nav_order: 20
+nav_order: 35
 ---
 
 # Atomic Actions

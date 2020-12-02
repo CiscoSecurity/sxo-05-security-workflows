@@ -2,7 +2,7 @@
 layout: page
 title: Want to Contribute?
 permalink: /contributing
-nav_order: 35
+nav_order: 100
 ---
 
 # Want to Contribute?

@@ -3,6 +3,8 @@ layout: page
 title: HTTP Request
 permalink: /activities/http-request
 parent: Activities
+has_children: true
+has_toc: false
 ---
 
 # HTTP Request
@@ -26,3 +28,4 @@ This activity allows you to make HTTP requests to a target and is highly customi
 The following sample workflows are available in our repository's workflows folder to help you get familiar with this activity. These can be imported using the instructions [here]({{ site.baseurl }}/importing) or you can view the workflow in GitHub by clicking on it.
 
 * [Sample - HTTP Requests]({{ site.github.repository_url }}/tree/Main/Workflows/Sample-HTTPRequests__definition_workflow_01K8OUE30UIFT3L8Ugle9RMwhs5kIutlfUr)
+* [Sample - HTTP Requests - Bearer Token]({{ site.github.repository_url }}/tree/Main/Workflows/Sample-HTTPRequests-BearerToken__definition_workflow_01KKTCSNCPMF56KPE3vS4dM3rG2bwHEqBQP)

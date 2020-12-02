@@ -1,14 +1,14 @@
 ---
 layout: page
-title: Triggering via the CTR API
-permalink: /workflows/response/ctr-api
+title: Triggering via the Threat Response API
+permalink: /workflows/response/tr-api
 parent: Response Workflows
 grand_parent: Workflows
 ---
 
-# Triggering via the CTR API
+# Triggering via the Threat Response API
 {: .no_toc}
-If you want to trigger a workflow from outside of SecureX, you can trigger response workflows via the Cisco Threat Response API.
+If you want to trigger a workflow from outside of SecureX, you can trigger response workflows via the Threat Response API.
 
 [Response API Documentation](https://visibility.amp.cisco.com/iroh/iroh-response/index.html){: .btn-cisco-sky-blue }
 
@@ -18,7 +18,7 @@ If you want to trigger a workflow from outside of SecureX, you can trigger respo
 ---
 
 ## Limitations
-The following limitations apply to using the CTR API with workflows:
+The following limitations apply to using the Threat Response API with workflows:
 * The workflow must be a response workflow (see [this page]({{ site.baseurl }}/workflows/response/))
 * The only input you can provide the workflow are two strings named `observable_type` and `observable_value`
 * You will not be able to get the result or status of the workflow, only that it has been executed successfully
@@ -26,7 +26,7 @@ The following limitations apply to using the CTR API with workflows:
 ---
 
 ## Generating an API Client
-If you don't already have a CTR API client with the **Response** scope, follow these steps:
+If you don't already have a Threat Response API client with the **Response** scope, follow these steps:
 
 1. Log into SecureX and click on the **Administration** tab
 1. Click on **API Clients** on the left menu
@@ -37,7 +37,7 @@ If you don't already have a CTR API client with the **Response** scope, follow t
 ---
 
 ## Getting the Response Workflow's Details
-To trigger a response workflow through the CTR API, you need to know the response action's module instance ID and action ID. For response workflows, the action ID is the workflow's ID. The easiest way to get this information is to import the `Sample - Listing CTR Response Actions` workflow from the [Sample Workflows](#sample-workflows) section below and run it.
+To trigger a response workflow through the Threat Response API, you need to know the response action's module instance ID and action ID. For response workflows, the action ID is the workflow's ID. The easiest way to get this information is to import the `Sample - Listing Threat Response Response Actions` workflow from the [Sample Workflows](#sample-workflows) section below and run it.
 
 If you run the workflow and examine the output of the `Convert module list into readable text` activity, you should see a list of information like this for each available action:
 ```text
@@ -55,7 +55,7 @@ Look for the workflow you want to run and make a note of its `Action URL`.
 ---
 
 ## Getting an Access Token
-To use CTR APIs, you need an access token. You can get an access token from the CTR API using the client ID and client secret from your CTR API client (see [above](#generating-an-api-client)). To exchange your client information for a token, make the following API request:
+To use Threat Response APIs, you need an access token. You can get an access token from the Threat Response API using the client ID and client secret from your Threat Response API client (see [above](#generating-an-api-client)). To exchange your client information for a token, make the following API request:
 * HTTP Method: `POST`
 * URL: `http://visibility.amp.cisco.com/iroh/oauth2/token`
 * Authorization:
@@ -90,11 +90,11 @@ Note that access tokens are only valid for 10 minutes. When your token expires, 
 ---
 
 ## Triggering a Workflow
-One you have your access token and the workflow's action URL, you can request the workflow be triggered via the CTR API. You need to make the following API request:
+One you have your access token and the workflow's action URL, you can request the workflow be triggered via the Threat Response API. You need to make the following API request:
 * HTTP Method: `POST`
 * URL: `http://visibility.amp.cisco.com/iroh<action URL>`
 * Headers:
-	* Authorization: `Bearer <CTR access token>` (see [above](#getting-an-access-token))
+	* Authorization: `Bearer <Threat Response access token>` (see [above](#getting-an-access-token))
 
 Here's a full HTTP example:
 ```text
@@ -109,4 +109,4 @@ Content-Type: application/json
 ## Sample Workflows
 The following sample workflows are available in our repository's workflows folder to help you get familiar with this concept. These can be imported using the instructions [here]({{ site.baseurl }}/importing) or you can view the workflow in GitHub by clicking on it.
 
-* [Sample - Listing CTR Response Actions]({{ site.github.repository_url }}/tree/Main/Workflows/Sample-ListingCTRResponseActions__definition_workflow_01KEU8H4I287304q6vzCWsqURk39j2wAKoZ)
+* [Sample - Listing Threat Response Response Actions]({{ site.github.repository_url }}/tree/Main/Workflows/Sample-ListingCTRResponseActions__definition_workflow_01KEU8H4I287304q6vzCWsqURk39j2wAKoZ)

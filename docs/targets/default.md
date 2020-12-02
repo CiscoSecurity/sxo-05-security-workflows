@@ -1,12 +1,12 @@
 ---
 layout: page
 title: Default Targets
-permalink: /default-targets
-nav_order: 32
+permalink: /targets/default
+parent: Targets
 ---
 
 # Default Targets
-This page lists all of the targets that are created by default when an orchestration instance is provisioned.
+This page lists all of the targets that are created by default when an orchestration instance is provisioned. These are used with the [default account keys]({{ site.baseurl }}/account-keys/default) that are also configured.
 
 ---
 
