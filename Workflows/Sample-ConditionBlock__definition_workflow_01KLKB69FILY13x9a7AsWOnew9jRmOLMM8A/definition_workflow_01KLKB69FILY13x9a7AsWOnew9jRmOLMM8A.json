@@ -1,0 +1,511 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01KLKB69FILY13x9a7AsWOnew9jRmOLMM8A",
+    "name": "Sample - Condition Block",
+    "title": "Sample - Condition Block",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.boolean",
+        "properties": {
+          "value": true,
+          "scope": "input",
+          "name": "Sample Boolean",
+          "type": "datatype.boolean",
+          "description": "Try changing this from true to false",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01KLKC2CF4E9T2FXov5tSKv4iFsly6ePQn0",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "value-a",
+          "scope": "input",
+          "name": "Sample String",
+          "type": "datatype.string",
+          "description": "Try changing this between:\nvalue-a\nvalue-b\nsomething else",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01KLKCXZ231SB2NIW0tND9cSkgWmquahrpv",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "description": "This sample shows four different uses of the Condition Block.\n\nThe first shows a single branch condition block which is useful when you simply want to end a workflow if a condition is true. If the condition isn't met, the workflow just passes by the condition branch.\n\nThe second sample shows a simple true/false condition block with two branches.\n\nThe third and fourth samples show the same three branch condition block with two different ways of doing an \"else\" condition. Sample 3 shows an explicit else where we're checking that the values ARE NOT either of the valid options. Sample 4 shows using an implicit else which has a condition that's always true and will always be used if the first two branches aren't matched.\n\nMore information about condition blocks can be found in our GitHub documentation at https://cs.co/SXO_docs",
+      "display_name": "Sample - Condition Block",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": false,
+        "execute_on_workflow_target": false,
+        "no_target": true,
+        "specify_on_workflow_start": false
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01KLKJ2RJ6BX22gaT1c7xPt9g27h5HusZ0o",
+        "name": "Group",
+        "title": "Sample 1: Single branch",
+        "type": "logic.group",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Sample 1: Single branch",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01KLKIGVZ4K2U0h0DG0QuRs3ujFWgL0qxoR",
+            "name": "Condition Block",
+            "title": "Is variable false?",
+            "type": "logic.if_else",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Is variable false?",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "blocks": [
+              {
+                "unique_name": "definition_activity_01KLKIH96KVN31s8WahaAFLe50TeRLPDicA",
+                "name": "Condition Branch",
+                "title": "Yes",
+                "type": "logic.condition_block",
+                "base_type": "activity",
+                "properties": {
+                  "condition": {
+                    "left_operand": "$workflow.definition_workflow_01KLKB69FILY13x9a7AsWOnew9jRmOLMM8A.input.variable_workflow_01KLKC2CF4E9T2FXov5tSKv4iFsly6ePQn0$",
+                    "operator": "eq",
+                    "right_operand": false
+                  },
+                  "continue_on_failure": false,
+                  "display_name": "Yes",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01KLKISUPYOX56HVkySdoSDX0Q1eyLShQJw",
+                    "name": "Completed",
+                    "title": "End the workflow",
+                    "type": "logic.completed",
+                    "base_type": "activity",
+                    "properties": {
+                      "completion_type": "succeeded",
+                      "continue_on_failure": false,
+                      "display_name": "End the workflow",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01KLKELQA0OLX3yjplFVi5xgrmD5vhEcyxl",
+        "name": "Group",
+        "title": "Sample 2: Boolean",
+        "type": "logic.group",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Sample 2: Boolean",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01KLKBCIVXVJZ7dizbKSfz8tOUEuAdGdSBS",
+            "name": "Condition Block",
+            "title": "Is variable true or false?",
+            "type": "logic.if_else",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Is variable true or false?",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "blocks": [
+              {
+                "unique_name": "definition_activity_01KLKBCPIO7BY46b3SaqFhhNoMZxrSieM4p",
+                "name": "Condition Branch",
+                "title": "True",
+                "type": "logic.condition_block",
+                "base_type": "activity",
+                "properties": {
+                  "condition": {
+                    "left_operand": "$workflow.definition_workflow_01KLKB69FILY13x9a7AsWOnew9jRmOLMM8A.input.variable_workflow_01KLKC2CF4E9T2FXov5tSKv4iFsly6ePQn0$",
+                    "operator": "eq",
+                    "right_operand": true
+                  },
+                  "continue_on_failure": false,
+                  "display_name": "True",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01KLKCK42BXEM5iNJrSTZ3Qqr8btc8ZJ3FA",
+                    "name": "Completed",
+                    "title": "Do something...",
+                    "type": "logic.completed",
+                    "base_type": "activity",
+                    "properties": {
+                      "completion_type": "succeeded",
+                      "continue_on_failure": false,
+                      "display_name": "Do something...",
+                      "skip_execution": true
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              },
+              {
+                "unique_name": "definition_activity_01KLKBCQKEMMJ6q1DbbOY755VjeC2UtPFWV",
+                "name": "Condition Branch",
+                "title": "False",
+                "type": "logic.condition_block",
+                "base_type": "activity",
+                "properties": {
+                  "condition": {
+                    "left_operand": "$workflow.definition_workflow_01KLKB69FILY13x9a7AsWOnew9jRmOLMM8A.input.variable_workflow_01KLKC2CF4E9T2FXov5tSKv4iFsly6ePQn0$",
+                    "operator": "eq",
+                    "right_operand": false
+                  },
+                  "continue_on_failure": false,
+                  "display_name": "False",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01KLKCNOBSJR53Jf4QYhXnARuzlQSX1wrHx",
+                    "name": "Completed",
+                    "title": "Do something...",
+                    "type": "logic.completed",
+                    "base_type": "activity",
+                    "properties": {
+                      "completion_type": "succeeded",
+                      "continue_on_failure": false,
+                      "display_name": "Do something...",
+                      "skip_execution": true
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01KLKEMZRLNU07heQDfmO8KumfM4qKQe6U3",
+        "name": "Group",
+        "title": "Sample 3: String with explicit else",
+        "type": "logic.group",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Sample 3: String with explicit else",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01KLKD21JJIAJ4LN4L9kECXlh4zln833Iqv",
+            "name": "Condition Block",
+            "title": "What value does a string have?",
+            "type": "logic.if_else",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "What value does a string have?",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "blocks": [
+              {
+                "unique_name": "definition_activity_01KLKD28HNIZ02wb3adcUQfRTUT9U6pFsZi",
+                "name": "Condition Branch",
+                "title": "value-a",
+                "type": "logic.condition_block",
+                "base_type": "activity",
+                "properties": {
+                  "condition": {
+                    "left_operand": "$workflow.definition_workflow_01KLKB69FILY13x9a7AsWOnew9jRmOLMM8A.input.variable_workflow_01KLKCXZ231SB2NIW0tND9cSkgWmquahrpv$",
+                    "operator": "eq",
+                    "right_operand": "value-a"
+                  },
+                  "continue_on_failure": false,
+                  "display_name": "value-a",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01KLKDTC0C6LJ0cgExt4JITQxI6XmyCacTT",
+                    "name": "Completed",
+                    "title": "Do something...",
+                    "type": "logic.completed",
+                    "base_type": "activity",
+                    "properties": {
+                      "completion_type": "succeeded",
+                      "continue_on_failure": false,
+                      "display_name": "Do something...",
+                      "skip_execution": true
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              },
+              {
+                "unique_name": "definition_activity_01KLKD29KCG3G0HwNVdE3E6MLLC2gTbPyyf",
+                "name": "Condition Branch",
+                "title": "value-b",
+                "type": "logic.condition_block",
+                "base_type": "activity",
+                "properties": {
+                  "condition": {
+                    "left_operand": "$workflow.definition_workflow_01KLKB69FILY13x9a7AsWOnew9jRmOLMM8A.input.variable_workflow_01KLKCXZ231SB2NIW0tND9cSkgWmquahrpv$",
+                    "operator": "eq",
+                    "right_operand": "value-b"
+                  },
+                  "continue_on_failure": false,
+                  "display_name": "value-b",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01KLKDWGYRETH2dChcydovqA9sCNQIqYsl9",
+                    "name": "Completed",
+                    "title": "Do something...",
+                    "type": "logic.completed",
+                    "base_type": "activity",
+                    "properties": {
+                      "completion_type": "succeeded",
+                      "continue_on_failure": false,
+                      "display_name": "Do something...",
+                      "skip_execution": true
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              },
+              {
+                "unique_name": "definition_activity_01KLKDA3H2SU926RYoipki2tMyNIahR0vdD",
+                "name": "Condition Branch",
+                "title": "Neither",
+                "type": "logic.condition_block",
+                "base_type": "activity",
+                "properties": {
+                  "condition": {
+                    "left_operand": {
+                      "left_operand": "$workflow.definition_workflow_01KLKB69FILY13x9a7AsWOnew9jRmOLMM8A.input.variable_workflow_01KLKCXZ231SB2NIW0tND9cSkgWmquahrpv$",
+                      "operator": "ne",
+                      "right_operand": "value-a"
+                    },
+                    "operator": "and",
+                    "right_operand": {
+                      "left_operand": "$workflow.definition_workflow_01KLKB69FILY13x9a7AsWOnew9jRmOLMM8A.input.variable_workflow_01KLKCXZ231SB2NIW0tND9cSkgWmquahrpv$",
+                      "operator": "ne",
+                      "right_operand": "value-b"
+                    }
+                  },
+                  "continue_on_failure": false,
+                  "display_name": "Neither",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01KLKE02DX5F47QV6qWyPGCHneJVG6DEcvs",
+                    "name": "Completed",
+                    "title": "Do something...",
+                    "type": "logic.completed",
+                    "base_type": "activity",
+                    "properties": {
+                      "completion_type": "succeeded",
+                      "continue_on_failure": false,
+                      "display_name": "Do something...",
+                      "skip_execution": true
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01KLKEOGS0S5W26QFNPF0uINLIOiOPQekHC",
+        "name": "Group",
+        "title": "Sample 4: String with implicit else",
+        "type": "logic.group",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Sample 4: String with implicit else",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01KLKEHLURFGX6Q5voWfptQ0IjpgbehweXB",
+            "name": "Condition Block",
+            "title": "What value does a string have?",
+            "type": "logic.if_else",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "What value does a string have?",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "blocks": [
+              {
+                "unique_name": "definition_activity_01KLKEHXF7M8K5MoAXNHsN2kkJxJZLcopzU",
+                "name": "Condition Branch",
+                "title": "value-a",
+                "type": "logic.condition_block",
+                "base_type": "activity",
+                "properties": {
+                  "condition": {
+                    "left_operand": "$workflow.definition_workflow_01KLKB69FILY13x9a7AsWOnew9jRmOLMM8A.input.variable_workflow_01KLKCXZ231SB2NIW0tND9cSkgWmquahrpv$",
+                    "operator": "eq",
+                    "right_operand": "value-a"
+                  },
+                  "continue_on_failure": false,
+                  "display_name": "value-a",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01KLKEHYKO44V1xCkESoUSzPOu5rVG3ktAe",
+                    "name": "Completed",
+                    "title": "Do something...",
+                    "type": "logic.completed",
+                    "base_type": "activity",
+                    "properties": {
+                      "completion_type": "succeeded",
+                      "continue_on_failure": false,
+                      "display_name": "Do something...",
+                      "skip_execution": true
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              },
+              {
+                "unique_name": "definition_activity_01KLKEI4O2USB7dIhddX0XlhjIA7t2Ix0Tl",
+                "name": "Condition Branch",
+                "title": "value-b",
+                "type": "logic.condition_block",
+                "base_type": "activity",
+                "properties": {
+                  "condition": {
+                    "left_operand": "$workflow.definition_workflow_01KLKB69FILY13x9a7AsWOnew9jRmOLMM8A.input.variable_workflow_01KLKCXZ231SB2NIW0tND9cSkgWmquahrpv$",
+                    "operator": "eq",
+                    "right_operand": "value-b"
+                  },
+                  "continue_on_failure": false,
+                  "display_name": "value-b",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01KLKEI5Z0AJM0T1bxA2HqNmd3Rgg1mBE2r",
+                    "name": "Completed",
+                    "title": "Do something...",
+                    "type": "logic.completed",
+                    "base_type": "activity",
+                    "properties": {
+                      "completion_type": "succeeded",
+                      "continue_on_failure": false,
+                      "display_name": "Do something...",
+                      "skip_execution": true
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              },
+              {
+                "unique_name": "definition_activity_01KLKEICWVCS568BfRtI1Rtwcr5iIUQGpll",
+                "name": "Condition Branch",
+                "title": "Neither",
+                "type": "logic.condition_block",
+                "base_type": "activity",
+                "properties": {
+                  "condition": {
+                    "left_operand": "$workflow.definition_workflow_01KLKB69FILY13x9a7AsWOnew9jRmOLMM8A.output.instance_id$",
+                    "operator": "eq",
+                    "right_operand": "$workflow.definition_workflow_01KLKB69FILY13x9a7AsWOnew9jRmOLMM8A.output.instance_id$"
+                  },
+                  "continue_on_failure": false,
+                  "description": "This condition will always be true, so it's useful for putting in a fake \"else\" since orchestration doesn't actually have an \"else\" block",
+                  "display_name": "Neither",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01KLKEIE3MJKX3rMuR4X5jrMuZJfp18ls6v",
+                    "name": "Completed",
+                    "title": "Do something...",
+                    "type": "logic.completed",
+                    "base_type": "activity",
+                    "properties": {
+                      "completion_type": "succeeded",
+                      "continue_on_failure": false,
+                      "display_name": "Do something...",
+                      "skip_execution": true
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_01K8NQAII212R5jdJi1LLd5SCDT9F91tvBR"
+    ]
+  },
+  "categories": {
+    "category_01K8NQAII212R5jdJi1LLd5SCDT9F91tvBR": {
+      "unique_name": "category_01K8NQAII212R5jdJi1LLd5SCDT9F91tvBR",
+      "name": "Sample Workflow",
+      "title": "Sample Workflow",
+      "type": "basic.category",
+      "base_type": "category",
+      "description": "Simple workflows that show how to use various aspects of SecureX orchestration",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  }
+}
