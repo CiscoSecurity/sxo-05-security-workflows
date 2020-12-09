@@ -1,0 +1,246 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01KMHVP4736GU5X8CmvrPj65vPe3wImdeup",
+    "name": "Sample - Date and Time",
+    "title": "Sample - Date and Time",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.date",
+        "properties": {
+          "value": "2020-12-01T10:00:00+00:00",
+          "scope": "input",
+          "name": "Sample Date",
+          "type": "datatype.date",
+          "description": "This date is used as input for some of the activities in the workflow. Feel free to modify it but try to keep the format the same.",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01KMIS1ZKQNU46jg7HuxASyCelbe8VUzz5B",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "description": "This sample shows a variety of examples of how to use date and time activities including: calculating dates, calculating the difference between two dates, converting a date to a string, and parsing dates from strings.\n\nMore information about date and time activities can be found in our GitHub documentation at https://cs.co/SXO_docs",
+      "display_name": "Sample - Date and Time",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": false,
+        "execute_on_workflow_target": false,
+        "no_target": true,
+        "specify_on_workflow_start": false
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01KMIS93DZ9R11FDgdzuSDrXfsw7QQ7AlYC",
+        "name": "Group",
+        "title": "Add a day to the sample time",
+        "type": "logic.group",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Add a day to the sample time",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01KMHZ7WXG10365XIV8GqwLqQbgWaluOq51",
+            "name": "Calculate Date",
+            "title": "Calculate Date",
+            "type": "core.calculate_date",
+            "base_type": "activity",
+            "properties": {
+              "adjustment": 86400,
+              "continue_on_failure": false,
+              "display_name": "Calculate Date",
+              "original_date": "$workflow.definition_workflow_01KMHVP4736GU5X8CmvrPj65vPe3wImdeup.input.variable_workflow_01KMIS1ZKQNU46jg7HuxASyCelbe8VUzz5B$",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01KRJ8G46O4PA1jiYku1LqSZleS2oxmHCu3",
+        "name": "Group",
+        "title": "Subtract a day from the sample time",
+        "type": "logic.group",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Subtract a day from the sample time",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01KRJ8GLOHPZ07bc2djRbZn0fFhUm1iDfZ8",
+            "name": "Calculate Date",
+            "title": "Calculate Date",
+            "type": "core.calculate_date",
+            "base_type": "activity",
+            "properties": {
+              "adjustment": -86400,
+              "continue_on_failure": false,
+              "display_name": "Calculate Date",
+              "original_date": "$workflow.definition_workflow_01KMHVP4736GU5X8CmvrPj65vPe3wImdeup.input.variable_workflow_01KMIS1ZKQNU46jg7HuxASyCelbe8VUzz5B$",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01KMISFLADD8L5ewM0o25mpkz8Rgt4zDGlm",
+        "name": "Group",
+        "title": "Calculate the difference between two datetimes",
+        "type": "logic.group",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Calculate the difference between two datetimes",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01KMHZ8XIAR4A2UgSbBaXpjZTzvv5eVYc2j",
+            "name": "Calculate Date Time Difference",
+            "title": "Calculate Date Time Difference",
+            "type": "core.calculate_date_time_difference",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Calculate Date Time Difference",
+              "original_date": "$activity.definition_activity_01KMHZ7WXG10365XIV8GqwLqQbgWaluOq51.output.result$",
+              "skip_execution": false,
+              "subtract_date": "$workflow.definition_workflow_01KMHVP4736GU5X8CmvrPj65vPe3wImdeup.input.variable_workflow_01KMIS1ZKQNU46jg7HuxASyCelbe8VUzz5B$"
+            },
+            "object_type": "definition_activity"
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01KMJ2TRV7EOS3EtXS9UpjMGxozjFHwBdVv",
+        "name": "Group",
+        "title": "Convert a datetime into a string",
+        "type": "logic.group",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Convert a datetime into a string",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01KMHZALU4ZGX5ILg506imwg4X0HCJf4zl0",
+            "name": "Format Date",
+            "title": "Format Date",
+            "type": "core.format_date",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Format Date",
+              "format_string": "02 Jan 06 15:04 -0700",
+              "original_date": "$workflow.definition_workflow_01KMHVP4736GU5X8CmvrPj65vPe3wImdeup.input.variable_workflow_01KMIS1ZKQNU46jg7HuxASyCelbe8VUzz5B$",
+              "skip_execution": false,
+              "use_custom_format": false
+            },
+            "object_type": "definition_activity"
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01KMJCJQLXVF35Y5EtcmTIQAyVjEXDWTVTf",
+        "name": "Group",
+        "title": "Parse a datetime from a string",
+        "type": "logic.group",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Parse a datetime from a string",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01KMHZBTBF7WS1xfsZpwZfHpHqjgrEMBsWZ",
+            "name": "Parse Date",
+            "title": "Parse Date",
+            "type": "core.parse_date",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Parse Date",
+              "format_string": "2006-01-02",
+              "input_string": "2020-12-01",
+              "skip_execution": false,
+              "use_custom_format": false
+            },
+            "object_type": "definition_activity"
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01KRJ997WBHVY4K79NBiXy3oPUm7udqIoXw",
+        "name": "Group",
+        "title": "Parse a datetime from a string (custom format)",
+        "type": "logic.group",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Parse a datetime from a string (custom format)",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01KRJ99IDXQZ400oLvXA5umA0d3gdbuaXQr",
+            "name": "Parse Date",
+            "title": "Parse Date",
+            "type": "core.parse_date",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "custom_format": "January 01, 2018 03:04:05 PM",
+              "display_name": "Parse Date",
+              "format_string": "2006-01-02T15:04:05-0700",
+              "input_string": "December 02, 2020 06:30:00 AM",
+              "skip_execution": false,
+              "use_custom_format": true
+            },
+            "object_type": "definition_activity"
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_01K8NQAII212R5jdJi1LLd5SCDT9F91tvBR"
+    ]
+  },
+  "categories": {
+    "category_01K8NQAII212R5jdJi1LLd5SCDT9F91tvBR": {
+      "unique_name": "category_01K8NQAII212R5jdJi1LLd5SCDT9F91tvBR",
+      "name": "Sample Workflow",
+      "title": "Sample Workflow",
+      "type": "basic.category",
+      "base_type": "category",
+      "description": "Simple workflows that show how to use various aspects of SecureX orchestration",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  }
+}
