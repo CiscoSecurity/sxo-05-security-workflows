@@ -8,6 +8,8 @@ nav_order: 10
 # Using this Repository
 To use this repository, you need to configure three things in SecureX orchestration: an account key and two Git repositories.
 
+[<i class="fa fa-video mr-1"></i> Managing Git Repositories](https://www.youtube.com/watch?v=qVZHXcxYj9k&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo&index=6){: .btn-cisco-sky-blue }
+
 ---
 
 **Note for SecureX TME Repository Users**

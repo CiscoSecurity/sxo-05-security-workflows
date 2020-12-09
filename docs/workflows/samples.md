@@ -10,6 +10,7 @@ nav_order: 20
 This page contains an index of sample workflows available for various SecureX orchestration activities and components.
 
 * [Condition Block]({{ site.baseurl }}/activities/condition-block#sample-workflows)
+* [Date and Time]({{ site.baseurl }}/activities/date-time)
 * [Execute Python Script]({{ site.baseurl }}/activities/python#sample-workflows)
 * [For Each Loop]({{ site.baseurl }}/activities/foreach-loop#sample-workflows)
 * [HTTP Request]({{ site.baseurl }}/activities/http-request#sample-workflows)

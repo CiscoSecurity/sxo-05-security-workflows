@@ -16,6 +16,8 @@ We recommend checking out the following resources to give yourself a foundation 
 1. [Orchestration Overview](https://www.youtube.com/watch?v=Vmn2KpS1H7I&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo&index=1) <i class="fa fa-video ml-1"></i>
 1. [Building a Workflow](https://www.youtube.com/watch?v=gs-XWrCXQbE&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo&index=2) <i class="fa fa-video ml-1"></i>
 1. [Building an Atomic Action](https://www.youtube.com/watch?v=sNN6SLgeNpQ&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo&index=3) <i class="fa fa-video ml-1"></i>
+1. [Import and Export](https://www.youtube.com/watch?v=qmJk994qLOg&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo&index=5) <i class="fa fa-video ml-1"></i>
+1. [Managing Git Repositories](https://www.youtube.com/watch?v=qVZHXcxYj9k&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo&index=6) <i class="fa fa-video ml-1"></i>
 
 ---
 
@@ -24,7 +26,6 @@ Want to go beyond the basics? Here's some additional content you may find useful
 
 * [Response Workflows]({{ site.baseurl }}/workflows/response/)
 * [Target Groups]({{ site.baseurl }}/targets/groups)
-* [Import and Export](https://www.youtube.com/watch?v=qmJk994qLOg&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo&index=5) <i class="fa fa-video ml-1"></i>
 
 ---
 
