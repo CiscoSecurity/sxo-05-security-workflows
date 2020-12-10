@@ -7,6 +7,20 @@
     "base_type": "workflow",
     "variables": [
       {
+        "schema_id": "datatype.integer",
+        "properties": {
+          "value": 2,
+          "scope": "local",
+          "name": "Orbital Query Wait Time (Minutes)",
+          "type": "datatype.integer",
+          "description": "How long to wait for Orbital query results in minutes. The longer you wait, the more results you'll probably get since endpoints will answer the query as they come online and receive it.",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01KEOJFPD69K61svv0Lh0ZpKPMSziil8UhZ",
+        "object_type": "variable_workflow"
+      },
+      {
         "schema_id": "datatype.string",
         "properties": {
           "value": "",
@@ -20,17 +34,17 @@
         "object_type": "variable_workflow"
       },
       {
-        "schema_id": "datatype.integer",
+        "schema_id": "datatype.string",
         "properties": {
-          "value": 2,
+          "value": "securexorch",
           "scope": "local",
-          "name": "Orbital Query Wait Time (Minutes)",
-          "type": "datatype.integer",
-          "description": "How long to wait for Orbital query results in minutes. The longer you wait, the more results you'll probably get since endpoints will answer the query as they come online and receive it.",
+          "name": "ServiceNow User ID",
+          "type": "datatype.string",
+          "description": "The username of the user you're using to open incident tickets. This can either match the username in your ServiceNow account key or, if the account has the appropriate permissions, can be a different user.",
           "is_required": false,
           "is_invisible": false
         },
-        "unique_name": "variable_workflow_01KEOJFPD69K61svv0Lh0ZpKPMSziil8UhZ",
+        "unique_name": "variable_workflow_01KQRTMB91ICM67jVYYWh04AQp8ZZalDKqP",
         "object_type": "variable_workflow"
       }
     ],
@@ -127,20 +141,6 @@
             }
           },
           "workflow_id": "definition_workflow_01JGM8XOOZ5J64EWGHln955eAJFIOwmjbZr"
-        },
-        "object_type": "definition_activity"
-      },
-      {
-        "unique_name": "definition_activity_01KEOIGTZCHF94Z2N5t2N1PmhGeuzGuIiV4",
-        "name": "Sleep",
-        "title": "Wait for the query to finish",
-        "type": "core.sleep",
-        "base_type": "activity",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "Wait for the query to finish",
-          "skip_execution": false,
-          "sleep_interval": "($workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01KEOJFPD69K61svv0Lh0ZpKPMSziil8UhZ$*60)"
         },
         "object_type": "definition_activity"
       },
@@ -658,7 +658,7 @@
                     "variable_workflow_01FGYGCZL5M2E1m1O5tvVVn0DVzVTLwytei": 2,
                     "variable_workflow_01FGYGPFJYM4L5aVpzNOhRwMmzKJDofqufe": 1,
                     "variable_workflow_01FGYGZ0OYYNM5pWjyyreMjNHDjusjNe8jx": "A scheduled Orbital query has executed and found devices vulnerable for CVE-2020-0796.\n\n[code]\u003ca href=\"https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2020-0796\" target=\"_blank\"\u003eClick here\u003c/a\u003e[/code] to view the Microsoft Advisory for mitigations and workaround information\n\n$workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01FXZDEXSWJYN6wLEkThGE16CG6oDbZY7Z9$\n\n[code]\u003ca href=\"https://orbital.amp.cisco.com/jobs/$activity.definition_activity_01JGMBHGCAZ920Kn5fGWKR6QEdBs1jLD1dW.output.variable_workflow_01JGM8XOCL61S7FlUgD7FR9kGp6ljbzir8A$/results\" target=\"_blank\"\u003eLink to Orbital Query Results\u003c/a\u003e[/code]\n[code]\u003ca href=\"https://orbital.amp.cisco.com/query/cve_2020_0796_monitoring?target=all\" target=\"_blank\"\u003eRe-run Orbital Query\u003c/a\u003e[/code]",
-                    "variable_workflow_01FGYI8HES41K63G3UzMinBH3iApm37fBGt": "securexorch",
+                    "variable_workflow_01FGYI8HES41K63G3UzMinBH3iApm37fBGt": "$workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01KQRTMB91ICM67jVYYWh04AQp8ZZalDKqP$",
                     "variable_workflow_01FMQD0HIJIDU5kce0VNx4HQiMYjMfUvBlj": "v2"
                   },
                   "runtime_user": {
@@ -789,8 +789,8 @@
     }
   },
   "atomic_workflows": [
-    "definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW",
     "definition_workflow_01779LB6MV0P02kvka9TGV5cEam84NrCTy4",
-    "definition_workflow_01JGM8XOOZ5J64EWGHln955eAJFIOwmjbZr"
+    "definition_workflow_01JGM8XOOZ5J64EWGHln955eAJFIOwmjbZr",
+    "definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW"
   ]
 }
