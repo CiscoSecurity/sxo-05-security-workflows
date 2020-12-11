@@ -2,6 +2,8 @@
 layout: page
 title: Using this Repository
 permalink: /configuration
+has_children: true
+has_toc: false
 nav_order: 10
 ---
 

@@ -11,7 +11,7 @@ Workflow #0002
 {: .label }
 </div>
 
-This workflow parses a single Talos blog post and converts it into a SecureX casebook if it contains suspicious observables. This casebook can then be investigated with one click in Threat Response.
+This workflow parses a single Talos blog post and converts it into a SecureX casebook. This casebook can then be investigated with one click in Threat Response.
 
 [<i class="fab fa-github mr-1"></i> Workflow Folder]({{ site.github.repository_url }}/tree/Main/Workflows/0002-Talos-SingleBlogPostToCTRCasebook__definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ){: .btn-cisco-sky-blue .mr-2 } [JSON]({{ site.github.repository_url }}/tree/Main/Workflows/0002-Talos-SingleBlogPostToCTRCasebook__definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ/definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.json){: .btn-cisco-outline }
 
@@ -23,7 +23,16 @@ This workflow is an adaptation of the sub-workflow used by the [Talos - Get New 
 ---
 
 ## Requirements
-* (Optional) A Webex Teams bot token and room name to post messages to (if you don't want to use Webex, disable the Webex activities in the workflow).
+* The following atomic actions must be imported before you can import this workflow:
+	* CTRGenerateAccessToken ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* CTR Inspect ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* CTRCheckDeliberateVerdict ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* CTR Enrich Observable ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* CTR Create Casebook ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* Util - Get String Length ([CiscoSecurity-Atomics]({{ site.baseurl }}/configuration))
+	* Webex Teams - Search for Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* Webex Teams - Post Message to Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+* (Optional) A Webex Teams bot token and room name to post messages to
 
 ---
 
@@ -40,9 +49,7 @@ This workflow is designed to parse a single blog post into a casebook.
 ---
 
 ## Configuration
-* If you want to use Webex Teams, you'll need to provide the workflow a bot token and room name. You can do this by either:
-	* Setting the `Webex Teams Bot Token` and `Webex Teams Room Name` local variables; or
-	* Using the `Fetch Global Variables` group at the beginning of the workflow to set your local variables with the values of your global variables (this group is disabled by default)
+* See [this page]({{ site.baseurl }}/atomics/webex#configuring-our-workflows) for information on configuring the workflow for Webex Teams
 
 ---
 
@@ -51,9 +58,9 @@ Target Group: `Default TargetGroup`
 
 | Target Name | Type | Details | Account Keys | Notes |
 |:------------|:-----|:--------|:-------------|:------|
-| CTR_For_Access_Token | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `visibility.amp.cisco.com`<br />_Path:_ `/iroh` | CTR_Credentials | Created by default |
-| CTR_API | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `visibility.amp.cisco.com`<br />_Path:_ `/iroh` | None | Created by default |
-| Private_CTIA_Target | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `private.intel.amp.cisco.com`<br />_Path:_ None | None | Created by default |
+| [CTR_For_Access_Token]({{ site.baseurl }}/targets/default#ctr_for_access_token) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `visibility.amp.cisco.com`<br />_Path:_ `/iroh` | CTR_Credentials | Created by default |
+| [CTR_API]({{ site.baseurl }}/targets/default#ctr_api) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `visibility.amp.cisco.com`<br />_Path:_ `/iroh` | None | Created by default |
+| [Private_CTIA_Target]({{ site.baseurl }}/targets/default#private_ctia_target) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `private.intel.amp.cisco.com`<br />_Path:_ None | None | Created by default |
 | Webex Teams | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `webexapis.com`<br />_Path:_ None | None | Not required if Webex activities are disabled |
 
 ---
@@ -62,4 +69,4 @@ Target Group: `Default TargetGroup`
 
 | Account Key Name | Type | Details | Notes |
 |:-----------------|:-----|:--------|:------|
-| CTR_Credentials | HTTP Basic Authentication | _Username:_ Client ID<br />_Password:_ Client Secret | Created by default |
+| [CTR_Credentials]({{ site.baseurl }}/account-keys/default#ctr_credentials) | HTTP Basic Authentication | _Username:_ Client ID<br />_Password:_ Client Secret | Created by default |

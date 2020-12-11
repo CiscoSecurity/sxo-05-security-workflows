@@ -11,14 +11,15 @@ Workflow #0004
 {: .label }
 </div>
 
-Microsoft provides a JSON-formatted feed of their networks and domains for their various cloud services. This workflow fetches that JSON, filters it, compares it to an existing network group in Cisco Defense Orchestrator, and then updates group as needed.
+Microsoft provides a JSON-formatted feed of their networks and domains for their various cloud services. This workflow fetches that JSON, filters it, compares it to an existing network object group in Cisco Defense Orchestrator, and then updates the group as needed.
 
 [<i class="fab fa-github mr-1"></i> Workflow Folder]({{ site.github.repository_url }}/tree/Main/Workflows/0004-MicrosoftOnline-CDOGroupUpdate__definition_workflow_01FTPWFQOJ7TE3SJcsVpnuC4e8ZEEReN1iF){: .btn-cisco-sky-blue .mr-2 } [JSON]({{ site.github.repository_url }}/tree/Main/Workflows/0004-MicrosoftOnline-CDOGroupUpdate__definition_workflow_01FTPWFQOJ7TE3SJcsVpnuC4e8ZEEReN1iF/definition_workflow_01FTPWFQOJ7TE3SJcsVpnuC4e8ZEEReN1iF.json){: .btn-cisco-outline }
 
 ---
 
 ## Requirements
-* Access to an instance of Cisco Defense Orchestrator (CDO)
+* Access to Cisco Defense Orchestrator (CDO)
+* A CDO API token (Can be generated on your [CDO settings page](https://www.defenseorchestrator.com/settings))
 
 ---
 
@@ -35,20 +36,17 @@ Microsoft provides a JSON-formatted feed of their networks and domains for their
 ---
 
 ## Configuration
-* Go to [Microsoft's website](https://docs.microsoft.com/en-us/microsoft-365/enterprise/microsoft-365-ip-web-service?view=o365-worldwide) to get the URL for the worldwide endpoint JSON. Click the link on the second bullet to `https://endpoints.office.com/endpoints/worldwide` and copy the URL into the `Microsoft Endpoints URL` local variable in the workflow.
+* Provide the workflow your CDO API token by either:
+	* Storing your token in a [global variable]({{ site.baseurl }}/variables/global) and using the `Fetch Global Variables` group at the beginning of the workflow to update the `CDO Bearer Token` local variable; or
+	* Leave the `Fetch Global Variables` group disabled and add your token directly to the `CDO Bearer Token` local variable
+* Validate the name of the network object group that'll be updated in CDO in the `CDO Object Group Name` local variable
+* Go to [Microsoft's website](http://aka.ms/ipurlws) to get the URL for the worldwide endpoint JSON. Click the link on the second bullet to `https://endpoints.office.com/endpoints/worldwide` and copy the URL into the `Microsoft Endpoints URL` local variable in the workflow
 
 ---
 
 ## Targets
+Target Group: `Default TargetGroup`
 
 | Target Name | Type | Details | Account Keys | Notes |
 |:------------|:-----|:--------|:-------------|:------|
 | Cisco Defense Orchestrator | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `defenseorchestrator.com`<br />_Path:_ `/aegis/rest/v1/` | None |  |
-
----
-
-## Account Keys
-
-| Account Key Name | Type | Details | Notes |
-|:-----------------|:-----|:--------|:------|
-| (varies) | Terminal Key-Based Credentials<br />OR<br />Terminal Password-Based Credentials | Depends on target type |  |

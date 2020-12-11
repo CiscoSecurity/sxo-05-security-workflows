@@ -11,7 +11,7 @@ This page lists all of the account keys that are created by default when an orch
 ---
 
 ## AMP_Credentials
-This account key is used to make requests to AMP for Endpoints.
+This account key is used to make requests to AMP for Endpoints. Note that while this account key is created by default, you will still need to provide a client ID and secret for the AMP API.
 
 * **Type:** HTTP Basic Authentication
 * **Username:** `To be configured by customer`

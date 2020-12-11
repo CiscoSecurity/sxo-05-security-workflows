@@ -4,6 +4,7 @@ title: Triggering via the Threat Response API
 permalink: /workflows/response/tr-api
 parent: Response Workflows
 grand_parent: Workflows
+nav_order: 5
 ---
 
 # Triggering via the Threat Response API

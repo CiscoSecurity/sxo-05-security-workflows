@@ -21,9 +21,14 @@ This workflow fetches `Geographically Unusual Remote Access` alerts from the Sec
 ---
 
 ## Requirements
+* The following atomic actions must be imported before you can import this workflow:
+	* SWC - Get Alerts ([CiscoSecurity-Atomics]({{ site.baseurl }}/configuration))
+	* Util - Get X Hour Window ([CiscoSecurity-Atomics]({{ site.baseurl }}/configuration))
+	* Webex Teams - Search for Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* Webex Teams - Post Message to Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 * A Secure Cloud Analytics instance
 * An Amazon Web Services account with instances monitored by SCA
-* (Optional) Webex Teams
+* (Optional) A Webex Teams bot token and room name to post messages to
 
 ---
 
@@ -49,14 +54,7 @@ This workflow fetches `Geographically Unusual Remote Access` alerts from the Sec
 * Add your SCA API key to the `Secure Cloud Analytics API Key` local variable (or, if you have an API key in a global variable already, set the local variable to the global's value using the `Fetch Global Variables` group at the beginning of the workflow)
 * The `Approval request to undo AWS SSH quarantine` activity needs to be configured with a task requestor, owner, and assignees (the assignees will be able to approve or deny)
 * **Important:** Do not change the `Subject Line` of the approval task or the approval event trigger will stop working
-
-### Using Webex?
-* Make sure your bot is added to the room you want to post messages to
-* Add your Webex Bot Token to the `Webex Bot Token` local variable (or, if you have a token in a global variable already, set the local variable to the global's value using the `Fetch Global Variables` group at the beginning of the workflow)
-* Provide either a `Webex Teams Room Name` or `Webex Teams Room ID` in their respective local variable (only one of the two is required)
-
-### Not Using Webex?
-* Check the `Skip Activity Execution` box for all of the Webex activities
+* See [this page]({{ site.baseurl }}/atomics/webex#configuring-our-workflows) for information on configuring the workflow for Webex Teams
 
 ---
 
@@ -67,7 +65,7 @@ Target Group: `Default TargetGroup`
 |:------------|:-----|:--------|:-------------|:------|
 | Amazon Web Services | AWS Endpoint | _Region:_ `Your Region`<br /> | Your AWS Account Key (see below) | |
 | Secure Cloud Analytics | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `your-tenant.obsrvbl.com`<br />_Path:_ `api` | None | |
-| Webex Teams | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `webexapis.com`<br />_Path:_ None | None | |
+| Webex Teams | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `webexapis.com`<br />_Path:_ None | None | Not required if Webex activities are disabled |
 
 ---
 

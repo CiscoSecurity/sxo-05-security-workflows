@@ -30,7 +30,9 @@ Microsoft provides a JSON-formatted feed of their networks and domains for their
 ---
 
 ## Configuration
-* Go to [Microsoft's website](https://docs.microsoft.com/en-us/microsoft-365/enterprise/microsoft-365-ip-web-service?view=o365-worldwide) to get the URL for the worldwide endpoint JSON. Click the link on the second bullet to `https://endpoints.office.com/endpoints/worldwide` and copy the URL into the `Microsoft Endpoints URL` local variable in the workflow.
+* Go to [Microsoft's website](http://aka.ms/ipurlws) to get the URL for the worldwide endpoint JSON. Click the link on the second bullet to `https://endpoints.office.com/endpoints/worldwide` and copy the URL into the `Microsoft Endpoints URL` local variable in the workflow
+* (Optional) Change the name of the objects created by the workflow in the `AnyConnect Exclude Domain Group Name` and/or `Network Object Group Name` local variables
+* (Optional) Modify the commands generated in the `Get and parse JSON from Microsoft` and/or `Execute commands on ASA` activities
 
 ---
 

@@ -18,29 +18,31 @@ This workflow demonstrates the ability to dynamically expand ASA head end capaci
 ---
 
 ## Requirements
+* The following atomic actions must be imported before you can import this workflow:
+	* Webex Teams - Search for Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* Webex Teams - Post Message to Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 * A Cisco Adaptive Security Appliance (ASA)
 * An Amazon Web Services account with EC2 permissions
-* A Webex Teams bot token and room name to post messages to
+* (Optional) A Webex Teams bot token and room name to post messages to
 
 ---
 
 ## Workflow Steps
-1.  SSH to the target ASA and get its VPN device load
-1.  Check whether or not the load is 70% or more
+1. Attempt to locate the Webex Teams room and get its ID
+1. SSH to the target ASA and get its VPN device load
+1. Check whether or not the load is 70% or more
 	* If the load is less than 70%, end the workflow
 	* If the load is 70% or more:
-		* Send an approval request to an administrator
+		* Create an approval task
 		* Post a message to Webex Teams indicating an approval is required
 		* When a response is received, continue
-		* If the request was denied, post a message in Webex Teams indicating the denial and end the workflow
-		* If the request was approved, deploy a new ASAv using the AWS EC2 API and post a confirmation in Webex Teams with the new public IP address
+		* If the request was approved, deploy a new ASAv using the AWS EC2 API and post a confirmation to Webex Teams with the new public IP address
+		* If the request was denied, post a message to Webex Teams indicating the denial
+		* If the request expired, post a message to Webex Teams indicating the request was not acted on
 
 ---
 
 ## Configuration
-* You'll need to provide the workflow a Webex Teams bot token and room name. You can do this by either:
-	* Setting the `Webex Teams Bot Token` and `Webex Teams Room Name` local variables; or
-	* Using the `Fetch Global Variables` group at the beginning of the workflow to set your local variables with the values of your global variables (this group is disabled by default)
 * If you want the workflow to run on a schedule, you need to create a **Schedule** and then add it as a **Trigger** within the workflow
 * Set the `SecureX Region` local variable (default: `us`)
 * Set the `Task Approver` local variable to the email address of the person who should approve requests from this workflow
@@ -50,10 +52,12 @@ This workflow demonstrates the ability to dynamically expand ASA head end capaci
 	* The `Security Group ID(s)` you want the instance added to
 	* The `Keypair Name` of the authentication key pair this instance should use
 	* The `Instance Type` to create (default: `m4.large`)
+* See [this page]({{ site.baseurl }}/atomics/webex#configuring-our-workflows) for information on configuring the workflow for Webex Teams
 
 ---
 
 ## Targets
+Target Group: `Default TargetGroup`
 
 | Target Name | Type | Details | Account Keys | Notes |
 |:------------|:-----|:--------|:-------------|:------|
