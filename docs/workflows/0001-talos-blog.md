@@ -13,7 +13,7 @@ Workflow #0001
 
 This workflow consumes the Talos Intelligence Blog RSS feed and converts individual blog posts into SecureX casebooks. These casebooks can then be investigated with one click in Threat Response.
 
-[<i class="fab fa-github mr-1"></i> Workflow Folder]({{ site.github.repository_url }}/tree/Main/Workflows/0001-Talos-GetNewBlogPosts__definition_workflow_01FX7FQDZRDUX1TWgKJwTPBMaOWrgUOld2q){: .btn-cisco-sky-blue .mr-2 } [JSON]({{ site.github.repository_url }}/tree/Main/Workflows/0001-Talos-GetNewBlogPosts__definition_workflow_01FX7FQDZRDUX1TWgKJwTPBMaOWrgUOld2q/definition_workflow_01FX7FQDZRDUX1TWgKJwTPBMaOWrgUOld2q.json){: .btn-cisco-outline }
+[<i class="fab fa-github mr-1"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0001-Talos-GetNewBlogPosts__definition_workflow_01FX7FQDZRDUX1TWgKJwTPBMaOWrgUOld2q){: .btn-cisco-outline }
 
 ---
 
@@ -29,7 +29,7 @@ This workflow has two components: a parent workflow and a sub-workflow. Importin
 	* CTRCheckDeliberateVerdict ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* CTR Enrich Observable ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* CTR Create Casebook ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Util - Get String Length ([CiscoSecurity-Atomics]({{ site.baseurl }}/configuration))
+	* Util - Get String Length ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
 	* Webex Teams - Search for Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* Webex Teams - Post Message to Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 * (Optional) A Webex Teams bot token and room name to post messages to

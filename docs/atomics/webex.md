@@ -20,7 +20,7 @@ Webex Teams is used in a variety of our workflows so we've published some Webex 
 ## Webex Bots
 If you're interacting with Webex from your workflows, we recommend *highly* that you use a bot. When you create a Webex Bot, you'll be given an authorization token that doesn't expire. This makes authenticating to the API much simpler since you can just store this token in a `Secure String`.
 
-[<i class="fa fa-robot mr-1"></i> Webex Documentation](https://developer.webex.com/docs/bots){: .btn-cisco-sky-blue }
+[<i class="fa fa-robot mr-1"></i> Webex Documentation](https://developer.webex.com/docs/bots){: .btn-cisco-outline }
 
 ---
 

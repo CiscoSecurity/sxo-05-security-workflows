@@ -9,7 +9,7 @@ nav_order: 15
 # Importing Git Content
 After configuring SecureX orchestration to use this repository using [these instructions]({{ site.baseurl }}/configuration), you can begin importing content.
 
-[<i class="fa fa-video mr-1"></i> Import and Export](https://www.youtube.com/watch?v=qmJk994qLOg&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo&index=5){: .btn-cisco-sky-blue }
+[<i class="fa fa-video mr-1"></i> Import and Export](https://www.youtube.com/watch?v=qmJk994qLOg&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo&index=5){: .btn-cisco-outline }
 
 ---
 
@@ -28,8 +28,8 @@ The process for importing workflows and atomic actions is exactly the same. The 
 
 1. On your **Workflows** page, click the **Import** button (next to the **New Workflow** button)
 1. Select the **Git Repository** you want to import content from. If you followed our [configuration instructions]({{ site.baseurl }}/configuration), you should select:
-	* `CiscoSecurity-Workflows` for workflows
-	* `CiscoSecurity-Atomics` for atomic actions
+	* `CiscoSecurity_Workflows` for workflows
+	* `CiscoSecurity_Atomics` for atomic actions
 1. Once the **Filename** list loads, look for the item you want to import and select it
 1. Next, the **Git Version** list will populate. Select the version of the item you want to import (you'll usually want the latest version)
 1. If applicable, check the **Import as a New Workflow (Clone)** box (see note above)

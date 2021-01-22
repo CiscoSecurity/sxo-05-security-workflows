@@ -13,7 +13,7 @@ Workflow #0010b
 
 This workflow sends an email summary of [Phishing Investigation]({{ site.baseurl }}/workflows/0010-phishing-investigation) workflow activity.
 
-[<i class="fa fa-video mr-1"></i> Overview](https://www.youtube.com/watch?v=eQYwVU2ge00&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo&index=7){: .btn-cisco-outline } [<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0010B-Phishing-Investigation-Statistics__definition_workflow_01LGZYVFSRNN30RM2UpqqTn21KA19UuFr3y){: .btn-cisco-outline }
+[<i class="fa fa-video mr-1"></i> Overview](https://www.youtube.com/watch?v=eQYwVU2ge00&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo&index=7){: .btn-cisco-outline .mr-2 } [<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0010B-Phishing-Investigation-Statistics__definition_workflow_01LGZYVFSRNN30RM2UpqqTn21KA19UuFr3y){: .btn-cisco-outline }
 
 ---
 

@@ -17,7 +17,7 @@ If you find an issue with one of our workflows or atomic actions, please open an
 1. Steps we can take to reproduce the issue
 1. (Optional) A sample workflow that reproduces the issue
 
-[<i class="fa fa-bug mr-1"></i> Report a Bug]({{ site.github.repository_url }}/issues/new?labels=bug){: .btn-cisco-sky-blue .mr-2 } [<i class="fa fa-book-dead mr-1"></i> Report a Documentation Issue]({{ site.github.repository_url }}/issues/new?labels=documentation){: .btn-cisco-outline }
+[<i class="fa fa-bug mr-1"></i> Report a Bug]({{ site.github.repository_url }}/issues/new?labels=bug){: .btn-cisco-outline .mr-2 } [<i class="fa fa-book-dead mr-1"></i> Report a Documentation Issue]({{ site.github.repository_url }}/issues/new?labels=documentation){: .btn-cisco-outline }
 
 ---
 
@@ -27,12 +27,12 @@ Have an idea for something we should develop? When submitting your suggestion, p
 1. A detailed description of your suggestion
 1. Links to any documentation, especially for relevant API calls
 
-[<i class="fa fa-lightbulb mr-1"></i> Make a Suggestion]({{ site.github.repository_url }}/issues/new?label=suggestion){: .btn-cisco-sky-blue }
+[<i class="fa fa-lightbulb mr-1"></i> Make a Suggestion]({{ site.github.repository_url }}/issues/new?label=suggestion){: .btn-cisco-outline }
 
 ### Cisconians
 You can submit your idea on GitHub, or submit an idea in Aha!
 
-[Submit an Idea in Aha](https://ciscosecurity.ideas.aha.io/ideas/new?project_id=6771886138183261677&ideas_idea[idea_category_ids]=6896486690965818580){: .btn-cisco-sky-blue .cisco-button }
+[Submit an Idea in Aha](https://ciscosecurity.ideas.aha.io/ideas/new?project_id=6771886138183261677&ideas_idea[idea_category_ids]=6896486690965818580){: .btn-cisco-outline .cisco-button }
 
 Keep in mind that we don't have access to every technology that exists, so if your suggestion is related to a closed system that requires payment or a subscription, we may not be able to get access to that system to develop content.
 

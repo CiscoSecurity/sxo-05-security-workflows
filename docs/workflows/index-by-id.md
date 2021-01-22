@@ -20,3 +20,6 @@ This page contains a list of all of the workflows published in the repository so
 | 0007 | Stealthwatch Cloud | [Handle AWS SSH Quarantine Approvals]({{ site.baseurl }}/workflows/sca/0007-handle-aws-ssh-quarantine-approvals) |
 | 0008 | Adaptive Security Appliance | [AWS VPN Capacity Expansion]({{ site.baseurl }}/workflows/0008-asa-aws-vpn) |
 | 0009 | Orbital | [CVE Hunt to ServiceNow Incident]({{ site.baseurl }}/workflows/0009-orbital-cve-servicenow) |
+| 0010 | Multiple | [Phishing Investigation]({{ site.baseurl }}/workflows/0010-phishing-investigation) |
+| 0010B | Multiple | [Phishing Investigation - Statistics]({{ site.baseurl }}/workflows/0010b-phishing-investigation-statistics) |
+| 0011 | Talos | [SolarWinds Investigation]({{ site.baseurl }}/workflows/0011-solarwinds-investigation) |

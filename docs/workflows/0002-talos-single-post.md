@@ -13,7 +13,7 @@ Workflow #0002
 
 This workflow parses a single Talos blog post and converts it into a SecureX casebook. This casebook can then be investigated with one click in Threat Response.
 
-[<i class="fab fa-github mr-1"></i> Workflow Folder]({{ site.github.repository_url }}/tree/Main/Workflows/0002-Talos-SingleBlogPostToCTRCasebook__definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ){: .btn-cisco-sky-blue .mr-2 } [JSON]({{ site.github.repository_url }}/tree/Main/Workflows/0002-Talos-SingleBlogPostToCTRCasebook__definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ/definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.json){: .btn-cisco-outline }
+[<i class="fab fa-github mr-1"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0002-Talos-SingleBlogPostToCTRCasebook__definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ){: .btn-cisco-outline }
 
 ---
 
@@ -29,7 +29,7 @@ This workflow is an adaptation of the sub-workflow used by the [Talos - Get New 
 	* CTRCheckDeliberateVerdict ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* CTR Enrich Observable ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* CTR Create Casebook ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Util - Get String Length ([CiscoSecurity-Atomics]({{ site.baseurl }}/configuration))
+	* Util - Get String Length ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
 	* Webex Teams - Search for Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* Webex Teams - Post Message to Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 * (Optional) A Webex Teams bot token and room name to post messages to

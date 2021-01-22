@@ -33,4 +33,4 @@ Want to go beyond the basics? Here's some additional content you may find useful
 ## Next Steps
 After you've completed the recommended content, you can move on to configuring SecureX orchestration to connect to this repository. We also have a list of additional resources available.
 
-[Using this Repository]({{ site.baseurl }}/configuration){: .btn-cisco-sky-blue .mr-2 } [Additional Resources]({{ site.baseurl }}/resources){: .btn-cisco-outline }
+[Using this Repository]({{ site.baseurl }}/configuration){: .btn-cisco-outline .mr-2 } [Additional Resources]({{ site.baseurl }}/resources){: .btn-cisco-outline }

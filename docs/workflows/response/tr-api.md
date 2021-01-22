@@ -11,7 +11,7 @@ nav_order: 5
 {: .no_toc}
 If you want to trigger a workflow from outside of SecureX, you can trigger response workflows via the Threat Response API.
 
-[Response API Documentation](https://visibility.amp.cisco.com/iroh/iroh-response/index.html){: .btn-cisco-sky-blue }
+[Response API Documentation](https://visibility.amp.cisco.com/iroh/iroh-response/index.html){: .btn-cisco-outline }
 
 - TOC
 {:toc}

@@ -9,16 +9,16 @@ nav_order: 10
 ---
 
 # Using this Repository
-To use the content in this repository, you need to configure two new Git Repositories in orchestration.
+To use the content in this repository, you must have the necessary Git Repositories configured in orchestration. For many tenants, these repositories are configured by default. If your tenant is missing them, you can use the instructions below to add them.
 
-[<i class="fa fa-video mr-1"></i> Managing Git Repositories](https://www.youtube.com/watch?v=qVZHXcxYj9k&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo&index=6){: .btn-cisco-sky-blue }
+[<i class="fa fa-video mr-1"></i> Managing Git Repositories](https://www.youtube.com/watch?v=qVZHXcxYj9k&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo&index=6){: .btn-cisco-outline }
 
 ---
 
 ## Creating the Git Repository for Atomic Actions
 1. In SecureX orchestration, expand the main menu and click on **Admin** and then **Git Repositories**
 1. Click on the **New Git Repository** button (or click on the existing repository you want to update)
-1. Provide a name for the repository (suggested: `CiscoSecurity-Atomics`)
+1. Provide a name for the repository (suggested: `CiscoSecurity_Atomics`)
 1. Set **No Account Keys** to `True`
 1. Fill in the Git information:
 	* Protocol: `HTTPS`
@@ -33,7 +33,7 @@ To use the content in this repository, you need to configure two new Git Reposit
 ## Creating the Git Repository for Workflows
 1. In SecureX orchestration, expand the main menu and click on **Admin** and then **Git Repositories**
 1. Click on the **New Git Repository** button (or click on the existing repository you want to update)
-1. Provide a name for the repository (suggested: `CiscoSecurity-Workflows`)
+1. Provide a name for the repository (suggested: `CiscoSecurity_Workflows`)
 1. Set **No Account Keys** to `True`
 1. Fill in the Git information:
 	* Protocol: `HTTPS`

@@ -13,7 +13,7 @@ Workflow #0004
 
 Microsoft provides a JSON-formatted feed of their networks and domains for their various cloud services. This workflow fetches that JSON, filters it, compares it to an existing network object group in Cisco Defense Orchestrator, and then updates the group as needed.
 
-[<i class="fab fa-github mr-1"></i> Workflow Folder]({{ site.github.repository_url }}/tree/Main/Workflows/0004-MicrosoftOnline-CDOGroupUpdate__definition_workflow_01FTPWFQOJ7TE3SJcsVpnuC4e8ZEEReN1iF){: .btn-cisco-sky-blue .mr-2 } [JSON]({{ site.github.repository_url }}/tree/Main/Workflows/0004-MicrosoftOnline-CDOGroupUpdate__definition_workflow_01FTPWFQOJ7TE3SJcsVpnuC4e8ZEEReN1iF/definition_workflow_01FTPWFQOJ7TE3SJcsVpnuC4e8ZEEReN1iF.json){: .btn-cisco-outline }
+[<i class="fab fa-github mr-1"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0004-MicrosoftOnline-CDOGroupUpdate__definition_workflow_01FTPWFQOJ7TE3SJcsVpnuC4e8ZEEReN1iF){: .btn-cisco-outline }
 
 ---
 

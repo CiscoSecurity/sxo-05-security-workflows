@@ -13,7 +13,7 @@ Workflow #0010
 
 This workflow monitors a mailbox for incomming phishing reports. When an email is received, the workflow investigates its attachments and attempts to determine if anything in the email (or its attachments) was suspicious or malicious. If anything suspicious or malicious is found, the user is told to delete the email, a casebook and incident are created in Threat Response, a Webex Teams message is posted, and an email is sent to a "SOC" email address.
 
-[<i class="fa fa-video mr-1"></i> Overview](https://www.youtube.com/watch?v=eQYwVU2ge00&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo&index=7){: .btn-cisco-outline } [<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0010-Phishing-Investigation__definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC){: .btn-cisco-outline }
+[<i class="fa fa-video mr-1"></i> Overview](https://www.youtube.com/watch?v=eQYwVU2ge00&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo&index=7){: .btn-cisco-outline .mr-2 } [<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0010-Phishing-Investigation__definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC){: .btn-cisco-outline }
 
 ---
 
@@ -25,7 +25,7 @@ This workflow monitors a mailbox for incomming phishing reports. When an email i
 	* Threat Response v2 - Create Sighting ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* Threat Response v2 - Generate Access Token ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* Threat Response v2 - Inspect for Observables ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Response v2 - Get Deliberate Verdict ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* Threat Response v2 - Deliberate Observable ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* Threat Grid v2 - Submit File ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* Threat Grid v2 - Submit URL ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* Threat Grid v2 - Get Samples by File Hash ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
