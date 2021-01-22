@@ -3,6 +3,7 @@ layout: page
 title: Default Repositories
 permalink: /default-repos
 parent: Using this Repository
+grand_parent: Getting Started
 ---
 
 # Default Repositories

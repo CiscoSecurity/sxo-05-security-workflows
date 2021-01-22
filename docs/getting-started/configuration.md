@@ -2,6 +2,7 @@
 layout: page
 title: Using this Repository
 permalink: /configuration
+parent: Getting Started
 has_children: true
 has_toc: false
 nav_order: 10
@@ -47,4 +48,4 @@ To use the content in this repository, you need to configure two new Git Reposit
 ## Next Steps
 Once you have your repositories configured, you can start importing content!
 
-[<i class="fa fa-upload mr-1"></i> Importing Content]({{ site.baseurl }}/importing){: .btn-cisco-sky-blue }
+[<i class="fa fa-download mr-1"></i> Importing Content]({{ site.baseurl }}/importing){: .btn-cisco-sky-blue }

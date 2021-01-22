@@ -2,7 +2,7 @@
 layout: page
 title: Frequently Asked Questions
 permalink: /faqs
-nav_order: 20
+nav_order: 10
 ---
 
 # Frequently Asked Questions

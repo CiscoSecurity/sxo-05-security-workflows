@@ -37,7 +37,7 @@ This workflow has two components: a parent workflow and a sub-workflow. Importin
 ---
 
 ## Workflow Steps
-This workflow is designed to be scheduled to run periodically to check the Talos blog for new posts.
+This workflow is designed to run on a [schedule]({{ site.baseurl }}/schedules) to periodically check the Talos blog for new posts.
 
 1. Get the RSS feed XML
 1. If the Etag is the same or there aren’t any recent updates, end the workflow
@@ -61,7 +61,7 @@ These steps are executed for each new or updated blog post the parent workflow d
 ---
 
 ## Configuration
-* If you want the workflow to run on a schedule, you need to create a **Schedule** and then add it as a **Trigger** within the workflow
+* If you want the workflow to run on a schedule, you need to create a [schedule]({{ site.baseurl }}/schedules) and then add it as a [trigger]({{ site.baseurl }}/workflows/triggers) within the workflow
 * See [this page]({{ site.baseurl }}/atomics/webex#configuring-our-workflows) for information on configuring the workflow for Webex Teams
 
 ---

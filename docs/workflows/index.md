@@ -3,7 +3,7 @@ layout: page
 title: Workflows
 permalink: /workflows/
 has_children: true
-nav_order: 50
+nav_order: 70
 ---
 
 # Workflows

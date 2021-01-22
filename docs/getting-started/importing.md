@@ -2,6 +2,7 @@
 layout: page
 title: Importing Git Content
 permalink: /importing
+parent: Getting Started
 nav_order: 15
 ---
 

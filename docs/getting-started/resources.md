@@ -2,7 +2,8 @@
 layout: page
 title: Additional Resources
 permalink: /resources
-nav_order: 105
+parent: Getting Started
+nav_order: 20
 ---
 
 # Additional Resources

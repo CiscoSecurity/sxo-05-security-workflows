@@ -3,7 +3,7 @@ layout: page
 title: Variables
 permalink: /variables/
 has_children: true
-nav_order: 45
+nav_order: 60
 ---
 
 # Variables
