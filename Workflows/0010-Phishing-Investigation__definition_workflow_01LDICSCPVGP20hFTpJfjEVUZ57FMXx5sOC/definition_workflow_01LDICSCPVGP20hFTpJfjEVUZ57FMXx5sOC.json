@@ -4274,6 +4274,79 @@
     ],
     "categories": []
   },
+  "triggers": {
+    "triggerevent_01LDICT231ZS43miaxKIy0SEERAAMo7ddn6": {
+      "workflow_id": "definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC",
+      "name": "Phishing Mailbox",
+      "title": "",
+      "lowercase_name": "event.phishing_mailbox",
+      "type": "event",
+      "base_type": "trigger",
+      "ref_id": "event_01LGC5X9EJUOC0K1s0akjTy0WxbVxkmzIxO",
+      "version": "",
+      "disabled": true,
+      "unique_name": "triggerevent_01LDICT231ZS43miaxKIy0SEERAAMo7ddn6",
+      "object_type": "triggerevent"
+    }
+  },
+  "events": {
+    "event_01LGC5X9EJUOC0K1s0akjTy0WxbVxkmzIxO": {
+      "name": "Email in Phishing Mailbox",
+      "title": "Email in Phishing Mailbox",
+      "type": "email.event",
+      "base_type": "event",
+      "object_type": "event",
+      "target_id": "definition_target_01LEJ3FP5FK9L6mt0a8XrhD40jG3PC0m1le",
+      "webhook_id": "",
+      "version": "1.0.0",
+      "properties": {
+        "action": "read",
+        "display_name": "Email in Phishing Mailbox",
+        "download_attachments": true,
+        "folder": "INBOX",
+        "target_id": "definition_target_01LEJ3FP5FK9L6mt0a8XrhD40jG3PC0m1le",
+        "title": "Email in Phishing Mailbox"
+      },
+      "unique_name": "event_01LGC5X9EJUOC0K1s0akjTy0WxbVxkmzIxO"
+    }
+  },
+  "targets": {
+    "definition_target_01LEJ3FP5FK9L6mt0a8XrhD40jG3PC0m1le": {
+      "unique_name": "definition_target_01LEJ3FP5FK9L6mt0a8XrhD40jG3PC0m1le",
+      "name": "Phishing Investigation Mailbox",
+      "title": "Phishing Investigation Mailbox",
+      "type": "email.imap_endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "default_runtime_user_id": "definition_runtime_user_01LGC2ZN9Q1R72w6IVxqMnAk2UNm5OoKwKY",
+        "description": "Used to check for new emails that the phishing workflow needs to process",
+        "display_name": "Phishing Investigation Mailbox",
+        "ignore_certificate_errors": false,
+        "polling_interval": 30,
+        "port": 993,
+        "protocol": "IMAP",
+        "server": "",
+        "tls_enabled": true
+      }
+    }
+  },
+  "runtime_users": {
+    "definition_runtime_user_01LGC2ZN9Q1R72w6IVxqMnAk2UNm5OoKwKY": {
+      "unique_name": "definition_runtime_user_01LGC2ZN9Q1R72w6IVxqMnAk2UNm5OoKwKY",
+      "name": "Phishing Investigation Mailbox Credentials",
+      "title": "Phishing Investigation Mailbox Credentials",
+      "type": "runtime_user.email_credentials",
+      "base_type": "runtime_user",
+      "object_type": "definition_runtime_user",
+      "properties": {
+        "description": "Credentials used to access the phishing investigation mailbox",
+        "display_name": "Phishing Investigation Mailbox Credentials",
+        "password": "****",
+        "sender": "****"
+      }
+    }
+  },
   "target_groups": {
     "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
       "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
