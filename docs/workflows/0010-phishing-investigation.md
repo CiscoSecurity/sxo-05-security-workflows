@@ -11,9 +11,20 @@ Workflow #0010
 {: .label }
 </div>
 
-This workflow monitors a mailbox for incomming phishing reports. When an email is received, the workflow investigates its attachments and attempts to determine if anything in the email (or its attachments) was suspicious or malicious. If anything suspicious or malicious is found, the user is told to delete the email, a casebook and incident are created in Threat Response, a Webex Teams message is posted, and an email is sent to a "SOC" email address.
+This workflow monitors a mailbox for incoming phishing reports. When an email is received, the workflow investigates its attachments and attempts to determine if anything in the email (or its attachments) was suspicious or malicious. If anything suspicious or malicious is found, the user is told to delete the email, a casebook and incident are created in Threat Response, a Webex Teams message is posted, and an email is sent to a "SOC" email address.
 
-[<i class="fa fa-video mr-1"></i> Overview](https://www.youtube.com/watch?v=eQYwVU2ge00&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo&index=7){: .btn-cisco-outline .mr-2 } [<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0010-Phishing-Investigation__definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC){: .btn-cisco-outline }
+[<i class="fa fa-video mr-1"></i> Overview](https://www.youtube.com/watch?v=xUehFeCJGL4&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo&index=7){: .btn-cisco-outline .mr-2 } [<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0010-Phishing-Investigation__definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC){: .btn-cisco-outline }
+
+---
+
+## Change Log
+
+| Date | Version | Notes |
+|:-----|:--------|:------|
+| Jan 21, 2021 | 1.0 | - Initial release |
+| Jan 29, 2021 | 1.1 | - Changed Threat Grid disposition for scores less than 70 to Unknown instead of Clean<br />- Removed the email notification to the reporting user when everything is clean/unknown. The SOC should take over the investigation from this point and make the final determination<br />- Fixed Threat Grid submission count not being incremented for URL submissions<br />- Added an environment variable for the Threat Grid instance URL |
+
+_See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 
 ---
 
@@ -76,7 +87,7 @@ This workflow is designed to be triggered by an email arriving in a phishing inv
 								* If it wasn't, submit the file to Threat Grid and extract the threat score
 							* Assign a disposition to the file based on the threat score and update the main observables table
 1. Build statistics for each observable disposition
-1. Check if there was anything malicious or suspicious. If there was:
+1. Check if there was anything suspicious or malicious. If there was:
 	* Generate an access token for Threat Response
 	* Compile the non-clean observables into a JSON list
 	* Create a Threat Response casebook
@@ -89,11 +100,15 @@ This workflow is designed to be triggered by an email arriving in a phishing inv
 		* Send a message to the room with some information about the investigation
 	* Send an email notification to the `Notification Email Addresses`
 1. Add this workflow run's statistics to the global statistics table
-1. Let the user who submitted the email for investigation know whether or not the email is safe to open
+1. If the email contained something suspicious or malicious, let the user know to delete the message immediately
 
 ---
 
 ## Configuration
+
+### Account Keys/Targets
+* You must create an [account key]({{ site.baseurl }}/account-keys) with your mailbox's credentials and then update the `Phishing Investigation Mailbox` [target]({{ site.baseurl }}/targets) with that account key. While you're editing the target, be sure to add your email server's information
+* A list of required targets and account keys can be found [below](#targets). Make sure they all exist and are configured properly
 
 ### Local Variables
 * Provide the workflow your Threat Grid API token by either:
@@ -101,21 +116,26 @@ This workflow is designed to be triggered by an email arriving in a phishing inv
 	* Remove the `Threat Grid API Key` from the `Fetch Global Variables` group and add your token directly to the `Threat Grid API Key` local variable
 * See [this page]({{ site.baseurl }}/atomics/webex#configuring-our-workflows) for information on configuring the workflow for Webex Teams
 * Set `Notification Email Addresses` to the email addresses you want notified when the workflow detects a phishing attempt
+* This workflow is configured to auto-detect which SecureX environment you're using based on the `SECUREX_ENVIRONMENT` environment variable and then assumes you're using the same environment for Threat Response and Threat Grid
+	* The default region associations are:
+		* SecureX North America (NAM) - Threat Response NAM, Threat Grid NAM
+		* SecureX Europe (EU) - Threat Response EU, Threat Grid EU
+		* SecureX Asia Pacific (APJC) - Threat Response APJC, Threat Grid EU
+	* You can change these defaults by editing the contents of the `Set the environment URLs` condition block at the beginning of the workflow
 
 ### Activities
-* The workflow has a default configuration for determining when a Threat Score (from Threat Grid) is considered clean, suspicious, or malicious
+* This workflow has a default configuration for determining when a Threat Score (from Threat Grid) is considered unknown, suspicious, or malicious
 	* The default ranges are:
-		* Clean: Less than 70
+		* Unknown: Less than 70
 		* Suspicious: Greater than or equal to 70 but less than 90
 		* Malicious: Greater than or equal to 90
 	* If you want to change these ranges, there are two `Was the file a threat?` condition blocks in the workflow you can modify
 * All of the Threat Response activities default to a `TLP Value` of `amber`. You can modify this if you want to use different values
 
-### Account Keys/Targets
-* You must create an [account key]({{ site.baseurl }}/account-keys) with your mailbox's credentials and then update the `Phishing Investigation Mailbox` [target]({{ site.baseurl }}/targets) with that account key. While you're editing the target, be sure to add your email server's information
-
 ### Trigger
-* When the workflow imports, the trigger will show in an errored state because the account key and target needed to be updated. To clear the error, go into the workflow, click on the trigger in the workflow's properties, uncheck the **Disable Trigger** box, and click **Save**
+* When the workflow imports, the trigger will show in an errored state because the account key and target needed to be updated. 
+
+To clear the error, go into the workflow, click on the trigger in the workflow's properties, uncheck the **Disable Trigger** box, and click **Save**
 
 ---
 
