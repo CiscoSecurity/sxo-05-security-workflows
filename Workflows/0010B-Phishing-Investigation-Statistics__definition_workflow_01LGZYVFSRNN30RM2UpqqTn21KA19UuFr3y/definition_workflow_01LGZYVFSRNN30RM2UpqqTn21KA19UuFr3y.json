@@ -479,7 +479,7 @@
               "action_timeout": 180,
               "continue_on_failure": false,
               "display_name": "Process average run times",
-              "script": "import sys\n\nruntimes = sys.argv[1].split(\",\")\nruntimes.remove(\"\")\n\nfor i in range(0, len(runtimes)):\n\truntimes[i] = float(runtimes[i])\n\naverageSeconds = (sum(runtimes) / len(runtimes))\naverageMinutes = round((averageSeconds / 60), 1)",
+              "script": "import sys\n\n# Get and expand the list of runtimes\nruntimes = []\nif len(sys.argv) > 1:\n\truntimes = sys.argv[1].split(\",\")\n\n# Remove any blanks\nwhile(\"\" in runtimes):\n\truntimes.remove(\"\")\n\n# Placeholders for the average runtime\naverageSeconds = 0\naverageMinutes = 0\n\n# Check that there are runtimes to process\nif len(runtimes) > 0:\n\t# Add up the runtimes\n\tfor i in range(0, len(runtimes)):\n\t\truntimes[i] = float(runtimes[i])\n\n\t# Calculate the average run time\n\taverageSeconds = (sum(runtimes) / len(runtimes))\n\taverageMinutes = round((averageSeconds / 60), 1)",
               "script_arguments": [
                 "$workflow.definition_workflow_01LGZYVFSRNN30RM2UpqqTn21KA19UuFr3y.local.variable_workflow_01LH05ZCSB0965NEZLsPth3Xqil5v9BbfyW$"
               ],
@@ -653,7 +653,7 @@
       "type": "schedule",
       "base_type": "trigger",
       "ref_id": "schedule_01LN6UG2DSL7O1r5c7x51xc6zpwexM3Jeiw",
-      "version": "",
+      "version": "1.0.0",
       "disabled": true,
       "unique_name": "triggerschedule_01LN6UMG37K2D3IwoaF8dWbh5yivjmFbfML",
       "object_type": "triggerschedule"
@@ -712,11 +712,11 @@
           {
             "column_data": {
               "end_time": "1900-01-01T01:01:01Z",
-              "num_attachments": 1,
-              "observables_clean": 18,
+              "num_attachments": 0,
+              "observables_clean": 0,
               "observables_malicious": 0,
               "observables_suspicious": 0,
-              "observables_unknown": 21,
+              "observables_unknown": 0,
               "start_time": "1900-01-01T01:01:01Z",
               "threatgrid_submissions": 0
             }
