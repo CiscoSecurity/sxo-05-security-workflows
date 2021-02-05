@@ -7,59 +7,6 @@
     "base_type": "workflow",
     "variables": [
       {
-        "schema_id": "datatype.secure_string",
-        "properties": {
-          "value": "",
-          "scope": "local",
-          "name": "Webex Teams Bot Token",
-          "type": "datatype.secure_string",
-          "description": "The access token to use to authenticate to the Webex Teams API",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01KEM2V27AR3N0gVUgwtrjQW64CHuEJmMST",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "[]",
-          "scope": "local",
-          "name": "Suspicious Observables",
-          "type": "datatype.string",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01KEM2V27AS7C5cO7MNUxW4hm2rQKvxo5tY",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.secure_string",
-        "properties": {
-          "value": "",
-          "scope": "local",
-          "name": "CTR Access Token",
-          "type": "datatype.secure_string",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01KEM2V27ANRG28iaTfbL4RbxEw3MLYOeV3",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.date",
-        "properties": {
-          "value": "0001-01-01T00:00:00+00:00",
-          "scope": "local",
-          "name": "CTR Access Token Time",
-          "type": "datatype.date",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01KEM2V27AOYF1DSO0EbQhkdFaUo0hLodRA",
-        "object_type": "variable_workflow"
-      },
-      {
         "schema_id": "datatype.string",
         "properties": {
           "value": "",
@@ -87,17 +34,129 @@
         "object_type": "variable_workflow"
       },
       {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "Threat Response Access Token",
+          "type": "datatype.secure_string",
+          "description": "Placeholder for the Threat Response access token. This token will be fetched as needed throughout the workflow and this variable should not be modified",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01KEM2V27ANRG28iaTfbL4RbxEw3MLYOeV3",
+        "object_type": "variable_workflow"
+      },
+      {
         "schema_id": "datatype.string",
         "properties": {
           "value": "",
           "scope": "local",
+          "name": "Threat Response Environment URL",
+          "type": "datatype.string",
+          "description": "Placeholder for the URL of the Threat Response environment being used. You don't need to provide this, it will be fetched automatically",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01M2CTWCR6XDT3sf3eoZDj1WNHfuiDq7a6c",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "[]",
+          "scope": "local",
+          "name": "Sightings",
+          "type": "datatype.string",
+          "description": "Placeholder for a list of sightings from your Threat Response modules",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01M34GMTAK8UF4CYyTqkhFZiAJAT9jS6Mm1",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.integer",
+        "properties": {
+          "value": 0,
+          "scope": "local",
+          "name": "Number of Non-Clean Observables",
+          "type": "datatype.integer",
+          "description": "How many non-clean observables were found during the investigation (as in: unknown, suspicious, or malicious)",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01M2CCVCCNEVU7AJv3FcsQqmMLkv64flWHB",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "SecureX Orchestration",
+          "scope": "local",
           "name": "Webex Teams Room Name",
           "type": "datatype.string",
-          "description": "Name of the Webex Teams room to post messages in. If you leave this blank, no Webex Teams messages will be posted. Note that you should invite your bot to the room before trying to send a message to it",
+          "description": "The name of the Webex Teams room to post messages to. If using a bot, make sure to invite your bot to the room before attempting to send messages. If you don't want to use Webex, leave this blank",
           "is_required": false,
           "is_invisible": false
         },
         "unique_name": "variable_workflow_01KEM2V27AHW31T48M2GZXrbAAq9UptP69T",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "Webex Teams Access Token",
+          "type": "datatype.secure_string",
+          "description": "The access token to use to authenticate to the Webex Teams API. Information about using a bot, which is what we recommend, can be found here: https://developer.webex.com/docs/bots",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01KEM2V27AR3N0gVUgwtrjQW64CHuEJmMST",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.date",
+        "properties": {
+          "value": "0001-01-01T00:00:00+00:00",
+          "scope": "local",
+          "name": "Threat Response Token Time",
+          "type": "datatype.date",
+          "description": "The time at which the Threat Response access token was last fetched. This is used to determine when it's time to fetch a new token and should not be modified",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01KEM2V27AOYF1DSO0EbQhkdFaUo0hLodRA",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "[]",
+          "scope": "local",
+          "name": "Non-Clean Observables",
+          "type": "datatype.string",
+          "description": "A JSON-formatted list of observables that have a disposition of unknown, suspicious, or malicious",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01KEM2V27AS7C5cO7MNUxW4hm2rQKvxo5tY",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "[]",
+          "scope": "local",
+          "name": "Targets",
+          "type": "datatype.string",
+          "description": "Placeholder for a list of targets from your Threat Response module sightings",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01M34RZXV6WZR1c0BC2uy2PATxjDyAGGWm1",
         "object_type": "variable_workflow"
       }
     ],
@@ -172,6 +231,138 @@
         ]
       },
       {
+        "unique_name": "definition_activity_01M2CT07GYTMW0ziCKo3RhPMbHFePPW0VHc",
+        "name": "Condition Block",
+        "title": "Set the environment URL",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Set the environment URL",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01M2CT0UFR2V90P2ob0nKI7yGOjhhFIl3Ik",
+            "name": "Condition Branch",
+            "title": "PROD NAM",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG.env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG$",
+                "operator": "eqi",
+                "right_operand": "prod-nam"
+              },
+              "continue_on_failure": false,
+              "display_name": "PROD NAM",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01M2CTI19L0J66FmLBXgnktFwrTsjquMAML",
+                "name": "Set Variables",
+                "title": "Set local environment variables",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Set local environment variables",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01M2CTWCR6XDT3sf3eoZDj1WNHfuiDq7a6c$",
+                      "variable_value_new": "visibility.amp.cisco.com"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01M2CU8QBQCL764ywFjbCv8B8iGfQfnoEv9",
+            "name": "Condition Branch",
+            "title": "PROD EU",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG.env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG$",
+                "operator": "eqi",
+                "right_operand": "prod-eu"
+              },
+              "continue_on_failure": false,
+              "display_name": "PROD EU",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01M2CU8S3TQWH11tBuP7EsL0Qmtj390wxhR",
+                "name": "Set Variables",
+                "title": "Set local environment variables",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Set local environment variables",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01M2CTWCR6XDT3sf3eoZDj1WNHfuiDq7a6c$",
+                      "variable_value_new": "visibility.eu.amp.cisco.com"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01M2CUHTOPX1T6riYpWS7JaM1EAqUdV2b7G",
+            "name": "Condition Branch",
+            "title": "PROD APJC",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG.env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG$",
+                "operator": "eqi",
+                "right_operand": "prod-apjc"
+              },
+              "continue_on_failure": false,
+              "display_name": "PROD APJC",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01M2CUHV8D85H1UH0xkRyuUq6Ovtcs1LQV7",
+                "name": "Set Variables",
+                "title": "Set local environment variables",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Set local environment variables",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01M2CTWCR6XDT3sf3eoZDj1WNHfuiDq7a6c$",
+                      "variable_value_new": "visibility.apjc.amp.cisco.com"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
         "unique_name": "definition_activity_01KEM2VULOQRM5UZZm5crwDpc7g7G58KTqi",
         "name": "Group",
         "title": "Fetch and process blog post",
@@ -194,7 +385,7 @@
               "action_timeout": 180,
               "continue_on_failure": true,
               "display_name": "Fetch and clean blog post",
-              "script": "import sys,re,requests\n\n# Get the blog post URL from the script input\nblogUrl = sys.argv[1]\n\n# Request the content of the blog post\nblogRequest = requests.get(blogUrl, headers={ 'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.3' })\n\n# Make sure the request was successful\nif not blogRequest.status_code == 200:\n    sys.exit(\"Unable to fetch blog content. HTTP code \" + blogRequest.status_code)\n\n# Extract the HTML of the blog post\nblogHtml = blogRequest.text\n\n# Default the blog post to being unavailable in case we can't find it\npostTitle = \"Post Title Unavailable\"\n\n# Attempt to extract the blog post title from the HTML\ntitleMatches = re.search(r'\u003ctitle\u003e([^\u003c]+)\u003c\\/title\u003e', blogHtml, re.MULTILINE)\nif titleMatches:\n    # We found a \u003ctitle\u003e tag, so use that as the title\n    postTitle = titleMatches.group(1)\n    postTitle = postTitle[(postTitle.find(\":\") + 2):]\n    postTitle = postTitle.replace(\"\\\"\", \"'\")\n\n# Strip \u003cscript /\u003e tags\nblogHtml = re.sub(r'\u003cscript\\b[^\u003c]*(?:(?!\u003c\\/script\u003e)\u003c[^\u003c]*)*\u003c\\/script\u003e', '', str(blogHtml), flags=re.DOTALL)\n\n# Strip \u003cstyle /\u003e tags\nblogHtml = re.sub(r'\u003cstyle\\b[^\u003c]*(?:(?!\u003c\\/style\u003e)\u003c[^\u003c]*)*\u003c\\/style\u003e', '', blogHtml, flags=re.DOTALL)\n\n# Strip other HTML\nblogHtml = re.sub(r'\u003c[^\u003c]+?\u003e', '', blogHtml, flags=re.DOTALL)\n\n# Replace new lines with a space\nblogHtml = blogHtml.replace(\"\\n\", \" \")",
+              "script": "import sys,re,requests\n\n# Get the blog post URL from the script input\nblogUrl = sys.argv[1]\n\n# Request the content of the blog post\nblogRequest = requests.get(blogUrl, headers={ 'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.3' })\n\n# Make sure the request was successful\nif not blogRequest.status_code == 200:\n    sys.exit(\"Unable to fetch blog content. HTTP code \" + blogRequest.status_code)\n\n# Extract the HTML of the blog post\nblogHtml = blogRequest.text\n\n# Default the blog post to being unavailable in case we can't find it\npostTitle = \"Post Title Unavailable\"\n\n# Attempt to extract the blog post title from the HTML\ntitleMatches = re.search(r'<title>([^<]+)<\\/title>', blogHtml, re.MULTILINE)\nif titleMatches:\n    # We found a <title> tag, so use that as the title\n    postTitle = titleMatches.group(1)\n    postTitle = postTitle[(postTitle.find(\":\") + 2):]\n    postTitle = postTitle.replace(\"\\\"\", \"'\")\n\n# Strip <script /> tags\nblogHtml = re.sub(r'<script\\b[^<]*(?:(?!<\\/script>)<[^<]*)*<\\/script>', '', str(blogHtml), flags=re.DOTALL)\n\n# Strip <style /> tags\nblogHtml = re.sub(r'<style\\b[^<]*(?:(?!<\\/style>)<[^<]*)*<\\/style>', '', blogHtml, flags=re.DOTALL)\n\n# Strip other HTML\nblogHtml = re.sub(r'<[^<]+?>', '', blogHtml, flags=re.DOTALL)\n\n# Replace new lines with a space\nblogHtml = blogHtml.replace(\"\\n\", \" \")",
               "script_arguments": [
                 "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.input.variable_workflow_01KEM2V27AQ1S0NJvwTxz0hKe8vCDDBEzth$"
               ],
@@ -263,30 +454,6 @@
                 ]
               }
             ]
-          },
-          {
-            "unique_name": "definition_activity_01KEM2WUGRDYM3rTTvMrQV4cJUMzg5WI5p8",
-            "name": "Replace String",
-            "title": "Escape blog content for use within JSON",
-            "type": "core.replacestring",
-            "base_type": "activity",
-            "properties": {
-              "continue_on_failure": false,
-              "display_name": "Escape blog content for use within JSON",
-              "input_string": "$activity.definition_activity_01KEM2W3750NV0UZSIjGttZn1ElyqYAECch.output.script_queries.blogHtml$",
-              "replace_list": [
-                {
-                  "replaced_string": "\\",
-                  "replacement_string": "\\\\"
-                },
-                {
-                  "replaced_string": "\"",
-                  "replacement_string": "\\\""
-                }
-              ],
-              "skip_execution": false
-            },
-            "object_type": "definition_activity"
           }
         ]
       },
@@ -304,14 +471,14 @@
         "object_type": "definition_activity",
         "actions": [
           {
-            "unique_name": "definition_activity_01KEM2XDAOL177RT6pGKKcXlJUiuQ1g4r0Y",
-            "name": "Generate CTR access token",
-            "title": "Generate CTR access token",
+            "unique_name": "definition_activity_01M2C8SC8P6BW27jCJVUVVFrE6l1pCE8glx",
+            "name": "Threat Response v2 - Generate Access Token",
+            "title": "Threat Response v2 - Generate Access Token",
             "type": "workflow.atomic_workflow",
             "base_type": "subworkflow",
             "properties": {
               "continue_on_failure": false,
-              "display_name": "Generate CTR access token",
+              "display_name": "Threat Response v2 - Generate Access Token",
               "runtime_user": {
                 "target_default": true
               },
@@ -332,45 +499,45 @@
                   }
                 }
               },
-              "workflow_id": "definition_workflow_01779LB6MV0P02kvka9TGV5cEam84NrCTy4"
+              "workflow_id": "definition_workflow_01KWJ2ISZTF2V6ibRYe7FZ7sOuycDOpnwss"
             },
             "object_type": "definition_activity"
           },
           {
             "unique_name": "definition_activity_01KEM2XQ5KAMG7CsmGiZ9HHLGGyosLDYKnl",
             "name": "Set Variables",
-            "title": "Set local CTR token variables",
+            "title": "Set local token variables",
             "type": "core.set_multiple_variables",
             "base_type": "activity",
             "properties": {
               "continue_on_failure": false,
-              "display_name": "Set local CTR token variables",
+              "display_name": "Set local token variables",
               "skip_execution": false,
               "variables_to_update": [
                 {
                   "variable_to_update": "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01KEM2V27ANRG28iaTfbL4RbxEw3MLYOeV3$",
-                  "variable_value_new": "$activity.definition_activity_01KEM2XDAOL177RT6pGKKcXlJUiuQ1g4r0Y.output.variable_workflow_01BNOOXA3G6MV1PGAvsfZOKDdMYcE6XS726$"
+                  "variable_value_new": "$activity.definition_activity_01M2C8SC8P6BW27jCJVUVVFrE6l1pCE8glx.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$"
                 },
                 {
                   "variable_to_update": "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01KEM2V27AOYF1DSO0EbQhkdFaUo0hLodRA$",
-                  "variable_value_new": "$activity.definition_activity_01KEM2XDAOL177RT6pGKKcXlJUiuQ1g4r0Y.output.end_time$"
+                  "variable_value_new": "$activity.definition_activity_01M2C8SC8P6BW27jCJVUVVFrE6l1pCE8glx.output.start_time$"
                 }
               ]
             },
             "object_type": "definition_activity"
           },
           {
-            "unique_name": "definition_activity_01KEM2Y0O489E2DNgYy0jEk0wKRCJTAkyaU",
-            "name": "CTR inspect blog post content for observables",
-            "title": "CTR inspect blog post content for observables",
+            "unique_name": "definition_activity_01M2C9XR0WO4I3S1o1QRPk1WtCixftdzsCd",
+            "name": "Threat Response v2 - Inspect for Observables",
+            "title": "Threat Response v2 - Inspect for Observables",
             "type": "workflow.atomic_workflow",
             "base_type": "subworkflow",
             "properties": {
               "continue_on_failure": false,
-              "display_name": "CTR inspect blog post content for observables",
+              "display_name": "Threat Response v2 - Inspect for Observables",
               "input": {
-                "variable_workflow_01C9F46FN86EW70gxvx7jTcwKMObdpaAPck": "$activity.definition_activity_01KEM2WUGRDYM3rTTvMrQV4cJUMzg5WI5p8.output.result_string$",
-                "variable_workflow_01C9F4PDGN5725qpK8sofdFmV1hrTAcYaGb": "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01KEM2V27ANRG28iaTfbL4RbxEw3MLYOeV3$"
+                "variable_workflow_01KXGKYZX7V1M2gr9pVGA5BZoTbgEQPSzF1": "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01KEM2V27ANRG28iaTfbL4RbxEw3MLYOeV3$",
+                "variable_workflow_01KXGKYZX7ZLN1hoeZeh7hwWyjoEUkSJCbg": "$activity.definition_activity_01KEM2W3750NV0UZSIjGttZn1ElyqYAECch.output.script_queries.blogHtml$"
               },
               "runtime_user": {
                 "target_default": true
@@ -379,7 +546,7 @@
               "target": {
                 "use_workflow_target_group": true
               },
-              "workflow_id": "definition_workflow_01C9F1VJ1I5KH26f860hJC5zDSD33548bYS"
+              "workflow_id": "definition_workflow_01KXGKZ0JA96P0p7omD4IdS6zKdw5ECiofU"
             },
             "object_type": "definition_activity"
           },
@@ -393,7 +560,7 @@
               "action_timeout": 180,
               "continue_on_failure": true,
               "display_name": "Test for results",
-              "input_json": "$activity.definition_activity_01KEM2Y0O489E2DNgYy0jEk0wKRCJTAkyaU.output.variable_workflow_01C9F6MICKTEV29S3eyPNTv36WARzQzopHd$",
+              "input_json": "$activity.definition_activity_01M2C9XR0WO4I3S1o1QRPk1WtCixftdzsCd.output.variable_workflow_01KXGKYZX80T50ocjT0xlIvdikhoR0AGB5u$",
               "jsonpath_queries": [
                 {
                   "jsonpath_query": "$.[0].value",
@@ -465,7 +632,7 @@
               "action_timeout": 180,
               "continue_on_failure": false,
               "display_name": "Convert list of observables to table",
-              "input_json": "$activity.definition_activity_01KEM2Y0O489E2DNgYy0jEk0wKRCJTAkyaU.output.variable_workflow_01C9F6MICKTEV29S3eyPNTv36WARzQzopHd$",
+              "input_json": "$activity.definition_activity_01M2C9XR0WO4I3S1o1QRPk1WtCixftdzsCd.output.variable_workflow_01KXGKYZX80T50ocjT0xlIvdikhoR0AGB5u$",
               "jsonpath_query": "$.*",
               "persist_output": true,
               "populate_columns": false,
@@ -517,18 +684,18 @@
             "object_type": "definition_activity",
             "actions": [
               {
-                "unique_name": "definition_activity_01KEM300ZAEB65SZpNb4ZhmnWGmuxWMSpCH",
-                "name": "Check CTR deliberate verdict",
-                "title": "Check CTR deliberate verdict",
+                "unique_name": "definition_activity_01M2CBGELIVY62OzwLit4e67i36rEqpVFSb",
+                "name": "Threat Response v2 - Deliberate Observable",
+                "title": "Threat Response v2 - Deliberate Observable",
                 "type": "workflow.atomic_workflow",
                 "base_type": "subworkflow",
                 "properties": {
                   "continue_on_failure": false,
-                  "display_name": "Check CTR deliberate verdict",
+                  "display_name": "Threat Response v2 - Deliberate Observable",
                   "input": {
-                    "variable_workflow_01BNHL4AUXTA60OSH5VldUDF7oZlNJRNNcc": "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01KEM2V27ANRG28iaTfbL4RbxEw3MLYOeV3$",
-                    "variable_workflow_01BNHLBDQWA600jzzEXCr1LXkUns1D1aB3u": "$activity.definition_activity_01KEM2ZOO7OZM7RxaKY5BqEVWKQjPwko2ut.input.source_array[@].type$",
-                    "variable_workflow_01BNHLIRPBN4Q61YBYNOEfvHQi0Y1Vzr501": "$activity.definition_activity_01KEM2ZOO7OZM7RxaKY5BqEVWKQjPwko2ut.input.source_array[@].value$"
+                    "variable_workflow_01KXGQWL4TDTE02Mxh65PHxstnnK3wTcCF2": "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01KEM2V27ANRG28iaTfbL4RbxEw3MLYOeV3$",
+                    "variable_workflow_01KXGQWL4THYI5hexa4Ip4LW0UZIJhk4ejv": "$activity.definition_activity_01KEM2ZOO7OZM7RxaKY5BqEVWKQjPwko2ut.input.source_array[@].type$",
+                    "variable_workflow_01KXGQWL4TLPV5NbUAlHHHQUcco57lEijh9": "$activity.definition_activity_01KEM2ZOO7OZM7RxaKY5BqEVWKQjPwko2ut.input.source_array[@].value$"
                   },
                   "runtime_user": {
                     "target_default": true
@@ -537,9 +704,130 @@
                   "target": {
                     "use_workflow_target_group": true
                   },
-                  "workflow_id": "definition_workflow_01BMYF7PCRLRM3pfYcuM9yYFsKoYBEBO4PK"
+                  "workflow_id": "definition_workflow_01KXGQWLMIDXG563x6DBOvwjfxpH8JrkaRW"
                 },
                 "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01M2CHCTMWWJ22oHl5hnveBjBAtnk7NORJH",
+                "name": "Group",
+                "title": "Validate Threat Response token",
+                "type": "logic.group",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Validate Threat Response token",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01M2CI04K8GVS4qbdzKDSap8NMVgctcb4tC",
+                    "name": "Calculate Date Time Difference",
+                    "title": "Check token age",
+                    "type": "core.calculate_date_time_difference",
+                    "base_type": "activity",
+                    "properties": {
+                      "continue_on_failure": false,
+                      "display_name": "Check token age",
+                      "original_date": "$activity.definition_activity_01M2CBGELIVY62OzwLit4e67i36rEqpVFSb.output.end_time$",
+                      "skip_execution": false,
+                      "subtract_date": "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01KEM2V27AOYF1DSO0EbQhkdFaUo0hLodRA$"
+                    },
+                    "object_type": "definition_activity"
+                  },
+                  {
+                    "unique_name": "definition_activity_01M2CI403VBBT4OS0p84DYBKIZRQ0KCvLzq",
+                    "name": "Condition Block",
+                    "title": "Is it over 8 minutes?",
+                    "type": "logic.if_else",
+                    "base_type": "activity",
+                    "properties": {
+                      "continue_on_failure": false,
+                      "display_name": "Is it over 8 minutes?",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity",
+                    "blocks": [
+                      {
+                        "unique_name": "definition_activity_01M2CI4CA5C124H5YO12b77GZOhBA1guz6u",
+                        "name": "Condition Branch",
+                        "title": "Yes",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                          "condition": {
+                            "left_operand": "$activity.definition_activity_01M2CI04K8GVS4qbdzKDSap8NMVgctcb4tC.output.total_minutes$",
+                            "operator": "gte",
+                            "right_operand": 8
+                          },
+                          "continue_on_failure": false,
+                          "display_name": "Yes",
+                          "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                          {
+                            "unique_name": "definition_activity_01M2CIF7JBLT24cNJDROGJPjM87gpx1H9eB",
+                            "name": "Threat Response v2 - Generate Access Token",
+                            "title": "Threat Response v2 - Generate Access Token",
+                            "type": "workflow.atomic_workflow",
+                            "base_type": "subworkflow",
+                            "properties": {
+                              "continue_on_failure": false,
+                              "display_name": "Threat Response v2 - Generate Access Token",
+                              "runtime_user": {
+                                "target_default": true
+                              },
+                              "skip_execution": false,
+                              "target": {
+                                "override_workflow_target_group_criteria": true,
+                                "target_group": {
+                                  "run_on_all_targets": false,
+                                  "use_criteria": {
+                                    "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                    "conditions": [
+                                      {
+                                        "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                        "operator": "eqi",
+                                        "right_operand": "CTR_For_Access_Token"
+                                      }
+                                    ]
+                                  }
+                                }
+                              },
+                              "workflow_id": "definition_workflow_01KWJ2ISZTF2V6ibRYe7FZ7sOuycDOpnwss"
+                            },
+                            "object_type": "definition_activity"
+                          },
+                          {
+                            "unique_name": "definition_activity_01M2CI8UV66JV4KcvQwfcll1S4LDzMRFu0V",
+                            "name": "Set Variables",
+                            "title": "Set local token variables",
+                            "type": "core.set_multiple_variables",
+                            "base_type": "activity",
+                            "properties": {
+                              "continue_on_failure": false,
+                              "display_name": "Set local token variables",
+                              "skip_execution": false,
+                              "variables_to_update": [
+                                {
+                                  "variable_to_update": "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01KEM2V27ANRG28iaTfbL4RbxEw3MLYOeV3$",
+                                  "variable_value_new": "$activity.definition_activity_01M2CIF7JBLT24cNJDROGJPjM87gpx1H9eB.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$"
+                                },
+                                {
+                                  "variable_to_update": "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01KEM2V27AOYF1DSO0EbQhkdFaUo0hLodRA$",
+                                  "variable_value_new": "$activity.definition_activity_01M2CIF7JBLT24cNJDROGJPjM87gpx1H9eB.output.start_time$"
+                                }
+                              ]
+                            },
+                            "object_type": "definition_activity"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
               },
               {
                 "unique_name": "definition_activity_01KEM30L193E50eEErWDvBY9Nwb799IxigZ",
@@ -562,7 +850,7 @@
                     {
                       "key": "disposition",
                       "type": "string",
-                      "value": "$activity.definition_activity_01KEM300ZAEB65SZpNb4ZhmnWGmuxWMSpCH.output.variable_workflow_01BMYF7P6UO321YgBxyhxAiaqqvwzeopu2x$"
+                      "value": "$activity.definition_activity_01M2CBGELIVY62OzwLit4e67i36rEqpVFSb.output.variable_workflow_01KXGQWL4TJCC2W33mfqnp8bURFArcu7cRR$"
                     }
                   ],
                   "rows": {
@@ -594,7 +882,7 @@
                     "base_type": "activity",
                     "properties": {
                       "condition": {
-                        "left_operand": "$activity.definition_activity_01KEM300ZAEB65SZpNb4ZhmnWGmuxWMSpCH.output.variable_workflow_01BMYF7P6UO321YgBxyhxAiaqqvwzeopu2x$",
+                        "left_operand": "$activity.definition_activity_01M2CBGELIVY62OzwLit4e67i36rEqpVFSb.output.variable_workflow_01KXGQWL4TJCC2W33mfqnp8bURFArcu7cRR$",
                         "operator": "ne",
                         "right_operand": "Clean"
                       },
@@ -634,17 +922,21 @@
                       {
                         "unique_name": "definition_activity_01KEM31HUWXM81STj3F1017KSsu9TRg4kpT",
                         "name": "Set Variables",
-                        "title": "Update observable local variable",
+                        "title": "Update observable local variables",
                         "type": "core.set_multiple_variables",
                         "base_type": "activity",
                         "properties": {
                           "continue_on_failure": false,
-                          "display_name": "Update observable local variable",
+                          "display_name": "Update observable local variables",
                           "skip_execution": false,
                           "variables_to_update": [
                             {
                               "variable_to_update": "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01KEM2V27AS7C5cO7MNUxW4hm2rQKvxo5tY$",
                               "variable_value_new": "$activity.definition_activity_01KEM31951IA13hY9fS02igm7FtwFDC39wW.output.script_queries.newJson$"
+                            },
+                            {
+                              "variable_to_update": "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01M2CCVCCNEVU7AJv3FcsQqmMLkv64flWHB$",
+                              "variable_value_new": "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01M2CCVCCNEVU7AJv3FcsQqmMLkv64flWHB$+1"
                             }
                           ]
                         },
@@ -677,9 +969,9 @@
                 "base_type": "activity",
                 "properties": {
                   "condition": {
-                    "left_operand": "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01KEM2V27AS7C5cO7MNUxW4hm2rQKvxo5tY$",
+                    "left_operand": "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01M2CCVCCNEVU7AJv3FcsQqmMLkv64flWHB$",
                     "operator": "eq",
-                    "right_operand": "[]"
+                    "right_operand": 0
                   },
                   "continue_on_failure": false,
                   "display_name": "Yes",
@@ -736,37 +1028,14 @@
             "object_type": "definition_activity",
             "actions": [
               {
-                "unique_name": "definition_activity_01KEM32U1JP7F3w2kPH85mo3HZlU7R5nQa7",
-                "name": "Get Webex message length",
-                "title": "Get Webex message length",
-                "type": "workflow.atomic_workflow",
-                "base_type": "subworkflow",
-                "properties": {
-                  "continue_on_failure": false,
-                  "display_name": "Get Webex message length",
-                  "input": {
-                    "variable_workflow_01J3SU7SDQUQW2jXUJjQXaM47b4BYg7mxcD": "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01KEM2V27AMBP0n2Gsz28uMEjJ94lciLtfa$"
-                  },
-                  "runtime_user": {
-                    "target_default": true
-                  },
-                  "skip_execution": false,
-                  "target": {
-                    "no_target": true
-                  },
-                  "workflow_id": "definition_workflow_01J3STRKBDJ7H4DZmPyS7xOkHlrhXKxkH34"
-                },
-                "object_type": "definition_activity"
-              },
-              {
                 "unique_name": "definition_activity_01KEM335V54CU1QnIXKCjiIFYt30jIIyWsP",
                 "name": "Condition Block",
-                "title": "Should we skip this observable?",
+                "title": "Is this observable clean?",
                 "type": "logic.if_else",
                 "base_type": "activity",
                 "properties": {
                   "continue_on_failure": false,
-                  "display_name": "Should we skip this observable?",
+                  "display_name": "Is this observable clean?",
                   "skip_execution": false
                 },
                 "object_type": "definition_activity",
@@ -774,7 +1043,7 @@
                   {
                     "unique_name": "definition_activity_01KEM33D5TPP94tp3DywJ2eVsejkCPqExVc",
                     "name": "Condition Branch",
-                    "title": "Yes (Its clean)",
+                    "title": "Yes",
                     "type": "logic.condition_block",
                     "base_type": "activity",
                     "properties": {
@@ -784,7 +1053,7 @@
                         "right_operand": "Clean"
                       },
                       "continue_on_failure": false,
-                      "display_name": "Yes (Its clean)",
+                      "display_name": "Yes",
                       "skip_execution": false
                     },
                     "object_type": "definition_activity",
@@ -803,70 +1072,18 @@
                         "object_type": "definition_activity"
                       }
                     ]
-                  },
-                  {
-                    "unique_name": "definition_activity_01KEM33Q5V1GM1vRoeOv9fj3yDuYVwCKCi6",
-                    "name": "Condition Branch",
-                    "title": "Yes (Webex message too long)",
-                    "type": "logic.condition_block",
-                    "base_type": "activity",
-                    "properties": {
-                      "condition": {
-                        "left_operand": "$activity.definition_activity_01KEM32U1JP7F3w2kPH85mo3HZlU7R5nQa7.output.variable_workflow_01J3SUDYUOACX2GDpJTR9b55hdFMhbqRRWi$",
-                        "operator": "gte",
-                        "right_operand": 6000
-                      },
-                      "continue_on_failure": false,
-                      "display_name": "Yes (Webex message too long)",
-                      "skip_execution": false
-                    },
-                    "object_type": "definition_activity",
-                    "actions": [
-                      {
-                        "unique_name": "definition_activity_01KEM33VGU8EU0Yr7szvIXi347UkCWvvY6B",
-                        "name": "Set Variables",
-                        "title": "Update the Webex text",
-                        "type": "core.set_multiple_variables",
-                        "base_type": "activity",
-                        "properties": {
-                          "continue_on_failure": false,
-                          "display_name": "Update the Webex text",
-                          "skip_execution": false,
-                          "variables_to_update": [
-                            {
-                              "variable_to_update": "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01KEM2V27AMBP0n2Gsz28uMEjJ94lciLtfa$",
-                              "variable_value_new": "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01KEM2V27AMBP0n2Gsz28uMEjJ94lciLtfa$  \\n *Additional information was available for this investigation but could not be included in Webex. Please investigate using Threat Response*"
-                            }
-                          ]
-                        },
-                        "object_type": "definition_activity"
-                      },
-                      {
-                        "unique_name": "definition_activity_01KEM342WK4F52BPJwWNyPcvc86CUZPHJ6k",
-                        "name": "Break",
-                        "title": "End the observable loop",
-                        "type": "logic.break",
-                        "base_type": "activity",
-                        "properties": {
-                          "continue_on_failure": false,
-                          "display_name": "End the observable loop",
-                          "skip_execution": false
-                        },
-                        "object_type": "definition_activity"
-                      }
-                    ]
                   }
                 ]
               },
               {
                 "unique_name": "definition_activity_01KEM34ACYTOH7FlkJOpSUCV1ie31QAzpQK",
                 "name": "Group",
-                "title": "Validate CTR token",
+                "title": "Validate Threat Response token",
                 "type": "logic.group",
                 "base_type": "activity",
                 "properties": {
                   "continue_on_failure": false,
-                  "display_name": "Validate CTR token",
+                  "display_name": "Validate Threat Response token",
                   "skip_execution": false
                 },
                 "object_type": "definition_activity",
@@ -889,12 +1106,12 @@
                   {
                     "unique_name": "definition_activity_01KEM34S0U3A94dyPuTOE8y6IzzH1XBApyG",
                     "name": "Condition Block",
-                    "title": "Is it over 9 minutes?",
+                    "title": "Is it over 8 minutes?",
                     "type": "logic.if_else",
                     "base_type": "activity",
                     "properties": {
                       "continue_on_failure": false,
-                      "display_name": "Is it over 9 minutes?",
+                      "display_name": "Is it over 8 minutes?",
                       "skip_execution": false
                     },
                     "object_type": "definition_activity",
@@ -909,7 +1126,7 @@
                           "condition": {
                             "left_operand": "$activity.definition_activity_01KEM34JXJ44M5OvPQTQkhef4cJpalUeoAi.output.total_minutes$",
                             "operator": "gte",
-                            "right_operand": 9
+                            "right_operand": 8
                           },
                           "continue_on_failure": false,
                           "display_name": "Yes",
@@ -918,14 +1135,14 @@
                         "object_type": "definition_activity",
                         "actions": [
                           {
-                            "unique_name": "definition_activity_01KEM355X6XHX3cYfSZHAplslYFRG9wkc7V",
-                            "name": "Generate a new CTR access token",
-                            "title": "Generate a new CTR access token",
+                            "unique_name": "definition_activity_01M2CLBJ365947QjQaUispWEMbBs9O0dxCR",
+                            "name": "Threat Response v2 - Generate Access Token",
+                            "title": "Threat Response v2 - Generate Access Token",
                             "type": "workflow.atomic_workflow",
                             "base_type": "subworkflow",
                             "properties": {
                               "continue_on_failure": false,
-                              "display_name": "Generate a new CTR access token",
+                              "display_name": "Threat Response v2 - Generate Access Token",
                               "runtime_user": {
                                 "target_default": true
                               },
@@ -946,28 +1163,28 @@
                                   }
                                 }
                               },
-                              "workflow_id": "definition_workflow_01779LB6MV0P02kvka9TGV5cEam84NrCTy4"
+                              "workflow_id": "definition_workflow_01KWJ2ISZTF2V6ibRYe7FZ7sOuycDOpnwss"
                             },
                             "object_type": "definition_activity"
                           },
                           {
                             "unique_name": "definition_activity_01KEM35JF29WL7fQhwbhaH3GC3W70LrE9ka",
                             "name": "Set Variables",
-                            "title": "Set local CTR token variables",
+                            "title": "Set local token variables",
                             "type": "core.set_multiple_variables",
                             "base_type": "activity",
                             "properties": {
                               "continue_on_failure": false,
-                              "display_name": "Set local CTR token variables",
+                              "display_name": "Set local token variables",
                               "skip_execution": false,
                               "variables_to_update": [
                                 {
                                   "variable_to_update": "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01KEM2V27ANRG28iaTfbL4RbxEw3MLYOeV3$",
-                                  "variable_value_new": "$activity.definition_activity_01KEM355X6XHX3cYfSZHAplslYFRG9wkc7V.output.variable_workflow_01BNOOXA3G6MV1PGAvsfZOKDdMYcE6XS726$"
+                                  "variable_value_new": "$activity.definition_activity_01M2CLBJ365947QjQaUispWEMbBs9O0dxCR.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$"
                                 },
                                 {
                                   "variable_to_update": "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01KEM2V27AOYF1DSO0EbQhkdFaUo0hLodRA$",
-                                  "variable_value_new": "$activity.definition_activity_01KEM355X6XHX3cYfSZHAplslYFRG9wkc7V.output.end_time$"
+                                  "variable_value_new": "$activity.definition_activity_01M2CLBJ365947QjQaUispWEMbBs9O0dxCR.output.start_time$"
                                 }
                               ]
                             },
@@ -980,18 +1197,18 @@
                 ]
               },
               {
-                "unique_name": "definition_activity_01KEM35UPUZZD5UV9rFobejewqCSonKPy3f",
-                "name": "Enrich this observable using CTR",
-                "title": "Enrich this observable using CTR",
+                "unique_name": "definition_activity_01M2CM5SLKQ9Y3PUHrUo0IuOZo6xUHYeH6v",
+                "name": "Threat Response v2 - Enrich Observable",
+                "title": "Threat Response v2 - Enrich Observable",
                 "type": "workflow.atomic_workflow",
                 "base_type": "subworkflow",
                 "properties": {
                   "continue_on_failure": false,
-                  "display_name": "Enrich this observable using CTR",
+                  "display_name": "Threat Response v2 - Enrich Observable",
                   "input": {
-                    "variable_workflow_01D6KGWYYEZ8D1PK5ezZXuXbBQ1ZKMSCKz9": "$activity.definition_activity_01KEM32I6BDAJ2eFjZIU3EKPjAoFHhGPM5Z.input.source_array[@].value$",
-                    "variable_workflow_01D6KGWYYF5AO1Vmr69KkbEUOLzHfGIsbPr": "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01KEM2V27ANRG28iaTfbL4RbxEw3MLYOeV3$",
-                    "variable_workflow_01D6KGWYYFB8O1Ym8s5Snx7iN2aoTo23yYL": "$activity.definition_activity_01KEM32I6BDAJ2eFjZIU3EKPjAoFHhGPM5Z.input.source_array[@].type$"
+                    "variable_workflow_01LFCW7BK9JWU2I0o0vdWjBcKeGI9cTXwLT": "$activity.definition_activity_01KEM32I6BDAJ2eFjZIU3EKPjAoFHhGPM5Z.input.source_array[@].type$",
+                    "variable_workflow_01LFCW7BK9RRM61vI2vN9AXklLnXrOFOSdu": "$activity.definition_activity_01KEM32I6BDAJ2eFjZIU3EKPjAoFHhGPM5Z.input.source_array[@].value$",
+                    "variable_workflow_01LFCW7BK9SW92Ai5bUZzG2IKUi6lVxRR2Z": "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01KEM2V27ANRG28iaTfbL4RbxEw3MLYOeV3$"
                   },
                   "runtime_user": {
                     "target_default": true
@@ -1000,7 +1217,7 @@
                   "target": {
                     "use_workflow_target_group": true
                   },
-                  "workflow_id": "definition_workflow_01D6KGWC1QCSN7f2tnHrhIHVeZHLKBZubRz"
+                  "workflow_id": "definition_workflow_01LFCW7C2Q1BU6Szjo7JqBWHWPmevmW7uIn"
                 },
                 "object_type": "definition_activity"
               },
@@ -1014,7 +1231,7 @@
                   "action_timeout": 180,
                   "continue_on_failure": true,
                   "display_name": "Convert list of enrichments to table",
-                  "input_json": "$activity.definition_activity_01KEM35UPUZZD5UV9rFobejewqCSonKPy3f.output.variable_workflow_01D6KGWYYF35W3B7G1o2xUXUjQDPmGK5osh$",
+                  "input_json": "$activity.definition_activity_01M2CM5SLKQ9Y3PUHrUo0IuOZo6xUHYeH6v.output.variable_workflow_01LFCW7BK9PHR4US5QvFoxwf05w5gnBzrNU$",
                   "jsonpath_query": "$.data[*]",
                   "persist_output": false,
                   "populate_columns": false,
@@ -1057,17 +1274,9 @@
                     "base_type": "activity",
                     "properties": {
                       "condition": {
-                        "left_operand": {
-                          "left_operand": "$activity.definition_activity_01KEM367DK0NJ1R9t1m9FP7aXRV7KNJsLJS.output.succeeded$",
-                          "operator": "eq",
-                          "right_operand": false
-                        },
-                        "operator": "or",
-                        "right_operand": {
-                          "left_operand": "$activity.definition_activity_01KEM367DK0NJ1R9t1m9FP7aXRV7KNJsLJS.output.row_count$",
-                          "operator": "eq",
-                          "right_operand": 0
-                        }
+                        "left_operand": "$activity.definition_activity_01KEM367DK0NJ1R9t1m9FP7aXRV7KNJsLJS.output.succeeded$",
+                        "operator": "eq",
+                        "right_operand": false
                       },
                       "continue_on_failure": false,
                       "display_name": "No",
@@ -1182,23 +1391,31 @@
                     ]
                   },
                   {
-                    "unique_name": "definition_activity_01KEM386G147H47GFgtPaO7Kz3ydBI1VEa0",
+                    "unique_name": "definition_activity_01M34IE8Q3MY35W7N2GeZVAEgIl65JhpyuW",
                     "name": "Execute Python Script",
-                    "title": "Convert sighting data to usable text for Webex",
+                    "title": "Extract sightings and targets",
                     "type": "python3.script",
                     "base_type": "activity",
                     "properties": {
                       "action_timeout": 180,
                       "continue_on_failure": false,
-                      "display_name": "Convert sighting data to usable text for Webex",
-                      "script": "import sys,json\n\n# Get and parse the sighting data\nsightings = json.loads(sys.argv[1])\n\n# Placeholder for output\noutString = \"\"\nseenStrings = []\n\n# Loop through each sighting\nfor sighting in sightings:\n    # If there aren't any targets, skip the sighting\n    if not \"targets\" in sighting:\n        continue\n    \n    # Start assembling a description of this sighting\n    sightingString = \"Description: \" + sighting['description'] + \"\\\\nTargets:\\\\n\"\n    \n    # Add information about each target\n    for target in sighting['targets']:\n        sightingString = sightingString + \"\u003e Type: \" + target['type']\n        \n        # Add information about each observable\n        for observable in target['observables']:\n            sightingString = sightingString + \", \" + observable['type'] + \"=\" + observable['value']\n    \n    # If this sighting isn't already in our output, append it\n    if not sightingString in seenStrings:\n        if len(outString) \u003e 0:\n            outString = outString + \"  \\\\n\"\n            \n        outString = outString + sightingString\n        \n        seenStrings.append(sightingString)",
+                      "display_name": "Extract sightings and targets",
+                      "script": "import sys,json\n\n# Get the name of the module being investigated\nmoduleName = sys.argv[1]\n\n# Parse the existing list of sightings and targets\nexistingSightings = json.loads(sys.argv[3])\nexistingTargets = json.loads(sys.argv[4])\n\n# Parse the new sightings\nnewSightings = json.loads(sys.argv[2])\n\n# Loop through each sighting\nfor sighting in newSightings:\n\tsighting[\"module_name\"] = moduleName\n\t\n\t# Append this sighting to the master list\n\texistingSightings.append(sighting)\n\t\n\t# Check if this sighting has any targets\n\tif \"targets\" in sighting.keys() and len(sighting[\"targets\"]) > 0:\n\t\t# Loop through each target\n\t\tfor target in sighting[\"targets\"]:\n\t\t\t# Check if this target is an endpoint\n\t\t\tif target[\"type\"] == \"endpoint\":\n\t\t\t\t# Loop through each observable\n\t\t\t\tfor observable in target[\"observables\"]:\n\t\t\t\t\tif observable[\"type\"] == \"amp_computer_guid\" and not observable in existingTargets:\n\t\t\t\t\t\texistingTargets.append(observable)\n\n# Build the new JSON\nnewSightings = json.dumps(existingSightings)\nnewTargets = json.dumps(existingTargets)",
                       "script_arguments": [
-                        "$activity.definition_activity_01KEM37DP3CNZ4qkuiJL7S3vrF7tU91lZON.output.jsonpath_queries.sightingData$"
+                        "$activity.definition_activity_01KEM371XKXHR3PusH3p5m55gNUdQMlnDRx.input.source_array[@].module$",
+                        "$activity.definition_activity_01KEM37DP3CNZ4qkuiJL7S3vrF7tU91lZON.output.jsonpath_queries.sightingData$",
+                        "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01M34GMTAK8UF4CYyTqkhFZiAJAT9jS6Mm1$",
+                        "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01M34RZXV6WZR1c0BC2uy2PATxjDyAGGWm1$"
                       ],
                       "script_queries": [
                         {
-                          "script_query": "outString",
-                          "script_query_name": "outString",
+                          "script_query": "newSightings",
+                          "script_query_name": "newSightings",
+                          "script_query_type": "string"
+                        },
+                        {
+                          "script_query": "newTargets",
+                          "script_query_name": "newTargets",
                           "script_query_type": "string"
                         }
                       ],
@@ -1207,149 +1424,148 @@
                     "object_type": "definition_activity"
                   },
                   {
-                    "unique_name": "definition_activity_01KEM38ER5N392Iaj4UDLGKOxIfbgqqDaZj",
-                    "name": "Condition Block",
-                    "title": "Was there sighting text?",
-                    "type": "logic.if_else",
+                    "unique_name": "definition_activity_01M34JSKSP19O5ZKQzgeVwRAfphDAX2Iakg",
+                    "name": "Set Variables",
+                    "title": "Update local variables",
+                    "type": "core.set_multiple_variables",
                     "base_type": "activity",
                     "properties": {
                       "continue_on_failure": false,
-                      "display_name": "Was there sighting text?",
-                      "skip_execution": false
-                    },
-                    "object_type": "definition_activity",
-                    "blocks": [
-                      {
-                        "unique_name": "definition_activity_01KEM38MB99943gHANbg0SlFvNNM5LHbBBR",
-                        "name": "Condition Branch",
-                        "title": "Yes",
-                        "type": "logic.condition_block",
-                        "base_type": "activity",
-                        "properties": {
-                          "condition": {
-                            "left_operand": "$activity.definition_activity_01KEM386G147H47GFgtPaO7Kz3ydBI1VEa0.output.script_queries.outString$",
-                            "operator": "ne",
-                            "right_operand": ""
-                          },
-                          "continue_on_failure": false,
-                          "display_name": "Yes",
-                          "skip_execution": false
+                      "display_name": "Update local variables",
+                      "skip_execution": false,
+                      "variables_to_update": [
+                        {
+                          "variable_to_update": "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01M34GMTAK8UF4CYyTqkhFZiAJAT9jS6Mm1$",
+                          "variable_value_new": "$activity.definition_activity_01M34IE8Q3MY35W7N2GeZVAEgIl65JhpyuW.output.script_queries.newSightings$"
                         },
-                        "object_type": "definition_activity",
-                        "actions": [
-                          {
-                            "unique_name": "definition_activity_01KEM38T87JR55WBUy2ScebuO9IwOIyBMeW",
-                            "name": "Get the length of the existing Webex message",
-                            "title": "Get the length of the existing Webex message",
-                            "type": "workflow.atomic_workflow",
-                            "base_type": "subworkflow",
-                            "properties": {
-                              "continue_on_failure": false,
-                              "display_name": "Get the length of the existing Webex message",
-                              "input": {
-                                "variable_workflow_01J3SU7SDQUQW2jXUJjQXaM47b4BYg7mxcD": "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01KEM2V27AMBP0n2Gsz28uMEjJ94lciLtfa$"
-                              },
-                              "runtime_user": {
-                                "target_default": true
-                              },
-                              "skip_execution": false,
-                              "target": {
-                                "no_target": true
-                              },
-                              "workflow_id": "definition_workflow_01J3STRKBDJ7H4DZmPyS7xOkHlrhXKxkH34"
-                            },
-                            "object_type": "definition_activity"
-                          },
-                          {
-                            "unique_name": "definition_activity_01KEM395AJEZN5WUWZgbP8T3WmdhvxtYh0W",
-                            "name": "Condition Block",
-                            "title": "Would adding more text make it too long?",
-                            "type": "logic.if_else",
-                            "base_type": "activity",
-                            "properties": {
-                              "continue_on_failure": false,
-                              "display_name": "Would adding more text make it too long?",
-                              "skip_execution": false
-                            },
-                            "object_type": "definition_activity",
-                            "blocks": [
+                        {
+                          "variable_to_update": "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01M34RZXV6WZR1c0BC2uy2PATxjDyAGGWm1$",
+                          "variable_value_new": "$activity.definition_activity_01M34IE8Q3MY35W7N2GeZVAEgIl65JhpyuW.output.script_queries.newTargets$"
+                        }
+                      ]
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01M32GSCMI0PU68BgpqvFfSmlIGkmCihTcX",
+        "name": "Group",
+        "title": "Validate Threat Response token",
+        "type": "logic.group",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Validate Threat Response token",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01M32GT0E8F663cbmkE7W3T0AfloyS5DBIN",
+            "name": "Calculate Date Time Difference",
+            "title": "Check token age",
+            "type": "core.calculate_date_time_difference",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Check token age",
+              "original_date": "$activity.definition_activity_01KEM3295OB5L5K21ozdR9MvvXZewU3kZYl.output.end_time$",
+              "skip_execution": false,
+              "subtract_date": "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01KEM2V27AOYF1DSO0EbQhkdFaUo0hLodRA$"
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01M32GTBMXV2D45N2WGUKW8A47gMkoskogu",
+            "name": "Condition Block",
+            "title": "Is it over 8 minutes?",
+            "type": "logic.if_else",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Is it over 8 minutes?",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "blocks": [
+              {
+                "unique_name": "definition_activity_01M32GTMSIFNW4kD6o6GXfTOvlvdOkTsRH9",
+                "name": "Condition Branch",
+                "title": "Yes",
+                "type": "logic.condition_block",
+                "base_type": "activity",
+                "properties": {
+                  "condition": {
+                    "left_operand": "$activity.definition_activity_01M32GT0E8F663cbmkE7W3T0AfloyS5DBIN.output.total_minutes$",
+                    "operator": "gte",
+                    "right_operand": 8
+                  },
+                  "continue_on_failure": false,
+                  "display_name": "Yes",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01M32GTNVY6FE3ns6s69Orji9yLhuT5aLYu",
+                    "name": "Threat Response v2 - Generate Access Token",
+                    "title": "Threat Response v2 - Generate Access Token",
+                    "type": "workflow.atomic_workflow",
+                    "base_type": "subworkflow",
+                    "properties": {
+                      "continue_on_failure": false,
+                      "display_name": "Threat Response v2 - Generate Access Token",
+                      "runtime_user": {
+                        "target_default": true
+                      },
+                      "skip_execution": false,
+                      "target": {
+                        "override_workflow_target_group_criteria": true,
+                        "target_group": {
+                          "run_on_all_targets": false,
+                          "use_criteria": {
+                            "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                            "conditions": [
                               {
-                                "unique_name": "definition_activity_01KEM39CVIMMG64slZOKeCkicHtKD3OJlyZ",
-                                "name": "Condition Branch",
-                                "title": "Yes",
-                                "type": "logic.condition_block",
-                                "base_type": "activity",
-                                "properties": {
-                                  "condition": {
-                                    "left_operand": "$activity.definition_activity_01KEM38T87JR55WBUy2ScebuO9IwOIyBMeW.output.variable_workflow_01J3SUDYUOACX2GDpJTR9b55hdFMhbqRRWi$",
-                                    "operator": "gte",
-                                    "right_operand": 6000
-                                  },
-                                  "continue_on_failure": false,
-                                  "display_name": "Yes",
-                                  "skip_execution": false
-                                },
-                                "object_type": "definition_activity",
-                                "actions": [
-                                  {
-                                    "unique_name": "definition_activity_01KEM39HMUAOS0uXTMx1kG6g1XJH2ZIMscL",
-                                    "name": "Break",
-                                    "title": "End the enrichment loop",
-                                    "type": "logic.break",
-                                    "base_type": "activity",
-                                    "properties": {
-                                      "continue_on_failure": false,
-                                      "display_name": "End the enrichment loop",
-                                      "skip_execution": false
-                                    },
-                                    "object_type": "definition_activity"
-                                  }
-                                ]
-                              },
-                              {
-                                "unique_name": "definition_activity_01KEM39PNLHRF1hD7xEfS6OXYPytlntW9RG",
-                                "name": "Condition Branch",
-                                "title": "No",
-                                "type": "logic.condition_block",
-                                "base_type": "activity",
-                                "properties": {
-                                  "condition": {
-                                    "left_operand": "$activity.definition_activity_01KEM38T87JR55WBUy2ScebuO9IwOIyBMeW.output.variable_workflow_01J3SUDYUOACX2GDpJTR9b55hdFMhbqRRWi$",
-                                    "operator": "lt",
-                                    "right_operand": 6000
-                                  },
-                                  "continue_on_failure": false,
-                                  "display_name": "No",
-                                  "skip_execution": false
-                                },
-                                "object_type": "definition_activity",
-                                "actions": [
-                                  {
-                                    "unique_name": "definition_activity_01KEM39UONDAD6vBms4dmKTeNG73CPSJctP",
-                                    "name": "Set Variables",
-                                    "title": "Append this module's sightings",
-                                    "type": "core.set_multiple_variables",
-                                    "base_type": "activity",
-                                    "properties": {
-                                      "continue_on_failure": false,
-                                      "display_name": "Append this module's sightings",
-                                      "skip_execution": false,
-                                      "variables_to_update": [
-                                        {
-                                          "variable_to_update": "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01KEM2V27AMBP0n2Gsz28uMEjJ94lciLtfa$",
-                                          "variable_value_new": "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01KEM2V27AMBP0n2Gsz28uMEjJ94lciLtfa$  \\n**Details for module $activity.definition_activity_01KEM371XKXHR3PusH3p5m55gNUdQMlnDRx.input.source_array[@].module$**\\n```\\n$activity.definition_activity_01KEM386G147H47GFgtPaO7Kz3ydBI1VEa0.output.script_queries.outString$\\n```"
-                                        }
-                                      ]
-                                    },
-                                    "object_type": "definition_activity"
-                                  }
-                                ]
+                                "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                "operator": "eqi",
+                                "right_operand": "CTR_For_Access_Token"
                               }
                             ]
                           }
-                        ]
-                      }
-                    ]
+                        }
+                      },
+                      "workflow_id": "definition_workflow_01KWJ2ISZTF2V6ibRYe7FZ7sOuycDOpnwss"
+                    },
+                    "object_type": "definition_activity"
+                  },
+                  {
+                    "unique_name": "definition_activity_01M32GU9EVAIE4gIkwJgRUxoEJETGkfcjP8",
+                    "name": "Set Variables",
+                    "title": "Set local token variables",
+                    "type": "core.set_multiple_variables",
+                    "base_type": "activity",
+                    "properties": {
+                      "continue_on_failure": false,
+                      "display_name": "Set local token variables",
+                      "skip_execution": false,
+                      "variables_to_update": [
+                        {
+                          "variable_to_update": "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01KEM2V27ANRG28iaTfbL4RbxEw3MLYOeV3$",
+                          "variable_value_new": "$activity.definition_activity_01M32GTNVY6FE3ns6s69Orji9yLhuT5aLYu.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$"
+                        },
+                        {
+                          "variable_to_update": "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01KEM2V27AOYF1DSO0EbQhkdFaUo0hLodRA$",
+                          "variable_value_new": "$activity.definition_activity_01M32GTNVY6FE3ns6s69Orji9yLhuT5aLYu.output.start_time$"
+                        }
+                      ]
+                    },
+                    "object_type": "definition_activity"
                   }
                 ]
               }
@@ -1371,20 +1587,46 @@
         "object_type": "definition_activity",
         "actions": [
           {
-            "unique_name": "definition_activity_01KEM3ALUSS926Sw1NevJODBHDVMS8o9fcf",
-            "name": "Create CTR casebook",
-            "title": "Create CTR casebook",
+            "unique_name": "definition_activity_01M34KJ7SD8X10731pIFA8QSEs4h9Qw6dMv",
+            "name": "Execute Python Script",
+            "title": "Convert sighting data to usable text for messaging",
+            "type": "python3.script",
+            "base_type": "activity",
+            "properties": {
+              "action_timeout": 180,
+              "continue_on_failure": false,
+              "display_name": "Convert sighting data to usable text for messaging",
+              "script": "import sys,json\n\n# Get and parse the sighting data\nsightings = json.loads(sys.argv[1])\n\n# Placeholders for output\nsightingCounts = {}\nmoduleNames = []\ntargets = []\n\n# Loop through each sighting\nfor sighting in sightings:\n\t# If there aren't any targets, initialize that array index to an empty list\n\tif not \"targets\" in sighting:\n\t\tsighting[\"targets\"] = []\n\t\t\n\t# Loop through each target\n\ttargetCount = 0\n\tfor target in sighting[\"targets\"]:\n\t\t# Remove the observed time (so two of the same target aren't considered different)\n\t\tdel target[\"observed_time\"]\n\t\t\n\t\t# Add this target to our master list if it's not already in the list (and count it)\n\t\tif not target in targets:\n\t\t\ttargetCount += 1\n\t\t\ttargets.append(target)\n\t\n\t# Is this module already in our count array?\n\tif sighting[\"module_name\"] in sightingCounts.keys():\n\t\t# Yes, so increment the counts\n\t\tsightingCounts[sighting[\"module_name\"]][\"count\"] += 1\n\t\tsightingCounts[sighting[\"module_name\"]][\"targets\"] += targetCount\n\telse:\n\t\t# No, so add it and its counts\n\t\tsightingCounts[sighting[\"module_name\"]] = {\n\t\t\t\"count\": 1,\n\t\t\t\"targets\": targetCount\n\t\t}\n\t\tmoduleNames.append(sighting[\"module_name\"])\n\n# Placeholders for output\nmarkdownSummary = \"\"\nmarkdownTruncated = False\n\n# Were there any sightings to begin with?\nif len(sightings) == 0:\n\tmarkdownSummary = \"* No sightings or targets were found\"\nelse:\n\t# Loop through the sighting counts\n\tfor module in moduleNames:\n\t\t# Make sure the markdown summary (for Threat Response and Webex) isn't already too long\n\t\tif len(markdownSummary.encode(\"utf-8\")) > 4000 and not markdownTruncated:\n\t\t\t# It's getting too long, so add a message indicating that the text was truncated\n\t\t\tmarkdownSummary = markdownSummary + \"\\n\\n Additional information was available but truncated due to message length\"\n\t\t\tmarkdownTruncated = True\n\t\telif not markdownTruncated:\n\t\t\t# The message isn't too long, so append this module\n\t\t\tmarkdownSummary = markdownSummary + (\"\\n\" if len(markdownSummary) > 0 else \"\") + \"* Module **\" + module + \"** returned **\" + str(sightingCounts[module][\"count\"]) + \" sightings** with a total of **\" + str(sightingCounts[module][\"targets\"]) + \" targets**\"",
+              "script_arguments": [
+                "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01M34GMTAK8UF4CYyTqkhFZiAJAT9jS6Mm1$"
+              ],
+              "script_queries": [
+                {
+                  "script_query": "markdownSummary",
+                  "script_query_name": "markdownSummary",
+                  "script_query_type": "string"
+                }
+              ],
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01M2CNA9Y7E6B084rQqTeo3tI5dWkDzGBgE",
+            "name": "Threat Response v2 - Create Casebook",
+            "title": "Threat Response v2 - Create Casebook",
             "type": "workflow.atomic_workflow",
             "base_type": "subworkflow",
             "properties": {
               "continue_on_failure": false,
-              "display_name": "Create CTR casebook",
+              "display_name": "Threat Response v2 - Create Casebook",
               "input": {
-                "variable_workflow_01E8OQUDV95VA45dnDR0Kzm5HlMxNSnk7HH": "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01KEM2V27ANRG28iaTfbL4RbxEw3MLYOeV3$",
-                "variable_workflow_01FI7GJDK40MI6qNg2jcng0YaHlmz0Zgwq5": "SecureX generated this casebook from an RSS feed\n\n| Post Title | $activity.definition_activity_01KEM2W3750NV0UZSIjGttZn1ElyqYAECch.output.script_queries.postTitle$ |\n|------------------|----------------|\n| Post URL | [$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.input.variable_workflow_01KEM2V27AQ1S0NJvwTxz0hKe8vCDDBEzth$]($workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.input.variable_workflow_01KEM2V27AQ1S0NJvwTxz0hKe8vCDDBEzth$) |\n| Time | $activity.definition_activity_01KEM3295OB5L5K21ozdR9MvvXZewU3kZYl.output.end_time$ |",
-                "variable_workflow_01FI7JJEVXRFA5s9maRdVwlqV7ENc6KhST2": "Talos: $activity.definition_activity_01KEM2W3750NV0UZSIjGttZn1ElyqYAECch.output.script_queries.postTitle$",
-                "variable_workflow_01FI7NA9QZI9I46crflRbf7I6zIfajxuHrX": "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01KEM2V27AS7C5cO7MNUxW4hm2rQKvxo5tY$",
-                "variable_workflow_01FRLITVY3NO678mmPZHG5lCdqLjEyY2j1h": "md"
+                "variable_workflow_01KVOGF4J481T6SCd7uh5fW7n47Q712nleJ": "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01KEM2V27AS7C5cO7MNUxW4hm2rQKvxo5tY$",
+                "variable_workflow_01KVOGF4J4FZC0jmaR42b1FbIzVZA19KbYL": "SecureX generated this casebook from an RSS feed\n\n| Post Title | $activity.definition_activity_01KEM2W3750NV0UZSIjGttZn1ElyqYAECch.output.script_queries.postTitle$ |\n|------------------|----------------|\n| Post URL | [$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.input.variable_workflow_01KEM2V27AQ1S0NJvwTxz0hKe8vCDDBEzth$]($workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.input.variable_workflow_01KEM2V27AQ1S0NJvwTxz0hKe8vCDDBEzth$) |\n| Time | $activity.definition_activity_01KEM3295OB5L5K21ozdR9MvvXZewU3kZYl.output.end_time$ |\n\n**Sighting Summary**:\n$activity.definition_activity_01M34KJ7SD8X10731pIFA8QSEs4h9Qw6dMv.output.script_queries.markdownSummary$",
+                "variable_workflow_01KVOGF4J4IG81TQKFjqzLlnFJwiiNwXwSq": "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01KEM2V27ANRG28iaTfbL4RbxEw3MLYOeV3$",
+                "variable_workflow_01KVOGF4J4JL52xC9ZXdjYwHt2SvRYkArli": "Talos: $activity.definition_activity_01KEM2W3750NV0UZSIjGttZn1ElyqYAECch.output.script_queries.postTitle$",
+                "variable_workflow_01KVOMXV9ERSV0M9j1WarflgSG8r5SpZ8b5": "Casebook generated from a Talos blog post",
+                "variable_workflow_01LFBYQJV9FZA2THdEQrMftLyGiiHP65nUq": "amber"
               },
               "runtime_user": {
                 "target_default": true
@@ -1406,44 +1648,19 @@
                   }
                 }
               },
-              "workflow_id": "definition_workflow_01DS6ELBOO8YR3uFJZju566LqiqR18VlE6r"
-            },
-            "object_type": "definition_activity"
-          },
-          {
-            "unique_name": "definition_activity_01KEM3B5BQ2QR0uF7FAA7tfRKLoUAbXvC8f",
-            "name": "Execute Python Script",
-            "title": "Extract new casebook ID",
-            "type": "python3.script",
-            "base_type": "activity",
-            "properties": {
-              "action_timeout": 180,
-              "continue_on_failure": false,
-              "display_name": "Extract new casebook ID",
-              "script": "import sys,re\n\ncasebookUrl = sys.argv[1]\ncasebookId = \"\"\n\nmatches = re.findall(r\"(casebook-[a-zA-Z0-9\\-]+)$\", casebookUrl)\n\nif len(matches) \u003e 0:\n\tcasebookId = matches[0]",
-              "script_arguments": [
-                "$activity.definition_activity_01KEM3ALUSS926Sw1NevJODBHDVMS8o9fcf.output.variable_workflow_01DSFE4QJSRYK67ewkTPGkJ0WaGxQSw7KjQ$"
-              ],
-              "script_queries": [
-                {
-                  "script_query": "casebookId",
-                  "script_query_name": "casebookId",
-                  "script_query_type": "string"
-                }
-              ],
-              "skip_execution": false
+              "workflow_id": "definition_workflow_01KVOGF574Y291CRwQLNB1TtzEHDNwyUx7O"
             },
             "object_type": "definition_activity"
           },
           {
             "unique_name": "definition_activity_01KEM3BJYSO5E6i6GVb4lYeKFz4n1grNzqh",
             "name": "Condition Block",
-            "title": "Was a Webex Teams room and token provided?",
+            "title": "Was a Webex Teams room provided?",
             "type": "logic.if_else",
             "base_type": "activity",
             "properties": {
               "continue_on_failure": false,
-              "display_name": "Was a Webex Teams room and token provided?",
+              "display_name": "Was a Webex Teams room provided?",
               "skip_execution": false
             },
             "object_type": "definition_activity",
@@ -1549,7 +1766,7 @@
                                 "variable_workflow_01FGYY44G3MZ55amJu9YqgUeKS8GT49bZx3": "$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01KEM2V27AR3N0gVUgwtrjQW64CHuEJmMST$",
                                 "variable_workflow_01FGYY44G3TK951Crpnd8g2izonyM4bFtpW": "$activity.definition_activity_01KEM3C5AQL8R738QzU6p3Po4tLmmat5A4M.output.variable_workflow_01FHSVE2R6ZTQ6L92WEi0kWgR5T8zhMAUzO$",
                                 "variable_workflow_01FGYY44G3UPV3heGGc3vXCV47YL5WoI2X6": "",
-                                "variable_workflow_01FGYZ9BV4QTP19CuMwcW8QywvCP9ymx2BZ": "A Threat Response casebook has been created for the blog post [$activity.definition_activity_01KEM2W3750NV0UZSIjGttZn1ElyqYAECch.output.script_queries.postTitle$]($workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.input.variable_workflow_01KEM2V27AQ1S0NJvwTxz0hKe8vCDDBEzth$) from Talos. [Click here](https://visibility.amp.cisco.com/investigate?spid=$activity.definition_activity_01KEM3B5BQ2QR0uF7FAA7tfRKLoUAbXvC8f.output.script_queries.casebookId$) to investigate $workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01KEM2V27AMBP0n2Gsz28uMEjJ94lciLtfa$"
+                                "variable_workflow_01FGYZ9BV4QTP19CuMwcW8QywvCP9ymx2BZ": "A Threat Response casebook has been created for the blog post [$activity.definition_activity_01KEM2W3750NV0UZSIjGttZn1ElyqYAECch.output.script_queries.postTitle$]($workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.input.variable_workflow_01KEM2V27AQ1S0NJvwTxz0hKe8vCDDBEzth$) from Talos. [Click here](https://$workflow.definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ.local.variable_workflow_01M2CTWCR6XDT3sf3eoZDj1WNHfuiDq7a6c$/investigate?spid=$activity.definition_activity_01M2CNA9Y7E6B084rQqTeo3tI5dWkDzGBgE.output.variable_workflow_01LQB3XURV3CD6Girik0OfXDWL0RV2MiDK9$) to investigate\n**Sighting Summary:**\n$activity.definition_activity_01M34KJ7SD8X10731pIFA8QSEs4h9Qw6dMv.output.script_queries.markdownSummary$"
                               },
                               "runtime_user": {
                                 "target_default": true
@@ -1587,19 +1804,8 @@
       }
     ],
     "categories": [
-      "category_01JFUQPO1XMLT66actth5nIPZxLCRDsgEXd"
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
     ]
-  },
-  "categories": {
-    "category_01JFUQPO1XMLT66actth5nIPZxLCRDsgEXd": {
-      "unique_name": "category_01JFUQPO1XMLT66actth5nIPZxLCRDsgEXd",
-      "name": "SecureX TME",
-      "title": "SecureX TME",
-      "type": "basic.category",
-      "base_type": "category",
-      "category_type": "custom",
-      "object_type": "category"
-    }
   },
   "target_groups": {
     "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
@@ -1635,13 +1841,12 @@
     }
   },
   "atomic_workflows": [
-    "definition_workflow_01BMYF7PCRLRM3pfYcuM9yYFsKoYBEBO4PK",
-    "definition_workflow_01C9F1VJ1I5KH26f860hJC5zDSD33548bYS",
-    "definition_workflow_01DS6ELBOO8YR3uFJZju566LqiqR18VlE6r",
-    "definition_workflow_01D6KGWC1QCSN7f2tnHrhIHVeZHLKBZubRz",
-    "definition_workflow_01FHMU6SD5XPL6eRW4zFXqkA1w8jWiQCIBU",
+    "definition_workflow_01LFCW7C2Q1BU6Szjo7JqBWHWPmevmW7uIn",
     "definition_workflow_01FGYY44YU521254ygN3Le0In0kEHpiPNpf",
-    "definition_workflow_01779LB6MV0P02kvka9TGV5cEam84NrCTy4",
-    "definition_workflow_01J3STRKBDJ7H4DZmPyS7xOkHlrhXKxkH34"
+    "definition_workflow_01FHMU6SD5XPL6eRW4zFXqkA1w8jWiQCIBU",
+    "definition_workflow_01KXGQWLMIDXG563x6DBOvwjfxpH8JrkaRW",
+    "definition_workflow_01KWJ2ISZTF2V6ibRYe7FZ7sOuycDOpnwss",
+    "definition_workflow_01KVOGF574Y291CRwQLNB1TtzEHDNwyUx7O",
+    "definition_workflow_01KXGKZ0JA96P0p7omD4IdS6zKdw5ECiofU"
   ]
 }
