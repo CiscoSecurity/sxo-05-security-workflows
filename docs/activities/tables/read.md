@@ -98,3 +98,4 @@ A simple trick to creating an empty table is to use the `Read Table from JSON` a
 The following sample workflows are available in our repository's workflows folder to help you get familiar with these activities. These can be imported using the instructions [here]({{ site.baseurl }}/importing) or you can view the workflow in GitHub by clicking on it.
 
 * [Sample - Tables]({{ site.github.repository_url }}/tree/Main/Workflows/Sample-Tables__definition_workflow_01KAF12W7PURP5AFHC28xRgNxpLr0qgVJjY)
+* [Sample - Parsing Nested JSON]({{ site.github.repository_url }}/tree/Main/Workflows/Sample-ParsingNestedJSON__definition_workflow_01M4SBQ0Z7ZDN6AfG3vIWGjvpX8Mrsb81sM)

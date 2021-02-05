@@ -19,29 +19,29 @@ This workflow monitors a mailbox for incoming phishing reports. When an email is
 
 ## Change Log
 
-| Date | Version | Notes |
-|:-----|:--------|:------|
-| Jan 21, 2021 | 1.0 | - Initial release |
-| Jan 29, 2021 | 1.1 | - Changed Threat Grid disposition for scores less than 70 to Unknown instead of Clean<br />- Removed the email notification to the reporting user when everything is clean/unknown. The SOC should take over the investigation from this point and make the final determination<br />- Fixed Threat Grid submission count not being incremented for URL submissions<br />- Added an environment variable for the Threat Grid instance URL |
+| Date | Notes |
+|:-----|:------|
+| [Jan 21, 2021]({{ site.github.repository_url }}/tree/b07a568c16e23270b4d88de743a49c37656e8aea/Workflows/0010-Phishing-Investigation__definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC) | - Initial release |
+| [Jan 29, 2021]({{ site.github.repository_url }}/tree/52a20f67802c59bdda768dfd613b3873e3269d3f/Workflows/0010-Phishing-Investigation__definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC) | - Changed Threat Grid disposition for scores less than 70 to Unknown instead of Clean<br />- Removed the email notification to the reporting user when everything is clean/unknown. The SOC should take over the investigation from this point and make the final determination<br />- Fixed Threat Grid submission count not being incremented for URL submissions<br />- Added an environment variable for the Threat Grid instance URL |
 
-_See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
+_See the [Important Notes]({{ site.baseurl }}/notes#workflows) page for more information about updating workflows_
 
 ---
 
 ## Requirements
 * The following atomic actions must be imported before you can import this workflow:
+	* Threat Grid v2 - Get Samples by File Hash ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* Threat Grid v2 - Submit File ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* Threat Grid v2 - Submit URL ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* Threat Response v2 - Create Casebook ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* Threat Response v2 - Create Incident ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* Threat Response v2 - Create Relationship ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* Threat Response v2 - Create Sighting ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* Threat Response v2 - Deliberate Observable ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* Threat Response v2 - Generate Access Token ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* Threat Response v2 - Inspect for Observables ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Response v2 - Deliberate Observable ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Grid v2 - Submit File ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Grid v2 - Submit URL ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Grid v2 - Get Samples by File Hash ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Webex Teams - Search for Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* Webex Teams - Post Message to Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos)) * See note below!
+	* Webex Teams - Search for Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 * An active Threat Grid account and API key
 * (Optional) A Webex Teams access token and room name to post messages to
 
@@ -59,7 +59,6 @@ Note: You may have an old version of the `Webex Teams - Post Message to Room` at
 ## Workflow Steps
 This workflow is designed to be triggered by an email arriving in a phishing investigation mailbox.
 
-1. (Optional) Make sure the sender of the email is from an authorized domain
 1. Fetch any necessary global variables and set the environment URLs for SecureX and Threat Response
 1. Make sure the email that triggered the workflow has an email attached to it:
 	* If it does, let the user know their submission was received and continue
@@ -87,20 +86,22 @@ This workflow is designed to be triggered by an email arriving in a phishing inv
 								* If it wasn't, submit the file to Threat Grid and extract the threat score
 							* Assign a disposition to the file based on the threat score and update the main observables table
 1. Build statistics for each observable disposition
-1. Check if there was anything suspicious or malicious. If there was:
-	* Generate an access token for Threat Response
-	* Compile the non-clean observables into a JSON list
-	* Create a Threat Response casebook
-	* Create a Threat Response incident
-	* Relate the two new objects to each other
-	* Create a Threat Response sighting
-	* Relate the sighting to the incident
-	* If a Webex Teams room was provided:
-		* Look up the room and get the room ID
-		* Send a message to the room with some information about the investigation
-	* Send an email notification to the `Notification Email Addresses`
+1. Check if there was anything suspicious or malicious:
+	* If there was:
+		* Generate an access token for Threat Response
+		* Compile the non-clean observables into a JSON list
+		* Create a Threat Response casebook
+		* Create a Threat Response incident
+		* Relate the two new objects to each other
+		* Create a Threat Response sighting
+		* Relate the sighting to the incident
+		* If a Webex Teams room was provided:
+			* Look up the room and get the room ID
+			* Send a message to the room with some information about the investigation
+		* Send an email notification to the `Notification Email Addresses`
+		* Send an email to the user instructing them to delete the message immediately
+	* If there wasn't, email the SOC asking them to validate the investigation and determine if the message is safe
 1. Add this workflow run's statistics to the global statistics table
-1. If the email contained something suspicious or malicious, let the user know to delete the message immediately
 
 ---
 
@@ -133,9 +134,7 @@ This workflow is designed to be triggered by an email arriving in a phishing inv
 * All of the Threat Response activities default to a `TLP Value` of `amber`. You can modify this if you want to use different values
 
 ### Trigger
-* When the workflow imports, the trigger will show in an errored state because the account key and target needed to be updated. 
-
-To clear the error, go into the workflow, click on the trigger in the workflow's properties, uncheck the **Disable Trigger** box, and click **Save**
+* When the workflow imports, the trigger will show in an errored state because the account key and target needed to be updated. After configuring your account key and target, go into the workflow, click on the trigger in the workflow's properties, uncheck the **Disable Trigger** box, and click **Save**
 
 ---
 
@@ -152,7 +151,7 @@ By default, the `Default TargetGroup` may not include `SMTP Endpoint` targets. I
 | Phishing Investigation Outgoing | SMTP Endpoint | Configured for your SMTP server | Phishing Investigation Mailbox Credentials | |
 | [Private_CTIA_Target]({{ site.baseurl }}/targets/default#private_ctia_target) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `private.intel.amp.cisco.com`<br />_Path:_ None | None | Created by default |
 | [ThreatGrid_Target]({{ site.baseurl }}/targets/default#threatgrid_target) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `panacea.threatgrid.com`<br />_Path:_ None | None | Created by default |
-| Webex Teams | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `webexapis.com`<br />_Path:_ None | None | Not required if Webex activities are disabled |
+| Webex Teams | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `webexapis.com`<br />_Path:_ None | None | Not necessary if Webex Teams activities are removed |
 
 ---
 

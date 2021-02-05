@@ -33,3 +33,4 @@ This activity allows you to easily extract information from a JSON-formatted str
 The following sample workflows are available in our repository's workflows folder to help you get familiar with this activity. These can be imported using the instructions [here]({{ site.baseurl }}/importing) or you can view the workflow in GitHub by clicking on it.
 
 * [Sample - JSONPath Query]({{ site.github.repository_url }}/tree/Main/Workflows/Sample-JSONPathQuery__definition_workflow_01K8OBHXF4SW23uPTZEPHQvNLO8w8yksMxQ)
+* [Sample - Parsing Nested JSON]({{ site.github.repository_url }}/tree/Main/Workflows/Sample-ParsingNestedJSON__definition_workflow_01M4SBQ0Z7ZDN6AfG3vIWGjvpX8Mrsb81sM)
