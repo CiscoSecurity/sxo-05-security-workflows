@@ -24,15 +24,15 @@ This workflow has two components: a parent workflow and a sub-workflow. Importin
 
 ## Requirements
 * The following atomic actions must be imported before you can import this workflow:
-	* CTRGenerateAccessToken ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* CTR Inspect ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* CTRCheckDeliberateVerdict ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* CTR Enrich Observable ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* CTRGenerateAccessToken ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* CTR Create Casebook ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* CTR Enrich Observable ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* CTR Inspect ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* Util - Get String Length ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
 	* Webex Teams - Search for Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* Webex Teams - Post Message to Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-* (Optional) A Webex Teams bot token and room name to post messages to
+* (Optional) A Webex Teams access token and room name to post messages to
 
 ---
 
@@ -82,7 +82,7 @@ Target Group: `Default TargetGroup`
 | [CTR_For_Access_Token]({{ site.baseurl }}/targets/default#ctr_for_access_token) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `visibility.amp.cisco.com`<br />_Path:_ `/iroh` | CTR_Credentials | Created by default |
 | [CTR_API]({{ site.baseurl }}/targets/default#ctr_api) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `visibility.amp.cisco.com`<br />_Path:_ `/iroh` | None | Created by default |
 | [Private_CTIA_Target]({{ site.baseurl }}/targets/default#private_ctia_target) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `private.intel.amp.cisco.com`<br />_Path:_ None | None | Created by default |
-| Webex Teams | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `webexapis.com`<br />_Path:_ None | None | Not required if Webex activities are disabled |
+| Webex Teams | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `webexapis.com`<br />_Path:_ None | None | Not necessary if Webex Teams activities are removed |
 
 ---
 

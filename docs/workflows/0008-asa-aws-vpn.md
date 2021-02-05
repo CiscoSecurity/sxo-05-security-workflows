@@ -19,11 +19,11 @@ This workflow demonstrates the ability to dynamically expand ASA head end capaci
 
 ## Requirements
 * The following atomic actions must be imported before you can import this workflow:
-	* Webex Teams - Search for Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* Webex Teams - Post Message to Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* Webex Teams - Search for Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 * A Cisco Adaptive Security Appliance (ASA)
 * An Amazon Web Services account with EC2 permissions
-* (Optional) A Webex Teams bot token and room name to post messages to
+* (Optional) A Webex Teams access token and room name to post messages to
 
 ---
 
@@ -63,7 +63,7 @@ Target Group: `Default TargetGroup`
 |:------------|:-----|:--------|:-------------|:------|
 | ASA VPN Target | Terminal Endpoint | Configured for your ASA | Account key for your ASA |  |
 | AWS EC2 Target | AWS Endpoint | Configured for your AWS account | Account key for your AWS account | |
-| Webex Teams  | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `webexapis.com`<br />_Path:_ None | None | Not required if Webex activities are disabled |
+| Webex Teams  | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `webexapis.com`<br />_Path:_ None | None | Not necessary if Webex Teams activities are removed |
 
 ---
 

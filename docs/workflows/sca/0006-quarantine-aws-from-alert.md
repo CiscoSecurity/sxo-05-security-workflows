@@ -24,11 +24,11 @@ This workflow fetches `Geographically Unusual Remote Access` alerts from the Sec
 * The following atomic actions must be imported before you can import this workflow:
 	* SWC - Get Alerts ([CiscoSecurity_-_Atomics]({{ site.baseurl }}/configuration))
 	* Util - Get X Hour Window ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
-	* Webex Teams - Search for Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* Webex Teams - Post Message to Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* Webex Teams - Search for Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 * A Secure Cloud Analytics instance
 * An Amazon Web Services account with instances monitored by SCA
-* (Optional) A Webex Teams bot token and room name to post messages to
+* (Optional) A Webex Teams access token and room name to post messages to
 
 ---
 
@@ -65,7 +65,7 @@ Target Group: `Default TargetGroup`
 |:------------|:-----|:--------|:-------------|:------|
 | Amazon Web Services | AWS Endpoint | _Region:_ `Your Region`<br /> | Your AWS Account Key (see below) | |
 | Secure Cloud Analytics | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `your-tenant.obsrvbl.com`<br />_Path:_ `api` | None | |
-| Webex Teams | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `webexapis.com`<br />_Path:_ None | None | Not required if Webex activities are disabled |
+| Webex Teams | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `webexapis.com`<br />_Path:_ None | None | Not necessary if Webex Teams activities are removed |
 
 ---
 

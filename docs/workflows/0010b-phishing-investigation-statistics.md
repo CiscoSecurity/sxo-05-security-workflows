@@ -17,6 +17,17 @@ This workflow sends an email summary of [Phishing Investigation]({{ site.baseurl
 
 ---
 
+## Change Log
+
+| Date | Notes |
+|:-----|:------|
+| [Jan 21, 2021]({{ site.github.repository_url }}/tree/259082213857c466281d5de6a1ee501749f80000/Workflows/0010B-Phishing-Investigation-Statistics__definition_workflow_01LGZYVFSRNN30RM2UpqqTn21KA19UuFr3y) | - Initial release |
+| [Feb 4, 2021]({{ site.github.repository_url }}/tree/bea4f0c1e9b248c6e22fc29861217c710b681b48/Workflows/0010B-Phishing-Investigation-Statistics__definition_workflow_01LGZYVFSRNN30RM2UpqqTn21KA19UuFr3y) | - Updated the runtime calculation Python script to fix some possible failures |
+
+_See the [Important Notes]({{ site.baseurl }}/notes#workflows) page for more information about updating workflows_
+
+---
+
 ## Workflow Steps
 This email is designed to be triggered by a [schedule]({{ site.baseurl }}/schedules).
 

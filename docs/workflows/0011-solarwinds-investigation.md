@@ -13,7 +13,7 @@ Workflow #0011
 
 This workflow uses a Talos blog post about the SolarWinds supply chain attack as a source of intelligence. Using observables extracted from the blog post, it conducts an investigation and looks for sightings within your environment. If there are sightings, a variety of actions are taken including creating a Threat Response incident and casebook, creating a ServiceNow incident, sending a Webex Teams message, sending a message on Slack, and sending an email. The workflow also supports automated remediation (with approval). If the resulting approval task is approved, unknown or suspicious file hashes and domains are blocked using AMP and Umbrella respectively. If there are any target endpoints, Orbital is used to take a forensic snapshot and AMP is used to enable host isolation.
 
-[<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0011-Talos-SolarWindsInvestigation__definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa){: .btn-cisco-outline }
+[<i class="fa fa-video mr-1"></i> Overview](https://www.youtube.com/watch?v=WR6pr-BEM6E&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo&index=12){: .btn-cisco-outline .mr-2 } [<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0011-Talos-SolarWindsInvestigation__definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa){: .btn-cisco-outline }
 
 ---
 
@@ -23,17 +23,17 @@ This workflow uses a Talos blog post about the SolarWinds supply chain attack as
 	* ServiceNow - Add Work Note to Incident ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* ServiceNow - Create Incident ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* Slack - Send Message to Channel ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
-	* Threat Response v2 - Generate Access Token ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Response v2 - Inspect for Observables ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Response v2 - Deliberate Observable ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Response v2 - Enrich Observable ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* Threat Response v2 - Create Casebook ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* Threat Response v2 - Create Incident ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* Threat Response v2 - Create Relationship ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* Threat Response v2 - Deliberate Observable ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* Threat Response v2 - Enrich Observable ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* Threat Response v2 - Generate Access Token ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* Threat Response v2 - Inspect for Observables ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* Threat Response v2 - List Response Actions ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* Threat Response v2 - Trigger Response Action ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Webex Teams - Search for Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* Webex Teams - Post Message to Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos)) * See note below!
+	* Webex Teams - Search for Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 * (Optional) A Webex Teams access token and room name to post messages to
 * (Optional) A Slack access token and a channel name to post messages to
 
@@ -109,8 +109,8 @@ By default, the `Default TargetGroup` may not include `SMTP Endpoint` targets. I
 | [Orbital_Target]({{ site.baseurl }}/targets/default#orbital_target) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `orbital.amp.cisco.com`<br />_Path:_ `/v0` | None | Created by default |
 | [Private_CTIA_Target]({{ site.baseurl }}/targets/default#private_ctia_target) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `private.intel.amp.cisco.com`<br />_Path:_ None | None | Created by default |
 | ServiceNow | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `<instance>.service-now.com`<br />_Path:_ `/api` | ServiceNow_Credentials | Be sure to use your instance URL |
-| Slack | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `slack.com`<br />_Path:_ `/api` | None | |
-| Webex Teams | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `webexapis.com`<br />_Path:_ None | None | Not required if Webex activities are disabled |
+| Slack | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `slack.com`<br />_Path:_ `/api` | None | Not necessary if Slack activities are removed |
+| Webex Teams | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `webexapis.com`<br />_Path:_ None | None | Not necessary if Webex Teams activities are removed |
 
 ---
 
