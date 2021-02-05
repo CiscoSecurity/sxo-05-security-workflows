@@ -15,7 +15,7 @@ This activity allows you to run a Python script within an orchestration workflow
 ---
 
 ## Modules
-Since SecureX orchestration is cloud-based and containerized, the Python activity has a pre-defined set of modules available to it. You cannot add your own modules using `pip` or other package managers. To see which modules are available, you can run a workflow with the Python activity and the following script:
+Since SecureX Orchestration is cloud-based and containerized, the Python activity has a pre-defined set of modules available to it. You cannot add your own modules using `pip` or other package managers. To see which modules are available, you can run a workflow with the Python activity and the following script:
 ```python
 # Output a list of available modules
 help("modules")

@@ -6,7 +6,7 @@ nav_order: 80
 ---
 
 # Want to Contribute?
-If you want to help us improve or expand our SecureX orchestration content, please check out the information below!
+If you want to help us improve or expand our SecureX Orchestration content, please check out the information below!
 
 ---
 

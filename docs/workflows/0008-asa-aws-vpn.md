@@ -11,7 +11,7 @@ Workflow #0008
 {: .label }
 </div>
 
-This workflow demonstrates the ability to dynamically expand ASA head end capacity using Amazon EC2 if an existing ASA has VPN user load over 70%. If load is 70% or more, approval is requested using the built-in task/approval features within SecureX orchestration prior to AWS deployment.
+This workflow demonstrates the ability to dynamically expand ASA head end capacity using Amazon EC2 if an existing ASA has VPN user load over 70%. If load is 70% or more, approval is requested using the built-in task/approval features within SecureX Orchestration prior to AWS deployment.
 
 [<i class="fa fa-video mr-1"></i> Overview](https://www.youtube.com/watch?v=OCedOR6k_VM&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo&index=11){: .btn-cisco-outline .mr-2 } [<i class="fab fa-github mr-1"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0008-ASA-AWSVPNCapacityExpansion__definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5){: .btn-cisco-outline }
 

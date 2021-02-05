@@ -18,7 +18,7 @@ This activity allows you to easily extract information from a JSON-formatted str
 ---
 
 ## Hints
-* There are more than one implementation of JSONPath. SecureX orchestration uses the Jayway implementation.
+* There are more than one implementation of JSONPath. SecureX Orchestration uses the Jayway implementation.
 
 ---
 

@@ -1,15 +1,15 @@
-# Cisco SecureX orchestration
+# Cisco SecureX Orchestration
 [![published](https://static.production.devnetcloud.com/codeexchange/assets/images/devnet-published.svg)](https://developer.cisco.com/codeexchange/github/repo/CiscoSecurity/sxo-05-security-workflows)
 
-SecureX orchestration provides a no-to-low code approach for building automated workflows. These workflows can interact with various types of resources and systems, whether they're from Cisco or a third-party.
+SecureX Orchestration provides a no-to-low code approach for building automated workflows. These workflows can interact with various types of resources and systems, whether they're from Cisco or a third-party.
 
 * [Documentation](https://ciscosecurity.github.io/sxo-05-security-workflows/)
 
 ## Getting Started
-To get started with SecureX orchestration, we recommend checking out our [Getting Started](https://ciscosecurity.github.io/sxo-05-security-workflows/getting-started) page. This page lists helpful resources for learning about SecureX orchestration and getting this repository configured. If you'd rather skip to getting this repository added to your SecureX instance, keep reading...
+To get started with SecureX Orchestration, we recommend checking out our [Getting Started](https://ciscosecurity.github.io/sxo-05-security-workflows/getting-started) page. This page lists helpful resources for learning about SecureX Orchestration and getting this repository configured. If you'd rather skip to getting this repository added to your SecureX instance, keep reading...
 
 ## Creating the Git Repository for Atomic Actions
-1. In SecureX orchestration, expand the main menu and click on **Admin** and then **Git Repositories**
+1. In SecureX Orchestration, expand the main menu and click on **Admin** and then **Git Repositories**
 1. Click on the **New Git Repository** button (or click on the existing repository you want to update)
 1. Provide a name for the repository (suggested: `CiscoSecurity_Atomics`)
 1. Set **No Account Keys** to `True`
@@ -22,7 +22,7 @@ To get started with SecureX orchestration, we recommend checking out our [Gettin
 1. Click **Submit**
 
 ## Creating the Git Repository for Workflows
-1. In SecureX orchestration, expand the main menu and click on **Admin** and then **Git Repositories**
+1. In SecureX Orchestration, expand the main menu and click on **Admin** and then **Git Repositories**
 1. Click on the **New Git Repository** button (or click on the existing repository you want to update)
 1. Provide a name for the repository (suggested: `CiscoSecurity_Workflows`)
 1. Set **No Account Keys** to `True`

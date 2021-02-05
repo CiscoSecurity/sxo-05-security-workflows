@@ -7,7 +7,7 @@ grand_parent: Getting Started
 ---
 
 # Default Repositories
-When a SecureX orchestration tenant is created, three default GitHub targets are created to import initial content. If you need to re-import any of the default atomic actions or workflows, you can use these repos to do so.
+When a SecureX Orchestration tenant is created, three default GitHub targets are created to import initial content. If you need to re-import any of the default atomic actions or workflows, you can use these repos to do so.
 
 | Repository Name | Purpose |
 |:----------------|:--------|

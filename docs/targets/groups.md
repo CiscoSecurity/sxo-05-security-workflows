@@ -11,7 +11,7 @@ Target groups allow you to provide a workflow a collection of targets to use. Th
 ---
 
 ## Group Configuration
-Target groups are configured on the **Target Groups** tab of the **Targets** page. By default, SecureX orchestration has a `Default TargetGroup` which contains all `HTTP Endpoints`. You can add additional target types to the default group or you can create your own target groups. When selecting a target type to include in a group, you can choose to:
+Target groups are configured on the **Target Groups** tab of the **Targets** page. By default, SecureX Orchestration has a `Default TargetGroup` which contains all `HTTP Endpoints`. You can add additional target types to the default group or you can create your own target groups. When selecting a target type to include in a group, you can choose to:
 * Include all targets of that type;
 * Provide criteria for target inclusion; or
 * Include specific targets
