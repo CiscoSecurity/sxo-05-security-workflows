@@ -1,0 +1,242 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01M4SBQ0Z7ZDN6AfG3vIWGjvpX8Mrsb81sM",
+    "name": "Sample - Parsing Nested JSON",
+    "title": "Sample - Parsing Nested JSON",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "{\n  \"data_centers\": [\n    {\n      \"site_name\": \"NYC-01\",\n      \"address\": {\n        \"line1\": \"123 Main Street\",\n        \"line2\": \"Apartment 1\",\n        \"city\": \"Anywhere\",\n        \"state\": \"New York\",\n        \"postal_code\": \"10001\"\n      },\n      \"servers\": [\n        {\n          \"hostname\": \"NYC-01-EMAIL\",\n          \"ip_address\": \"10.100.0.10\"\n        },\n        {\n          \"hostname\": \"NYC-01-FILE\",\n          \"ip_address\": \"10.100.0.20\"\n        }\n      ]\n    },\n    {\n      \"site_name\": \"BOS-01\",\n      \"address\": {\n        \"line1\": \"456 Central Avenue\",\n        \"line2\": \"\",\n        \"city\": \"Somewhere\",\n        \"state\": \"New Hampshire\",\n        \"postal_code\": \"03820\"\n      },\n      \"servers\": [\n        {\n          \"hostname\": \"BOS-01-EMAIL\",\n          \"ip_address\": \"10.200.0.10\"\n        },\n        {\n          \"hostname\": \"BOS-01-FILE\",\n          \"ip_address\": \"10.200.0.20\"\n        }\n      ]\n    }\n  ]\n}",
+          "scope": "local",
+          "name": "Sample JSON",
+          "type": "datatype.string",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01M4SH1GR9I4V3bHjuyHN08AXhRNYN1J5qr",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "site_name,city,state,hostname,ip_address",
+          "scope": "local",
+          "name": "Sample Output",
+          "type": "datatype.string",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01M4SI7OZNQKP34m6wJhFoSkwOoLjpI5mMl",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "description": "This sample shows how to work with multi-level/nested JSON. As in, a list of objects whose attributes may also contain a list of objects. When you use the Read Table from JSON activity, it only allows you to parse columns at the top level of an object. Then, if you iterate through each object using a For Each, you can dig into deeper layers using JSONPath Query or additional Read Table from JSONs.\n\nIn this example, we take a JSON-formatted list of data centers and servers and convert it into a comma-separated list by traversing the JSON.\n\nMore information about JSON activities can be found in our GitHub documentation at https://cs.co/SXO_docs",
+      "display_name": "Sample - Parsing Nested JSON",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": false,
+        "execute_on_workflow_target": false,
+        "no_target": true,
+        "specify_on_workflow_start": false
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01M4SPGIBSMAB2CqXDVF6VX18naQPKb1QiH",
+        "name": "Read Table from JSON",
+        "title": "Read Table from JSON",
+        "type": "corejava.read_table_from_json",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Read Table from JSON",
+          "input_json": "$workflow.definition_workflow_01M4SBQ0Z7ZDN6AfG3vIWGjvpX8Mrsb81sM.local.variable_workflow_01M4SH1GR9I4V3bHjuyHN08AXhRNYN1J5qr$",
+          "jsonpath_query": "$.data_centers",
+          "persist_output": false,
+          "populate_columns": false,
+          "skip_execution": false,
+          "table_columns": [
+            {
+              "column_name": "site_name",
+              "column_type": "string"
+            },
+            {
+              "column_name": "address",
+              "column_type": "string"
+            },
+            {
+              "column_name": "servers",
+              "column_type": "string"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01M4SO3B35O0G4rYP7lRWqmQGLybQiNoaOi",
+        "name": "For Each",
+        "title": "For each data center",
+        "type": "logic.for_each",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "For each data center",
+          "skip_execution": false,
+          "source_array": "$activity.definition_activity_01M4SPGIBSMAB2CqXDVF6VX18naQPKb1QiH.output.read_table_from_json$"
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01M4SIKYQ7R9A2P00u4U9Tw7FCU6Q7UIE2g",
+            "name": "Group",
+            "title": "Extract address information",
+            "type": "logic.group",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Extract address information",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01M4SIH7IV74C4FPcC3LP8cnyOuiQ3TmDkf",
+                "name": "JSONPath Query",
+                "title": "JSONPath Query",
+                "type": "corejava.jsonpathquery",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "continue_on_failure": false,
+                  "display_name": "JSONPath Query",
+                  "input_json": "$activity.definition_activity_01M4SO3B35O0G4rYP7lRWqmQGLybQiNoaOi.input.source_array[@].address$",
+                  "jsonpath_queries": [
+                    {
+                      "jsonpath_query": "$.city",
+                      "jsonpath_query_name": "city",
+                      "jsonpath_query_type": "string"
+                    },
+                    {
+                      "jsonpath_query": "$.state",
+                      "jsonpath_query_name": "state",
+                      "jsonpath_query_type": "string"
+                    }
+                  ],
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01M4SJTN7A01Y2Mcw7RWc7u8EbgCRkQ9tv5",
+            "name": "Group",
+            "title": "Convert servers to table",
+            "type": "logic.group",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Convert servers to table",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01M4SJXORUFZO0TOUgPR56YIYuWoe7uK3hQ",
+                "name": "Read Table from JSON",
+                "title": "Read Table from JSON",
+                "type": "corejava.read_table_from_json",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "continue_on_failure": false,
+                  "display_name": "Read Table from JSON",
+                  "input_json": "$activity.definition_activity_01M4SO3B35O0G4rYP7lRWqmQGLybQiNoaOi.input.source_array[@].servers$",
+                  "jsonpath_query": "$.",
+                  "persist_output": false,
+                  "populate_columns": false,
+                  "skip_execution": false,
+                  "table_columns": [
+                    {
+                      "column_name": "hostname",
+                      "column_type": "string"
+                    },
+                    {
+                      "column_name": "ip_address",
+                      "column_type": "string"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01M4SQR0KHO0L65fiJHskSMgu04gDfO58zc",
+            "name": "For Each",
+            "title": "For each server",
+            "type": "logic.for_each",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "For each server",
+              "skip_execution": false,
+              "source_array": "$activity.definition_activity_01M4SJXORUFZO0TOUgPR56YIYuWoe7uK3hQ.output.read_table_from_json$"
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01M4SQZENTH9J34gggiWHGQ0tX35ifoxQgH",
+                "name": "Set Variables",
+                "title": "Add server to output",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Add server to output",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01M4SBQ0Z7ZDN6AfG3vIWGjvpX8Mrsb81sM.local.variable_workflow_01M4SI7OZNQKP34m6wJhFoSkwOoLjpI5mMl$",
+                      "variable_value_new": "$workflow.definition_workflow_01M4SBQ0Z7ZDN6AfG3vIWGjvpX8Mrsb81sM.local.variable_workflow_01M4SI7OZNQKP34m6wJhFoSkwOoLjpI5mMl$\n$activity.definition_activity_01M4SO3B35O0G4rYP7lRWqmQGLybQiNoaOi.input.source_array[@].site_name$,$activity.definition_activity_01M4SIH7IV74C4FPcC3LP8cnyOuiQ3TmDkf.output.jsonpath_queries.city$,$activity.definition_activity_01M4SIH7IV74C4FPcC3LP8cnyOuiQ3TmDkf.output.jsonpath_queries.state$,$activity.definition_activity_01M4SQR0KHO0L65fiJHskSMgu04gDfO58zc.input.source_array[@].hostname$,$activity.definition_activity_01M4SQR0KHO0L65fiJHskSMgu04gDfO58zc.input.source_array[@].ip_address$"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_01K8NQAII212R5jdJi1LLd5SCDT9F91tvBR"
+    ]
+  },
+  "categories": {
+    "category_01K8NQAII212R5jdJi1LLd5SCDT9F91tvBR": {
+      "unique_name": "category_01K8NQAII212R5jdJi1LLd5SCDT9F91tvBR",
+      "name": "Sample Workflow",
+      "title": "Sample Workflow",
+      "type": "basic.category",
+      "base_type": "category",
+      "description": "Simple workflows that show how to use various aspects of SecureX orchestration",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  }
+}
