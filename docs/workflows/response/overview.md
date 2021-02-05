@@ -20,7 +20,7 @@ Here's what workflows look like in the pivot menu after pivoting on a domain:
 
 ![]({{ site.baseurl }}/assets/images/workflows/response/pivot-menu.png)
 
-When you select a workflow to execute, you'll see a small success message at the bottom right of the page. Note that this success message only indicates that the workflow was started successfully; it does not mean the workflow completed successfully. To view the workflow's status and result, you'll need to go into SecureX orchestration and view its runs.
+When you select a workflow to execute, you'll see a small success message at the bottom right of the page. Note that this success message only indicates that the workflow was started successfully; it does not mean the workflow completed successfully. To view the workflow's status and result, you'll need to go into SecureX Orchestration and view its runs.
 
 ---
 

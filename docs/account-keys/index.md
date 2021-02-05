@@ -8,7 +8,7 @@ has_toc: false
 ---
 
 # Account Keys
-Account keys are what SecureX orchestration calls credentials. They come in a wide variety of different types that correspond to the types of [targets]({{ site.baseurl }}/targets/) that are available. Targets are not required to have account keys, however, for targets with account keys the key type must match the target type. SecureX orchestration comes out of the box with some [default account keys]({{ site.baseurl }}/account-keys/default) configured.
+Account keys are what SecureX Orchestration calls credentials. They come in a wide variety of different types that correspond to the types of [targets]({{ site.baseurl }}/targets/) that are available. Targets are not required to have account keys, however, for targets with account keys the key type must match the target type. SecureX Orchestration comes out of the box with some [default account keys]({{ site.baseurl }}/account-keys/default) configured.
 
 ---
 

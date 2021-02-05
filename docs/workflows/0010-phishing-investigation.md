@@ -52,7 +52,7 @@ Note: You may have an old version of the `Webex Teams - Post Message to Room` at
 ## Important Notes
 * The mailbox and SMTP server used to send notifications to users should not have any quotas or rate-limiting. If outgoing mail from the workflow is rate-limited and multiple submissions are received at the same time, sending user confirmation emails may fail.
 * This workflow can only monitor a single mailbox. If you want to use this workflow with multiple mailboxes, you will need to duplicate the workflow and update the trigger to use a different [Email Event]({{ site.baseurl }}/events/email).
-* See [this page]({{ site.baseurl }}/notes) for other important information about SecureX orchestration.
+* See [this page]({{ site.baseurl }}/notes) for other important information about SecureX Orchestration.
 
 ---
 

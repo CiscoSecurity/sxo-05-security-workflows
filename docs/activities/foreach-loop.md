@@ -8,7 +8,7 @@ parent: Activities
 # For Each Loop
 _Category: Logic_
 
-For each loops are one of the two types of loops available in SecureX orchestration. This type of loop consumes an array of data and runs the content of the loop once for each item in the array. If you want to loop for an arbitrary number of times or while a condition is true, you should look at the [`While Loop`]({{ site.baseurl }}/activities/while-loop).
+For each loops are one of the two types of loops available in SecureX Orchestration. This type of loop consumes an array of data and runs the content of the loop once for each item in the array. If you want to loop for an arbitrary number of times or while a condition is true, you should look at the [`While Loop`]({{ site.baseurl }}/activities/while-loop).
 
 ---
 

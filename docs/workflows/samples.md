@@ -7,7 +7,7 @@ nav_order: 20
 ---
 
 # Samples
-This page contains an index of sample workflows available for various SecureX orchestration activities and components.
+This page contains an index of sample workflows available for various SecureX Orchestration activities and components.
 
 * [Condition Block]({{ site.baseurl }}/activities/condition-block#sample-workflows)
 * [Date and Time]({{ site.baseurl }}/activities/date-time)

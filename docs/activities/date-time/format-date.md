@@ -7,7 +7,7 @@ grand_parent: Activities
 ---
 
 # Format Date
-This activity allows you to convert a datetime to various different pre-defined or custom formats. This is often used when an API requires datetimes to be in a specific format that's different than the native format SecureX orchestration uses.
+This activity allows you to convert a datetime to various different pre-defined or custom formats. This is often used when an API requires datetimes to be in a specific format that's different than the native format SecureX Orchestration uses.
 
 ---
 

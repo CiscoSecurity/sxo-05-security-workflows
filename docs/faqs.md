@@ -7,14 +7,14 @@ nav_order: 10
 
 # Frequently Asked Questions
 {: .no_toc }
-This page contains a list of frequently asked questions about SecureX orchestration. FAQs for the broader SecureX platform can be found [here](http://cs.co/SecureX_faq).
+This page contains a list of frequently asked questions about SecureX Orchestration. FAQs for the broader SecureX platform can be found [here](http://cs.co/SecureX_faq).
 
 - TOC
 {:toc}
 
 ---
 
-### Q: Where is SecureX orchestration hosted?
+### Q: Where is SecureX Orchestration hosted?
 **A**: The orchestration components of SecureX are hosted in Amazon Web Services. The AWS region depends on which instance of SecureX you're using.
 
 ### Q: Do you provide a list of source IPs/hostnames for orchestration nodes?
@@ -27,7 +27,7 @@ This page contains a list of frequently asked questions about SecureX orchestrat
 **A**: See the [Python Modules]({{ site.baseurl }}/activities/python/modules) page.
 
 ### Q: Can I install custom Python modules?
-**A**: No. Python scripts in SecureX orchestration run inside a container that can't be customized.
+**A**: No. Python scripts in SecureX Orchestration run inside a container that can't be customized.
 
 ### Q: How do I make a workflow appear in Threat Response/SecureX ribbon/product pivot menus?
 **A**: See the [Response Workflows]({{ site.baseurl }}/workflows/response/) page.

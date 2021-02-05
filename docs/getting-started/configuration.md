@@ -16,7 +16,7 @@ To use the content in this repository, you must have the necessary Git Repositor
 ---
 
 ## Creating the Git Repository for Atomic Actions
-1. In SecureX orchestration, expand the main menu and click on **Admin** and then **Git Repositories**
+1. In SecureX Orchestration, expand the main menu and click on **Admin** and then **Git Repositories**
 1. Click on the **New Git Repository** button (or click on the existing repository you want to update)
 1. Provide a name for the repository (suggested: `CiscoSecurity_Atomics`)
 1. Set **No Account Keys** to `True`
@@ -31,7 +31,7 @@ To use the content in this repository, you must have the necessary Git Repositor
 ---
 
 ## Creating the Git Repository for Workflows
-1. In SecureX orchestration, expand the main menu and click on **Admin** and then **Git Repositories**
+1. In SecureX Orchestration, expand the main menu and click on **Admin** and then **Git Repositories**
 1. Click on the **New Git Repository** button (or click on the existing repository you want to update)
 1. Provide a name for the repository (suggested: `CiscoSecurity_Workflows`)
 1. Set **No Account Keys** to `True`
