@@ -1,11 +1,14 @@
 ---
 layout: page
-title: Talos - Single Blog Post to SecureX Casebook
-permalink: /workflows/0002-talos-single-post
-parent: Workflows
+title: Single Blog Post to SecureX Casebook
+permalink: /workflows/talos/0002-single-post-casebook
+redirect_from:
+  - /workflows/0002-talos-single-post
+parent: Talos Intelligence
+grand_parent: Workflows
 ---
 
-# Talos - Single Blog Post to SecureX Casebook
+# Single Blog Post to SecureX Casebook
 <div markdown="1">
 Workflow #0002
 {: .label }
@@ -18,7 +21,7 @@ This workflow parses a single Talos blog post and converts it into a SecureX cas
 ---
 
 ## Important Note
-This workflow is an adaptation of the sub-workflow used by the [Talos - Get New Blog Posts]({{ site.baseurl }}/workflows/0001-talos-blog) workflow. Modifying this workflow won't cause any issues with the other Talos workflow as it's completely separate. We're providing this workflow separately in case you want to adapt it for something else or play with it without the complexity of the parent workflow.
+This workflow is an adaptation of the sub-workflow used by the [Talos - Get New Blog Posts]({{ site.baseurl }}/workflows/talos/0001-get-new-blog-posts) workflow. Modifying this workflow won't cause any issues with the other Talos workflow as it's completely separate. We're providing this workflow separately in case you want to adapt it for something else or play with it without the complexity of the parent workflow.
 
 ---
 

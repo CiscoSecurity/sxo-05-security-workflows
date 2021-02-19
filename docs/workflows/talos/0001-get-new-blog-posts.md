@@ -1,11 +1,14 @@
 ---
 layout: page
-title: Talos - Get New Blog Posts
-permalink: /workflows/0001-talos-blog
-parent: Workflows
+title: Get New Blog Posts
+permalink: /workflows/talos/0001-get-new-blog-posts
+redirect_from:
+  - /workflows/0001-talos-blog
+parent: Talos Intelligence
+grand_parent: Workflows
 ---
 
-# Talos - Get New Blog Posts
+# Get New Blog Posts
 <div markdown="1">
 Workflow #0001
 {: .label }
@@ -18,7 +21,7 @@ This workflow consumes the Talos Intelligence Blog RSS feed and converts individ
 ---
 
 ## Important Note
-This workflow has two components: a parent workflow and a sub-workflow. Importing the parent will import both. We also provide the sub-workflow separately as [Talos - Single Blog Post to SecureX Casebook]({{ site.baseurl }}/workflows/0002-talos-single-post).
+This workflow has two components: a parent workflow and a sub-workflow. Importing the parent will import both. We also provide the sub-workflow separately as [Talos - Single Blog Post to SecureX Casebook]({{ site.baseurl }}/workflows/talos/0002-single-post-casebook).
 
 ---
 

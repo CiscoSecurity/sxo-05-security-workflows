@@ -1,11 +1,14 @@
 ---
 layout: page
-title: Microsoft Online - ASA Split Tunnel
-permalink: /workflows/0003-microsoft-asa-split-tunnel
-parent: Workflows
+title: Microsoft Online Split Tunnel Configuration
+permalink: /workflows/asa/0003-microsoft-split-tunnel
+redirect_from:
+  - /workflows/0003-microsoft-asa-split-tunnel
+parent: Cisco Adaptive Security Appliance
+grand_parent: Workflows
 ---
 
-# Microsoft Online - ASA Split Tunnel
+# Microsoft Online Split Tunnel Configuration
 <div markdown="1">
 Workflow #0003
 {: .label }
