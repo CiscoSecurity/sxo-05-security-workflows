@@ -1,11 +1,14 @@
 ---
 layout: page
-title: ASA - AWS VPN Capacity Expansion
-permalink: /workflows/0008-asa-aws-vpn
-parent: Workflows
+title: AWS VPN Capacity Expansion
+permalink: /workflows/asa/0008-aws-vpn-capacity
+redirect_from:
+  - /workflows/0008-asa-aws-vpn
+parent: Cisco Adaptive Security Appliance
+grand_parent: Workflows
 ---
 
-# Adaptive Security Appliance - AWS VPN Capacity Expansion
+# AWS VPN Capacity Expansion
 <div markdown="1">
 Workflow #0008
 {: .label }

@@ -1,12 +1,14 @@
 ---
 layout: page
 title: Generate Casebook with Flow Links
-permalink: /workflows/sca/0005-generate-casebook
-parent: Secure Cloud Analytics
+permalink: /workflows/secure-cloud-analytics/0005-generate-casebook
+redirect_from:
+  - /workflows/sca/0005-generate-casebook
+parent: Cisco Secure Cloud Analytics
 grand_parent: Workflows
 ---
 
-# Generate Casebook with SCA Flow Links
+# Generate Casebook with Flow Links
 <div markdown="1">
 Workflow #0005
 {: .label }

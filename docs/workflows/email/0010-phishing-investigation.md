@@ -1,8 +1,11 @@
 ---
 layout: page
 title: Phishing Investigation
-permalink: /workflows/0010-phishing-investigation
-parent: Workflows
+permalink: /workflows/email/0010-phishing-investigation
+redirect_from:
+  - /workflows/0010-phishing-investigation
+parent: Email
+grand_parent: Workflows
 ---
 
 # Phishing Investigation

@@ -1,11 +1,14 @@
 ---
 layout: page
-title: Talos - SolarWinds Investigation
-permalink: /workflows/0011-solarwinds-investigation
-parent: Workflows
+title: SolarWinds Investigation
+permalink: /workflows/talos/0011-solarwinds-investigation
+redirect_from:
+  - /workflows/0011-solarwinds-investigation
+parent: Talos Intelligence
+grand_parent: Workflows
 ---
 
-# Talos - SolarWinds Investigation
+# SolarWinds Investigation
 <div markdown="1">
 Workflow #0011
 {: .label }

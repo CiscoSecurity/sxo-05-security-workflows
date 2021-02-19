@@ -1,11 +1,14 @@
 ---
 layout: page
-title: Microsoft Online - CDO Group Update
-permalink: /workflows/0004-microsoft-cdo-group-update
-parent: Workflows
+title: Microsoft Online Object Group Update
+permalink: /workflows/cdo/0004-microsoft-group-update
+redirect_from:
+  - /workflows/0004-microsoft-cdo-group-update
+parent: Cisco Defense Orchestrator
+grand_parent: Workflows
 ---
 
-# Microsoft Online - CDO Group Update
+# Microsoft Online Object Group Update
 <div markdown="1">
 Workflow #0004
 {: .label }
