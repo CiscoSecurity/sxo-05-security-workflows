@@ -25,14 +25,24 @@ This workflow has two components: a parent workflow and a sub-workflow. Importin
 
 ---
 
+## Change Log
+
+| Date | Notes |
+|:-----|:------|
+| [Nov 24, 2020]({{ site.github.repository_url }}/tree/0ebd8af25b5f496814acc069b6b7f9194e74d4ab/Workflows/0001-Talos-GetNewBlogPosts__definition_workflow_01FX7FQDZRDUX1TWgKJwTPBMaOWrgUOld2q) | - Initial release |
+| [Feb 20, 2021]({{ site.github.repository_url }}/tree/6cd32df5334c62b0d0f0e8c587b4a9ac6c6a176a/Workflows/0001-Talos-GetNewBlogPosts__definition_workflow_01FX7FQDZRDUX1TWgKJwTPBMaOWrgUOld2q) | - Updated to use new sub-workflow based on updated workflow [0002]({{ site.baseurl }}/workflows/talos/0002-single-post-casebook)<br />- Updated to use new Threat Response v2 atomics<br />- Fixed an issue where the Threat Response token could expire during investigation ([Issue #2]({{ site.github.repository_url }}/issues/2))<br />- Added auto-detection for the Threat Response environment URL<br />- Changed how the Webex message and casebook summary are generated to be more reliable and useful |
+
+_See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
+
+---
+
 ## Requirements
 * The following atomic actions must be imported before you can import this workflow:
-	* CTRCheckDeliberateVerdict ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* CTRGenerateAccessToken ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* CTR Create Casebook ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* CTR Enrich Observable ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* CTR Inspect ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Util - Get String Length ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
+	* Threat Response v2 - Create Casebook ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* Threat Response v2 - Deliberate Observable ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* Threat Response v2 - Enrich Observable ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* Threat Response v2 - Generate Access Token ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* Threat Response v2 - Inspect for Observables ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* Webex Teams - Search for Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* Webex Teams - Post Message to Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 * (Optional) A Webex Teams access token and room name to post messages to
@@ -59,7 +69,7 @@ These steps are executed for each new or updated blog post the parent workflow d
 1. Loop through each observable and get its Threat Response disposition
 1. For observables that weren't clean, conduct Threat Response enrichment to get sightings
 1. For modules with sightings, build the text to post to Webex
-1. Create the SecureX casebook and, if a teams room is provided, post a message to Webex
+1. Create the Threat Response casebook and, if a teams room is provided, post a message to Webex
 
 ---
 
@@ -90,6 +100,8 @@ Target Group: `Default TargetGroup`
 ---
 
 ## Account Keys
+
+### Sub-Workflow
 
 | Account Key Name | Type | Details | Notes |
 |:-----------------|:-----|:--------|:------|
