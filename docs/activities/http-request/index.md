@@ -29,3 +29,4 @@ The following sample workflows are available in our repository's workflows folde
 
 * [Sample - HTTP Requests]({{ site.github.repository_url }}/tree/Main/Workflows/Sample-HTTPRequests__definition_workflow_01K8OUE30UIFT3L8Ugle9RMwhs5kIutlfUr)
 * [Sample - HTTP Requests - Bearer Token]({{ site.github.repository_url }}/tree/Main/Workflows/Sample-HTTPRequests-BearerToken__definition_workflow_01KKTCSNCPMF56KPE3vS4dM3rG2bwHEqBQP)
+* [Sample - HTTP Requests - Failover]({{ site.github.repository_url }}/tree/Main/Workflows/Sample-HTTPRequests-Failover__definition_workflow_01JE7V3L4TAYJ7V5Yjv8YNiIBzj9TT8crQJ)

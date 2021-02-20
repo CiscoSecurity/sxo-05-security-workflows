@@ -1,0 +1,405 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01JE7V3L4TAYJ7V5Yjv8YNiIBzj9TT8crQJ",
+    "name": "Sample - HTTP Requests - Failover",
+    "title": "Sample - HTTP Requests - Failover",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "Sample - Web Server A",
+          "scope": "local",
+          "name": "Active Target",
+          "type": "datatype.string",
+          "description": "The default server we'll query first. If this server is not the active server, we fail over to the secondary",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01JE84J6TSC6F4F4Dy2DsLHr4Kqrz4xemlG",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "description": "This workflow shows how to query a server and, if it's in standby mode, fail over to another server. This methodology could be useful when working with something like a pair of load balancers where you can only make configuration changes on the primary but don't know which one is primary at any given time.\n\nOrchestration does not have built in failover, so to achieve similar functionality we put our two servers in a target group. By using a target group, the workflow can select targets at run time. In this case, we query Web Server A first and find that it's the standby. Next, we query Web Server B and find that it's active.\n\nNote how the name of the target is defined in a variable which is used to select the target from the target group (in the HTTP Request activities). To query a different target, we just change the value of this variable.\n\nMore information about HTTP Requests can be found in our GitHub documentation at https://cs.co/SXO_docs\n\nRun this workflow and inspect each activity's output carefully.",
+      "display_name": "Sample - HTTP Requests - Failover",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": true,
+        "target_group": {
+          "target_group_id": "target_group_01JE85LUDGAT87VQaSm9QhO6MTCxERs9ANJ",
+          "run_on_all_targets": false,
+          "selected_target_types": [
+            "web-service.endpoint"
+          ],
+          "use_criteria": {
+            "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+            "conditions": [
+              {
+                "operator": "eqi",
+                "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                "right_operand": "$workflow.definition_workflow_01JE7V3L4TAYJ7V5Yjv8YNiIBzj9TT8crQJ.local.variable_workflow_01JE84J6TSC6F4F4Dy2DsLHr4Kqrz4xemlG$"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01JE7VBX4FSAX2V55hR3OY5MhXHJOOhHuUj",
+        "name": "HTTP Request",
+        "title": "Query primary server",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 10,
+          "allow_auto_redirect": true,
+          "continue_on_error_status_code": true,
+          "continue_on_failure": true,
+          "display_name": "Query primary server",
+          "method": "GET",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target_group_criteria": true,
+            "target_group": {
+              "use_criteria": {
+                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                "conditions": [
+                  {
+                    "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                    "operator": "eqi",
+                    "right_operand": "$workflow.definition_workflow_01JE7V3L4TAYJ7V5Yjv8YNiIBzj9TT8crQJ.local.variable_workflow_01JE84J6TSC6F4F4Dy2DsLHr4Kqrz4xemlG$"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01JE7ZNAN2RWQ1cFxfjLCqqsK31GsmDcXyV",
+        "name": "JSONPath Query",
+        "title": "Extract server role",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Extract server role",
+          "input_json": "$activity.definition_activity_01JE7VBX4FSAX2V55hR3OY5MhXHJOOhHuUj.output.response_body$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$.role",
+              "jsonpath_query_name": "role",
+              "jsonpath_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01JE7ZPFWP87A2GdgBUcyTGJKmpDh7pZXGP",
+        "name": "Condition Block",
+        "title": "What was the result?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "What was the result?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01JE7ZPV71DCE4NkDeCZgFShxIxffVbivMz",
+            "name": "Condition Branch",
+            "title": "Failure/Standby",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": {
+                  "left_operand": "$activity.definition_activity_01JE7VBX4FSAX2V55hR3OY5MhXHJOOhHuUj.output.succeeded$",
+                  "operator": "eq",
+                  "right_operand": false
+                },
+                "operator": "or",
+                "right_operand": {
+                  "left_operand": "$activity.definition_activity_01JE7ZNAN2RWQ1cFxfjLCqqsK31GsmDcXyV.output.jsonpath_queries.role$",
+                  "operator": "ne",
+                  "right_operand": "active"
+                }
+              },
+              "continue_on_failure": false,
+              "display_name": "Failure/Standby",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01JE855XRB91R1zvp2lfqM5iRWmvKcXzOj8",
+                "name": "Set Variables",
+                "title": "Change the target name to the secondary",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Change the target name to the secondary",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01JE7V3L4TAYJ7V5Yjv8YNiIBzj9TT8crQJ.local.variable_workflow_01JE84J6TSC6F4F4Dy2DsLHr4Kqrz4xemlG$",
+                      "variable_value_new": "Sample - Web Server B"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01JE80X1KNI1R4BnKbYO4i15LlYO83hGQJS",
+                "name": "HTTP Request",
+                "title": "Query secondary server",
+                "type": "web-service.http_request",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "allow_auto_redirect": true,
+                  "continue_on_error_status_code": false,
+                  "continue_on_failure": false,
+                  "display_name": "Query secondary server",
+                  "method": "GET",
+                  "runtime_user": {
+                    "override_target_runtime_user": false,
+                    "target_default": true
+                  },
+                  "skip_execution": false,
+                  "target": {
+                    "override_workflow_target_group_criteria": true,
+                    "target_group": {
+                      "use_criteria": {
+                        "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                        "conditions": [
+                          {
+                            "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                            "operator": "eqi",
+                            "right_operand": "$workflow.definition_workflow_01JE7V3L4TAYJ7V5Yjv8YNiIBzj9TT8crQJ.local.variable_workflow_01JE84J6TSC6F4F4Dy2DsLHr4Kqrz4xemlG$"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01JE81KDRWK1N4Thkb4K0i7Kvu3AurSdMLm",
+                "name": "JSONPath Query",
+                "title": "Extract server role",
+                "type": "corejava.jsonpathquery",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "continue_on_failure": false,
+                  "display_name": "Extract server role",
+                  "input_json": "$activity.definition_activity_01JE80X1KNI1R4BnKbYO4i15LlYO83hGQJS.output.response_body$",
+                  "jsonpath_queries": [
+                    {
+                      "jsonpath_query": "$.role",
+                      "jsonpath_query_name": "role",
+                      "jsonpath_query_type": "string"
+                    }
+                  ],
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01JE81I4718MW25dGSxoXG04TkC23Z8AGRh",
+                "name": "Condition Block",
+                "title": "What was the result?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "What was the result?",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                  {
+                    "unique_name": "definition_activity_01JE81IDVI4OL594vTlc7XE9uPKWEcbU6k8",
+                    "name": "Condition Branch",
+                    "title": "Failure/Standby",
+                    "type": "logic.condition_block",
+                    "base_type": "activity",
+                    "properties": {
+                      "condition": {
+                        "left_operand": {
+                          "left_operand": "$activity.definition_activity_01JE80X1KNI1R4BnKbYO4i15LlYO83hGQJS.output.succeeded$",
+                          "operator": "eq",
+                          "right_operand": false
+                        },
+                        "operator": "or",
+                        "right_operand": {
+                          "left_operand": "$activity.definition_activity_01JE81KDRWK1N4Thkb4K0i7Kvu3AurSdMLm.output.jsonpath_queries.role$",
+                          "operator": "ne",
+                          "right_operand": "active"
+                        }
+                      },
+                      "continue_on_failure": false,
+                      "display_name": "Failure/Standby",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity",
+                    "actions": [
+                      {
+                        "unique_name": "definition_activity_01JE827XC9NA5745vMRtLJ0ncEqN5Rxf5Lv",
+                        "name": "Completed",
+                        "title": "Output an error",
+                        "type": "logic.completed",
+                        "base_type": "activity",
+                        "properties": {
+                          "completion_type": "failed-completed",
+                          "continue_on_failure": false,
+                          "display_name": "Output an error",
+                          "skip_execution": false
+                        },
+                        "object_type": "definition_activity"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01JE82NYPDRZ31UQ8kTHFNRHm96BjxsUEZ1",
+        "name": "HTTP Request",
+        "title": "Subsequent request to active server",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "display_name": "Subsequent request to active server",
+          "method": "GET",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target_group_criteria": true,
+            "target_group": {
+              "use_criteria": {
+                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                "conditions": [
+                  {
+                    "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                    "operator": "eqi",
+                    "right_operand": "$workflow.definition_workflow_01JE7V3L4TAYJ7V5Yjv8YNiIBzj9TT8crQJ.local.variable_workflow_01JE84J6TSC6F4F4Dy2DsLHr4Kqrz4xemlG$"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_01K8NQAII212R5jdJi1LLd5SCDT9F91tvBR"
+    ]
+  },
+  "categories": {
+    "category_01K8NQAII212R5jdJi1LLd5SCDT9F91tvBR": {
+      "unique_name": "category_01K8NQAII212R5jdJi1LLd5SCDT9F91tvBR",
+      "name": "Sample Workflow",
+      "title": "Sample Workflow",
+      "type": "basic.category",
+      "base_type": "category",
+      "description": "Simple workflows that show how to use various aspects of SecureX orchestration",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  },
+  "targets": {
+    "definition_target_01JE7Z2555XJ87N4Du6M4nvS4OGXjXOApA9": {
+      "unique_name": "definition_target_01JE7Z2555XJ87N4Du6M4nvS4OGXjXOApA9",
+      "name": "Sample - Web Server A",
+      "title": "Sample - Web Server A",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "disable_certificate_validation": false,
+        "display_name": "Sample - Web Server A",
+        "host": "echo.jsontest.com",
+        "ignore_proxy": false,
+        "no_runtime_user": true,
+        "path": "/role/standby/name/server-a",
+        "protocol": "http"
+      }
+    },
+    "definition_target_01JE7ZBNXEDGF1zmNxHR7aExmfUTIG8ZZgU": {
+      "unique_name": "definition_target_01JE7ZBNXEDGF1zmNxHR7aExmfUTIG8ZZgU",
+      "name": "Sample - Web Server B",
+      "title": "Sample - Web Server B",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "disable_certificate_validation": false,
+        "display_name": "Sample - Web Server B",
+        "host": "echo.jsontest.com",
+        "ignore_proxy": false,
+        "no_runtime_user": true,
+        "path": "/role/active/name/server-b",
+        "protocol": "http"
+      }
+    }
+  },
+  "target_groups": {
+    "target_group_01JE85LUDGAT87VQaSm9QhO6MTCxERs9ANJ": {
+      "unique_name": "target_group_01JE85LUDGAT87VQaSm9QhO6MTCxERs9ANJ",
+      "name": "Sample - Web Server Pool",
+      "title": "Sample - Web Server Pool",
+      "type": "generic.target_group",
+      "base_type": "target_group",
+      "version": "1.0.0",
+      "targets": [
+        {
+          "data_target_type": "web-service.endpoint",
+          "view_target_type": "web-service.endpoint",
+          "include_all_targets": false,
+          "selected_target_ids": [
+            "definition_target_01JE7Z2555XJ87N4Du6M4nvS4OGXjXOApA9",
+            "definition_target_01JE7ZBNXEDGF1zmNxHR7aExmfUTIG8ZZgU"
+          ]
+        }
+      ],
+      "object_type": "target_group"
+    }
+  }
+}
