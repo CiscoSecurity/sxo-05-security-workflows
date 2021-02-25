@@ -1,0 +1,1210 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01JQ060DZK6NK5xH8K3RAQLb9kkLPppMrQU",
+    "name": "0014 - SCA - Isolate Endpoints from Alerts",
+    "title": "0014 - SCA - Isolate Endpoints from Alerts",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "SecureX Orchestration",
+          "scope": "local",
+          "name": "Webex Teams Room Name",
+          "type": "datatype.string",
+          "description": "The name of the Webex Teams room to post messages to. If using a bot, make sure to invite your bot to the room before attempting to send messages. If you don't want to use Webex, leave this blank",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01JQ060DLFPRI4TVOeqWLU954bEirGtxlej",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "List of Not Blocked Device IPs",
+          "type": "datatype.string",
+          "description": "Placeholder for a list of devices that were not blocked (by IP address)",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01MDT2KA3VVE77Atw1kucAGlGQrmgTBPjft",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "open",
+          "scope": "local",
+          "name": "Secure Cloud Analytics Alert Status",
+          "type": "datatype.string",
+          "description": "The status of the alerts to fetch from Secure Cloud Analytics. This should be one of the following: all, open, closed",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01JQ060DLFQWT0G3npyXzG7LkwEx3zGg8Gy",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "Alert Name Here",
+          "scope": "local",
+          "name": "Secure Cloud Analytics Alert Name",
+          "type": "datatype.string",
+          "description": "The name of the alerts to fetch from Secure Cloud Analytics",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01JQ060DLFKUI4OCcr6LbwfReLG72d16fUc",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "List of Blocked Device IPs",
+          "type": "datatype.string",
+          "description": "Placeholder for a list of blocked devices (by IP address)",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01MDT2BU1PLHT3lmhMeOib2DTKmJW5GmUFO",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "List of Processed Device IDs",
+          "type": "datatype.string",
+          "description": "Placeholder for a list of devices that have been processed (by device ID)",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01JQ060DLFM9N00Xw3ZCTk1gyl1DjimP22y",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "Webex Teams Access Token",
+          "type": "datatype.secure_string",
+          "description": "The access token to use to authenticate to the Webex Teams API. Information about using a bot, which is what we recommend, can be found here: https://developer.webex.com/docs/bots",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01JQ060DLFT9G7EYJYe76srq1B1leNU5ovv",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "Secure Cloud Analytics API Key",
+          "type": "datatype.secure_string",
+          "description": "You can generate or regenerate an API key on your user page in your Secure Cloud Analytics portal. If you already have an API key for SCA in a global variable, use the group at the beginning of the workflow to set this variable to the global variable's value",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01JQ060DLFS3E3ZZImaJcQdZL7xXFgLSIhc",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "description": "This workflow fetches alerts from Secure Cloud Analytics (formerly Stealthwatch Cloud) for the past 24 hours based on the alert name and status provided. Observations are extracted from the alerts and devices are searched for in Secure Endpoint (formerly AMP for Endpoints). If an endpoint is found, host isolation is enabled. Finally, a Webex Teams message is sent with a summary.\n\nNote: This workflow will only fetch the first 100 alerts. If you want to fetch more, update the limit on the \"SWC - Get Alerts\" activity.\n\nTarget Group: Default TargetGroup\n\nTargets: AMP_Target, Secure Cloud Analytics, Webex Teams\n\nFor more information about this workflow, please see: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0014",
+      "display_name": "0014 - SCA - Isolate Endpoints from Alerts",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": true,
+        "target_group": {
+          "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+          "run_on_all_targets": false,
+          "selected_target_types": [
+            "web-service.endpoint"
+          ],
+          "use_criteria": {
+            "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+            "conditions": [
+              {
+                "operator": "eqi",
+                "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                "right_operand": "Secure Cloud Analytics"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01MFRSEQ8G40C5m4ei4kUKl4clZOxacIsN7",
+        "name": "Group",
+        "title": "Fetch global variables",
+        "type": "logic.group",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Fetch global variables",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01MFRSHP473L107jVJTaqlaz6yRMeppZyU1",
+            "name": "Set Variables",
+            "title": "Fetch global variables",
+            "type": "core.set_multiple_variables",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Fetch global variables",
+              "skip_execution": true,
+              "variables_to_update": [
+                {
+                  "variable_to_update": "$workflow.definition_workflow_01JQ060DZK6NK5xH8K3RAQLb9kkLPppMrQU.local.variable_workflow_01JQ060DLFS3E3ZZImaJcQdZL7xXFgLSIhc$",
+                  "variable_value_new": ""
+                },
+                {
+                  "variable_to_update": "$workflow.definition_workflow_01JQ060DZK6NK5xH8K3RAQLb9kkLPppMrQU.local.variable_workflow_01JQ060DLFT9G7EYJYe76srq1B1leNU5ovv$",
+                  "variable_value_new": ""
+                }
+              ]
+            },
+            "object_type": "definition_activity"
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01MD55XOP6N067XbJOj6uGONmbdv6Taysoe",
+        "name": "Group",
+        "title": "Calculate report dates",
+        "type": "logic.group",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Calculate report dates",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01MD38Z5YZUOY20zH9LPCoPZ9d4LsrtZpy2",
+            "name": "Calculate Date",
+            "title": "Calculate start date",
+            "type": "core.calculate_date",
+            "base_type": "activity",
+            "properties": {
+              "adjustment": -86400,
+              "continue_on_failure": false,
+              "display_name": "Calculate start date",
+              "original_date": "$workflow.definition_workflow_01JQ060DZK6NK5xH8K3RAQLb9kkLPppMrQU.output.start_time$",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01MDV06N6447O763dvng0ZLq7hY1vc9hjV0",
+            "name": "Calculate Date",
+            "title": "Calculate end date",
+            "type": "core.calculate_date",
+            "base_type": "activity",
+            "properties": {
+              "adjustment": 0,
+              "continue_on_failure": false,
+              "display_name": "Calculate end date",
+              "original_date": "$workflow.definition_workflow_01JQ060DZK6NK5xH8K3RAQLb9kkLPppMrQU.output.start_time$",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01JQ061D023CK1iUNV2HDKRRWO1uH3QQO2s",
+        "name": "Group",
+        "title": "Get Alerts and Associated Observations",
+        "type": "logic.group",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "description": "Get SWC alerts based on workflow filters from input and create an array of observations",
+          "display_name": "Get Alerts and Associated Observations",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01JQ061QWCKNI2JN8Dhv1Gx2xumBnuk882E",
+            "name": "SCA - Get Alerts",
+            "title": "SCA - Get Alerts",
+            "type": "workflow.atomic_workflow",
+            "base_type": "subworkflow",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "SCA - Get Alerts",
+              "input": {
+                "variable_workflow_01H8OAFZX3PVJ2gBlzD0wmTeXt8drvaID1r": "$workflow.definition_workflow_01JQ060DZK6NK5xH8K3RAQLb9kkLPppMrQU.local.variable_workflow_01JQ060DLFQWT0G3npyXzG7LkwEx3zGg8Gy$",
+                "variable_workflow_01H8OAFZX3VRW3e33tmv7ONFkT7hIMgQaRA": "$workflow.definition_workflow_01JQ060DZK6NK5xH8K3RAQLb9kkLPppMrQU.local.variable_workflow_01JQ060DLFKUI4OCcr6LbwfReLG72d16fUc$",
+                "variable_workflow_01JJTHD7IHEKH4CfnZPIuHOW4pSfP2jpM7f": "$workflow.definition_workflow_01JQ060DZK6NK5xH8K3RAQLb9kkLPppMrQU.local.variable_workflow_01JQ060DLFS3E3ZZImaJcQdZL7xXFgLSIhc$",
+                "variable_workflow_01JQWGJ4HWCUQ36M42Thbyc5tw3P5jTYlZb": "$activity.definition_activity_01MD38Z5YZUOY20zH9LPCoPZ9d4LsrtZpy2.output.result$",
+                "variable_workflow_01JQWGNWQATNN3GIyC9KzclrzWdmwmjGVjA": "$activity.definition_activity_01MDV06N6447O763dvng0ZLq7hY1vc9hjV0.output.result$",
+                "variable_workflow_01JQY57TY57SM3IfUSu5UVS2WlnF1I5hN0s": 100,
+                "variable_workflow_01JQY5EAYHCBH4NcW2BXgfWCA5OHldZvJva": 0
+              },
+              "runtime_user": {
+                "target_default": true
+              },
+              "skip_execution": false,
+              "target": {
+                "use_workflow_target_group": true
+              },
+              "workflow_id": "definition_workflow_01H8OAG0M0TEP6YXQdVScazNJ4Jyg66obMD"
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01MD2NZSUS9NJ5aq9uSmOBpLU002L5ZYoXx",
+            "name": "JSONPath Query",
+            "title": "Get all observations",
+            "type": "corejava.jsonpathquery",
+            "base_type": "activity",
+            "properties": {
+              "action_timeout": 180,
+              "continue_on_failure": true,
+              "display_name": "Get all observations",
+              "input_json": "$activity.definition_activity_01JQ061QWCKNI2JN8Dhv1Gx2xumBnuk882E.output.variable_workflow_01JKTJ3RR7PXJ0TJBYopV620eYQHZiXl2Yt$",
+              "jsonpath_queries": [
+                {
+                  "jsonpath_query": "$.objects[*].observations[*]",
+                  "jsonpath_query_name": "observations",
+                  "jsonpath_query_type": "string"
+                }
+              ],
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01MDUMNDWF01P0ByxrpNhK6YXI5k6HLUQPx",
+            "name": "Condition Block",
+            "title": "Did we get observations?",
+            "type": "logic.if_else",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Did we get observations?",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "blocks": [
+              {
+                "unique_name": "definition_activity_01MDUMO07WWK561BIwOzdXkGfMowvy0h9vD",
+                "name": "Condition Branch",
+                "title": "No",
+                "type": "logic.condition_block",
+                "base_type": "activity",
+                "properties": {
+                  "condition": {
+                    "left_operand": "$activity.definition_activity_01MD2NZSUS9NJ5aq9uSmOBpLU002L5ZYoXx.output.succeeded$",
+                    "operator": "eq",
+                    "right_operand": false
+                  },
+                  "continue_on_failure": false,
+                  "display_name": "No",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01MDUNPANH7BJ0w5KYTeFlTuX08wdEiQO3T",
+                    "name": "Completed",
+                    "title": "Completed",
+                    "type": "logic.completed",
+                    "base_type": "activity",
+                    "properties": {
+                      "completion_type": "succeeded",
+                      "continue_on_failure": false,
+                      "display_name": "Completed",
+                      "result_message": "No observations were returned by Secure Cloud Analytics",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01MD2U40RWW253RzP7tJtEJY1MECWo8Wd1J",
+            "name": "Replace String",
+            "title": "Remove brackets",
+            "type": "core.replacestring",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Remove brackets",
+              "input_string": "$activity.definition_activity_01MD2NZSUS9NJ5aq9uSmOBpLU002L5ZYoXx.output.jsonpath_queries.observations$",
+              "replace_list": [
+                {
+                  "replaced_string": "[",
+                  "replacement_string": ""
+                },
+                {
+                  "replaced_string": "]",
+                  "replacement_string": ""
+                }
+              ],
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01MD2SF8YMKLM3LRVKKSWXOHY71ztpjKuEX",
+            "name": "Split String",
+            "title": "Convert observations to array",
+            "type": "core.splitstring",
+            "base_type": "activity",
+            "properties": {
+              "boundaries": [
+                {
+                  "boundary": ","
+                }
+              ],
+              "continue_on_failure": false,
+              "display_name": "Convert observations to array",
+              "input_string": "$activity.definition_activity_01MD2U40RWW253RzP7tJtEJY1MECWo8Wd1J.output.result_string$",
+              "remove_empty": true,
+              "skip_execution": false,
+              "use_regexp": false
+            },
+            "object_type": "definition_activity"
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01JQ066CEQ9ZT0J9Hmwux4e4TTnKcjBqBhv",
+        "name": "For Each",
+        "title": "For each observation",
+        "type": "logic.for_each",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "description": "For Each Observation Extract the Device ID and IP behind it ",
+          "display_name": "For each observation",
+          "skip_execution": false,
+          "source_array": "$activity.definition_activity_01MD2SF8YMKLM3LRVKKSWXOHY71ztpjKuEX.output.parts$"
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01M0A9BLAGU3R47oKypFaIP6WT3tNtT4Kuw",
+            "name": "SCA - Get Observation Details by ID",
+            "title": "SCA - Get Observation Details by ID",
+            "type": "workflow.atomic_workflow",
+            "base_type": "subworkflow",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "SCA - Get Observation Details by ID",
+              "input": {
+                "variable_workflow_01LXVSBY5GFBI1M5jbSmF8VFxkRhtwp50X9": "$activity.definition_activity_01JQ066CEQ9ZT0J9Hmwux4e4TTnKcjBqBhv.input.source_array[@]$",
+                "variable_workflow_01LXWF004SDDK1Q8YOM6ZzjBPLp9kbmHwpK": "$workflow.definition_workflow_01JQ060DZK6NK5xH8K3RAQLb9kkLPppMrQU.local.variable_workflow_01JQ060DLFS3E3ZZImaJcQdZL7xXFgLSIhc$"
+              },
+              "runtime_user": {
+                "target_default": true
+              },
+              "skip_execution": false,
+              "target": {
+                "use_workflow_target_group": true
+              },
+              "workflow_id": "definition_workflow_01LXVRGB04NY13gDelFkkl8fdBfksC3AuGG"
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01JQ068IOABQ76uIwefq5WmkhA5NiuW77Ng",
+            "name": "JSONPath Query",
+            "title": "Get device ID",
+            "type": "corejava.jsonpathquery",
+            "base_type": "activity",
+            "properties": {
+              "action_timeout": 180,
+              "continue_on_failure": false,
+              "display_name": "Get device ID",
+              "input_json": "$activity.definition_activity_01M0A9BLAGU3R47oKypFaIP6WT3tNtT4Kuw.output.variable_workflow_01LXVZP3OHANI4WQj2nS9cs3sSSX8S9La3O$",
+              "jsonpath_queries": [
+                {
+                  "jsonpath_query": "$.source",
+                  "jsonpath_query_name": "source_device",
+                  "jsonpath_query_type": "string"
+                }
+              ],
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01K9FJAU2T53S4SnBwYm6ruwm1GzGDkDqur",
+            "name": "Find String",
+            "title": "Search local device list for this device",
+            "type": "core.find_string",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Search local device list for this device",
+              "searched_string": "$activity.definition_activity_01JQ068IOABQ76uIwefq5WmkhA5NiuW77Ng.output.jsonpath_queries.source_device$",
+              "skip_execution": false,
+              "source": "$workflow.definition_workflow_01JQ060DZK6NK5xH8K3RAQLb9kkLPppMrQU.local.variable_workflow_01JQ060DLFM9N00Xw3ZCTk1gyl1DjimP22y$"
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01K9FJWUXPG434RQykibc8lrWs7KePCJEZi",
+            "name": "Condition Block",
+            "title": "Was the device already processed?",
+            "type": "logic.if_else",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Was the device already processed?",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "blocks": [
+              {
+                "unique_name": "definition_activity_01K9FJX2ATTAE6IIk5Maa1F0TAXIMjdOEpG",
+                "name": "Condition Branch",
+                "title": "yes",
+                "type": "logic.condition_block",
+                "base_type": "activity",
+                "properties": {
+                  "condition": {
+                    "left_operand": "$activity.definition_activity_01K9FJAU2T53S4SnBwYm6ruwm1GzGDkDqur.output.has_match$",
+                    "operator": "eq",
+                    "right_operand": true
+                  },
+                  "continue_on_failure": false,
+                  "display_name": "yes",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01K9FKE5UTEFV5zI4kdcWEzeLYTIRq8YB5T",
+                    "name": "Continue",
+                    "title": "Skip it",
+                    "type": "logic.continue",
+                    "base_type": "activity",
+                    "properties": {
+                      "continue_on_failure": false,
+                      "display_name": "Skip it",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              },
+              {
+                "unique_name": "definition_activity_01K9FJX3GIE987fJrZMSX154jAflMvar3Zl",
+                "name": "Condition Branch",
+                "title": "No",
+                "type": "logic.condition_block",
+                "base_type": "activity",
+                "properties": {
+                  "condition": {
+                    "left_operand": "$activity.definition_activity_01K9FJAU2T53S4SnBwYm6ruwm1GzGDkDqur.output.has_match$",
+                    "operator": "eq",
+                    "right_operand": false
+                  },
+                  "continue_on_failure": false,
+                  "display_name": "No",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01M0E9GX9A9UE2pBPEpUzJEtQLHfX9Fpsmr",
+                    "name": "SCA - Get Device Details by ID",
+                    "title": "SCA - Get Device Details by ID",
+                    "type": "workflow.atomic_workflow",
+                    "base_type": "subworkflow",
+                    "properties": {
+                      "continue_on_failure": false,
+                      "display_name": "SCA - Get Device Details by ID",
+                      "input": {
+                        "variable_workflow_01M0E3OHRMAKH1lhvg4tjpavCzmWp7gbfgC": "$workflow.definition_workflow_01JQ060DZK6NK5xH8K3RAQLb9kkLPppMrQU.local.variable_workflow_01JQ060DLFS3E3ZZImaJcQdZL7xXFgLSIhc$",
+                        "variable_workflow_01M0E4P6RS7L97Ec63cHjUvS2W1Lip6VcBL": "$activity.definition_activity_01JQ068IOABQ76uIwefq5WmkhA5NiuW77Ng.output.jsonpath_queries.source_device$"
+                      },
+                      "runtime_user": {
+                        "target_default": true
+                      },
+                      "skip_execution": false,
+                      "target": {
+                        "use_workflow_target_group": true
+                      },
+                      "workflow_id": "definition_workflow_01M0E0YEDJCEI5loR8pHbyIJKhZf8XXdb85"
+                    },
+                    "object_type": "definition_activity"
+                  },
+                  {
+                    "unique_name": "definition_activity_01JQ16PJ0WYX05M8kXbqG3Yv7bgTyJMwECh",
+                    "name": "JSONPath Query",
+                    "title": "Extract device IP address",
+                    "type": "corejava.jsonpathquery",
+                    "base_type": "activity",
+                    "properties": {
+                      "action_timeout": 180,
+                      "continue_on_failure": true,
+                      "display_name": "Extract device IP address",
+                      "input_json": "$activity.definition_activity_01M0E9GX9A9UE2pBPEpUzJEtQLHfX9Fpsmr.output.variable_workflow_01M0E45DDT3O41Z4f9SV8ewJ0MCA5fsouBG$",
+                      "jsonpath_queries": [
+                        {
+                          "jsonpath_query": "$.objects[0].ip",
+                          "jsonpath_query_name": "source_ip",
+                          "jsonpath_query_type": "string"
+                        }
+                      ],
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity"
+                  },
+                  {
+                    "unique_name": "definition_activity_01MKZKOTL09MG1yjtDNC2qPDM9GcvzO2Ikj",
+                    "name": "Condition Block",
+                    "title": "Did we get an IP address?",
+                    "type": "logic.if_else",
+                    "base_type": "activity",
+                    "properties": {
+                      "continue_on_failure": false,
+                      "display_name": "Did we get an IP address?",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity",
+                    "blocks": [
+                      {
+                        "unique_name": "definition_activity_01MKZKPGEEVF03RfndTO7kbSm7KwxNqY4Fk",
+                        "name": "Condition Branch",
+                        "title": "Yes",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                          "condition": {
+                            "left_operand": "$activity.definition_activity_01JQ16PJ0WYX05M8kXbqG3Yv7bgTyJMwECh.output.succeeded$",
+                            "operator": "eq",
+                            "right_operand": true
+                          },
+                          "continue_on_failure": false,
+                          "display_name": "Yes",
+                          "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                          {
+                            "unique_name": "definition_activity_01JQ08TC0I5X94Tr70CRkXtQhnInqsEpp6a",
+                            "name": "AMP - Get Connector GUID",
+                            "title": "AMP - Get Connector GUID",
+                            "type": "workflow.atomic_workflow",
+                            "base_type": "subworkflow",
+                            "properties": {
+                              "continue_on_failure": true,
+                              "display_name": "AMP - Get Connector GUID",
+                              "input": {
+                                "variable_workflow_01EO48TNSC9JC3uWgLAXfEGqYO8MmKD2Ail": "$activity.definition_activity_01JQ16PJ0WYX05M8kXbqG3Yv7bgTyJMwECh.output.jsonpath_queries.source_ip$",
+                                "variable_workflow_01EO48TNSCBGM4spAE6GGj77kIra5ERGlgX": ""
+                              },
+                              "runtime_user": {
+                                "target_default": true
+                              },
+                              "skip_execution": false,
+                              "target": {
+                                "override_workflow_target_group_criteria": true,
+                                "target_group": {
+                                  "run_on_all_targets": false,
+                                  "use_criteria": {
+                                    "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                    "conditions": [
+                                      {
+                                        "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                        "operator": "eqi",
+                                        "right_operand": "AMP_Target"
+                                      }
+                                    ]
+                                  }
+                                }
+                              },
+                              "workflow_id": "definition_workflow_01EO48TO48SL35JnXGSvBIqptIfbsjt65eR"
+                            },
+                            "object_type": "definition_activity"
+                          },
+                          {
+                            "unique_name": "definition_activity_01JQ2T2UMVPPA0lTHjZH1IDngju11hu7LPi",
+                            "name": "Condition Block",
+                            "title": "Was the device found in Secure Endpoint?",
+                            "type": "logic.if_else",
+                            "base_type": "activity",
+                            "properties": {
+                              "continue_on_failure": false,
+                              "display_name": "Was the device found in Secure Endpoint?",
+                              "skip_execution": false
+                            },
+                            "object_type": "definition_activity",
+                            "blocks": [
+                              {
+                                "unique_name": "definition_activity_01JQ2T3ACVYTZ49kboDFkLaUEhrTe8br8Kh",
+                                "name": "Condition Branch",
+                                "title": "Yes",
+                                "type": "logic.condition_block",
+                                "base_type": "activity",
+                                "properties": {
+                                  "condition": {
+                                    "left_operand": "$activity.definition_activity_01JQ08TC0I5X94Tr70CRkXtQhnInqsEpp6a.output.succeeded$",
+                                    "operator": "eq",
+                                    "right_operand": true
+                                  },
+                                  "continue_on_failure": false,
+                                  "display_name": "Yes",
+                                  "skip_execution": false
+                                },
+                                "object_type": "definition_activity",
+                                "actions": [
+                                  {
+                                    "unique_name": "definition_activity_01MFSO5URRWD41fRee8s2ayT4Hjy0PjBlZE",
+                                    "name": "AMP - Isolate Host",
+                                    "title": "AMP - Isolate Host",
+                                    "type": "workflow.atomic_workflow",
+                                    "base_type": "subworkflow",
+                                    "properties": {
+                                      "continue_on_failure": true,
+                                      "display_name": "AMP - Isolate Host",
+                                      "input": {
+                                        "variable_workflow_01FLAVEEVLIML1kDED2T9JctB4oQUWBVvaQ": "$activity.definition_activity_01JQ08TC0I5X94Tr70CRkXtQhnInqsEpp6a.output.variable_workflow_01EO48TNSC7E1064kdBZmuA7JuvJ1ZJtux2$"
+                                      },
+                                      "runtime_user": {
+                                        "target_default": true
+                                      },
+                                      "skip_execution": false,
+                                      "target": {
+                                        "override_workflow_target_group_criteria": true,
+                                        "target_group": {
+                                          "run_on_all_targets": false,
+                                          "use_criteria": {
+                                            "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                            "conditions": [
+                                              {
+                                                "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                                "operator": "eqi",
+                                                "right_operand": "AMP_Target"
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      },
+                                      "workflow_id": "definition_workflow_01FLAVEFJ8QLQ7UEi6gFNp1yotu1K18VEZS"
+                                    },
+                                    "object_type": "definition_activity"
+                                  },
+                                  {
+                                    "unique_name": "definition_activity_01MDT5NZ0N8Y51BMPqlyxDtzXWIzooTZVB4",
+                                    "name": "Set Variables",
+                                    "title": "Update list of blocked devices",
+                                    "type": "core.set_multiple_variables",
+                                    "base_type": "activity",
+                                    "properties": {
+                                      "continue_on_failure": false,
+                                      "display_name": "Update list of blocked devices",
+                                      "skip_execution": false,
+                                      "variables_to_update": [
+                                        {
+                                          "variable_to_update": "$workflow.definition_workflow_01JQ060DZK6NK5xH8K3RAQLb9kkLPppMrQU.local.variable_workflow_01MDT2BU1PLHT3lmhMeOib2DTKmJW5GmUFO$",
+                                          "variable_value_new": "$workflow.definition_workflow_01JQ060DZK6NK5xH8K3RAQLb9kkLPppMrQU.local.variable_workflow_01MDT2BU1PLHT3lmhMeOib2DTKmJW5GmUFO$\n$activity.definition_activity_01JQ16PJ0WYX05M8kXbqG3Yv7bgTyJMwECh.output.jsonpath_queries.source_ip$"
+                                        }
+                                      ]
+                                    },
+                                    "object_type": "definition_activity"
+                                  }
+                                ]
+                              },
+                              {
+                                "unique_name": "definition_activity_01JQ2T3CD1IYS22XM9ZlWnT07eRwoeoVPNP",
+                                "name": "Condition Branch",
+                                "title": "No",
+                                "type": "logic.condition_block",
+                                "base_type": "activity",
+                                "properties": {
+                                  "condition": {
+                                    "left_operand": "$activity.definition_activity_01JQ08TC0I5X94Tr70CRkXtQhnInqsEpp6a.output.succeeded$",
+                                    "operator": "eq",
+                                    "right_operand": false
+                                  },
+                                  "continue_on_failure": false,
+                                  "display_name": "No",
+                                  "skip_execution": false
+                                },
+                                "object_type": "definition_activity",
+                                "actions": [
+                                  {
+                                    "unique_name": "definition_activity_01MDT2PDK786R0SH6eypioFIemi7zHix8wg",
+                                    "name": "Set Variables",
+                                    "title": "Update list of not blocked devices",
+                                    "type": "core.set_multiple_variables",
+                                    "base_type": "activity",
+                                    "properties": {
+                                      "continue_on_failure": false,
+                                      "display_name": "Update list of not blocked devices",
+                                      "skip_execution": false,
+                                      "variables_to_update": [
+                                        {
+                                          "variable_to_update": "$workflow.definition_workflow_01JQ060DZK6NK5xH8K3RAQLb9kkLPppMrQU.local.variable_workflow_01MDT2KA3VVE77Atw1kucAGlGQrmgTBPjft$",
+                                          "variable_value_new": "$workflow.definition_workflow_01JQ060DZK6NK5xH8K3RAQLb9kkLPppMrQU.local.variable_workflow_01MDT2KA3VVE77Atw1kucAGlGQrmgTBPjft$\n$activity.definition_activity_01JQ16PJ0WYX05M8kXbqG3Yv7bgTyJMwECh.output.jsonpath_queries.source_ip$"
+                                        }
+                                      ]
+                                    },
+                                    "object_type": "definition_activity"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "unique_name": "definition_activity_01K9FQ9BZO1IY6M3q78XOPGq3C3Ea7mw27Z",
+                    "name": "Set Variables",
+                    "title": "Add device to list of processed devices",
+                    "type": "core.set_multiple_variables",
+                    "base_type": "activity",
+                    "properties": {
+                      "continue_on_failure": false,
+                      "display_name": "Add device to list of processed devices",
+                      "skip_execution": false,
+                      "variables_to_update": [
+                        {
+                          "variable_to_update": "$workflow.definition_workflow_01JQ060DZK6NK5xH8K3RAQLb9kkLPppMrQU.local.variable_workflow_01JQ060DLFM9N00Xw3ZCTk1gyl1DjimP22y$",
+                          "variable_value_new": "$workflow.definition_workflow_01JQ060DZK6NK5xH8K3RAQLb9kkLPppMrQU.local.variable_workflow_01JQ060DLFM9N00Xw3ZCTk1gyl1DjimP22y$ $activity.definition_activity_01JQ068IOABQ76uIwefq5WmkhA5NiuW77Ng.output.jsonpath_queries.source_device$"
+                        }
+                      ]
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01ML0S68CY4CB2PDGoP7aVDYFMPUwZtvFF1",
+        "name": "Parallel Block",
+        "title": "Parallel Block",
+        "type": "logic.parallel",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Parallel Block",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01ML0S6UK3Z1W6GfvkNvVlFcTlQbb5jAfNq",
+            "name": "Parallel Branch",
+            "title": "Clean up blocked list",
+            "type": "logic.parallel_block",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Clean up blocked list",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01ML0S8DR68EO2eLi8Xa7sBG1JOX7jGx9kD",
+                "name": "Condition Block",
+                "title": "Is the list of blocked IPs empty?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Is the list of blocked IPs empty?",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                  {
+                    "unique_name": "definition_activity_01ML0S8PK9Y0M3rSQ942HvKWBYwnT4RAZft",
+                    "name": "Condition Branch",
+                    "title": "Yes",
+                    "type": "logic.condition_block",
+                    "base_type": "activity",
+                    "properties": {
+                      "condition": {
+                        "left_operand": "$workflow.definition_workflow_01JQ060DZK6NK5xH8K3RAQLb9kkLPppMrQU.local.variable_workflow_01MDT2BU1PLHT3lmhMeOib2DTKmJW5GmUFO$",
+                        "operator": "eq",
+                        "right_operand": ""
+                      },
+                      "continue_on_failure": false,
+                      "display_name": "Yes",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity",
+                    "actions": [
+                      {
+                        "unique_name": "definition_activity_01ML0SBDZJGO56I8e9CFTQkgTQLSsgx9aeZ",
+                        "name": "Set Variables",
+                        "title": "Set a default value",
+                        "type": "core.set_multiple_variables",
+                        "base_type": "activity",
+                        "properties": {
+                          "continue_on_failure": false,
+                          "display_name": "Set a default value",
+                          "skip_execution": false,
+                          "variables_to_update": [
+                            {
+                              "variable_to_update": "$workflow.definition_workflow_01JQ060DZK6NK5xH8K3RAQLb9kkLPppMrQU.local.variable_workflow_01MDT2BU1PLHT3lmhMeOib2DTKmJW5GmUFO$",
+                              "variable_value_new": "\nNone"
+                            }
+                          ]
+                        },
+                        "object_type": "definition_activity"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01ML0S6V7UBJH6IxYnGG6SXOwghggNyit41",
+            "name": "Parallel Branch",
+            "title": "Clean up not blocked list",
+            "type": "logic.parallel_block",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Clean up not blocked list",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01ML0SYQN8JRP6xdfXwxpnuHRSSCLGENQVe",
+                "name": "Condition Block",
+                "title": "Is the list of not blocked IPs empty?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Is the list of not blocked IPs empty?",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                  {
+                    "unique_name": "definition_activity_01ML0SZ252L762BymFm1dpKWwx9KXzfZmCo",
+                    "name": "Condition Branch",
+                    "title": "Yes",
+                    "type": "logic.condition_block",
+                    "base_type": "activity",
+                    "properties": {
+                      "condition": {
+                        "left_operand": "$workflow.definition_workflow_01JQ060DZK6NK5xH8K3RAQLb9kkLPppMrQU.local.variable_workflow_01MDT2KA3VVE77Atw1kucAGlGQrmgTBPjft$",
+                        "operator": "eq",
+                        "right_operand": ""
+                      },
+                      "continue_on_failure": false,
+                      "display_name": "Yes",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity",
+                    "actions": [
+                      {
+                        "unique_name": "definition_activity_01ML0SZ2V82K87bZ6Pejq4OqHelpG4jwful",
+                        "name": "Set Variables",
+                        "title": "Set a default value",
+                        "type": "core.set_multiple_variables",
+                        "base_type": "activity",
+                        "properties": {
+                          "continue_on_failure": false,
+                          "display_name": "Set a default value",
+                          "skip_execution": false,
+                          "variables_to_update": [
+                            {
+                              "variable_to_update": "$workflow.definition_workflow_01JQ060DZK6NK5xH8K3RAQLb9kkLPppMrQU.local.variable_workflow_01MDT2KA3VVE77Atw1kucAGlGQrmgTBPjft$",
+                              "variable_value_new": "\nNone"
+                            }
+                          ]
+                        },
+                        "object_type": "definition_activity"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01MFSBT4DZTG71gYt2qNidKyZwBFTh692cx",
+        "name": "Condition Block",
+        "title": "Was a Webex Teams room provided?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Was a Webex Teams room provided?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01MFSBUKROFFJ5ODuAti5lCxcu7wghgBulo",
+            "name": "Condition Branch",
+            "title": "Yes",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$workflow.definition_workflow_01JQ060DZK6NK5xH8K3RAQLb9kkLPppMrQU.local.variable_workflow_01JQ060DLFPRI4TVOeqWLU954bEirGtxlej$",
+                "operator": "ne",
+                "right_operand": ""
+              },
+              "continue_on_failure": false,
+              "display_name": "Yes",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01MFSCCXEAGCT4eV9McXkpHzA65GNpeQOju",
+                "name": "Webex Teams - Search for Room",
+                "title": "Webex Teams - Search for Room",
+                "type": "workflow.atomic_workflow",
+                "base_type": "subworkflow",
+                "properties": {
+                  "continue_on_failure": true,
+                  "display_name": "Webex Teams - Search for Room",
+                  "input": {
+                    "variable_workflow_01FHMU6RWYQWI3QFUEzjWMT7JYBcz5vquuD": "",
+                    "variable_workflow_01FHMU6RWYWY822p43LeMi8Lcx89Q9jeyek": "$workflow.definition_workflow_01JQ060DZK6NK5xH8K3RAQLb9kkLPppMrQU.local.variable_workflow_01JQ060DLFPRI4TVOeqWLU954bEirGtxlej$",
+                    "variable_workflow_01FHMU6RWYY481TVWDm0BQ1p0rWnqak191l": "$workflow.definition_workflow_01JQ060DZK6NK5xH8K3RAQLb9kkLPppMrQU.local.variable_workflow_01JQ060DLFT9G7EYJYe76srq1B1leNU5ovv$",
+                    "variable_workflow_01FHNGCYY2O6Z0NcPmUDabszT2P4P0oqMNd": ""
+                  },
+                  "runtime_user": {
+                    "target_default": true
+                  },
+                  "skip_execution": false,
+                  "target": {
+                    "override_workflow_target_group_criteria": true,
+                    "target_group": {
+                      "run_on_all_targets": false,
+                      "use_criteria": {
+                        "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                        "conditions": [
+                          {
+                            "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                            "operator": "eqi",
+                            "right_operand": "Webex Teams"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "workflow_id": "definition_workflow_01FHMU6SD5XPL6eRW4zFXqkA1w8jWiQCIBU"
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01MFSCXOB7IGX6iguIjIidXH13nDm78q9ZU",
+                "name": "Condition Block",
+                "title": "Did we find the room?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Did we find the room?",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                  {
+                    "unique_name": "definition_activity_01MFSCY8W40565DKFukmwkhpLcQ6WZ7Os86",
+                    "name": "Condition Branch",
+                    "title": "Yes",
+                    "type": "logic.condition_block",
+                    "base_type": "activity",
+                    "properties": {
+                      "condition": {
+                        "left_operand": "$activity.definition_activity_01MFSCCXEAGCT4eV9McXkpHzA65GNpeQOju.output.succeeded$",
+                        "operator": "eq",
+                        "right_operand": true
+                      },
+                      "continue_on_failure": false,
+                      "display_name": "Yes",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity",
+                    "actions": [
+                      {
+                        "unique_name": "definition_activity_01JQ2UVX9C42556IHStUhU9XHuxMQ7PiCV4",
+                        "name": "Webex Teams - Post Message to Room",
+                        "title": "Webex Teams - Post Message to Room",
+                        "type": "workflow.atomic_workflow",
+                        "base_type": "subworkflow",
+                        "properties": {
+                          "continue_on_failure": false,
+                          "display_name": "Webex Teams - Post Message to Room",
+                          "input": {
+                            "variable_workflow_01FGYY44G3MZ55amJu9YqgUeKS8GT49bZx3": "$workflow.definition_workflow_01JQ060DZK6NK5xH8K3RAQLb9kkLPppMrQU.local.variable_workflow_01JQ060DLFT9G7EYJYe76srq1B1leNU5ovv$",
+                            "variable_workflow_01FGYY44G3TK951Crpnd8g2izonyM4bFtpW": "$activity.definition_activity_01MFSCCXEAGCT4eV9McXkpHzA65GNpeQOju.output.variable_workflow_01FHSVE2R6ZTQ6L92WEi0kWgR5T8zhMAUzO$",
+                            "variable_workflow_01FGYY44G3UPV3heGGc3vXCV47YL5WoI2X6": "",
+                            "variable_workflow_01FGYZ9BV4QTP19CuMwcW8QywvCP9ymx2BZ": "Secure Network Analytics  alerts were processed for the period $activity.definition_activity_01MD38Z5YZUOY20zH9LPCoPZ9d4LsrtZpy2.output.result$ through $activity.definition_activity_01MDV06N6447O763dvng0ZLq7hY1vc9hjV0.output.result$. Alerts were found matching a name of \"$workflow.definition_workflow_01JQ060DZK6NK5xH8K3RAQLb9kkLPppMrQU.local.variable_workflow_01JQ060DLFKUI4OCcr6LbwfReLG72d16fUc$\" with a status of \"$workflow.definition_workflow_01JQ060DZK6NK5xH8K3RAQLb9kkLPppMrQU.local.variable_workflow_01JQ060DLFQWT0G3npyXzG7LkwEx3zGg8Gy$\".\nThe following IP addresses were found in Secure Endpoint and isolated:\n```$workflow.definition_workflow_01JQ060DZK6NK5xH8K3RAQLb9kkLPppMrQU.local.variable_workflow_01MDT2BU1PLHT3lmhMeOib2DTKmJW5GmUFO$\n```\nThe following IP addresses were **not** found in Secure Endpoint so no action was taken:\n```$workflow.definition_workflow_01JQ060DZK6NK5xH8K3RAQLb9kkLPppMrQU.local.variable_workflow_01MDT2KA3VVE77Atw1kucAGlGQrmgTBPjft$\n```"
+                          },
+                          "runtime_user": {
+                            "override_target_runtime_user": false,
+                            "target_default": true
+                          },
+                          "skip_execution": false,
+                          "target": {
+                            "override_workflow_target_group_criteria": true,
+                            "target_group": {
+                              "run_on_all_targets": false,
+                              "use_criteria": {
+                                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                "conditions": [
+                                  {
+                                    "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                    "operator": "eqi",
+                                    "right_operand": "Webex Teams"
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          "workflow_id": "definition_workflow_01FGYY44YU521254ygN3Le0In0kEHpiPNpf"
+                        },
+                        "object_type": "definition_activity"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_01KB985T807PN72HWdrDjvYCedj6wNtjbF6"
+    ]
+  },
+  "categories": {
+    "category_01KB985T807PN72HWdrDjvYCedj6wNtjbF6": {
+      "unique_name": "category_01KB985T807PN72HWdrDjvYCedj6wNtjbF6",
+      "name": "Secure Cloud Analytics",
+      "title": "Secure Cloud Analytics",
+      "type": "basic.category",
+      "base_type": "category",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  },
+  "triggers": {
+    "triggerschedule_01MKYL9B59FPU5VmOLxG6l0GLoh0yV8nono": {
+      "workflow_id": "definition_workflow_01JQ060DZK6NK5xH8K3RAQLb9kkLPppMrQU",
+      "name": "Check Secure Cloud Analytics for alerts",
+      "title": "",
+      "lowercase_name": "schedule.check_secure_cloud_analytics_for_alerts",
+      "type": "schedule",
+      "base_type": "trigger",
+      "ref_id": "schedule_01MKYKLVEDINT0h7xHFt67yTGvf0sDXdfGk",
+      "version": "1.0.0",
+      "disabled": true,
+      "unique_name": "triggerschedule_01MKYL9B59FPU5VmOLxG6l0GLoh0yV8nono",
+      "object_type": "triggerschedule"
+    }
+  },
+  "schedules": {
+    "schedule_01MKYKLVEDINT0h7xHFt67yTGvf0sDXdfGk": {
+      "unique_name": "schedule_01MKYKLVEDINT0h7xHFt67yTGvf0sDXdfGk",
+      "name": "0014 - SCA - Isolate Endpoints from Alerts",
+      "description": "This schedule is used to check for new Secure Cloud Analytics events",
+      "type": "basic.schedule",
+      "base_type": "schedule",
+      "properties": {
+        "calendar": "calendar_recurring_1BMfMWvgiDhSjBQ7hTSyvz3NyVZ",
+        "timezone": "Etc/GMT+0",
+        "starttime": "00:00",
+        "interval_hours": 0,
+        "interval_minutes": 0,
+        "number_of_times": 1,
+        "display_name": "0014 - SCA - Isolate Endpoints from Alerts",
+        "description": "This schedule is used to check for new Secure Cloud Analytics events"
+      },
+      "version": "1.0.0",
+      "object_type": "schedule"
+    }
+  },
+  "target_groups": {
+    "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+      "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+      "name": "Default TargetGroup",
+      "title": "Default TargetGroup",
+      "type": "generic.target_group",
+      "base_type": "target_group",
+      "version": "1.0.0",
+      "targets": [
+        {
+          "data_target_type": "web-service.endpoint",
+          "view_target_type": "web-service.endpoint",
+          "include_all_targets": true
+        },
+        {
+          "data_target_type": "email.smtp_endpoint",
+          "view_target_type": "email.smtp_endpoint",
+          "include_all_targets": true
+        },
+        {
+          "data_target_type": "terminal.endpoint",
+          "view_target_type": "terminal.endpoint",
+          "include_all_targets": true
+        },
+        {
+          "data_target_type": "aws.endpoint",
+          "view_target_type": "aws.endpoint",
+          "include_all_targets": true
+        }
+      ],
+      "object_type": "target_group"
+    }
+  },
+  "atomic_workflows": [
+    "definition_workflow_01LXVRGB04NY13gDelFkkl8fdBfksC3AuGG",
+    "definition_workflow_01M0E0YEDJCEI5loR8pHbyIJKhZf8XXdb85",
+    "definition_workflow_01H8OAG0M0TEP6YXQdVScazNJ4Jyg66obMD",
+    "definition_workflow_01FGYY44YU521254ygN3Le0In0kEHpiPNpf",
+    "definition_workflow_01FHMU6SD5XPL6eRW4zFXqkA1w8jWiQCIBU",
+    "definition_workflow_01FLAVEFJ8QLQ7UEi6gFNp1yotu1K18VEZS",
+    "definition_workflow_01EO48TO48SL35JnXGSvBIqptIfbsjt65eR"
+  ]
+}
