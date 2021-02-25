@@ -4,6 +4,7 @@ title: Single Blog Post to SecureX Casebook
 permalink: /workflows/talos/0002-single-post-casebook
 redirect_from:
   - /workflows/0002-talos-single-post
+  - /workflows/0002
 parent: Talos Intelligence
 grand_parent: Workflows
 ---
@@ -29,8 +30,8 @@ This workflow is an adaptation of the sub-workflow used by the [Talos - Get New 
 
 | Date | Notes |
 |:-----|:------|
-| [Nov 24, 2020]({{ site.github.repository_url }}/tree/0ebd8af25b5f496814acc069b6b7f9194e74d4ab/Workflows/0002-Talos-SingleBlogPostToCTRCasebook__definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ) | - Initial release |
-| [Feb 5, 2021]({{ site.github.repository_url }}/tree/ca93628be5470be226835ae4c1bdc99d1fef3e6c/Workflows/0002-Talos-SingleBlogPostToCTRCasebook__definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ) | - Updated to use new Threat Response v2 atomics<br />- Fixed an issue where the Threat Response token could expire during investigation ([Issue #2]({{ site.github.repository_url }}/issues/2))<br />- Added auto-detection for the Threat Response environment URL<br />- Changed how the Webex message and casebook summary are generated to be more reliable and useful |
+| Nov 24, 2020 | - Initial release |
+| Feb 5, 2021 | - Updated to use new Threat Response v2 atomics<br />- Fixed an issue where the Threat Response token could expire during investigation ([Issue #2]({{ site.github.repository_url }}/issues/2))<br />- Added auto-detection for the Threat Response environment URL<br />- Changed how the Webex message and casebook summary are generated to be more reliable and useful |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 
@@ -47,7 +48,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 	* Webex Teams - Search for Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 * (Optional) A Webex Teams access token and room name to post messages to
 
-Note: The latest version of this workflow uses new Threat Response v2 atomic actions. You may need to import these before updating the workflow.
+**Note:** The latest version of this workflow uses new Threat Response v2 atomic actions. You may need to import these before updating the workflow.
 
 ---
 

@@ -4,6 +4,7 @@ title: Microsoft Online Split Tunnel Configuration
 permalink: /workflows/asa/0003-microsoft-split-tunnel
 redirect_from:
   - /workflows/0003-microsoft-asa-split-tunnel
+  - /workflows/0003
 parent: Cisco Adaptive Security Appliance
 grand_parent: Workflows
 ---

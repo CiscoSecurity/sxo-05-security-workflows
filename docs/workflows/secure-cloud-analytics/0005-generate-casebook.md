@@ -4,6 +4,7 @@ title: Generate Casebook with Flow Links
 permalink: /workflows/secure-cloud-analytics/0005-generate-casebook
 redirect_from:
   - /workflows/sca/0005-generate-casebook
+  - /workflows/0005
 parent: Cisco Secure Cloud Analytics
 grand_parent: Workflows
 ---

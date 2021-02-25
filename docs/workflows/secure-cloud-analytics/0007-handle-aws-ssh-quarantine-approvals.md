@@ -4,6 +4,7 @@ title: Handle AWS SSH Quarantine Approvals
 permalink: /workflows/secure-cloud-analytics/0007-handle-aws-ssh-quarantine-approvals
 redirect_from:
   - /workflows/sca/0007-handle-aws-ssh-quarantine-approvals
+  - /workflows/0007
 parent: Cisco Secure Cloud Analytics
 grand_parent: Workflows
 ---

@@ -4,6 +4,7 @@ title: AWS VPN Capacity Expansion
 permalink: /workflows/asa/0008-aws-vpn-capacity
 redirect_from:
   - /workflows/0008-asa-aws-vpn
+  - /workflows/0008
 parent: Cisco Adaptive Security Appliance
 grand_parent: Workflows
 ---

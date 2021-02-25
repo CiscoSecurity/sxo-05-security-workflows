@@ -4,6 +4,7 @@ title: Microsoft Online Object Group Update
 permalink: /workflows/cdo/0004-microsoft-group-update
 redirect_from:
   - /workflows/0004-microsoft-cdo-group-update
+  - /workflows/0004
 parent: Cisco Defense Orchestrator
 grand_parent: Workflows
 ---

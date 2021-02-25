@@ -4,6 +4,7 @@ title: Phishing Investigation
 permalink: /workflows/email/0010-phishing-investigation
 redirect_from:
   - /workflows/0010-phishing-investigation
+  - /workflows/0010
 parent: Email
 grand_parent: Workflows
 ---
@@ -24,8 +25,9 @@ This workflow monitors a mailbox for incoming phishing reports. When an email is
 
 | Date | Notes |
 |:-----|:------|
-| [Jan 21, 2021]({{ site.github.repository_url }}/tree/b07a568c16e23270b4d88de743a49c37656e8aea/Workflows/0010-Phishing-Investigation__definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC) | - Initial release |
-| [Jan 29, 2021]({{ site.github.repository_url }}/tree/52a20f67802c59bdda768dfd613b3873e3269d3f/Workflows/0010-Phishing-Investigation__definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC) | - Changed Threat Grid disposition for scores less than 70 to Unknown instead of Clean<br />- Removed the email notification to the reporting user when everything is clean/unknown. The SOC should take over the investigation from this point and make the final determination<br />- Fixed Threat Grid submission count not being incremented for URL submissions<br />- Added an environment variable for the Threat Grid instance URL |
+| Jan 21, 2021 | - Initial release |
+| Jan 29, 2021 | - Changed Threat Grid disposition for scores less than 70 to Unknown instead of Clean<br />- Removed the email notification to the reporting user when everything is clean/unknown. The SOC should take over the investigation from this point and make the final determination<br />- Fixed Threat Grid submission count not being incremented for URL submissions<br />- Added an environment variable for the Threat Grid instance URL |
+| Feb 25, 2021 | - Added the subject and sender of the reported email as observables ([Issue #10]({{ site.github.repository_url }}/issues/10))<br />- Updated the Python script that generates casebook text to handle truncation more reliably ([Issue #12]({{ site.github.repository_url }}/issues/12))<br />- Updated the incident and casebook text with the reported email's actual subject ([Issue #8]({{ site.github.repository_url }}/issues/8)) |
 
 _See the [Important Notes]({{ site.baseurl }}/notes#workflows) page for more information about updating workflows_
 

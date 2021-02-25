@@ -4,6 +4,7 @@ title: SolarWinds Investigation
 permalink: /workflows/talos/0011-solarwinds-investigation
 redirect_from:
   - /workflows/0011-solarwinds-investigation
+  - /workflows/0011
 parent: Talos Intelligence
 grand_parent: Workflows
 ---
@@ -40,7 +41,7 @@ This workflow uses a Talos blog post about the SolarWinds supply chain attack as
 * (Optional) A Webex Teams access token and room name to post messages to
 * (Optional) A Slack access token and a channel name to post messages to
 
-Note: You may have an old version of the `Webex Teams - Post Message to Room` atomic. To ensure the best experience with this workflow, be sure to import the latest version of this atomic from the `GitHub_Target_Atomics` repository!
+**Note:** You may have an old version of the `Webex Teams - Post Message to Room` atomic. To ensure the best experience with this workflow, be sure to import the latest version of this atomic from the `GitHub_Target_Atomics` repository!
 
 ---
 
