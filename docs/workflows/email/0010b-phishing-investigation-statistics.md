@@ -1,16 +1,17 @@
 ---
 layout: page
 title: Phishing Investigation - Statistics
-permalink: /workflows/email/0010b-phishing-investigation-statistics
+permalink: /workflows/email/0010B-phishing-investigation-statistics
 redirect_from:
   - /workflows/0010b-phishing-investigation-statistics
+  - /workflows/0010B
 parent: Email
 grand_parent: Workflows
 ---
 
 # Phishing Investigation - Statistics
 <div markdown="1">
-Workflow #0010b
+Workflow #0010B
 {: .label }
 </div>
 
@@ -24,8 +25,8 @@ This workflow sends an email summary of [Phishing Investigation]({{ site.baseurl
 
 | Date | Notes |
 |:-----|:------|
-| [Jan 21, 2021]({{ site.github.repository_url }}/tree/259082213857c466281d5de6a1ee501749f80000/Workflows/0010B-Phishing-Investigation-Statistics__definition_workflow_01LGZYVFSRNN30RM2UpqqTn21KA19UuFr3y) | - Initial release |
-| [Feb 4, 2021]({{ site.github.repository_url }}/tree/bea4f0c1e9b248c6e22fc29861217c710b681b48/Workflows/0010B-Phishing-Investigation-Statistics__definition_workflow_01LGZYVFSRNN30RM2UpqqTn21KA19UuFr3y) | - Updated the runtime calculation Python script to fix some possible failures |
+| Jan 21, 2021 | - Initial release |
+| Feb 4, 2021 | - Updated the runtime calculation Python script to fix some possible failures |
 
 _See the [Important Notes]({{ site.baseurl }}/notes#workflows) page for more information about updating workflows_
 

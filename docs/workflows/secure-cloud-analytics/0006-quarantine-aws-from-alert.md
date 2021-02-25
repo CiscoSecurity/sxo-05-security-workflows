@@ -4,6 +4,7 @@ title: Quarantine AWS Instances from Alerts
 permalink: /workflows/secure-cloud-analytics/0006-quarantine-aws-from-alert
 redirect_from:
   - /workflows/sca/0006-quarantine-aws-from-alert
+  - /workflows/0006
 parent: Cisco Secure Cloud Analytics
 grand_parent: Workflows
 ---

@@ -2,6 +2,8 @@
 layout: page
 title: Threat Hunting Events to Incidents
 permalink: /workflows/secure-endpoint/0012-threat-hunting-to-incidents
+redirect_from:
+  - /workflows/0012
 parent: Cisco Secure Endpoint
 grand_parent: Workflows
 ---

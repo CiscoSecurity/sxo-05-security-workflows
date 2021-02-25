@@ -4,6 +4,7 @@ title: Get New Blog Posts
 permalink: /workflows/talos/0001-get-new-blog-posts
 redirect_from:
   - /workflows/0001-talos-blog
+  - /workflows/0001
 parent: Talos Intelligence
 grand_parent: Workflows
 ---
