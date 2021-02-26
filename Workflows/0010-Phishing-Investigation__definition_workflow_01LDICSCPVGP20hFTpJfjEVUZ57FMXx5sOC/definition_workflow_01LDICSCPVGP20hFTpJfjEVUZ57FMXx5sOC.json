@@ -3445,7 +3445,7 @@
                       "action_timeout": 180,
                       "continue_on_failure": false,
                       "display_name": "Truncate the ticket text",
-                      "script": "import sys\n\n# Placeholder for the output text\ntrimmedText = \"\"\n\n# Check if we need to truncate\nif len(sys.argv[1]) <= 4300:\n\ttrimmedText = sys.argv[1]\nelse:\n\t# Loop through each line of input\n\tfor line in sys.argv[1].split(\"\\\\n\"):\n\t\t# Is the message too long?\n\t\tif len(trimmedText) > 4300:\n\t\t\t# Yes, so add a warning and stop the look\n\t\t\ttrimmedText = trimmedText + \"\\nNOTE: Additional investigation information was truncated due to message length limits\"\n\t\t\tbreak\n\t\telse:\n\t\t\t# No, so keep appending\n\t\t\ttrimmedText = trimmedText + \"\\n\" + line",
+                      "script": "import sys\n\n# Placeholder for the output text\ntrimmedText = \"\"\n\n# Check if we need to truncate\nif len(sys.argv[1]) <= 4200:\n\ttrimmedText = sys.argv[1]\nelse:\n\t# Loop through each line of input\n\tfor line in sys.argv[1].split(\"\\n\"):\n\t\t# Is the message too long?\n\t\tif len(trimmedText) > 4200:\n\t\t\t# Yes, so add a warning and stop the look\n\t\t\ttrimmedText = trimmedText + \"\\nNOTE: Additional investigation information was truncated due to message length limits\"\n\t\t\tbreak\n\t\telse:\n\t\t\t# No, so keep appending\n\t\t\ttrimmedText = trimmedText + \"\\n\" + line",
                       "script_arguments": [
                         "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLOJT3g5rFBLxbOBw1UlF0Ql9mi$"
                       ],
