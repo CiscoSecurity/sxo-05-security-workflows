@@ -18,7 +18,7 @@ This page contains a list of all of the workflows published in the repository so
 | 0005 | Cisco Secure Cloud Analytics | [Generate Casebook with Flow Links]({{ site.baseurl }}/workflows/0005) |
 | 0006 | Cisco Secure Cloud Analytics | [Quarantine AWS Instances from Alerts]({{ site.baseurl }}/workflows/0006) |
 | 0007 | Cisco Secure Cloud Analytics | [Handle AWS SSH Quarantine Approvals]({{ site.baseurl }}/workflows/0007) |
-| 0008 | Cisco Adaptive Security Appliance | [AWS VPN Capacity Expansion]({{ site.baseurl }}/workflows/asa/0008) |
+| 0008 | Cisco Adaptive Security Appliance | [AWS VPN Capacity Expansion]({{ site.baseurl }}/workflows/0008) |
 | 0009 | Cisco Orbital | [CVE Hunt to ServiceNow Incident]({{ site.baseurl }}/workflows/0009) |
 | 0010 | Email | [Phishing Investigation]({{ site.baseurl }}/workflows/0010) |
 | 0010B | Email | [Phishing Investigation - Statistics]({{ site.baseurl }}/workflows/0010B) |
