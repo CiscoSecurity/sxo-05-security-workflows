@@ -23,6 +23,6 @@ This page contains a list of all of the workflows published in the repository so
 | 0010 | Email | [Phishing Investigation]({{ site.baseurl }}/workflows/0010) |
 | 0010B | Email | [Phishing Investigation - Statistics]({{ site.baseurl }}/workflows/0010B) |
 | 0011 | Talos Intelligence | [SolarWinds Investigation]({{ site.baseurl }}/workflows/0011) |
-| 0012 | Cisco Secure Endpoint | [Threat Hunting Events to Incidents]({{ site.baseurl }}/workflows/0012)
-| 0013 | Cisco Firepower | [Impact Red Remediation]({{ site.baseurl }}/workflows/0013)
-| 0014 | Cisco Secure Cloud Analytics | [Isolate Endpoints from Alerts]({{ site.baseurl }}/workflows/0014)
+| 0012 | Cisco Secure Endpoint | [Threat Hunting Events to Incidents]({{ site.baseurl }}/workflows/0012) |
+| 0013 | Cisco Secure Firewall | [Impact Red Remediation]({{ site.baseurl }}/workflows/0013) |
+| 0014 | Cisco Secure Cloud Analytics | [Isolate Endpoints from Alerts]({{ site.baseurl }}/workflows/0014) |
