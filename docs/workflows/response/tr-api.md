@@ -27,7 +27,7 @@ The following limitations apply to using the Threat Response API with workflows:
 ---
 
 ## Generating an API Client
-If you don't already have a Threat Response API client with the **Response** scope, follow these steps:
+If you don't already have a SecureX API client with the **Response** scope, follow these steps:
 
 1. Log into SecureX and click on the **Administration** tab
 1. Click on **API Clients** on the left menu
