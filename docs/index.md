@@ -35,4 +35,4 @@ SecureX Orchestration comes with a variety of built-in activities for core funct
 ---
 
 ## Disclaimer
-All content in this repository is provided AS-IS under the [Cisco Sample Code License](https://github.com/CiscoSecurity/sxo-05-security-workflows/blob/Main/LICENSE.md).
+All content in this repository is provided AS-IS under the [Cisco Sample Code License]({{ site.github.repository_url }}/blob/Main/LICENSE.md).

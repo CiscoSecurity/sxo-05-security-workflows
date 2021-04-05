@@ -26,3 +26,9 @@ This page contains a list of all of the workflows published in the repository so
 | 0012 | Cisco Secure Endpoint | [Threat Hunting Events to Incidents]({{ site.baseurl }}/workflows/0012) |
 | 0013 | Cisco Secure Firewall | [Impact Red Remediation]({{ site.baseurl }}/workflows/0013) |
 | 0014 | Cisco Secure Cloud Analytics | [Isolate Endpoints from Alerts]({{ site.baseurl }}/workflows/0014) |
+| 0015A | Cisco Secure Firewall | Block Observables - Setup (Coming Soon) |
+| 0015B | Cisco Secure Firewall | Block Observables (Coming Soon) |
+| 0016 | Cisco Secure Cloud Analytics | [Block IPs and Domains from Alerts in Umbrella]({{ site.baseurl }}/workflows/0016) |
+| 0017 | Cisco Umbrella | [Add to Destination List]({{ site.baseurl }}/workflows/0017) |
+| 0018 | ServiceNow | [Request Firewall NullRoute]({{ site.baseurl }}/workflows/0018) |
+| 0019 | Cisco Meraki | [MX L3 Outbound Firewall Block]({{ site.baseurl }}/workflows/0019) |
