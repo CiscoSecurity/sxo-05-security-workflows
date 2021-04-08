@@ -31,7 +31,7 @@ $color-cisco-green: #6abf4b;
 $color-cisco-sky-blue: #00bceb;
 $color-cisco-midnight-blue: #0d274d;
 $color-cisco-ocean-blue: #1e4471;
-$color-cisco-web-blue: rgb(1, 117, 162);
+$color-cisco-ghost-blue: #0175A2;
 $color-cisco-red: #e2231a;
 $color-cisco-orange: #fbab18;
 
@@ -54,11 +54,14 @@ $media-queries: (
 /* Custom buttons */
 .btn-cisco-sky-blue {
 	font-family: CiscoSans, Arial, sans-serif;
-	font-size: 18px;
+	font-size: 16px;
 	font-weight: 400;
 	text-align: center;
 	
-	padding: 8px 20px;
+	display: inline-block;
+	
+	padding: 4px 15px;
+	border: 1px solid $color-cisco-sky-blue;
 	border-radius: 100px;
 	line-height: 1.5;
 	margin-bottom: 0;
@@ -69,81 +72,62 @@ $media-queries: (
 	
 	&:hover, &.zeroclipboard-is-hover {
 		color: $color-cisco-midnight-blue;
-		background-color: lighten($color-cisco-sky-blue, 4%);
+		background-color: #33C9EF;
 	}
 	
 	&:active,
 	&.selected,
 	&.zeroclipboard-is-active {
-		background-color: lighten($color-cisco-sky-blue, 5%);
+		background-color: #66D6F3;
 	}
 	
 	&.selected:hover {
-		background-color: lighten($color-cisco-sky-blue, 10%);
-	}
-}
-
-.btn-cisco-ocean-blue {
-	font-family: CiscoSans, Arial, sans-serif;
-	font-size: 18px;
-	font-weight: 400;
-	text-align: center;
-	
-	padding: 8px 20px;
-	border-radius: 100px;
-	line-height: 1.5;
-	margin-bottom: 0;
-	min-width: 140px;
-	
-	color: $white;
-	background-color: $color-cisco-ocean-blue;
-	
-	&:hover, &.zeroclipboard-is-hover {
-		background-color: lighten($color-cisco-ocean-blue, 5%);
-	}
-	
-	&:active,
-	&.selected,
-	&.zeroclipboard-is-active {
-		background-color: lighten($color-cisco-ocean-blue, 5%);
-	}
-	
-	&.selected:hover {
-		background-color: lighten($color-cisco-ocean-blue, 10%);
+		background-color: #00BCEB;
 	}
 }
 
 .btn-cisco-outline {
 	font-family: CiscoSans, Arial, sans-serif;
-	font-size: 18px;
+	font-size: 16px;
 	font-weight: 400;
 	text-align: center;
 	
-	padding: 8px 20px;
-	border: 1px solid $color-cisco-web-blue;
+	display: inline-block;
+	
+	padding: 4px 15px;
+	border: 1px solid $color-cisco-ghost-blue;
 	border-radius: 100px;
 	line-height: 1.5;
 	margin-bottom: 0;
 	min-width: 140px;
 	
-	color: $color-cisco-web-blue;
+	color: $color-cisco-ghost-blue;
 	background-color: $white;
 	
 	&:hover, &.zeroclipboard-is-hover {
 		color: $white;
-		background-color: $color-cisco-midnight-blue;
+		background-color: #18365A;
+		border: 1px solid #18365A;
 	}
 	
 	&:active,
 	&.selected,
 	&.zeroclipboard-is-active {
 		color: $white;
-		background-color: $color-cisco-midnight-blue;
+		background-color: #122843;
+		border: 1px solid #122843;
 	}
 	
 	&.selected:hover {
 		color: $white;
-		background-color: l$color-cisco-midnight-blue;
+		background-color: #1E4471;
+		border: 1px solid #1E4471;
+	}
+}
+
+@media only screen and (min-width: 1024px) {
+	.btn-cisco-sky-blue, .btn-cisco-outline {
+		font-size: 18px;
 	}
 }
 
@@ -178,4 +162,34 @@ hr {
 	background-repeat: no-repeat;
 	background-position: 8px;
 	padding-left: 60px !important;
+}
+
+.cisco-alert {
+	padding: 5px 0px 5px 10px;
+    background-color: #F3F3F3;
+    margin: 15px 0px;
+}
+
+.cisco-alert-danger {
+	border-left: 4px solid $color-cisco-red;
+}
+
+.cisco-alert-info {
+	border-left: 4px solid $color-cisco-sky-blue;
+}
+
+.cisco-alert-success {
+	border-left: 4px solid $color-cisco-green;
+}
+
+.cisco-icon-danger {
+	color: $color-cisco-red;
+}
+
+.cisco-icon-info {
+	color: $color-cisco-sky-blue;
+}
+
+.cisco-icon-success {
+	color: $color-cisco-green;
 }

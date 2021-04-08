@@ -10,6 +10,7 @@ nav_order: 20
 This page contains an index of sample workflows available for various SecureX Orchestration activities and components.
 
 * [Condition Block]({{ site.baseurl }}/activities/condition-block#sample-workflows)
+* [Create Approval Request]({{ site.baseurl }}/activities/tasks/create-approval)
 * [Date and Time]({{ site.baseurl }}/activities/date-time)
 * [Execute Python Script]({{ site.baseurl }}/activities/python#sample-workflows)
 * [For Each Loop]({{ site.baseurl }}/activities/foreach-loop#sample-workflows)
@@ -20,5 +21,6 @@ This page contains an index of sample workflows available for various SecureX Or
 * [Response Workflows - Threat Response API]({{ site.baseurl }}/workflows/response/tr-api#sample-workflows)
 * [Tables]({{ site.baseurl }}/activities/tables#sample-workflows)
 * [Target Groups]({{ site.baseurl }}/workflows/target-groups#sample-workflows)
+* [Wait For Event]({{ site.baseurl }}/activities/tasks/wait-for-event)
 * [While Loop]({{ site.baseurl }}/activities/while-loop#sample-workflows)
 * [XPath Query]({{ site.baseurl }}/activities/xpath-query#sample-workflows)

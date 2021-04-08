@@ -1,0 +1,193 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01N3JZPFZE2BA67aIDznZOSPLHY5kK5sH8H",
+    "name": "Sample - Tasks - Approval Task",
+    "title": "Sample - Tasks - Approval Task",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Your Email Address",
+          "type": "datatype.string",
+          "description": "The email address you use when signing in to SecureX. If this doesn't match what you're logged in as, you won't be able to act on the approval task this workflow creates",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01N3L23NSCQ134jo2BcnHlUqfhdAgaCHar1",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "description": "This workflow shows a simple example of how to create an approval request and wait for it to be acted upon. Approval tasks can only be acted upon by their assignees, so when you run this workflow be sure to provide the email address you use when logging in to SecureX.\n\nTargets: None\n\nSteps:\n[] Create the approval request\n[] Wait for the approval request to be completed\n[] End the workflow\n\nMore information about tasks can be found here: https://cs.co/SXO_docs\n\nRun this workflow and inspect each activity's output carefully.",
+      "display_name": "Sample - Tasks - Approval Task",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": true,
+        "target_group": {
+          "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+          "run_on_all_targets": false,
+          "selected_target_types": [
+            "web-service.endpoint"
+          ],
+          "use_criteria": {
+            "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+            "conditions": [
+              {
+                "operator": "eqi",
+                "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                "right_operand": "CTR_API"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01N3L0YV4QDIN7H4kW1NoSQmyM5G9GRvbiu",
+        "name": "Create Approval Request",
+        "title": "Create Approval Request",
+        "type": "task.approval_request",
+        "base_type": "activity",
+        "properties": {
+          "approval_choices": [
+            "Approve",
+            "Reject",
+            "Something Else"
+          ],
+          "assignees": [
+            "$workflow.definition_workflow_01N3JZPFZE2BA67aIDznZOSPLHY5kK5sH8H.input.variable_workflow_01N3L23NSCQ134jo2BcnHlUqfhdAgaCHar1$"
+          ],
+          "continue_on_failure": false,
+          "display_name": "Create Approval Request",
+          "due_date": {
+            "is_relative_time": true,
+            "is_specified_date": false,
+            "relative_time": {
+              "duration": 30,
+              "time_units": "mins"
+            },
+            "set_due_date": true
+          },
+          "expiration_date": {
+            "is_relative_time": true,
+            "is_specified_date": false,
+            "relative_time": {
+              "duration": 1,
+              "time_units": "hours"
+            }
+          },
+          "expiration_status": "Expired",
+          "minimum_approvals": 1,
+          "priority": "normal",
+          "skip_execution": false,
+          "subject_line": "Test approval task!",
+          "task_message": "This is what an approval task looks like! You can use variables here if you want:\n\nApprover: $workflow.definition_workflow_01N3JZPFZE2BA67aIDznZOSPLHY5kK5sH8H.input.variable_workflow_01N3L23NSCQ134jo2BcnHlUqfhdAgaCHar1$",
+          "task_owner": "owner@company.com",
+          "task_requestor": "requestor@company.com"
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01N3L12LRJ17F4tEhLc2yX5NeoDJSsQM1CH",
+        "name": "Wait For Event",
+        "title": "Wait For Event",
+        "type": "task.wait_for_event",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Wait For Event",
+          "event_info": {
+            "add_event": true,
+            "event_definition": {
+              "conditions": {
+                "left_operand": "$output.task_id$",
+                "operator": "eq",
+                "right_operand": "$activity.definition_activity_01N3L0YV4QDIN7H4kW1NoSQmyM5G9GRvbiu.output.task_id$"
+              }
+            }
+          },
+          "event_type": "approval_task.event",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01N3L6V34I7CN3AL8CWv81Y93yrNil8gML0",
+        "name": "Completed",
+        "title": "Completed",
+        "type": "logic.completed",
+        "base_type": "activity",
+        "properties": {
+          "completion_type": "succeeded",
+          "continue_on_failure": false,
+          "display_name": "Completed",
+          "result_message": "Approval task completed!\n\nThe response from $activity.definition_activity_01N3L12LRJ17F4tEhLc2yX5NeoDJSsQM1CH.output.assignee_responses[0].assignee$ was $activity.definition_activity_01N3L12LRJ17F4tEhLc2yX5NeoDJSsQM1CH.output.assignee_responses[0].response$",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_01K8NQAII212R5jdJi1LLd5SCDT9F91tvBR"
+    ]
+  },
+  "categories": {
+    "category_01K8NQAII212R5jdJi1LLd5SCDT9F91tvBR": {
+      "unique_name": "category_01K8NQAII212R5jdJi1LLd5SCDT9F91tvBR",
+      "name": "Sample Workflow",
+      "title": "Sample Workflow",
+      "type": "basic.category",
+      "base_type": "category",
+      "description": "Simple workflows that show how to use various aspects of SecureX orchestration",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  },
+  "target_groups": {
+    "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+      "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+      "name": "Default TargetGroup",
+      "title": "Default TargetGroup",
+      "type": "generic.target_group",
+      "base_type": "target_group",
+      "version": "1.0.0",
+      "targets": [
+        {
+          "data_target_type": "web-service.endpoint",
+          "view_target_type": "web-service.endpoint",
+          "include_all_targets": true
+        },
+        {
+          "data_target_type": "email.smtp_endpoint",
+          "view_target_type": "email.smtp_endpoint",
+          "include_all_targets": true
+        },
+        {
+          "data_target_type": "terminal.endpoint",
+          "view_target_type": "terminal.endpoint",
+          "include_all_targets": true
+        },
+        {
+          "data_target_type": "aws.endpoint",
+          "view_target_type": "aws.endpoint",
+          "include_all_targets": true
+        }
+      ],
+      "object_type": "target_group"
+    }
+  }
+}

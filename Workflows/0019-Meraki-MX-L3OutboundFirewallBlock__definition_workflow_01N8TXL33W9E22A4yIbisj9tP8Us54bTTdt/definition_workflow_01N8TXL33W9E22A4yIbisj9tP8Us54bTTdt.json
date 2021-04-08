@@ -1,0 +1,471 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01N8TXL33W9E22A4yIbisj9tP8Us54bTTdt",
+    "name": "0019 - Meraki - MX - L3 Outbound Firewall Block",
+    "title": "0019 - Meraki - MX - L3 Outbound Firewall Block",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "Meraki API Key",
+          "type": "datatype.secure_string",
+          "description": "Your Meraki API key. This can be generated in your Meraki dashboard",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01N8TZYS3UXYB6Id7fVa2f4xOjeHgJl2plk",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "observable_value",
+          "type": "datatype.string",
+          "description": "The value of the observable pivoted on",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01N8TYN67OPH77kqFsZTKmJF2wKF25adMqi",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "Network Name",
+          "type": "datatype.string",
+          "description": "The name of the network to manage firewall rules for",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01N8UD1SUI9TM1JXxwB7jc8UIeTn2prk9ql",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "observable_type",
+          "type": "datatype.string",
+          "description": "The type of observable pivoted on",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01N8TYSM6J4K10CzAZDyqs4dClwVGlWgqwW",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "description": "This workflow blocks the given IP adress on a Meraki MX outbound L3 firewall (using the input observable as the rule's destination). Supported observable: ip.\n\nTarget Group: Default TargetGroup\n\nTargets: Cisco Meraki\n\nSteps:\n[] Make sure the observable type provided is supported\n[] Get the Meraki API key from a global variable (optional)\n[] Get information about the Meraki network being modified\n[] Get the existing L3 firewall rules\n[] Add the new L3 firewall rule\n[] Update the firewall rules\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0019",
+      "display_name": "0019 - Meraki - MX - L3 Outbound Firewall Block",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": true,
+        "target_group": {
+          "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+          "run_on_all_targets": false,
+          "selected_target_types": [
+            "web-service.endpoint"
+          ],
+          "use_criteria": {
+            "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+            "conditions": [
+              {
+                "operator": "eqi",
+                "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                "right_operand": "Cisco Meraki"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01N8U2EPWJO9S7VezVebfgvDR1TYHGJxExx",
+        "name": "Condition Block",
+        "title": "Is the observable type supported?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Is the observable type supported?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01N8U2FGTWBCA54bW2QrmZkB6vIemsCB2NX",
+            "name": "Condition Branch",
+            "title": "No",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$workflow.definition_workflow_01N8TXL33W9E22A4yIbisj9tP8Us54bTTdt.input.variable_workflow_01N8TYSM6J4K10CzAZDyqs4dClwVGlWgqwW$",
+                "operator": "ne",
+                "right_operand": "ip"
+              },
+              "continue_on_failure": false,
+              "display_name": "No",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01N8U311GXEED38UrU3PBxoZe5J4S2rVY54",
+                "name": "Completed",
+                "title": "Unsupported observable",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Unsupported observable",
+                  "result_message": "The observable type \"$workflow.definition_workflow_01N8TXL33W9E22A4yIbisj9tP8Us54bTTdt.input.variable_workflow_01N8TYSM6J4K10CzAZDyqs4dClwVGlWgqwW$\" is not supported by this workflow",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01N8TZG7UN36K5SMmBPqs4gRSDcMitq95U7",
+        "name": "Group",
+        "title": "Fetch global variables",
+        "type": "logic.group",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Fetch global variables",
+          "skip_execution": true
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01N8TZJNW8Z9U4cJZiSTB6dTD7XuSuuPWL2",
+            "name": "Set Variables",
+            "title": "Update local variables",
+            "type": "core.set_multiple_variables",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Update local variables",
+              "skip_execution": false,
+              "variables_to_update": [
+                {
+                  "variable_to_update": "$workflow.definition_workflow_01N8TXL33W9E22A4yIbisj9tP8Us54bTTdt.local.variable_workflow_01N8TZYS3UXYB6Id7fVa2f4xOjeHgJl2plk$",
+                  "variable_value_new": ""
+                }
+              ]
+            },
+            "object_type": "definition_activity"
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01NIUZ8QK9XMH0QC0qnsHlVAwKjwChutFpj",
+        "name": "Group",
+        "title": "Get network information",
+        "type": "logic.group",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Get network information",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01NIUYXPKCERN79mhcDnjpvuGYiH1fynQwg",
+            "name": "Meraki - Get Organizations",
+            "title": "Meraki - Get Organizations",
+            "type": "workflow.atomic_workflow",
+            "base_type": "subworkflow",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Meraki - Get Organizations",
+              "input": {
+                "variable_workflow_01N8U1613Y78R4NtudsFllndh7zWxvfvPfQ": "$workflow.definition_workflow_01N8TXL33W9E22A4yIbisj9tP8Us54bTTdt.local.variable_workflow_01N8TZYS3UXYB6Id7fVa2f4xOjeHgJl2plk$"
+              },
+              "runtime_user": {
+                "target_default": true
+              },
+              "skip_execution": false,
+              "target": {
+                "use_workflow_target_group": true
+              },
+              "workflow_id": "definition_workflow_01N8TO2HK1Q8U0JgFhBJbF2XBKYElhuFXU5"
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01NIUZDGT31HH1HzRO7HjC6ZgxHfrtJjRBt",
+            "name": "JSONPath Query",
+            "title": "Extract organization ID",
+            "type": "corejava.jsonpathquery",
+            "base_type": "activity",
+            "properties": {
+              "action_timeout": 180,
+              "continue_on_failure": false,
+              "display_name": "Extract organization ID",
+              "input_json": "$activity.definition_activity_01NIUYXPKCERN79mhcDnjpvuGYiH1fynQwg.output.variable_workflow_01N8TO2HCOMCH0wr6TF0gzXkVQTEuU3A5RH$",
+              "jsonpath_queries": [
+                {
+                  "jsonpath_query": "$.[0].id",
+                  "jsonpath_query_name": "organizationId",
+                  "jsonpath_query_type": "string"
+                }
+              ],
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01NIUZ1IQQMRL0TVEOUnJhQu0wi8wlTWWuI",
+            "name": "Meraki - Get Networks by Organization",
+            "title": "Meraki - Get Networks by Organization",
+            "type": "workflow.atomic_workflow",
+            "base_type": "subworkflow",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Meraki - Get Networks by Organization",
+              "input": {
+                "variable_workflow_01NIUUU85LKOM0PM2fs2LjkukEhcZG6F7hw": "$workflow.definition_workflow_01N8TXL33W9E22A4yIbisj9tP8Us54bTTdt.local.variable_workflow_01N8TZYS3UXYB6Id7fVa2f4xOjeHgJl2plk$",
+                "variable_workflow_01NIUUU85LQEO61Uhyea8qFhSjiRxJtxhGo": "$activity.definition_activity_01NIUZDGT31HH1HzRO7HjC6ZgxHfrtJjRBt.output.jsonpath_queries.organizationId$"
+              },
+              "runtime_user": {
+                "target_default": true
+              },
+              "skip_execution": false,
+              "target": {
+                "use_workflow_target_group": true
+              },
+              "workflow_id": "definition_workflow_01NIUUU8CESJ01PTgqNzCUkRvhOYX6oY2Nq"
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01NIV0P1IPFTB5IDKeYL7E1e1FcaGOpz9jh",
+            "name": "JSONPath Query",
+            "title": "Extract network ID",
+            "type": "corejava.jsonpathquery",
+            "base_type": "activity",
+            "properties": {
+              "action_timeout": 180,
+              "continue_on_failure": true,
+              "display_name": "Extract network ID",
+              "input_json": "$activity.definition_activity_01NIUZ1IQQMRL0TVEOUnJhQu0wi8wlTWWuI.output.variable_workflow_01NIUUU85LP4M6JmKreuqKzXPoD1vqM9ody$",
+              "jsonpath_queries": [
+                {
+                  "jsonpath_query": "$.[?(@.name==\"$workflow.definition_workflow_01N8TXL33W9E22A4yIbisj9tP8Us54bTTdt.local.variable_workflow_01N8UD1SUI9TM1JXxwB7jc8UIeTn2prk9ql$\")].id",
+                  "jsonpath_query_name": "networkId",
+                  "jsonpath_query_type": "string"
+                }
+              ],
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01NIVAZ8LMVR41NAV6thZnNeDwhPSc1fOcA",
+            "name": "Condition Block",
+            "title": "Were we able to extract the network ID",
+            "type": "logic.if_else",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Were we able to extract the network ID",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "blocks": [
+              {
+                "unique_name": "definition_activity_01NIVAZZ55DPS285H3sJwYiMAHvdrTEkWBK",
+                "name": "Condition Branch",
+                "title": "No",
+                "type": "logic.condition_block",
+                "base_type": "activity",
+                "properties": {
+                  "condition": {
+                    "left_operand": "$activity.definition_activity_01NIV0P1IPFTB5IDKeYL7E1e1FcaGOpz9jh.output.succeeded$",
+                    "operator": "eq",
+                    "right_operand": false
+                  },
+                  "continue_on_failure": false,
+                  "display_name": "No",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01NIVCAJ04HE36cf1Jlug8lucF1m0e6T5Oa",
+                    "name": "Completed",
+                    "title": "Unknown network",
+                    "type": "logic.completed",
+                    "base_type": "activity",
+                    "properties": {
+                      "completion_type": "failed-completed",
+                      "continue_on_failure": false,
+                      "display_name": "Unknown network",
+                      "result_message": "Failed to extract an ID for the network \"$workflow.definition_workflow_01N8TXL33W9E22A4yIbisj9tP8Us54bTTdt.local.variable_workflow_01N8UD1SUI9TM1JXxwB7jc8UIeTn2prk9ql$\".\n\nNetworks for your organization;\n$activity.definition_activity_01NIUZ1IQQMRL0TVEOUnJhQu0wi8wlTWWuI.output.variable_workflow_01NIUUU85LP4M6JmKreuqKzXPoD1vqM9ody$",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01N8TXZWKFTLC6Uxhb4XUdp3IMTGe5XLj6y",
+        "name": "Meraki - Network - MX - Get L3 Firewall Rules",
+        "title": "Meraki - Network - MX - Get L3 Firewall Rules",
+        "type": "workflow.atomic_workflow",
+        "base_type": "subworkflow",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Meraki - Network - MX - Get L3 Firewall Rules",
+          "input": {
+            "variable_workflow_01N8TL6KKLRC83XMTkex0Rqf4WZkppOsTwe": "$activity.definition_activity_01NIV0P1IPFTB5IDKeYL7E1e1FcaGOpz9jh.output.jsonpath_queries.networkId$",
+            "variable_workflow_01N8U0CKFQ48307Kw9RuksOzhGhfeAciSea": "$workflow.definition_workflow_01N8TXL33W9E22A4yIbisj9tP8Us54bTTdt.local.variable_workflow_01N8TZYS3UXYB6Id7fVa2f4xOjeHgJl2plk$"
+          },
+          "runtime_user": {
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "use_workflow_target_group": true
+          },
+          "workflow_id": "definition_workflow_01N8TKO7OF6GR3lPdPZjZhtxZLe5cT8zHxP"
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01NIU575NH6Y52G3LtYLromDgc07INZoUg4",
+        "name": "Execute Python Script",
+        "title": "Insert new firewall rule",
+        "type": "python3.script",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Insert new firewall rule",
+          "script": "import sys,json\n\nexistingRules= sys.argv[1]\ndestination= sys.argv[2]\n\nexistingRules = json.loads(existingRules)\n\nnewRule = {\n  \"comment\": \"SecureX Orchestration ($workflow.definition_workflow_01N8TXL33W9E22A4yIbisj9tP8Us54bTTdt.output.instance_id$)\",\n  \"destCidr\": destination,\n  \"destPort\": \"any\",\n  \"policy\": \"deny\",\n  \"protocol\": \"any\",\n  \"srcCidr\": \"any\",\n  \"srcPort\": \"any\",\n  \"syslogEnabled\": False\n}\n\nexistingRules.insert(0, newRule)\n\nnewRules = json.dumps(existingRules)",
+          "script_arguments": [
+            "$activity.definition_activity_01N8TXZWKFTLC6Uxhb4XUdp3IMTGe5XLj6y.output.variable_workflow_01N8TLLG0WZA11Fct0MKQSJ5K6v6GoYkKm1$",
+            "$workflow.definition_workflow_01N8TXL33W9E22A4yIbisj9tP8Us54bTTdt.input.variable_workflow_01N8TYN67OPH77kqFsZTKmJF2wKF25adMqi$"
+          ],
+          "script_queries": [
+            {
+              "script_query": "newRules",
+              "script_query_name": "newRules",
+              "script_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01NIU78BKOY0J7cBXwqUgXbIIrgXNjMdtTx",
+        "name": "Meraki - Network - MX - Update L3 Firewall Rules",
+        "title": "Meraki - Network - MX - Update L3 Firewall Rules",
+        "type": "workflow.atomic_workflow",
+        "base_type": "subworkflow",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Meraki - Network - MX - Update L3 Firewall Rules",
+          "input": {
+            "variable_workflow_01NIU27DE50U802SVet2lB354zerD3DiVcp": "$workflow.definition_workflow_01N8TXL33W9E22A4yIbisj9tP8Us54bTTdt.local.variable_workflow_01N8TZYS3UXYB6Id7fVa2f4xOjeHgJl2plk$",
+            "variable_workflow_01NIU27DE542U4JvJihBcsCA6UTm08CUHEj": "$activity.definition_activity_01NIV0P1IPFTB5IDKeYL7E1e1FcaGOpz9jh.output.jsonpath_queries.networkId$",
+            "variable_workflow_01NIU27DE57NN0M7ml3d7JTMmJsPPSSJ1tw": "$activity.definition_activity_01NIU575NH6Y52G3LtYLromDgc07INZoUg4.output.script_queries.newRules$"
+          },
+          "runtime_user": {
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "use_workflow_target_group": true
+          },
+          "workflow_id": "definition_workflow_01NIU27DM3UK34pQgMX4dtbtYcACptkM9Qc"
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m"
+    ]
+  },
+  "categories": {
+    "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m": {
+      "unique_name": "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m",
+      "name": "response",
+      "title": "response",
+      "type": "basic.category",
+      "base_type": "category",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  },
+  "target_groups": {
+    "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+      "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+      "name": "Default TargetGroup",
+      "title": "Default TargetGroup",
+      "type": "generic.target_group",
+      "base_type": "target_group",
+      "version": "1.0.0",
+      "targets": [
+        {
+          "data_target_type": "web-service.endpoint",
+          "view_target_type": "web-service.endpoint",
+          "include_all_targets": true
+        },
+        {
+          "data_target_type": "email.smtp_endpoint",
+          "view_target_type": "email.smtp_endpoint",
+          "include_all_targets": true
+        },
+        {
+          "data_target_type": "terminal.endpoint",
+          "view_target_type": "terminal.endpoint",
+          "include_all_targets": true
+        },
+        {
+          "data_target_type": "aws.endpoint",
+          "view_target_type": "aws.endpoint",
+          "include_all_targets": true
+        }
+      ],
+      "object_type": "target_group"
+    }
+  },
+  "atomic_workflows": [
+    "definition_workflow_01N8TO2HK1Q8U0JgFhBJbF2XBKYElhuFXU5",
+    "definition_workflow_01NIUUU8CESJ01PTgqNzCUkRvhOYX6oY2Nq",
+    "definition_workflow_01N8TKO7OF6GR3lPdPZjZhtxZLe5cT8zHxP",
+    "definition_workflow_01NIU27DM3UK34pQgMX4dtbtYcACptkM9Qc"
+  ]
+}
