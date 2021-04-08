@@ -24,20 +24,6 @@
         "schema_id": "datatype.string",
         "properties": {
           "value": "",
-          "scope": "local",
-          "name": "Network Name",
-          "type": "datatype.string",
-          "description": "The name of the network to manage firewall rules for",
-          "is_required": true,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01N8UD1SUI9TM1JXxwB7jc8UIeTn2prk9ql",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
           "scope": "input",
           "name": "observable_value",
           "type": "datatype.string",
@@ -46,6 +32,20 @@
           "is_invisible": false
         },
         "unique_name": "variable_workflow_01N8TYN67OPH77kqFsZTKmJF2wKF25adMqi",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "Network Name",
+          "type": "datatype.string",
+          "description": "The name of the network to manage firewall rules for",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01N8UD1SUI9TM1JXxwB7jc8UIeTn2prk9ql",
         "object_type": "variable_workflow"
       },
       {
@@ -372,7 +372,7 @@
           "action_timeout": 180,
           "continue_on_failure": false,
           "display_name": "Insert new firewall rule",
-          "script": "import sys,json\n\nexistingRules= sys.argv[1]\ndestination= sys.argv[2]\n\nexistingRules = json.loads(existingRules)\n\nnewRule = {\n  \"comment\": \"SecureX Orchestration ($workflow.definition_workflow_01N8TXL33W9E22A4yIbisj9tP8Us54bTTdt.output.instance_id$)\",\n  \"destCidr\": destination,\n  \"destPort\": \"any\",\n  \"policy\": \"deny\",\n  \"protocol\": \"any\",\n  \"srcCidr\": \"any\",\n  \"srcPort\": \"any\",\n  \"syslogEnabled\": False\n}\n\nexistingRules.insert(0, newRule)\n\nnewRules = json.dumps({ \"rules\": existingRules })",
+          "script": "import sys,json\n\nexistingRules= sys.argv[1]\ndestination= sys.argv[2]\n\nexistingRules = json.loads(existingRules)\n\nnewRule = {\n  \"comment\": \"SecureX Orchestration ($workflow.definition_workflow_01N8TXL33W9E22A4yIbisj9tP8Us54bTTdt.output.instance_id$)\",\n  \"destCidr\": destination,\n  \"destPort\": \"any\",\n  \"policy\": \"deny\",\n  \"protocol\": \"any\",\n  \"srcCidr\": \"any\",\n  \"srcPort\": \"any\",\n  \"syslogEnabled\": False\n}\n\nexistingRules.insert(0, newRule)\n\nnewRules = json.dumps(existingRules)",
           "script_arguments": [
             "$activity.definition_activity_01N8TXZWKFTLC6Uxhb4XUdp3IMTGe5XLj6y.output.variable_workflow_01N8TLLG0WZA11Fct0MKQSJ5K6v6GoYkKm1$",
             "$workflow.definition_workflow_01N8TXL33W9E22A4yIbisj9tP8Us54bTTdt.input.variable_workflow_01N8TYN67OPH77kqFsZTKmJF2wKF25adMqi$"
@@ -463,9 +463,9 @@
     }
   },
   "atomic_workflows": [
-    "definition_workflow_01N8TKO7OF6GR3lPdPZjZhtxZLe5cT8zHxP",
-    "definition_workflow_01NIUUU8CESJ01PTgqNzCUkRvhOYX6oY2Nq",
     "definition_workflow_01N8TO2HK1Q8U0JgFhBJbF2XBKYElhuFXU5",
+    "definition_workflow_01NIUUU8CESJ01PTgqNzCUkRvhOYX6oY2Nq",
+    "definition_workflow_01N8TKO7OF6GR3lPdPZjZhtxZLe5cT8zHxP",
     "definition_workflow_01NIU27DM3UK34pQgMX4dtbtYcACptkM9Qc"
   ]
 }
