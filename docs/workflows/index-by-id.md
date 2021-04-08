@@ -32,3 +32,4 @@ This page contains a list of all of the workflows published in the repository so
 | 0017 | Cisco Umbrella | [Add to Destination List]({{ site.baseurl }}/workflows/0017) |
 | 0018 | ServiceNow | [Request Firewall NullRoute]({{ site.baseurl }}/workflows/0018) |
 | 0019 | Cisco Meraki | [MX L3 Outbound Firewall Block]({{ site.baseurl }}/workflows/0019) |
+| 0020 | Cisco SecureX | [Incident Manager Cleanup]({{ site.baseurl }}/workflows/0020) |
