@@ -23,6 +23,17 @@ This workflow should be triggered from a SecureX pivot menu and supports IP addr
 
 ---
 
+## Change Log
+
+| Date | Notes |
+|:-----|:------|
+| Apr 5, 2021 | - Initial release |
+| Apr 8, 2021 | - Fixed an issue in one of the Python scripts that caused the rule list JSON to be double wrapped |
+
+_See the [Important Notes]({{ site.baseurl }}/notes#workflows) page for more information about updating workflows_
+
+---
+
 ## Requirements
 * The following atomic actions must be imported before you can import this workflow:
 	* Meraki - Get Networks by Organization ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
