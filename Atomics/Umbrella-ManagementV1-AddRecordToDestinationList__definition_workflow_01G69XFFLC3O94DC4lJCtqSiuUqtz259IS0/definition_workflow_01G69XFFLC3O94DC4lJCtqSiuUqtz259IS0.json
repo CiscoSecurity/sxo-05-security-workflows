@@ -1,8 +1,8 @@
 {
   "workflow": {
     "unique_name": "definition_workflow_01G69XFFLC3O94DC4lJCtqSiuUqtz259IS0",
-    "name": "Umbrella - Management V1 - Add Domain to Destination List",
-    "title": "Umbrella - Management V1 - Add Domain to Destination List",
+    "name": "Umbrella - Management V1 - Add Record to Destination List",
+    "title": "Umbrella - Management V1 - Add Record to Destination List",
     "type": "generic.workflow",
     "base_type": "workflow",
     "variables": [
@@ -11,23 +11,11 @@
         "properties": {
           "value": "",
           "scope": "input",
-          "name": "Comment",
-          "type": "datatype.string",
-          "description": "An optional comment to add to the destination",
-          "is_required": false
-        },
-        "unique_name": "variable_workflow_01G69YNV23UZ71b2pOX15WUHGqceHm9hXUO",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "input",
           "name": "Destination List ID",
           "type": "datatype.string",
           "description": "ID of the destination list to add the record to",
-          "is_required": true
+          "is_required": true,
+          "is_invisible": false
         },
         "unique_name": "variable_workflow_01G69XFF4HSX14Tl2ZeZ5IltuMfgtTvdvaR",
         "object_type": "variable_workflow"
@@ -40,7 +28,8 @@
           "name": "Organization ID",
           "type": "datatype.string",
           "description": "The organization ID to get entries for",
-          "is_required": true
+          "is_required": true,
+          "is_invisible": false
         },
         "unique_name": "variable_workflow_01G69XFF4HLEZ7QayzU2DO9thN3J5u0SoSV",
         "object_type": "variable_workflow"
@@ -50,12 +39,27 @@
         "properties": {
           "value": "",
           "scope": "input",
-          "name": "New Domain",
+          "name": "New Destination",
           "type": "datatype.string",
-          "description": "Fully qualified domain name you want to add to the destination list",
-          "is_required": true
+          "description": "Fully qualified domain name or IP address you want to add to the destination list",
+          "is_required": true,
+          "is_invisible": false
         },
         "unique_name": "variable_workflow_01G69YIDRG6EL4aPWYIhXOayFu3Myu8ZgI1",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Comment",
+          "type": "datatype.string",
+          "description": "An optional comment to add to the destination",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01G69YNV23UZ71b2pOX15WUHGqceHm9hXUO",
         "object_type": "variable_workflow"
       }
     ],
@@ -65,8 +69,8 @@
         "is_atomic": true
       },
       "delete_workflow_instance": true,
-      "description": "Adds a new domain to a destination list.\n\nTarget: HTTP endpoint for \"management.api.umbrella.com\"\n\nAccount Key: HTTP basic with Umbrella Management API key (client ID as username, client secret as password)\n\nSteps:\n[] Build the JSON payload to POST\n[] Execute the API request to add the new destination\n[] Check if the API request succeeded:\n[]\u003e If it did, attempt to extract the list data (to make sure the response was what we expected)\n[]\u003e If it didn't, output an error\n\nMore information about this API: https://docs.umbrella.com/umbrella-api/reference#post_v1-organizations-organizationid-destinationlists-destinationlistid-destinations",
-      "display_name": "Umbrella - Management V1 - Add Domain to Destination List",
+      "description": "Adds a new domain or IP address to a destination list.\n\nTarget: HTTP endpoint for \"management.api.umbrella.com\"\n\nAccount Key: HTTP basic with Umbrella Management API key (client ID as username, client secret as password)\n\nSteps:\n[] Build the JSON payload to POST\n[] Execute the API request to add the new destination\n[] Check if the API request succeeded:\n[]\u003e If it did, attempt to extract the list data (to make sure the response was what we expected)\n[]\u003e If it didn't, output an error\n\nMore information about this API: https://docs.umbrella.com/umbrella-api/reference#post_v1-organizations-organizationid-destinationlists-destinationlistid-destinations",
+      "display_name": "Umbrella - Management V1 - Add Record to Destination List",
       "runtime_user": {
         "override_target_runtime_user": false,
         "specify_on_workflow_start": false,

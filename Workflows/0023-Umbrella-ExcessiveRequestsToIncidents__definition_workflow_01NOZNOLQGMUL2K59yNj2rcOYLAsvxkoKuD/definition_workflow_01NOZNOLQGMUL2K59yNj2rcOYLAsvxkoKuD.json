@@ -23,6 +23,20 @@
       {
         "schema_id": "datatype.string",
         "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "Umbrella Organization ID",
+          "type": "datatype.string",
+          "description": "Your Umbrella organization ID. This can be found in the URL of your Umbrella dashboard. For example, in this URL the organization ID is \"1234567\": https://dashboard.umbrella.com/o/1234567/#/overview",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01NOZXMQTF2C14J5mXLd9YMzA7YRX2rSBhd",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
           "value": "Cryptomining,Illegal Downloads,Illegal Activity,Phishing",
           "scope": "local",
           "name": "Categories to Alert On",
@@ -47,20 +61,6 @@
         },
         "unique_name": "variable_workflow_01NP03YWDKYNG24sKDZyIzoYS63w9cMc7Wo",
         "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "local",
-          "name": "Umbrella Organization ID",
-          "type": "datatype.string",
-          "description": "Your Umbrella organization ID. This can be found in the URL of your Umbrella dashboard. For example, in this URL the organization ID is \"1234567\": https://dashboard.umbrella.com/o/1234567/#/overview",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01NOZXMQTF2C14J5mXLd9YMzA7YRX2rSBhd",
-        "object_type": "variable_workflow"
       }
     ],
     "properties": {
@@ -68,7 +68,7 @@
         "is_atomic": false
       },
       "delete_workflow_instance": false,
-      "description": "This workflow fetches request per category statistics from Cisco Umbrella for a 1 hour window. If any of the categories had a request count higher than the threshold configured in the workflow, an incident is created in SecureX.\n\nTarget Group: Default TargetGroup\n\nTargets: CTR_For_Access_Token, Private_CTIA_Target, Umbrella OAuth, Umbrella Reporting v2\n\nSteps:\n[] Get a token for the Umbrella API\n[] Request statistics for DNS categories\n[] Check if the request was successful:\n[]\u003e If it wasn't, output an error and end the workflow\n[]\u003e If it was:\n[]\u003e\u003e Convert the statistics to a table\n[]\u003e\u003e Loop through the table checking if any of the categories are in scope. If it is, add it to the ticket text\n[] Check if any categories exceeded the threshold (overall)\n[]\u003e If none of them did, end the workflow\n[] Generate an access token for SecureX and create an incident\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0023",
+      "description": "This workflow fetches request per category statistics from Cisco Umbrella for a 1 hour window. If any of the categories had a request count higher than the threshold configured in the workflow, an incident is created in SecureX.\n\nTarget Group: Default TargetGroup\n\nTargets: CTR_For_Access_Token, Private_CTIA_Target, Umbrella OAuth, Umbrella Reporting v2\n\nSteps:\n[] Get a token for the Umbrella API\n[] Request statistics for DNS categories\n[] Check if the request was successful:\n[]> If it wasn't, output an error and end the workflow\n[]> If it was:\n[]>> Convert the statistics to a table\n[]>> Loop through the table checking if any of the categories are in scope. If it is, add it to the ticket text\n[] Check if any categories exceeded the threshold (overall)\n[]> If none of them did, end the workflow\n[] Generate an access token for SecureX and create an incident\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0023",
       "display_name": "0023 - Umbrella - Excessive Requests to Incidents",
       "runtime_user": {
         "override_target_runtime_user": false,
@@ -151,7 +151,7 @@
           ],
           "display_name": "Request category statistics",
           "method": "GET",
-          "relative_url": "v2/organizations/$workflow.definition_workflow_01NOZNOLQGMUL2K59yNj2rcOYLAsvxkoKuD.local.variable_workflow_01NOZXMQTF2C14J5mXLd9YMzA7YRX2rSBhd$/categories-by-timerange/dns?from=-1hours\u0026to=now",
+          "relative_url": "v2/organizations/$workflow.definition_workflow_01NOZNOLQGMUL2K59yNj2rcOYLAsvxkoKuD.local.variable_workflow_01NOZXMQTF2C14J5mXLd9YMzA7YRX2rSBhd$/categories-by-timerange/dns?from=-1hours&to=now",
           "runtime_user": {
             "override_target_runtime_user": false,
             "target_default": true
@@ -205,7 +205,7 @@
                   "continue_on_failure": false,
                   "display_name": "Convert categories to table",
                   "input_json": "$activity.definition_activity_01NOZV41ZBU3I2iUw0HpGdSZWAbtoUxwegS.output.response_body$",
-                  "jsonpath_query": "$.data[0].counts[?(@.requests \u003e= $workflow.definition_workflow_01NOZNOLQGMUL2K59yNj2rcOYLAsvxkoKuD.local.variable_workflow_01NP03YWDKYNG24sKDZyIzoYS63w9cMc7Wo$)]",
+                  "jsonpath_query": "$.data[0].counts[?(@.requests >= $workflow.definition_workflow_01NOZNOLQGMUL2K59yNj2rcOYLAsvxkoKuD.local.variable_workflow_01NP03YWDKYNG24sKDZyIzoYS63w9cMc7Wo$)]",
                   "persist_output": false,
                   "populate_columns": false,
                   "skip_execution": false,
