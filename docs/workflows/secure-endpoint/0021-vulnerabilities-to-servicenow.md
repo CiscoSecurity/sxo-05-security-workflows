@@ -1,14 +1,15 @@
 ---
 layout: page
-title: Vulnerabilites to ServiceNow Incidents
-permalink: /workflows/secure-endpoint/0021-vulnerabilites-to-servicenow
+title: Vulnerabilities to ServiceNow Incidents
+permalink: /workflows/secure-endpoint/0021-vulnerabilities-to-servicenow
 redirect_from:
   - /workflows/0021
+  - /workflows/secure-endpoint/0021-vulnerabilites-to-servicenow
 parent: Cisco Secure Endpoint
 grand_parent: Workflows
 ---
 
-# Vulnerabilites to ServiceNow Incidents
+# Vulnerabilities to ServiceNow Incidents
 <div markdown="1">
 Workflow #0021
 {: .label }
@@ -45,6 +46,7 @@ This workflow periodically checks for "Vulnerable Application Detected" events i
 ---
 
 ## Configuration
+* Set the `CVE Score Threshold` local variable to the minimum CVE score you want to generate incidents for. This is 6.5 by default
 * By default, the workflow is configured to run once a day using the **0021 - Secure Endpoint - Vulnerabilities to ServiceNow Incidents** [schedule]({{ site.baseurl }}/schedules). When you import the workflow, the schedule trigger will be disabled. To enable the schedule:
 	* Open the workflow in the workflow editor
 	* Scroll down to the **Triggers** section of the workflow's properties and click **Secure Endpoint Event Polling**
