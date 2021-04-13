@@ -33,4 +33,6 @@ This page contains a list of all of the workflows published in the repository so
 | 0018 | ServiceNow | [Request Firewall NullRoute]({{ site.baseurl }}/workflows/0018) |
 | 0019 | Cisco Meraki | [MX L3 Outbound Firewall Block]({{ site.baseurl }}/workflows/0019) |
 | 0020 | Cisco SecureX | [Incident Manager Cleanup]({{ site.baseurl }}/workflows/0020) |
-| 0021 | Cisco Secure Endpoint | [Vulnerabilites to ServiceNow Incidents]({{ site.baseurl }}/workflows/0021) |
+| 0021 | Cisco Secure Endpoint | [Vulnerabilities to ServiceNow Incidents]({{ site.baseurl }}/workflows/0021) |
+| 0022 | Cisco Secure Endpoint | [Vulnerabilities to SecureX Incidents]({{ site.baseurl }}/workflows/0022) |
+| 0023 | Cisco Umbrella | [Excessive Requests to Incidents]({{ site.baseurl }}/workflows/0023) |
