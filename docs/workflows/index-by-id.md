@@ -36,3 +36,5 @@ This page contains a list of all of the workflows published in the repository so
 | 0021 | Cisco Secure Endpoint | [Vulnerabilities to ServiceNow Incidents]({{ site.baseurl }}/workflows/0021) |
 | 0022 | Cisco Secure Endpoint | [Vulnerabilities to SecureX Incidents]({{ site.baseurl }}/workflows/0022) |
 | 0023 | Cisco Umbrella | [Excessive Requests to Incidents]({{ site.baseurl }}/workflows/0023) |
+| 0024 | Cisco Secure Firewall | Incident Endpoint Enrichment (Coming Soon) |
+| 0025 | Cisco Secure Email | [Investigate Retrospective Alerts]({{ site.baseurl }}/workflows/0025) |

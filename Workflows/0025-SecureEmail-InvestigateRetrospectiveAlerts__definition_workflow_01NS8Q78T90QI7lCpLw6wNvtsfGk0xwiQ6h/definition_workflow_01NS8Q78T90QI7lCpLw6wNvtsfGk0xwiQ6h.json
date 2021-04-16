@@ -1,0 +1,636 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01NS8Q78T90QI7lCpLw6wNvtsfGk0xwiQ6h",
+    "name": "0025 - Secure Email - Investigate Retrospective Alerts",
+    "title": "0025 - Secure Email - Investigate Retrospective Alerts",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "AMP for Endpoints",
+          "scope": "local",
+          "name": "Secure Endpoint Module Name",
+          "type": "datatype.string",
+          "description": "The name of your Secure Endpoint module in SecureX",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01NS8Q78JPXEZ1XMq0vSN2BTMWIoKgFGZQ1",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "Webex Teams Room Name",
+          "type": "datatype.string",
+          "description": "The name of the Webex Teams room to post messages to. If using a bot, make sure to invite your bot to the room before attempting to send messages. If you don't want to use Webex, leave this blank",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01NS8Q78JPVSL2uNOTleTPcAyrBQYjBRm0N",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "Webex Teams Access Token",
+          "type": "datatype.secure_string",
+          "description": "The access token to use to authenticate to the Webex Teams API. Information about using a bot, which is what we recommend, can be found here: https://developer.webex.com/docs/bots",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01NS8Q78JQ0PR5hwJ2hQGbSDJX0DRpZUazq",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "description": "This workflow monitors a mailbox for retrospective detection alerts from Cisco Secure Email. When an alert is received via Cisco Secure Endpoint (formerly AMP) for a file hash, an investigation is conducted to determine if there were any sightings for the hash. If there are sightings, an instant message is sent with details.\n\nTarget Group: Default TargetGroup\n\nTargets: CTR_API, CTR_For_Access_Token, Microsoft Teams Webhook, Webex Teams\n\nSteps:\n[] Fetch global variables (optional)\n[] Extract the information we need from the email\n[] Generate an access token for Threat Response\n[] Enrich the file hash to look for sightings\n[] Extract the sightings\n[] Check if there were any, if not end the workflow\n[] Compile the sighting data for the past 30 days\n[] Send instant message notifications\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0025",
+      "display_name": "0025 - Secure Email - Investigate Retrospective Alerts",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": true,
+        "target_group": {
+          "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+          "run_on_all_targets": false,
+          "selected_target_types": [
+            "web-service.endpoint"
+          ],
+          "use_criteria": {
+            "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+            "conditions": [
+              {
+                "operator": "eqi",
+                "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                "right_operand": "CTR_API"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01NS8Q9NFFH1H4UfOKnYaQH7HcyuxpQt2Gr",
+        "name": "Group",
+        "title": "Fetch global variables",
+        "type": "logic.group",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Fetch global variables",
+          "skip_execution": true
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01NS8QAS9T0AD0md4wTIeIacTmfaYblAcdp",
+            "name": "Set Variables",
+            "title": "Fetch global variables",
+            "type": "core.set_multiple_variables",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Fetch global variables",
+              "skip_execution": false,
+              "variables_to_update": [
+                {
+                  "variable_to_update": "$workflow.definition_workflow_01NS8Q78T90QI7lCpLw6wNvtsfGk0xwiQ6h.local.variable_workflow_01NS8Q78JQ0PR5hwJ2hQGbSDJX0DRpZUazq$",
+                  "variable_value_new": ""
+                }
+              ]
+            },
+            "object_type": "definition_activity"
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01NS8QB6REKBH39KqGBvBT44LAtJHOkxZ3G",
+        "name": "Execute Python Script",
+        "title": "Extract notification details",
+        "type": "python3.script",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Extract notification details",
+          "script": "import sys, re\n\nemailBody = sys.argv[1]\nemailSubject = sys.argv[2]\n\nsha256 = re.findall('SHA256: ([a-zA-Z0-9]+)', emailBody)\nsha256 = sha256[0]\n\nverdict = re.findall('Verdict: ([a-zA-Z0-9]+)', emailBody)\nverdict = verdict[0]\n\nverdictChange = re.findall('changed from VERDICT ([a-zA-Z]+) to ([a-zA-Z]+)', emailSubject)\noldVerdict = verdictChange[0][0]\nnewVerdict = verdictChange[0][1]",
+          "script_arguments": [
+            "$trigger.triggerevent_01NS8Q8TRDXYI68IK9jCBzzXNdvzaFo3fB1.output.message$",
+            "$trigger.triggerevent_01NS8Q8TRDXYI68IK9jCBzzXNdvzaFo3fB1.output.subject$"
+          ],
+          "script_queries": [
+            {
+              "script_query": "sha256",
+              "script_query_name": "sha256",
+              "script_query_type": "string"
+            },
+            {
+              "script_query": "verdict",
+              "script_query_name": "verdict",
+              "script_query_type": "string"
+            },
+            {
+              "script_query": "oldVerdict",
+              "script_query_name": "oldVerdict",
+              "script_query_type": "string"
+            },
+            {
+              "script_query": "newVerdict",
+              "script_query_name": "newVerdict",
+              "script_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01NS8QBMA3ANL5EmKa5q82KzimlQl4RFg1b",
+        "name": "Threat Response v2 - Generate Access Token",
+        "title": "Threat Response v2 - Generate Access Token",
+        "type": "workflow.atomic_workflow",
+        "base_type": "subworkflow",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Threat Response v2 - Generate Access Token",
+          "runtime_user": {
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target_group_criteria": true,
+            "target_group": {
+              "run_on_all_targets": false,
+              "use_criteria": {
+                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                "conditions": [
+                  {
+                    "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                    "operator": "eqi",
+                    "right_operand": "CTR_For_Access_Token"
+                  }
+                ]
+              }
+            }
+          },
+          "workflow_id": "definition_workflow_01KWJ2ISZTF2V6ibRYe7FZ7sOuycDOpnwss"
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01NS8QDTV5N506WmJ14BblNbmBIGgauSydn",
+        "name": "Threat Response v2 - Enrich Observable",
+        "title": "Threat Response v2 - Enrich Observable",
+        "type": "workflow.atomic_workflow",
+        "base_type": "subworkflow",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Threat Response v2 - Enrich Observable",
+          "input": {
+            "variable_workflow_01LFCW7BK9JWU2I0o0vdWjBcKeGI9cTXwLT": "sha256",
+            "variable_workflow_01LFCW7BK9RRM61vI2vN9AXklLnXrOFOSdu": "$activity.definition_activity_01NS8QB6REKBH39KqGBvBT44LAtJHOkxZ3G.output.script_queries.sha256$",
+            "variable_workflow_01LFCW7BK9SW92Ai5bUZzG2IKUi6lVxRR2Z": "$activity.definition_activity_01NS8QBMA3ANL5EmKa5q82KzimlQl4RFg1b.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$"
+          },
+          "runtime_user": {
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "use_workflow_target_group": true
+          },
+          "workflow_id": "definition_workflow_01LFCW7C2Q1BU6Szjo7JqBWHWPmevmW7uIn"
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01NS8QEM9VNZC61w6BrWYxsArHajTuOy9OE",
+        "name": "JSONPath Query",
+        "title": "Extract the endpoint sightings",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": true,
+          "display_name": "Extract the endpoint sightings",
+          "input_json": "$activity.definition_activity_01NS8QDTV5N506WmJ14BblNbmBIGgauSydn.output.variable_workflow_01LFCW7BK9PHR4US5QvFoxwf05w5gnBzrNU$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$.data[?(@.module == '$workflow.definition_workflow_01NS8Q78T90QI7lCpLw6wNvtsfGk0xwiQ6h.local.variable_workflow_01NS8Q78JPXEZ1XMq0vSN2BTMWIoKgFGZQ1$')].data.sightings",
+              "jsonpath_query_name": "ampSightings",
+              "jsonpath_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01NS8QFE6VPWN6YSgYog7rGbEqrUKe0yOT1",
+        "name": "Condition Block",
+        "title": "Were there any endpoint sightings?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Were there any endpoint sightings?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01NS8QFSZ2WYZ0RFc2qD2arFIPKozlfD2ij",
+            "name": "Condition Branch",
+            "title": "No",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01NS8QEM9VNZC61w6BrWYxsArHajTuOy9OE.output.succeeded$",
+                "operator": "eq",
+                "right_operand": false
+              },
+              "continue_on_failure": false,
+              "display_name": "No",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01NS8QFVA2K7O2DhRGVkRsUlId5AqJYaXT7",
+                "name": "Completed",
+                "title": "Completed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "succeeded",
+                  "continue_on_failure": false,
+                  "display_name": "Completed",
+                  "result_message": "There weren't any sightings in Secure Endpoint for the hash $activity.definition_activity_01NS8QB6REKBH39KqGBvBT44LAtJHOkxZ3G.output.script_queries.sha256$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01NS8QGMKA3JU7K2gDjvqT5FDxwsQDh7mh3",
+        "name": "Calculate Date",
+        "title": "Calculate date 30 days ago",
+        "type": "core.calculate_date",
+        "base_type": "activity",
+        "properties": {
+          "adjustment": -2592000,
+          "continue_on_failure": false,
+          "display_name": "Calculate date 30 days ago",
+          "original_date": "$workflow.definition_workflow_01NS8Q78T90QI7lCpLw6wNvtsfGk0xwiQ6h.output.start_time$",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01NS8QHFALB8A6rinqwSEGIsxs2HoF3t3JB",
+        "name": "Execute Python Script",
+        "title": "Extract sighting data",
+        "type": "python3.script",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Extract sighting data",
+          "script": "import sys, json, datetime\n\nsightings = sys.argv[1]\nsightings = json.loads(sightings)\n\nstartTime = datetime.datetime.strptime(sys.argv[2][:19], '%Y-%m-%dT%H:%M:%S')\n\nfileHash = sys.argv[3]\nenvironment = sys.argv[4]\n\nendpoints = []\noverflowEndpoints = []\n\n# Loop through each sighting\nfor sighting in sightings['docs']:\n\t# Did the sighting happen after the start time provided?\n\tif datetime.datetime.strptime(sighting['observed_time']['start_time'][:19], '%Y-%m-%dT%H:%M:%S') \u003e startTime:\n\t\t# Make sure the sighting has targets\n\t\tif 'targets' in sighting:\n\t\t\t# Loop through each target\n\t\t\tfor target in sighting['targets']:\n\t\t\t\tendpoint = { 'source_uri': sighting['source_uri'] }\n\t\t\t\t\n\t\t\t\t# Extract this target's hostname and computer GUID\n\t\t\t\tfor observable in target['observables']:\n\t\t\t\t\tif observable['type'] == 'hostname':\n\t\t\t\t\t\tendpoint['hostname'] = observable['value']\n\t\t\t\t\tif observable['type'] == 'amp_computer_guid':\n\t\t\t\t\t\tendpoint['amp_computer_guid'] = observable['value']\n\t\t\t\t\n\t\t\t\t# Add this target to a list (if it's not already in it)\n\t\t\t\tif len(endpoints) \u003c 25:\n\t\t\t\t\tif not endpoint in endpoints:\n\t\t\t\t\t\tendpoints.append(endpoint)\n\t\t\t\telif not endpoint in overflowEndpoints:\n\t\t\t\t\toverflowEndpoints.append(endpoint)\n\nmessageText = ''\n\nfor endpoint in endpoints:\n\tmessageText = messageText + \"\\n * [\" + endpoint['hostname'] + '](' + endpoint['source_uri'] + ')'\n\nif len(overflowEndpoints) \u003e 0:\n\tampUrl = 'https://console.'\n\t\n\tif environment == 'prod-eu':\n\t\tampUrl = ampUrl + 'eu.'\n\telif environment == 'prod-apjc':\n\t\tampUrl = ampUrl + 'apjc.'\n\t\n\tmessageText = messageText + \"\\n * \" + str(len(overflowEndpoints)) + ' additional endpoints had sightings but were truncated. [Click here](' + ampUrl + 'amp.cisco.com/search?query=' + fileHash + ') to view them in Secure Endpoint'",
+          "script_arguments": [
+            "$activity.definition_activity_01NS8QEM9VNZC61w6BrWYxsArHajTuOy9OE.output.jsonpath_queries.ampSightings$",
+            "$activity.definition_activity_01NS8QGMKA3JU7K2gDjvqT5FDxwsQDh7mh3.output.result$",
+            "$activity.definition_activity_01NS8QB6REKBH39KqGBvBT44LAtJHOkxZ3G.output.script_queries.sha256$",
+            "$env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG.env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG$"
+          ],
+          "script_queries": [
+            {
+              "script_query": "messageText",
+              "script_query_name": "messageText",
+              "script_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01NS8QHW5SAIG3MhENhRLjN893sahJpjKuS",
+        "name": "Parallel Block",
+        "title": "Send notifications",
+        "type": "logic.parallel",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Send notifications",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01NS8QIBG7OF64zsHk0LXZ00Zpm1CNWVBUT",
+            "name": "Parallel Branch",
+            "title": "Webex Teams",
+            "type": "logic.parallel_block",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Webex Teams",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01NS8QIRQYA833RlGBAWblLKdKsTJSP4qSj",
+                "name": "Webex Teams - Search for Room",
+                "title": "Webex Teams - Search for Room",
+                "type": "workflow.atomic_workflow",
+                "base_type": "subworkflow",
+                "properties": {
+                  "continue_on_failure": true,
+                  "display_name": "Webex Teams - Search for Room",
+                  "input": {
+                    "variable_workflow_01FHMU6RWYQWI3QFUEzjWMT7JYBcz5vquuD": "",
+                    "variable_workflow_01FHMU6RWYWY822p43LeMi8Lcx89Q9jeyek": "$workflow.definition_workflow_01NS8Q78T90QI7lCpLw6wNvtsfGk0xwiQ6h.local.variable_workflow_01NS8Q78JPVSL2uNOTleTPcAyrBQYjBRm0N$",
+                    "variable_workflow_01FHMU6RWYY481TVWDm0BQ1p0rWnqak191l": "$workflow.definition_workflow_01NS8Q78T90QI7lCpLw6wNvtsfGk0xwiQ6h.local.variable_workflow_01NS8Q78JQ0PR5hwJ2hQGbSDJX0DRpZUazq$",
+                    "variable_workflow_01FHNGCYY2O6Z0NcPmUDabszT2P4P0oqMNd": ""
+                  },
+                  "runtime_user": {
+                    "target_default": true
+                  },
+                  "skip_execution": false,
+                  "target": {
+                    "override_workflow_target_group_criteria": true,
+                    "target_group": {
+                      "run_on_all_targets": false,
+                      "use_criteria": {
+                        "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                        "conditions": [
+                          {
+                            "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                            "operator": "eqi",
+                            "right_operand": "Webex Teams"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "workflow_id": "definition_workflow_01FHMU6SD5XPL6eRW4zFXqkA1w8jWiQCIBU"
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01NS8QJK3DULO5e5LUH7eqGUjCHCWWT5hkX",
+                "name": "Condition Block",
+                "title": "Was the room found?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Was the room found?",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                  {
+                    "unique_name": "definition_activity_01NS8QKCBV4NN2oEoKwDe0VLn3kXbotSL3A",
+                    "name": "Condition Branch",
+                    "title": "Yes",
+                    "type": "logic.condition_block",
+                    "base_type": "activity",
+                    "properties": {
+                      "condition": {
+                        "left_operand": "$activity.definition_activity_01NS8QIRQYA833RlGBAWblLKdKsTJSP4qSj.output.succeeded$",
+                        "operator": "eq",
+                        "right_operand": true
+                      },
+                      "continue_on_failure": false,
+                      "display_name": "Yes",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity",
+                    "actions": [
+                      {
+                        "unique_name": "definition_activity_01NS8QKG1V04Y0g0yRh8WkDZgOoS2AzFxLC",
+                        "name": "Webex Teams - Post Message to Room",
+                        "title": "Webex Teams - Post Message to Room",
+                        "type": "workflow.atomic_workflow",
+                        "base_type": "subworkflow",
+                        "properties": {
+                          "continue_on_failure": false,
+                          "display_name": "Webex Teams - Post Message to Room",
+                          "input": {
+                            "variable_workflow_01FGYY44G3MZ55amJu9YqgUeKS8GT49bZx3": "$workflow.definition_workflow_01NS8Q78T90QI7lCpLw6wNvtsfGk0xwiQ6h.local.variable_workflow_01NS8Q78JQ0PR5hwJ2hQGbSDJX0DRpZUazq$",
+                            "variable_workflow_01FGYY44G3TK951Crpnd8g2izonyM4bFtpW": "$activity.definition_activity_01NS8QIRQYA833RlGBAWblLKdKsTJSP4qSj.output.variable_workflow_01FHSVE2R6ZTQ6L92WEi0kWgR5T8zhMAUzO$",
+                            "variable_workflow_01FGYY44G3UPV3heGGc3vXCV47YL5WoI2X6": "",
+                            "variable_workflow_01FGYZ9BV4QTP19CuMwcW8QywvCP9ymx2BZ": "An investigation has been conducted in response to a Secure Endpoint retroactive detection event for the SHA256 hash `$activity.definition_activity_01NS8QB6REKBH39KqGBvBT44LAtJHOkxZ3G.output.script_queries.sha256$`. The verdict of the hash changed from `$activity.definition_activity_01NS8QB6REKBH39KqGBvBT44LAtJHOkxZ3G.output.script_queries.oldVerdict$` to `$activity.definition_activity_01NS8QB6REKBH39KqGBvBT44LAtJHOkxZ3G.output.script_queries.newVerdict$`.\n\nThe following endpoints have seen this file hash in the past 30 days:\n$activity.definition_activity_01NS8QHFALB8A6rinqwSEGIsxs2HoF3t3JB.output.script_queries.messageText$"
+                          },
+                          "runtime_user": {
+                            "target_default": true
+                          },
+                          "skip_execution": false,
+                          "target": {
+                            "override_workflow_target_group_criteria": true,
+                            "target_group": {
+                              "run_on_all_targets": false,
+                              "use_criteria": {
+                                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                "conditions": [
+                                  {
+                                    "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                    "operator": "eqi",
+                                    "right_operand": "Webex Teams"
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          "workflow_id": "definition_workflow_01FGYY44YU521254ygN3Le0In0kEHpiPNpf"
+                        },
+                        "object_type": "definition_activity"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01NS8QL93SVIV5zNtUSIb7YvZLQojTKftw3",
+            "name": "Parallel Branch",
+            "title": "Microsoft Teams",
+            "type": "logic.parallel_block",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Microsoft Teams",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01NS8QLC3Y7U53btUjpbWEVmIbTXYL4MUAb",
+                "name": "Microsoft Teams - Post Message via Webhook",
+                "title": "Microsoft Teams - Post Message via Webhook",
+                "type": "workflow.atomic_workflow",
+                "base_type": "subworkflow",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Microsoft Teams - Post Message via Webhook",
+                  "input": {
+                    "variable_workflow_01MRIK9PFIH9457K2ZY1x7rEJvOPzYOE6eO": "Sightings related to retrospective detection event",
+                    "variable_workflow_01MRIKICJKVS16L5nynmibtyxbFIqwxBhOV": "An investigation has been conducted in response to a Secure Endpoint retroactive detection event for the SHA256 hash `$activity.definition_activity_01NS8QB6REKBH39KqGBvBT44LAtJHOkxZ3G.output.script_queries.sha256$`. The verdict of the hash changed from `$activity.definition_activity_01NS8QB6REKBH39KqGBvBT44LAtJHOkxZ3G.output.script_queries.oldVerdict$` to `$activity.definition_activity_01NS8QB6REKBH39KqGBvBT44LAtJHOkxZ3G.output.script_queries.newVerdict$`.\n\nThe following endpoints have seen this file hash in the past 30 days:\n$activity.definition_activity_01NS8QHFALB8A6rinqwSEGIsxs2HoF3t3JB.output.script_queries.messageText$",
+                    "variable_workflow_01MRIL2TKZ8FM1EvIZeO4VFV9ITFhG3vSlI": "#de281b"
+                  },
+                  "runtime_user": {
+                    "target_default": true
+                  },
+                  "skip_execution": false,
+                  "target": {
+                    "override_workflow_target_group_criteria": true,
+                    "target_group": {
+                      "run_on_all_targets": false,
+                      "use_criteria": {
+                        "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                        "conditions": [
+                          {
+                            "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                            "operator": "eqi",
+                            "right_operand": "Microsoft Teams Webhook"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "workflow_id": "definition_workflow_01MRIE3B3DNNQ3cdFSoyGkg1RnVsYA9VdZr"
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  },
+  "triggers": {
+    "triggerevent_01NS8Q8TRDXYI68IK9jCBzzXNdvzaFo3fB1": {
+      "workflow_id": "definition_workflow_01NS8Q78T90QI7lCpLw6wNvtsfGk0xwiQ6h",
+      "name": "Email Notification",
+      "title": "",
+      "lowercase_name": "event.email_notification",
+      "type": "event",
+      "base_type": "trigger",
+      "ref_id": "event_01NQL1QCR9SKH3TY0X6nN0VDF1DN5H1iGGf",
+      "version": "",
+      "disabled": true,
+      "unique_name": "triggerevent_01NS8Q8TRDXYI68IK9jCBzzXNdvzaFo3fB1",
+      "object_type": "triggerevent"
+    }
+  },
+  "events": {
+    "event_01NQL1QCR9SKH3TY0X6nN0VDF1DN5H1iGGf": {
+      "name": "0025 - Secure Endpoint - Retrospective Alert Notification",
+      "title": "0025 - Secure Endpoint - Retrospective Alert Notification",
+      "type": "email.event",
+      "base_type": "event",
+      "object_type": "event",
+      "target_id": "definition_target_01NQL9ITJGIDU2Fi9yQIWegC6Dlf51uWGqD",
+      "webhook_id": "",
+      "version": "1.0.0",
+      "properties": {
+        "action": "delete",
+        "conditions": {
+          "left_operand": "$output.subject$",
+          "operator": "mw",
+          "right_operand": "*AMP Retrospective Alert*"
+        },
+        "display_name": "0025 - Secure Endpoint - Retrospective Alert Notification",
+        "download_attachments": false,
+        "folder": "INBOX",
+        "target_id": "definition_target_01NQL9ITJGIDU2Fi9yQIWegC6Dlf51uWGqD",
+        "title": "0025 - Secure Endpoint - Retrospective Alert Notification"
+      },
+      "unique_name": "event_01NQL1QCR9SKH3TY0X6nN0VDF1DN5H1iGGf"
+    }
+  },
+  "targets": {
+    "definition_target_01NQL9ITJGIDU2Fi9yQIWegC6Dlf51uWGqD": {
+      "unique_name": "definition_target_01NQL9ITJGIDU2Fi9yQIWegC6Dlf51uWGqD",
+      "name": "0025 - Retrospective Alert Mailbox",
+      "title": "0025 - Retrospective Alert Mailbox",
+      "type": "email.imap_endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "display_name": "0025 - Retrospective Alert Mailbox",
+        "ignore_certificate_errors": false,
+        "polling_interval": 30,
+        "port": 993,
+        "protocol": "IMAP",
+        "server": "mail.yourdomain.com",
+        "tls_enabled": true
+      }
+    }
+  },
+  "target_groups": {
+    "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+      "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+      "name": "Default TargetGroup",
+      "title": "Default TargetGroup",
+      "type": "generic.target_group",
+      "base_type": "target_group",
+      "version": "1.0.0",
+      "targets": [
+        {
+          "data_target_type": "web-service.endpoint",
+          "view_target_type": "web-service.endpoint",
+          "include_all_targets": true
+        },
+        {
+          "data_target_type": "email.smtp_endpoint",
+          "view_target_type": "email.smtp_endpoint",
+          "include_all_targets": true
+        },
+        {
+          "data_target_type": "terminal.endpoint",
+          "view_target_type": "terminal.endpoint",
+          "include_all_targets": true
+        },
+        {
+          "data_target_type": "aws.endpoint",
+          "view_target_type": "aws.endpoint",
+          "include_all_targets": true
+        }
+      ],
+      "object_type": "target_group"
+    }
+  },
+  "atomic_workflows": [
+    "definition_workflow_01KWJ2ISZTF2V6ibRYe7FZ7sOuycDOpnwss",
+    "definition_workflow_01LFCW7C2Q1BU6Szjo7JqBWHWPmevmW7uIn",
+    "definition_workflow_01FHMU6SD5XPL6eRW4zFXqkA1w8jWiQCIBU",
+    "definition_workflow_01FGYY44YU521254ygN3Le0In0kEHpiPNpf",
+    "definition_workflow_01MRIE3B3DNNQ3cdFSoyGkg1RnVsYA9VdZr"
+  ]
+}

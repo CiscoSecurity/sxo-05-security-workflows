@@ -1,0 +1,223 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01NKJPVTZ2E492W2ONA1T8pgoJdW3qmw1NU",
+    "name": "Microsoft Teams - Post Adaptive Card via Webhook",
+    "title": "Microsoft Teams - Post Adaptive Card via Webhook",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Card Schema",
+          "type": "datatype.string",
+          "description": "The JSON payload for the Adaptive Card you want to send. If you need help building your card, try this: https://adaptivecards.io/designer/",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01NKJST84DH7Z0sHKJFiObq7PAQMuKq52Uj",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "Microsoft Teams",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": false,
+      "description": "Posts a message with an Adaptive Card to a Microsoft Teams channel using a webhook. Note that you must create a webhook in Teams before you can use this atomic.\n\nTarget: HTTP endpoint for your webhook. For example, the host might be \"your-tenant.webhook.office.com\" and the path would be everything after the first \"/\"\n\nAccount Key: None\n\nSteps:\n[] Build the JSON for the message and card\n[] Send the message to the webhook\n[] Check if the request succeeded:\n[]\u003e If it didn't, output an error\n[]\u003e If it did, check that the webhook accepted the message (if not, output an error)\n\nInteractive card designer: https://adaptivecards.io/designer/\n\nMore information about webhooks in Teams: https://docs.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/connectors-using#setting-up-a-custom-incoming-webhook",
+      "display_name": "Microsoft Teams - Post Adaptive Card via Webhook",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "specify_on_workflow_start": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01NRJEY9W1AJO3yfV1g9LIeF34DQ7HOwgoO",
+        "name": "Execute Python Script",
+        "title": "Build message payload",
+        "type": "python3.script",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Build message payload",
+          "script": "import sys, json\n\nmessage = {\n\t\"type\": \"message\",\n\t\"attachments\": [{\n\t\t\"contentType\": \"application/vnd.microsoft.card.adaptive\",\n\t\t\"contentUrl\": \"\",\n\t\t\"content\": json.loads(sys.argv[1])\n\t}]\n}\n\nmessageJson = json.dumps(message)",
+          "script_arguments": [
+            "$workflow.definition_workflow_01NKJPVTZ2E492W2ONA1T8pgoJdW3qmw1NU.input.variable_workflow_01NKJST84DH7Z0sHKJFiObq7PAQMuKq52Uj$"
+          ],
+          "script_queries": [
+            {
+              "script_query": "messageJson",
+              "script_query_name": "messageJson",
+              "script_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01NKJSZUD7HI04aX3fTwA65ptSUA2uIPnNh",
+        "name": "HTTP Request",
+        "title": "Post Teams message",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "$activity.definition_activity_01NRJEY9W1AJO3yfV1g9LIeF34DQ7HOwgoO.output.script_queries.messageJson$",
+          "content_type": "application/json",
+          "continue_on_error_status_code": true,
+          "continue_on_failure": false,
+          "display_name": "Post Teams message",
+          "method": "POST",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01NLFT5E8C1CD2DRL8uF8w3MMmODH07jZ9l",
+        "name": "Condition Block",
+        "title": "Was the request successful?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Was the request successful?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01NRJPLGMQ4S800AakOiyLHWGYxiGMDFUki",
+            "name": "Condition Branch",
+            "title": "200/Success",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01NKJSZUD7HI04aX3fTwA65ptSUA2uIPnNh.output.status_code$",
+                "operator": "eq",
+                "right_operand": 200
+              },
+              "continue_on_failure": false,
+              "display_name": "200/Success",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01NRJQ290OQXX6TmlYhea6qMKdsVkvbT4Ro",
+                "name": "Condition Block",
+                "title": "Were there any errors?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Were there any errors?",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                  {
+                    "unique_name": "definition_activity_01NRJQ2O2OQM475C1la0HG387U7lQoNMh4G",
+                    "name": "Condition Branch",
+                    "title": "Yes",
+                    "type": "logic.condition_block",
+                    "base_type": "activity",
+                    "properties": {
+                      "condition": {
+                        "left_operand": "$activity.definition_activity_01NKJSZUD7HI04aX3fTwA65ptSUA2uIPnNh.output.response_body$",
+                        "operator": "ne",
+                        "right_operand": "1"
+                      },
+                      "continue_on_failure": false,
+                      "display_name": "Yes",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity",
+                    "actions": [
+                      {
+                        "unique_name": "definition_activity_01NRJQB5OFARP1puglBBh7KLLsO9FMAP4vG",
+                        "name": "Completed",
+                        "title": "Failed",
+                        "type": "logic.completed",
+                        "base_type": "activity",
+                        "properties": {
+                          "completion_type": "failed-completed",
+                          "continue_on_failure": false,
+                          "display_name": "Failed",
+                          "result_message": "Error while sending Microsoft Teams message\n\nResponse body: $activity.definition_activity_01NKJSZUD7HI04aX3fTwA65ptSUA2uIPnNh.output.response_body$",
+                          "skip_execution": false
+                        },
+                        "object_type": "definition_activity"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01NLFT5TB7OJ61onKnYm7LC7kzxrqynXR0M",
+            "name": "Condition Branch",
+            "title": "Anything else",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01NKJSZUD7HI04aX3fTwA65ptSUA2uIPnNh.output.status_code$",
+                "operator": "ne",
+                "right_operand": 200
+              },
+              "continue_on_failure": false,
+              "display_name": "Anything else",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01NLFV2COAVFU7V8d73WED0dRL2skWXm4pY",
+                "name": "Completed",
+                "title": "Failed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Failed",
+                  "result_message": "Failed to send Microsoft Teams message\n\nStatus code: $activity.definition_activity_01NKJSZUD7HI04aX3fTwA65ptSUA2uIPnNh.output.status_code$\nResponse body: $activity.definition_activity_01NKJSZUD7HI04aX3fTwA65ptSUA2uIPnNh.output.response_body$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}
