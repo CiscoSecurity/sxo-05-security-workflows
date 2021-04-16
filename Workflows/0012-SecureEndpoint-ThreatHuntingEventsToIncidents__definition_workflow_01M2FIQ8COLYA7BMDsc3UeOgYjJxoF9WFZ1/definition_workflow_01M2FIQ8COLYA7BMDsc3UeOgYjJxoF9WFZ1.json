@@ -40,7 +40,7 @@
         "is_atomic": false
       },
       "delete_workflow_instance": false,
-      "description": "This workflow periodically checks a Secure Endpoint instance for SecureX Threat Hunting events. When an event is returned, the workflow collects information from it and creates a casebook and incident in Threat Response to document what happened. This workflow is designed to run every 5 minutes on a schedule.\n\nTarget Group: Default TargetGroup\n\nTargets: AMP_Target, CTR_API, CTR_For_Access_Token, Private_CTIA_Target\n\nSteps:\n[] Detect the region/environment being used\n[] Calculate date/times\n[] Fetch events from Secure Endpoint\n[] Check if events were returned, if not end the workflow\n[] For each event:\n[]\u003e Extract the event's information\n[]\u003e Format the information for Threat Response\n[]\u003e Create an incident, casebook, and sighting\n\nMore information: https://cs.co/SXO_docs",
+      "description": "This workflow periodically checks a Secure Endpoint instance for SecureX Threat Hunting events. When an event is returned, the workflow collects information from it and creates a casebook and incident in Threat Response to document what happened. This workflow is designed to run every 5 minutes on a schedule.\n\nTarget Group: Default TargetGroup\n\nTargets: AMP_Target, CTR_For_Access_Token, Private_CTIA_Target\n\nSteps:\n[] Detect the region/environment being used\n[] Calculate date/times\n[] Fetch events from Secure Endpoint\n[] Check if events were returned, if not end the workflow\n[] For each event:\n[]\u003e Extract the event's information\n[]\u003e Format the information for Threat Response\n[]\u003e Create an incident, casebook, and sighting\n\nMore information: https://cs.co/SXO_docs",
       "display_name": "0012 - Secure Endpoint - Threat Hunting Events to Incidents",
       "runtime_user": {
         "override_target_runtime_user": false,
@@ -268,7 +268,7 @@
               "action_timeout": 180,
               "allow_auto_redirect": true,
               "content_type": "application/json",
-              "continue_on_error_status_code": false,
+              "continue_on_error_status_code": true,
               "continue_on_failure": false,
               "display_name": "Get recent Threat Hunting events",
               "method": "GET",
