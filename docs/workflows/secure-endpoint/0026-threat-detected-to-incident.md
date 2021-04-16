@@ -1,27 +1,28 @@
 ---
 layout: page
-title: Threat Hunting Events to Incidents
-permalink: /workflows/secure-endpoint/0012-threat-hunting-to-incidents
+title: Threat Detected Events to Incidents
+permalink: /workflows/secure-endpoint/0026-threat-detected-to-incident
 redirect_from:
-  - /workflows/0012
+  - /workflows/0026
 parent: Cisco Secure Endpoint
 grand_parent: Workflows
 ---
 
-# Threat Hunting Events to Incidents
+# Threat Detected Events to Incidents
 <div markdown="1">
-Workflow #0012
+Workflow #0026
 {: .label }
 </div>
 
-This workflow periodically checks a Secure Endpoint (formerly AMP for Endpoints) instance for SecureX Threat Hunting events. When an event is returned, the workflow collects information from it and creates a casebook and incident in Threat Response to document what happened. This workflow is designed to run every 5 minutes on a schedule.
+This workflow periodically checks a Secure Endpoint instance for Threat Detected events. When an event is returned, the workflow collects information from it and creates a casebook and incident in Threat Response to document what happened. This workflow is designed to run every 5 minutes on a schedule.
 
-[<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0012-SecureEndpoint-ThreatHuntingEventsToIncidents__definition_workflow_01M2FIQ8COLYA7BMDsc3UeOgYjJxoF9WFZ1){: .btn-cisco-outline }
+[<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0026-SecureEndpoint-ThreatDetectedEventsToIncidents__definition_workflow_01NSEREWTPFQR6mMCkT1Qe4LO6bppVMYLMW){: .btn-cisco-outline }
 
 ---
 
 ## Requirements
 * The following atomic actions must be imported before you can import this workflow:
+	* AMP - Get Events ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* Threat Response v2 - Create Casebook ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* Threat Response v2 - Create Incident ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* Threat Response v2 - Create Relationship ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
@@ -44,7 +45,7 @@ This workflow periodically checks a Secure Endpoint (formerly AMP for Endpoints)
 ---
 
 ## Configuration
-* By default, the workflow is configured to run every 5 minutes using the **0012 - Secure Endpoint - Threat Hunting Events to Incidents** [schedule]({{ site.baseurl }}/schedules). When you import the workflow, the schedule trigger will be disabled. To enable the schedule:
+* By default, the workflow is configured to run every 5 minutes using the **0026 - Secure Endpoint -  Threat Detected Events to Incidents** [schedule]({{ site.baseurl }}/schedules). When you import the workflow, the schedule trigger will be disabled. To enable the schedule:
 	* Open the workflow in the workflow editor
 	* Scroll down to the **Triggers** section of the workflow's properties and click **Secure Endpoint Event Polling**
 	* Uncheck the **Disable Trigger** box and click **Save**
