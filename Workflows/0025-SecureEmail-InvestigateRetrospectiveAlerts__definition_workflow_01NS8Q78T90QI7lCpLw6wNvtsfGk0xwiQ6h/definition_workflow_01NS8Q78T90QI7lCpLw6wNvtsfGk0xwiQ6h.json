@@ -23,7 +23,7 @@
       {
         "schema_id": "datatype.string",
         "properties": {
-          "value": "SecureX Orchestration",
+          "value": "",
           "scope": "local",
           "name": "Webex Teams Room Name",
           "type": "datatype.string",
@@ -93,7 +93,7 @@
         "properties": {
           "continue_on_failure": false,
           "display_name": "Fetch global variables",
-          "skip_execution": false
+          "skip_execution": true
         },
         "object_type": "definition_activity",
         "actions": [
@@ -110,7 +110,7 @@
               "variables_to_update": [
                 {
                   "variable_to_update": "$workflow.definition_workflow_01NS8Q78T90QI7lCpLw6wNvtsfGk0xwiQ6h.local.variable_workflow_01NS8Q78JQ0PR5hwJ2hQGbSDJX0DRpZUazq$",
-                  "variable_value_new": "$global.variable_01IYP3ER54RAZ07JO637LxxIm1HiHc6HMZc.global.variable_01IYP3ER54RAZ07JO637LxxIm1HiHc6HMZc$"
+                  "variable_value_new": ""
                 }
               ]
             },
@@ -543,15 +543,15 @@
       "base_type": "trigger",
       "ref_id": "event_01NQL1QCR9SKH3TY0X6nN0VDF1DN5H1iGGf",
       "version": "",
-      "disabled": false,
+      "disabled": true,
       "unique_name": "triggerevent_01NS8Q8TRDXYI68IK9jCBzzXNdvzaFo3fB1",
       "object_type": "triggerevent"
     }
   },
   "events": {
     "event_01NQL1QCR9SKH3TY0X6nN0VDF1DN5H1iGGf": {
-      "name": "0025 - AMP Retrospective Alert Notification",
-      "title": "0025 - AMP Retrospective Alert Notification",
+      "name": "0025 - Secure Endpoint - Retrospective Alert Notification",
+      "title": "0025 - Secure Endpoint - Retrospective Alert Notification",
       "type": "email.event",
       "base_type": "event",
       "object_type": "event",
@@ -565,11 +565,11 @@
           "operator": "mw",
           "right_operand": "*AMP Retrospective Alert*"
         },
-        "display_name": "AMP Retrospective Alert Notification",
+        "display_name": "0025 - Secure Endpoint - Retrospective Alert Notification",
         "download_attachments": false,
         "folder": "INBOX",
         "target_id": "definition_target_01NQL9ITJGIDU2Fi9yQIWegC6Dlf51uWGqD",
-        "title": "0025 - AMP Retrospective Alert Notification"
+        "title": "0025 - Secure Endpoint - Retrospective Alert Notification"
       },
       "unique_name": "event_01NQL1QCR9SKH3TY0X6nN0VDF1DN5H1iGGf"
     }
@@ -577,35 +577,19 @@
   "targets": {
     "definition_target_01NQL9ITJGIDU2Fi9yQIWegC6Dlf51uWGqD": {
       "unique_name": "definition_target_01NQL9ITJGIDU2Fi9yQIWegC6Dlf51uWGqD",
-      "name": "MAVANDER Ambigio",
-      "title": "MAVANDER Ambigio",
+      "name": "0025 - Retrospective Alert Mailbox",
+      "title": "0025 - Retrospective Alert Mailbox",
       "type": "email.imap_endpoint",
       "base_type": "target",
       "object_type": "definition_target",
       "properties": {
-        "default_runtime_user_id": "definition_runtime_user_01NQL97N5D6YM3cIhaJUGmrCs43AAc6zsXm",
-        "display_name": "MAVANDER Ambigio",
+        "display_name": "0025 - Retrospective Alert Mailbox",
         "ignore_certificate_errors": false,
         "polling_interval": 30,
         "port": 993,
         "protocol": "IMAP",
-        "server": "mail.ambigio.net",
+        "server": "mail.yourdomain.com",
         "tls_enabled": true
-      }
-    }
-  },
-  "runtime_users": {
-    "definition_runtime_user_01NQL97N5D6YM3cIhaJUGmrCs43AAc6zsXm": {
-      "unique_name": "definition_runtime_user_01NQL97N5D6YM3cIhaJUGmrCs43AAc6zsXm",
-      "name": "mavander@ambigio.net",
-      "title": "mavander@ambigio.net",
-      "type": "runtime_user.email_credentials",
-      "base_type": "runtime_user",
-      "object_type": "definition_runtime_user",
-      "properties": {
-        "display_name": "mavander@ambigio.net",
-        "password": "*****",
-        "sender": "*****"
       }
     }
   },
@@ -640,20 +624,6 @@
         }
       ],
       "object_type": "target_group"
-    }
-  },
-  "variables": {
-    "variable_01IYP3ER54RAZ07JO637LxxIm1HiHc6HMZc": {
-      "unique_name": "variable_01IYP3ER54RAZ07JO637LxxIm1HiHc6HMZc",
-      "properties": {
-        "value": "*****",
-        "scope": "global",
-        "name": "Webex - SecureX Test Bot",
-        "type": "datatype.secure_string",
-        "is_required": false,
-        "is_invisible": false
-      },
-      "object_type": "variable"
     }
   },
   "atomic_workflows": [

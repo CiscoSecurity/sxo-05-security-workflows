@@ -44,11 +44,13 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 	* Threat Response v2 - Enrich Observable ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* Threat Response v2 - Generate Access Token ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* Threat Response v2 - Inspect for Observables ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Webex Teams - Post Message to Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* Webex Teams - Post Message to Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos)) * See note below!
 	* Webex Teams - Search for Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 * (Optional) A Webex Teams access token and room name to post messages to
 
-**Note:** The latest version of this workflow uses new Threat Response v2 atomic actions. You may need to import these before updating the workflow.
+### Important Notes
+* The latest version of this workflow uses new Threat Response v2 atomic actions. You may need to import these before updating the workflow.
+* You may have an old version of the `Webex Teams - Post Message to Room` atomic. To ensure the best experience with this workflow, be sure to import the latest version of this atomic from the `GitHub_Target_Atomics` repository!
 
 ---
 

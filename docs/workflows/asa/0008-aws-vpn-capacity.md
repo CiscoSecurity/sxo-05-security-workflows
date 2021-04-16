@@ -23,11 +23,13 @@ This workflow demonstrates the ability to dynamically expand ASA head end capaci
 
 ## Requirements
 * The following atomic actions must be imported before you can import this workflow:
-	* Webex Teams - Post Message to Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* Webex Teams - Post Message to Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos)) * See note below!
 	* Webex Teams - Search for Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 * A Cisco Adaptive Security Appliance (ASA)
 * An Amazon Web Services account with EC2 permissions
 * (Optional) A Webex Teams access token and room name to post messages to
+
+**Note:** You may have an old version of the `Webex Teams - Post Message to Room` atomic. To ensure the best experience with this workflow, be sure to import the latest version of this atomic from the `GitHub_Target_Atomics` repository!
 
 ---
 
