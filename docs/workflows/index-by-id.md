@@ -38,3 +38,4 @@ This page contains a list of all of the workflows published in the repository so
 | 0023 | Cisco Umbrella | [Excessive Requests to Incidents]({{ site.baseurl }}/workflows/0023) |
 | 0024 | Cisco Secure Firewall | Incident Endpoint Enrichment (Coming Soon) |
 | 0025 | Cisco Secure Email | [Investigate Retrospective Alerts]({{ site.baseurl }}/workflows/0025) |
+| 0026 | Cisco Secure Endpoint | [Threat Detected Events to Incidents]({{ site.baseurl }}/workflows/0026) |
