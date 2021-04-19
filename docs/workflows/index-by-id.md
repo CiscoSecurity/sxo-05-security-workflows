@@ -26,8 +26,8 @@ This page contains a list of all of the workflows published in the repository so
 | 0012 | Cisco Secure Endpoint | [Threat Hunting Events to Incidents]({{ site.baseurl }}/workflows/0012) |
 | 0013 | Cisco Secure Firewall | [Impact Red Remediation]({{ site.baseurl }}/workflows/0013) |
 | 0014 | Cisco Secure Cloud Analytics | [Isolate Endpoints from Alerts]({{ site.baseurl }}/workflows/0014) |
-| 0015A | Cisco Secure Firewall | Block Observables - Setup (Coming Soon) |
-| 0015B | Cisco Secure Firewall | Block Observables (Coming Soon) |
+| 0015A | Cisco Secure Firewall | [Block Observables - Setup]({{ site.baseurl }}/workflows/0015A) |
+| 0015B | Cisco Secure Firewall | [Block Observables]({{ site.baseurl }}/workflows/0015B) |
 | 0016 | Cisco Secure Cloud Analytics | [Block IPs and Domains from Alerts in Umbrella]({{ site.baseurl }}/workflows/0016) |
 | 0017 | Cisco Umbrella | [Add to Destination List]({{ site.baseurl }}/workflows/0017) |
 | 0018 | ServiceNow | [Request Firewall NullRoute]({{ site.baseurl }}/workflows/0018) |
@@ -36,6 +36,6 @@ This page contains a list of all of the workflows published in the repository so
 | 0021 | Cisco Secure Endpoint | [Vulnerabilities to ServiceNow Incidents]({{ site.baseurl }}/workflows/0021) |
 | 0022 | Cisco Secure Endpoint | [Vulnerabilities to SecureX Incidents]({{ site.baseurl }}/workflows/0022) |
 | 0023 | Cisco Umbrella | [Excessive Requests to Incidents]({{ site.baseurl }}/workflows/0023) |
-| 0024 | Cisco Secure Firewall | Incident Endpoint Enrichment (Coming Soon) |
+| 0024 | Cisco Secure Firewall | [Incident Endpoint Enrichment]({{ site.baseurl }}/workflows/0024) |
 | 0025 | Cisco Secure Email | [Investigate Retrospective Alerts]({{ site.baseurl }}/workflows/0025) |
 | 0026 | Cisco Secure Endpoint | [Threat Detected Events to Incidents]({{ site.baseurl }}/workflows/0026) |
