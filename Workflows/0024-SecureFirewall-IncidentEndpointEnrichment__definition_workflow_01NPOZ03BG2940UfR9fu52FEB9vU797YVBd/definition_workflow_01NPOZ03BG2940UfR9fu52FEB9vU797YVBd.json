@@ -1,0 +1,1023 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01NPOZ03BG2940UfR9fu52FEB9vU797YVBd",
+    "name": "0024 - Secure Firewall - Incident Endpoint Enrichment",
+    "title": "0024 - Secure Firewall - Incident Endpoint Enrichment",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.date",
+        "properties": {
+          "value": "0001-01-01T00:00:00+00:00",
+          "scope": "local",
+          "name": "Threat Response Token Time",
+          "type": "datatype.date",
+          "description": "The time at which the Threat Response access token was last fetched. This is used to determine when it's time to fetch a new token and should not be modified",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01NPULK0HV1CU5vGV2cVIHMcWTLQA7LMiPE",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "Threat Response Access Token",
+          "type": "datatype.secure_string",
+          "description": "Placeholder for the Threat Response access token. This token will be fetched as needed throughout the workflow and this variable should not be modified",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01NPULBRM9RT32sFsA3bS1CCJaQ4xyOgxOY",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "description": "This workflow fetches Cisco Secure Firewall incidents and conducts automated enrichment to see if additional data can be found about the endpoint that caused the event. The source of the event is searched in Cisco Secure Endpoint and if a matching endpoint is found, a casebook and sighting are created with more details.\n\nTarget Group: Default TargetGroup\n\nTargets: AMP_Target, CTR_For_Access_Token, Private_CTIA_Target\n\nSteps:\n[] Generate an access token for Threat Response\n[] Fetch incidents for the past hour\n[] Loop through each incident:\n[]\u003e Get the incident's relationships\n[]\u003e Refresh the Threat Response token (if necessary)\n[]\u003e Loop through each relationship:\n[]\u003e\u003e Extract the sighting ID and fetch it\n[]\u003e\u003e Extract the target IP from the sighting\n[]\u003e\u003e Check if we got an IP address:\n[]\u003e\u003e\u003e Search the IP in Secure Endpoint\n[]\u003e\u003e\u003e If an endpoint was found, create a casebook and more detailed sighting\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0024",
+      "display_name": "0024 - Secure Firewall - Incident Endpoint Enrichment",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": true,
+        "target_group": {
+          "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+          "run_on_all_targets": false,
+          "selected_target_types": [
+            "web-service.endpoint"
+          ],
+          "use_criteria": {
+            "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+            "conditions": [
+              {
+                "operator": "eqi",
+                "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                "right_operand": "Private_CTIA_Target"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01NPSAL3S0ZL66zu1rFEs8Jy5sMNiw7UVxi",
+        "name": "Threat Response v2 - Generate Access Token",
+        "title": "Threat Response v2 - Generate Access Token",
+        "type": "workflow.atomic_workflow",
+        "base_type": "subworkflow",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Threat Response v2 - Generate Access Token",
+          "runtime_user": {
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target_group_criteria": true,
+            "target_group": {
+              "run_on_all_targets": false,
+              "use_criteria": {
+                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                "conditions": [
+                  {
+                    "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                    "operator": "eqi",
+                    "right_operand": "CTR_For_Access_Token"
+                  }
+                ]
+              }
+            }
+          },
+          "workflow_id": "definition_workflow_01KWJ2ISZTF2V6ibRYe7FZ7sOuycDOpnwss"
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01NPUKT0IY07K50kVbzckNw18jk383AZwVj",
+        "name": "Set Variables",
+        "title": "Set local token variables",
+        "type": "core.set_multiple_variables",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Set local token variables",
+          "skip_execution": false,
+          "variables_to_update": [
+            {
+              "variable_to_update": "$workflow.definition_workflow_01NPOZ03BG2940UfR9fu52FEB9vU797YVBd.local.variable_workflow_01NPULBRM9RT32sFsA3bS1CCJaQ4xyOgxOY$",
+              "variable_value_new": "$activity.definition_activity_01NPSAL3S0ZL66zu1rFEs8Jy5sMNiw7UVxi.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$"
+            },
+            {
+              "variable_to_update": "$workflow.definition_workflow_01NPOZ03BG2940UfR9fu52FEB9vU797YVBd.local.variable_workflow_01NPULK0HV1CU5vGV2cVIHMcWTLQA7LMiPE$",
+              "variable_value_new": "$activity.definition_activity_01NPSAL3S0ZL66zu1rFEs8Jy5sMNiw7UVxi.output.end_time$"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01NPSJLBMDN427SWmWRfklh8bf6A71MLEKU",
+        "name": "Calculate Date",
+        "title": "Calculate time 1 hour ago",
+        "type": "core.calculate_date",
+        "base_type": "activity",
+        "properties": {
+          "adjustment": -3600,
+          "continue_on_failure": false,
+          "display_name": "Calculate time 1 hour ago",
+          "original_date": "$workflow.definition_workflow_01NPOZ03BG2940UfR9fu52FEB9vU797YVBd.output.start_time$",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01NUVP0P32WZV0PQRYSjlFEHyIxkL1gmrqe",
+        "name": "HTTP Request",
+        "title": "Search for incidents",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "application/json",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "content_type": "application/json",
+          "continue_on_error_status_code": true,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $activity.definition_activity_01NPSAL3S0ZL66zu1rFEs8Jy5sMNiw7UVxi.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$"
+            }
+          ],
+          "display_name": "Search for incidents",
+          "method": "GET",
+          "relative_url": "/ctia/incident/search?limit=100\u0026offset=0\u0026sort_by=timestamp\u0026sort_order=asc\u0026query=source:\"NGFW Event Service\" AND status:\"New\" AND incident_time.opened:{$activity.definition_activity_01NPSJLBMDN427SWmWRfklh8bf6A71MLEKU.output.result$ TO *}",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "use_workflow_target_group": true
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01NUVU6NN08GJ3TsDlr5Ls893MKu87Xh7NP",
+        "name": "Condition Block",
+        "title": "Was the request successful?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Was the request successful?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01NUVU7FF3BKI4dE6K01kpypiAnz80cEJ24",
+            "name": "Condition Branch",
+            "title": "No",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01NUVP0P32WZV0PQRYSjlFEHyIxkL1gmrqe.output.status_code$",
+                "operator": "ne",
+                "right_operand": 200
+              },
+              "continue_on_failure": false,
+              "display_name": "No",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01NUVU9G8GR4M2I6xsw1SDDNuYGtrXMsW31",
+                "name": "Completed",
+                "title": "Failed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Failed",
+                  "result_message": "Failed to search for incidents\n\nStatus code: $activity.definition_activity_01NUVP0P32WZV0PQRYSjlFEHyIxkL1gmrqe.output.status_code$\nResponse body: $activity.definition_activity_01NUVP0P32WZV0PQRYSjlFEHyIxkL1gmrqe.output.response_body$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01NPSP0GWBKSQ08AssLsWbA8AQ1ZS8mY9K1",
+        "name": "Read Table from JSON",
+        "title": "Convert incidents to table",
+        "type": "corejava.read_table_from_json",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Convert incidents to table",
+          "input_json": "$activity.definition_activity_01NUVP0P32WZV0PQRYSjlFEHyIxkL1gmrqe.output.response_body$",
+          "jsonpath_query": "$.",
+          "persist_output": false,
+          "populate_columns": false,
+          "skip_execution": false,
+          "table_columns": [
+            {
+              "column_name": "id",
+              "column_type": "string"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01NPSPSKR2SHZ55uakMgEUjOBvBTy6t6sg3",
+        "name": "For Each",
+        "title": "For each incident",
+        "type": "logic.for_each",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "For each incident",
+          "skip_execution": false,
+          "source_array": "$activity.definition_activity_01NPSP0GWBKSQ08AssLsWbA8AQ1ZS8mY9K1.output.read_table_from_json$"
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01NUVQXU2XFGT0UckO509IusdyXhqQwl2po",
+            "name": "HTTP Request",
+            "title": "Search for relationships",
+            "type": "web-service.http_request",
+            "base_type": "activity",
+            "properties": {
+              "accept": "application/json",
+              "action_timeout": 180,
+              "allow_auto_redirect": true,
+              "content_type": "application/json",
+              "continue_on_error_status_code": true,
+              "continue_on_failure": false,
+              "custom_headers": [
+                {
+                  "name": "Authorization",
+                  "value": "Bearer $activity.definition_activity_01NPSAL3S0ZL66zu1rFEs8Jy5sMNiw7UVxi.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$"
+                }
+              ],
+              "display_name": "Search for relationships",
+              "method": "GET",
+              "relative_url": "/ctia/relationship/search?limit=100\u0026offset=0\u0026sort_by=timestamp\u0026sort_order=asc\u0026query=target_ref:\"$activity.definition_activity_01NPSPSKR2SHZ55uakMgEUjOBvBTy6t6sg3.input.source_array[@].id$\" AND source:\"NGFW Event Service\" AND source_ref:*sighting*",
+              "runtime_user": {
+                "override_target_runtime_user": false,
+                "target_default": true
+              },
+              "skip_execution": false,
+              "target": {
+                "use_workflow_target_group": true
+              }
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01NUVW3EY9TWD7UCfd832Juq3RczPJNo823",
+            "name": "Condition Block",
+            "title": "Was the request successful?",
+            "type": "logic.if_else",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Was the request successful?",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "blocks": [
+              {
+                "unique_name": "definition_activity_01NUVW4609KBG6H7abCVTREywxIqDlO1Mzx",
+                "name": "Condition Branch",
+                "title": "No",
+                "type": "logic.condition_block",
+                "base_type": "activity",
+                "properties": {
+                  "condition": {
+                    "left_operand": "$activity.definition_activity_01NUVQXU2XFGT0UckO509IusdyXhqQwl2po.output.status_code$",
+                    "operator": "ne",
+                    "right_operand": 200
+                  },
+                  "continue_on_failure": false,
+                  "display_name": "No",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01NUVWMOMJ6QG5u049LKE5PJC8qMhg7wFt4",
+                    "name": "Completed",
+                    "title": "Failed",
+                    "type": "logic.completed",
+                    "base_type": "activity",
+                    "properties": {
+                      "completion_type": "failed-completed",
+                      "continue_on_failure": false,
+                      "display_name": "Failed",
+                      "result_message": "Failed to search for relationships for incident with ID $activity.definition_activity_01NPSPSKR2SHZ55uakMgEUjOBvBTy6t6sg3.input.source_array[@].id$\n\nStatus code: $activity.definition_activity_01NUVQXU2XFGT0UckO509IusdyXhqQwl2po.output.status_code$\nResponse body: $activity.definition_activity_01NUVQXU2XFGT0UckO509IusdyXhqQwl2po.output.response_body$",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01NPUM97GAEGR06MiJwxDaQ1oxBrUjnRtBU",
+            "name": "Group",
+            "title": "Validate Threat Response token",
+            "type": "logic.group",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Validate Threat Response token",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01NPUMOXT0RJP00o5E4yejDUkYOYhg0P120",
+                "name": "Calculate Date Time Difference",
+                "title": "Check token age",
+                "type": "core.calculate_date_time_difference",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Check token age",
+                  "original_date": "$activity.definition_activity_01NUVW3EY9TWD7UCfd832Juq3RczPJNo823.output.end_time$",
+                  "skip_execution": false,
+                  "subtract_date": "$workflow.definition_workflow_01NPOZ03BG2940UfR9fu52FEB9vU797YVBd.local.variable_workflow_01NPULK0HV1CU5vGV2cVIHMcWTLQA7LMiPE$"
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01NPUM3F60XLA2iMOGQBTkPUQHGF5zNb9jw",
+                "name": "Condition Block",
+                "title": "Is it over 8 minutes?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Is it over 8 minutes?",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                  {
+                    "unique_name": "definition_activity_01NPUM49BBFEE257YUtKyu0Xdvbd64DXwRa",
+                    "name": "Condition Branch",
+                    "title": "Yes",
+                    "type": "logic.condition_block",
+                    "base_type": "activity",
+                    "properties": {
+                      "condition": {
+                        "left_operand": "$activity.definition_activity_01NPUMOXT0RJP00o5E4yejDUkYOYhg0P120.output.total_minutes$",
+                        "operator": "gte",
+                        "right_operand": 8
+                      },
+                      "continue_on_failure": false,
+                      "display_name": "Yes",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity",
+                    "actions": [
+                      {
+                        "unique_name": "definition_activity_01NPUO9QMJ2OU3NP8jagIrlJghZPf9jE67w",
+                        "name": "Threat Response v2 - Generate Access Token",
+                        "title": "Threat Response v2 - Generate Access Token",
+                        "type": "workflow.atomic_workflow",
+                        "base_type": "subworkflow",
+                        "properties": {
+                          "continue_on_failure": false,
+                          "display_name": "Threat Response v2 - Generate Access Token",
+                          "runtime_user": {
+                            "target_default": true
+                          },
+                          "skip_execution": false,
+                          "target": {
+                            "override_workflow_target_group_criteria": true,
+                            "target_group": {
+                              "run_on_all_targets": false,
+                              "use_criteria": {
+                                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                "conditions": [
+                                  {
+                                    "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                    "operator": "eqi",
+                                    "right_operand": "CTR_For_Access_Token"
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          "workflow_id": "definition_workflow_01KWJ2ISZTF2V6ibRYe7FZ7sOuycDOpnwss"
+                        },
+                        "object_type": "definition_activity"
+                      },
+                      {
+                        "unique_name": "definition_activity_01NPUOHEC4UVX6ZKfjCFqCX238isHcLeZCE",
+                        "name": "Set Variables",
+                        "title": "Set local token variables",
+                        "type": "core.set_multiple_variables",
+                        "base_type": "activity",
+                        "properties": {
+                          "continue_on_failure": false,
+                          "display_name": "Set local token variables",
+                          "skip_execution": false,
+                          "variables_to_update": [
+                            {
+                              "variable_to_update": "$workflow.definition_workflow_01NPOZ03BG2940UfR9fu52FEB9vU797YVBd.local.variable_workflow_01NPULBRM9RT32sFsA3bS1CCJaQ4xyOgxOY$",
+                              "variable_value_new": "$activity.definition_activity_01NPUO9QMJ2OU3NP8jagIrlJghZPf9jE67w.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$"
+                            },
+                            {
+                              "variable_to_update": "$workflow.definition_workflow_01NPOZ03BG2940UfR9fu52FEB9vU797YVBd.local.variable_workflow_01NPULK0HV1CU5vGV2cVIHMcWTLQA7LMiPE$",
+                              "variable_value_new": "$activity.definition_activity_01NPUO9QMJ2OU3NP8jagIrlJghZPf9jE67w.output.end_time$"
+                            }
+                          ]
+                        },
+                        "object_type": "definition_activity"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01NPT01DVWA2T3iB4qC2FEtsBev1LnPGAex",
+            "name": "Read Table from JSON",
+            "title": "Convert relationships to table",
+            "type": "corejava.read_table_from_json",
+            "base_type": "activity",
+            "properties": {
+              "action_timeout": 180,
+              "continue_on_failure": false,
+              "display_name": "Convert relationships to table",
+              "input_json": "$activity.definition_activity_01NUVQXU2XFGT0UckO509IusdyXhqQwl2po.output.response_body$",
+              "jsonpath_query": "$.",
+              "persist_output": false,
+              "populate_columns": false,
+              "skip_execution": false,
+              "table_columns": [
+                {
+                  "column_name": "source_ref",
+                  "column_type": "string"
+                }
+              ]
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01NPT05O4O0MI6toKjnOcm39xZENakeUbGw",
+            "name": "For Each",
+            "title": "For each relationship",
+            "type": "logic.for_each",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "For each relationship",
+              "skip_execution": false,
+              "source_array": "$activity.definition_activity_01NPT01DVWA2T3iB4qC2FEtsBev1LnPGAex.output.read_table_from_json$"
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01NPT51BZULA43DWkMZZYnwjKR4akIMRwH0",
+                "name": "Match Regex",
+                "title": "Extract the sighting ID",
+                "type": "core.matchregex",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Extract the sighting ID",
+                  "input_regex": "(sighting-[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12})$",
+                  "input_string": "$activity.definition_activity_01NPT05O4O0MI6toKjnOcm39xZENakeUbGw.input.source_array[@].source_ref$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01NUVSDQ9ODES7AWg7KxkXrrFtm7T3CVWhA",
+                "name": "HTTP Request",
+                "title": "Search for sightings",
+                "type": "web-service.http_request",
+                "base_type": "activity",
+                "properties": {
+                  "accept": "application/json",
+                  "action_timeout": 180,
+                  "allow_auto_redirect": true,
+                  "content_type": "application/json",
+                  "continue_on_error_status_code": true,
+                  "continue_on_failure": false,
+                  "custom_headers": [
+                    {
+                      "name": "Authorization",
+                      "value": "Bearer $activity.definition_activity_01NPSAL3S0ZL66zu1rFEs8Jy5sMNiw7UVxi.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$"
+                    }
+                  ],
+                  "display_name": "Search for sightings",
+                  "method": "GET",
+                  "relative_url": "/ctia/sighting/search?limit=100\u0026offset=0\u0026sort_by=timestamp\u0026sort_order=asc\u0026query=id:\"$activity.definition_activity_01NPT51BZULA43DWkMZZYnwjKR4akIMRwH0.output.matching_strings[0]$\"",
+                  "runtime_user": {
+                    "override_target_runtime_user": false,
+                    "target_default": true
+                  },
+                  "skip_execution": false,
+                  "target": {
+                    "use_workflow_target_group": true
+                  }
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01NUVXIEEACYE01pdzVPaMPrsEfVC6X4wTc",
+                "name": "Condition Block",
+                "title": "Was the request succesful?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Was the request succesful?",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                  {
+                    "unique_name": "definition_activity_01NUVXJ5DUUIM34STISahPypjpiCqlpsX8E",
+                    "name": "Condition Branch",
+                    "title": "No",
+                    "type": "logic.condition_block",
+                    "base_type": "activity",
+                    "properties": {
+                      "condition": {
+                        "left_operand": "$activity.definition_activity_01NUVSDQ9ODES7AWg7KxkXrrFtm7T3CVWhA.output.status_code$",
+                        "operator": "ne",
+                        "right_operand": 200
+                      },
+                      "continue_on_failure": false,
+                      "display_name": "No",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity",
+                    "actions": [
+                      {
+                        "unique_name": "definition_activity_01NUVXMB6GQFF0k6pgYp2i8lOJqJToHSUOd",
+                        "name": "Completed",
+                        "title": "Failed",
+                        "type": "logic.completed",
+                        "base_type": "activity",
+                        "properties": {
+                          "completion_type": "failed-completed",
+                          "continue_on_failure": false,
+                          "display_name": "Failed",
+                          "result_message": "Failed to search for sightings for incident with ID $activity.definition_activity_01NPSPSKR2SHZ55uakMgEUjOBvBTy6t6sg3.input.source_array[@].id$\n\nStatus code: $activity.definition_activity_01NUVSDQ9ODES7AWg7KxkXrrFtm7T3CVWhA.output.status_code$\nResponse body: $activity.definition_activity_01NUVSDQ9ODES7AWg7KxkXrrFtm7T3CVWhA.output.response_body$",
+                          "skip_execution": false
+                        },
+                        "object_type": "definition_activity"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "unique_name": "definition_activity_01NPTBPMNTHHJ7be503DrHFUraH07RqRPxg",
+                "name": "JSONPath Query",
+                "title": "Extract the sighting target IP",
+                "type": "corejava.jsonpathquery",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "continue_on_failure": true,
+                  "display_name": "Extract the sighting target IP",
+                  "input_json": "$activity.definition_activity_01NUVSDQ9ODES7AWg7KxkXrrFtm7T3CVWhA.output.response_body$",
+                  "jsonpath_queries": [
+                    {
+                      "jsonpath_query": "$.[0].targets[0].observables[0].value",
+                      "jsonpath_query_name": "targetIP",
+                      "jsonpath_query_type": "string"
+                    }
+                  ],
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01NPTE246UIT821JGCGkwkUP1QvPfudVwDo",
+                "name": "Condition Block",
+                "title": "Did we get an IP?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Did we get an IP?",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                  {
+                    "unique_name": "definition_activity_01NPTE2Z7PNX51iJ1KDAhCkrj61zD5PKt68",
+                    "name": "Condition Branch",
+                    "title": "Yes",
+                    "type": "logic.condition_block",
+                    "base_type": "activity",
+                    "properties": {
+                      "condition": {
+                        "left_operand": "$activity.definition_activity_01NPTBPMNTHHJ7be503DrHFUraH07RqRPxg.output.succeeded$",
+                        "operator": "eq",
+                        "right_operand": true
+                      },
+                      "continue_on_failure": false,
+                      "display_name": "Yes",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity",
+                    "actions": [
+                      {
+                        "unique_name": "definition_activity_01NPTDQ9AC1OT1Wti4OjXRpexslzHRel4lO",
+                        "name": "AMP - Get Connector GUID",
+                        "title": "AMP - Get Connector GUID",
+                        "type": "workflow.atomic_workflow",
+                        "base_type": "subworkflow",
+                        "properties": {
+                          "continue_on_failure": true,
+                          "display_name": "AMP - Get Connector GUID",
+                          "input": {
+                            "variable_workflow_01EO48TNSC9JC3uWgLAXfEGqYO8MmKD2Ail": "$activity.definition_activity_01NPTBPMNTHHJ7be503DrHFUraH07RqRPxg.output.jsonpath_queries.targetIP$",
+                            "variable_workflow_01EO48TNSCBGM4spAE6GGj77kIra5ERGlgX": ""
+                          },
+                          "runtime_user": {
+                            "target_default": true
+                          },
+                          "skip_execution": false,
+                          "target": {
+                            "override_workflow_target_group_criteria": true,
+                            "target_group": {
+                              "run_on_all_targets": false,
+                              "use_criteria": {
+                                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                "conditions": [
+                                  {
+                                    "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                    "operator": "eqi",
+                                    "right_operand": "AMP_Target"
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          "workflow_id": "definition_workflow_01EO48TO48SL35JnXGSvBIqptIfbsjt65eR"
+                        },
+                        "object_type": "definition_activity"
+                      },
+                      {
+                        "unique_name": "definition_activity_01NPTELAMCOOM0z9n7crgdM1y2zO4taycdt",
+                        "name": "Condition Block",
+                        "title": "Was an AMP endpoint found?",
+                        "type": "logic.if_else",
+                        "base_type": "activity",
+                        "properties": {
+                          "continue_on_failure": false,
+                          "display_name": "Was an AMP endpoint found?",
+                          "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "blocks": [
+                          {
+                            "unique_name": "definition_activity_01NPTELQFNFW97i5vhv5itkRe7VGkHzfKyz",
+                            "name": "Condition Branch",
+                            "title": "Yes",
+                            "type": "logic.condition_block",
+                            "base_type": "activity",
+                            "properties": {
+                              "condition": {
+                                "left_operand": "$activity.definition_activity_01NPTDQ9AC1OT1Wti4OjXRpexslzHRel4lO.output.succeeded$",
+                                "operator": "eq",
+                                "right_operand": true
+                              },
+                              "continue_on_failure": false,
+                              "display_name": "Yes",
+                              "skip_execution": false
+                            },
+                            "object_type": "definition_activity",
+                            "actions": [
+                              {
+                                "unique_name": "definition_activity_01NPTFAHSKYPL6YvzIoC1qG8rbrjrZHRCFc",
+                                "name": "AMP - Get Computer by GUID",
+                                "title": "AMP - Get Computer by GUID",
+                                "type": "workflow.atomic_workflow",
+                                "base_type": "subworkflow",
+                                "properties": {
+                                  "continue_on_failure": false,
+                                  "display_name": "AMP - Get Computer by GUID",
+                                  "input": {
+                                    "variable_workflow_01G8YPWAQZI9T35IyfT6qFzda7dKFVVAClm": "$activity.definition_activity_01NPTDQ9AC1OT1Wti4OjXRpexslzHRel4lO.output.variable_workflow_01EO48TNSC7E1064kdBZmuA7JuvJ1ZJtux2$"
+                                  },
+                                  "runtime_user": {
+                                    "target_default": true
+                                  },
+                                  "skip_execution": false,
+                                  "target": {
+                                    "override_workflow_target_group_criteria": true,
+                                    "target_group": {
+                                      "run_on_all_targets": false,
+                                      "use_criteria": {
+                                        "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                        "conditions": [
+                                          {
+                                            "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                            "operator": "eqi",
+                                            "right_operand": "AMP_Target"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  "workflow_id": "definition_workflow_01G8YPWB440A746baLcctW2YRqmquqdIs7N"
+                                },
+                                "object_type": "definition_activity"
+                              },
+                              {
+                                "unique_name": "definition_activity_01NPUHWYEGCRY7FHo0eSeivu1E3SKsKbNFS",
+                                "name": "Group",
+                                "title": "Create the Threat Response objects",
+                                "type": "logic.group",
+                                "base_type": "activity",
+                                "properties": {
+                                  "continue_on_failure": false,
+                                  "display_name": "Create the Threat Response objects",
+                                  "skip_execution": false
+                                },
+                                "object_type": "definition_activity",
+                                "actions": [
+                                  {
+                                    "unique_name": "definition_activity_01NPTNOUWOSBF6Q91bK5620JwsBk7W0QQHX",
+                                    "name": "Execute Python Script",
+                                    "title": "Build the casebook description, targets, and observables",
+                                    "type": "python3.script",
+                                    "base_type": "activity",
+                                    "properties": {
+                                      "action_timeout": 180,
+                                      "continue_on_failure": false,
+                                      "display_name": "Build the casebook description, targets, and observables",
+                                      "script": "import sys,json\n\nampComputer = sys.argv[1]\nampComputer = json.loads(ampComputer)\n\ndatetime = sys.argv[2]\n\ncomputerLink = ampComputer['links']['computer']\ncomputerLink = computerLink.replace('api.', 'console.').replace('/v1', '')\n\ncasebookDescription = 'Automated enrichment has been completed for the endpoint **[' + ampComputer['hostname'] + '](' + computerLink + ')** related to an NGFW event.' + \"\\n\\n\"\ncasebookDescription = casebookDescription + 'Operating System: ' + ampComputer['operating_system'] + \"\\n\\n\"\ncasebookDescription = casebookDescription + 'Isolation Available: ' + ('Yes' if ampComputer['isolation']['available'] else 'No') + \"\\n\\n Endpoint Isolated: \" + ('Yes' if ampComputer['isolation']['status'] == 'isolated' else 'No')\n\nobservables = []\nobservables.append({ 'type': 'hostname', 'value': ampComputer['hostname'] })\nobservables.append({ 'type': 'amp_computer_guid', 'value': ampComputer['connector_guid'] })\n\nfor ip in ampComputer['internal_ips']:\n\tobservables.append({ 'type': 'ip', 'value': ip })\n\nfor adapter in ampComputer['network_addresses']:\n\tif 'mac' in adapter:\n\t\tobservables.append({ 'type': 'mac_address', 'value': adapter['mac'] })\n\tif 'ip' in adapter and not { 'type': 'ip', 'value': adapter['ip'] } in observables:\n\t\tobservables.append({ 'type': 'ip', 'value': adapter['ip'] })\n\ntarget = {\n\t'type': 'endpoint',\n\t'observables': observables,\n\t'observed_time': {\n\t\t'start_time': datetime\n\t}\n}\n\nobservables = json.dumps(observables)\ntarget = json.dumps([ target ])",
+                                      "script_arguments": [
+                                        "$activity.definition_activity_01NPTFAHSKYPL6YvzIoC1qG8rbrjrZHRCFc.output.variable_workflow_01G8YPWAQZKU54A58YNme2oNie39SLMrF6F$",
+                                        "$workflow.definition_workflow_01NPOZ03BG2940UfR9fu52FEB9vU797YVBd.output.start_time$"
+                                      ],
+                                      "script_queries": [
+                                        {
+                                          "script_query": "observables",
+                                          "script_query_name": "observables",
+                                          "script_query_type": "string"
+                                        },
+                                        {
+                                          "script_query": "target",
+                                          "script_query_name": "target",
+                                          "script_query_type": "string"
+                                        },
+                                        {
+                                          "script_query": "casebookDescription",
+                                          "script_query_name": "casebookDescription",
+                                          "script_query_type": "string"
+                                        }
+                                      ],
+                                      "skip_execution": false
+                                    },
+                                    "object_type": "definition_activity"
+                                  },
+                                  {
+                                    "unique_name": "definition_activity_01NPTFYERBX9Q1BKJPJ4JNkzdIgjvRfxWVD",
+                                    "name": "Threat Response v2 - Create Casebook",
+                                    "title": "Threat Response v2 - Create Casebook",
+                                    "type": "workflow.atomic_workflow",
+                                    "base_type": "subworkflow",
+                                    "properties": {
+                                      "continue_on_failure": false,
+                                      "display_name": "Threat Response v2 - Create Casebook",
+                                      "input": {
+                                        "variable_workflow_01KVOGF4J481T6SCd7uh5fW7n47Q712nleJ": "$activity.definition_activity_01NPTNOUWOSBF6Q91bK5620JwsBk7W0QQHX.output.script_queries.observables$",
+                                        "variable_workflow_01KVOGF4J4FZC0jmaR42b1FbIzVZA19KbYL": "$activity.definition_activity_01NPTNOUWOSBF6Q91bK5620JwsBk7W0QQHX.output.script_queries.casebookDescription$",
+                                        "variable_workflow_01KVOGF4J4IG81TQKFjqzLlnFJwiiNwXwSq": "$workflow.definition_workflow_01NPOZ03BG2940UfR9fu52FEB9vU797YVBd.local.variable_workflow_01NPULBRM9RT32sFsA3bS1CCJaQ4xyOgxOY$",
+                                        "variable_workflow_01KVOGF4J4JL52xC9ZXdjYwHt2SvRYkArli": "Endpoint related to NGFW event",
+                                        "variable_workflow_01KVOMXV9ERSV0M9j1WarflgSG8r5SpZ8b5": "",
+                                        "variable_workflow_01LFBYQJV9FZA2THdEQrMftLyGiiHP65nUq": "amber"
+                                      },
+                                      "runtime_user": {
+                                        "target_default": true
+                                      },
+                                      "skip_execution": false,
+                                      "target": {
+                                        "use_workflow_target_group": true
+                                      },
+                                      "workflow_id": "definition_workflow_01KVOGF574Y291CRwQLNB1TtzEHDNwyUx7O"
+                                    },
+                                    "object_type": "definition_activity"
+                                  },
+                                  {
+                                    "unique_name": "definition_activity_01NPTG0M6VJR02uNvraJ4NmqdtwcrcpNVlQ",
+                                    "name": "Threat Response v2 - Create Relationship",
+                                    "title": "Threat Response v2 - Create Relationship",
+                                    "type": "workflow.atomic_workflow",
+                                    "base_type": "subworkflow",
+                                    "properties": {
+                                      "continue_on_failure": false,
+                                      "display_name": "Threat Response v2 - Create Relationship",
+                                      "input": {
+                                        "variable_workflow_01KWID476NLS63mQo7De2Wk9Q1WAJb0dJXe": "$workflow.definition_workflow_01NPOZ03BG2940UfR9fu52FEB9vU797YVBd.local.variable_workflow_01NPULBRM9RT32sFsA3bS1CCJaQ4xyOgxOY$",
+                                        "variable_workflow_01KWID476NNBL4xUNZ1ze05KmIr6MTOd2tf": "related-to",
+                                        "variable_workflow_01KWID476NOW27YCzfBvT6jlpfoo4jDNQoS": "",
+                                        "variable_workflow_01KWID476NRV53BPxHqiyGzSy3hiS50IIYt": "",
+                                        "variable_workflow_01KWIOPHDZHRM2nxENJ5E3iBUjDizSHzujd": "$activity.definition_activity_01NPTFYERBX9Q1BKJPJ4JNkzdIgjvRfxWVD.output.variable_workflow_01KVOGF4J4HBH1AEO1b5YnhSpqUnFihUeXS$",
+                                        "variable_workflow_01KWIP24K2A5P6ag8merXYIrzb5KHnOSzU3": "$activity.definition_activity_01NPSPSKR2SHZ55uakMgEUjOBvBTy6t6sg3.input.source_array[@].id$",
+                                        "variable_workflow_01LFBZWJ98ZH426APtwKiW7OM9nNQMfT7IA": "amber"
+                                      },
+                                      "runtime_user": {
+                                        "target_default": true
+                                      },
+                                      "skip_execution": false,
+                                      "target": {
+                                        "use_workflow_target_group": true
+                                      },
+                                      "workflow_id": "definition_workflow_01KWID47SRHY30TYWU3BQSFODWA7PVO360x"
+                                    },
+                                    "object_type": "definition_activity"
+                                  },
+                                  {
+                                    "unique_name": "definition_activity_01NPTTKKI4A026BhMQ1SIjGp8EXFFbt80M8",
+                                    "name": "Threat Response v2 - Create Sighting",
+                                    "title": "Threat Response v2 - Create Sighting",
+                                    "type": "workflow.atomic_workflow",
+                                    "base_type": "subworkflow",
+                                    "properties": {
+                                      "continue_on_failure": false,
+                                      "display_name": "Threat Response v2 - Create Sighting",
+                                      "input": {
+                                        "variable_workflow_01KWI6XBXC36X5fDp4P3C4W39e3ii12zcYI": "Endpoint related to NGFW event",
+                                        "variable_workflow_01KWI6XBXC8MT4PhPchVEzUFUYhgJ5L37zI": "Endpoint related to NGFW event",
+                                        "variable_workflow_01KWI6XBXCB6Z7FBz7mVAbr2nQMRfJrB9h4": "$workflow.definition_workflow_01NPOZ03BG2940UfR9fu52FEB9vU797YVBd.local.variable_workflow_01NPULBRM9RT32sFsA3bS1CCJaQ4xyOgxOY$",
+                                        "variable_workflow_01KWI8HQQALI75l9Rdg4OpEokFpKs35ZysU": "$activity.definition_activity_01NPTNOUWOSBF6Q91bK5620JwsBk7W0QQHX.output.script_queries.observables$",
+                                        "variable_workflow_01KWI98GQEUY83GabUEPdfqY7XaeitLae2F": "Medium",
+                                        "variable_workflow_01KWIBOK8V9E16FTFfn7IAUK0P0mHgXZrGT": "$activity.definition_activity_01NPTNOUWOSBF6Q91bK5620JwsBk7W0QQHX.output.script_queries.target$",
+                                        "variable_workflow_01KWIYHA5ADVS34NX0EPNpeSYNtUj522l8P": "High",
+                                        "variable_workflow_01LFBXTCC6NTI4FkW9IYQZb6HAYE8EtHfl7": "amber"
+                                      },
+                                      "runtime_user": {
+                                        "target_default": true
+                                      },
+                                      "skip_execution": false,
+                                      "target": {
+                                        "use_workflow_target_group": true
+                                      },
+                                      "workflow_id": "definition_workflow_01KWI6XE6K5YD5I6K2wZF5Vp0M9FyXUl34y"
+                                    },
+                                    "object_type": "definition_activity"
+                                  },
+                                  {
+                                    "unique_name": "definition_activity_01NPTTNBO9GLY0l534jKeV1KcT2iqpj6poK",
+                                    "name": "Threat Response v2 - Create Relationship",
+                                    "title": "Threat Response v2 - Create Relationship",
+                                    "type": "workflow.atomic_workflow",
+                                    "base_type": "subworkflow",
+                                    "properties": {
+                                      "continue_on_failure": false,
+                                      "display_name": "Threat Response v2 - Create Relationship",
+                                      "input": {
+                                        "variable_workflow_01KWID476NLS63mQo7De2Wk9Q1WAJb0dJXe": "$workflow.definition_workflow_01NPOZ03BG2940UfR9fu52FEB9vU797YVBd.local.variable_workflow_01NPULBRM9RT32sFsA3bS1CCJaQ4xyOgxOY$",
+                                        "variable_workflow_01KWID476NNBL4xUNZ1ze05KmIr6MTOd2tf": "related-to",
+                                        "variable_workflow_01KWID476NOW27YCzfBvT6jlpfoo4jDNQoS": "",
+                                        "variable_workflow_01KWID476NRV53BPxHqiyGzSy3hiS50IIYt": "",
+                                        "variable_workflow_01KWIOPHDZHRM2nxENJ5E3iBUjDizSHzujd": "$activity.definition_activity_01NPTTKKI4A026BhMQ1SIjGp8EXFFbt80M8.output.variable_workflow_01KWI6XBXCA122ks58vY1MiMR3fTMolsjyC$",
+                                        "variable_workflow_01KWIP24K2A5P6ag8merXYIrzb5KHnOSzU3": "$activity.definition_activity_01NPSPSKR2SHZ55uakMgEUjOBvBTy6t6sg3.input.source_array[@].id$",
+                                        "variable_workflow_01LFBZWJ98ZH426APtwKiW7OM9nNQMfT7IA": "amber"
+                                      },
+                                      "runtime_user": {
+                                        "target_default": true
+                                      },
+                                      "skip_execution": false,
+                                      "target": {
+                                        "use_workflow_target_group": true
+                                      },
+                                      "workflow_id": "definition_workflow_01KWID47SRHY30TYWU3BQSFODWA7PVO360x"
+                                    },
+                                    "object_type": "definition_activity"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  },
+  "triggers": {
+    "triggerschedule_01NPV0NWS0NB76QeXE67KTWAClshqtLgJDh": {
+      "workflow_id": "definition_workflow_01NPOZ03BG2940UfR9fu52FEB9vU797YVBd",
+      "name": "Firewall Incident Polling",
+      "title": "",
+      "lowercase_name": "schedule.firewall_incident_polling",
+      "type": "schedule",
+      "base_type": "trigger",
+      "ref_id": "schedule_01NPV02SO81V93arZZvmpy3fglldDXM3DJr",
+      "version": "1.0.0",
+      "disabled": true,
+      "unique_name": "triggerschedule_01NPV0NWS0NB76QeXE67KTWAClshqtLgJDh",
+      "object_type": "triggerschedule"
+    }
+  },
+  "schedules": {
+    "schedule_01NPV02SO81V93arZZvmpy3fglldDXM3DJr": {
+      "unique_name": "schedule_01NPV02SO81V93arZZvmpy3fglldDXM3DJr",
+      "name": "0024 - Secure Firewall - Incident Endpoint Enrichment",
+      "description": "This schedule is used to fetch new Secure Firewall incidents from SecureX",
+      "type": "basic.schedule",
+      "base_type": "schedule",
+      "properties": {
+        "calendar": "calendar_recurring_1BMfMWvgiDhSjBQ7hTSyvz3NyVZ",
+        "timezone": "Etc/GMT+0",
+        "starttime": "00:00",
+        "interval_hours": 1,
+        "interval_minutes": 0,
+        "number_of_times": 24,
+        "display_name": "0024 - Secure Firewall - Incident Endpoint Enrichment",
+        "description": "This schedule is used to fetch new Secure Firewall incidents from SecureX"
+      },
+      "version": "1.0.0",
+      "object_type": "schedule"
+    }
+  },
+  "target_groups": {
+    "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+      "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+      "name": "Default TargetGroup",
+      "title": "Default TargetGroup",
+      "type": "generic.target_group",
+      "base_type": "target_group",
+      "version": "1.0.0",
+      "targets": [
+        {
+          "data_target_type": "web-service.endpoint",
+          "view_target_type": "web-service.endpoint",
+          "include_all_targets": true
+        },
+        {
+          "data_target_type": "email.smtp_endpoint",
+          "view_target_type": "email.smtp_endpoint",
+          "include_all_targets": true
+        },
+        {
+          "data_target_type": "terminal.endpoint",
+          "view_target_type": "terminal.endpoint",
+          "include_all_targets": true
+        },
+        {
+          "data_target_type": "aws.endpoint",
+          "view_target_type": "aws.endpoint",
+          "include_all_targets": true
+        }
+      ],
+      "object_type": "target_group"
+    }
+  },
+  "atomic_workflows": [
+    "definition_workflow_01KVOGF574Y291CRwQLNB1TtzEHDNwyUx7O",
+    "definition_workflow_01KWID47SRHY30TYWU3BQSFODWA7PVO360x",
+    "definition_workflow_01KWI6XE6K5YD5I6K2wZF5Vp0M9FyXUl34y",
+    "definition_workflow_01KWJ2ISZTF2V6ibRYe7FZ7sOuycDOpnwss",
+    "definition_workflow_01EO48TO48SL35JnXGSvBIqptIfbsjt65eR",
+    "definition_workflow_01G8YPWB440A746baLcctW2YRqmquqdIs7N"
+  ]
+}
