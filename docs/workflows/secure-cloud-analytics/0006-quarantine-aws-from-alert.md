@@ -53,7 +53,7 @@ This workflow fetches `Geographically Unusual Remote Access` alerts from the Sec
 ---
 
 ## Configuration
-* Make sure `Default TargetGroup` includes the `AWS Endpoint` target type ([more info]({{ site.baseurl }}/workflows/target-groups))
+* Make sure `Default TargetGroup` includes the `AWS Endpoint` target type ([more info]({{ site.baseurl }}/targets/groups))
 * Set your AWS region in the `AWS Region` local variable
 * Add the CIDR network you want to exclude from SSH restrictions in the `CIDR IP to Exclude` local variable (so you can still get into the instance to fix it)
 * Add your SCA API key to the `Secure Cloud Analytics API Key` local variable (or, if you have an API key in a global variable already, set the local variable to the global's value using the `Fetch Global Variables` group at the beginning of the workflow)

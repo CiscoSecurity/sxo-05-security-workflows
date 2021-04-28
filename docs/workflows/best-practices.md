@@ -45,7 +45,7 @@ Steps:
 ---
 
 ## Targets
-* Workflows should use Target Groups where possible to make them more portable. See [this page]({{ site.baseurl }}/workflows/target-groups) for more information.
+* Workflows should use Target Groups where possible to make them more portable. See [this page]({{ site.baseurl }}/targets/groups) for more information.
 
 ---
 
