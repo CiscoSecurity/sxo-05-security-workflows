@@ -39,3 +39,8 @@ This page contains a list of all of the workflows published in the repository so
 | 0024 | Cisco Secure Firewall | [Incident Endpoint Enrichment]({{ site.baseurl }}/workflows/0024) |
 | 0025 | Cisco Secure Email | [Investigate Retrospective Alerts]({{ site.baseurl }}/workflows/0025) |
 | 0026 | Cisco Secure Endpoint | [Threat Detected Events to Incidents]({{ site.baseurl }}/workflows/0026) |
+| 0027 | Cisco Identity Services Engine | [Quarantine Endpoint]({{ site.baseurl }}/workflows/0027) |
+| 0028 | Cisco Identity Services Engine | [UnQuarantine Endpoint]({{ site.baseurl }}/workflows/0028) |
+| 0029 | Cisco Identity Services Engine | [Add Endpoint to Identity Group]({{ site.baseurl }}/workflows/0029) |
+| 0030 | Cisco Identity Services Engine | [Remove Endpoint from Identity Group]({{ site.baseurl }}/workflows/0030) |
+| 0031 | Cisco Secure Firewall | [Microsoft Online Dynamic Object Update]({{ site.baseurl }}/workflows/0031) |

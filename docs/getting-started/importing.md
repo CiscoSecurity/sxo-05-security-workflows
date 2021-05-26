@@ -7,7 +7,7 @@ nav_order: 15
 ---
 
 # Importing Git Content
-After configuring SecureX Orchestration to use this repository using [these instructions]({{ site.baseurl }}/configuration), you can begin importing content.
+Using the Git repositories configured in Orchestration, you can import a wide variety of content published by Cisco.
 
 [<i class="fa fa-video mr-1"></i> Import and Export](https://www.youtube.com/watch?v=qmJk994qLOg&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo&index=5){: .btn-cisco-outline }
 
@@ -35,8 +35,3 @@ The process for importing workflows and atomic actions is exactly the same. The 
 1. If applicable, check the **Import as a New Workflow (Clone)** box (see note above)
 1. Click the **Import** button
 1. If the workflow contains `Secure Strings`, you may be asked to provide their values during import. If you don't have the values handy, you can provide placeholder values and update them later
-
----
-
-## Next Steps
-Now that you know how to import content, you can start exploring the repository! Head back to the [home page]({{ site.baseurl }}/) to start checking out the content we have available.

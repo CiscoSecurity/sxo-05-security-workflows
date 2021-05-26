@@ -15,13 +15,13 @@ This page contains a list of frequently asked questions about SecureX Orchestrat
 ---
 
 ### Q: Where is SecureX Orchestration hosted?
-**A**: The orchestration components of SecureX are hosted in Amazon Web Services. The AWS region depends on which instance of SecureX you're using.
+**A**: The orchestration components of SecureX are hosted in Amazon Web Services. The AWS region depends on which instance of SecureX you're using. For more information about AWS regions and SecureX privacy, please visit the [Cisco Trust Center](https://trustportal.cisco.com#/1592946938366835)
 
 ### Q: Do you provide a list of source IPs/hostnames for orchestration nodes?
 **A**: No, we don't. Since orchestration is in AWS, we can't quantify the ever-changing IP assignments of the orchestration nodes.
 
 ### Q: How do I connect to on-premise devices?
-**A**: Anything you want to configure as a Target in orchestration must be reachable via the public internet or a proxy. We don't typically recommend opening holes in your firewalls for orchestration traffic since we don't provide a list of source IPs. An on-premise connector is being developed and will be available in the future.
+**A**: You can use the SecureX Orchestration Remote to integrate on-premise resources into your workflows. Check out [this page]({{ site.baseurl }}/remote) for more information.
 
 ### Q: What Python modules are available?
 **A**: See the [Python Modules]({{ site.baseurl }}/activities/python/modules) page.

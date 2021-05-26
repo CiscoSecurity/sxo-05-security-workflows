@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Using this Repository
+title: Using Our GitHub Repositories
 permalink: /configuration
 parent: Getting Started
 has_children: true
@@ -8,15 +8,15 @@ has_toc: false
 nav_order: 10
 ---
 
-# Using this Repository
-To use the content in this repository, you must have the necessary Git Repositories configured in orchestration. For many tenants, these repositories are configured by default. If your tenant is missing them, you can use the instructions below to add them.
+# Using Our GitHub Repositories
+To use the content in our GitHub repositories, you must have them configured in orchestration. These repositories are typically configured by default, however, if your tenant is missing them you can use the instructions below to add them.
 
 [<i class="fa fa-video mr-1"></i> Managing Git Repositories](https://www.youtube.com/watch?v=qVZHXcxYj9k&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo&index=6){: .btn-cisco-outline }
 
 ---
 
 ## 403 - Rate Limit Exceeded
-Are you seeing a 403 error when you try to import content from GitHub? When SecureX Orchestration is provisioned, we add this Git repository for you by default. However, since we don't configure it with credentials, GitHub imposes some rate limits for API requests. If you run into this issue, you can update the repository configurations with an [account key]({{ site.baseurl }}/account-keys) using the [steps below](#adding-an-account-key).
+Are you seeing a 403 error when you try to import content from GitHub? Some of the repositories we configure for you are created without credentials. Unauthenticated API requests to GitHub are rate-limited so, if you want to avoid this, you can update the repository configurations with an [account key]({{ site.baseurl }}/account-keys) using the [steps below](#adding-an-account-key).
 
 ---
 
@@ -64,10 +64,3 @@ Note: If your GitHub account has two-factor authentication enabled, you'll need 
 	* Select the account key you created as the **Default Account Key**
 	* Click the **Submit** button
 1. Repeat step 7 for the **CiscoSecurity_Workflows** repository
-
----
-
-## Next Steps
-Once you have your repositories configured, you can start importing content!
-
-[<i class="fa fa-download mr-1"></i> Importing Content]({{ site.baseurl }}/importing){: .btn-cisco-sky-blue }

@@ -7,9 +7,16 @@ nav_order: 1
 ![]({{ site.baseurl }}/assets/images/header-graphic.png)
 
 # SecureX Orchestration
-SecureX Orchestration provides a no-to-low code approach for building automated workflows. These workflows can interact with various types of resources and systems, whether they're from Cisco or a third-party. This repository contains [atomic actions](#atomic-actions) and [workflows](#workflows) that can be imported into SecureX Orchestration as well as a variety of documentation.
+SecureX Orchestration provides a no-to-low code approach for building automated workflows. These workflows can interact with various types of resources and systems, whether they're from Cisco or a third-party. Our GitHub repositories contain a wide variety of [atomic actions](#atomic-actions) and [workflows](#workflows) that can be imported into SecureX Orchestration.
 
 [Get Started <i class="fa fa-arrow-right ml-1"></i>]({{ site.baseurl }}/getting-started){: .btn-cisco-sky-blue }
+
+---
+
+## <i class="far fa-star mr-1"></i> What's New
+[SecureX Orchestration Remote]({{ site.baseurl }}/remote) is now available! SXO Remote allows you to deploy a virtual appliance on-premise so you can use your on-premise products in orchestration workflows. The initial release of SXO Remote only supports `HTTP Endpoint` [targets]({{ site.baseurl }}/targets). Support for additional target types will be added in future releases.
+
+[Learn More]({{ site.baseurl }}/remote){: .btn-cisco-outline }
 
 ---
 
@@ -35,4 +42,4 @@ SecureX Orchestration comes with a variety of built-in activities for core funct
 ---
 
 ## Disclaimer
-All content in this repository is provided AS-IS under the [Cisco Sample Code License]({{ site.github.repository_url }}/blob/Main/LICENSE.md).
+All content in our GitHub repositories is provided AS-IS under the [Cisco Sample Code License]({{ site.github.repository_url }}/blob/Main/LICENSE.md).

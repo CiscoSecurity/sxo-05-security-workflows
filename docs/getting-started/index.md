@@ -4,6 +4,7 @@ title: Getting Started
 permalink: /getting-started
 has_children: true
 nav_order: 5
+has_toc: false
 ---
 
 # Getting Started
@@ -27,10 +28,3 @@ Want to go beyond the basics? Here's some additional content you may find useful
 
 * [Response Workflows]({{ site.baseurl }}/workflows/response/)
 * [Target Groups]({{ site.baseurl }}/targets/groups)
-
----
-
-## Next Steps
-After you've completed the recommended content, you can move on to configuring SecureX Orchestration to connect to this repository. We also have a list of additional resources available.
-
-[Using this Repository]({{ site.baseurl }}/configuration){: .btn-cisco-outline .mr-2 } [Additional Resources]({{ site.baseurl }}/resources){: .btn-cisco-outline }
