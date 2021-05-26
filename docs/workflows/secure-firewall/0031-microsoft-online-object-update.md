@@ -1,0 +1,61 @@
+---
+layout: page
+title: Microsoft Online Dynamic Object Update
+permalink: /workflows/secure-firewall/0031-microsoft-online-object-update
+redirect_from:
+  - /workflows/0031
+parent: Cisco Secure Firewall
+grand_parent: Workflows
+---
+
+# Microsoft Online Dynamic Object Update
+<div markdown="1">
+Workflow #0031
+{: .label }
+</div>
+
+Microsoft provides a JSON-formatted feed of their networks and domains for their various cloud services. This workflow demonstrates fetching that JSON, reformatting it, and updating a dynamic object group on Cisco Secure Firewall.
+
+[<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0031-SecureFirewall-MicrosoftOnlineDynamicObjectUpdate__definition_workflow_01GBHSG8W1EU50QmDkyCiszg04ZzAGqbFsc){: .btn-cisco-outline }
+
+---
+
+## Requirements
+* The following atomic actions must be imported before you can import this workflow:
+	* Secure Firewall - Create Dynamic Object Group ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
+	* Secure Firewall - Get Access Token ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
+	* Secure Firewall - Get Dynamic Object Group Mappings ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
+	* Secure Firewall - Update Dynamic Object Group Mappings ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
+
+---
+
+## Workflow Steps
+
+1. Get an access token for Secure Firewall
+1. Get the existing dynamic object group mappings
+1. Check if fetching the mappings succeeded (if not, create a new dynamic object group)
+1. Fetch the JSON from Microsoft and generate a list of records to add and to remove
+1. Check if any records need to be added (if so, add them)
+1. Check if any records need to be removed (if so, remove them)
+
+---
+
+## Configuration
+* Go to [Microsoft's website](http://aka.ms/ipurlws) to get the URL for the worldwide endpoint JSON. Click the link on the second bullet to `https://endpoints.office.com/endpoints/worldwide` and copy the URL into the `Microsoft Endpoints URL` local variable in the workflow
+* Set the `Dynamic Object Group Name` local variable to the name of the object group you want to update. Note that this group must be created on Firewall Management Center prior to running the workflow
+
+---
+
+## Targets
+
+| Target Name | Type | Details | Account Keys | Notes |
+|:------------|:-----|:--------|:-------------|:------|
+| FMC Target | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `your-firewall-management-center`<br />_Path:_ None | FMC API Credentials | |
+
+---
+
+## Account Keys
+
+| Account Key Name | Type | Details | Notes |
+|:-----------------|:-----|:--------|:------|
+| FMC API Credentials | HTTP Basic Authentication | _Username:_ FMC Username<br />_Password:_ FMC Password | Account must have API permissions |

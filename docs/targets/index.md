@@ -13,7 +13,7 @@ Targets are essentially the things you want your workflows to be able to communi
 ---
 
 ## Connectivity
-Keep in mind that SecureX Orchestration runs in a public cloud. This means that any target you want your workflows to communicate with must be accessible from the public internet. Internal targets behind a firewall will likely not be reachable from orchestration until an on-premise connector is available.
+Keep in mind that SecureX Orchestration runs in a public cloud. This means that any target you want your workflows to communicate with must be accessible from the public internet. If you want to integrate an on-premise product into a workflow, check out the [Orchestration Remote]({{ site.baseurl }}/remote).
 
 ---
 
