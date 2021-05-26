@@ -1,0 +1,334 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01GBHSG8W1EU50QmDkyCiszg04ZzAGqbFsc",
+    "name": "0031 - Secure Firewall - Microsoft Online Dynamic Object Update",
+    "title": "0031 - Secure Firewall - Microsoft Online Dynamic Object Update",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "https://endpoints.office.com/endpoints/worldwide?clientrequestid=323c4262-6e71-4899-96f9-72c3811c2c52",
+          "scope": "local",
+          "name": "Microsoft Endpoints URL",
+          "type": "datatype.string",
+          "description": "URL of the Microsoft endpoints JSON. This URL must have a unique GUID appended to it! To get your unique URL, go to https://docs.microsoft.com/en-us/microsoft-365/enterprise/microsoft-365-ip-web-service?view=o365-worldwide, click on the link on the second bullet, and copy the URL",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01GBHSG8K5SBJ1U4dzb62dPbjDmAT0FMamo",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "Microsoft_OnlineXX2",
+          "scope": "local",
+          "name": "Dynamic Object Group Name",
+          "type": "datatype.string",
+          "description": "The name of the dynamic group you want to update in Secure Firewall",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01OJLE9FMW83P6SE06v9irwgedLtCyAEPdR",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "description": "Microsoft provides a JSON-formatted feed of their networks and domains for their various cloud services. This workflow demonstrates fetching that JSON, reformatting it, and updating a dynamic object group on Cisco Secure Firewall.\n\nTarget: Defined on workflow start. If you want to schedule this workflow, you need to either select the target within the workflow or use a target group. See the documentation for more details.\n\nSteps:\n[] Get an access token for Secure Firewall\n[] Get the existing dynamic object group mappings\n[] Check if fetching the mappings succeeded (if not, create a new dynamic object group)\n[] Fetch the JSON from Microsoft and generate a list of records to add and to remove\n[] Check if any records need to be added (if so, add them)\n[] Check if any records need to be removed (if so, remove them)\n\nMore information: http://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0031",
+      "display_name": "0031 - Secure Firewall - Microsoft Online Dynamic Object Update",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "specify_on_workflow_start": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01GBHTTSV6BKD5Rdg8tlCD1B9ZdwxoOCid3",
+        "name": "Secure Firewall - Get Access Token",
+        "title": "Secure Firewall - Get Access Token",
+        "type": "workflow.atomic_workflow",
+        "base_type": "subworkflow",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Secure Firewall - Get Access Token",
+          "runtime_user": {
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "target_type": "web-service.endpoint",
+            "use_workflow_target": true
+          },
+          "workflow_id": "definition_workflow_01GAPSU13QWGT5aCU7ByGC7drrA4iqw5WGZ"
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01OGBXWXLPI6C0Puzby2d2LAv8z70J9ipL7",
+        "name": "Secure Firewall - Get Dynamic Object Group Mappings",
+        "title": "Secure Firewall - Get Dynamic Object Group Mappings",
+        "type": "workflow.atomic_workflow",
+        "base_type": "subworkflow",
+        "properties": {
+          "continue_on_failure": true,
+          "display_name": "Secure Firewall - Get Dynamic Object Group Mappings",
+          "input": {
+            "variable_workflow_01OGBAZGE5GFF2zD1MxRkyCVTTDUDuIPAnA": "$activity.definition_activity_01GBHTTSV6BKD5Rdg8tlCD1B9ZdwxoOCid3.output.variable_workflow_01GAPW6A4SH6U2RtINvhiTCoJlPqYnpXcoh$",
+            "variable_workflow_01OGBAZGE5L187BxveskzNoSODrYbCVyIk3": "$activity.definition_activity_01GBHTTSV6BKD5Rdg8tlCD1B9ZdwxoOCid3.output.variable_workflow_01GAQAJYI05GO10AE0oUFmgN8BF3e4bmliN$",
+            "variable_workflow_01OGBAZGE5MCW68IR1w9pMnj34D4UPDhYob": "$workflow.definition_workflow_01GBHSG8W1EU50QmDkyCiszg04ZzAGqbFsc.local.variable_workflow_01OJLE9FMW83P6SE06v9irwgedLtCyAEPdR$"
+          },
+          "runtime_user": {
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "target_type": "web-service.endpoint",
+            "use_workflow_target": true
+          },
+          "workflow_id": "definition_workflow_01OGBAZGM3YMV0bqsLb2rkF0sHMbavxOE95"
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01OQGROJT3KNX7TDIjGcNrsdajXw2zGJKVB",
+        "name": "Condition Block",
+        "title": "Were we able to fetch the group?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Were we able to fetch the group?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01OQGRPEXDJG12myyynZmo3ewbpQeyUpgi0",
+            "name": "Condition Branch",
+            "title": "No",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01OGBXWXLPI6C0Puzby2d2LAv8z70J9ipL7.output.succeeded$",
+                "operator": "eq",
+                "right_operand": false
+              },
+              "continue_on_failure": false,
+              "display_name": "No",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01OQGVK983KZF3L2LzLa1CC3LcKDGy8id5e",
+                "name": "Secure Firewall - Create Dynamic Object Group",
+                "title": "Secure Firewall - Create Dynamic Object Group",
+                "type": "workflow.atomic_workflow",
+                "base_type": "subworkflow",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Secure Firewall - Create Dynamic Object Group",
+                  "input": {
+                    "variable_workflow_01OQGRIJOJZ7L2PG9sHYurgERKQNmvjES3F": "$activity.definition_activity_01GBHTTSV6BKD5Rdg8tlCD1B9ZdwxoOCid3.output.variable_workflow_01GAPW6A4SH6U2RtINvhiTCoJlPqYnpXcoh$",
+                    "variable_workflow_01OQGRIJOK3QK77JEZ0xbvSRdPmLo74QTXD": "",
+                    "variable_workflow_01OQGRIJOK51H3gt288y7fay1Nj4OhabE9h": "$activity.definition_activity_01GBHTTSV6BKD5Rdg8tlCD1B9ZdwxoOCid3.output.variable_workflow_01GAQAJYI05GO10AE0oUFmgN8BF3e4bmliN$",
+                    "variable_workflow_01OQGRIJOK7BX3o7SuR5x2jEbdJXKca7o4U": "$workflow.definition_workflow_01GBHSG8W1EU50QmDkyCiszg04ZzAGqbFsc.local.variable_workflow_01OJLE9FMW83P6SE06v9irwgedLtCyAEPdR$"
+                  },
+                  "runtime_user": {
+                    "target_default": true
+                  },
+                  "skip_execution": false,
+                  "target": {
+                    "target_type": "web-service.endpoint",
+                    "use_workflow_target": true
+                  },
+                  "workflow_id": "definition_workflow_01OQGRIJW105K1Jd4uVfG6KLkQM3smqZK89"
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01GBHSGT8B4SF7Pg6pPSHW3G39K1Qgs82CD",
+        "name": "Execute Python Script",
+        "title": "Get and parse JSON from Microsoft",
+        "type": "python3.script",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Get and parse JSON from Microsoft",
+          "script": "import sys,json,requests\n\n# Fetch the Microsoft Online JSON from Microsoft\ncontent = requests.request(\"GET\", sys.argv[1])\ncontent = content.text\n\n# Did we get the content?\nif len(content) == 0:\n\tprint('No input provided')\n\texit\n\n# Parse the JSON\nnetworks = json.loads(content)\n\n# Get the existing mappings\nexistingMappingsRaw = sys.argv[2]\nif len(existingMappingsRaw) \u003e 0:\n\texistingMappingsRaw = json.loads(existingMappingsRaw)\nelse:\n\texistingMappingsRaw = []\nexistingMappings = []\n\nfor mapping in existingMappingsRaw:\n\texistingMappings.append(mapping['mapping'])\n\n# Placeholders\nmicrosoftIPs = []\ntoRemove = []\ntoAdd = []\n\n# Parse each service and get its IPs\nfor service in networks:\n\tif not service['required']: continue\n\n\tif 'ips' in service:\n\t\tfor ip in service['ips']:\n\t\t\tif ':' in ip:\n\t\t\t\tip = ip.replace('/128', '')\n\t\t\t\t\n\t\t\t\tif ip not in microsoftIPs:\n\t\t\t\t\tmicrosoftIPs.append(ip)\n\t\t\telse:\n\t\t\t\tip = ip.replace('/32', '')\n\t\t\t\t\n\t\t\t\tif ip not in microsoftIPs:\n\t\t\t\t\tmicrosoftIPs.append(ip)\n\n# Remove duplicates\nmicrosoftIPs = list(dict.fromkeys(microsoftIPs))\n\n# Process the Microsoft IPs\nfor ip in microsoftIPs:\n\tif ip not in existingMappings:\n\t\ttoAdd.append(ip)\n\n# Process the existing IPs\nfor ip in existingMappings:\n\tif ip not in microsoftIPs:\n\t\ttoRemove.append(ip)\n\n# Build the object group for the subnets\ntoAdd = json.dumps({ 'mappings': toAdd })\ntoRemove = json.dumps({ 'mappings': toRemove })",
+          "script_arguments": [
+            "$workflow.definition_workflow_01GBHSG8W1EU50QmDkyCiszg04ZzAGqbFsc.local.variable_workflow_01GBHSG8K5SBJ1U4dzb62dPbjDmAT0FMamo$",
+            "$activity.definition_activity_01OGBXWXLPI6C0Puzby2d2LAv8z70J9ipL7.output.variable_workflow_01OGBAZGE5NO23fDx5t09mBaNDUB396AOZZ$"
+          ],
+          "script_queries": [
+            {
+              "script_query": "toAdd",
+              "script_query_name": "toAdd",
+              "script_query_type": "string"
+            },
+            {
+              "script_query": "toRemove",
+              "script_query_name": "toRemove",
+              "script_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01OQFYJ9BZL3G64gi62h3FO02EQjJHA8ccT",
+        "name": "Condition Block",
+        "title": "Do any records need to be added?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Do any records need to be added?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01OQFYK4IJWZP1E8boNuuScA1U2KPTgiKJx",
+            "name": "Condition Branch",
+            "title": "Yes",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01GBHSGT8B4SF7Pg6pPSHW3G39K1Qgs82CD.output.script_queries.toAdd$",
+                "operator": "ne",
+                "right_operand": "{\"mappings\": []}"
+              },
+              "continue_on_failure": false,
+              "display_name": "Yes",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01OQFYGKUOHTM0TAsDLyqHq2xxiLSVskf0z",
+                "name": "Secure Firewall - Update Dynamic Object Group Mappings",
+                "title": "Secure Firewall - Update Dynamic Object Group Mappings",
+                "type": "workflow.atomic_workflow",
+                "base_type": "subworkflow",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Secure Firewall - Update Dynamic Object Group Mappings",
+                  "input": {
+                    "variable_workflow_01OGC2F5HPECT0ruS1tqMXJa6ZY5GhcwaUB": "$activity.definition_activity_01GBHSGT8B4SF7Pg6pPSHW3G39K1Qgs82CD.output.script_queries.toAdd$",
+                    "variable_workflow_01OGC2F5HPJXB189YqL3wzMTGAwoUjgaV6j": "$activity.definition_activity_01GBHTTSV6BKD5Rdg8tlCD1B9ZdwxoOCid3.output.variable_workflow_01GAPW6A4SH6U2RtINvhiTCoJlPqYnpXcoh$",
+                    "variable_workflow_01OGC2F5HPLJP57BCvR8rlMdvYnagQbDKx9": "$workflow.definition_workflow_01GBHSG8W1EU50QmDkyCiszg04ZzAGqbFsc.local.variable_workflow_01OJLE9FMW83P6SE06v9irwgedLtCyAEPdR$",
+                    "variable_workflow_01OGC2F5HPN5U0kFHKmlMBQpztqunTQ3zfy": "add",
+                    "variable_workflow_01OGC2F5HPPQZ0uZRwFVqNshicl4Gk03ZZO": "$activity.definition_activity_01GBHTTSV6BKD5Rdg8tlCD1B9ZdwxoOCid3.output.variable_workflow_01GAQAJYI05GO10AE0oUFmgN8BF3e4bmliN$"
+                  },
+                  "runtime_user": {
+                    "target_default": true
+                  },
+                  "skip_execution": false,
+                  "target": {
+                    "target_type": "web-service.endpoint",
+                    "use_workflow_target": true
+                  },
+                  "workflow_id": "definition_workflow_01OGC2F5PUR4T2ddpzmmk9oSpb55dDc78yF"
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01OQFZNR3TH4W1WI948S42NQwvYTk2qXvw5",
+        "name": "Condition Block",
+        "title": "Do any records need to be removed?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Do any records need to be removed?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01OQFZOL063G401YzkZHCqBPi0gmA07MiWq",
+            "name": "Condition Branch",
+            "title": "Yes",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01GBHSGT8B4SF7Pg6pPSHW3G39K1Qgs82CD.output.script_queries.toRemove$",
+                "operator": "ne",
+                "right_operand": "{\"mappings\": []}"
+              },
+              "continue_on_failure": false,
+              "display_name": "Yes",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01OGCAJM1GHLP3TImK7k17jMy2KWmbBFbSe",
+                "name": "Secure Firewall - Update Dynamic Object Group Mappings",
+                "title": "Secure Firewall - Update Dynamic Object Group Mappings",
+                "type": "workflow.atomic_workflow",
+                "base_type": "subworkflow",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Secure Firewall - Update Dynamic Object Group Mappings",
+                  "input": {
+                    "variable_workflow_01OGC2F5HPECT0ruS1tqMXJa6ZY5GhcwaUB": "$activity.definition_activity_01GBHSGT8B4SF7Pg6pPSHW3G39K1Qgs82CD.output.script_queries.toRemove$",
+                    "variable_workflow_01OGC2F5HPJXB189YqL3wzMTGAwoUjgaV6j": "$activity.definition_activity_01GBHTTSV6BKD5Rdg8tlCD1B9ZdwxoOCid3.output.variable_workflow_01GAPW6A4SH6U2RtINvhiTCoJlPqYnpXcoh$",
+                    "variable_workflow_01OGC2F5HPLJP57BCvR8rlMdvYnagQbDKx9": "$workflow.definition_workflow_01GBHSG8W1EU50QmDkyCiszg04ZzAGqbFsc.local.variable_workflow_01OJLE9FMW83P6SE06v9irwgedLtCyAEPdR$",
+                    "variable_workflow_01OGC2F5HPN5U0kFHKmlMBQpztqunTQ3zfy": "remove",
+                    "variable_workflow_01OGC2F5HPPQZ0uZRwFVqNshicl4Gk03ZZO": "$activity.definition_activity_01GBHTTSV6BKD5Rdg8tlCD1B9ZdwxoOCid3.output.variable_workflow_01GAQAJYI05GO10AE0oUFmgN8BF3e4bmliN$"
+                  },
+                  "runtime_user": {
+                    "target_default": true
+                  },
+                  "skip_execution": false,
+                  "target": {
+                    "target_type": "web-service.endpoint",
+                    "use_workflow_target": true
+                  },
+                  "workflow_id": "definition_workflow_01OGC2F5PUR4T2ddpzmmk9oSpb55dDc78yF"
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  },
+  "atomic_workflows": [
+    "definition_workflow_01GAPSU13QWGT5aCU7ByGC7drrA4iqw5WGZ",
+    "definition_workflow_01OGBAZGM3YMV0bqsLb2rkF0sHMbavxOE95",
+    "definition_workflow_01OQGRIJW105K1Jd4uVfG6KLkQM3smqZK89",
+    "definition_workflow_01OGC2F5PUR4T2ddpzmmk9oSpb55dDc78yF"
+  ]
+}
