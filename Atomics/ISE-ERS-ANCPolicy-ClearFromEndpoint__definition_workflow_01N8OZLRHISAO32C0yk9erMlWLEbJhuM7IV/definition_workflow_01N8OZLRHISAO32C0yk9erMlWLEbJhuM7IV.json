@@ -1,0 +1,147 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01N8OZLRHISAO32C0yk9erMlWLEbJhuM7IV",
+    "name": "ISE - ERS - ANC Policy - Clear from Endpoint",
+    "title": "ISE - ERS - ANC Policy - Clear from Endpoint",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Endpoint MAC Address",
+          "type": "datatype.string",
+          "description": "The MAC address of the endpoint to clear ANC policies from. This must be in the following format: XX:XX:XX:XX:XX:XX.",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01N8OZLR9IDO322736Vjk6eojzARuQDWLd6",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "Cisco ISE",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": false,
+      "description": "Clears all Adaptive Network Control (ANC) policies from an endpoint in Cisco Identity Services Engine (ISE). This atomic is designed for use with ISE version 2.4 or newer.\n\nNote: You may need to use a SecureX Orchestration Remote to communicate with ISE if it's on-premise. See: https://ciscosecurity.github.io/sxo-05-security-workflows/remote\n\nTarget: An HTTP endpoint for your ISE cluster's primary admin node (PAN).\n\nAccount Key: HTTP Password-Based Credentials for your ISE target.\n\nSteps:\n[] Make sure the MAC address is upper case\n[] Request the ANC policies be cleared\n[] Check if the request was successful:\n[]\u003e If it wasn't, return an error\n\nMore information about this API: https://developer.cisco.com/docs/identity-services-engine/3.0/#!anc-endpoint/clear",
+      "display_name": "ISE - ERS - ANC Policy - Clear from Endpoint",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "specify_on_workflow_start": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01N8OZMWEOS513nxuhRwe5R7HNuSTcBHdNo",
+        "name": "To Upper",
+        "title": "To Upper",
+        "type": "core.string2upper",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "To Upper",
+          "skip_execution": false,
+          "source": "$workflow.definition_workflow_01N8OZLRHISAO32C0yk9erMlWLEbJhuM7IV.input.variable_workflow_01N8OZLR9IDO322736Vjk6eojzARuQDWLd6$"
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01N8OZNMUVFOO3nDqCLCEU6VPahAgWoMAn6",
+        "name": "HTTP Request",
+        "title": "Request policies be cleared",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "application/json",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"OperationAdditionalData\": {\n    \"additionalData\": [\n      {\n        \"name\": \"macAddress\",\n        \"value\": \"$activity.definition_activity_01N8OZMWEOS513nxuhRwe5R7HNuSTcBHdNo.output.uppercase_text$\"\n      }  \n    ]\n  }\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": true,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "ERS-Media-Type",
+              "value": "anc.ancendpoint.1.0"
+            }
+          ],
+          "display_name": "Request policies be cleared",
+          "method": "PUT",
+          "relative_url": "/ers/config/ancendpoint/clear",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "use_workflow_target": true
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01N8OZODT7QCZ3tMPJ6yL0gleIejU4WfvSR",
+        "name": "Condition Block",
+        "title": "Was the request successful?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Was the request successful?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01N8OZOS0N1L41ot18FQEJieX8AQX7ZM2Ex",
+            "name": "Condition Branch",
+            "title": "No",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01N8OZNMUVFOO3nDqCLCEU6VPahAgWoMAn6.output.status_code$",
+                "operator": "ne",
+                "right_operand": 204
+              },
+              "continue_on_failure": false,
+              "display_name": "No",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01N8OZP5D6NY30x1Xem6NMAhF9vSqGwtZGi",
+                "name": "Completed",
+                "title": "Failed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Failed",
+                  "result_message": "Failed to clear the requested endpoint's ANC policy assignments\n\nStatus code: $activity.definition_activity_01N8OZNMUVFOO3nDqCLCEU6VPahAgWoMAn6.output.status_code$\nResponse body: $activity.definition_activity_01N8OZNMUVFOO3nDqCLCEU6VPahAgWoMAn6.output.response_body$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}
