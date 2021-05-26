@@ -1,0 +1,289 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01OGBAZGM3YMV0bqsLb2rkF0sHMbavxOE95",
+    "name": "Secure Firewall - Get Dynamic Object Group Mappings",
+    "title": "Secure Firewall - Get Dynamic Object Group Mappings",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Domain UUID",
+          "type": "datatype.string",
+          "description": "The UUID of the API account's assigned domain",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01OGBAZGE5GFF2zD1MxRkyCVTTDUDuIPAnA",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Access Token",
+          "type": "datatype.secure_string",
+          "description": "An access token that can be used to access the Secure Firewall Management Center API",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01OGBAZGE5L187BxveskzNoSODrYbCVyIk3",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "List of Mappings",
+          "type": "datatype.string",
+          "description": "List of mappings for the given dynamic object group",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01OGBAZGE5NO23fDx5t09mBaNDUB396AOZZ",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Dynamic Object Group Name or ID",
+          "type": "datatype.string",
+          "description": "Name or ID of the dynamic object group to fetch mappings for",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01OGBAZGE5MCW68IR1w9pMnj34D4UPDhYob",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "Cisco Secure Firewall",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": false,
+      "description": "Gets the mappings for a dynamic object group from Cisco Secure Firewall.\n\nNote: You may need to use a SecureX Orchestration Remote to communicate with Secure Firewall if it's on-premise. See: https://ciscosecurity.github.io/sxo-05-security-workflows/remote\n\nTarget: HTTP Endpoint for your Firewall Management Center\n\nAccount Key: None (uses an access token)\n\nSteps:\n[] Execute the API request to get the object group\n[] Check if the request was successful (if not, end the workflow)\n[] Extract the group mappings\n[] Set the output variable",
+      "display_name": "Secure Firewall - Get Dynamic Object Group Mappings",
+      "runtime_user": {
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "specify_on_workflow_start": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01OJK69LN2H5N71jAc6JKgaBJOpiMyHZyva",
+        "name": "HTTP Request",
+        "title": "Execute API request",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "content_type": "application/json",
+          "continue_on_error_status_code": true,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "X-auth-access-token",
+              "value": "$workflow.definition_workflow_01OGBAZGM3YMV0bqsLb2rkF0sHMbavxOE95.input.variable_workflow_01OGBAZGE5L187BxveskzNoSODrYbCVyIk3$"
+            }
+          ],
+          "display_name": "Execute API request",
+          "method": "GET",
+          "relative_url": "/api/fmc_config/v1/domain/$workflow.definition_workflow_01OGBAZGM3YMV0bqsLb2rkF0sHMbavxOE95.input.variable_workflow_01OGBAZGE5GFF2zD1MxRkyCVTTDUDuIPAnA$/object/dynamicobjects/$workflow.definition_workflow_01OGBAZGM3YMV0bqsLb2rkF0sHMbavxOE95.input.variable_workflow_01OGBAZGE5MCW68IR1w9pMnj34D4UPDhYob$/mappings?limit=500",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01OGBB0YF61KJ5otgfm0uxUEbdoTDjopBAB",
+        "name": "Condition Block",
+        "title": "Was the request successful?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Was the request successful?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01OGBB1FVMI4B6tTn2dSjXfdfxQPk59K7Vt",
+            "name": "Condition Branch",
+            "title": "No",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01OJK69LN2H5N71jAc6JKgaBJOpiMyHZyva.output.status_code$",
+                "operator": "ne",
+                "right_operand": 200
+              },
+              "continue_on_failure": false,
+              "display_name": "No",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01OGBB1SQZJMK5ZSWTHfCrEGyTTyMw2aaSe",
+                "name": "Completed",
+                "title": "Failed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Failed",
+                  "result_message": "Failed to fetch dynamic object group from Secure Firewall\n\nStatus code: $activity.definition_activity_01OJK69LN2H5N71jAc6JKgaBJOpiMyHZyva.output.status_code$\nResponse body: $activity.definition_activity_01OJK69LN2H5N71jAc6JKgaBJOpiMyHZyva.output.response_body$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01OQFE2EJVMGU0bWJGtvhMZ8hi14mWqmlSq",
+        "name": "JSONPath Query",
+        "title": "Extract the mappings",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": true,
+          "display_name": "Extract the mappings",
+          "input_json": "$activity.definition_activity_01OJK69LN2H5N71jAc6JKgaBJOpiMyHZyva.output.response_body$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$.items",
+              "jsonpath_query_name": "mappings",
+              "jsonpath_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01OQGGVP9UESH729r943Zu2fAaoPldYFJSn",
+        "name": "Condition Block",
+        "title": "Did we get mappings?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Did we get mappings?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01OQGGWJ6DAFQ1K6Q29oMwt1OSwRTkcXL48",
+            "name": "Condition Branch",
+            "title": "Yes",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01OQFE2EJVMGU0bWJGtvhMZ8hi14mWqmlSq.output.succeeded$",
+                "operator": "eq",
+                "right_operand": true
+              },
+              "continue_on_failure": false,
+              "display_name": "Yes",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01OQFDWYKOH003w0aXZXyJ6IeeroFEFX48t",
+                "name": "Set Variables",
+                "title": "Set output variable",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Set output variable",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01OGBAZGM3YMV0bqsLb2rkF0sHMbavxOE95.output.variable_workflow_01OGBAZGE5NO23fDx5t09mBaNDUB396AOZZ$",
+                      "variable_value_new": "$activity.definition_activity_01OQFE2EJVMGU0bWJGtvhMZ8hi14mWqmlSq.output.jsonpath_queries.mappings$"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01OQGGWJTG2980yQxluXbzbcylJJCoNrojw",
+            "name": "Condition Branch",
+            "title": "No",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01OQFE2EJVMGU0bWJGtvhMZ8hi14mWqmlSq.output.succeeded$",
+                "operator": "eq",
+                "right_operand": false
+              },
+              "continue_on_failure": false,
+              "display_name": "No",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01OQGHJJAGN6O1WQIq4aKHM18RB9ZW0AbgU",
+                "name": "Set Variables",
+                "title": "Set output variable",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Set output variable",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01OGBAZGM3YMV0bqsLb2rkF0sHMbavxOE95.output.variable_workflow_01OGBAZGE5NO23fDx5t09mBaNDUB396AOZZ$",
+                      "variable_value_new": "[]"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}
