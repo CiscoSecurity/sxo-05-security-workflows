@@ -1,0 +1,230 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01N7YZOI9UQ2T3bwrPAENLlLEAcLklZC3wU",
+    "name": "ISE - ERS - Endpoint Identity Group - Get by Name",
+    "title": "ISE - ERS - Endpoint Identity Group - Get by Name",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Identity Group ID",
+          "type": "datatype.string",
+          "description": "The unique ID of the identity group",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01N7Z37L70GNQ5RRK4fWO3AotKUBCYEsHi7",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Identity Group Name",
+          "type": "datatype.string",
+          "description": "The name of the identity group to search for",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01N7YZOI30AQR0odbeOxEIPozruedXfHVeY",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Identity Group Details",
+          "type": "datatype.string",
+          "description": "Information about the identity group requested",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01N7YZOI30K2J22jvHEQhMiZ0LgN8UnXEJn",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "Cisco ISE",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": false,
+      "description": "Fetches an endpoint identity group from Cisco Identity Services Engine (ISE) using its name. This atomic is designed for use with ISE version 2.4 or newer.\n\nNote: You may need to use a SecureX Orchestration Remote to communicate with ISE if it's on-premise. See: https://ciscosecurity.github.io/sxo-05-security-workflows/remote\n\nTarget: An HTTP endpoint for your ISE cluster's primary admin node.\n\nAccount Key: HTTP Password-Based Credentials for your ISE target.\n\nSteps:\n[] Request matching identity groups\n[] Check if the request was successful:\n[]\u003e If it was, extract the identity group and set output variables\n[]\u003e If it wasn't, return an error\n\nMore information about this API: https://developer.cisco.com/docs/identity-services-engine/3.0/#!endpoints-identity-group/get-by-name",
+      "display_name": "ISE - ERS - Endpoint Identity Group - Get by Name",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "specify_on_workflow_start": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01N7YZPAWU1MV1yCXTO1ZIy7b2EImM4foap",
+        "name": "HTTP Request",
+        "title": "Fetch endpoint identity group",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "application/json",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "content_type": "application/json",
+          "continue_on_error_status_code": true,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "ERS-Media-Type",
+              "value": "identity.endpointgroup.1.1"
+            }
+          ],
+          "display_name": "Fetch endpoint identity group",
+          "method": "GET",
+          "relative_url": "/ers/config/endpointgroup/name/$workflow.definition_workflow_01N7YZOI9UQ2T3bwrPAENLlLEAcLklZC3wU.input.variable_workflow_01N7YZOI30AQR0odbeOxEIPozruedXfHVeY$",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "use_workflow_target": true
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01N7YZPP4H4NW1orw1yZunQjWFZrROqZAkd",
+        "name": "Condition Block",
+        "title": "Was the request successful?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Was the request successful?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01N7YZQ37XSE31mMglR5ydbIH5CBiQnMO10",
+            "name": "Condition Branch",
+            "title": "200/Success",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01N7YZPAWU1MV1yCXTO1ZIy7b2EImM4foap.output.status_code$",
+                "operator": "eq",
+                "right_operand": 200
+              },
+              "continue_on_failure": false,
+              "display_name": "200/Success",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01N7YZQ5FYHF92lmGgGSexK3YY0ZHpDyTKo",
+                "name": "JSONPath Query",
+                "title": "Extract the identity group",
+                "type": "corejava.jsonpathquery",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "continue_on_failure": false,
+                  "display_name": "Extract the identity group",
+                  "input_json": "$activity.definition_activity_01N7YZPAWU1MV1yCXTO1ZIy7b2EImM4foap.output.response_body$",
+                  "jsonpath_queries": [
+                    {
+                      "jsonpath_query": "$.EndPointGroup",
+                      "jsonpath_query_name": "endpointGroup",
+                      "jsonpath_query_type": "string"
+                    },
+                    {
+                      "jsonpath_query": "$.EndPointGroup.id",
+                      "jsonpath_query_name": "endpointGroupId",
+                      "jsonpath_query_type": "string"
+                    }
+                  ],
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01N7YZQK7XX6H0MF7vOSg1STHnQHvgLhmUA",
+                "name": "Set Variables",
+                "title": "Set output variable",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Set output variable",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01N7YZOI9UQ2T3bwrPAENLlLEAcLklZC3wU.output.variable_workflow_01N7YZOI30K2J22jvHEQhMiZ0LgN8UnXEJn$",
+                      "variable_value_new": "$activity.definition_activity_01N7YZQ5FYHF92lmGgGSexK3YY0ZHpDyTKo.output.jsonpath_queries.endpointGroup$"
+                    },
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01N7YZOI9UQ2T3bwrPAENLlLEAcLklZC3wU.output.variable_workflow_01N7Z37L70GNQ5RRK4fWO3AotKUBCYEsHi7$",
+                      "variable_value_new": "$activity.definition_activity_01N7YZQ5FYHF92lmGgGSexK3YY0ZHpDyTKo.output.jsonpath_queries.endpointGroupId$"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01N7YZQZIJ3OX4RRiDOc59ffvpZAhooD0pz",
+            "name": "Condition Branch",
+            "title": "Anything else",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01N7YZPAWU1MV1yCXTO1ZIy7b2EImM4foap.output.status_code$",
+                "operator": "ne",
+                "right_operand": 200
+              },
+              "continue_on_failure": false,
+              "display_name": "Anything else",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01N7YZR1OJG3L5u8l5NFdJbxmRvT2pWxl6P",
+                "name": "Completed",
+                "title": "Failed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Failed",
+                  "result_message": "Failed to fetch the requested endpoint identity group\n\nStatus code: $activity.definition_activity_01N7YZPAWU1MV1yCXTO1ZIy7b2EImM4foap.output.status_code$\nResponse body: $activity.definition_activity_01N7YZPAWU1MV1yCXTO1ZIy7b2EImM4foap.output.response_body$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}
