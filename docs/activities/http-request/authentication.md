@@ -15,7 +15,7 @@ When working with HTTP-based APIs, sometimes the hardest part is figuring out ho
 The simplest type of authentication is a username and password. This method usually uses an `Authorization: Basic` header containing the username and password concatenated with a colon (`:`) and then `base64` encoded. Here's an example:
 `Authorization: Basic YWxhZGRpbjpvcGVuc2VzYW1l`
 
-The good news is that you don't have to worry about the encoding part, SecureX Orchestration will do that for you. To use an API with a username and password, you simply need to:
+The good news is that you don't have to worry about the encoding part, SecureX orchestration will do that for you. To use an API with a username and password, you simply need to:
 * Create an **Account Key** using the **HTTP Basic Authentication** type with your username and password
 * Configure your **Target** to use this **Account Key**
 * Use the **Target** with the `HTTP Request` activity (and orchestration will handle the `Authorization` header for you)

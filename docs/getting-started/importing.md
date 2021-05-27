@@ -9,7 +9,7 @@ nav_order: 15
 # Importing Git Content
 Using the Git repositories configured in Orchestration, you can import a wide variety of content published by Cisco.
 
-[<i class="fa fa-video mr-1"></i> Import and Export](https://www.youtube.com/watch?v=qmJk994qLOg&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo&index=5){: .btn-cisco-outline }
+[<i class="fa fa-video mr-1"></i> Import and Export](https://www.youtube.com/watch?v=qmJk994qLOg&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo){: .btn-cisco-outline }
 
 ---
 

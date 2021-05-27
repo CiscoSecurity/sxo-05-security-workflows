@@ -17,7 +17,7 @@ Workflow #0011
 
 This workflow uses a Talos blog post about the SolarWinds supply chain attack as a source of intelligence. Using observables extracted from the blog post, it conducts an investigation and looks for sightings within your environment. If there are sightings, a variety of actions are taken including creating a Threat Response incident and casebook, creating a ServiceNow incident, sending a Webex Teams message, sending a message on Slack, and sending an email. The workflow also supports automated remediation (with approval). If the resulting approval task is approved, unknown or suspicious file hashes and domains are blocked using AMP and Umbrella respectively. If there are any target endpoints, Orbital is used to take a forensic snapshot and AMP is used to enable host isolation.
 
-[<i class="fa fa-video mr-1"></i> Overview](https://www.youtube.com/watch?v=WR6pr-BEM6E&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo&index=12){: .btn-cisco-outline .mr-2 } [<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0011-Talos-SolarWindsInvestigation__definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa){: .btn-cisco-outline }
+[<i class="fa fa-video mr-1"></i> Overview](https://www.youtube.com/watch?v=WR6pr-BEM6E&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo){: .btn-cisco-outline .mr-2 } [<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0011-Talos-SolarWindsInvestigation__definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa){: .btn-cisco-outline }
 
 ---
 

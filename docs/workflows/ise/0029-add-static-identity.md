@@ -49,7 +49,7 @@ This workflow adds a static identity group assignment to a MAC address in Cisco 
 ---
 
 ## Targets
-**Note:** If your Cisco ISE deployment is on-premise, you will need a [SecureX Orchestration Remote]({{ site.baseurl }}/remote) to use ISE with orchestration.
+**Note:** If your Cisco ISE deployment is on-premise, you will need a [SecureX orchestration remote]({{ site.baseurl }}/remote) to use ISE with orchestration.
 
 Target Group: `Default TargetGroup`
 

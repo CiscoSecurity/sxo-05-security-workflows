@@ -43,7 +43,7 @@ To trigger a response workflow through the Threat Response API, you need to know
 If you run the workflow and examine the output of the `Convert module list into readable text` activity, you should see a list of information like this for each available action:
 ```text
 ------------------------------------------------------------------------------------------------------------------
-Module Name: SecureX Orchestration
+Module Name: SecureX orchestration
 Instance ID: 125abde6-152f-45d2-1234-6d7bc955c8ec
 Action ID: 01KB905UJEA56332IxZSm89rlqiVbNg7xWO
 Action Title: 0005 - SCA - Generate Casebook with Flow Links

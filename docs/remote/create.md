@@ -6,6 +6,10 @@ parent: Remote
 ---
 
 # Creating a Remote
+The first step to setting up an orchestration remote is to create it in your SecureX orchestration instance. This gives you the configuration necessary to deploy the virtual appliance.
+
+[<i class="fa fa-video mr-1"></i> Remote Overview](https://www.youtube.com/watch?v=EC2nCiAn1HM&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo){: .btn-cisco-outline }
+
 To create a new remote:
 1. Expand the main menu, click on **Admin** and then click on **Remote Configuration**
 1. Click the **New Remote** button
