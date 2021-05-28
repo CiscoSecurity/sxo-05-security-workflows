@@ -6,19 +6,27 @@ parent: Remote
 ---
 
 # Virtual Appliance Setup
-Once you create a remote in SecureX Orchestration, you can deploy the virtual appliance OVA and apply the configuration you downloaded. Here's a summary of this process:
-1. Download the latest version of the SecureX Orchestration Remote OVA
+Once you create a remote in SecureX orchestration, you can deploy the virtual appliance OVA and apply the configuration you downloaded. Here's a summary of this process:
+1. Download the latest version of the SecureX orchestration remote OVA
 1. Generate an SSH key pair and console password
 1. Deploy the OVF template
 1. Verify remote connectivity
 1. (Optional) Define NTP servers
 
+[<i class="fa fa-video mr-1"></i> Remote Overview](https://www.youtube.com/watch?v=EC2nCiAn1HM&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo){: .btn-cisco-outline }
+
 ---
 
 ## Download the OVA
-1. In SecureX Orchestration, navigate to the **Remote Configuration** page (under the **Admin** section)
+1. In SecureX orchestration, navigate to the **Remote Configuration** page (under the **Admin** section)
 1. Click the **Download Appliance** link next to the **New Remote** button
 ![]({{ site.baseurl }}/assets/images/remote/create-6.png)
+
+If you want to verify the file hash of the OVA, please refer to the following table:
+
+| File Name | MD5 Hash | SHA256 Hash |
+|:----------|:---------|:------------|
+| sxo-remote-1.0.ova | 9b2a378a2785485db613a271523f119c | b7164d23e22f21c7b820d9ea70d7b22779b577692c55dbc62d1c08d47a3e2903 |
 
 ---
 
@@ -55,13 +63,14 @@ Once you create a remote in SecureX Orchestration, you can deploy the virtual ap
 	* Click **Next**
 1. Review all of the virtual appliance's details and, if everything looks correct, click **Finish**
 
-Once the virtual appliance finishes deploying, be sure to power it on! Once online, the remote's status should change from `Not Connected` to `Connected` on the remotes list in SecureX Orchestration.
+Once the virtual appliance finishes deploying, be sure to power it on! Once online, the remote's status should change from `Not Connected` to `Connected` on the remotes list in SecureX orchestration. Note that a newly deployed remote can take up to 10 minutes to show as connected!
+
 ![]({{ site.baseurl }}/assets/images/remote/deploy-9.png)
 
 ---
 
 ## (Optional) Define NTP Servers
-After deploying your SecureX Orchestration Remote, you can configure the virtual appliance to use custom NTP servers using these steps:
+After deploying your SecureX orchestration remote, you can configure the virtual appliance to use custom NTP servers using these steps:
 1. Log in to your virtual appliance by either:
 	* Opening a console to the VM in vSphere and logging in with your password; or
 	* SSHing to the VM using the key pair you created during setup
@@ -93,6 +102,6 @@ One of the easiest ways to generate a key pair on Windows is by using the PuTTyg
 ---
 
 ## Next Steps
-Now that you've deployed the SXO Remote virtual appliance, you can configure your on-premise targets to use it!
+Now that you've deployed the SXO remote virtual appliance, you can configure your on-premise targets to use it!
 
 [Target Configuration]({{ site.baseurl }}/remote/targets){: .btn-cisco-sky-blue }

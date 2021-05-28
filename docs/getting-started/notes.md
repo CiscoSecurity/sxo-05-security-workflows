@@ -7,7 +7,7 @@ nav_order: 5
 ---
 
 # Important Notes
-When using SecureX Orchestration, it's important to be aware of the items listed on this page.
+When using SecureX orchestration, it's important to be aware of the items listed on this page.
 
 ---
 
@@ -30,7 +30,7 @@ When using SecureX Orchestration, it's important to be aware of the items listed
 ---
 
 ## Targets
-* Targets must be accessible from the internet since SecureX Orchestration resides within a public cloud. In the future, an on-premise connector will be available to enable integration with on-premise devices.
+* Targets must be accessible from the internet since SecureX orchestration resides within a public cloud. In the future, an on-premise connector will be available to enable integration with on-premise devices.
 
 ---
 

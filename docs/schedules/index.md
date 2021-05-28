@@ -15,7 +15,7 @@ Schedules, when combined with a [calendar]({{ site.baseurl }}/calendars), allow 
 ---
 
 ## Configuration
-Under the **Schedules** section of SecureX Orchestration, you can see existing schedules and create new ones. To create a new schedule:
+Under the **Schedules** section of SecureX orchestration, you can see existing schedules and create new ones. To create a new schedule:
 
 1. Provide a meaningful **Display Name**
 1. Select the **[Calendar]({{ site.baseurl }}/calendars)** you want the schedule to use. Remember, calendars are collections of days and schedules define how often something happens within a day

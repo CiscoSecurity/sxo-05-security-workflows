@@ -17,7 +17,7 @@ Workflow #0010
 
 This workflow monitors a mailbox for incoming phishing reports. When an email is received, the workflow investigates its attachments and attempts to determine if anything in the email (or its attachments) was suspicious or malicious. If anything suspicious or malicious is found, the user is told to delete the email, a casebook and incident are created in Threat Response, a Webex Teams message is posted, and an email is sent to a "SOC" email address.
 
-[<i class="fa fa-video mr-1"></i> Overview](https://www.youtube.com/watch?v=xUehFeCJGL4&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo&index=7){: .btn-cisco-outline .mr-2 } [<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0010-Phishing-Investigation__definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC){: .btn-cisco-outline }
+[<i class="fa fa-video mr-1"></i> Overview](https://www.youtube.com/watch?v=xUehFeCJGL4&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo){: .btn-cisco-outline .mr-2 } [<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0010-Phishing-Investigation__definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC){: .btn-cisco-outline }
 
 ---
 
@@ -57,7 +57,7 @@ Note: You may have an old version of the `Webex Teams - Post Message to Room` at
 ## Important Notes
 * The mailbox and SMTP server used to send notifications to users should not have any quotas or rate-limiting. If outgoing mail from the workflow is rate-limited and multiple submissions are received at the same time, sending user confirmation emails may fail.
 * This workflow can only monitor a single mailbox. If you want to use this workflow with multiple mailboxes, you will need to duplicate the workflow and update the trigger to use a different [Email Event]({{ site.baseurl }}/events/email).
-* See [this page]({{ site.baseurl }}/notes) for other important information about SecureX Orchestration.
+* See [this page]({{ site.baseurl }}/notes) for other important information about SecureX orchestration.
 
 ---
 

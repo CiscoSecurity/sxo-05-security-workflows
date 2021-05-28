@@ -64,7 +64,7 @@ Once this workflow has executed, you need to configure Secure Firewall to pull d
 1. For each feed, make a note of the observable type in the feed title and the feed URL
 
 #### Getting the Feed URLs (from workflow output)
-1. In SecureX Orchestration, open this workflow in the workflow editor and then click the **Runs** button at the top
+1. In SecureX orchestration, open this workflow in the workflow editor and then click the **Runs** button at the top
 1. Select the most recent run of the workflow (you may need to change the timeframe depending on how long ago you ran it)
 1. Scroll down the workflow's properties and look for the `Output Text` variable
 1. Click on the variable and copy the value

@@ -9,7 +9,7 @@ nav_order: 10
 # Best Practices
 The following best practices should be followed when building a workflow.
 
-[<i class="fa fa-video mr-1"></i> Building a Workflow](https://www.youtube.com/watch?v=gs-XWrCXQbE&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo&index=2){: .btn-cisco-outline }
+[<i class="fa fa-video mr-1"></i> Building a Workflow](https://www.youtube.com/watch?v=gs-XWrCXQbE&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo){: .btn-cisco-outline }
 
 ---
 

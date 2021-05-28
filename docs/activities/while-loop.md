@@ -8,7 +8,7 @@ parent: Activities
 # While Loop
 _Category: Logic_
 
-While loops are one of the two types of loops available in SecureX Orchestration. This type of loop will continue running as long as its control condition is true. If you want to loop through a list of objects in a table, you should look at the [`For Each Loop`]({{ site.baseurl }}/activities/foreach-loop).
+While loops are one of the two types of loops available in SecureX orchestration. This type of loop will continue running as long as its control condition is true. If you want to loop through a list of objects in a table, you should look at the [`For Each Loop`]({{ site.baseurl }}/activities/foreach-loop).
 
 ---
 
