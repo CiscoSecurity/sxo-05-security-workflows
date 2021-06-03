@@ -1,8 +1,8 @@
 {
   "workflow": {
     "unique_name": "definition_workflow_01GAQFW26W0V32FZsG7Q8UzOG9sIJGtJBOB",
-    "name": "FMC - Get Network Group by ID",
-    "title": "FMC - Get Network Group by ID",
+    "name": "Secure Firewall - Get Network Group by ID",
+    "title": "Secure Firewall - Get Network Group by ID",
     "type": "generic.workflow",
     "base_type": "workflow",
     "variables": [
@@ -14,21 +14,10 @@
           "name": "Network Group ID",
           "type": "datatype.string",
           "description": "ID of the network group to fetch",
-          "is_required": true
+          "is_required": true,
+          "is_invisible": false
         },
         "unique_name": "variable_workflow_01GAQGHE1KMEO1yM0FEOylTCizAqnfr7mwD",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.secure_string",
-        "properties": {
-          "value": "",
-          "scope": "input",
-          "name": "Auth Access Token",
-          "type": "datatype.secure_string",
-          "is_required": true
-        },
-        "unique_name": "variable_workflow_01GAQFW1TS5WF1AqzmX8bMh0ajJRqfgU8gI",
         "object_type": "variable_workflow"
       },
       {
@@ -38,7 +27,9 @@
           "scope": "input",
           "name": "Domain UUID",
           "type": "datatype.string",
-          "is_required": true
+          "description": "The UUID of the API account's assigned domain",
+          "is_required": true,
+          "is_invisible": false
         },
         "unique_name": "variable_workflow_01GAQFW1TS79S1XRz4olTenl56t7JTI917S",
         "object_type": "variable_workflow"
@@ -50,20 +41,35 @@
           "scope": "output",
           "name": "Network Group",
           "type": "datatype.string",
-          "is_required": false
+          "is_required": false,
+          "is_invisible": false
         },
         "unique_name": "variable_workflow_01GAQFW1TS8Q42xmMQcgyzXNLeuMlacnqkR",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Access Token",
+          "type": "datatype.secure_string",
+          "description": "An access token that can be used to access the Secure Firewall Management Center API",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01GAQFW1TS5WF1AqzmX8bMh0ajJRqfgU8gI",
         "object_type": "variable_workflow"
       }
     ],
     "properties": {
       "atomic": {
-        "atomic_group": "Cisco FMC",
+        "atomic_group": "Cisco Secure Firewall",
         "is_atomic": true
       },
-      "delete_workflow_instance": true,
-      "description": "Gets a single network group using its ID for the given domain UUID.\n\n[] Execute the API request to get the network group\n[] Set the output variables with the results",
-      "display_name": "FMC - Get Network Group by ID",
+      "delete_workflow_instance": false,
+      "description": "Gets a single network group using its ID for the given domain UUID.\n\nNote: You may need to use a SecureX Orchestration Remote to communicate with Secure Firewall if it's on-premise. See: https://ciscosecurity.github.io/sxo-05-security-workflows/remote\n\nTarget: HTTP Endpoint for your Firewall Management Center with a path of \"api/\"\n\nAccount Key: None (uses an access token)\n\nSteps:\n[] Execute the API request to get the network group\n[] Check if the request was successful (if not, end the workflow)\n[] Set the output variables with the results",
+      "display_name": "Secure Firewall - Get Network Group by ID",
       "runtime_user": {
         "target_default": true
       },
@@ -108,6 +114,56 @@
           }
         },
         "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01OX7VIWQJ8J010UvuVsrBGMthrmzu4V7XM",
+        "name": "Condition Block",
+        "title": "Was the request successful?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Was the request successful?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01OX7VJ2QRS864AZjwxcXM1sBG2xApScO2X",
+            "name": "Condition Branch",
+            "title": "No",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01GAQFWRTQQ6P7cEH1j4RUqoRdpP5P0YTwF.output.status_code$",
+                "operator": "ne",
+                "right_operand": 200
+              },
+              "continue_on_failure": false,
+              "display_name": "No",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01OX7VJXRD3K51o9pcFeEGKzaiAFX0E6ama",
+                "name": "Completed",
+                "title": "Failed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Failed",
+                  "result_message": "Failed to get the network group\n\nStatus code: $activity.definition_activity_01GAQFWRTQQ6P7cEH1j4RUqoRdpP5P0YTwF.output.status_code$\nResponse body: $activity.definition_activity_01GAQFWRTQQ6P7cEH1j4RUqoRdpP5P0YTwF.output.response_body$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
       },
       {
         "unique_name": "definition_activity_01GAQFWXEOSKM0samc4Gzh9pS23vlG8Z8Y0",

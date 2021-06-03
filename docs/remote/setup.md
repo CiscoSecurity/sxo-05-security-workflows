@@ -57,7 +57,7 @@ If you want to verify the file hash of the OVA, please refer to the following ta
 	
 	* (Optional) Provide an SSH public key for SSH access (see [these instructions](#generating-an-ssh-key-pair))
 	* Set `Encoded user-data` to the contents of `remoteconfig.txt` (from the `remotePackage.zip` you downloaded during [remote creation]({{ site.baseurl }}/remote/create))
-	* Provide a password for the virtual appliance (for console access)
+	* Provide a password for the virtual appliance for console access (the username will be `ubuntu`)
 	![]({{ site.baseurl }}/assets/images/remote/deploy-8.png)
 	
 	* Click **Next**

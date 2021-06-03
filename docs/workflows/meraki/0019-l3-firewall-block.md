@@ -17,7 +17,7 @@ Response Workflow
 {: .label }
 </div>
 
-This workflow should be triggered from a SecureX pivot menu and supports IP address observables. When triggered, this workflow blocks the given IP adress on a Meraki MX L3 outbound firewall (using the input observable as the rule's destination).
+This workflow should be triggered from a SecureX pivot menu and supports IP address observables. When triggered, this workflow blocks the given IP address on a Meraki MX L3 outbound firewall (using the input observable as the rule's destination).
 
 [<i class="fab fa-github mr-1"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0019-Meraki-MX-L3OutboundFirewallBlock__definition_workflow_01N8TXL33W9E22A4yIbisj9tP8Us54bTTdt){: .btn-cisco-outline }
 

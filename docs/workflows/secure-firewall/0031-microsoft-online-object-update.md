@@ -50,7 +50,7 @@ Microsoft provides a JSON-formatted feed of their networks and domains for their
 
 | Target Name | Type | Details | Account Keys | Notes |
 |:------------|:-----|:--------|:-------------|:------|
-| FMC Target | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `your-firewall-management-center`<br />_Path:_ None | FMC API Credentials | |
+| FMC Target | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `your-firewall-management-center`<br />_Path:_ `api/` | FMC API Credentials | |
 
 ---
 
