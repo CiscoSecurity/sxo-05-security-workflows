@@ -11,13 +11,27 @@
         "properties": {
           "value": "",
           "scope": "input",
-          "name": "Dynamic Object Group Name or ID",
+          "name": "List of Mappings",
           "type": "datatype.string",
-          "description": "Name or ID of the dynamic object group to update mappings for",
+          "description": "If using the \"add\" or \"remove\" action, this should be a list of mappings. If using the \"remove_all\" action, this can be blank",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01OGC2F5HPECT0ruS1tqMXJa6ZY5GhcwaUB",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Access Token",
+          "type": "datatype.secure_string",
+          "description": "An access token that can be used to access the Secure Firewall Management Center API",
           "is_required": true,
           "is_invisible": false
         },
-        "unique_name": "variable_workflow_01OGC2F5HPLJP57BCvR8rlMdvYnagQbDKx9",
+        "unique_name": "variable_workflow_01OGC2F5HPPQZ0uZRwFVqNshicl4Gk03ZZO",
         "object_type": "variable_workflow"
       },
       {
@@ -39,20 +53,6 @@
         "properties": {
           "value": "",
           "scope": "input",
-          "name": "List of Mappings",
-          "type": "datatype.string",
-          "description": "If using the \"add\" or \"remove\" action, this should be a list of mappings. If using the \"remove_all\" action, this can be blank",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01OGC2F5HPECT0ruS1tqMXJa6ZY5GhcwaUB",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "input",
           "name": "Domain UUID",
           "type": "datatype.string",
           "description": "The UUID of the API account's assigned domain",
@@ -63,17 +63,17 @@
         "object_type": "variable_workflow"
       },
       {
-        "schema_id": "datatype.secure_string",
+        "schema_id": "datatype.string",
         "properties": {
           "value": "",
           "scope": "input",
-          "name": "Access Token",
-          "type": "datatype.secure_string",
-          "description": "An access token that can be used to access the Secure Firewall Management Center API",
+          "name": "Dynamic Object Group Name or ID",
+          "type": "datatype.string",
+          "description": "Name or ID of the dynamic object group to update mappings for",
           "is_required": true,
           "is_invisible": false
         },
-        "unique_name": "variable_workflow_01OGC2F5HPPQZ0uZRwFVqNshicl4Gk03ZZO",
+        "unique_name": "variable_workflow_01OGC2F5HPLJP57BCvR8rlMdvYnagQbDKx9",
         "object_type": "variable_workflow"
       }
     ],
@@ -83,7 +83,7 @@
         "is_atomic": true
       },
       "delete_workflow_instance": false,
-      "description": "Updates the mappings for a dynamic object group in Cisco Secure Firewall. This atomic can be used to append new mappings, remove specific mappings, or remove all mappings.\n\nNote: You may need to use a SecureX Orchestration Remote to communicate with Secure Firewall if it's on-premise. See: https://ciscosecurity.github.io/sxo-05-security-workflows/remote\n\nTarget: HTTP Endpoint for your Firewall Management Center\n\nAccount Key: None (uses an access token)\n\nSteps:\n[] Execute the API request to update the network object group's mappings\n[] Check if the request was successful (if not, end the workflow)",
+      "description": "Updates the mappings for a dynamic object group in Cisco Secure Firewall. This atomic can be used to append new mappings, remove specific mappings, or remove all mappings.\n\nNote: You may need to use a SecureX Orchestration Remote to communicate with Secure Firewall if it's on-premise. See: https://ciscosecurity.github.io/sxo-05-security-workflows/remote\n\nTarget: HTTP Endpoint for your Firewall Management Center with a path of \"api/\"\n\nAccount Key: None (uses an access token)\n\nSteps:\n[] Execute the API request to update the network object group's mappings\n[] Check if the request was successful (if not, end the workflow)",
       "display_name": "Secure Firewall - Update Dynamic Object Group Mappings",
       "runtime_user": {
         "target_default": true
@@ -116,7 +116,7 @@
           ],
           "display_name": "Execute API request",
           "method": "PUT",
-          "relative_url": "/api/fmc_config/v1/domain/$workflow.definition_workflow_01OGC2F5PUR4T2ddpzmmk9oSpb55dDc78yF.input.variable_workflow_01OGC2F5HPJXB189YqL3wzMTGAwoUjgaV6j$/object/dynamicobjects/$workflow.definition_workflow_01OGC2F5PUR4T2ddpzmmk9oSpb55dDc78yF.input.variable_workflow_01OGC2F5HPLJP57BCvR8rlMdvYnagQbDKx9$/mappings?action=$workflow.definition_workflow_01OGC2F5PUR4T2ddpzmmk9oSpb55dDc78yF.input.variable_workflow_01OGC2F5HPN5U0kFHKmlMBQpztqunTQ3zfy$",
+          "relative_url": "fmc_config/v1/domain/$workflow.definition_workflow_01OGC2F5PUR4T2ddpzmmk9oSpb55dDc78yF.input.variable_workflow_01OGC2F5HPJXB189YqL3wzMTGAwoUjgaV6j$/object/dynamicobjects/$workflow.definition_workflow_01OGC2F5PUR4T2ddpzmmk9oSpb55dDc78yF.input.variable_workflow_01OGC2F5HPLJP57BCvR8rlMdvYnagQbDKx9$/mappings?action=$workflow.definition_workflow_01OGC2F5PUR4T2ddpzmmk9oSpb55dDc78yF.input.variable_workflow_01OGC2F5HPN5U0kFHKmlMBQpztqunTQ3zfy$",
           "runtime_user": {
             "override_target_runtime_user": false,
             "target_default": true

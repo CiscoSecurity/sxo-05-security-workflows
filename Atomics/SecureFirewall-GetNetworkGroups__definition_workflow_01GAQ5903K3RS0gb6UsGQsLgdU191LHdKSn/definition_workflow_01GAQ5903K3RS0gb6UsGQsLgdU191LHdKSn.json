@@ -1,0 +1,206 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01GAQ5903K3RS0gb6UsGQsLgdU191LHdKSn",
+    "name": "Secure Firewall - Get Network Groups",
+    "title": "Secure Firewall - Get Network Groups",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Domain UUID",
+          "type": "datatype.string",
+          "description": "The UUID of the API account's assigned domain",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01GAQ77E5FRW12pZfeoucRPo7sc2XdkKBIf",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.integer",
+        "properties": {
+          "value": 100,
+          "scope": "input",
+          "name": "Limit",
+          "type": "datatype.integer",
+          "description": "Maximum number of records to return",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01GAQE4XL7SLT6qmaVC3VlGVVtf31fkGQIx",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.integer",
+        "properties": {
+          "value": 0,
+          "scope": "input",
+          "name": "Page Offset",
+          "type": "datatype.integer",
+          "description": "Index of the first item to return",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01GAQDUK6MD3R1lVKMCir4P7WO1yU5lMcMZ",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Network Groups",
+          "type": "datatype.string",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01GAQBL2MMC615UYNxoMXmsQVorzrBi76hT",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Access Token",
+          "type": "datatype.secure_string",
+          "description": "An access token that can be used to access the Secure Firewall Management Center API",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01GAQ6S12DZV05gamCyroxw5PexaF4wUiHn",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "Cisco Secure Firewall",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": false,
+      "description": "Gets a list of network groups for the given domain UUID.\n\nNote: You may need to use a SecureX Orchestration Remote to communicate with Secure Firewall if it's on-premise. See: https://ciscosecurity.github.io/sxo-05-security-workflows/remote\n\nTarget: HTTP Endpoint for your Firewall Management Center with a path of \"api/\"\n\nAccount Key: None (uses an access token)\n\nSteps:\n[] Execute the API request to get network groups\n[] Check if the request was successful (if not, end the workflow)\n[] Set the output variables with the results",
+      "display_name": "Secure Firewall - Get Network Groups",
+      "runtime_user": {
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "specify_on_workflow_start": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01GAQ7KQ4LFQP6RbMwMdNlrYDNFMFVdJFGl",
+        "name": "HTTP Request",
+        "title": "Execute API request",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "X-auth-access-token",
+              "value": "$workflow.definition_workflow_01GAQ5903K3RS0gb6UsGQsLgdU191LHdKSn.input.variable_workflow_01GAQ6S12DZV05gamCyroxw5PexaF4wUiHn$"
+            }
+          ],
+          "display_name": "Execute API request",
+          "method": "GET",
+          "relative_url": "fmc_config/v1/domain/$workflow.definition_workflow_01GAQ5903K3RS0gb6UsGQsLgdU191LHdKSn.input.variable_workflow_01GAQ77E5FRW12pZfeoucRPo7sc2XdkKBIf$/object/networkgroups?offset=$workflow.definition_workflow_01GAQ5903K3RS0gb6UsGQsLgdU191LHdKSn.input.variable_workflow_01GAQDUK6MD3R1lVKMCir4P7WO1yU5lMcMZ$&limit=$workflow.definition_workflow_01GAQ5903K3RS0gb6UsGQsLgdU191LHdKSn.input.variable_workflow_01GAQE4XL7SLT6qmaVC3VlGVVtf31fkGQIx$",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01OX7X7EQHDDE3qkJhBTw9TNeJ0yKxf95Or",
+        "name": "Condition Block",
+        "title": "Was the request successful?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Was the request successful?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01OX7X7KP9ZEV0nvlTr8iksjP2WpAGHJg0Q",
+            "name": "Condition Branch",
+            "title": "No",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01GAQ7KQ4LFQP6RbMwMdNlrYDNFMFVdJFGl.output.status_code$",
+                "operator": "ne",
+                "right_operand": 200
+              },
+              "continue_on_failure": false,
+              "display_name": "No",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01OX7X8B2T1TV05TXMT4YwM4OfYfRwlgONL",
+                "name": "Completed",
+                "title": "Failed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Failed",
+                  "result_message": "Failed to fetch the network groups\n\nStatus code: $activity.definition_activity_01GAQ7KQ4LFQP6RbMwMdNlrYDNFMFVdJFGl.output.status_code$\nResponse body: $activity.definition_activity_01GAQ7KQ4LFQP6RbMwMdNlrYDNFMFVdJFGl.output.response_body$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01GAQBNVEN5R66qmOocc29NmJv7Nn8lBtZC",
+        "name": "Set Variables",
+        "title": "Set output variables",
+        "type": "core.set_multiple_variables",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Set output variables",
+          "skip_execution": false,
+          "variables_to_update": [
+            {
+              "variable_to_update": "$workflow.definition_workflow_01GAQ5903K3RS0gb6UsGQsLgdU191LHdKSn.output.variable_workflow_01GAQBL2MMC615UYNxoMXmsQVorzrBi76hT$",
+              "variable_value_new": "$activity.definition_activity_01GAQ7KQ4LFQP6RbMwMdNlrYDNFMFVdJFGl.output.response_body$"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}
