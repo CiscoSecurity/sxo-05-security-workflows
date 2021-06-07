@@ -1,0 +1,200 @@
+{
+	"workflow": {
+	  "unique_name": "definition_workflow_01OPB1P8D0UOA4N4sx9AZbwqp0qv7mCgU8V",
+	  "name": "BMC Remedy - Add Work Note To Incident",
+	  "title": "BMC Remedy - Add Work Note To Incident",
+	  "type": "generic.workflow",
+	  "base_type": "workflow",
+	  "variables": [
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "v1",
+			"scope": "input",
+			"name": "API Version",
+			"type": "datatype.string",
+			"description": "Version of the BMC Remedy API to use",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01OPB1P851V7J5LnRSPiDQsED0Crm57Is03",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Request ID",
+			"type": "datatype.string",
+			"description": "The ID of the new work note",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01OPB1P851ED121LNdh6driKybjQHzU5vuU",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Work Note",
+			"type": "datatype.string",
+			"description": "Notes to include in a \"work note\" on the incident record",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01OPB1P851K2S2msCtU1EQ8lecGvUrOGDmt",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.secure_string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Access Token",
+			"type": "datatype.secure_string",
+			"description": "Access token from the \"BMC Remedy - Get Access Token\" atomic action",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01OPB1P851MAW71ePEegAs9wzu4p3bUyetc",
+		  "object_type": "variable_workflow"
+		}
+	  ],
+	  "properties": {
+		"atomic": {
+		  "atomic_group": "BMC Remedy",
+		  "is_atomic": true
+		},
+		"delete_workflow_instance": false,
+		"description": "Adds a work note to an incident in BMC Remedy.\n\nTarget: HTTP Endpoint for your Remedy instance with a path of \"/api\"\n\nAccount Key: None (uses an access token)\n\nSteps:\n[] Generate the JSON for the work note\n[] Request the work note be added\n[] Check if the request was successful:\n[]> If it wasn't, output an error\n\nMore information about this API: https://docs.bmc.com/docs/ars2002/endpoints-in-ar-rest-api-909638176.html",
+		"display_name": "BMC Remedy - Add Work Note To Incident",
+		"runtime_user": {
+		  "target_default": true
+		},
+		"target": {
+		  "target_type": "web-service.endpoint",
+		  "specify_on_workflow_start": true
+		}
+	  },
+	  "object_type": "definition_workflow",
+	  "actions": [
+		{
+		  "unique_name": "definition_activity_01OPB1Q83UN3W5O1ldBOwanSLUtTrRhQhkz",
+		  "name": "Execute Python Script",
+		  "title": "Generate work note JSON",
+		  "type": "python3.script",
+		  "base_type": "activity",
+		  "properties": {
+			"action_timeout": 180,
+			"continue_on_failure": false,
+			"display_name": "Generate work note JSON",
+			"script": "import json\nimport sys\n\nvalues = {\n \"z1D_WorklogDetails\": sys.argv[1],\n \"z1D Action\":  \"MODIFY\"\n}\n\nincident_json = json.dumps({\"values\": values})",
+			"script_arguments": [
+			  "$workflow.definition_workflow_01OPB1P8D0UOA4N4sx9AZbwqp0qv7mCgU8V.input.variable_workflow_01OPB1P851K2S2msCtU1EQ8lecGvUrOGDmt$"
+			],
+			"script_queries": [
+			  {
+				"script_query": "incident_json",
+				"script_query_name": "incident_json",
+				"script_query_type": "string"
+			  }
+			],
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01OPB1QO6MBLU0du9drTOcLT87rm4DJ8rar",
+		  "name": "HTTP Request",
+		  "title": "Add work note",
+		  "type": "web-service.http_request",
+		  "base_type": "activity",
+		  "properties": {
+			"action_timeout": 180,
+			"allow_auto_redirect": true,
+			"body": "$activity.definition_activity_01OPB1Q83UN3W5O1ldBOwanSLUtTrRhQhkz.output.script_queries.incident_json$",
+			"content_type": "application/json",
+			"continue_on_error_status_code": true,
+			"continue_on_failure": false,
+			"custom_headers": [
+			  {
+				"name": "Authorization",
+				"value": "AR-JWT  $workflow.definition_workflow_01OPB1P8D0UOA4N4sx9AZbwqp0qv7mCgU8V.input.variable_workflow_01OPB1P851MAW71ePEegAs9wzu4p3bUyetc$"
+			  }
+			],
+			"display_name": "Add work note",
+			"method": "PUT",
+			"relative_url": "/arsys/$workflow.definition_workflow_01OPB1P8D0UOA4N4sx9AZbwqp0qv7mCgU8V.input.variable_workflow_01OPB1P851V7J5LnRSPiDQsED0Crm57Is03$/entry/HPD:IncidentInterface/$workflow.definition_workflow_01OPB1P8D0UOA4N4sx9AZbwqp0qv7mCgU8V.input.variable_workflow_01OPB1P851ED121LNdh6driKybjQHzU5vuU$|$workflow.definition_workflow_01OPB1P8D0UOA4N4sx9AZbwqp0qv7mCgU8V.input.variable_workflow_01OPB1P851ED121LNdh6driKybjQHzU5vuU$",
+			"runtime_user": {
+			  "override_target_runtime_user": false,
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "override_workflow_target": false,
+			  "override_workflow_target_group_criteria": false,
+			  "use_workflow_target": true,
+			  "use_workflow_target_group": false
+			}
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01OPB1R4LA2R06XhDr0vyzXx9RprB07w0Iy",
+		  "name": "Condition Block",
+		  "title": "Was the request successful?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Was the request successful?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01OPB1S3IE9GF66v5ikkTuGp6KfEWkQ51f0",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01OPB1QO6MBLU0du9drTOcLT87rm4DJ8rar.output.status_code$",
+				  "operator": "ne",
+				  "right_operand": 204
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01OPB1S5PQATN7VqaeJZJoaFgqO7rjxMCSq",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "Failed to add the work note to the incident\n\nStatus code: $activity.definition_activity_01OPB1QO6MBLU0du9drTOcLT87rm4DJ8rar.output.status_code$\nResponse body: $activity.definition_activity_01OPB1QO6MBLU0du9drTOcLT87rm4DJ8rar.output.response_body$",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		}
+	  ],
+	  "categories": [
+		"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+	  ]
+	}
+  }

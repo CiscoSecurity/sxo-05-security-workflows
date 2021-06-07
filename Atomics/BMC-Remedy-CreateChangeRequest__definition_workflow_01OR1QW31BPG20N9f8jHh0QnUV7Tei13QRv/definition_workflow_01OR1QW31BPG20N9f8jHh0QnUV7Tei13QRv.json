@@ -1,0 +1,452 @@
+{
+	"workflow": {
+	  "unique_name": "definition_workflow_01OR1QW31BPG20N9f8jHh0QnUV7Tei13QRv",
+	  "name": "BMC Remedy - Create Change Request",
+	  "title": "BMC Remedy - Create Change Request",
+	  "type": "generic.workflow",
+	  "base_type": "workflow",
+	  "variables": [
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "v1",
+			"scope": "input",
+			"name": "API Version",
+			"type": "datatype.string",
+			"description": "Version of the BMC Remedy API to use",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01OR1QW2TR0SM764Oi9bcdZitsXvRtqlAvr",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Impact",
+			"type": "datatype.string",
+			"description": "Level of impact to the customer. Valid values include:\n1 - Extensive/Widespread\n2 - Significant/Large\n3 - Moderate/Limited\n4 - Minor/Localized\nNote: Your Remedy instance might be configured to use different values",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01OR1QW2TQSNQ1UnB7Ire71Ic5rGvsETHDA",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Company",
+			"type": "datatype.string",
+			"description": "Specifies the company to submit the change request under",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01OR1QW2TQZN81mVK3wbEhTKOvvw1OSOwVr",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "output",
+			"name": "Change Request Number",
+			"type": "datatype.string",
+			"description": "The number of the new change request",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01OR1QW2TQGDN6KNZknh4BXFyVj4Jy7dwvS",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "output",
+			"name": "API Response",
+			"type": "datatype.string",
+			"description": "Response from the BMC Remedy API",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01OR1QW2TQTTR5sHrlFJTjgtigmGBAm4geM",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.secure_string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Access Token",
+			"type": "datatype.secure_string",
+			"description": "Access token from the \"BMC Remedy - Get Access Token\" atomic action",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01OR1QW2TQV1B7dyq2t2Ii1UZ9KqrGHFJFv",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Last Name",
+			"type": "datatype.string",
+			"description": "The last name of the user who is raising the change request",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01OR1QW2TQL8X60ODXTZRU5Dyx0CtQomnuq",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Change Type",
+			"type": "datatype.string",
+			"description": "The type of change request. Valid values include: Emergency, Expedited, Latent, Normal, No Impact, Standard",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01OR1QW2TR54L10hcOPjgNhIDcdV1SGG17b",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Urgency",
+			"type": "datatype.string",
+			"description": "Urgency of the change request. Valid values include:\n1 - Critical\n2 - High\n3 - Medium\n4 - Low\nNote: Your Remedy instance might be configured to use different values",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01OR1QW2TQNPN293eVnUofcgE8JOlYviB2b",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Description",
+			"type": "datatype.string",
+			"description": "A brief description of the change request (this becomes the title of the change request)",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01OR1QW2TQRJC6yp9QZ8gEy0OhURjccVkBk",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Location Company",
+			"type": "datatype.string",
+			"description": "Specifies the company at which changes are implemented",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01OR1QW2TQYGV6TXZu0r9TazLTpAwCoMfO9",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Detailed Description",
+			"type": "datatype.string",
+			"description": "Detailed description of the change request. Depending on your system, this is added to the Notes or Description field of the change request",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01OR1QW2TR2YI4iumLnhCoDizbNFstLeMs4",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "First Name",
+			"type": "datatype.string",
+			"description": "The first name of the user who is raising the change request",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01OR1QW2TQQ6H1cVXkjyPLygTPhAFJmF9xU",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "Draft",
+			"scope": "input",
+			"name": "Status",
+			"type": "datatype.string",
+			"description": "Specifies the status of the change",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01OR1QW2TQXCH1RXnAAnEJlrGN2G2oihkwG",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "output",
+			"name": "Request ID",
+			"type": "datatype.string",
+			"description": "The ID of the new change request",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01OR1QW2TQMJS43PP2XPJccQ2AI8unM4wmb",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Risk Level",
+			"type": "datatype.string",
+			"description": "Specifies the estimated risk level for the change request. Valid values include (from higher risk to lower): Risk Level 5, Risk Level 4, Risk Level 3, Risk Level 2, Risk Level 1. Note: Your Remedy instance might be configured to use different values",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01OR1QW2TQW7K0mKZbJ6L3vFj7rfBkWNO5K",
+		  "object_type": "variable_workflow"
+		}
+	  ],
+	  "properties": {
+		"atomic": {
+		  "atomic_group": "BMC Remedy",
+		  "is_atomic": true
+		},
+		"delete_workflow_instance": false,
+		"description": "Creates a change request in BMC Remedy.\n\nTarget: HTTP Endpoint for your Remedy instance with a path of \"/api\"\n\nAccount Key: None (uses an access token)\n\nSteps:\n[] Generate the JSON for the change request\n[] Request the change request be created\n[] Check if the request was successful:\n[]> If it was, extract the change request details and set the output variables\n[]> If it wasn't, output an error\n\nMore information about this API: https://docs.bmc.com/docs/ars2002/endpoints-in-ar-rest-api-909638176.html",
+		"display_name": "BMC Remedy - Create Change Request",
+		"runtime_user": {
+		  "target_default": true
+		},
+		"target": {
+		  "target_type": "web-service.endpoint",
+		  "specify_on_workflow_start": true
+		}
+	  },
+	  "object_type": "definition_workflow",
+	  "actions": [
+		{
+		  "unique_name": "definition_activity_01OR1QWF5RQYH7QI28GIj42zoBDxldheRwR",
+		  "name": "Execute Python Script",
+		  "title": "Generate change request JSON",
+		  "type": "python3.script",
+		  "base_type": "activity",
+		  "properties": {
+			"action_timeout": 180,
+			"continue_on_failure": false,
+			"display_name": "Generate change request JSON",
+			"script": "import json\nimport sys\nnames = (\n    \"First Name\", \"Last Name\", \"Description\",\n    \"Detailed Description\", \"Location Company\", \"Company\", \n    \"Impact\", \"Urgency\", \"Status\", \"Risk Level\",\n    \"Change Type\"\n)\nvalues = dict(zip(names, sys.argv[1:12]))\nvalues = {k: v for k, v in values.items() if v}\nvalues[\"z1D_Action\"] = \"CREATE\"\nchange_request_json = json.dumps({\"values\": values})",
+			"script_arguments": [
+			  "$workflow.definition_workflow_01OR1QW31BPG20N9f8jHh0QnUV7Tei13QRv.input.variable_workflow_01OR1QW2TQQ6H1cVXkjyPLygTPhAFJmF9xU$",
+			  "$workflow.definition_workflow_01OR1QW31BPG20N9f8jHh0QnUV7Tei13QRv.input.variable_workflow_01OR1QW2TQL8X60ODXTZRU5Dyx0CtQomnuq$",
+			  "$workflow.definition_workflow_01OR1QW31BPG20N9f8jHh0QnUV7Tei13QRv.input.variable_workflow_01OR1QW2TQRJC6yp9QZ8gEy0OhURjccVkBk$",
+			  "$workflow.definition_workflow_01OR1QW31BPG20N9f8jHh0QnUV7Tei13QRv.input.variable_workflow_01OR1QW2TR2YI4iumLnhCoDizbNFstLeMs4$",
+			  "$workflow.definition_workflow_01OR1QW31BPG20N9f8jHh0QnUV7Tei13QRv.input.variable_workflow_01OR1QW2TQYGV6TXZu0r9TazLTpAwCoMfO9$",
+			  "$workflow.definition_workflow_01OR1QW31BPG20N9f8jHh0QnUV7Tei13QRv.input.variable_workflow_01OR1QW2TQZN81mVK3wbEhTKOvvw1OSOwVr$",
+			  "$workflow.definition_workflow_01OR1QW31BPG20N9f8jHh0QnUV7Tei13QRv.input.variable_workflow_01OR1QW2TQSNQ1UnB7Ire71Ic5rGvsETHDA$",
+			  "$workflow.definition_workflow_01OR1QW31BPG20N9f8jHh0QnUV7Tei13QRv.input.variable_workflow_01OR1QW2TQNPN293eVnUofcgE8JOlYviB2b$",
+			  "$workflow.definition_workflow_01OR1QW31BPG20N9f8jHh0QnUV7Tei13QRv.input.variable_workflow_01OR1QW2TQXCH1RXnAAnEJlrGN2G2oihkwG$",
+			  "$workflow.definition_workflow_01OR1QW31BPG20N9f8jHh0QnUV7Tei13QRv.input.variable_workflow_01OR1QW2TQW7K0mKZbJ6L3vFj7rfBkWNO5K$",
+			  "$workflow.definition_workflow_01OR1QW31BPG20N9f8jHh0QnUV7Tei13QRv.input.variable_workflow_01OR1QW2TR54L10hcOPjgNhIDcdV1SGG17b$"
+			],
+			"script_queries": [
+			  {
+				"script_query": "change_request_json",
+				"script_query_name": "change_request_json",
+				"script_query_type": "string"
+			  }
+			],
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01OR1QWJ4XNUZ0HfKZ9oUi9Y0oOBw5JaU16",
+		  "name": "HTTP Request",
+		  "title": "Create change request",
+		  "type": "web-service.http_request",
+		  "base_type": "activity",
+		  "properties": {
+			"action_timeout": 180,
+			"allow_auto_redirect": true,
+			"body": "$activity.definition_activity_01OR1QWF5RQYH7QI28GIj42zoBDxldheRwR.output.script_queries.change_request_json$",
+			"content_type": "application/json",
+			"continue_on_error_status_code": true,
+			"continue_on_failure": false,
+			"custom_headers": [
+			  {
+				"name": "Authorization",
+				"value": "AR-JWT  $workflow.definition_workflow_01OR1QW31BPG20N9f8jHh0QnUV7Tei13QRv.input.variable_workflow_01OR1QW2TQV1B7dyq2t2Ii1UZ9KqrGHFJFv$"
+			  }
+			],
+			"display_name": "Create change request",
+			"method": "POST",
+			"relative_url": "/arsys/$workflow.definition_workflow_01OR1QW31BPG20N9f8jHh0QnUV7Tei13QRv.input.variable_workflow_01OR1QW2TR0SM764Oi9bcdZitsXvRtqlAvr$/entry/CHG:ChangeInterface_Create?fields=values(Infrastructure+Change+Id, Request+ID)",
+			"runtime_user": {
+			  "override_target_runtime_user": false,
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "override_workflow_target": false,
+			  "override_workflow_target_group_criteria": false,
+			  "use_workflow_target": true,
+			  "use_workflow_target_group": false
+			}
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01OR1QWNJA7RU78XYASjKYnvgjeNmxhC9ap",
+		  "name": "Condition Block",
+		  "title": "Was the request successful?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Was the request successful?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01OR1QX44D6EC1LFDjvaxyY3JGbOWQ8SyWs",
+			  "name": "Condition Branch",
+			  "title": "Success/201",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01OR1QWJ4XNUZ0HfKZ9oUi9Y0oOBw5JaU16.output.status_code$",
+				  "operator": "eq",
+				  "right_operand": 201
+				},
+				"continue_on_failure": false,
+				"display_name": "Success/201",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01OR1QX6CZHUL6LoLdIvLcnJCCzldCFZbsr",
+				  "name": "JSONPath Query",
+				  "title": "Read change request details",
+				  "type": "corejava.jsonpathquery",
+				  "base_type": "activity",
+				  "properties": {
+					"action_timeout": 180,
+					"continue_on_failure": false,
+					"display_name": "Read change request details",
+					"input_json": "$activity.definition_activity_01OR1QWJ4XNUZ0HfKZ9oUi9Y0oOBw5JaU16.output.response_body$",
+					"jsonpath_queries": [
+					  {
+						"jsonpath_query": "values[\"Infrastructure Change Id\"]",
+						"jsonpath_query_name": "Infrastructure Change Id",
+						"jsonpath_query_type": "string"
+					  },
+					  {
+						"jsonpath_query": "values[\"Request ID\"]",
+						"jsonpath_query_name": "Request ID",
+						"jsonpath_query_type": "string"
+					  }
+					],
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01OR1QXB6W5D01s3xTTEdS9yoc78VbhOmTJ",
+				  "name": "Set Variables",
+				  "title": "Set output variables",
+				  "type": "core.set_multiple_variables",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Set output variables",
+					"skip_execution": false,
+					"variables_to_update": [
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01OR1QW31BPG20N9f8jHh0QnUV7Tei13QRv.output.variable_workflow_01OR1QW2TQGDN6KNZknh4BXFyVj4Jy7dwvS$",
+						"variable_value_new": "$activity.definition_activity_01OR1QX6CZHUL6LoLdIvLcnJCCzldCFZbsr.output.jsonpath_queries.Infrastructure Change Id$"
+					  },
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01OR1QW31BPG20N9f8jHh0QnUV7Tei13QRv.output.variable_workflow_01OR1QW2TQTTR5sHrlFJTjgtigmGBAm4geM$",
+						"variable_value_new": "$activity.definition_activity_01OR1QWJ4XNUZ0HfKZ9oUi9Y0oOBw5JaU16.output.response_body$"
+					  },
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01OR1QW31BPG20N9f8jHh0QnUV7Tei13QRv.output.variable_workflow_01OR1QW2TQMJS43PP2XPJccQ2AI8unM4wmb$",
+						"variable_value_new": "$activity.definition_activity_01OR1QX6CZHUL6LoLdIvLcnJCCzldCFZbsr.output.jsonpath_queries.Request ID$"
+					  }
+					]
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01OR1QWXWRO4B0GeeUI1yUws7BuuQTvHpTU",
+			  "name": "Condition Branch",
+			  "title": "Anything else",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01OR1QWJ4XNUZ0HfKZ9oUi9Y0oOBw5JaU16.output.status_code$",
+				  "operator": "ne",
+				  "right_operand": 201
+				},
+				"continue_on_failure": false,
+				"display_name": "Anything else",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01OR1QWZXBO563xzjDyAMHiBCihligdKtXD",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "Failed to create the change request\n\nStatus code: $activity.definition_activity_01OR1QWJ4XNUZ0HfKZ9oUi9Y0oOBw5JaU16.output.status_code$\nResponse body: $activity.definition_activity_01OR1QWJ4XNUZ0HfKZ9oUi9Y0oOBw5JaU16.output.response_body$",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		}
+	  ],
+	  "categories": [
+		"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+	  ]
+	}
+  }
