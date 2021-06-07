@@ -41,6 +41,7 @@ More information about this API: https://docs.umbrella.com/umbrella-api/referenc
 * For numeric variables, provide an appropriate default value.
 * Use `Secure Strings` for sensitive values such as API keys, passwords, or other credentials that should be hidden from view.
 * When using date/time stamps, try to use the actual `Date Time` variable type where possible, especially for input and output variables. You can always use the `Format Date` and `Parse Date` activities to convert to/from strings.
+* We generally recommend avoiding `Tables` for atomic action input and output. Creating custom table types is messy and tables don't always scale well. It's better to simply return and consume JSON.
 
 **A Note on Global Variables**
 
@@ -50,6 +51,7 @@ It's best not to use a global variable within an atomic. If you want to use a gl
 
 ## Targets
 * All atomics should have their target set to `Specify Target On Workflow Start`.
+* When creating additional atomics for a product (as in, a product that we already have atomics for), they must be compatible with the targets used by the existing atomics. For example: if the existing atomics expect the target to have a path of `api/`, the new atomics should do the same.
 
 ---
 

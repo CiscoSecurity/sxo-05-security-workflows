@@ -1,0 +1,198 @@
+{
+	"workflow": {
+	  "unique_name": "definition_workflow_01OL56EK6O9FP7IO0MwerJqMf8fArfglrP3",
+	  "name": "BMC Remedy - Get Access Token",
+	  "title": "BMC Remedy - Get Access Token",
+	  "type": "generic.workflow",
+	  "base_type": "workflow",
+	  "variables": [
+		{
+		  "schema_id": "datatype.secure_string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Password",
+			"type": "datatype.secure_string",
+			"description": "Password for your BMC Remedy API account",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01OL5B050IGPF4GPuFncDkYoJhHlLTr3y5u",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.secure_string",
+		  "properties": {
+			"value": "",
+			"scope": "output",
+			"name": "Access Token",
+			"type": "datatype.secure_string",
+			"description": "An access token that can be used for subsequent API requests",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01OL5O9X65DNE6quErk98lOrUqy7WlerIYT",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Username",
+			"type": "datatype.string",
+			"description": "Username for your BMC Remedy API account",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01OL5AIV61WNB19oxm849ora058B28I2piO",
+		  "object_type": "variable_workflow"
+		}
+	  ],
+	  "properties": {
+		"atomic": {
+		  "atomic_group": "BMC Remedy",
+		  "is_atomic": true
+		},
+		"delete_workflow_instance": false,
+		"description": "Gets an access token from BMC Remedy.\n\nTarget: HTTP Endpoint for your Remedy instance with a path of \"/api\"\n\nAccount Key: None (uses a username and password as inputs)\n\nSteps:\n[] Request the access token\n[] Check if the request was successful:\n[]> If it was, set the output variable\n[]> If it wasn't, output an error\n\nMore information about this API:\nhttps://docs.bmc.com/docs/ars2002/access-and-authentication-for-the-rest-api-915370111.html",
+		"display_name": "BMC Remedy - Get Access Token",
+		"runtime_user": {
+		  "override_target_runtime_user": false,
+		  "specify_on_workflow_start": false,
+		  "target_default": true
+		},
+		"target": {
+		  "target_type": "web-service.endpoint",
+		  "specify_on_workflow_start": true
+		}
+	  },
+	  "object_type": "definition_workflow",
+	  "actions": [
+		{
+		  "unique_name": "definition_activity_01OL57ANLSJW94XgzFH0pdCMxL9Zx8rihlf",
+		  "name": "HTTP Request",
+		  "title": "Request access token",
+		  "type": "web-service.http_request",
+		  "base_type": "activity",
+		  "properties": {
+			"action_timeout": 180,
+			"allow_auto_redirect": true,
+			"body": "username=$workflow.definition_workflow_01OL56EK6O9FP7IO0MwerJqMf8fArfglrP3.input.variable_workflow_01OL5AIV61WNB19oxm849ora058B28I2piO$&password=$workflow.definition_workflow_01OL56EK6O9FP7IO0MwerJqMf8fArfglrP3.input.variable_workflow_01OL5B050IGPF4GPuFncDkYoJhHlLTr3y5u$",
+			"continue_on_error_status_code": true,
+			"continue_on_failure": false,
+			"custom_headers": [
+			  {
+				"name": "Content-Type",
+				"value": "application/x-www-form-urlencoded"
+			  }
+			],
+			"display_name": "Request access token",
+			"method": "POST",
+			"relative_url": "/jwt/login",
+			"runtime_user": {
+			  "override_target_runtime_user": false,
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "use_workflow_target": true
+			}
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01OL57NPT253136Wm0uUHu6stFKd5jv5TpM",
+		  "name": "Condition Block",
+		  "title": "Was the request successful?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Was the request successful?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01OL57O4TBPAY2LahK0IZT9LOybSRmTPBaT",
+			  "name": "Condition Branch",
+			  "title": "Success/200",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01OL57ANLSJW94XgzFH0pdCMxL9Zx8rihlf.output.status_code$",
+				  "operator": "eq",
+				  "right_operand": 200
+				},
+				"continue_on_failure": false,
+				"display_name": "Success/200",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01OL5LQYL70IU2LTIRGOZi0oYTNtZAj2oBo",
+				  "name": "Set Variables",
+				  "title": "Set output variable",
+				  "type": "core.set_multiple_variables",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Set output variable",
+					"skip_execution": false,
+					"variables_to_update": [
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01OL56EK6O9FP7IO0MwerJqMf8fArfglrP3.output.variable_workflow_01OL5O9X65DNE6quErk98lOrUqy7WlerIYT$",
+						"variable_value_new": "$activity.definition_activity_01OL57ANLSJW94XgzFH0pdCMxL9Zx8rihlf.output.response_body$"
+					  }
+					]
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01OL57O5I4IHD1lAiWnj0cypcegvAwkW5Zu",
+			  "name": "Condition Branch",
+			  "title": "Anything else",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01OL57ANLSJW94XgzFH0pdCMxL9Zx8rihlf.output.status_code$",
+				  "operator": "ne",
+				  "right_operand": 200
+				},
+				"continue_on_failure": false,
+				"display_name": "Anything else",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01OL5HFEN3K7W2L7CotfZyUYCKkmxzvtaOK",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "Failed to fetch BMC Remedy token\n\nStatus code: $activity.definition_activity_01OL57ANLSJW94XgzFH0pdCMxL9Zx8rihlf.output.status_code$\nResponse body: $activity.definition_activity_01OL57ANLSJW94XgzFH0pdCMxL9Zx8rihlf.output.response_body$",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		}
+	  ],
+	  "categories": [
+		"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+	  ]
+	}
+  }

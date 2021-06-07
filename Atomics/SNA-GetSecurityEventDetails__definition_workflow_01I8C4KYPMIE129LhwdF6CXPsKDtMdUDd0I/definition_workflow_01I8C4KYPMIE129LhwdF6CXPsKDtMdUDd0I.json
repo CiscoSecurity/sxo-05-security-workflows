@@ -1,0 +1,822 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01I8C4KYPMIE129LhwdF6CXPsKDtMdUDd0I",
+    "name": "SNA - Get Security Event Details",
+    "title": "SNA - Get Security Event Details",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Source IP Address",
+          "type": "datatype.string",
+          "description": "The source IP of the matching event",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01I9VDF73531Y4CtNbLRKiw0vLbPEnkZ2YE",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.date",
+        "properties": {
+          "value": "0001-01-01T00:00:00+00:00",
+          "scope": "input",
+          "name": "End Date",
+          "type": "datatype.date",
+          "description": "The end of the time range to search",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01I9VBX7MT5W37DXN8dnLYbfrH4Bcf8VMil",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Event ID ",
+          "type": "datatype.string",
+          "description": "The ID of the event found",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01I9WCK0WE64L6QDPcOO1rXyfZBNruzehv3",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "XSRF Token",
+          "type": "datatype.secure_string",
+          "description": "The XSRF token obtained from the \"SNA - Get Tokens\" atomic action",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01P09MMPAJC0Z4YCqSf6C4os62IeZCbzhqc",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Event Name ",
+          "type": "datatype.string",
+          "description": "The name of the event type to search for",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01I9VCDUT4DCD1W94CZBvq5vyu0DVKxHrNm",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Target IP Address",
+          "type": "datatype.string",
+          "description": "The target IP of the matching event",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01I9VDLJRJ2SK71IZhdOoMn4F5ADlFAJIi8",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Session Token ",
+          "type": "datatype.string",
+          "description": "The session token obtained from the \"SNA - Get Tokens\" atomic action",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O1ILOX7ONUW2b66hdF3AZSRn7dgRa6HaH",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Tenant ID",
+          "type": "datatype.string",
+          "description": "The tenant ID to search for events in",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01I8C4KYDKEQI2gP9nxMFCarUGoP4gOoC82",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.date",
+        "properties": {
+          "value": "0001-01-01T00:00:00+00:00",
+          "scope": "input",
+          "name": "Start Date",
+          "type": "datatype.date",
+          "description": "The start of the time range to search",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01I9VBO2WOZHR3D3qYEUQjFgdYcNYxdM6xP",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "Cisco Secure Network Analytics",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": false,
+      "description": "Gets the source and target for a given security event name and  time range. Note that this atomic will only return information from the first event returned.\n\nTarget: HTTP Endpoint for your Secure Network Anlaytics Management Console\n\nAccount Key: None\n\nSteps:\n[] Resolve the event type to an event ID\n[] Execute the events query\n[] Extract the query ID and sleep\n[] Wait until the query completes\n[] Get the query result\n[] Set the output variables\n\nMore information about this API:\nhttps://developer.cisco.com/docs/stealthwatch/enterprise/#!reporting-api-version-1",
+      "display_name": "SNA - Get Security Event Details",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "specify_on_workflow_start": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01IA1UJHUG4100Lz1c3ULgFmc9VgS0uWDmY",
+        "name": "Format Date",
+        "title": "Format start date",
+        "type": "core.format_date",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Format start date",
+          "format_string": "2006-01-02T15:04:05Z",
+          "original_date": "$workflow.definition_workflow_01I8C4KYPMIE129LhwdF6CXPsKDtMdUDd0I.input.variable_workflow_01I9VBO2WOZHR3D3qYEUQjFgdYcNYxdM6xP$",
+          "skip_execution": false,
+          "use_custom_format": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01IA1UWRP061Z2Am1KHh90Bh561RToLlBBg",
+        "name": "Format Date",
+        "title": "Format end date",
+        "type": "core.format_date",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Format end date",
+          "format_string": "2006-01-02T15:04:05Z",
+          "original_date": "$workflow.definition_workflow_01I8C4KYPMIE129LhwdF6CXPsKDtMdUDd0I.input.variable_workflow_01I9VBX7MT5W37DXN8dnLYbfrH4Bcf8VMil$",
+          "skip_execution": false,
+          "use_custom_format": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01JY8M4OKMM2N3H3PtBXeXdGaNDPmJjaS6o",
+        "name": "HTTP Request",
+        "title": "Search for the event ID",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "application/json",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "content_type": "application/json",
+          "continue_on_error_status_code": true,
+          "continue_on_failure": false,
+          "cookie": [
+            "stealthwatch.jwt=$workflow.definition_workflow_01I8C4KYPMIE129LhwdF6CXPsKDtMdUDd0I.input.variable_workflow_01O1ILOX7ONUW2b66hdF3AZSRn7dgRa6HaH$"
+          ],
+          "custom_headers": [
+            {
+              "name": "X-XSRF-TOKEN",
+              "value": "$workflow.definition_workflow_01I8C4KYPMIE129LhwdF6CXPsKDtMdUDd0I.input.variable_workflow_01P09MMPAJC0Z4YCqSf6C4os62IeZCbzhqc$"
+            }
+          ],
+          "display_name": "Search for the event ID",
+          "method": "GET",
+          "relative_url": "sw-reporting/v1/tenants/$workflow.definition_workflow_01I8C4KYPMIE129LhwdF6CXPsKDtMdUDd0I.input.variable_workflow_01I8C4KYDKEQI2gP9nxMFCarUGoP4gOoC82$/security-events/templates",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01O6MTVY7LUBW0ghjOc315KrOifWDttBXlU",
+        "name": "Condition Block",
+        "title": "Was the request successful?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Was the request successful?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01O6MTWP1D5JZ37OZEgv4Fa0gWnR5c5Oyfs",
+            "name": "Condition Branch",
+            "title": "No",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01JY8M4OKMM2N3H3PtBXeXdGaNDPmJjaS6o.output.status_code$",
+                "operator": "ne",
+                "right_operand": 200
+              },
+              "continue_on_failure": false,
+              "display_name": "No",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01O6MUX40Z7FT4G8yZ5eLv7A8c4VjxivS3z",
+                "name": "Completed",
+                "title": "Failed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Failed",
+                  "result_message": "Failed to search for the security event ID\n\nStatus code: $activity.definition_activity_01JY8M4OKMM2N3H3PtBXeXdGaNDPmJjaS6o.output.status_code$\nResponse body: $activity.definition_activity_01JY8M4OKMM2N3H3PtBXeXdGaNDPmJjaS6o.output.response_body$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01K1OKMABCN5V0abEZqgvewzqu9uEMqp9X7",
+        "name": "JSONPath Query",
+        "title": "Extract event ID",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": true,
+          "display_name": "Extract event ID",
+          "input_json": "$activity.definition_activity_01JY8M4OKMM2N3H3PtBXeXdGaNDPmJjaS6o.output.response_body$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$..[?(@.name==\"$workflow.definition_workflow_01I8C4KYPMIE129LhwdF6CXPsKDtMdUDd0I.input.variable_workflow_01I9VCDUT4DCD1W94CZBvq5vyu0DVKxHrNm$\")].id",
+              "jsonpath_query_name": "event_id",
+              "jsonpath_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01P0HWLPCWM7T1mz8cgDR84eiRTjoxWs9WZ",
+        "name": "Condition Block",
+        "title": "Was the event ID found?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Was the event ID found?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01P0HWLZBXAZN5SQtVhtnqgg9dZKDcmqLFq",
+            "name": "Condition Branch",
+            "title": "No",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01K1OKMABCN5V0abEZqgvewzqu9uEMqp9X7.output.succeeded$",
+                "operator": "eq",
+                "right_operand": false
+              },
+              "continue_on_failure": false,
+              "display_name": "No",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01P0HX35LGA5V21Iqvc2GBdhAoT7Sv2YlsR",
+                "name": "Completed",
+                "title": "Failed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Failed",
+                  "result_message": "Failed to resolve event name to an event ID",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01K1OG0YY3GGU5OtYrOlaPbvtfFP22YHQD6",
+        "name": "HTTP Request",
+        "title": "Execute the query",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "application/json",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n\"securityEventTypeIds\": [ $activity.definition_activity_01K1OKMABCN5V0abEZqgvewzqu9uEMqp9X7.output.jsonpath_queries.event_id$ ],\n  \"timeRange\": {\n    \"from\": \"$activity.definition_activity_01IA1UJHUG4100Lz1c3ULgFmc9VgS0uWDmY.output.result$\",\n    \"to\": \"$activity.definition_activity_01IA1UWRP061Z2Am1KHh90Bh561RToLlBBg.output.result$\"\n  }\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": true,
+          "continue_on_failure": false,
+          "cookie": [
+            "stealthwatch.jwt=$workflow.definition_workflow_01I8C4KYPMIE129LhwdF6CXPsKDtMdUDd0I.input.variable_workflow_01O1ILOX7ONUW2b66hdF3AZSRn7dgRa6HaH$"
+          ],
+          "custom_headers": [
+            {
+              "name": "X-XSRF-TOKEN",
+              "value": "$workflow.definition_workflow_01I8C4KYPMIE129LhwdF6CXPsKDtMdUDd0I.input.variable_workflow_01P09MMPAJC0Z4YCqSf6C4os62IeZCbzhqc$"
+            }
+          ],
+          "display_name": "Execute the query",
+          "method": "POST",
+          "relative_url": "sw-reporting/v1/tenants/$workflow.definition_workflow_01I8C4KYPMIE129LhwdF6CXPsKDtMdUDd0I.input.variable_workflow_01I8C4KYDKEQI2gP9nxMFCarUGoP4gOoC82$/security-events/queries",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01O6MXCI9VVTW3J2krmfdfZCO3wDAGT4WLI",
+        "name": "Condition Block",
+        "title": "Was the request successful?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Was the request successful?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01O6MXD91TAUD1zClF7V1adlBebfbcB0qSt",
+            "name": "Condition Branch",
+            "title": "No",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01K1OG0YY3GGU5OtYrOlaPbvtfFP22YHQD6.output.status_code$",
+                "operator": "ne",
+                "right_operand": 200
+              },
+              "continue_on_failure": false,
+              "display_name": "No",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01O6MXD9S9V3I6WY3ZeaMhj4NfxBsem7zSW",
+                "name": "Completed",
+                "title": "Failed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Failed",
+                  "result_message": "Failed to execute query for security events\n\nStatus code: $activity.definition_activity_01K1OG0YY3GGU5OtYrOlaPbvtfFP22YHQD6.output.status_code$\nResponse body: $activity.definition_activity_01K1OG0YY3GGU5OtYrOlaPbvtfFP22YHQD6.output.response_body$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01I8C4LZFNKAQ1TxxqJSVsXWk3OPwGPqR2K",
+        "name": "JSONPath Query",
+        "title": "Extract the query ID",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Extract the query ID",
+          "input_json": "$activity.definition_activity_01K1OG0YY3GGU5OtYrOlaPbvtfFP22YHQD6.output.response_body$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$.data.searchJob.id",
+              "jsonpath_query_name": "query_id",
+              "jsonpath_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01I9UCGBL7ICQ6qVEFTt8qdYYpJc0hi0TQB",
+        "name": "While Loop",
+        "title": "While loop",
+        "type": "logic.while",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "While loop",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01I9UCGHHT6H811oGOFOd91EB1LBw0HCS4Y",
+            "name": "Condition Branch",
+            "title": "While query is not complete",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$workflow.definition_workflow_01I8C4KYPMIE129LhwdF6CXPsKDtMdUDd0I.output.instance_id$",
+                "operator": "eq",
+                "right_operand": "$workflow.definition_workflow_01I8C4KYPMIE129LhwdF6CXPsKDtMdUDd0I.output.instance_id$"
+              },
+              "continue_on_failure": false,
+              "display_name": "While query is not complete",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01I9UFSLOVPL332ojA977Qy6lzYO7L2DiT7",
+                "name": "Sleep",
+                "title": "Sleep",
+                "type": "core.sleep",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Sleep",
+                  "skip_execution": false,
+                  "sleep_interval": 2
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01I9U30FF5Q9J68n5Ok66Ef5uOAmdWoNw2o",
+                "name": "HTTP Request",
+                "title": "Check query status",
+                "type": "web-service.http_request",
+                "base_type": "activity",
+                "properties": {
+                  "accept": "application/json",
+                  "action_timeout": 180,
+                  "allow_auto_redirect": true,
+                  "content_type": "application/json",
+                  "continue_on_error_status_code": true,
+                  "continue_on_failure": false,
+                  "cookie": [
+                    "stealthwatch.jwt=$workflow.definition_workflow_01I8C4KYPMIE129LhwdF6CXPsKDtMdUDd0I.input.variable_workflow_01O1ILOX7ONUW2b66hdF3AZSRn7dgRa6HaH$"
+                  ],
+                  "custom_headers": [
+                    {
+                      "name": "X-XSRF-TOKEN",
+                      "value": "$workflow.definition_workflow_01I8C4KYPMIE129LhwdF6CXPsKDtMdUDd0I.input.variable_workflow_01P09MMPAJC0Z4YCqSf6C4os62IeZCbzhqc$"
+                    }
+                  ],
+                  "display_name": "Check query status",
+                  "method": "GET",
+                  "relative_url": "sw-reporting/v1/tenants/$workflow.definition_workflow_01I8C4KYPMIE129LhwdF6CXPsKDtMdUDd0I.input.variable_workflow_01I8C4KYDKEQI2gP9nxMFCarUGoP4gOoC82$/security-events/queries/$activity.definition_activity_01I8C4LZFNKAQ1TxxqJSVsXWk3OPwGPqR2K.output.jsonpath_queries.query_id$",
+                  "runtime_user": {
+                    "override_target_runtime_user": false,
+                    "target_default": true
+                  },
+                  "skip_execution": false,
+                  "target": {
+                    "override_workflow_target": false,
+                    "override_workflow_target_group_criteria": false,
+                    "use_workflow_target": true,
+                    "use_workflow_target_group": false
+                  }
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01P09U2KBB0BU65Ek7fhufjOKRFWLbm4fIw",
+                "name": "Condition Block",
+                "title": "Was the request successful?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Was the request successful?",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                  {
+                    "unique_name": "definition_activity_01P09U2PX36O52U7VtE6G0Voi05VIz6avdy",
+                    "name": "Condition Branch",
+                    "title": "No",
+                    "type": "logic.condition_block",
+                    "base_type": "activity",
+                    "properties": {
+                      "condition": {
+                        "left_operand": "$activity.definition_activity_01I9U30FF5Q9J68n5Ok66Ef5uOAmdWoNw2o.output.status_code$",
+                        "operator": "ne",
+                        "right_operand": 200
+                      },
+                      "continue_on_failure": false,
+                      "display_name": "No",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity",
+                    "actions": [
+                      {
+                        "unique_name": "definition_activity_01P09U2QIS5Y65nCh3sgkpTCB7nzLbIJHwh",
+                        "name": "Completed",
+                        "title": "Failed",
+                        "type": "logic.completed",
+                        "base_type": "activity",
+                        "properties": {
+                          "completion_type": "failed-completed",
+                          "continue_on_failure": false,
+                          "display_name": "Failed",
+                          "result_message": "Failed to fetch query status\n\nStatus code: $activity.definition_activity_01K1OG0YY3GGU5OtYrOlaPbvtfFP22YHQD6.output.status_code$\nResponse body: $activity.definition_activity_01K1OG0YY3GGU5OtYrOlaPbvtfFP22YHQD6.output.response_body$",
+                          "skip_execution": false
+                        },
+                        "object_type": "definition_activity"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "unique_name": "definition_activity_01I9UBN6OAD8J7A4ZzGpOTSg2ioPhbOaz70",
+                "name": "JSONPath Query",
+                "title": "Extract job status",
+                "type": "corejava.jsonpathquery",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "continue_on_failure": false,
+                  "display_name": "Extract job status",
+                  "input_json": "$activity.definition_activity_01I9U30FF5Q9J68n5Ok66Ef5uOAmdWoNw2o.output.response_body$",
+                  "jsonpath_queries": [
+                    {
+                      "jsonpath_query": "$.data.status",
+                      "jsonpath_query_name": "query_status",
+                      "jsonpath_query_type": "string"
+                    }
+                  ],
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01I9UETV3W5X059C37D7X6aJcfYu3pJKfRQ",
+                "name": "Condition Block",
+                "title": "Is the job complete?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Is the job complete?",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                  {
+                    "unique_name": "definition_activity_01I9UEU1L6T9304R9aJrAVq2zRXewDeoRsa",
+                    "name": "Condition Branch",
+                    "title": "Yes",
+                    "type": "logic.condition_block",
+                    "base_type": "activity",
+                    "properties": {
+                      "condition": {
+                        "left_operand": "$activity.definition_activity_01I9UBN6OAD8J7A4ZzGpOTSg2ioPhbOaz70.output.jsonpath_queries.query_status$",
+                        "operator": "eqi",
+                        "right_operand": "COMPLETED"
+                      },
+                      "continue_on_failure": false,
+                      "display_name": "Yes",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity",
+                    "actions": [
+                      {
+                        "unique_name": "definition_activity_01I9UFK0VVXQT0SoJz8aHYO5HD45gH5Tfo5",
+                        "name": "Break",
+                        "title": "End the loop",
+                        "type": "logic.break",
+                        "base_type": "activity",
+                        "properties": {
+                          "continue_on_failure": false,
+                          "display_name": "End the loop",
+                          "skip_execution": false
+                        },
+                        "object_type": "definition_activity"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01I9UGPFZQHZ360Eu4AzpdfMWn4rw5wF5e2",
+        "name": "HTTP Request",
+        "title": "Get query result",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "application/json",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "content_type": "application/json",
+          "continue_on_error_status_code": true,
+          "continue_on_failure": false,
+          "cookie": [
+            "stealthwatch.jwt=$workflow.definition_workflow_01I8C4KYPMIE129LhwdF6CXPsKDtMdUDd0I.input.variable_workflow_01O1ILOX7ONUW2b66hdF3AZSRn7dgRa6HaH$"
+          ],
+          "custom_headers": [
+            {
+              "name": "X-XSRF-TOKEN",
+              "value": "$workflow.definition_workflow_01I8C4KYPMIE129LhwdF6CXPsKDtMdUDd0I.input.variable_workflow_01P09MMPAJC0Z4YCqSf6C4os62IeZCbzhqc$"
+            }
+          ],
+          "display_name": "Get query result",
+          "method": "GET",
+          "relative_url": "sw-reporting/v1/tenants/$workflow.definition_workflow_01I8C4KYPMIE129LhwdF6CXPsKDtMdUDd0I.input.variable_workflow_01I8C4KYDKEQI2gP9nxMFCarUGoP4gOoC82$/security-events/results/$activity.definition_activity_01I8C4LZFNKAQ1TxxqJSVsXWk3OPwGPqR2K.output.jsonpath_queries.query_id$",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01P0DPSQPTIZL1fRc44Kh1Tz5UPwU6OD88U",
+        "name": "Condition Block",
+        "title": "Was the request successful?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Was the request successful?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01P0DPSW6BQDM6nV64MdD0vBf3Da9McCEbD",
+            "name": "Condition Branch",
+            "title": "No",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01I9UGPFZQHZ360Eu4AzpdfMWn4rw5wF5e2.output.status_code$",
+                "operator": "ne",
+                "right_operand": 200
+              },
+              "continue_on_failure": false,
+              "display_name": "No",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01P0DPSWUWPRK6I5UASOKOqzd77rjOv9UMw",
+                "name": "Completed",
+                "title": "Failed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Failed",
+                  "result_message": "Failed to fetch query results\n\nStatus code: $activity.definition_activity_01K1OG0YY3GGU5OtYrOlaPbvtfFP22YHQD6.output.status_code$\nResponse body: $activity.definition_activity_01K1OG0YY3GGU5OtYrOlaPbvtfFP22YHQD6.output.response_body$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01I9VJEQOGT132jMk8HRw6tk5imBdeu0csH",
+        "name": "JSONPath Query",
+        "title": "Extract event details",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Extract event details",
+          "input_json": "$activity.definition_activity_01I9UGPFZQHZ360Eu4AzpdfMWn4rw5wF5e2.output.response_body$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$.data.results[0].id",
+              "jsonpath_query_name": "event_id",
+              "jsonpath_query_type": "string"
+            },
+            {
+              "jsonpath_query": "$.data.results[0].source.ipAddress",
+              "jsonpath_query_name": "source_ip",
+              "jsonpath_query_type": "string"
+            },
+            {
+              "jsonpath_query": "$.data.results[0].target.ipAddress",
+              "jsonpath_query_name": "target_ip",
+              "jsonpath_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01I8C4M7EWULH2ARAR4dQo9k4YeDkWeb8gz",
+        "name": "Set Variables",
+        "title": "Set output variables",
+        "type": "core.set_multiple_variables",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Set output variables",
+          "skip_execution": false,
+          "variables_to_update": [
+            {
+              "variable_to_update": "$workflow.definition_workflow_01I8C4KYPMIE129LhwdF6CXPsKDtMdUDd0I.output.variable_workflow_01I9WCK0WE64L6QDPcOO1rXyfZBNruzehv3$",
+              "variable_value_new": "$activity.definition_activity_01I9VJEQOGT132jMk8HRw6tk5imBdeu0csH.output.jsonpath_queries.event_id$"
+            },
+            {
+              "variable_to_update": "$workflow.definition_workflow_01I8C4KYPMIE129LhwdF6CXPsKDtMdUDd0I.output.variable_workflow_01I9VDF73531Y4CtNbLRKiw0vLbPEnkZ2YE$",
+              "variable_value_new": "$activity.definition_activity_01I9VJEQOGT132jMk8HRw6tk5imBdeu0csH.output.jsonpath_queries.source_ip$"
+            },
+            {
+              "variable_to_update": "$workflow.definition_workflow_01I8C4KYPMIE129LhwdF6CXPsKDtMdUDd0I.output.variable_workflow_01I9VDLJRJ2SK71IZhdOoMn4F5ADlFAJIi8$",
+              "variable_value_new": "$activity.definition_activity_01I9VJEQOGT132jMk8HRw6tk5imBdeu0csH.output.jsonpath_queries.target_ip$"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}

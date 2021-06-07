@@ -1,0 +1,357 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01GBFRZVXJ6IS1IQNUam11EG0TxcLagZxCi",
+    "name": "SNA - Get Tokens",
+    "title": "SNA - Get Tokens",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "XSRF Token",
+          "type": "datatype.secure_string",
+          "description": "The XSRF token to use for subsequent requests",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01OX5LJ3FFHMJ57lDoGnC8Y9LzNRiWsw4Z3",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Username",
+          "type": "datatype.string",
+          "description": "Secure Network Analytics API account username",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O8B28Z6224F1USyc6BoOT3l71lA4OdnnV",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Session Token",
+          "type": "datatype.string",
+          "description": "The session token to use for subsequent API requests",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O0PKQ81JEAI3RtD4bt2vZu0Qx6nsUFVXk",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Password",
+          "type": "datatype.secure_string",
+          "description": "Secure Network Analytics API account password",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O8B2JIMD60I6sCzwyw6ldB8aWuVGKQOB2",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "Cisco Secure Network Analytics",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": false,
+      "description": "Logs in to the Secure Network Analytics Management Console and gets a session cookie and XSRF token. These can then be used for subsequent API requests.\n\nTarget: HTTP Endpoint for your Secure Network Anlaytics Management Console\n\nAccount Key: None\n\nSteps:\n[] Execute the login request\n[] Check if the request was successful\n[]\u003e If not, end the workflow\n[] Loop through each cookie and capture it if it's one we want\n\nMore information about this API:\nhttps://developer.cisco.com/docs/stealthwatch/enterprise/#!how-to-authenticate/authentication",
+      "display_name": "SNA - Get Tokens",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "specify_on_workflow_start": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01GBFST3VO09A5s0B105OjD6wCFgUQQixor",
+        "name": "HTTP Request",
+        "title": "Execute API request",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "application/json",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "username=$workflow.definition_workflow_01GBFRZVXJ6IS1IQNUam11EG0TxcLagZxCi.input.variable_workflow_01O8B28Z6224F1USyc6BoOT3l71lA4OdnnV$\u0026password=$workflow.definition_workflow_01GBFRZVXJ6IS1IQNUam11EG0TxcLagZxCi.input.variable_workflow_01O8B2JIMD60I6sCzwyw6ldB8aWuVGKQOB2$",
+          "continue_on_error_status_code": true,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Content-Type",
+              "value": "application/x-www-form-urlencoded"
+            }
+          ],
+          "display_name": "Execute API request",
+          "method": "POST",
+          "relative_url": "token/v2/authenticate",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "use_workflow_target": true
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01GBFU9U5LAWR15I42aGw6ATD6JwypVujZq",
+        "name": "Condition Block",
+        "title": "Was the request successful?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Was the request successful?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01GBFU9YE9PVO6PdxpRpcwYBV5UbrVCneU8",
+            "name": "Condition Branch",
+            "title": "No",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01GBFST3VO09A5s0B105OjD6wCFgUQQixor.output.status_code$",
+                "operator": "ne",
+                "right_operand": 200
+              },
+              "continue_on_failure": false,
+              "display_name": "No",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01GBFUAMULAZD3e6rG5cMHOEdx5lrDTJ0XB",
+                "name": "Completed",
+                "title": "Failed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Failed",
+                  "result_message": "Failed to fetch authentication token from the Secure Network Analytics\n\nStatus code: $activity.definition_activity_01GBFST3VO09A5s0B105OjD6wCFgUQQixor.output.status_code$\nResponse body: $activity.definition_activity_01GBFST3VO09A5s0B105OjD6wCFgUQQixor.output.response_body$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01ORE5Z7H3P056ylr8fx7HI345iIodQtTOJ",
+        "name": "For Each",
+        "title": "For each cookie",
+        "type": "logic.for_each",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "For each cookie",
+          "skip_execution": false,
+          "source_array": "$activity.definition_activity_01GBFST3VO09A5s0B105OjD6wCFgUQQixor.output.cookie$"
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01ORE6UCE1SKD6VpL4FYnl22ueqNm4CuAJv",
+            "name": "Condition Block",
+            "title": "Which cookie is this?",
+            "type": "logic.if_else",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Which cookie is this?",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "blocks": [
+              {
+                "unique_name": "definition_activity_01ORE83X2I70G0otJZYa4Q9TAx13FYw0ZX4",
+                "name": "Condition Branch",
+                "title": "Session JWT",
+                "type": "logic.condition_block",
+                "base_type": "activity",
+                "properties": {
+                  "condition": {
+                    "left_operand": "$activity.definition_activity_01ORE5Z7H3P056ylr8fx7HI345iIodQtTOJ.input.source_array[@]$",
+                    "operator": "mw",
+                    "right_operand": "stealthwatch.jwt=*"
+                  },
+                  "continue_on_failure": false,
+                  "display_name": "Session JWT",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01ORE83Y4UVP40pYIxW5wa5XSTFJKVzrDzW",
+                    "name": "Match Regex",
+                    "title": "Extract cookie value",
+                    "type": "core.matchregex",
+                    "base_type": "activity",
+                    "properties": {
+                      "continue_on_failure": false,
+                      "display_name": "Extract cookie value",
+                      "input_regex": "stealthwatch.jwt=([^;]+)",
+                      "input_string": "$activity.definition_activity_01ORE5Z7H3P056ylr8fx7HI345iIodQtTOJ.input.source_array[@]$",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity"
+                  },
+                  {
+                    "unique_name": "definition_activity_01OREGK27JROP6021YBtsOvG6qJ5K3vt3cw",
+                    "name": "JSONPath Query",
+                    "title": "JSONPath Query",
+                    "type": "corejava.jsonpathquery",
+                    "base_type": "activity",
+                    "properties": {
+                      "action_timeout": 180,
+                      "continue_on_failure": false,
+                      "display_name": "JSONPath Query",
+                      "input_json": "$activity.definition_activity_01ORE83Y4UVP40pYIxW5wa5XSTFJKVzrDzW.output.match_groups$",
+                      "jsonpath_queries": [
+                        {
+                          "jsonpath_query": "$.[0].Group1",
+                          "jsonpath_query_name": "cookieValue",
+                          "jsonpath_query_type": "string"
+                        }
+                      ],
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity"
+                  },
+                  {
+                    "unique_name": "definition_activity_01ORE8411YMQO4wCfTmhfQfo2U9PSnQXuky",
+                    "name": "Set Variables",
+                    "title": "Set output variable",
+                    "type": "core.set_multiple_variables",
+                    "base_type": "activity",
+                    "properties": {
+                      "continue_on_failure": false,
+                      "display_name": "Set output variable",
+                      "skip_execution": false,
+                      "variables_to_update": [
+                        {
+                          "variable_to_update": "$workflow.definition_workflow_01GBFRZVXJ6IS1IQNUam11EG0TxcLagZxCi.output.variable_workflow_01O0PKQ81JEAI3RtD4bt2vZu0Qx6nsUFVXk$",
+                          "variable_value_new": "$activity.definition_activity_01OREGK27JROP6021YBtsOvG6qJ5K3vt3cw.output.jsonpath_queries.cookieValue$"
+                        }
+                      ]
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              },
+              {
+                "unique_name": "definition_activity_01OX5LU1117WT4OQoBy04ElGx5JSYLmD2Ms",
+                "name": "Condition Branch",
+                "title": "XSRF Token",
+                "type": "logic.condition_block",
+                "base_type": "activity",
+                "properties": {
+                  "condition": {
+                    "left_operand": "$activity.definition_activity_01ORE5Z7H3P056ylr8fx7HI345iIodQtTOJ.input.source_array[@]$",
+                    "operator": "mw",
+                    "right_operand": "XSRF-TOKEN=*"
+                  },
+                  "continue_on_failure": false,
+                  "display_name": "XSRF Token",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01OX5LU22AT2I5HtEa225blSs99P3k6Gvqn",
+                    "name": "Match Regex",
+                    "title": "Extract cookie value",
+                    "type": "core.matchregex",
+                    "base_type": "activity",
+                    "properties": {
+                      "continue_on_failure": false,
+                      "display_name": "Extract cookie value",
+                      "input_regex": "XSRF-TOKEN=([^;]+)",
+                      "input_string": "$activity.definition_activity_01ORE5Z7H3P056ylr8fx7HI345iIodQtTOJ.input.source_array[@]$",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity"
+                  },
+                  {
+                    "unique_name": "definition_activity_01OX5LU4XNH0N5r02qxfBu7jocWU7phn3I7",
+                    "name": "JSONPath Query",
+                    "title": "JSONPath Query",
+                    "type": "corejava.jsonpathquery",
+                    "base_type": "activity",
+                    "properties": {
+                      "action_timeout": 180,
+                      "continue_on_failure": false,
+                      "display_name": "JSONPath Query",
+                      "input_json": "$activity.definition_activity_01OX5LU22AT2I5HtEa225blSs99P3k6Gvqn.output.match_groups$",
+                      "jsonpath_queries": [
+                        {
+                          "jsonpath_query": "$.[0].Group1",
+                          "jsonpath_query_name": "cookieValue",
+                          "jsonpath_query_type": "string"
+                        }
+                      ],
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity"
+                  },
+                  {
+                    "unique_name": "definition_activity_01OX5LU7RCEOM22j6afyPeqf26PbMqtep3k",
+                    "name": "Set Variables",
+                    "title": "Set output variable",
+                    "type": "core.set_multiple_variables",
+                    "base_type": "activity",
+                    "properties": {
+                      "continue_on_failure": false,
+                      "display_name": "Set output variable",
+                      "skip_execution": false,
+                      "variables_to_update": [
+                        {
+                          "variable_to_update": "$workflow.definition_workflow_01GBFRZVXJ6IS1IQNUam11EG0TxcLagZxCi.output.variable_workflow_01OX5LJ3FFHMJ57lDoGnC8Y9LzNRiWsw4Z3$",
+                          "variable_value_new": "$activity.definition_activity_01OX5LU4XNH0N5r02qxfBu7jocWU7phn3I7.output.jsonpath_queries.cookieValue$"
+                        }
+                      ]
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}
