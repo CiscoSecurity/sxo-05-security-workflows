@@ -1,0 +1,181 @@
+{
+	"workflow": {
+	  "unique_name": "definition_workflow_01O26LHVR14XR5ggjibxICB3qkpqZ7HuQmc",
+	  "name": "ServiceNow - Add Work Note to Firewall Rule Task",
+	  "title": "ServiceNow - Add Work Note to Firewall Rule Task",
+	  "type": "generic.workflow",
+	  "base_type": "workflow",
+	  "variables": [
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Work Notes",
+			"type": "datatype.string",
+			"description": "Notes to include in the work note entry. Certain tags and formatting can be used in this field. See the ServiceNow documentation for more information",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01O26LHVKEV5Z72XukftJQPOqPzsRpLGjzl",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "v2",
+			"scope": "input",
+			"name": "API Version",
+			"type": "datatype.string",
+			"description": "Version of the ServiceNow API to use",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01OX8KRPV34425GXjwybtQzddzhwdSmpqmk",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "System Id",
+			"type": "datatype.string",
+			"description": "The ServiceNow \"System Id\" of the firewall rule task to add the work note to",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01O26LHVKETWS6NlqDRxw7LozFb5PYuORuj",
+		  "object_type": "variable_workflow"
+		}
+	  ],
+	  "properties": {
+		"atomic": {
+		  "atomic_group": "ServiceNow",
+		  "is_atomic": true
+		},
+		"delete_workflow_instance": false,
+		"description": "Adds a work note to an existing ServiceNow firewall rule task.\n\nTarget: HTTP endpoint for \"<your tenant>.service-now.com\" with a path of \"/api\"\n\nAccount Key: HTTP basic with a ServiceNow account username and password\n\nSteps:\n[] Generate the JSON for the work note\n[] Send a request to the ServiceNow API to create the entry\n[] Check if the request succeeded:\n[]> If it didn't, output an error\n\nMore information about this API: https://docs.servicenow.com/bundle/paris-application-development/page/integrate/inbound-rest/concept/c_TableAPI.html#c_TableAPI",
+		"display_name": "ServiceNow - Add Work Note to Firewall Rule Task",
+		"runtime_user": {
+		  "target_default": true
+		},
+		"target": {
+		  "target_type": "web-service.endpoint",
+		  "specify_on_workflow_start": true
+		}
+	  },
+	  "object_type": "definition_workflow",
+	  "actions": [
+		{
+		  "unique_name": "definition_activity_01O26LIS76EQH0JDvC1QFOIPYNGOM1Zmuji",
+		  "name": "Execute Python Script",
+		  "title": "Generate work note JSON",
+		  "type": "python3.script",
+		  "base_type": "activity",
+		  "properties": {
+			"action_timeout": 180,
+			"continue_on_failure": false,
+			"display_name": "Generate work note JSON",
+			"script": "import sys,json\n\nwork_notes = sys.argv[1]\n\nrule_task = {}\nrule_task[\"work_notes\"] = work_notes\n\nticket_json = json.dumps(rule_task)",
+			"script_arguments": [
+			  "$workflow.definition_workflow_01O26LHVR14XR5ggjibxICB3qkpqZ7HuQmc.input.variable_workflow_01O26LHVKEV5Z72XukftJQPOqPzsRpLGjzl$"
+			],
+			"script_queries": [
+			  {
+				"script_query": "ticket_json",
+				"script_query_name": "ticket_json",
+				"script_query_type": "string"
+			  }
+			],
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01O26LJ7RF9E90ChkG1MiIBSnvGWkUrgL5K",
+		  "name": "HTTP Request",
+		  "title": "Update firewall rule task",
+		  "type": "web-service.http_request",
+		  "base_type": "activity",
+		  "properties": {
+			"accept": "application/json",
+			"action_timeout": 180,
+			"allow_auto_redirect": true,
+			"body": "$activity.definition_activity_01O26LIS76EQH0JDvC1QFOIPYNGOM1Zmuji.output.script_queries.ticket_json$",
+			"content_type": "application/json",
+			"continue_on_error_status_code": true,
+			"continue_on_failure": false,
+			"display_name": "Update firewall rule task",
+			"method": "PATCH",
+			"relative_url": "/now/$workflow.definition_workflow_01O26LHVR14XR5ggjibxICB3qkpqZ7HuQmc.input.variable_workflow_01OX8KRPV34425GXjwybtQzddzhwdSmpqmk$/table/sn_disco_firewall_rule_task/$workflow.definition_workflow_01O26LHVR14XR5ggjibxICB3qkpqZ7HuQmc.input.variable_workflow_01O26LHVKETWS6NlqDRxw7LozFb5PYuORuj$",
+			"runtime_user": {
+			  "override_target_runtime_user": false,
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "override_workflow_target": false,
+			  "override_workflow_target_group_criteria": false,
+			  "use_workflow_target": true,
+			  "use_workflow_target_group": false
+			}
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01O26LJP38AOV29t5MaopGa4fEBT3AuUXRs",
+		  "name": "Condition Block",
+		  "title": "Was the request successful?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Was the request successful?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01O26LK5C19FI2WNNVYhPWTMvBV6z2rkE0c",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01O26LJ7RF9E90ChkG1MiIBSnvGWkUrgL5K.output.status_code$",
+				  "operator": "ne",
+				  "right_operand": 200
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01O26LK7JJYNP1tMYf3vD5TEpcccvdKsB81",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "Failed to post work note to firewall rule task\n\nStatus code: $activity.definition_activity_01O26LJ7RF9E90ChkG1MiIBSnvGWkUrgL5K.output.status_code$\nResponse body: $activity.definition_activity_01O26LJ7RF9E90ChkG1MiIBSnvGWkUrgL5K.output.response_body$",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		}
+	  ],
+	  "categories": [
+		"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+	  ]
+	}
+  }
