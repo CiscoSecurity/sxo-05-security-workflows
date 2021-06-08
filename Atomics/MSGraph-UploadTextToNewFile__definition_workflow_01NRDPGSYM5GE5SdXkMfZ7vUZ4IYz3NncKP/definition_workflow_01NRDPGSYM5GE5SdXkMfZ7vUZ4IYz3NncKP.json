@@ -1,0 +1,383 @@
+{
+	"workflow": {
+	  "unique_name": "definition_workflow_01NRDPGSYM5GE5SdXkMfZ7vUZ4IYz3NncKP",
+	  "name": "MS Graph - Upload Text to New File",
+	  "title": "MS Graph - Upload Text to New File",
+	  "type": "generic.workflow",
+	  "base_type": "workflow",
+	  "variables": [
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "output",
+			"name": "Web URL",
+			"type": "datatype.string",
+			"description": "URL to view the file in a browser",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01NRDVE0VS4NK4AEGyjmtqdzNKlI2qf6Uth",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "output",
+			"name": "Download URL",
+			"type": "datatype.string",
+			"description": "URL to download the file",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01NRDVOJL60456agWo1rZbpGGkTksyNouwd",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.secure_string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Access Token",
+			"type": "datatype.secure_string",
+			"description": "Bearer token obtained from the \"MS Graph - Get Access Token\" atomic action",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01NRDU11J7RF13B2L3j0xdR2H0wvnat8gs6",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "File Content",
+			"type": "datatype.string",
+			"description": "The contents of the file to create",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01NRDUO2B7GVT3Qdv9yKtFtppWoD1O126tO",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "File Path",
+			"type": "datatype.string",
+			"description": "The path to upload the file to. This can be blank to upload to the root directory of the drive/folder. A trailing slash will be added if necessary",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01OYA477Q7N9X2oVOJHpum1xMpkWYLfy5pN",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "File Name",
+			"type": "datatype.string",
+			"description": "Name of file with extension (ex: example.txt)",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01NRDV08028RZ0tzwMjW7BOUPUHyrXnk1pf",
+		  "object_type": "variable_workflow"
+		}
+	  ],
+	  "properties": {
+		"atomic": {
+		  "atomic_group": "Microsoft Graph",
+		  "is_atomic": true
+		},
+		"delete_workflow_instance": false,
+		"description": "Uploads content to a new file on OneDrive or SharePoint Online.\n\nTarget: HTTP Endpoint for \"graph.microsoft.com\"\n\nAccount Key: None (uses an access token)\n\nSteps:\n[] Add a trailing slash to the path (if necessary)\n[] Execute request to upload content to file\n[] Check if the request succeeded:\n[]> If it did, attempt to extract the file URLs and set the output variables\n[]> If it didn't, output an error\n\nMore information about this API:\nhttps://docs.microsoft.com/en-us/onedrive/developer/rest-api/concepts/special-folders-appfolder?view=odsp-graph-online#creating-your-apps-folder",
+		"display_name": "MS Graph - Upload Text to New File",
+		"runtime_user": {
+		  "override_target_runtime_user": false,
+		  "specify_on_workflow_start": false,
+		  "target_default": true
+		},
+		"target": {
+		  "target_type": "web-service.endpoint",
+		  "specify_on_workflow_start": true
+		}
+	  },
+	  "object_type": "definition_workflow",
+	  "actions": [
+		{
+		  "unique_name": "definition_activity_01OYA8XEN97OS0RgvfKhwlik7hDlWYmV2YU",
+		  "name": "Condition Block",
+		  "title": "Does the path have a trailing slash?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Does the path have a trailing slash?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01OYA8XKFFAKE3sGI3IzHVNNkLCbiKimBMH",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": {
+					"left_operand": "$workflow.definition_workflow_01NRDPGSYM5GE5SdXkMfZ7vUZ4IYz3NncKP.input.variable_workflow_01OYA477Q7N9X2oVOJHpum1xMpkWYLfy5pN$",
+					"operator": "ne",
+					"right_operand": ""
+				  },
+				  "operator": "and",
+				  "right_operand": {
+					"left_operand": "$workflow.definition_workflow_01NRDPGSYM5GE5SdXkMfZ7vUZ4IYz3NncKP.input.variable_workflow_01OYA477Q7N9X2oVOJHpum1xMpkWYLfy5pN$",
+					"operator": "nmw",
+					"right_operand": "*/"
+				  }
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01OYA9L6K6BGA4cCHC81TALzkaE2d5dM2nl",
+				  "name": "Set Variables",
+				  "title": "Add a trailing slash",
+				  "type": "core.set_multiple_variables",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Add a trailing slash",
+					"skip_execution": false,
+					"variables_to_update": [
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01NRDPGSYM5GE5SdXkMfZ7vUZ4IYz3NncKP.input.variable_workflow_01OYA477Q7N9X2oVOJHpum1xMpkWYLfy5pN$",
+						"variable_value_new": "$workflow.definition_workflow_01NRDPGSYM5GE5SdXkMfZ7vUZ4IYz3NncKP.input.variable_workflow_01OYA477Q7N9X2oVOJHpum1xMpkWYLfy5pN$/"
+					  }
+					]
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01NRDQUF4FGMY5Lj1A1K2wAgJP1wNwEyJvD",
+		  "name": "HTTP Request",
+		  "title": "Upload the text as a new file",
+		  "type": "web-service.http_request",
+		  "base_type": "activity",
+		  "properties": {
+			"action_timeout": 180,
+			"allow_auto_redirect": true,
+			"body": "$workflow.definition_workflow_01NRDPGSYM5GE5SdXkMfZ7vUZ4IYz3NncKP.input.variable_workflow_01NRDUO2B7GVT3Qdv9yKtFtppWoD1O126tO$",
+			"content_type": "text/plain",
+			"continue_on_error_status_code": true,
+			"continue_on_failure": false,
+			"custom_headers": [
+			  {
+				"name": "Authorization",
+				"value": "Bearer $workflow.definition_workflow_01NRDPGSYM5GE5SdXkMfZ7vUZ4IYz3NncKP.input.variable_workflow_01NRDU11J7RF13B2L3j0xdR2H0wvnat8gs6$"
+			  }
+			],
+			"display_name": "Upload the text as a new file",
+			"method": "PUT",
+			"relative_url": "v1.0/drive/special/approot:/$workflow.definition_workflow_01NRDPGSYM5GE5SdXkMfZ7vUZ4IYz3NncKP.input.variable_workflow_01OYA477Q7N9X2oVOJHpum1xMpkWYLfy5pN$$workflow.definition_workflow_01NRDPGSYM5GE5SdXkMfZ7vUZ4IYz3NncKP.input.variable_workflow_01NRDV08028RZ0tzwMjW7BOUPUHyrXnk1pf$:/content",
+			"runtime_user": {
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "use_workflow_target": true
+			}
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01NS1XP0U2TVC30UiLq6vBSArlp1gxXxMAg",
+		  "name": "Condition Block",
+		  "title": "Was the upload successful?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Was the upload successful?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01NS1XPT9PNU22NfnvQ6yL9RFgL7WGrgYT2",
+			  "name": "Condition Branch",
+			  "title": "Yes",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01NRDQUF4FGMY5Lj1A1K2wAgJP1wNwEyJvD.output.status_code$",
+				  "operator": "eq",
+				  "right_operand": 201
+				},
+				"continue_on_failure": false,
+				"display_name": "Yes",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01OY9YKV890KX34Qi0ZjHmTQZTsnjsBcjmT",
+				  "name": "JSONPath Query",
+				  "title": "Extract file URLs",
+				  "type": "corejava.jsonpathquery",
+				  "base_type": "activity",
+				  "properties": {
+					"action_timeout": 180,
+					"continue_on_failure": true,
+					"display_name": "Extract file URLs",
+					"input_json": "$activity.definition_activity_01NRDQUF4FGMY5Lj1A1K2wAgJP1wNwEyJvD.output.response_body$",
+					"jsonpath_queries": [
+					  {
+						"jsonpath_query": "['@microsoft.graph.downloadUrl']",
+						"jsonpath_query_name": "downloadUrl",
+						"jsonpath_query_type": "string"
+					  },
+					  {
+						"jsonpath_query": "$.webUrl",
+						"jsonpath_query_name": "webUrl",
+						"jsonpath_query_type": "string"
+					  }
+					],
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01NS2AIP6KT853424lYcx43ecAA6AImKqDd",
+				  "name": "Condition Block",
+				  "title": "Did we get the URLs?",
+				  "type": "logic.if_else",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Did we get the URLs?",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "blocks": [
+					{
+					  "unique_name": "definition_activity_01NS2AJ2PLPGU5ZyXRWeSWfh4kUgMwlKJN9",
+					  "name": "Condition Branch",
+					  "title": "No",
+					  "type": "logic.condition_block",
+					  "base_type": "activity",
+					  "properties": {
+						"condition": {
+						  "left_operand": "$activity.definition_activity_01OY9YKV890KX34Qi0ZjHmTQZTsnjsBcjmT.output.succeeded$",
+						  "operator": "eq",
+						  "right_operand": false
+						},
+						"continue_on_failure": false,
+						"display_name": "No",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "actions": [
+						{
+						  "unique_name": "definition_activity_01NS2BONDR0293DDRCPPXS5tRECQ0n9VNdu",
+						  "name": "Completed",
+						  "title": "Failed",
+						  "type": "logic.completed",
+						  "base_type": "activity",
+						  "properties": {
+							"completion_type": "failed-completed",
+							"continue_on_failure": false,
+							"display_name": "Failed",
+							"result_message": "Failed to extract URLs for the new file\n\nResponse body: $activity.definition_activity_01NRDQUF4FGMY5Lj1A1K2wAgJP1wNwEyJvD.output.response_body$",
+							"skip_execution": false
+						  },
+						  "object_type": "definition_activity"
+						}
+					  ]
+					}
+				  ]
+				},
+				{
+				  "unique_name": "definition_activity_01NRDWOZ19J8Y3uxj9QWwsOFqaK9olVZgx4",
+				  "name": "Set Variables",
+				  "title": "Set output variables",
+				  "type": "core.set_multiple_variables",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Set output variables",
+					"skip_execution": false,
+					"variables_to_update": [
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01NRDPGSYM5GE5SdXkMfZ7vUZ4IYz3NncKP.output.variable_workflow_01NRDVE0VS4NK4AEGyjmtqdzNKlI2qf6Uth$",
+						"variable_value_new": "$activity.definition_activity_01OY9YKV890KX34Qi0ZjHmTQZTsnjsBcjmT.output.jsonpath_queries.webUrl$"
+					  },
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01NRDPGSYM5GE5SdXkMfZ7vUZ4IYz3NncKP.output.variable_workflow_01NRDVOJL60456agWo1rZbpGGkTksyNouwd$",
+						"variable_value_new": "$activity.definition_activity_01OY9YKV890KX34Qi0ZjHmTQZTsnjsBcjmT.output.jsonpath_queries.downloadUrl$"
+					  }
+					]
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01NS1XPTXPFLX5KASzQwiyJIivMrbQHXdzy",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01NRDQUF4FGMY5Lj1A1K2wAgJP1wNwEyJvD.output.status_code$",
+				  "operator": "ne",
+				  "right_operand": 201
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01NS235OU96KH4ebABwwmGAdfu9PFw9oHwf",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "Failed to upload file\n\nStatus code: $activity.definition_activity_01NRDQUF4FGMY5Lj1A1K2wAgJP1wNwEyJvD.output.status_code$\nResponse body : $activity.definition_activity_01NRDQUF4FGMY5Lj1A1K2wAgJP1wNwEyJvD.output.response_body$",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		}
+	  ],
+	  "categories": [
+		"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+	  ]
+	}
+  }
