@@ -81,11 +81,11 @@ After deploying your SecureX orchestration remote, you can configure the virtual
 ---
 
 ## Generating an SSH Key Pair
-If you want to be able to SSH to your remote appliance, you'll need to generate an RSA key pair for authentication.
+If you want to be able to SSH to your remote appliance, you'll need to generate a key pair for authentication. You can use any key pair you want, as long as it's valid for a standard Ubuntu `authorized_hosts` file. Below, we give examples of how to generate a default RSA key pair.
 
 ### Linux/macOS
 1. Open a terminal
-1. Execute the command: `ssh-keygen -t rsa -f /path/to/output/keypair`
+1. Execute the command: `ssh-keygen -t rsa -b 4096 -f /path/to/output/keypair` (for a 4096-bit RSA key)
 1. If you want to use a passphrase, provide it and then confirm it. If not, press enter twice
 1. A public and private key will be generated at the path you provided. In this example:
 	* `keypair` will contain the private key
@@ -96,6 +96,7 @@ One of the easiest ways to generate a key pair on Windows is by using the PuTTyg
 1. Download PuTTygen from [this page](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html) (look for `puttygen.exe` under **Alternative binary files**)
 1. Run `puttygen.exe`
 1. If you want a passphrase on your key pair, provide it in **Key passphrase** and **Confirm passphrase**
+1. Select the type of key and key length at the bottom of the window (we recommend at least a 2048-bit RSA key)
 1. Click the **Generate** button
 1. Use the **Save public key** and **Save private key** buttons to export the keys
 
