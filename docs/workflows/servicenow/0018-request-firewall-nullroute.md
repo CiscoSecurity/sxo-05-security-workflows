@@ -26,6 +26,7 @@ This workflow should be triggered from a SecureX pivot menu and supports IP addr
 ## Requirements
 * The following atomic actions must be imported before you can import this workflow:
 	* ServiceNow - Create Change Request ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
+* The [targets](#targets) and [account keys](#account-keys) listed below
 
 ---
 

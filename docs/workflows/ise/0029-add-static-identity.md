@@ -29,6 +29,7 @@ This workflow adds a static identity group assignment to a MAC address in Cisco 
 	* ISE - ERS - Endpoint - Search ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
 	* ISE - ERS - Endpoint - Update Identity Group ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
 	* ISE - ERS - Endpoint Identity Group - Get by Name ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
+* The [targets](#targets) and [account keys](#account-keys) listed below
 
 ---
 

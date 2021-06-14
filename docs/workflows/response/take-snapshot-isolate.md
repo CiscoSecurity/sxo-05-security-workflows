@@ -22,6 +22,7 @@ This workflow should be triggered from a SecureX pivot menu and supports IP addr
 	* AMP - Isolate Host ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* CTRGenerateAccessToken ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* Orbital - Query Endpoint ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+* The [targets](#targets) and [account keys](#account-keys) listed below
 * Endpoints running AMP for Endpoints with Orbital enabled
 
 ---

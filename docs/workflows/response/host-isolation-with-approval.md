@@ -21,6 +21,7 @@ This workflow should be triggered from a SecureX pivot menu and supports AMP com
 	* CTRGenerateAccessToken ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* CTR List Actions ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* CTR Trigger an Action ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+* The [targets](#targets) and [account keys](#account-keys) listed below
 * An active AMP for Endpoints account
 
 ---

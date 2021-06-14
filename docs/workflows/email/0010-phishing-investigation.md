@@ -47,6 +47,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes#workflows) page for more inf
 	* Threat Response v2 - Inspect for Observables ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* Webex Teams - Post Message to Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos)) * See note below!
 	* Webex Teams - Search for Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+* The [targets](#targets) and [account keys](#account-keys) listed below
 * An active Threat Grid account and API key
 * (Optional) A Webex Teams access token and room name to post messages to
 

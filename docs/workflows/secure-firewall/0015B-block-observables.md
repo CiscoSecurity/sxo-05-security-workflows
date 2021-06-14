@@ -27,6 +27,7 @@ This workflow blocks an observable on Cisco Secure Firewall (formerly Firepower)
 * The following atomic actions must be imported before you can import this workflow:
 	* Threat Response v2 - Create Relationship ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* Threat Response v2 - Generate Access Token ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+* The [targets](#targets) and [account keys](#account-keys) listed below
 
 ---
 

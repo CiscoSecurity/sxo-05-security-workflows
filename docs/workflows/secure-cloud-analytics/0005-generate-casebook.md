@@ -28,6 +28,7 @@ This workflow should be triggered from a SecureX pivot menu and supports IP addr
 * The following atomic actions must be imported before you can import this workflow:
 	* CTRGenerateAccessToken ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* CTR Create Casebook ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+* The [targets](#targets) and [account keys](#account-keys) listed below
 * A Secure Cloud Analytics instance
 
 ---

@@ -25,6 +25,7 @@ This workflow periodically checks for "Vulnerable Application Detected" events i
 * The following atomic actions must be imported before you can import this workflow:
 	* AMP - Get Events ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* ServiceNow - Create Incident ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+* The [targets](#targets) and [account keys](#account-keys) listed below
 * A ServiceNow instance and API account
 
 ---

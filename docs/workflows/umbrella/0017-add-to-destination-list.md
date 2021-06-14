@@ -27,6 +27,7 @@ This workflow should be triggered from a SecureX pivot menu and supports IP addr
 * The following atomic actions must be imported before you can import this workflow:
 	* Umbrella - Management V1 - Add Record to Destination List ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
 	* Umbrella - Management V1 - Get Destination Lists ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
+* The [targets](#targets) and [account keys](#account-keys) listed below
 
 ---
 

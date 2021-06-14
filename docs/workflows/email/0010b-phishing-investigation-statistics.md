@@ -32,6 +32,11 @@ _See the [Important Notes]({{ site.baseurl }}/notes#workflows) page for more inf
 
 ---
 
+## Requirements
+* The [targets](#targets) and [account keys](#account-keys) listed below
+
+---
+
 ## Workflow Steps
 This email is designed to be triggered by a [schedule]({{ site.baseurl }}/schedules).
 

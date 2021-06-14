@@ -23,6 +23,7 @@ This workflow creates a series of indicators and feeds for various observable ty
 ## Requirements
 * The following atomic actions must be imported before you can import this workflow:
 	* Threat Response v2 - Generate Access Token ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+* The [targets](#targets) and [account keys](#account-keys) listed below
 
 ---
 

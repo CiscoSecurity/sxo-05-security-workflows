@@ -19,6 +19,7 @@ This workflow should be triggered from a SecureX pivot menu and supports URL obs
 ## Requirements
 * The following atomic actions must be imported before you can import this workflow:
 	* TG Submit URL ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+* The [targets](#targets) listed below
 * An active Threat Grid account and API key
 
 ---

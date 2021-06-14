@@ -22,6 +22,7 @@ Microsoft provides a JSON-formatted feed of their networks and domains for their
 ---
 
 ## Requirements
+* The [targets](#targets) listed below
 * Access to Cisco Defense Orchestrator (CDO)
 * A CDO API token (Can be generated on your [CDO settings page](https://www.defenseorchestrator.com/settings))
 
