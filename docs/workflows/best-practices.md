@@ -11,6 +11,8 @@ The following best practices should be followed when building a workflow.
 
 [<i class="fa fa-video mr-1"></i> Building a Workflow](https://www.youtube.com/watch?v=gs-XWrCXQbE&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo){: .btn-cisco-outline }
 
+<div class="cisco-alert cisco-alert-info"><i class="fa fa-info-circle mr-1 cisco-icon-info"></i> Want to see how well your workflow adheres to our standards? Try the new <a href="{{ site.base_url }}/analyzer/">Workflow Analyzer</a></div>
+
 ---
 
 ## Overall
