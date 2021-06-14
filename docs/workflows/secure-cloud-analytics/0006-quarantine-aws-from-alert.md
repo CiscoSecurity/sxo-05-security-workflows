@@ -29,6 +29,7 @@ This workflow fetches `Geographically Unusual Remote Access` alerts from the Sec
 	* Util - Get X Hour Window ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
 	* Webex Teams - Post Message to Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos)) * See note below!
 	* Webex Teams - Search for Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+* The [targets](#targets) and [account keys](#account-keys) listed below
 * A Secure Cloud Analytics instance
 * An Amazon Web Services account with instances monitored by SCA
 * (Optional) A Webex Teams access token and room name to post messages to

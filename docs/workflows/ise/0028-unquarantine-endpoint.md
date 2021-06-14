@@ -26,6 +26,7 @@ This workflow removes an endpoint from quarantine in Cisco Identity Services Eng
 ## Requirements
 * The following atomic actions must be imported before you can import this workflow:
 	* ISE - ERS - ANC Policy - Clear from Endpoint ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
+* The [targets](#targets) and [account keys](#account-keys) listed below
 
 ---
 

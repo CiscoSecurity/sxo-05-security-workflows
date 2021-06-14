@@ -29,6 +29,7 @@ This workflow fetches alerts from Secure Cloud Analytics for the past 24 hours b
 	* SWC - Get Observation Details by ID ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
 	* Webex Teams - Post Message to Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos)) * See note below!
 	* Webex Teams - Search for Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+* The [targets](#targets) and [account keys](#account-keys) listed below
 * (Optional) A Webex Teams access token and room name to post messages to
 
 **Note:** You may have an old version of the `Webex Teams - Post Message to Room` atomic. To ensure the best experience with this workflow, be sure to import the latest version of this atomic from the `GitHub_Target_Atomics` repository!

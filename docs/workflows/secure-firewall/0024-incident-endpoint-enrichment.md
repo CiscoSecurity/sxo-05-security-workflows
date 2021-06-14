@@ -28,6 +28,7 @@ This workflow fetches Cisco Secure Firewall incidents and conducts automated enr
 	* Threat Response v2 - Create Casebook ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* Threat Response v2 - Create Relationship ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* Threat Response v2 - Create Sighting ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+* The [targets](#targets) and [account keys](#account-keys) listed below
 
 ---
 

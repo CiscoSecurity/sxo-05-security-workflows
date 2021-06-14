@@ -26,6 +26,7 @@ This workflow quarantines an endpoint in Cisco Identity Services Engine (ISE) by
 ## Requirements
 * The following atomic actions must be imported before you can import this workflow:
 	* ISE - ERS - ANC Policy - Apply to Endpoint ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
+* The [targets](#targets) and [account keys](#account-keys) listed below
 
 ---
 

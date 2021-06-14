@@ -40,6 +40,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes#workflows) page for more inf
 	* Meraki - Get Organizations ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
 	* Meraki - Network - MX - Get L3 Firewall Rules ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
 	* Meraki - Network - MX - Update L3 Firewall Rule ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
+* The [targets](#targets) listed below
 
 ---
 

@@ -23,6 +23,7 @@ Microsoft provides a JSON-formatted feed of their networks and domains for their
 
 ## Requirements
 * A Cisco Adaptive Security Appliance (ASA)
+* The [targets](#targets) and [account keys](#account-keys) listed below
 
 ---
 

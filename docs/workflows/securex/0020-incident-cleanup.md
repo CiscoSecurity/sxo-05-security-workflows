@@ -25,6 +25,7 @@ This workflow allows you to bulk-delete incidents from your SecureX incident man
 ## Requirements
 * The following atomic actions must be imported before you can import this workflow:
 	* Threat Response v2 - Generate Access Token ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+* The [targets](#targets) and [account keys](#account-keys) listed below
 
 ---
 

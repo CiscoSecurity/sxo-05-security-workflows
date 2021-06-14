@@ -25,6 +25,7 @@ This workflow fetches request per category statistics from Cisco Umbrella for a 
 	* Threat Response v2 - Create Incident ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* Threat Response v2 - Generate Access Token ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* Umbrella - Reporting v2 - Get Token ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
+* The [targets](#targets) and [account keys](#account-keys) listed below
 
 ---
 

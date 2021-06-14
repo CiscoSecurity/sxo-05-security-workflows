@@ -21,6 +21,7 @@ This workflow should be triggered from a SecureX pivot menu and supports IP addr
 	* AMP - Get Connector GUID ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* AMP - Get Group by Name ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 	* AMP - Move Computer to Group ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+* The [targets](#targets) and [account keys](#account-keys) listed below
 * An active AMP for Endpoints account
 
 ---
