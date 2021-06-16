@@ -27,6 +27,7 @@ Microsoft provides a JSON-formatted feed of their networks and domains for their
 	* Secure Firewall - Get Dynamic Object Group Mappings ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
 	* Secure Firewall - Update Dynamic Object Group Mappings ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
 * The [targets](#targets) and [account keys](#account-keys) listed below
+* Secure Firewall software version 7.0 or newer
 
 ---
 

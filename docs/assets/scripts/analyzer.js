@@ -2,7 +2,7 @@ var rowIndex = 1;
 
 function buildRow(rowType, col1, col2, moreInfo = '') {
 	rowIndex++;
-	
+
 	var icons = {
 		'success': 'check',
 		'info': 'info',
@@ -13,7 +13,7 @@ function buildRow(rowType, col1, col2, moreInfo = '') {
 	var moreInfo = (moreInfo.length > 0 ? ' <div id="more-info-' + rowIndex + '" class="more-info">' + moreInfo + '</div>' : '');
 	var moreInfoIcon = (moreInfo.length > 0 ? ' <small><a class="more-info-toggle" data-index="' + rowIndex + '">(details)</a></small>' : '');
 
-	return '<tr><td class="item-row">' + col1 + '</td><td class="analyzer-row ' + rowType + '"><i class="fa fa-fw fa-' + icons[rowType] + ' mr-1"></i> ' + col2 + moreInfoIcon + moreInfo + '</td></tr>';
+	return '<tr><td class="item-row">' + col1 + '</td><td class="analyzer-row ' + (rowType.length > 0 ? rowType : '') + '">' + (rowType.length > 0 ? '<i class="fa fa-fw fa-' + icons[rowType] + ' mr-1"></i> ' : '') + col2 + moreInfoIcon + moreInfo + '</td></tr>';
 }
 
 function analyzeWorkflow(workflowJson) {
@@ -47,15 +47,34 @@ function analyzeWorkflow(workflowJson) {
 	summaryOut += '<h3>Workflow Properties</h3>';
 	summaryOut += '<table><thead><tr><th>Item</th><th>Result</th></tr></thead><tbody>';
 
-	summaryOut += buildRow('info', 'Workflow Name', workflow['workflow']['properties']['display_name']);
-	summaryOut += buildRow('info', 'Definition Type', (isAtomic ? 'Atomic Action' : 'Workflow'));
+	summaryOut += buildRow('', 'Workflow Name', workflow['workflow']['properties']['display_name']);
+	summaryOut += buildRow('', 'Definition Type', (isAtomic ? 'Atomic Action' : 'Workflow'));
+
+	// Check for categories
+	if ('categories' in workflow && workflow['categories'] != null) {
+		var categories = [];
+
+		for (category in workflow['categories']) {
+			categories.push(workflow['categories'][category]['name']);
+		}
+
+		if (categories.length == 0) {
+			summaryOut += buildRow('', 'Categories', 'This workflow doesn\'t have any categories');
+		}
+		else {
+			summaryOut += buildRow('', 'Categories', categories.join(', '));
+		}
+	}
+	else {
+		summaryOut += buildRow('', 'Categories', 'This workflow doesn\'t have any categories');
+	}
 
 	// Check for a description
 	if ('description' in workflow['workflow']['properties'] && workflow['workflow']['properties']['description'].length > 10) {
 		summaryOut += buildRow('success', 'Description', 'Passed');
 	}
 	else {
-		summaryOut += buildRow('error', 'Description', 'Failed', 'All workflows and atomic actions should have a meaningful description');
+		summaryOut += buildRow('error', 'Description', 'Description missing', 'All workflows and atomic actions should have a meaningful description');
 	}
 
 	// Make sure the workflow isn't set to self destruct
@@ -63,14 +82,14 @@ function analyzeWorkflow(workflowJson) {
 		summaryOut += buildRow('success', 'Workflow Instance Cleanup', 'Passed', '"Clean up after successful execution" is not checked (which is what we typically recommend)');
 	}
 	else {
-		summaryOut += buildRow('warning', 'Workflow Instance Cleanup', 'Warning', 'If you check "Clean up after successful execution", your workflow or atomic action\'s instances will be deleted if they\'re successful. This means you won\'t be able to view them for debugging purposes');
+		summaryOut += buildRow('warning', 'Workflow Instance Cleanup', 'Clean up enabled', 'If you check "Clean up after successful execution", your workflow or atomic action\'s instances will be deleted if they\'re successful. This means you won\'t be able to view them for debugging purposes');
 	}
 
 	// Special conditions for atomic actions
 	if (isAtomic) {
 		// Target configuration
 		if ('no_target' in workflow['workflow']['properties']['target'] && workflow['workflow']['properties']['target']['no_target']) {
-			summaryOut += buildRow('info', 'Target', 'No Target Specified', 'Not having a target is ok for an atomic action if it doesn\'t need to communicate with anything');
+			summaryOut += buildRow('info', 'Target', 'No target specified', 'Not having a target is ok for an atomic action if it doesn\'t need to communicate with anything');
 		}
 		else {
 			if ('specify_on_workflow_start' in workflow['workflow']['properties']['target'] && workflow['workflow']['properties']['target']['specify_on_workflow_start']) {
@@ -93,7 +112,7 @@ function analyzeWorkflow(workflowJson) {
 	else {
 		// Target configuration
 		if ('no_target' in workflow['workflow']['properties']['target'] && workflow['workflow']['properties']['target']['no_target']) {
-			summaryOut += buildRow('info', 'Target', 'No Target Specified', 'Not having a target is ok for a workflow if it doesn\'t need to communicate with anything');
+			summaryOut += buildRow('info', 'Target', 'No target specified', 'Not having a target is ok for a workflow if it doesn\'t need to communicate with anything');
 		}
 		else {
 			// Make sure a target group is being used
@@ -149,7 +168,7 @@ function analyzeWorkflow(workflowJson) {
 	summaryOut += '<table><thead><tr><th>Item</th><th>Result</th></tr></thead><tbody>';
 
 	// Check for global variables
-	if ('variables' in workflow && workflow['variables'].length > 0) {
+	if ('variables' in workflow && workflow['variables'] != null) {
 		summaryOut += buildRow('error', 'Global Variables', 'Failed', 'Global variables should not be used in workflows or atomic actions meant to be shared. Instead, use a "Set Variables" activity to copy global variables to local variables within the workflow. Before exporting, simply remove the global variables so the other user can select their own');
 	}
 	else {
@@ -157,7 +176,7 @@ function analyzeWorkflow(workflowJson) {
 	}
 
 	// Check for custom table types
-	if ('table_types' in workflow && workflow['table_types'].length > 0) {
+	if ('table_types' in workflow && workflow['table_types'] != null) {
 		summaryOut += buildRow('error', 'Custom Table Types', 'Failed', 'We do not recommend using tables to pass data between objects as they\'re inefficient and don\'t always scale well. It\'s better to exchange JSON instead');
 	}
 	else {
@@ -170,7 +189,33 @@ function analyzeWorkflow(workflowJson) {
 			// If the variable is a secure string, check if it has a default value
 			if (variable['properties']['type'] == 'datatype.secure_string' && variable['properties']['value'].length != 0)
 				summaryOut += buildRow('warning', variable['properties']['name'] + '<br /><small>' + variable['properties']['type'] + '</small>', 'Warning', 'If a Secure String variable has a value when exported, it will prompt the user for its value during import. If you want to avoid this, clear the Secure String\'s value before exporting the workflow');
+
+			// Make sure the variable has a description
+			if (!('description' in variable['properties']) || variable['properties']['description'].length == 0)
+				summaryOut += buildRow('warning', variable['properties']['name'] + '<br /><small>' + variable['properties']['type'] + '</small>', 'No description', 'All variables should have a meaningful description to help the end user understand its purpose and, if a value needs to be provided, where the user should get it');
 		});
+	}
+
+	summaryOut += '</tbody></table> <hr />';
+	summaryOut += '<h3>Triggers</h3>';
+	summaryOut += '<table><thead><tr><th>Item</th><th>Result</th></tr></thead><tbody>';
+
+	if ('triggers' in workflow && workflow['triggers'] != null) {
+		var triggers = [];
+
+		for (trigger in workflow['triggers']) {
+			triggers.push(workflow['triggers'][trigger]['name'] + ' (' + workflow['triggers'][trigger]['type'] + ')');
+		}
+
+		if (triggers.length == 0) {
+			summaryOut += buildRow('', 'Triggers', 'This workflow doesn\'t have any triggers');
+		}
+		else {
+			summaryOut += buildRow('', 'Triggers', triggers.join(', '));
+		}
+	}
+	else {
+		summaryOut += buildRow('', 'Triggers', 'This workflow doesn\'t have any triggers');
 	}
 
 	// Make sure there aren't any hard-coded account keys or targets
@@ -179,19 +224,67 @@ function analyzeWorkflow(workflowJson) {
 	summaryOut += '<table><thead><tr><th>Item</th><th>Result</th></tr></thead><tbody>';
 
 	// Check for embedded targets
-	if ('targets' in workflow && workflow['targets'] != null && workflow['targets'].length > 0) {
-		summaryOut += buildRow('error', 'Targets', 'Failed (there should not be any hard-coded targets)');
+	if ('targets' in workflow && workflow['targets'] != null) {
+		summaryOut += buildRow('error', 'Targets', 'Failed', 'Workflows should not have any hard-coded targets');
 	}
 	else {
 		summaryOut += buildRow('success', 'Targets', 'Passed', 'The workflow does not appear to have any targets embedded in it');
 	}
 
 	// Check for embedded account keys
-	if ('runtime_users' in workflow && workflow['runtime_users'] != null && workflow['runtime_users'].length > 0) {
+	if ('runtime_users' in workflow && workflow['runtime_users'] != null) {
 		summaryOut += buildRow('error', 'Account Keys', 'Failed (there should not be any hard-coded account keys)');
 	}
 	else {
 		summaryOut += buildRow('success', 'Account Keys', 'Passed', 'The workflow does not appear to have any account keys embedded in it');
+	}
+
+	// Check for embedded target groups
+	if ('target_groups' in workflow && workflow['target_groups'] != null) {
+		for (group in workflow['target_groups']) {
+			workflow['target_groups'][group]['targets'].forEach(target => {
+				// Make sure the target group doesn't have any manually added targets
+				if ('selected_target_ids' in target && target['selected_target_ids'].length > 0)
+					summaryOut += buildRow('warning', 'Target Group<br /><small>' + workflow['target_groups'][group]['name'] + '</small>', 'Should not contain manually selected targets', 'In the target group configuration, you probably added a specific target manually. We don\'t recommend doing this unless you have a specific use case and suggest you consider using target group criteria instead');
+			});
+		}
+	}
+
+	// Validate any embedded schedules or calendars
+	summaryOut += '</tbody></table> <hr />';
+	summaryOut += '<h3>Schedules and Calendars</h3>';
+	summaryOut += '<table><thead><tr><th>Item</th><th>Result</th></tr></thead><tbody>';
+
+	// Check for embedded schedules
+	if ('schedules' in workflow && workflow['schedules'] != null) {
+		summaryOut += buildRow('', 'Schedules', 'This workflow contains ' + Object.keys(workflow['schedules']).length + ' schedule(s)');
+	}
+	else {
+		summaryOut += buildRow('', 'Schedules', 'No schedules were found in this workflow');
+	}
+
+	// Check for embedded calendars
+	if ('calendars' in workflow && workflow['calendars'] != null) {
+		var systemCalendars = ['calendar_recurring_1BMfMVuAObCmHIsuW7x3IDSg7Ex',
+			'calendar_recurring_1BMfMWvgiDhSjBQ7hTSyvz3NyVZ', 'calendar_recurring_1BMfMW5GeLXecZJo0Q2KrjwQQIv', 'calendar_recurring_1BMfMeHT9BLcMorjZ6d827zXeaV',
+			'calendar_recurring_1BMfMcNhIKsalUwsjCDmSfUnmXW', 'calendar_recurring_1BMfMfZOtVKaTB6BaLDrNQK52Fc', 'calendar_recurring_1BMfMd3fofpISGMRps4BWyiLLLF',
+			'calendar_recurring_1BMfMhDJAkJOyFHVPdAlXhGhG4r', 'calendar_recurring_1BMfMqhskK5gwxWWa4onJC9Zr85', 'calendar_recurring_1BMfMjHOpvnqfcYuwbNrCaNw9VG',
+			'calendar_recurring_1BMfMkExf4yIRuj23K0kmAAPc6T', 'calendar_recurring_1BMfMpqnrsC6VJEyYW4URsw7LBb', 'calendar_recurring_1BMfMm9xzHRuS6K7B48zgAz9JZX',
+			'calendar_recurring_1BMfMth9lq7gy3wE8OW10vuzhPw', 'calendar_recurring_1BMfMr25ZvcGOTMtbZwzH46TxaH', 'calendar_recurring_1BMfMwZ4tmMYLJBxY4PFZf0e377',
+			'calendar_recurring_1BMfMviA3g4f1iDN74e6ytY2iuI', 'calendar_datelist_1BMfMrFF1Br99a6ow9x1ZyhMnK4', 'calendar_datelist_1BMfMrejiPkeY95fLvoFCuKaPLq',
+			'calendar_group_1BMfN3vifXosz1cwBFXN6N7yQge', 'calendar_group_1BMfN6Cjp6x5yy0NdCh9PJC9KGo'];
+
+		for (calendar in workflow['calendars']) {
+			if (calendar['unique_name'] in systemCalendars) {
+				summaryOut += buildRow('info', 'Calendars', 'This workflow is using one of the default calendars');
+			}
+			else {
+				summaryOut += buildRow('warning', 'Calendars', 'Warning', 'We don\'t typically recommend using a custom calendar unless you have a specific reason to. It\'s better to use one of the default calendars if possible');
+			}
+		}
+	}
+	else {
+		summaryOut += buildRow('', 'Calendars', 'No calendars were found in this workflow');
 	}
 
 	// Check for embedded target groups
@@ -247,12 +340,16 @@ function analyzeWorkflow(workflowJson) {
 			}
 			// Special handling for JSON path query
 			else if (action['type'] == 'corejava.jsonpathquery') {
-				if (!action['properties']['continue_on_failure'])
+				if (!action['properties']['continue_on_failure']) {
 					summaryOut += buildRow('warning', displayName, '"Continue Workflow Execution on Failure" is not checked', 'If the JSON path query you look for isn\'t found, the activity will fail and your workflow will fail with it. If you want to avoid this, you can check continue on failure and use a Condition Block to check if the path query was successful');
+				}
+				else {
+					summaryOut += buildRow('info', displayName, '"Continue Workflow Execution on Failure" is checked', 'Setting continue workflow execution on failure means the workflow will continue running even if this activity fails. It\'s ok to use this if you\'re using a Condition Block to do some error handling');
+				}
 			}
 			else {
 				if (action['properties']['continue_on_failure'])
-					summaryOut += buildRow('info', displayName, '"Continue Workflow Execution on Failure" is checked', 'Setting continue workflow execution on failure means the workflow will continue running even if this activity fails. It\'s ok to use this, but you may want to use a Condition Block to do some error handling');
+					summaryOut += buildRow('info', displayName, '"Continue Workflow Execution on Failure" is checked', 'Setting continue workflow execution on failure means the workflow will continue running even if this activity fails. It\'s ok to use this if you\'re using a Condition Block to do some error handling');
 			}
 
 			// Target Configuration
