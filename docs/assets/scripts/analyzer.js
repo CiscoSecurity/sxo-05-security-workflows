@@ -335,7 +335,7 @@ function analyzeWorkflow(workflowJson) {
 				if (action['properties']['continue_on_failure'])
 					summaryOut += buildRow('warning', displayName, '"Continue Workflow Execution on Failure" is checked', 'You probably want "Continue on HTTP error status code" instead');
 
-				if (action['properties']['continue_on_error_status_code'])
+				if (!action['properties']['continue_on_error_status_code'])
 					summaryOut += buildRow('warning', displayName, '"Continue on HTTP error status code" is not checked', 'You should check this and use a Condition Block to handle HTTP error codes');
 			}
 			// Special handling for JSON path query
