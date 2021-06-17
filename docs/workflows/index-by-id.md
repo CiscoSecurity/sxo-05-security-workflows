@@ -44,3 +44,6 @@ This page contains a list of all of the workflows published in the repository so
 | 0029 | Cisco Identity Services Engine | [Add Endpoint to Identity Group]({{ site.baseurl }}/workflows/0029) |
 | 0030 | Cisco Identity Services Engine | [Remove Endpoint from Identity Group]({{ site.baseurl }}/workflows/0030) |
 | 0031 | Cisco Secure Firewall | [Microsoft Online Dynamic Object Update]({{ site.baseurl }}/workflows/0031) |
+| 0032 | Cisco Secure Network Analytics | [Isolate Endpoints and Block Hashes from Alarms]({{ site.baseurl }}/workflows/0032) |
+| 0033 | Cisco Secure Network Analytics | [Block External Threats With Umbrella]({{ site.baseurl }}/workflows/0033) |
+| 0034 | Cisco Secure Network Analytics | [Generate Casebook with Top Hosts and Peers]({{ site.baseurl }}/workflows/0034) |

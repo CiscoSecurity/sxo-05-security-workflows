@@ -45,7 +45,7 @@ This tool allows you to check if your workflow or atomic action conforms to our 
 				var analysisResult = '';
 				
 				try {
-					analysisResult = analyzeWorkflow($('#workflowJson').val());
+					analysisResult = analyzeWorkflowLocal($('#workflowJson').val());
 					
 					if(analysisResult['success'])
 					{

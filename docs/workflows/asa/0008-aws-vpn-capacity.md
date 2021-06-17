@@ -59,7 +59,7 @@ This workflow demonstrates the ability to dynamically expand ASA head end capaci
 	* The `Security Group ID(s)` you want the instance added to
 	* The `Keypair Name` of the authentication key pair this instance should use
 	* The `Instance Type` to create (default: `m4.large`)
-* See [this page]({{ site.baseurl }}/atomics/webex#configuring-our-workflows) for information on configuring the workflow for Webex Teams
+* See [this page]({{ site.baseurl }}/atomics/configuration/webex#configuring-our-workflows) for information on configuring the workflow for Webex Teams
 
 ---
 

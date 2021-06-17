@@ -1,0 +1,329 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01P1414FRV8CV4GfuBxEDNNd0oqt4IWcnrZ",
+    "name": "ManageEngine - SDP - Create Incident",
+    "title": "ManageEngine - SDP - Create Incident",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Urgency",
+          "type": "datatype.string",
+          "description": "Urgency of the incident",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01P2V5NYT220N7UkgIReHEGS91MdKssqVdG",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Impact",
+          "type": "datatype.string",
+          "description": "Impact of the incident",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01P2V52KHM19N70lfneVNSreGOSG4oCPc7S",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Incident ID",
+          "type": "datatype.string",
+          "description": "ID of the new requested/incident",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01P1414FK9SL338Ovn1ZYGfNRqmznN4bX9W",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Impact Details",
+          "type": "datatype.string",
+          "description": "Description about the impact of this incident (250 characters or less)",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01P2VS7PTNZ8I1ydUlOIrB0gNwMpQDEw2Oc",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Description",
+          "type": "datatype.string",
+          "description": "A description of the incident",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01P1414FK9P2H0yf4beWEr0muuOWsY9K4ix",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "API Response",
+          "type": "datatype.string",
+          "description": "The raw response from the ManageEngine API",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01P1414FK9RCO4BVp4TFYH6RUZ6Dv4FY3iX",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Subject",
+          "type": "datatype.string",
+          "description": "Brief title for the incident (250 characters or less)",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01P1414FK9TSZ74F0f9XaeUcGxD8piclCLr",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Access Token",
+          "type": "datatype.secure_string",
+          "description": "Access token for the ManageEngine API. This is obtained from either the \"ManageEngine - Get Tokens\" or \"ManageEngine - Refresh Token\" atomic actions",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01P1414FK9LFC6uoItptb9zvucGzJeFGO7h",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "ManageEngine",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": false,
+      "description": "Creates an incident in ManageEngine ServiceDesk Plus.\n\nTarget: HTTP Endpoint for your ServiceDesk Plus instance with a path of \"/api\"\n\nAccount Key: None (uses an access token)\n\nSteps:\n[] Generate the JSON for the incident\n[] Request the incident be created\n[] Check if the request was successful:\n[]> If it was, extract the incident details and set the output variables\n[]> If it wasn't, output an error\n\nMore information about this API: https://www.manageengine.com/products/service-desk/sdpod-v3-api/SDPOD-V3-API.html#add-request",
+      "display_name": "ManageEngine - SDP - Create Incident",
+      "runtime_user": {
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "specify_on_workflow_start": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01P1414PK1EJ31pc87ubFDPQCASezwsV5j9",
+        "name": "Execute Python Script",
+        "title": "Generate incident JSON",
+        "type": "python3.script",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Generate incident JSON",
+          "script": "import json\nimport sys\ndef format_field(value):\n    if value:\n        return {\"name\": value}\n    return {}\nincident_data = {\n    \"subject\": sys.argv[1],\n    \"description\": sys.argv[2],\n    \"impact_details\": sys.argv[3],\n    \"request_type\": format_field(\"Incident\")\n}\noptional_keys = (\n    \"impact\", \"urgency\"\n)\noptional_values = [format_field(value) for value in sys.argv[4:6]]\nincident_data.update(zip(optional_keys, optional_values))\nincident_data = {k: v for k, v in incident_data.items() if v}\nincident_json = json.dumps({\"request\": incident_data})",
+          "script_arguments": [
+            "$workflow.definition_workflow_01P1414FRV8CV4GfuBxEDNNd0oqt4IWcnrZ.input.variable_workflow_01P1414FK9TSZ74F0f9XaeUcGxD8piclCLr$",
+            "$workflow.definition_workflow_01P1414FRV8CV4GfuBxEDNNd0oqt4IWcnrZ.input.variable_workflow_01P1414FK9P2H0yf4beWEr0muuOWsY9K4ix$",
+            "$workflow.definition_workflow_01P1414FRV8CV4GfuBxEDNNd0oqt4IWcnrZ.input.variable_workflow_01P2VS7PTNZ8I1ydUlOIrB0gNwMpQDEw2Oc$",
+            "$workflow.definition_workflow_01P1414FRV8CV4GfuBxEDNNd0oqt4IWcnrZ.input.variable_workflow_01P2V52KHM19N70lfneVNSreGOSG4oCPc7S$",
+            "$workflow.definition_workflow_01P1414FRV8CV4GfuBxEDNNd0oqt4IWcnrZ.input.variable_workflow_01P2V5NYT220N7UkgIReHEGS91MdKssqVdG$"
+          ],
+          "script_queries": [
+            {
+              "script_query": "incident_json",
+              "script_query_name": "Incident JSON",
+              "script_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01P1414TK6SQG32iM0MgVglxGWklhSAOffo",
+        "name": "HTTP Request",
+        "title": "Create incident",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "application/vnd.manageengine.sdp.v3+json",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "input_data=$activity.definition_activity_01P1414PK1EJ31pc87ubFDPQCASezwsV5j9.output.script_queries.Incident JSON$",
+          "continue_on_error_status_code": true,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Zoho-Oauthtoken  $workflow.definition_workflow_01P1414FRV8CV4GfuBxEDNNd0oqt4IWcnrZ.input.variable_workflow_01P1414FK9LFC6uoItptb9zvucGzJeFGO7h$"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/x-www-form-urlencoded"
+            }
+          ],
+          "display_name": "Create incident",
+          "method": "POST",
+          "relative_url": "/v3/requests",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01P1414Y2G91U5FrlwZrrhfYXc97skd01iW",
+        "name": "Condition Block",
+        "title": "Was the request successful?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Was the request successful?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01P1415295VKV6Ujvw69dNSyXwqL5Mokc8E",
+            "name": "Condition Branch",
+            "title": "Success/201",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01P1414TK6SQG32iM0MgVglxGWklhSAOffo.output.status_code$",
+                "operator": "eq",
+                "right_operand": 201
+              },
+              "continue_on_failure": false,
+              "display_name": "Success/201",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01P14154EKWLZ6wCF0xtaKeMqY6MDlwXhMO",
+                "name": "JSONPath Query",
+                "title": "Extract incident details",
+                "type": "corejava.jsonpathquery",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "continue_on_failure": false,
+                  "display_name": "Extract incident details",
+                  "input_json": "$activity.definition_activity_01P1414TK6SQG32iM0MgVglxGWklhSAOffo.output.response_body$",
+                  "jsonpath_queries": [
+                    {
+                      "jsonpath_query": "$.request.id",
+                      "jsonpath_query_name": "Incident Id",
+                      "jsonpath_query_type": "string"
+                    }
+                  ],
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01P14159AJKJK0bHzgBXjKFD28IpGvVw9xk",
+                "name": "Set Variables",
+                "title": "Set output variables",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Set output variables",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01P1414FRV8CV4GfuBxEDNNd0oqt4IWcnrZ.output.variable_workflow_01P1414FK9SL338Ovn1ZYGfNRqmznN4bX9W$",
+                      "variable_value_new": "$activity.definition_activity_01P14154EKWLZ6wCF0xtaKeMqY6MDlwXhMO.output.jsonpath_queries.Incident Id$"
+                    },
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01P1414FRV8CV4GfuBxEDNNd0oqt4IWcnrZ.output.variable_workflow_01P1414FK9RCO4BVp4TFYH6RUZ6Dv4FY3iX$",
+                      "variable_value_new": "$activity.definition_activity_01P1414TK6SQG32iM0MgVglxGWklhSAOffo.output.response_body$"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01P1415E32AJH767lPOa6Idxi8Q8s2cBaxp",
+            "name": "Condition Branch",
+            "title": "Anything else",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01P1414TK6SQG32iM0MgVglxGWklhSAOffo.output.status_code$",
+                "operator": "ne",
+                "right_operand": 201
+              },
+              "continue_on_failure": false,
+              "display_name": "Anything else",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01P1415G61OLZ6vPXFBNLrID9k0fPzmGTx8",
+                "name": "Completed",
+                "title": "Failed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Failed",
+                  "result_message": "Failed to create the incident\n\nStatus code: $activity.definition_activity_01P1414TK6SQG32iM0MgVglxGWklhSAOffo.output.status_code$\nResponse body: $activity.definition_activity_01P1414TK6SQG32iM0MgVglxGWklhSAOffo.output.response_body$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}

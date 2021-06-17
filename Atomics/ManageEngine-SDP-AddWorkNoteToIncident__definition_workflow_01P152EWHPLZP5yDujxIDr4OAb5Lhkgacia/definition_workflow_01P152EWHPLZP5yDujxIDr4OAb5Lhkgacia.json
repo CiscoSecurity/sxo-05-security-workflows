@@ -1,0 +1,273 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01P152EWHPLZP5yDujxIDr4OAb5Lhkgacia",
+    "name": "ManageEngine - SDP - Add Work Note to Incident",
+    "title": "ManageEngine - SDP - Add Work Note to Incident",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Access Token",
+          "type": "datatype.secure_string",
+          "description": "Access token for the ManageEngine API. This is obtained from either the \"ManageEngine - Get Tokens\" or \"ManageEngine - Refresh Token\" atomic actions",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01P152EWBJFK832KKMCn1yqW5A2ntIb2fzW",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Description",
+          "type": "datatype.string",
+          "description": "The work note description",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01P152EWBJJDF1Y34ovJ9tDRSJBRJoCW47e",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.boolean",
+        "properties": {
+          "value": false,
+          "scope": "input",
+          "name": "Show to Requester",
+          "type": "datatype.boolean",
+          "description": "Whether or not to show the work note to requester",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01P19GVQHACR561JJ5r0Y6jmMBFQHzjZK3o",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "API Response",
+          "type": "datatype.string",
+          "description": "The raw response from the ManageEngine API",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01P152EWBJGUY5V09MFHr5vpcaml8bdAXn6",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.boolean",
+        "properties": {
+          "value": false,
+          "scope": "input",
+          "name": "Add to Linked Requests",
+          "type": "datatype.boolean",
+          "description": "Whether or not to add the note to the incident's linked requests",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01P30EXUUEBYC36X8ujyDsBokszyHOUGnz8",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Request ID",
+          "type": "datatype.string",
+          "description": "The ID of the request/incident that the work note should be added to",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01P199YPDN4WX55Jgd7ZsDFnk3dO90dGf9u",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "ManageEngine",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": false,
+      "description": "Adds a work note to an incident in ManageEngine ServiceDesk Plus.\n\nTarget: HTTP Endpoint for your ServiceDesk Plus instance with a path of \"/api\"\n\nAccount Key: None (uses an access token)\n\nSteps:\n[] Generate the JSON for the work note\n[] Request the work note be added to the incident\n[] Check if the request was successful:\n[]> If it was, set the output variable\n[]> If it wasn't, output an error\n\nMore information about this API: https://www.manageengine.com/products/service-desk/sdpod-v3-api/SDPOD-V3-API.html#add-note",
+      "display_name": "ManageEngine - SDP - Add Work Note to Incident",
+      "runtime_user": {
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "specify_on_workflow_start": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01P152F6JJURG0Et6CUQDPUxC3RaBthmpvZ",
+        "name": "Execute Python Script",
+        "title": "Generate work note JSON",
+        "type": "python3.script",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Generate work note JSON",
+          "script": "import json\nimport sys\nnames = (\n    \"description\", \"show_to_requester\", \"add_to_linked_requests\"\n)\nvalues = dict(zip(names, sys.argv[1:4]))\nnote_json = json.dumps({\"request_note\": values})",
+          "script_arguments": [
+            "$workflow.definition_workflow_01P152EWHPLZP5yDujxIDr4OAb5Lhkgacia.input.variable_workflow_01P152EWBJJDF1Y34ovJ9tDRSJBRJoCW47e$",
+            "$workflow.definition_workflow_01P152EWHPLZP5yDujxIDr4OAb5Lhkgacia.input.variable_workflow_01P19GVQHACR561JJ5r0Y6jmMBFQHzjZK3o$",
+            "$workflow.definition_workflow_01P152EWHPLZP5yDujxIDr4OAb5Lhkgacia.input.variable_workflow_01P30EXUUEBYC36X8ujyDsBokszyHOUGnz8$"
+          ],
+          "script_queries": [
+            {
+              "script_query": "note_json",
+              "script_query_name": "Work Note JSON",
+              "script_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01P152FARS2SS5SWL9oNZTVg7RNBlfd1kth",
+        "name": "HTTP Request",
+        "title": "Create work note",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "application/vnd.manageengine.sdp.v3+json",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "input_data=$activity.definition_activity_01P152F6JJURG0Et6CUQDPUxC3RaBthmpvZ.output.script_queries.Work Note JSON$",
+          "continue_on_error_status_code": true,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Zoho-Oauthtoken  $workflow.definition_workflow_01P152EWHPLZP5yDujxIDr4OAb5Lhkgacia.input.variable_workflow_01P152EWBJFK832KKMCn1yqW5A2ntIb2fzW$"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/x-www-form-urlencoded"
+            }
+          ],
+          "display_name": "Create work note",
+          "method": "POST",
+          "relative_url": "/v3/requests/$workflow.definition_workflow_01P152EWHPLZP5yDujxIDr4OAb5Lhkgacia.input.variable_workflow_01P199YPDN4WX55Jgd7ZsDFnk3dO90dGf9u$/notes",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01P152FFHGSO70mB7mXabLZDEvmPyWFGNrf",
+        "name": "Condition Block",
+        "title": "Was the request successful?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Was the request successful?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01P152FVEN9102Oy946Dh26g46qQXPrlCES",
+            "name": "Condition Branch",
+            "title": "Yes",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01P152FARS2SS5SWL9oNZTVg7RNBlfd1kth.output.status_code$",
+                "operator": "eq",
+                "right_operand": 201
+              },
+              "continue_on_failure": false,
+              "display_name": "Yes",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01P8CZETH67SB3HkE2xgYfUV0P74jV6tDIW",
+                "name": "Set Variables",
+                "title": "Set output variable",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Set output variable",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01P152EWHPLZP5yDujxIDr4OAb5Lhkgacia.output.variable_workflow_01P152EWBJGUY5V09MFHr5vpcaml8bdAXn6$",
+                      "variable_value_new": "$activity.definition_activity_01P152FARS2SS5SWL9oNZTVg7RNBlfd1kth.output.response_body$"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01P8CZA92IQO56BBOuG5EfYGbJH0TO84Fkg",
+            "name": "Condition Branch",
+            "title": "No",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01P152FARS2SS5SWL9oNZTVg7RNBlfd1kth.output.status_code$",
+                "operator": "ne",
+                "right_operand": 201
+              },
+              "continue_on_failure": false,
+              "display_name": "No",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01P8CZAA3KG6W77M03iPBn5rjGwYHIFaInz",
+                "name": "Completed",
+                "title": "Failed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Failed",
+                  "result_message": "Failed to add work note to incident\n\nStatus code: $activity.definition_activity_01P152FARS2SS5SWL9oNZTVg7RNBlfd1kth.output.status_code$\nResponse body: $activity.definition_activity_01P152FARS2SS5SWL9oNZTVg7RNBlfd1kth.output.response_body$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}

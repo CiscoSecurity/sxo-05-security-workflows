@@ -74,7 +74,7 @@ This workflow fetches alerts from Secure Cloud Analytics (formerly Stealthwatch 
 * Set the `Umbrella Domain Destination List` local variable to the name of the destination list you want domains added to
 * Set the `Umbrella IP Destination List` local variable to the name of the destination list you want IP addresses added to
 * Set the `Umbrella Organization ID` local variable to your Umbrella organization's ID (found in your Umbrella dashboard's URL)
-* See [this page]({{ site.baseurl }}/atomics/webex#configuring-our-workflows) for information on configuring the workflow for Webex Teams
+* See [this page]({{ site.baseurl }}/atomics/configuration/webex#configuring-our-workflows) for information on configuring the workflow for Webex Teams
 
 ---
 

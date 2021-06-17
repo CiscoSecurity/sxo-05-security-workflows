@@ -121,7 +121,7 @@ This workflow is designed to be triggered by an email arriving in a phishing inv
 * Provide the workflow your Threat Grid API token by either:
 	* Storing your token in a [global variable]({{ site.baseurl }}/variables/global) and using the `Fetch Global Variables` group at the beginning of the workflow to update the `Threat Grid API Key` local variable; or
 	* Remove the `Threat Grid API Key` from the `Fetch Global Variables` group and add your token directly to the `Threat Grid API Key` local variable
-* See [this page]({{ site.baseurl }}/atomics/webex#configuring-our-workflows) for information on configuring the workflow for Webex Teams
+* See [this page]({{ site.baseurl }}/atomics/configuration/webex#configuring-our-workflows) for information on configuring the workflow for Webex Teams
 * Set `Notification Email Addresses` to the email addresses you want notified when the workflow detects a phishing attempt
 * This workflow is configured to auto-detect which SecureX environment you're using based on the `SECUREX_ENVIRONMENT` environment variable and then assumes you're using the same environment for Threat Response and Threat Grid
 	* The default region associations are:
