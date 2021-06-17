@@ -68,7 +68,7 @@ This workflow is designed to parse a single blog post into a casebook.
 ---
 
 ## Configuration
-* See [this page]({{ site.baseurl }}/atomics/webex#configuring-our-workflows) for information on configuring the workflow for Webex Teams
+* See [this page]({{ site.baseurl }}/atomics/configuration/webex#configuring-our-workflows) for information on configuring the workflow for Webex Teams
 
 ---
 

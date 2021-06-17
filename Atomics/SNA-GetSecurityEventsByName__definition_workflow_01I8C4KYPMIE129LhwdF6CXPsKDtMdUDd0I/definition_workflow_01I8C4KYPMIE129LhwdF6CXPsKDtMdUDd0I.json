@@ -1,8 +1,8 @@
 {
   "workflow": {
     "unique_name": "definition_workflow_01I8C4KYPMIE129LhwdF6CXPsKDtMdUDd0I",
-    "name": "SNA - Get Security Event Details",
-    "title": "SNA - Get Security Event Details",
+    "name": "SNA - Get Security Events by Name",
+    "title": "SNA - Get Security Events by Name",
     "type": "generic.workflow",
     "base_type": "workflow",
     "variables": [
@@ -10,14 +10,14 @@
         "schema_id": "datatype.string",
         "properties": {
           "value": "",
-          "scope": "output",
-          "name": "Source IP Address",
+          "scope": "input",
+          "name": "Event Name",
           "type": "datatype.string",
-          "description": "The source IP of the matching event",
-          "is_required": false,
+          "description": "The name of the event type to search for",
+          "is_required": true,
           "is_invisible": false
         },
-        "unique_name": "variable_workflow_01I9VDF73531Y4CtNbLRKiw0vLbPEnkZ2YE",
+        "unique_name": "variable_workflow_01I9VCDUT4DCD1W94CZBvq5vyu0DVKxHrNm",
         "object_type": "variable_workflow"
       },
       {
@@ -32,20 +32,6 @@
           "is_invisible": false
         },
         "unique_name": "variable_workflow_01I9VBX7MT5W37DXN8dnLYbfrH4Bcf8VMil",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "output",
-          "name": "Event ID ",
-          "type": "datatype.string",
-          "description": "The ID of the event found",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01I9WCK0WE64L6QDPcOO1rXyfZBNruzehv3",
         "object_type": "variable_workflow"
       },
       {
@@ -67,35 +53,7 @@
         "properties": {
           "value": "",
           "scope": "input",
-          "name": "Event Name ",
-          "type": "datatype.string",
-          "description": "The name of the event type to search for",
-          "is_required": true,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01I9VCDUT4DCD1W94CZBvq5vyu0DVKxHrNm",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "output",
-          "name": "Target IP Address",
-          "type": "datatype.string",
-          "description": "The target IP of the matching event",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01I9VDLJRJ2SK71IZhdOoMn4F5ADlFAJIi8",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "input",
-          "name": "Session Token ",
+          "name": "Session Token",
           "type": "datatype.string",
           "description": "The session token obtained from the \"SNA - Get Tokens\" atomic action",
           "is_required": true,
@@ -108,14 +66,14 @@
         "schema_id": "datatype.string",
         "properties": {
           "value": "",
-          "scope": "input",
-          "name": "Tenant ID",
+          "scope": "output",
+          "name": "Events",
           "type": "datatype.string",
-          "description": "The tenant ID to search for events in",
-          "is_required": true,
+          "description": "The JSON of the events found",
+          "is_required": false,
           "is_invisible": false
         },
-        "unique_name": "variable_workflow_01I8C4KYDKEQI2gP9nxMFCarUGoP4gOoC82",
+        "unique_name": "variable_workflow_01I9WCK0WE64L6QDPcOO1rXyfZBNruzehv3",
         "object_type": "variable_workflow"
       },
       {
@@ -131,6 +89,20 @@
         },
         "unique_name": "variable_workflow_01I9VBO2WOZHR3D3qYEUQjFgdYcNYxdM6xP",
         "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Tenant ID",
+          "type": "datatype.string",
+          "description": "The tenant ID to search for events in",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01I8C4KYDKEQI2gP9nxMFCarUGoP4gOoC82",
+        "object_type": "variable_workflow"
       }
     ],
     "properties": {
@@ -139,8 +111,8 @@
         "is_atomic": true
       },
       "delete_workflow_instance": false,
-      "description": "Gets the source and target for a given security event name and  time range. Note that this atomic will only return information from the first event returned.\n\nTarget: HTTP Endpoint for your Secure Network Anlaytics Management Console\n\nAccount Key: None\n\nSteps:\n[] Resolve the event type to an event ID\n[] Execute the events query\n[] Extract the query ID and sleep\n[] Wait until the query completes\n[] Get the query result\n[] Set the output variables\n\nMore information about this API:\nhttps://developer.cisco.com/docs/stealthwatch/enterprise/#!reporting-api-version-1",
-      "display_name": "SNA - Get Security Event Details",
+      "description": "Gets the details for security events based on an event name for a given time range.\n\nTarget: HTTP Endpoint for your Secure Network Anlaytics Management Console\n\nAccount Key: None\n\nSteps:\n[] Resolve the event type to an event ID\n[] Execute the events query\n[] Extract the query ID and sleep\n[] Wait until the query completes\n[] Get the query result\n[] Set the output variables\n\nMore information about this API:\nhttps://developer.cisco.com/docs/stealthwatch/enterprise/#!reporting-api-version-1",
+      "display_name": "SNA - Get Security Events by Name",
       "runtime_user": {
         "override_target_runtime_user": false,
         "specify_on_workflow_start": false,
@@ -756,38 +728,6 @@
         ]
       },
       {
-        "unique_name": "definition_activity_01I9VJEQOGT132jMk8HRw6tk5imBdeu0csH",
-        "name": "JSONPath Query",
-        "title": "Extract event details",
-        "type": "corejava.jsonpathquery",
-        "base_type": "activity",
-        "properties": {
-          "action_timeout": 180,
-          "continue_on_failure": false,
-          "display_name": "Extract event details",
-          "input_json": "$activity.definition_activity_01I9UGPFZQHZ360Eu4AzpdfMWn4rw5wF5e2.output.response_body$",
-          "jsonpath_queries": [
-            {
-              "jsonpath_query": "$.data.results[0].id",
-              "jsonpath_query_name": "event_id",
-              "jsonpath_query_type": "string"
-            },
-            {
-              "jsonpath_query": "$.data.results[0].source.ipAddress",
-              "jsonpath_query_name": "source_ip",
-              "jsonpath_query_type": "string"
-            },
-            {
-              "jsonpath_query": "$.data.results[0].target.ipAddress",
-              "jsonpath_query_name": "target_ip",
-              "jsonpath_query_type": "string"
-            }
-          ],
-          "skip_execution": false
-        },
-        "object_type": "definition_activity"
-      },
-      {
         "unique_name": "definition_activity_01I8C4M7EWULH2ARAR4dQo9k4YeDkWeb8gz",
         "name": "Set Variables",
         "title": "Set output variables",
@@ -800,15 +740,7 @@
           "variables_to_update": [
             {
               "variable_to_update": "$workflow.definition_workflow_01I8C4KYPMIE129LhwdF6CXPsKDtMdUDd0I.output.variable_workflow_01I9WCK0WE64L6QDPcOO1rXyfZBNruzehv3$",
-              "variable_value_new": "$activity.definition_activity_01I9VJEQOGT132jMk8HRw6tk5imBdeu0csH.output.jsonpath_queries.event_id$"
-            },
-            {
-              "variable_to_update": "$workflow.definition_workflow_01I8C4KYPMIE129LhwdF6CXPsKDtMdUDd0I.output.variable_workflow_01I9VDF73531Y4CtNbLRKiw0vLbPEnkZ2YE$",
-              "variable_value_new": "$activity.definition_activity_01I9VJEQOGT132jMk8HRw6tk5imBdeu0csH.output.jsonpath_queries.source_ip$"
-            },
-            {
-              "variable_to_update": "$workflow.definition_workflow_01I8C4KYPMIE129LhwdF6CXPsKDtMdUDd0I.output.variable_workflow_01I9VDLJRJ2SK71IZhdOoMn4F5ADlFAJIi8$",
-              "variable_value_new": "$activity.definition_activity_01I9VJEQOGT132jMk8HRw6tk5imBdeu0csH.output.jsonpath_queries.target_ip$"
+              "variable_value_new": "$activity.definition_activity_01I9UGPFZQHZ360Eu4AzpdfMWn4rw5wF5e2.output.response_body$"
             }
           ]
         },

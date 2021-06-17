@@ -1,0 +1,915 @@
+{
+	"workflow": {
+	  "unique_name": "definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR",
+	  "name": "0034 - SNA - Generate Casebook with Top Hosts and Peers",
+	  "title": "0034 - SNA - Generate Casebook with Top Hosts and Peers",
+	  "type": "generic.workflow",
+	  "base_type": "workflow",
+	  "variables": [
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "SNA Tenant Name",
+			"type": "datatype.string",
+			"description": "The name of the Secure Network Analytics tenant you want to operate in",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01OOH4Z29IBSF5fDphwNrsD8ueTGhP1XXhg",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "SNA Username",
+			"type": "datatype.string",
+			"description": "Username for the Secure Network Analytics API",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01OOGWLRE1Y6B6gF49BAMOO7qIzVRr7rGrC",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "observable_value",
+			"type": "datatype.string",
+			"description": "The value of the observable pivoted on",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01OOGJEF1UONL2Mckd4PlfSnebpmlsqFbBK",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "Top Hosts",
+			"type": "datatype.string",
+			"description": "This variable is used to keep track of top hosts. It will be populated automatically",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01P1E8L3QBQUN2ZDAWfTGpssgiWuFszwlNu",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "observable_type",
+			"type": "datatype.string",
+			"description": "The type of observable pivoted on",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01OOGJEF1UUTL7QJNEFlzUryP84Ur12Ybcm",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "Top Peers",
+			"type": "datatype.string",
+			"description": "This variable is used to keep track of top peers. It will be populated automatically",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01P1E8QEJ4CTQ5Q3cMyAeZHvmOTFVDSJiwc",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.secure_string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "SNA Password",
+			"type": "datatype.secure_string",
+			"description": "Password for the Secure Network Analytics API",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01OOGWWO4LXC11rnybXDFznXZ6AhjNOo407",
+		  "object_type": "variable_workflow"
+		}
+	  ],
+	  "properties": {
+		"atomic": {
+		  "is_atomic": false
+		},
+		"delete_workflow_instance": false,
+		"description": "When triggered, this workflow fetches the top 10 hosts and peers that communicated with the IP address pivoted on from Secure Network Analytics (formerly Stealtwatch Enterprise). The lists of IPs are then added to a SecureX Threat Response casebook.\n\nHint: If you want to change the name of this workflow in the pivot menu, change its display name.\n\nTarget Group: Default TargetGroup\n\nTargets: CTR_For_Access_Token, Private_CTIA_Target, Secure Network Analytics\n\nSteps:\n[] Make sure the observable type provided is supported\n[] Fetch global variables\n[] Calculate date 24 hours ago\n[] Get SNA tokens and tenant information\n[] Fetch and parse the top peers\n[] Fetch and parse the top hosts\n[] Make sure at least one of the queries returned data\n[] Create a casebook in SecureX\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0034",
+		"display_name": "0034 - SNA - Generate Casebook with Top Hosts and Peers",
+		"runtime_user": {
+		  "override_target_runtime_user": false,
+		  "specify_on_workflow_start": false,
+		  "target_default": true
+		},
+		"target": {
+		  "execute_on_target_group": true,
+		  "target_group": {
+			"target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+			"run_on_all_targets": false,
+			"selected_target_types": [
+			  "web-service.endpoint"
+			],
+			"use_criteria": {
+			  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+			  "conditions": [
+				{
+				  "operator": "eqi",
+				  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+				  "right_operand": "Secure Network Analytics"
+				}
+			  ]
+			}
+		  }
+		}
+	  },
+	  "object_type": "definition_workflow",
+	  "actions": [
+		{
+		  "unique_name": "definition_activity_01OOGJFUFFWOK1hiLauLgz3GB9oASrJlnji",
+		  "name": "Condition Block",
+		  "title": "Is this observable type supported?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Is this observable type supported?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01OOGJGAEXR103ktbb0z0ABaVlGyZy4qnlS",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.input.variable_workflow_01OOGJEF1UUTL7QJNEFlzUryP84Ur12Ybcm$",
+				  "operator": "ne",
+				  "right_operand": "ip"
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01OOGJGCLRD961RJtHIvFBJKyO3ZSVD6z2p",
+				  "name": "Completed",
+				  "title": "Unsupported observable",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Unsupported observable",
+					"result_message": "The observable type \"$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.input.variable_workflow_01OOGJEF1UUTL7QJNEFlzUryP84Ur12Ybcm$\" is not supported by this workflow",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01P87TZ3YZHBJ21cDDZWCDjVoVRyf2Fa9cv",
+		  "name": "Group",
+		  "title": "Fetch global variables",
+		  "type": "logic.group",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Fetch global variables",
+			"skip_execution": true
+		  },
+		  "object_type": "definition_activity",
+		  "actions": [
+			{
+			  "unique_name": "definition_activity_01OOGVVV6FAL63vNeJHwgrpjshiJa499Cbv",
+			  "name": "Set Variables",
+			  "title": "Fetch global variables",
+			  "type": "core.set_multiple_variables",
+			  "base_type": "activity",
+			  "properties": {
+				"continue_on_failure": false,
+				"display_name": "Fetch global variables",
+				"skip_execution": false,
+				"variables_to_update": [
+				  {
+					"variable_to_update": "$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.local.variable_workflow_01OOGWLRE1Y6B6gF49BAMOO7qIzVRr7rGrC$",
+					"variable_value_new": ""
+				  },
+				  {
+					"variable_to_update": "$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.local.variable_workflow_01OOGWWO4LXC11rnybXDFznXZ6AhjNOo407$",
+					"variable_value_new": ""
+				  }
+				]
+			  },
+			  "object_type": "definition_activity"
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01OOGJGSP1KNN74MaU234ffrrQ5pDcQq2V2",
+		  "name": "Calculate Date",
+		  "title": "Calculate 24 hours ago",
+		  "type": "core.calculate_date",
+		  "base_type": "activity",
+		  "properties": {
+			"adjustment": -86400,
+			"continue_on_failure": false,
+			"display_name": "Calculate 24 hours ago",
+			"original_date": "$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.output.start_time$",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01P87W3W9HZCI4JZnZLZ50WwM6Xdw0MIoQB",
+		  "name": "Group",
+		  "title": "Get tokens and tenant",
+		  "type": "logic.group",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Get tokens and tenant",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "actions": [
+			{
+			  "unique_name": "definition_activity_01OOGS89BR1SX0UoNem4cln0Lnh4w7IDImm",
+			  "name": "SNA - Get Tokens",
+			  "title": "SNA - Get Tokens",
+			  "type": "workflow.atomic_workflow",
+			  "base_type": "subworkflow",
+			  "properties": {
+				"continue_on_failure": false,
+				"display_name": "SNA - Get Tokens",
+				"input": {
+				  "variable_workflow_01O8B28Z6224F1USyc6BoOT3l71lA4OdnnV": "$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.local.variable_workflow_01OOGWLRE1Y6B6gF49BAMOO7qIzVRr7rGrC$",
+				  "variable_workflow_01O8B2JIMD60I6sCzwyw6ldB8aWuVGKQOB2": "$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.local.variable_workflow_01OOGWWO4LXC11rnybXDFznXZ6AhjNOo407$"
+				},
+				"runtime_user": {
+				  "target_default": true
+				},
+				"skip_execution": false,
+				"target": {
+				  "use_workflow_target_group": true
+				},
+				"workflow_id": "definition_workflow_01GBFRZVXJ6IS1IQNUam11EG0TxcLagZxCi"
+			  },
+			  "object_type": "definition_activity"
+			},
+			{
+			  "unique_name": "definition_activity_01OOGSHO029AK6ePxETibdWbKeuSK4ZwHLR",
+			  "name": "SNA - Get Tenants",
+			  "title": "SNA - Get Tenants",
+			  "type": "workflow.atomic_workflow",
+			  "base_type": "subworkflow",
+			  "properties": {
+				"continue_on_failure": false,
+				"display_name": "SNA - Get Tenants",
+				"input": {
+				  "variable_workflow_01O1E9UE3M5HK399jFe2hWQFBMrKCO0Enfc": "$activity.definition_activity_01OOGS89BR1SX0UoNem4cln0Lnh4w7IDImm.output.variable_workflow_01O0PKQ81JEAI3RtD4bt2vZu0Qx6nsUFVXk$",
+				  "variable_workflow_01OX6VF9MTDC87bhCTwT3bZ3Dq6FHFOhCdD": "$activity.definition_activity_01OOGS89BR1SX0UoNem4cln0Lnh4w7IDImm.output.variable_workflow_01OX5LJ3FFHMJ57lDoGnC8Y9LzNRiWsw4Z3$"
+				},
+				"runtime_user": {
+				  "target_default": true
+				},
+				"skip_execution": false,
+				"target": {
+				  "use_workflow_target_group": true
+				},
+				"workflow_id": "definition_workflow_01GBFORA2YBMP0BtdcLgiiRCLoOkNTctmHg"
+			  },
+			  "object_type": "definition_activity"
+			},
+			{
+			  "unique_name": "definition_activity_01OOH2AT36I154C6CIbYplzOPVgmAiDH029",
+			  "name": "JSONPath Query",
+			  "title": "Extract tenant ID",
+			  "type": "corejava.jsonpathquery",
+			  "base_type": "activity",
+			  "properties": {
+				"action_timeout": 180,
+				"continue_on_failure": true,
+				"display_name": "Extract tenant ID",
+				"input_json": "$activity.definition_activity_01OOGSHO029AK6ePxETibdWbKeuSK4ZwHLR.output.variable_workflow_01GBFPEVG1JAU0P5Xaye3avbi97EjSrahcy$",
+				"jsonpath_queries": [
+				  {
+					"jsonpath_query": "*.[?(@.displayName==\"$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.local.variable_workflow_01OOH4Z29IBSF5fDphwNrsD8ueTGhP1XXhg$\")].id",
+					"jsonpath_query_name": "tenant_id",
+					"jsonpath_query_type": "string"
+				  }
+				],
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity"
+			},
+			{
+			  "unique_name": "definition_activity_01P87VEOR24I44b9kpbATYjyvJcJSklpM4r",
+			  "name": "Condition Block",
+			  "title": "Was extraction successful?",
+			  "type": "logic.if_else",
+			  "base_type": "activity",
+			  "properties": {
+				"continue_on_failure": false,
+				"display_name": "Was extraction successful?",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "blocks": [
+				{
+				  "unique_name": "definition_activity_01P87VEVEWE1W0dVrX9wZ2N9zooRA1O4yx4",
+				  "name": "Condition Branch",
+				  "title": "No",
+				  "type": "logic.condition_block",
+				  "base_type": "activity",
+				  "properties": {
+					"condition": {
+					  "left_operand": "$activity.definition_activity_01OOH2AT36I154C6CIbYplzOPVgmAiDH029.output.succeeded$",
+					  "operator": "eq",
+					  "right_operand": false
+					},
+					"continue_on_failure": false,
+					"display_name": "No",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "actions": [
+					{
+					  "unique_name": "definition_activity_01P87VWNIS0CN20ZmQ9P0mnuc756sOZaEIq",
+					  "name": "Completed",
+					  "title": "Failed",
+					  "type": "logic.completed",
+					  "base_type": "activity",
+					  "properties": {
+						"completion_type": "failed-completed",
+						"continue_on_failure": false,
+						"display_name": "Failed",
+						"result_message": "Failed to extract the tenant ID",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity"
+					}
+				  ]
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01OOGRS1WSBMN4qtxOhHVNJIcuwjOQ6yoxo",
+		  "name": "Group",
+		  "title": "Fetch data from Secure Network Analytics",
+		  "type": "logic.group",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Fetch data from Secure Network Analytics",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "actions": [
+			{
+			  "unique_name": "definition_activity_01P182AX9LLT736KowF2C6Wy6adC7DJSva0",
+			  "name": "SNA - Get Top Peers by IP Address",
+			  "title": "SNA - Get Top Peers by IP Address",
+			  "type": "workflow.atomic_workflow",
+			  "base_type": "subworkflow",
+			  "properties": {
+				"continue_on_failure": true,
+				"display_name": "SNA - Get Top Peers by IP Address",
+				"input": {
+				  "variable_workflow_01GBH7Z402L4M1KgYIthIKEmtUOCBt8VEAV": "$activity.definition_activity_01OOGJGSP1KNN74MaU234ffrrQ5pDcQq2V2.output.result$",
+				  "variable_workflow_01GBH7Z402QJ53udRJOdj1BQBVALdFVyIul": "$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.output.start_time$",
+				  "variable_workflow_01GBH7Z402TDN15kSVLdi3n625vtRwBC5UC": 10,
+				  "variable_workflow_01GBH7Z402VW61QvlvF0PubwDw9goRhqlBx": "$activity.definition_activity_01OOH2AT36I154C6CIbYplzOPVgmAiDH029.output.jsonpath_queries.tenant_id$",
+				  "variable_workflow_01GBH7Z402X2P6qoEXDHdqSINfhtY5wpK6w": "$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.input.variable_workflow_01OOGJEF1UONL2Mckd4PlfSnebpmlsqFbBK$",
+				  "variable_workflow_01O1IGRJT7PV32ABIiuJ4cqoSSZ0l5p7Dno": "$activity.definition_activity_01OOGS89BR1SX0UoNem4cln0Lnh4w7IDImm.output.variable_workflow_01O0PKQ81JEAI3RtD4bt2vZu0Qx6nsUFVXk$",
+				  "variable_workflow_01OX5SFLCHO8J6HwHOyeXmyo8NGMW313PNt": "$activity.definition_activity_01OOGS89BR1SX0UoNem4cln0Lnh4w7IDImm.output.variable_workflow_01OX5LJ3FFHMJ57lDoGnC8Y9LzNRiWsw4Z3$"
+				},
+				"runtime_user": {
+				  "target_default": true
+				},
+				"skip_execution": false,
+				"target": {
+				  "use_workflow_target_group": true
+				},
+				"workflow_id": "definition_workflow_01GBH7Z4DQTQU1yOKAziIiSxlueN2QU0Mq7"
+			  },
+			  "object_type": "definition_activity"
+			},
+			{
+			  "unique_name": "definition_activity_01P1E65WI4KSJ46x9DPfgQCVuEFdn6WQVei",
+			  "name": "Condition Block",
+			  "title": "Was the request successful?",
+			  "type": "logic.if_else",
+			  "base_type": "activity",
+			  "properties": {
+				"continue_on_failure": false,
+				"display_name": "Was the request successful?",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "blocks": [
+				{
+				  "unique_name": "definition_activity_01P1E668KBM5U3rGSEePMLBl3sDVGzr0MGs",
+				  "name": "Condition Branch",
+				  "title": "Yes",
+				  "type": "logic.condition_block",
+				  "base_type": "activity",
+				  "properties": {
+					"condition": {
+					  "left_operand": "$activity.definition_activity_01P182AX9LLT736KowF2C6Wy6adC7DJSva0.output.succeeded$",
+					  "operator": "eq",
+					  "right_operand": true
+					},
+					"continue_on_failure": false,
+					"display_name": "Yes",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "actions": [
+					{
+					  "unique_name": "definition_activity_01P18ZDOCM8H24RlfEUg9afwVvw8aK92Do8",
+					  "name": "JSONPath Query",
+					  "title": "Parse top peer IPs",
+					  "type": "corejava.jsonpathquery",
+					  "base_type": "activity",
+					  "properties": {
+						"action_timeout": 180,
+						"continue_on_failure": true,
+						"display_name": "Parse top peer IPs",
+						"input_json": "$activity.definition_activity_01P182AX9LLT736KowF2C6Wy6adC7DJSva0.output.variable_workflow_01GBH7Z402S0B20ACYl4L2LhfdSizbFCRMX$",
+						"jsonpath_queries": [
+						  {
+							"jsonpath_query": "$..ipAddress",
+							"jsonpath_query_name": "top_peers",
+							"jsonpath_query_type": "string"
+						  }
+						],
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity"
+					},
+					{
+					  "unique_name": "definition_activity_01P1DAUQA07F043dKjphorNMVY5NwiKX8NQ",
+					  "name": "Replace String",
+					  "title": "Format top peers",
+					  "type": "core.replacestring",
+					  "base_type": "activity",
+					  "properties": {
+						"continue_on_failure": false,
+						"display_name": "Format top peers",
+						"input_string": "$activity.definition_activity_01P18ZDOCM8H24RlfEUg9afwVvw8aK92Do8.output.jsonpath_queries.top_peers$",
+						"replace_list": [
+						  {
+							"replaced_string": "{",
+							"replacement_string": ""
+						  },
+						  {
+							"replaced_string": "\"",
+							"replacement_string": ""
+						  },
+						  {
+							"replaced_string": "[",
+							"replacement_string": ""
+						  },
+						  {
+							"replaced_string": "]",
+							"replacement_string": ""
+						  },
+						  {
+							"replaced_string": "}",
+							"replacement_string": ""
+						  }
+						],
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity"
+					},
+					{
+					  "unique_name": "definition_activity_01P1EFK33WZFH03EJ5O1cMHsTQSXjlL9KvR",
+					  "name": "Set Variables",
+					  "title": "Update local variable",
+					  "type": "core.set_multiple_variables",
+					  "base_type": "activity",
+					  "properties": {
+						"continue_on_failure": false,
+						"display_name": "Update local variable",
+						"skip_execution": false,
+						"variables_to_update": [
+						  {
+							"variable_to_update": "$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.local.variable_workflow_01P1E8QEJ4CTQ5Q3cMyAeZHvmOTFVDSJiwc$",
+							"variable_value_new": "$activity.definition_activity_01P1DAUQA07F043dKjphorNMVY5NwiKX8NQ.output.result_string$"
+						  }
+						]
+					  },
+					  "object_type": "definition_activity"
+					}
+				  ]
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01P17TAZDRUNN3cr1vhsXIleJHH8wDEU091",
+			  "name": "SNA - Get Top Hosts by IP Address",
+			  "title": "SNA - Get Top Hosts by IP Address",
+			  "type": "workflow.atomic_workflow",
+			  "base_type": "subworkflow",
+			  "properties": {
+				"continue_on_failure": true,
+				"display_name": "SNA - Get Top Hosts by IP Address",
+				"input": {
+				  "variable_workflow_01GBG7JCN5X0T77hHGcaOjeAKAE0jlPS05z": "$activity.definition_activity_01OOH2AT36I154C6CIbYplzOPVgmAiDH029.output.jsonpath_queries.tenant_id$",
+				  "variable_workflow_01GBG8Q67NPZT61xy98ln86Er5SfGcrNovI": "$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.input.variable_workflow_01OOGJEF1UONL2Mckd4PlfSnebpmlsqFbBK$",
+				  "variable_workflow_01GBG8VBNA3NV71PXqEtUqmmoXorBloRjAn": "$activity.definition_activity_01OOGJGSP1KNN74MaU234ffrrQ5pDcQq2V2.output.result$",
+				  "variable_workflow_01GBG9OFEBLPP131gTXjIMAhzFl202kFnyS": "$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.output.start_time$",
+				  "variable_workflow_01GBGXMY98RUV7BZJzN88ueySR1ScgX4Xok": 10,
+				  "variable_workflow_01O1IB95ZIX350lzPmTMS5hqjCsAZ3qBaZ2": "$activity.definition_activity_01OOGS89BR1SX0UoNem4cln0Lnh4w7IDImm.output.variable_workflow_01O0PKQ81JEAI3RtD4bt2vZu0Qx6nsUFVXk$",
+				  "variable_workflow_01OX5T7RMVCPI4nnth2vFO0cLmKtl2V3pEx": "$activity.definition_activity_01OOGS89BR1SX0UoNem4cln0Lnh4w7IDImm.output.variable_workflow_01OX5LJ3FFHMJ57lDoGnC8Y9LzNRiWsw4Z3$"
+				},
+				"runtime_user": {
+				  "target_default": true
+				},
+				"skip_execution": false,
+				"target": {
+				  "use_workflow_target_group": true
+				},
+				"workflow_id": "definition_workflow_01GBG4ZMW5LO93juPo9gDpDSJniTyoeNjxH"
+			  },
+			  "object_type": "definition_activity"
+			},
+			{
+			  "unique_name": "definition_activity_01P1E960I0Y7B7jlfuxHeWpOKWzZpWKG1cG",
+			  "name": "Condition Block",
+			  "title": "Was the request successful?",
+			  "type": "logic.if_else",
+			  "base_type": "activity",
+			  "properties": {
+				"continue_on_failure": false,
+				"display_name": "Was the request successful?",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "blocks": [
+				{
+				  "unique_name": "definition_activity_01P1E966GH2LA4D54UH3ecFCsQLyY1pRZTT",
+				  "name": "Condition Branch",
+				  "title": "Yes",
+				  "type": "logic.condition_block",
+				  "base_type": "activity",
+				  "properties": {
+					"condition": {
+					  "left_operand": "$activity.definition_activity_01P17TAZDRUNN3cr1vhsXIleJHH8wDEU091.output.succeeded$",
+					  "operator": "eq",
+					  "right_operand": true
+					},
+					"continue_on_failure": false,
+					"display_name": "Yes",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "actions": [
+					{
+					  "unique_name": "definition_activity_01OOI15C5XEDE1Lxr2jJB4u7xFLXIZG9oSp",
+					  "name": "JSONPath Query",
+					  "title": "Parse top host IPs",
+					  "type": "corejava.jsonpathquery",
+					  "base_type": "activity",
+					  "properties": {
+						"action_timeout": 180,
+						"continue_on_failure": true,
+						"display_name": "Parse top host IPs",
+						"input_json": "$activity.definition_activity_01P17TAZDRUNN3cr1vhsXIleJHH8wDEU091.output.variable_workflow_01GBGINZ77JMC1MCngbOwP5v6iQLWaqktiC$",
+						"jsonpath_queries": [
+						  {
+							"jsonpath_query": "$..ipAddress",
+							"jsonpath_query_name": "top_hosts",
+							"jsonpath_query_type": "string"
+						  }
+						],
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity"
+					},
+					{
+					  "unique_name": "definition_activity_01P1DCFLR2N1J1KqvtZhkaaRpeoIsGjiD2C",
+					  "name": "Replace String",
+					  "title": "Format top hosts",
+					  "type": "core.replacestring",
+					  "base_type": "activity",
+					  "properties": {
+						"continue_on_failure": false,
+						"display_name": "Format top hosts",
+						"input_string": "$activity.definition_activity_01OOI15C5XEDE1Lxr2jJB4u7xFLXIZG9oSp.output.jsonpath_queries.top_hosts$",
+						"replace_list": [
+						  {
+							"replaced_string": "{",
+							"replacement_string": ""
+						  },
+						  {
+							"replaced_string": "\"",
+							"replacement_string": ""
+						  },
+						  {
+							"replaced_string": "[",
+							"replacement_string": ""
+						  },
+						  {
+							"replaced_string": "]",
+							"replacement_string": ""
+						  },
+						  {
+							"replaced_string": "}",
+							"replacement_string": ""
+						  }
+						],
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity"
+					},
+					{
+					  "unique_name": "definition_activity_01P1EG2CUPLQ11gyCRrZMsinQNvB0aw5Vmv",
+					  "name": "Set Variables",
+					  "title": "Update local variable",
+					  "type": "core.set_multiple_variables",
+					  "base_type": "activity",
+					  "properties": {
+						"continue_on_failure": false,
+						"display_name": "Update local variable",
+						"skip_execution": false,
+						"variables_to_update": [
+						  {
+							"variable_to_update": "$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.local.variable_workflow_01P1E8L3QBQUN2ZDAWfTGpssgiWuFszwlNu$",
+							"variable_value_new": "$activity.definition_activity_01P1DCFLR2N1J1KqvtZhkaaRpeoIsGjiD2C.output.result_string$"
+						  }
+						]
+					  },
+					  "object_type": "definition_activity"
+					}
+				  ]
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01P1E37Q4WQ4T27zzd32zwfY2PdFjDH2RbB",
+			  "name": "Condition Block",
+			  "title": "Did at least one query succeed?",
+			  "type": "logic.if_else",
+			  "base_type": "activity",
+			  "properties": {
+				"continue_on_failure": false,
+				"display_name": "Did at least one query succeed?",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "blocks": [
+				{
+				  "unique_name": "definition_activity_01P1E37W1R6N33gUYPV8DrIGpm2V6rBo9Sn",
+				  "name": "Condition Branch",
+				  "title": "No",
+				  "type": "logic.condition_block",
+				  "base_type": "activity",
+				  "properties": {
+					"condition": {
+					  "left_operand": {
+						"left_operand": "$activity.definition_activity_01P182AX9LLT736KowF2C6Wy6adC7DJSva0.output.succeeded$",
+						"operator": "eq",
+						"right_operand": false
+					  },
+					  "operator": "and",
+					  "right_operand": {
+						"left_operand": "$activity.definition_activity_01P17TAZDRUNN3cr1vhsXIleJHH8wDEU091.output.succeeded$",
+						"operator": "eq",
+						"right_operand": false
+					  }
+					},
+					"continue_on_failure": false,
+					"display_name": "No",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "actions": [
+					{
+					  "unique_name": "definition_activity_01P1E41YT7T0D6HHoPPvNbafzrCXR3nfDQn",
+					  "name": "Completed",
+					  "title": "Failed",
+					  "type": "logic.completed",
+					  "base_type": "activity",
+					  "properties": {
+						"completion_type": "failed-completed",
+						"continue_on_failure": false,
+						"display_name": "Failed",
+						"result_message": "Failed to fetch top hosts and/or top peers from Secure Network Analytics",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity"
+					}
+				  ]
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01P1EGP75VNQA2W9wi0iuqDHsGImtgpa6AZ",
+		  "name": "Condition Block",
+		  "title": "Is there any data to report?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Is there any data to report?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01P1EGPD9FEGT5H5X2FPcP27hZxzo7ombjC",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": {
+					"left_operand": "$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.local.variable_workflow_01P1E8L3QBQUN2ZDAWfTGpssgiWuFszwlNu$",
+					"operator": "eq",
+					"right_operand": ""
+				  },
+				  "operator": "and",
+				  "right_operand": {
+					"left_operand": "$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.local.variable_workflow_01P1E8QEJ4CTQ5Q3cMyAeZHvmOTFVDSJiwc$",
+					"operator": "eq",
+					"right_operand": ""
+				  }
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01P1EHU0WHMGH2K9McCZEy4LGxqFkfLu5sc",
+				  "name": "Completed",
+				  "title": "Completed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "succeeded",
+					"continue_on_failure": false,
+					"display_name": "Completed",
+					"result_message": "No data was returned by Secure Network Analytics based on the criteria provided",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01P87ZKR29WDD5GS56r1xFbjldQTTE5xOgf",
+		  "name": "Threat Response v2 - Generate Access Token",
+		  "title": "Threat Response v2 - Generate Access Token",
+		  "type": "workflow.atomic_workflow",
+		  "base_type": "subworkflow",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Threat Response v2 - Generate Access Token",
+			"runtime_user": {
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "override_workflow_target_group_criteria": true,
+			  "target_group": {
+				"run_on_all_targets": false,
+				"use_criteria": {
+				  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+				  "conditions": [
+					{
+					  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+					  "operator": "eqi",
+					  "right_operand": "CTR_For_Access_Token"
+					}
+				  ]
+				}
+			  }
+			},
+			"workflow_id": "definition_workflow_01KWJ2ISZTF2V6ibRYe7FZ7sOuycDOpnwss"
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01P880KG7IPMF7M1aQMK5JGCqQcyl44MLcv",
+		  "name": "Threat Response v2 - Create Casebook",
+		  "title": "Threat Response v2 - Create Casebook",
+		  "type": "workflow.atomic_workflow",
+		  "base_type": "subworkflow",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Threat Response v2 - Create Casebook",
+			"input": {
+			  "variable_workflow_01KVOGF4J481T6SCd7uh5fW7n47Q712nleJ": "[ { \"type\": \"$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.input.variable_workflow_01OOGJEF1UUTL7QJNEFlzUryP84Ur12Ybcm$\", \"value\": \"$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.input.variable_workflow_01OOGJEF1UONL2Mckd4PlfSnebpmlsqFbBK$\" } ]",
+			  "variable_workflow_01KVOGF4J4FZC0jmaR42b1FbIzVZA19KbYL": "Top Hosts:\n$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.local.variable_workflow_01P1E8L3QBQUN2ZDAWfTGpssgiWuFszwlNu$\nTop Peers:\n$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.local.variable_workflow_01P1E8QEJ4CTQ5Q3cMyAeZHvmOTFVDSJiwc$",
+			  "variable_workflow_01KVOGF4J4IG81TQKFjqzLlnFJwiiNwXwSq": "$activity.definition_activity_01P87ZKR29WDD5GS56r1xFbjldQTTE5xOgf.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$",
+			  "variable_workflow_01KVOGF4J4JL52xC9ZXdjYwHt2SvRYkArli": "Secure Network Analytics - Nework  Flow Investigation for $workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.input.variable_workflow_01OOGJEF1UONL2Mckd4PlfSnebpmlsqFbBK$",
+			  "variable_workflow_01KVOMXV9ERSV0M9j1WarflgSG8r5SpZ8b5": "",
+			  "variable_workflow_01LFBYQJV9FZA2THdEQrMftLyGiiHP65nUq": "amber"
+			},
+			"runtime_user": {
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "override_workflow_target_group_criteria": true,
+			  "target_group": {
+				"run_on_all_targets": false,
+				"use_criteria": {
+				  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+				  "conditions": [
+					{
+					  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+					  "operator": "eqi",
+					  "right_operand": "Private_CTIA_Target"
+					}
+				  ]
+				}
+			  }
+			},
+			"workflow_id": "definition_workflow_01KVOGF574Y291CRwQLNB1TtzEHDNwyUx7O"
+		  },
+		  "object_type": "definition_activity"
+		}
+	  ],
+	  "categories": [
+		"category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m"
+	  ]
+	},
+	"categories": {
+	  "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m": {
+		"unique_name": "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m",
+		"name": "response",
+		"title": "response",
+		"type": "basic.category",
+		"base_type": "category",
+		"category_type": "custom",
+		"object_type": "category"
+	  }
+	},
+	"target_groups": {
+	  "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+		"unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+		"name": "Default TargetGroup",
+		"title": "Default TargetGroup",
+		"type": "generic.target_group",
+		"base_type": "target_group",
+		"version": "1.0.0",
+		"targets": [
+		  {
+			"data_target_type": "web-service.endpoint",
+			"view_target_type": "web-service.endpoint",
+			"include_all_targets": true
+		  },
+		  {
+			"data_target_type": "email.smtp_endpoint",
+			"view_target_type": "email.smtp_endpoint",
+			"include_all_targets": true
+		  }
+		],
+		"object_type": "target_group"
+	  }
+	},
+	"atomic_workflows": [
+	  "definition_workflow_01GBFORA2YBMP0BtdcLgiiRCLoOkNTctmHg",
+	  "definition_workflow_01GBH7Z4DQTQU1yOKAziIiSxlueN2QU0Mq7",
+	  "definition_workflow_01GBG4ZMW5LO93juPo9gDpDSJniTyoeNjxH",
+	  "definition_workflow_01KWJ2ISZTF2V6ibRYe7FZ7sOuycDOpnwss",
+	  "definition_workflow_01GBFRZVXJ6IS1IQNUam11EG0TxcLagZxCi",
+	  "definition_workflow_01KVOGF574Y291CRwQLNB1TtzEHDNwyUx7O"
+	]
+  }

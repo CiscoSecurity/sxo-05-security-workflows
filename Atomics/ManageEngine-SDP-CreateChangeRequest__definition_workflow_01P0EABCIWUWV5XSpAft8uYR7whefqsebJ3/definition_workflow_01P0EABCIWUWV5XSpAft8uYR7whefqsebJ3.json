@@ -1,0 +1,389 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01P0EABCIWUWV5XSpAft8uYR7whefqsebJ3",
+    "name": "ManageEngine - SDP - Create Change Request",
+    "title": "ManageEngine - SDP - Create Change Request",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Impact",
+          "type": "datatype.string",
+          "description": "The impact of the change. Valid values include: Affects Business, Affects Department, Affects Group, Affects User",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01P19QU13P3MP5kfu8RPBU0HcxYDbUiE8Kc",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "API Response",
+          "type": "datatype.string",
+          "description": "The raw response from the ManageEngine API",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01P0EABCCCK061ebRy5XR28aiXa1T1YTy12",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Title",
+          "type": "datatype.string",
+          "description": "Brief title for the change request",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01P0EABCCCMCG3Gb8OZkJN3PrS1rCLRmrr8",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Change Requester",
+          "type": "datatype.string",
+          "description": "Initiator of the change request",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01P19RXOKIVXN0n0ylfDfgYfN714fb1gr3R",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Change ID",
+          "type": "datatype.string",
+          "description": "ID of the new change request",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01P0EABCCCUHA7iienC5VNtqHECkPaku0ZI",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Rollout Plan",
+          "type": "datatype.string",
+          "description": "Describes in detail how the change will be implemented",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01P237GM8NSGD4VVozxOUQ73AosKUD1WRPW",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Urgency",
+          "type": "datatype.string",
+          "description": "The urgency of the change request. Valid values include: High, Low, Urgent, Normal",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01P19PU00ZB865pHF5wZTPzPvkrOaDnYRPO",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Description",
+          "type": "datatype.string",
+          "description": "A description of the change request",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01P0EABCCCVKF4dMLy5Pd92ZC8B0eaXUpBu",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Access Token",
+          "type": "datatype.secure_string",
+          "description": "Access token for the ManageEngine API. This is obtained from either the \"ManageEngine - Get Tokens\" or \"ManageEngine - Refresh Token\" atomic actions",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01P0EABCCCOTV7GDdQk1RWPcK5emJjRsME6",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Backout Plan",
+          "type": "datatype.string",
+          "description": "Describes in detail the mitigation plans if the change implementation was to be backed out",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01P22VB3RNRTS0q5VBnnlClYmJcsk6vx9xz",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Impact Details",
+          "type": "datatype.string",
+          "description": "Contains detailed information on how the change will affect the organization, including any expected any business loss or downtime",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01P2387SGJ2KO1WBykLpNINskYFDUcZUoCM",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Change Type",
+          "type": "datatype.string",
+          "description": "Indicates whether it is a minor, major, significant, or standard change.",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01P19QCQUZKTY5OsELQwRg9OR7fVF867ZBm",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "ManageEngine",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": false,
+      "description": "Creates a change request in ManageEngine ServiceDesk Plus.\n\nTarget: HTTP Endpoint for your ServiceDesk Plus instance with a path of \"/api\"\n\nAccount Key: None (uses an access token)\n\nSteps:\n[] Generate the JSON for the change request\n[] Request the change ticket be created\n[] Check if the request was successful:\n[]> If it was, extract the change request details and set the output variables\n[]> If it wasn't, output an error\n\nMore information about this API: https://www.manageengine.com/products/service-desk/sdpod-v3-api/SDPOD-V3-API.html#add-changes",
+      "display_name": "ManageEngine - SDP - Create Change Request",
+      "runtime_user": {
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "specify_on_workflow_start": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01P0EABNX4NLE4Tr7GVZYaKsmorO2G38aVg",
+        "name": "Execute Python Script",
+        "title": "Generate change request JSON",
+        "type": "python3.script",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Generate change request JSON",
+          "script": "import json\nimport sys\nchange_data = {\n    \"description\": sys.argv[1],\n    \"title\": sys.argv[2],\n    \"back_out_plan\": {\n        \"back_out_plan_description\": sys.argv[3]\n    },\n    \"roll_out_plan\": {\n        \"roll_out_plan_description\": sys.argv[4]\n    },\n    \"impact_details\": {\n        \"impact_details_description\": sys.argv[5]\n    }\n}\noptional_keys = (\n    \"change_requester\", \"change_type\", \"impact\",\n    \"urgency\"\n)\ndef format_field(value):\n    if value:\n        return {\"name\": value}\n    return {}\noptional_values = [format_field(value) for value in sys.argv[6:10]]\nchange_data.update(zip(optional_keys, optional_values))\nchange_data = {k: v for k, v in change_data.items() if v}\nchange_request_json = json.dumps({\"change\": change_data})",
+          "script_arguments": [
+            "$workflow.definition_workflow_01P0EABCIWUWV5XSpAft8uYR7whefqsebJ3.input.variable_workflow_01P0EABCCCVKF4dMLy5Pd92ZC8B0eaXUpBu$",
+            "$workflow.definition_workflow_01P0EABCIWUWV5XSpAft8uYR7whefqsebJ3.input.variable_workflow_01P0EABCCCMCG3Gb8OZkJN3PrS1rCLRmrr8$",
+            "$workflow.definition_workflow_01P0EABCIWUWV5XSpAft8uYR7whefqsebJ3.input.variable_workflow_01P22VB3RNRTS0q5VBnnlClYmJcsk6vx9xz$",
+            "$workflow.definition_workflow_01P0EABCIWUWV5XSpAft8uYR7whefqsebJ3.input.variable_workflow_01P237GM8NSGD4VVozxOUQ73AosKUD1WRPW$",
+            "$workflow.definition_workflow_01P0EABCIWUWV5XSpAft8uYR7whefqsebJ3.input.variable_workflow_01P2387SGJ2KO1WBykLpNINskYFDUcZUoCM$",
+            "$workflow.definition_workflow_01P0EABCIWUWV5XSpAft8uYR7whefqsebJ3.input.variable_workflow_01P19RXOKIVXN0n0ylfDfgYfN714fb1gr3R$",
+            "$workflow.definition_workflow_01P0EABCIWUWV5XSpAft8uYR7whefqsebJ3.input.variable_workflow_01P19QCQUZKTY5OsELQwRg9OR7fVF867ZBm$",
+            "$workflow.definition_workflow_01P0EABCIWUWV5XSpAft8uYR7whefqsebJ3.input.variable_workflow_01P19QU13P3MP5kfu8RPBU0HcxYDbUiE8Kc$",
+            "$workflow.definition_workflow_01P0EABCIWUWV5XSpAft8uYR7whefqsebJ3.input.variable_workflow_01P19PU00ZB865pHF5wZTPzPvkrOaDnYRPO$"
+          ],
+          "script_queries": [
+            {
+              "script_query": "change_request_json",
+              "script_query_name": "Change Request JSON",
+              "script_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01P0EABS1P57K2TpmMfI7daNVpqqZJMNCF2",
+        "name": "HTTP Request",
+        "title": "Create change request",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "application/vnd.manageengine.sdp.v3+json",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "input_data=$activity.definition_activity_01P0EABNX4NLE4Tr7GVZYaKsmorO2G38aVg.output.script_queries.Change Request JSON$",
+          "continue_on_error_status_code": true,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Zoho-Oauthtoken  $workflow.definition_workflow_01P0EABCIWUWV5XSpAft8uYR7whefqsebJ3.input.variable_workflow_01P0EABCCCOTV7GDdQk1RWPcK5emJjRsME6$"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/x-www-form-urlencoded"
+            }
+          ],
+          "display_name": "Create change request",
+          "method": "POST",
+          "relative_url": "/v3/changes",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01P0EABWNVCNQ23l53blpUu3Rr8JAXVsAaA",
+        "name": "Condition Block",
+        "title": "Was the request successful?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Was the request successful?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01P0EACEAHUB74dKcaclDVJs9tVzAF3fRDo",
+            "name": "Condition Branch",
+            "title": "Success/201",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01P0EABS1P57K2TpmMfI7daNVpqqZJMNCF2.output.status_code$",
+                "operator": "eq",
+                "right_operand": 201
+              },
+              "continue_on_failure": false,
+              "display_name": "Success/201",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01P0EACGKCE1J3ye3E7m3R69cw0rBRZFzMV",
+                "name": "JSONPath Query",
+                "title": "Extract change request details",
+                "type": "corejava.jsonpathquery",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "continue_on_failure": false,
+                  "display_name": "Extract change request details",
+                  "input_json": "$activity.definition_activity_01P0EABS1P57K2TpmMfI7daNVpqqZJMNCF2.output.response_body$",
+                  "jsonpath_queries": [
+                    {
+                      "jsonpath_query": "$.change.id",
+                      "jsonpath_query_name": "Change Id",
+                      "jsonpath_query_type": "string"
+                    }
+                  ],
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01P0EACLOPFEZ5ftgU9xcFXOlVVc7kmjB2k",
+                "name": "Set Variables",
+                "title": "Set output variables",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Set output variables",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01P0EABCIWUWV5XSpAft8uYR7whefqsebJ3.output.variable_workflow_01P0EABCCCUHA7iienC5VNtqHECkPaku0ZI$",
+                      "variable_value_new": "$activity.definition_activity_01P0EACGKCE1J3ye3E7m3R69cw0rBRZFzMV.output.jsonpath_queries.Change Id$"
+                    },
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01P0EABCIWUWV5XSpAft8uYR7whefqsebJ3.output.variable_workflow_01P0EABCCCK061ebRy5XR28aiXa1T1YTy12$",
+                      "variable_value_new": "$activity.definition_activity_01P0EABS1P57K2TpmMfI7daNVpqqZJMNCF2.output.response_body$"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01P0EAC7NMJIJ2SwcHIJXm2DSduWujIN0HG",
+            "name": "Condition Branch",
+            "title": "Anything else",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01P0EABS1P57K2TpmMfI7daNVpqqZJMNCF2.output.status_code$",
+                "operator": "ne",
+                "right_operand": 201
+              },
+              "continue_on_failure": false,
+              "display_name": "Anything else",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01P0EAC9VKLOQ2AMs1XinnrgUzAQLNiCObL",
+                "name": "Completed",
+                "title": "Failed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Failed",
+                  "result_message": "Failed to create the change request\n\nStatus code: $activity.definition_activity_01P0EABS1P57K2TpmMfI7daNVpqqZJMNCF2.output.status_code$\nResponse body: $activity.definition_activity_01P0EABS1P57K2TpmMfI7daNVpqqZJMNCF2.output.response_body$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}

@@ -1,0 +1,344 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01OX1WOQ75VB44gR7UpXu2xNAlra0BTUPnu",
+    "name": "ManageEngine - Get Tokens",
+    "title": "ManageEngine - Get Tokens",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Client ID",
+          "type": "datatype.string",
+          "description": "The client ID generated in the Zoho API console. For more information about ManageEngine authentication, please see: https://ciscosecurity.github.io/sxo-05-security-workflows/atomics/configuration/manageengine",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01P08DPHKY6900XY52kvrf5zQ3R3FnA3JIe",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Client Secret",
+          "type": "datatype.secure_string",
+          "description": "The client secret generated in the Zoho API console. For more information about ManageEngine authentication, please see: https://ciscosecurity.github.io/sxo-05-security-workflows/atomics/configuration/manageengine",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01P08E3WMZKIP4dWzUTWEv6j721dzOfFRhD",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Refresh Token",
+          "type": "datatype.secure_string",
+          "description": "The refresh token which can be used to request a new access token",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01OXTLJIM99Q31aWFZcGN9GwlyebJvErbI4",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.integer",
+        "properties": {
+          "value": 0,
+          "scope": "output",
+          "name": "Token Expires In (Seconds)",
+          "type": "datatype.integer",
+          "description": "How long in seconds until the access token expires",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01P8C4SG10W297NuKyWnECu4MD5bFwfhOFR",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Access Token",
+          "type": "datatype.secure_string",
+          "description": "The access token for subsequent API requests. Note that this token is valid for an hour and then needs to be refreshed",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01OX1WOPZ291M0BrNpsmkS5BcQI5LSqXG7m",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Grant Code",
+          "type": "datatype.secure_string",
+          "description": "The grant code generated in the Zoho API console. For more information about ManageEngine authentication, please see: https://ciscosecurity.github.io/sxo-05-security-workflows/atomics/configuration/manageengine",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01OXRTT0EG5ER7mO2pzqUemjdjRpvLPTYeE",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Redirect URI",
+          "type": "datatype.string",
+          "description": "The OAuth redirect URI that corresponds to your Zoho region. \n- United States: https://sdpondemand.manageengine.com\n- Europe: https://sdpondemand.manageengine.eu \n- India: https://sdpondemand.manageengine.in \n- China: https://servicedeskplus.cn\n- Australia: https://servicedeskplus.net.au",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01P08EHFCTU3S7AtCPbP70T7zLUEMU1MmUP",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "ManageEngine",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": false,
+      "description": "Gets an access token and refresh token from ManageEngine which can be used for subsequent API requests.\n\nTarget: HTTP Endpoint for your Zoho region's account URL (see: https://ciscosecurity.github.io/sxo-05-security-workflows/atomics/configuration/manageengine)\n\nAccount Key: None (uses API keys)\n\nSteps:\n[] Request access token and refresh token\n[] Check if the request succeeded:\n[]> If it did, attempt to extract the tokens and set the workflow's output variables\n[]> If it didn't, output an error\n\nMore information about this API: \nhttps://www.manageengine.com/products/service-desk/sdpod-v3-api/SDPOD-V3-API.html#authorization-request",
+      "display_name": "ManageEngine - Get Tokens",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "specify_on_workflow_start": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01OX1WP0W35HO4rTK0IqxjmyyTTfwaRpyii",
+        "name": "HTTP Request",
+        "title": "Fetch tokens",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "code=$workflow.definition_workflow_01OX1WOQ75VB44gR7UpXu2xNAlra0BTUPnu.input.variable_workflow_01OXRTT0EG5ER7mO2pzqUemjdjRpvLPTYeE$&grant_type=authorization_code&client_id=$workflow.definition_workflow_01OX1WOQ75VB44gR7UpXu2xNAlra0BTUPnu.input.variable_workflow_01P08DPHKY6900XY52kvrf5zQ3R3FnA3JIe$&client_secret=$workflow.definition_workflow_01OX1WOQ75VB44gR7UpXu2xNAlra0BTUPnu.input.variable_workflow_01P08E3WMZKIP4dWzUTWEv6j721dzOfFRhD$&redirect_uri=$workflow.definition_workflow_01OX1WOQ75VB44gR7UpXu2xNAlra0BTUPnu.input.variable_workflow_01P08EHFCTU3S7AtCPbP70T7zLUEMU1MmUP$",
+          "continue_on_error_status_code": true,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Content-Type",
+              "value": "application/x-www-form-urlencoded"
+            }
+          ],
+          "display_name": "Fetch tokens",
+          "method": "POST",
+          "relative_url": "/oauth/v2/token",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "use_workflow_target": true
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01OX1WP4XCQ5Q3igHcPp19JZWokzBDhAKM6",
+        "name": "Condition Block",
+        "title": "Was the request successful?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Was the request successful?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01OX1WP9B00AE2PxqboQ2ailt5n6e9IHaUL",
+            "name": "Condition Branch",
+            "title": "Success/200",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01OX1WP0W35HO4rTK0IqxjmyyTTfwaRpyii.output.status_code$",
+                "operator": "eq",
+                "right_operand": 200
+              },
+              "continue_on_failure": false,
+              "display_name": "Success/200",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01OXTLUQ13JKH3rEU1qSTcguUibhYRVSvP4",
+                "name": "JSONPath Query",
+                "title": "Extract tokens",
+                "type": "corejava.jsonpathquery",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "continue_on_failure": true,
+                  "display_name": "Extract tokens",
+                  "input_json": "$activity.definition_activity_01OX1WP0W35HO4rTK0IqxjmyyTTfwaRpyii.output.response_body$",
+                  "jsonpath_queries": [
+                    {
+                      "jsonpath_query": "$.access_token",
+                      "jsonpath_query_name": "Access Token",
+                      "jsonpath_query_type": "secure_string"
+                    },
+                    {
+                      "jsonpath_query": "$.refresh_token",
+                      "jsonpath_query_name": " Refresh Token",
+                      "jsonpath_query_type": "secure_string"
+                    },
+                    {
+                      "jsonpath_query": "$.expires_in",
+                      "jsonpath_query_name": "Expires In",
+                      "jsonpath_query_type": "integer"
+                    }
+                  ],
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01OXTU7RUPCVM1riGDhcHhdguHLmaVvIYdm",
+                "name": "Condition Block",
+                "title": "Was extraction successful?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Was extraction successful?",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                  {
+                    "unique_name": "definition_activity_01OXTU7Z2YLQB66umoOKwNhUcVNHMb2wSgq",
+                    "name": "Condition Branch",
+                    "title": "No",
+                    "type": "logic.condition_block",
+                    "base_type": "activity",
+                    "properties": {
+                      "condition": {
+                        "left_operand": "$activity.definition_activity_01OXTLUQ13JKH3rEU1qSTcguUibhYRVSvP4.output.succeeded$",
+                        "operator": "eq",
+                        "right_operand": false
+                      },
+                      "continue_on_failure": false,
+                      "display_name": "No",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity",
+                    "actions": [
+                      {
+                        "unique_name": "definition_activity_01OXTUIIJNJGN2D6lmOsFZggvTDsaSW1ZTv",
+                        "name": "Completed",
+                        "title": "Failed",
+                        "type": "logic.completed",
+                        "base_type": "activity",
+                        "properties": {
+                          "completion_type": "failed-completed",
+                          "continue_on_failure": false,
+                          "display_name": "Failed",
+                          "result_message": "Failed to extract ManageEngine tokens\n\nResponse body:  $activity.definition_activity_01OX1WP0W35HO4rTK0IqxjmyyTTfwaRpyii.output.response_body$",
+                          "skip_execution": false
+                        },
+                        "object_type": "definition_activity"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "unique_name": "definition_activity_01OX1WPBGJR8T7Gbx3sWjiIPtj2aXlBMdxS",
+                "name": "Set Variables",
+                "title": "Set output variables",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Set output variables",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01OX1WOQ75VB44gR7UpXu2xNAlra0BTUPnu.output.variable_workflow_01OX1WOPZ291M0BrNpsmkS5BcQI5LSqXG7m$",
+                      "variable_value_new": "$activity.definition_activity_01OXTLUQ13JKH3rEU1qSTcguUibhYRVSvP4.output.jsonpath_queries.Access Token$"
+                    },
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01OX1WOQ75VB44gR7UpXu2xNAlra0BTUPnu.output.variable_workflow_01OXTLJIM99Q31aWFZcGN9GwlyebJvErbI4$",
+                      "variable_value_new": "$activity.definition_activity_01OXTLUQ13JKH3rEU1qSTcguUibhYRVSvP4.output.jsonpath_queries. Refresh Token$"
+                    },
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01OX1WOQ75VB44gR7UpXu2xNAlra0BTUPnu.output.variable_workflow_01P8C4SG10W297NuKyWnECu4MD5bFwfhOFR$",
+                      "variable_value_new": "$activity.definition_activity_01OXTLUQ13JKH3rEU1qSTcguUibhYRVSvP4.output.jsonpath_queries.Expires In$"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01OX1WPG8BE1612WuUGZ4FZJTvEYbJDAsY9",
+            "name": "Condition Branch",
+            "title": "Anything else",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01OX1WP0W35HO4rTK0IqxjmyyTTfwaRpyii.output.status_code$",
+                "operator": "ne",
+                "right_operand": 200
+              },
+              "continue_on_failure": false,
+              "display_name": "Anything else",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01OX1WPIORK9J2xiGrEJLJXJiAF0KXpmPZx",
+                "name": "Completed",
+                "title": "Failed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Failed",
+                  "result_message": "Failed to fetch ManageEngine tokens\n\nStatus code: $activity.definition_activity_01OX1WP0W35HO4rTK0IqxjmyyTTfwaRpyii.output.status_code$\nResponse body: $activity.definition_activity_01OX1WP0W35HO4rTK0IqxjmyyTTfwaRpyii.output.response_body$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}

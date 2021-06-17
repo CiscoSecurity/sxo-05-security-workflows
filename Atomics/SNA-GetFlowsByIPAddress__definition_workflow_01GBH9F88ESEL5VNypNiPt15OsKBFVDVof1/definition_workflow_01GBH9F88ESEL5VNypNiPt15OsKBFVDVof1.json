@@ -21,34 +21,6 @@
         "object_type": "variable_workflow"
       },
       {
-        "schema_id": "datatype.integer",
-        "properties": {
-          "value": 50,
-          "scope": "input",
-          "name": "Max Results",
-          "type": "datatype.integer",
-          "description": "The maximum number of flows that'll be returned",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01GBH9F7VY7UM3iZ8BBNBhTx5pGlL8tk6ab",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "input",
-          "name": "Session Token",
-          "type": "datatype.string",
-          "description": "The session token obtained from the \"SNA - Get Tokens\" atomic action",
-          "is_required": true,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01O1BDZESG8N72Djhcfn5NFNE1s100JFeR8",
-        "object_type": "variable_workflow"
-      },
-      {
         "schema_id": "datatype.string",
         "properties": {
           "value": "",
@@ -60,34 +32,6 @@
           "is_invisible": false
         },
         "unique_name": "variable_workflow_01GBH9F7VY1U04l12xPm9T6i3B1yOIlufwK",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.date",
-        "properties": {
-          "value": "0001-01-01T00:00:00+00:00",
-          "scope": "input",
-          "name": "Start Date",
-          "type": "datatype.date",
-          "description": "The start of the time range to search",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01GBH9F7VY4ER5r5dgygTaTBGogK02ycF2O",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "output",
-          "name": "Query Results",
-          "type": "datatype.string",
-          "description": "The results of the flow search",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01GBH9F7VY6QO5gxu7OJUCx3RZkw8JJ4PA3",
         "object_type": "variable_workflow"
       },
       {
@@ -130,6 +74,62 @@
           "is_invisible": false
         },
         "unique_name": "variable_workflow_01O8CLY4HYI7I5VE8rUwVQwScRDpWhPUJmx",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.date",
+        "properties": {
+          "value": "0001-01-01T00:00:00+00:00",
+          "scope": "input",
+          "name": "Start Date",
+          "type": "datatype.date",
+          "description": "The start of the time range to search",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01GBH9F7VY4ER5r5dgygTaTBGogK02ycF2O",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Session Token",
+          "type": "datatype.string",
+          "description": "The session token obtained from the \"SNA - Get Tokens\" atomic action",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O1BDZESG8N72Djhcfn5NFNE1s100JFeR8",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.integer",
+        "properties": {
+          "value": 50,
+          "scope": "input",
+          "name": "Max Results",
+          "type": "datatype.integer",
+          "description": "The maximum number of flows that'll be returned",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01GBH9F7VY7UM3iZ8BBNBhTx5pGlL8tk6ab",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Query Results",
+          "type": "datatype.string",
+          "description": "The results of the flow search",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01GBH9F7VY6QO5gxu7OJUCx3RZkw8JJ4PA3",
         "object_type": "variable_workflow"
       }
     ],
@@ -195,10 +195,10 @@
           "action_timeout": 180,
           "continue_on_failure": false,
           "display_name": "Generate request body",
-          "script": "import sys,json\n\nstartTime = sys.argv[1]\nendTime = sys.argv[2]\nsourceIp = sys.argv[3]\ndestinationIp = sys.argv[4]\nrecordLimit = sys.argv[5]\n\nrequestBody = {\n\t\"startDateTime\": startTime,\n\t\"endDateTime\": endTime,\n\t\"recordLimit\": int(recordLimit)\n}\n\nif len(sourceIp) \u003e 0:\n\trequestBody[\"subject\"] = {\n\t\t\"ipAddresses\": {\n\t\t\t\"includes\": [ sourceIp ]\n\t\t}\n\t}\n\nif len(destinationIp) \u003e 0:\n\trequestBody[\"peer\"] = {\n\t\t\"ipAddresses\": {\n\t\t\t\"includes\": [ destinationIp ]\n\t\t}\n\t}\n\nrequestBody = json.dumps(requestBody)",
+          "script": "import sys,json\n\nstartTime = sys.argv[1]\nendTime = sys.argv[2]\nsourceIp = sys.argv[3]\ndestinationIp = sys.argv[4]\nrecordLimit = sys.argv[5]\n\nrequestBody = {\n\t\"startDateTime\": startTime,\n\t\"endDateTime\": endTime,\n\t\"recordLimit\": int(recordLimit)\n}\n\nif len(sourceIp) > 0:\n\trequestBody[\"subject\"] = {\n\t\t\"ipAddresses\": {\n\t\t\t\"includes\": [ sourceIp ]\n\t\t}\n\t}\n\nif len(destinationIp) > 0:\n\trequestBody[\"peer\"] = {\n\t\t\"ipAddresses\": {\n\t\t\t\"includes\": [ destinationIp ]\n\t\t}\n\t}\n\nrequestBody = json.dumps(requestBody)",
           "script_arguments": [
             "$activity.definition_activity_01GBH9G008AF76xUmKRUUzqjbmUk5KJLQMv.output.result$",
-            "$activity.definition_activity_01GBH9G008AF76xUmKRUUzqjbmUk5KJLQMv.output.result$",
+            "$activity.definition_activity_01GBH9G59MW7Y5IXKA9Y0FZXJHShvZ3vaIg.output.result$",
             "$workflow.definition_workflow_01GBH9F88ESEL5VNypNiPt15OsKBFVDVof1.input.variable_workflow_01GBH9F7VY3420bB4OhBDTnbuuDJ70TW4m1$",
             "$workflow.definition_workflow_01GBH9F88ESEL5VNypNiPt15OsKBFVDVof1.input.variable_workflow_01O8CLY4HYI7I5VE8rUwVQwScRDpWhPUJmx$",
             "$workflow.definition_workflow_01GBH9F88ESEL5VNypNiPt15OsKBFVDVof1.input.variable_workflow_01GBH9F7VY7UM3iZ8BBNBhTx5pGlL8tk6ab$"

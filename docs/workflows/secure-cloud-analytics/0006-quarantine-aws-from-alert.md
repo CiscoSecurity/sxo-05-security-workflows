@@ -60,7 +60,7 @@ This workflow fetches `Geographically Unusual Remote Access` alerts from the Sec
 * Add your SCA API key to the `Secure Cloud Analytics API Key` local variable (or, if you have an API key in a global variable already, set the local variable to the global's value using the `Fetch Global Variables` group at the beginning of the workflow)
 * The `Approval request to undo AWS SSH quarantine` activity needs to be configured with a task requestor, owner, and assignees (the assignees will be able to approve or deny)
 * **Important:** Do not change the `Subject Line` of the approval task or the approval event trigger will stop working
-* See [this page]({{ site.baseurl }}/atomics/webex#configuring-our-workflows) for information on configuring the workflow for Webex Teams
+* See [this page]({{ site.baseurl }}/atomics/configuration/webex#configuring-our-workflows) for information on configuring the workflow for Webex Teams
 
 ---
 

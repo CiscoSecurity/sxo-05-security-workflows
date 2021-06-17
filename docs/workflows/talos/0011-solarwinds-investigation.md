@@ -87,7 +87,7 @@ This workflow uses a Talos blog post about the SolarWinds supply chain attack as
 		* Storing your token in a [global variable]({{ site.baseurl }}/variables/global) and using the `Fetch Global Variables` group at the beginning of the workflow to update the `Slack Token` local variable; or
 		* Remove the `Slack Token` from the `Fetch Global Variables` group and add your token directly to the `Slack Token` local variable
 	* Set `Slack Channel` to the name of the channel you want messages sent to
-* See [this page]({{ site.baseurl }}/atomics/webex#configuring-our-workflows) for information on configuring the workflow for Webex Teams
+* See [this page]({{ site.baseurl }}/atomics/configuration/webex#configuring-our-workflows) for information on configuring the workflow for Webex Teams
 
 ### Activities
 * Set `Service Now User ID` on `ServiceNow - Create Incident`

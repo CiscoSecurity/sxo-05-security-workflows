@@ -55,7 +55,7 @@ This workflow fetches alerts from Secure Cloud Analytics for the past 24 hours b
 ## Configuration
 * Set the `Secure Cloud Analytics Alert Name` local variable to the name of the alert type you want to respond to
 * Set the `Secure Cloud Analytics Alert Status` local variable to the alert status you want to response to
-* See [this page]({{ site.baseurl }}/atomics/webex#configuring-our-workflows) for information on configuring the workflow for Webex Teams
+* See [this page]({{ site.baseurl }}/atomics/configuration/webex#configuring-our-workflows) for information on configuring the workflow for Webex Teams
 
 ---
 

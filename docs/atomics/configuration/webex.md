@@ -1,11 +1,14 @@
 ---
 layout: page
-title: Webex Atomics
-permalink: /atomics/webex
-parent: Atomic Actions
+title: Webex Teams
+permalink: /atomics/configuration/webex
+redirect_from:
+  - /atomics/webex
+parent: Configuration
+grand_parent: Atomic Actions
 ---
 
-# Webex Atomics
+# Webex Teams
 Webex Teams is used in a variety of our workflows so we've published some Webex atomics:
 
 | Atomic Name | Purpose |
