@@ -21,6 +21,17 @@ This workflow uses a Talos blog post about the SolarWinds supply chain attack as
 
 ---
 
+## Change Log
+
+| Date | Notes |
+|:-----|:------|
+| Jan 22, 2021 | - Initial release |
+| Jun 24, 2021 | - Updated the user agent header being used to fetch blog posts from Talos |
+
+_See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
+
+---
+
 ## Requirements
 * The following atomic actions must be imported before you can import this workflow:
 	* Orbital - Query Endpoint ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))

@@ -30,8 +30,9 @@ This workflow has two components: a parent workflow and a sub-workflow. Importin
 
 | Date | Notes |
 |:-----|:------|
-| [Nov 24, 2020]({{ site.github.repository_url }}/tree/0ebd8af25b5f496814acc069b6b7f9194e74d4ab/Workflows/0001-Talos-GetNewBlogPosts__definition_workflow_01FX7FQDZRDUX1TWgKJwTPBMaOWrgUOld2q) | - Initial release |
-| [Feb 20, 2021]({{ site.github.repository_url }}/tree/6cd32df5334c62b0d0f0e8c587b4a9ac6c6a176a/Workflows/0001-Talos-GetNewBlogPosts__definition_workflow_01FX7FQDZRDUX1TWgKJwTPBMaOWrgUOld2q) | - Updated to use new sub-workflow based on updated workflow [0002]({{ site.baseurl }}/workflows/talos/0002-single-post-casebook)<br />- Updated to use new Threat Response v2 atomics<br />- Fixed an issue where the Threat Response token could expire during investigation ([Issue #2]({{ site.github.repository_url }}/issues/2))<br />- Added auto-detection for the Threat Response environment URL<br />- Changed how the Webex message and casebook summary are generated to be more reliable and useful |
+| Nov 24, 2020 | - Initial release |
+| Feb 20, 2021 | - Updated to use new sub-workflow based on updated workflow [0002]({{ site.baseurl }}/workflows/talos/0002-single-post-casebook)<br />- Updated to use new Threat Response v2 atomics<br />- Fixed an issue where the Threat Response token could expire during investigation ([Issue #2]({{ site.github.repository_url }}/issues/2))<br />- Added auto-detection for the Threat Response environment URL<br />- Changed how the Webex message and casebook summary are generated to be more reliable and useful |
+| Jun 24, 2021 | - Updated the user agent header being used to fetch blog posts from Talos |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 
