@@ -316,7 +316,7 @@ function analyzeWorkflow(workflowJson) {
 			// Special handling for web requests
 			if (action['type'] == 'web-service.http_request') {
 				if (action['properties']['continue_on_failure'])
-					response['details']['activities'].push({ 'type': 'warning', 'title': displayName, 'description': '"Continue Workflow Execution on Failure" is checked', 'moreInfo': 'You probably want "Continue on HTTP error status code" instead' });
+					response['details']['activities'].push({ 'type': 'info', 'title': displayName, 'description': '"Continue Workflow Execution on Failure" is checked', 'moreInfo': 'In most cases, you probably want "Continue on HTTP error status code" instead. If you\'re using this option intentionally, make sure you\'re using a Condition Block to handle failures' });
 
 				if (!action['properties']['continue_on_error_status_code'])
 					response['details']['activities'].push({ 'type': 'warning', 'title': displayName, 'description': '"Continue on HTTP error status code" is not checked', 'moreInfo': 'You should check this and use a Condition Block to handle HTTP error codes' });
