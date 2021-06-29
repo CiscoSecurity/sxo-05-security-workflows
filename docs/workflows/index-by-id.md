@@ -47,3 +47,5 @@ This page contains a list of all of the workflows published in the repository so
 | 0032 | Cisco Secure Network Analytics | [Isolate Endpoints and Block Hashes from Alarms]({{ site.baseurl }}/workflows/0032) |
 | 0033 | Cisco Secure Network Analytics | [Block External Threats With Umbrella]({{ site.baseurl }}/workflows/0033) |
 | 0034 | Cisco Secure Network Analytics | [Generate Casebook with Top Hosts and Peers]({{ site.baseurl }}/workflows/0034) |
+| 0035 | Microsoft Graph/Azure AD | [Get Blocked Sign-Ins]({{ site.baseurl }}/workflows/0035) |
+| 0036 | Microsoft Graph/Azure AD | [Get New Users]({{ site.baseurl }}/workflows/0036) |
