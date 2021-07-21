@@ -1,0 +1,328 @@
+{
+	"workflow": {
+	  "unique_name": "definition_workflow_016ZF5TJT9UF922I7u9EAtR5ip6axjop00G",
+	  "name": "Splunk - Execute Search",
+	  "title": "Splunk - Execute Search",
+	  "type": "generic.workflow",
+	  "base_type": "workflow",
+	  "variables": [
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "output",
+			"name": "Search ID",
+			"type": "datatype.string",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_016ZF7Q32EAZA5eWEeAxe8NMpFsRrVPkVDl",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "now",
+			"scope": "input",
+			"name": "End Time",
+			"type": "datatype.string",
+			"description": "How long ago to stop fetching logs. This can be a UTC time, a relative time (such as now), or a formatted time string",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01Q1WUW5C7VXD0ZHYtwcMSgSNORyum0dTmi",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "-1hour",
+			"scope": "input",
+			"name": "Start Time",
+			"type": "datatype.string",
+			"description": "How long ago to start fetching logs. This can be a UTC time, a relative time (such as -60m for 60 minutes ago), or a formatted time string",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01Q1WUK2LUVH45JrV7PjQzwYZWPRMuU9YI4",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Search String",
+			"type": "datatype.string",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_016ZG0GP45FG5621gmycfLII83jdLAyf2M4",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.secure_string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Access Token",
+			"type": "datatype.secure_string",
+			"description": "An access token generated in your Splunk console. You must provide either an access token using this input or a session key using \"Session Key\"",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01PWW6KU787DB2iXKRcw7FULZ5c5jGV5kCY",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.secure_string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Session Key",
+			"type": "datatype.secure_string",
+			"description": "A session key obtained from the \"Splunk - Get Session Key\" atomic. You must provide either a session key using this input or a token using \"Access Token\"",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01PWW0KDYAZOV5La69LLGRoYqxSAVYJdf7b",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Additional Parameters",
+			"type": "datatype.string",
+			"description": "Extra parameters to append to the URL when executing the search. For example: adhoc_search_level=fast&allow_partial_results=false",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01Q1X6IA60U1S5zezwA9RkbQRnVTSMwXb2B",
+		  "object_type": "variable_workflow"
+		}
+	  ],
+	  "properties": {
+		"atomic": {
+		  "atomic_group": "Splunk",
+		  "is_atomic": true
+		},
+		"delete_workflow_instance": false,
+		"description": "Executes a new ad hoc search in Splunk.\n\nTarget: HTTP Endpoint for your Splunk instance with the Splunk API's port (typically 8089)\n\nAccount Key: None (uses a session key or token)\n\nSteps:\n[] Encode the search string\n[] Build the authorization header\n[] Execute the search\n[] Check if the request was successful:\n[]> If it was, extract the search ID and set the output variable\n[]> If it wasn't, return an error\n\nMore information about this API: https://docs.splunk.com/Documentation/SplunkCloud/8.2.2105/RESTREF/RESTsearch#search.2Fjobs",
+		"display_name": "Splunk - Execute Search",
+		"favorite": false,
+		"runtime_user": {
+		  "target_default": true
+		},
+		"target": {
+		  "target_type": "web-service.endpoint",
+		  "specify_on_workflow_start": true
+		}
+	  },
+	  "object_type": "definition_workflow",
+	  "actions": [
+		{
+		  "unique_name": "definition_activity_016ZG8AICMECU2PkWbUX6NIlI0o1CN4X7yF",
+		  "name": "Execute Python Script",
+		  "title": "Encode search string",
+		  "type": "python3.script",
+		  "base_type": "activity",
+		  "properties": {
+			"action_timeout": 180,
+			"continue_on_failure": false,
+			"display_name": "Encode search string",
+			"script": "import sys,urllib.parse\n# Encode the search string\nencodedSearch = urllib.parse.quote(sys.argv[1])",
+			"script_arguments": [
+			  "$workflow.definition_workflow_016ZF5TJT9UF922I7u9EAtR5ip6axjop00G.input.variable_workflow_016ZG0GP45FG5621gmycfLII83jdLAyf2M4$"
+			],
+			"script_queries": [
+			  {
+				"script_query": "encodedSearch",
+				"script_query_name": "encodedSearch",
+				"script_query_type": "string"
+			  }
+			],
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01PWWCWX8BFGT5aMbvQIu1wemN6SpABKXYG",
+		  "name": "Execute Python Script",
+		  "title": "Build authorization header",
+		  "type": "python3.script",
+		  "base_type": "activity",
+		  "properties": {
+			"action_timeout": 180,
+			"continue_on_failure": false,
+			"display_name": "Build authorization header",
+			"script": "import sys\n# Make sure one of the tokens was provided\nif len(sys.argv[1]) == 0 and len(sys.argv[2]):\n\tprint(\"Either a session key or access token must be provided\")\n\tsys.exit(1)\n# Build the authorization header\nauthorizationHeader = \"Splunk \" + sys.argv[1] if len(sys.argv[1]) > 0 else \"Bearer \" + sys.argv[2]",
+			"script_arguments": [
+			  "$workflow.definition_workflow_016ZF5TJT9UF922I7u9EAtR5ip6axjop00G.input.variable_workflow_01PWW0KDYAZOV5La69LLGRoYqxSAVYJdf7b$",
+			  "$workflow.definition_workflow_016ZF5TJT9UF922I7u9EAtR5ip6axjop00G.input.variable_workflow_01PWW6KU787DB2iXKRcw7FULZ5c5jGV5kCY$"
+			],
+			"script_queries": [
+			  {
+				"script_query": "authorizationHeader",
+				"script_query_name": "authorizationHeader",
+				"script_query_type": "secure_string"
+			  }
+			],
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_016ZF830DT0115m0N5XYZ4u7VYFf89slw9a",
+		  "name": "HTTP Request",
+		  "title": "Execute the search",
+		  "type": "web-service.http_request",
+		  "base_type": "activity",
+		  "properties": {
+			"accept": "application/json",
+			"action_timeout": 180,
+			"allow_auto_redirect": true,
+			"body": "earliest_time=$workflow.definition_workflow_016ZF5TJT9UF922I7u9EAtR5ip6axjop00G.input.variable_workflow_01Q1WUK2LUVH45JrV7PjQzwYZWPRMuU9YI4$&latest_time=$workflow.definition_workflow_016ZF5TJT9UF922I7u9EAtR5ip6axjop00G.input.variable_workflow_01Q1WUW5C7VXD0ZHYtwcMSgSNORyum0dTmi$&search=$activity.definition_activity_016ZG8AICMECU2PkWbUX6NIlI0o1CN4X7yF.output.script_queries.encodedSearch$&$workflow.definition_workflow_016ZF5TJT9UF922I7u9EAtR5ip6axjop00G.input.variable_workflow_01Q1X6IA60U1S5zezwA9RkbQRnVTSMwXb2B$",
+			"continue_on_error_status_code": true,
+			"continue_on_failure": false,
+			"custom_headers": [
+			  {
+				"name": "Authorization",
+				"value": "$activity.definition_activity_01PWWCWX8BFGT5aMbvQIu1wemN6SpABKXYG.output.script_queries.authorizationHeader$"
+			  }
+			],
+			"display_name": "Execute the search",
+			"method": "POST",
+			"relative_url": "/services/search/jobs",
+			"runtime_user": {
+			  "override_target_runtime_user": false,
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "override_workflow_target": false,
+			  "override_workflow_target_group_criteria": false,
+			  "use_workflow_target": true,
+			  "use_workflow_target_group": false
+			}
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01PWW272J6RK27bjOtt31jz1HfEVu8UaERD",
+		  "name": "Condition Block",
+		  "title": "Was the request successful?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Was the request successful?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01PWW278GQH5S70LbT4enyUwhWJKhGMKEhG",
+			  "name": "Condition Branch",
+			  "title": "201/Success",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_016ZF830DT0115m0N5XYZ4u7VYFf89slw9a.output.status_code$",
+				  "operator": "eq",
+				  "right_operand": 201
+				},
+				"continue_on_failure": false,
+				"display_name": "201/Success",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_016ZG2T1PYGB82NAnpaVuFPBcIQepG9QaHS",
+				  "name": "XPath Query",
+				  "title": "Extract the search ID",
+				  "type": "core.xpathquery",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Extract the search ID",
+					"input_xml": "$activity.definition_activity_016ZF830DT0115m0N5XYZ4u7VYFf89slw9a.output.response_body$",
+					"skip_execution": false,
+					"xpath_queries": [
+					  {
+						"xpath_query": "/response/sid",
+						"xpath_query_name": "searchID",
+						"xpath_query_type": "string",
+						"xpath_query_type_format": ""
+					  }
+					]
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_016ZG3GN5STD81nRZhFCvjxJ7cjsWhiAVG5",
+				  "name": "Set Variables",
+				  "title": "Set output variable",
+				  "type": "core.set_multiple_variables",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Set output variable",
+					"skip_execution": false,
+					"variables_to_update": [
+					  {
+						"variable_to_update": "$workflow.definition_workflow_016ZF5TJT9UF922I7u9EAtR5ip6axjop00G.output.variable_workflow_016ZF7Q32EAZA5eWEeAxe8NMpFsRrVPkVDl$",
+						"variable_value_new": "$activity.definition_activity_016ZG2T1PYGB82NAnpaVuFPBcIQepG9QaHS.output.xpath_queries.searchID$"
+					  }
+					]
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01PWW2794IHI01ShtHRedXtXyuRP953r0SO",
+			  "name": "Condition Branch",
+			  "title": "Anything else",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_016ZF830DT0115m0N5XYZ4u7VYFf89slw9a.output.status_code$",
+				  "operator": "ne",
+				  "right_operand": 201
+				},
+				"continue_on_failure": false,
+				"display_name": "Anything else",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01PWW3LUF95M02jz45OeShCpllSucbZ2rNv",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "Failed to execute the search\n\nStatus code: $activity.definition_activity_016ZF830DT0115m0N5XYZ4u7VYFf89slw9a.output.status_code$\nResponse body: $activity.definition_activity_016ZF830DT0115m0N5XYZ4u7VYFf89slw9a.output.response_body$",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		}
+	  ],
+	  "categories": [
+		"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+	  ]
+	}
+  }
