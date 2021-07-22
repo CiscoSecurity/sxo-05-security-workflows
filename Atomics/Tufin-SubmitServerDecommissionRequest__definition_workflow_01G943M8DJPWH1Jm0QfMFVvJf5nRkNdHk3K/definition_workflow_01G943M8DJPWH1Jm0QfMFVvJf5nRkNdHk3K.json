@@ -1,0 +1,395 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01G943M8DJPWH1Jm0QfMFVvJf5nRkNdHk3K",
+    "name": "Tufin - Submit Server Decommission Request",
+    "title": "Tufin - Submit Server Decommission Request",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Priority",
+          "type": "datatype.string",
+          "description": "Ticket priority (Acceptable values are: Critical, High, Normal, Low)",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01G943M609WB567jbLATBSvnf6n3niE3uLn",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.boolean",
+        "properties": {
+          "value": false,
+          "scope": "output",
+          "name": "Success",
+          "type": "datatype.boolean",
+          "description": "Action completed successfully",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01G943M60A3G70ZZhT7Z23lMoRLBP6xPp1T",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "Server Decommission Request",
+          "scope": "local",
+          "name": "Workflow Name",
+          "type": "datatype.string",
+          "description": "Name of TOS workflow.",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01NZUMDUCNG8S75HcP5S9ZEHpR66hL2JEyF",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "IP Address",
+          "type": "datatype.string",
+          "description": "IP Address",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01G9NPMUVN7L84MQjDHsxH2Fn4TmCEHp6J4",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Comment",
+          "type": "datatype.string",
+          "description": "Comment (optional)",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01G943M60A9Y34Tu06rCRbUSGcqNLceb2Pv",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Subject",
+          "type": "datatype.string",
+          "description": "Request subject",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01G943M60A8NF1GIOk9aAzGNRF1E5sxT0Uu",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "{\n  \"ticket\": {\n    \"subject\": \"\",\n    \"priority\": \"\",\n    \"workflow\": {\n      \"name\": \"Server Decommission Request\",\n      \"uses_topology\": false\n    },\n    \"steps\": {\n      \"step\": [\n        {\n          \"name\": \"Server Decommission Request\",\n          \"tasks\": {\n            \"task\": {\n              \"fields\": {\n                \"field\": {\n                  \"@xsi.type\": \"multi_server_decommission_request\",\n                  \"name\": \"Request verification\",\n                  \"server_decommission_request\": {\n                    \"servers\": {\n                      \"server\": {\n                        \"@type\": \"IP\",\n                        \"ip_address\": \"\",\n                        \"netmask\": \"255.255.255.255\",\n                        \"cidr\": 32\n                      }\n                    },\n                    \"targets\": {\n                      \"target\": {\n                        \"@type\": \"ANY\"\n                      }\n                    },\n                    \"comment\": \"\"\n                  }\n                }\n              }\n            }\n          }\n        }\n      ]\n    },\n    \"comments\": \"\"\n  }\n}",
+          "scope": "local",
+          "name": "Payload Template",
+          "type": "datatype.string",
+          "description": "Payload template.\nIf this workflow has been modified from the default, changes to the template may be required.",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01NZULQSVTUZD71COw1bs4rlu51nF7exsTE",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "Tufin",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": false,
+      "description": "Note: This atomic action was developed and is supported by Tufin\n\nSubmit a server decommission request to Tufin SecureChange. \nNotice! This action uses the schema for the default firewall change request workflow in SecureChange.  If this workflow has been modified from the default, changes to the HTTP request activity may be required.\n\nTarget: An HTTP endpoint for your Tufin Orchestration Suite (TOS) external address\n\nAccount Key: HTTP basic with Tufin admin credentials\n\nSteps:\n[] Validate if nessesary data is inputted correctly\n[] Create request payload\n[] Make request to submit a server decommission ticket\n[] Check if request succeeded\n[]\u003e If it did change Success variable to true\n[]\u003e If it didn't return an error\n\nMore information about this API: https://forum.tufin.com/support/kc/rest-api/R21-1/securechangeworkflow/apidoc/#!/Tickets/addTicket",
+      "display_name": "Tufin - Submit Server Decommission Request",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "specify_on_workflow_start": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01G943P0B1UWB6qZxhLWYffvbzoNroqCkG3",
+        "name": "Condition Block",
+        "title": "Validate Input: Priority",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "description": "Validate Input: Priority",
+          "display_name": "Validate Input: Priority",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01G943POL9QKI0O564rXQLB5yJdaM1o4pyd",
+            "name": "Condition Branch",
+            "title": "Input is Invalid",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": {
+                  "left_operand": {
+                    "left_operand": {
+                      "left_operand": "$workflow.definition_workflow_01G943M8DJPWH1Jm0QfMFVvJf5nRkNdHk3K.input.variable_workflow_01G943M609WB567jbLATBSvnf6n3niE3uLn$",
+                      "operator": "ne",
+                      "right_operand": "Critical"
+                    },
+                    "operator": "and",
+                    "right_operand": {
+                      "left_operand": "$workflow.definition_workflow_01G943M8DJPWH1Jm0QfMFVvJf5nRkNdHk3K.input.variable_workflow_01G943M609WB567jbLATBSvnf6n3niE3uLn$",
+                      "operator": "ne",
+                      "right_operand": "High"
+                    }
+                  },
+                  "operator": "and",
+                  "right_operand": {
+                    "left_operand": "$workflow.definition_workflow_01G943M8DJPWH1Jm0QfMFVvJf5nRkNdHk3K.input.variable_workflow_01G943M609WB567jbLATBSvnf6n3niE3uLn$",
+                    "operator": "ne",
+                    "right_operand": "Normal"
+                  }
+                },
+                "operator": "and",
+                "right_operand": {
+                  "left_operand": "$workflow.definition_workflow_01G943M8DJPWH1Jm0QfMFVvJf5nRkNdHk3K.input.variable_workflow_01G943M609WB567jbLATBSvnf6n3niE3uLn$",
+                  "operator": "ne",
+                  "right_operand": "Low"
+                }
+              },
+              "continue_on_failure": false,
+              "description": "Input is Invalid",
+              "display_name": "Input is Invalid",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01G943Q9YWSZX6QXH9dokc8gr0VgwmPdGf5",
+                "name": "Failed",
+                "title": "Failed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Failed",
+                  "result_message": "Priority must be one of: Critical, High, Normal, Low",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01NZUMNVEJLSC6YqeX4xJTVy4LkwGpX81RX",
+        "name": "Execute Python Script",
+        "title": "Create Payload",
+        "type": "python3.script",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Create Payload",
+          "script": "import sys, json\n\npayload_template = json.loads(sys.argv[1])\nworkflow_name = sys.argv[2]\nip_address = sys.argv[3]\npriority = sys.argv[4]\nsubject = sys.argv[5]\n\npayload_template['ticket']['workflow']['name'] = workflow_name\npayload_template['ticket']['priority'] = priority\npayload_template['ticket']['subject'] = subject\n\nserver_decommission_request = payload_template['ticket']['steps']['step'][0]['tasks']['task']['fields']['field']['server_decommission_request']\n\nserver_decommission_request['servers']['server']['ip_address'] = ip_address\n\nif len(sys.argv) == 7:\n    comment = sys.argv[6]\n    server_decommission_request['comment'] = comment\n    payload_template['ticket']['comments'] = comment\n\npayload = json.dumps(payload_template)",
+          "script_arguments": [
+            "$workflow.definition_workflow_01G943M8DJPWH1Jm0QfMFVvJf5nRkNdHk3K.local.variable_workflow_01NZULQSVTUZD71COw1bs4rlu51nF7exsTE$",
+            "$workflow.definition_workflow_01G943M8DJPWH1Jm0QfMFVvJf5nRkNdHk3K.local.variable_workflow_01NZUMDUCNG8S75HcP5S9ZEHpR66hL2JEyF$",
+            "$workflow.definition_workflow_01G943M8DJPWH1Jm0QfMFVvJf5nRkNdHk3K.input.variable_workflow_01G9NPMUVN7L84MQjDHsxH2Fn4TmCEHp6J4$",
+            "$workflow.definition_workflow_01G943M8DJPWH1Jm0QfMFVvJf5nRkNdHk3K.input.variable_workflow_01G943M609WB567jbLATBSvnf6n3niE3uLn$",
+            "$workflow.definition_workflow_01G943M8DJPWH1Jm0QfMFVvJf5nRkNdHk3K.input.variable_workflow_01G943M60A8NF1GIOk9aAzGNRF1E5sxT0Uu$",
+            "$workflow.definition_workflow_01G943M8DJPWH1Jm0QfMFVvJf5nRkNdHk3K.input.variable_workflow_01G943M60A9Y34Tu06rCRbUSGcqNLceb2Pv$"
+          ],
+          "script_queries": [
+            {
+              "script_query": "payload",
+              "script_query_name": "Payload",
+              "script_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01G943TK939J70eBTLmcSyXNY6crKU9WxeH",
+        "name": "HTTP Request",
+        "title": "Submit change request",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "application/json",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "$activity.definition_activity_01NZUMNVEJLSC6YqeX4xJTVy4LkwGpX81RX.output.script_queries.Payload$",
+          "content_type": "application/json",
+          "continue_on_error_status_code": true,
+          "continue_on_failure": true,
+          "custom_headers": [
+            {
+              "name": "cache-control",
+              "value": "no-cache"
+            }
+          ],
+          "description": "Submit the change request to SecureChange",
+          "display_name": "Submit change request",
+          "method": "POST",
+          "relative_url": "/securechangeworkflow/api/securechange/tickets",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01OFSLTIR6U2V0noTXtqKSpgvUE3wp6Dlgn",
+        "name": "Condition Block",
+        "title": "Is ticket created successfully?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Is ticket created successfully?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01OFSLUDTROO11cmVn8UlUwEQRUPbPkqbzl",
+            "name": "Condition Branch",
+            "title": "No without status code",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01G943TK939J70eBTLmcSyXNY6crKU9WxeH.output.succeeded$",
+                "operator": "eq",
+                "right_operand": false
+              },
+              "continue_on_failure": false,
+              "display_name": "No without status code",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01OFST8T8WR3V4qo3NxgMlawls8d82rkoVF",
+                "name": "Completed",
+                "title": "Completed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Completed",
+                  "result_message": "Submitting Server Decom Request failed.\n\nmessage: $activity.definition_activity_01G943TK939J70eBTLmcSyXNY6crKU9WxeH.output.error.message$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01G943VVY8Z0H6VENwbYXBds6NWBSgu52ZR",
+            "name": "Condition Branch",
+            "title": "Status != 201 (Failure)",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01G943TK939J70eBTLmcSyXNY6crKU9WxeH.output.status_code$",
+                "operator": "ne",
+                "right_operand": 201
+              },
+              "continue_on_failure": false,
+              "description": "Is the status code something other than 201 indicating failure?",
+              "display_name": "Status != 201 (Failure)",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01NXY5T3YE5E95YoiIUuBQJiqlSvpQkNt2z",
+                "name": "Completed",
+                "title": "Completed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Completed",
+                  "result_message": "Submitting Server Decom Request failed.\n\nstatus_code: $activity.definition_activity_01G943TK939J70eBTLmcSyXNY6crKU9WxeH.output.status_code$;\nmessage: $activity.definition_activity_01G943TK939J70eBTLmcSyXNY6crKU9WxeH.output.response_body$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01G943VDDEK187Je8QdUJsE86eZnQ4LcSh0",
+        "name": "Set Variables",
+        "title": "Set Response",
+        "type": "core.set_multiple_variables",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "description": "Set Success response to True",
+          "display_name": "Set Response",
+          "skip_execution": false,
+          "variables_to_update": [
+            {
+              "variable_to_update": "$workflow.definition_workflow_01G943M8DJPWH1Jm0QfMFVvJf5nRkNdHk3K.output.variable_workflow_01G943M60A3G70ZZhT7Z23lMoRLBP6xPp1T$",
+              "variable_value_new": true
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_01G4JLUINA0E65x8iCa6Behj8y9V0ZE9f8O"
+    ]
+  },
+  "categories": {
+    "category_01G4JLUINA0E65x8iCa6Behj8y9V0ZE9f8O": {
+      "unique_name": "category_01G4JLUINA0E65x8iCa6Behj8y9V0ZE9f8O",
+      "name": "Tufin",
+      "title": "Tufin",
+      "type": "basic.category",
+      "base_type": "category",
+      "description": "Tufin Orchestration Suite",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  }
+}
