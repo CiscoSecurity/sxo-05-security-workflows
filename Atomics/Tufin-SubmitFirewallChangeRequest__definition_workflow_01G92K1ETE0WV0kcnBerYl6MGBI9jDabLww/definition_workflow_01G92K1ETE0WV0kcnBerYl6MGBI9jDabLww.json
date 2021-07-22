@@ -1,0 +1,584 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01G92K1ETE0WV0kcnBerYl6MGBI9jDabLww",
+    "name": "Tufin - Submit Firewall Change Request",
+    "title": "Tufin - Submit Firewall Change Request",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "{\n  \"ticket\": {\n    \"subject\": \"\",\n    \"priority\": \"\",\n    \"workflow\": {\n      \"name\": \"\",\n      \"uses_topology\": true\n    },\n    \"steps\": {\n      \"step\": [\n        {\n          \"name\": \"Submit Access Request\",\n          \"tasks\": {\n            \"task\": {\n              \"fields\": {\n                \"field\": {\n                  \"@xsi.type\": \"multi_access_request\",\n                  \"name\": \"Required Access\",\n                  \"access_request\": {\n                    \"use_topology\": true,\n                    \"targets\": {\n                      \"target\": {\n                        \"@type\": \"ANY\"\n                      }\n                    },\n                    \"users\": {\n                      \"user\": [\n                        \"Any\"\n                      ]\n                    },\n                    \"sources\": {\n                      \"source\": [\n                        {\n                          \"@type\": \"IP\",\n                          \"ip_address\": \"\",\n                          \"netmask\": \"255.255.255.255\",\n                          \"cidr\": 32\n                        }\n                      ]\n                    },\n                    \"destinations\": {\n                      \"destination\": [\n                        {\n                          \"@type\": \"IP\",\n                          \"ip_address\": \"\",\n                          \"netmask\": \"255.255.255.255\",\n                          \"cidr\": 32\n                        }\n                      ]\n                    },\n                    \"services\": {\n                      \"service\": [\n                        {\n                          \"@type\": \"PROTOCOL\",\n                          \"protocol\": \"\",\n                          \"port\": \"\"\n                        }\n                      ]\n                    },\n                    \"action\": \"\"\n                  }\n                }\n              }\n            }\n          }\n        }\n      ]\n    },\n    \"comments\": \"\"\n  }\n}",
+          "scope": "local",
+          "name": "Payload Template",
+          "type": "datatype.string",
+          "description": "Payload template.\nIf this workflow has been modified from the default, changes to the template may be required.",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01NZ1W0JRU1N75RmdAMCym82k3uCE9NrWoq",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "Firewall Change Request Workflow",
+          "scope": "local",
+          "name": "Workflow Name",
+          "type": "datatype.string",
+          "description": "Name of TOS workflow.",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01NZ1V6LBMV597YRinrxaKZQg6jtSlxcOKN",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Destination",
+          "type": "datatype.string",
+          "description": "Destination IP",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01G92N4L94DRG0gUIOItmlcrXxAn3lgGbf7",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Protocol",
+          "type": "datatype.string",
+          "description": "Protocol (Acceptable values are: TCP, UDP)",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01G92NUSNMDZ81vNUgvziuKHdWepd4H57FW",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Comment",
+          "type": "datatype.string",
+          "description": "Comment (optional)",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01G92R014BGTA1JOmUMpZidIambEOMLL3et",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Source",
+          "type": "datatype.string",
+          "description": "Source IP",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01G92MOXAC9LG0a9GoKH3H77hW8n9Eo867v",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Port",
+          "type": "datatype.string",
+          "description": "Port",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01G92O04Y4ZXD7RXXBY47jTBxg1uyjCaV0B",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Priority",
+          "type": "datatype.string",
+          "description": "Ticket priority (Acceptable values are: Critical, High, Normal, Low)",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01G92LX3C45BX79zWlDiGDimj5CaZGgRH0M",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.boolean",
+        "properties": {
+          "value": false,
+          "scope": "output",
+          "name": "Success",
+          "type": "datatype.boolean",
+          "description": "Action completed successfully",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01G93NUL9MX2U6Hw00hpWsC9HJUy5Nqr21H",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Action",
+          "type": "datatype.string",
+          "description": "Action (Acceptable values are: Accept, Drop, Remove)",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01G92OVAP8XP45XyKk5MhTJ9ckexPsgJddj",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Subject",
+          "type": "datatype.string",
+          "description": "Request subject",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01G92QC8L1MHK3JbMs4Brrfec1NYIhpACDz",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "Tufin",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": false,
+      "description": "Note: This atomic action was developed and is supported by Tufin\n\nSubmit a firewall change request to Tufin SecureChange. \nNotice! This action uses the schema for the default firewall change request workflow in SecureChange.  If this workflow has been modified from the default, changes to the HTTP request activity may be required.\n\nTarget: An HTTP endpoint for your Tufin Orchestration Suite (TOS) external address\n\nAccount Key: HTTP basic with Tufin admin credentials\n\nSteps:\n[] Validate if nessesary data is inputted correctly\n[] Create request payload\n[] Make request to submit a firewall change ticket\n[] Check if request succeeded\n[]\u003e If it did change Success variable to true\n[]\u003e If it didn't return an error\n\nMore information about this API: https://forum.tufin.com/support/kc/rest-api/R21-1/securechangeworkflow/apidoc/#!/Tickets/addTicket",
+      "display_name": "Tufin - Submit Firewall Change Request",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "specify_on_workflow_start": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01G93QPD6N6B1306mw06ulM2NzlgmCXk8CJ",
+        "name": "Condition Block",
+        "title": "Validate Input: Priority",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "description": "Validate Input: Priority",
+          "display_name": "Validate Input: Priority",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01G93QPV2K1IX1oXIbcUVuVwF7EWjaXjx6Y",
+            "name": "Condition Branch",
+            "title": "Input is Invalid",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": {
+                  "left_operand": {
+                    "left_operand": {
+                      "left_operand": "$workflow.definition_workflow_01G92K1ETE0WV0kcnBerYl6MGBI9jDabLww.input.variable_workflow_01G92LX3C45BX79zWlDiGDimj5CaZGgRH0M$",
+                      "operator": "ne",
+                      "right_operand": "Critical"
+                    },
+                    "operator": "and",
+                    "right_operand": {
+                      "left_operand": "$workflow.definition_workflow_01G92K1ETE0WV0kcnBerYl6MGBI9jDabLww.input.variable_workflow_01G92LX3C45BX79zWlDiGDimj5CaZGgRH0M$",
+                      "operator": "ne",
+                      "right_operand": "High"
+                    }
+                  },
+                  "operator": "and",
+                  "right_operand": {
+                    "left_operand": "$workflow.definition_workflow_01G92K1ETE0WV0kcnBerYl6MGBI9jDabLww.input.variable_workflow_01G92LX3C45BX79zWlDiGDimj5CaZGgRH0M$",
+                    "operator": "ne",
+                    "right_operand": "Normal"
+                  }
+                },
+                "operator": "and",
+                "right_operand": {
+                  "left_operand": "$workflow.definition_workflow_01G92K1ETE0WV0kcnBerYl6MGBI9jDabLww.input.variable_workflow_01G92LX3C45BX79zWlDiGDimj5CaZGgRH0M$",
+                  "operator": "ne",
+                  "right_operand": "Low"
+                }
+              },
+              "continue_on_failure": false,
+              "description": "Input is Invalid",
+              "display_name": "Input is Invalid",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01G93W9KREJRF0eOXapEk9xxxrpdo3pSR0o",
+                "name": "Failed",
+                "title": "Failed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Failed",
+                  "result_message": "Priority must be one of: Critical, High, Normal, Low",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01G93ZIXR00S76X4IQiIDNrzaOJibKwPJCd",
+        "name": "Condition Block",
+        "title": "Validate Input: Protocol",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "description": "Validate Input: Protocol",
+          "display_name": "Validate Input: Protocol",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01G93ZJ8RTEJ30aHkWi3yiE4M2p0TlugMAG",
+            "name": "Condition Branch",
+            "title": "Input is Invalid",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": {
+                  "left_operand": "$workflow.definition_workflow_01G92K1ETE0WV0kcnBerYl6MGBI9jDabLww.input.variable_workflow_01G92NUSNMDZ81vNUgvziuKHdWepd4H57FW$",
+                  "operator": "ne",
+                  "right_operand": "TCP"
+                },
+                "operator": "and",
+                "right_operand": {
+                  "left_operand": "$workflow.definition_workflow_01G92K1ETE0WV0kcnBerYl6MGBI9jDabLww.input.variable_workflow_01G92NUSNMDZ81vNUgvziuKHdWepd4H57FW$",
+                  "operator": "ne",
+                  "right_operand": "UDP"
+                }
+              },
+              "continue_on_failure": false,
+              "description": "Input is Invalid",
+              "display_name": "Input is Invalid",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01G93ZJFIT0G332vwOoIYBh9Rxj0Woq5KqR",
+                "name": "Failed",
+                "title": "Failed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Failed",
+                  "result_message": "Protocol must be one of: TCP, UDP",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01G9410FEL0Q91dAppWfgURvDCu9WTPv8eQ",
+        "name": "Condition Block",
+        "title": "Validate Input: Action",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "description": "Validate Input: Action",
+          "display_name": "Validate Input: Action",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01G9410X462TQ4Z7xS8X9FQOXzqAgH4rJE9",
+            "name": "Condition Branch",
+            "title": "Input is Invalid",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": {
+                  "left_operand": {
+                    "left_operand": "$workflow.definition_workflow_01G92K1ETE0WV0kcnBerYl6MGBI9jDabLww.input.variable_workflow_01G92OVAP8XP45XyKk5MhTJ9ckexPsgJddj$",
+                    "operator": "ne",
+                    "right_operand": "Accept"
+                  },
+                  "operator": "and",
+                  "right_operand": {
+                    "left_operand": "$workflow.definition_workflow_01G92K1ETE0WV0kcnBerYl6MGBI9jDabLww.input.variable_workflow_01G92OVAP8XP45XyKk5MhTJ9ckexPsgJddj$",
+                    "operator": "ne",
+                    "right_operand": "Drop"
+                  }
+                },
+                "operator": "and",
+                "right_operand": {
+                  "left_operand": "$workflow.definition_workflow_01G92K1ETE0WV0kcnBerYl6MGBI9jDabLww.input.variable_workflow_01G92OVAP8XP45XyKk5MhTJ9ckexPsgJddj$",
+                  "operator": "ne",
+                  "right_operand": "Remove"
+                }
+              },
+              "continue_on_failure": false,
+              "description": "Input is Invalid",
+              "display_name": "Input is Invalid",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01G941142U11C3prMdRq4a6dJtX9NLEwnVD",
+                "name": "Failed",
+                "title": "Failed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Failed",
+                  "result_message": "Action must be one of: Accept, Drop, Remove",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01NZ2VCOFS7H74hwtRjKUQrsJAL1nUqkrKM",
+        "name": "Execute Python Script",
+        "title": "Create Payload",
+        "type": "python3.script",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Create Payload",
+          "script": "import sys, json\n\npayload_template = json.loads(sys.argv[1])\nworflow_name = sys.argv[2]\naction = sys.argv[3]\ndestination = sys.argv[4]\nport = sys.argv[5]\npriority = sys.argv[6]\nprotocol = sys.argv[7]\nsourse = sys.argv[8]\nsubject = sys.argv[9]\n\npayload_template['ticket']['workflow']['name'] = worflow_name\npayload_template['ticket']['priority'] = priority\npayload_template['ticket']['subject'] = subject\n\naccess_request = payload_template['ticket']['steps']['step'][0]['tasks']['task']['fields']['field']['access_request']\n\naccess_request['action'] = action\naccess_request['destinations']['destination'][0]['ip_address'] = destination\naccess_request['services']['service'][0]['port'] = port\naccess_request['services']['service'][0]['protocol'] = protocol\naccess_request['sources']['source'][0]['ip_address'] = sourse\n\nif len(sys.argv) == 11:\n    comment = sys.argv[10]\n    payload_template['ticket']['comments'] = comment\n\npayload = json.dumps(payload_template)",
+          "script_arguments": [
+            "$workflow.definition_workflow_01G92K1ETE0WV0kcnBerYl6MGBI9jDabLww.local.variable_workflow_01NZ1W0JRU1N75RmdAMCym82k3uCE9NrWoq$",
+            "$workflow.definition_workflow_01G92K1ETE0WV0kcnBerYl6MGBI9jDabLww.local.variable_workflow_01NZ1V6LBMV597YRinrxaKZQg6jtSlxcOKN$",
+            "$workflow.definition_workflow_01G92K1ETE0WV0kcnBerYl6MGBI9jDabLww.input.variable_workflow_01G92OVAP8XP45XyKk5MhTJ9ckexPsgJddj$",
+            "$workflow.definition_workflow_01G92K1ETE0WV0kcnBerYl6MGBI9jDabLww.input.variable_workflow_01G92N4L94DRG0gUIOItmlcrXxAn3lgGbf7$",
+            "$workflow.definition_workflow_01G92K1ETE0WV0kcnBerYl6MGBI9jDabLww.input.variable_workflow_01G92O04Y4ZXD7RXXBY47jTBxg1uyjCaV0B$",
+            "$workflow.definition_workflow_01G92K1ETE0WV0kcnBerYl6MGBI9jDabLww.input.variable_workflow_01G92LX3C45BX79zWlDiGDimj5CaZGgRH0M$",
+            "$workflow.definition_workflow_01G92K1ETE0WV0kcnBerYl6MGBI9jDabLww.input.variable_workflow_01G92NUSNMDZ81vNUgvziuKHdWepd4H57FW$",
+            "$workflow.definition_workflow_01G92K1ETE0WV0kcnBerYl6MGBI9jDabLww.input.variable_workflow_01G92MOXAC9LG0a9GoKH3H77hW8n9Eo867v$",
+            "$workflow.definition_workflow_01G92K1ETE0WV0kcnBerYl6MGBI9jDabLww.input.variable_workflow_01G92QC8L1MHK3JbMs4Brrfec1NYIhpACDz$",
+            "$workflow.definition_workflow_01G92K1ETE0WV0kcnBerYl6MGBI9jDabLww.input.variable_workflow_01G92R014BGTA1JOmUMpZidIambEOMLL3et$"
+          ],
+          "script_queries": [
+            {
+              "script_query": "payload",
+              "script_query_name": "Payload",
+              "script_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01G92TEVEX89B7Py8QEIX1S0kbbslmh99He",
+        "name": "HTTP Request",
+        "title": "Submit change request",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "application/json",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "$activity.definition_activity_01NZ2VCOFS7H74hwtRjKUQrsJAL1nUqkrKM.output.script_queries.Payload$",
+          "content_type": "application/json",
+          "continue_on_error_status_code": true,
+          "continue_on_failure": true,
+          "custom_headers": [
+            {
+              "name": "cache-control",
+              "value": "no-cache"
+            }
+          ],
+          "description": "Submit the change request to SecureChange",
+          "display_name": "Submit change request",
+          "method": "POST",
+          "relative_url": "/securechangeworkflow/api/securechange/tickets",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01G93NY2EJV3G2mXDOM7VDN2PTKBCbUDtVY",
+        "name": "Condition Block",
+        "title": "Is ticket created successfully?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Is ticket created successfully?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01G93NYLB4DMJ6qMIfgMQ86IKdwkrNCnQCf",
+            "name": "Condition Branch",
+            "title": "No without status code",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01G92TEVEX89B7Py8QEIX1S0kbbslmh99He.output.succeeded$",
+                "operator": "eq",
+                "right_operand": false
+              },
+              "continue_on_failure": false,
+              "description": "Is the status code 201 indicating success?",
+              "display_name": "No without status code",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01OFT326NUGMU4zpvKqzuHLCoRgG59FEkVy",
+                "name": "Completed",
+                "title": "Error message",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Error message",
+                  "result_message": "Submitting FW change request failed.\n\nmessage: $activity.definition_activity_01G92TEVEX89B7Py8QEIX1S0kbbslmh99He.output.error.message$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01G93NYRGEF576N6v44IuQJpZrMClgzGF64",
+            "name": "Condition Branch",
+            "title": "Status != 201 (Failure)",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01G92TEVEX89B7Py8QEIX1S0kbbslmh99He.output.status_code$",
+                "operator": "ne",
+                "right_operand": 201
+              },
+              "continue_on_failure": false,
+              "description": "Is the status code something other than 201 indicating failure?",
+              "display_name": "Status != 201 (Failure)",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01NXXARQZQG1H0YpSR1nmbkD6Su4mgykDZz",
+                "name": "Completed",
+                "title": "Error message",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Error message",
+                  "result_message": "Submitting FW change request failed.\n\nstatus_code: $activity.definition_activity_01G92TEVEX89B7Py8QEIX1S0kbbslmh99He.output.status_code$;\nmessage: $activity.definition_activity_01G92TEVEX89B7Py8QEIX1S0kbbslmh99He.output.response_body$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01G93PD4TUXFK5vYmMR9NuTGgsgrV9tHTG0",
+        "name": "Set Variables",
+        "title": "Set Success",
+        "type": "core.set_multiple_variables",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "description": "Set Success response to True",
+          "display_name": "Set Success",
+          "skip_execution": false,
+          "variables_to_update": [
+            {
+              "variable_to_update": "$workflow.definition_workflow_01G92K1ETE0WV0kcnBerYl6MGBI9jDabLww.output.variable_workflow_01G93NUL9MX2U6Hw00hpWsC9HJUy5Nqr21H$",
+              "variable_value_new": true
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_01G4JLUINA0E65x8iCa6Behj8y9V0ZE9f8O"
+    ]
+  },
+  "categories": {
+    "category_01G4JLUINA0E65x8iCa6Behj8y9V0ZE9f8O": {
+      "unique_name": "category_01G4JLUINA0E65x8iCa6Behj8y9V0ZE9f8O",
+      "name": "Tufin",
+      "title": "Tufin",
+      "type": "basic.category",
+      "base_type": "category",
+      "description": "Tufin Orchestration Suite",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  }
+}
