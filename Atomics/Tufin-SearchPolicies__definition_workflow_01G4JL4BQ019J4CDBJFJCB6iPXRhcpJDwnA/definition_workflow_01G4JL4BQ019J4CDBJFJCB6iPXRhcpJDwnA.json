@@ -1,0 +1,1074 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01G4JL4BQ019J4CDBJFJCB6iPXRhcpJDwnA",
+    "name": "Tufin - Search Policies",
+    "title": "Tufin - Search Policies",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.integer",
+        "properties": {
+          "value": 0,
+          "scope": "output",
+          "name": "Tufin Policy Count",
+          "type": "datatype.integer",
+          "description": "Number of results returned",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01G5GGQA6WQN95U29vJK5iOcXbqlgpWXeau",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Search Params",
+          "type": "datatype.string",
+          "description": "The text format for a field is \u003cfieldname\u003e:\u003ctext\u003e for example source:192.168.1.1 or bareword for free text search. See the search info documentation in SecureTrack Policy Browser page for more information.",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01G5GFGVRMEHQ05WlmaSmP4LmE4rZefEO1y",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "{}",
+          "scope": "local",
+          "name": "Device JSON",
+          "type": "datatype.string",
+          "description": "Variable for current device info.",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01NM9BCY5HB7E7YBKUIlvg6dwBYpjd0P7lX",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "[]",
+          "scope": "output",
+          "name": "Devices and Policies JSON",
+          "type": "datatype.string",
+          "description": "Output in JSON format.",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01NM90LRJSAVT5fQc9brf3G1KRYzJJZIqZP",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "Current Device Name",
+          "type": "datatype.string",
+          "description": "Variable for current device name",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01G8ZCCUJILQF5pwlsITr7XKnGyzvZDUFFP",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.integer",
+        "properties": {
+          "value": 25,
+          "scope": "input",
+          "name": "Max Results Per Device",
+          "type": "datatype.integer",
+          "description": "Maximum number of results to return per device",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01G8YRY3A07VQ15wwIoWFqMqlz7O6AQTN8F",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "Tufin",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": false,
+      "description": "Note: This atomic action was developed and is supported by Tufin\n\nSearch the policies of all devices managed by Tufin.\n\nTarget: An HTTP endpoint for your Tufin Orchestration Suite (TOS) external address\n\nAccount Key: HTTP basic with Tufin credentials\n\nSteps:\n[] Query SecureTrack for all devices managed by Tufin\n[] Check if request succeeded\n[]\u003e If it did, extract the device IDs of the devices with rules\n[]\u003e If it didn't, return an error\n[]\u003e If extraction succeeded, query SecureTrack for device names and policies\n[]\u003e If it didn't, return an error\n[] Check if both requests succeeded\n[]\u003e If they did, extract the device name and policies\n[]\u003e If they didn't, return an error\n[]\u003e If extraction succeeded, put output to variables\n[]\u003e If it didn't, return an error\n\nMore information about this API: https://forum.tufin.com/support/kc/R19-2/securetrack/apidoc/#!/Security_Rules/findRulesOnDevices\nhttps://forum.tufin.com/support/kc/R19-2/securetrack/apidoc/#!/Monitored_Devices/getDevices",
+      "display_name": "Tufin - Search Policies",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "specify_on_workflow_start": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01G4JL7MQ3FCZ6EHUQUoPvcdJEh7m83TFCo",
+        "name": "HTTP Request",
+        "title": "Get Policies",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "application/json",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "content_type": "application/json",
+          "continue_on_error_status_code": true,
+          "continue_on_failure": true,
+          "custom_headers": [
+            {
+              "name": "cache-control",
+              "value": "no-cache"
+            }
+          ],
+          "description": "Search for policies",
+          "display_name": "Get Policies",
+          "method": "GET",
+          "relative_url": "/securetrack/api/rule_search?search_text=$workflow.definition_workflow_01G4JL4BQ019J4CDBJFJCB6iPXRhcpJDwnA.input.variable_workflow_01G5GFGVRMEHQ05WlmaSmP4LmE4rZefEO1y$",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "use_workflow_target": true
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01NM8CAITCX1265AQRGb6ZNiG7iz9WuQYwm",
+        "name": "Condition Block",
+        "title": "Is response OK?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Is response OK?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01NPG3UEZW20Z7kMjqmd6sDsqSf0SPNTRBG",
+            "name": "Condition Branch",
+            "title": "No without status code",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01G4JL7MQ3FCZ6EHUQUoPvcdJEh7m83TFCo.output.succeeded$",
+                "operator": "eq",
+                "right_operand": false
+              },
+              "continue_on_failure": false,
+              "display_name": "No without status code",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01NPITF6EP6BY16FK5wvxFZx8VMmPqlVSzC",
+                "name": "Execute Python Script",
+                "title": "Create error message",
+                "type": "python3.script",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "continue_on_failure": false,
+                  "display_name": "Create error message",
+                  "script": "import sys, json\n\nmessage = sys.argv[1].replace('\"', '\\'')\nerror = {\"message\": message}\nerror = json.dumps(error)",
+                  "script_arguments": [
+                    "$activity.definition_activity_01G4JL7MQ3FCZ6EHUQUoPvcdJEh7m83TFCo.output.error.message$"
+                  ],
+                  "script_queries": [
+                    {
+                      "script_query": "error",
+                      "script_query_name": "Error",
+                      "script_query_type": "string"
+                    }
+                  ],
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01NPG5A9W7OOD2wpKPz3qZAv5s6SHbpi1JX",
+                "name": "Completed",
+                "title": "Error message",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Error message",
+                  "result_message": "$activity.definition_activity_01NPITF6EP6BY16FK5wvxFZx8VMmPqlVSzC.output.script_queries.Error$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01NM8CBC7DEAR6qrnEU8NQRVfih4oj3vt1k",
+            "name": "Condition Branch",
+            "title": "No with status code",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01G4JL7MQ3FCZ6EHUQUoPvcdJEh7m83TFCo.output.status_code$",
+                "operator": "ne",
+                "right_operand": 200
+              },
+              "continue_on_failure": false,
+              "display_name": "No with status code",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01NPLBNAZJZA04mk1UPjEfj3VqMp1Kor1yg",
+                "name": "Execute Python Script",
+                "title": "Create error message",
+                "type": "python3.script",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "continue_on_failure": false,
+                  "display_name": "Create error message",
+                  "script": "import sys, json\n\nstatus_code = sys.argv[1]\nmessage = sys.argv[2]\nerror = {\"status_code\": status_code, \"message\": message}\nerror = json.dumps(error)",
+                  "script_arguments": [
+                    "$activity.definition_activity_01G4JL7MQ3FCZ6EHUQUoPvcdJEh7m83TFCo.output.status_code$",
+                    "$activity.definition_activity_01G4JL7MQ3FCZ6EHUQUoPvcdJEh7m83TFCo.output.response_body$"
+                  ],
+                  "script_queries": [
+                    {
+                      "script_query": "error",
+                      "script_query_name": "Error",
+                      "script_query_type": "string"
+                    }
+                  ],
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01NM8FC1RVNF50y7Cw99GQhxs2ACaSo83rh",
+                "name": "Completed",
+                "title": "Error message",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Error message",
+                  "result_message": "$activity.definition_activity_01NPLBNAZJZA04mk1UPjEfj3VqMp1Kor1yg.output.script_queries.Error$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01G8YHCYDWH38334r80Noqym66Kqwn2D9rM",
+        "name": "Execute Python Script",
+        "title": "Get device IDs with match",
+        "type": "python3.script",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": true,
+          "description": "Iterate through the results to find the device IDs of the devices with matching rules",
+          "display_name": "Get device IDs with match",
+          "script": "import sys,json\n\nmatches = json.loads(sys.argv[1])\n\nsearch_devices = {}\nif matches['device_list']['device']:\n    dev_list = []\n    for match in matches['device_list']['device']:\n        if int(match['rule_count']) \u003e 0:\n            dev_list.append({\"id\": match['device_id']})\n    search_devices[\"devices\"] = dev_list\n\nsearch_devices = json.dumps(search_devices)",
+          "script_arguments": [
+            "$activity.definition_activity_01G4JL7MQ3FCZ6EHUQUoPvcdJEh7m83TFCo.output.response_body$"
+          ],
+          "script_queries": [
+            {
+              "script_query": "search_devices",
+              "script_query_name": "search_devices ",
+              "script_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01NPM2D4SG0OS5q20EYfJjFBqR2eSOtUsWk",
+        "name": "Condition Block",
+        "title": "Are there devices? or Device extraction succeeded? ",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Are there devices? or Device extraction succeeded? ",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01NPM2DX66TB03AZsAPsQwyoGIbGxstIMb6",
+            "name": "Condition Branch",
+            "title": "No devices",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01G8YHCYDWH38334r80Noqym66Kqwn2D9rM.output.script_queries.search_devices $",
+                "operator": "eq",
+                "right_operand": "{}"
+              },
+              "continue_on_failure": false,
+              "display_name": "No devices",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01NPM2XKJAAQI6iWf8R2Ji06nh6lTqQVnrF",
+                "name": "Completed",
+                "title": "Error message",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Error message",
+                  "result_message": "{\"message\": \"There are no devices with matching rules.\"}",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01NVEOIKW9LY05TGa5BvfGI5ugr6xWzRTgz",
+            "name": "Condition Branch",
+            "title": "Devices extracting failed",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01G8YHCYDWH38334r80Noqym66Kqwn2D9rM.output.succeeded$",
+                "operator": "eq",
+                "right_operand": false
+              },
+              "continue_on_failure": false,
+              "display_name": "Devices extracting failed",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01NVEPFK0WWVH46zJjgnLYJxGaxw2zuC2q3",
+                "name": "Completed",
+                "title": "Error message",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Error message",
+                  "result_message": "{\"message\": \"Tufin response data structure has changed. Atomic action need to be fixed.\"}",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01G8YKO8H9JT34sFDMKULhfAs4eTfHbfLMY",
+        "name": "Read Table from JSON",
+        "title": "Read device IDs to table",
+        "type": "corejava.read_table_from_json",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "description": "Read the device IDs of devices with matching rules in to table",
+          "display_name": "Read device IDs to table",
+          "input_json": "$activity.definition_activity_01G8YHCYDWH38334r80Noqym66Kqwn2D9rM.output.script_queries.search_devices $",
+          "jsonpath_query": "$.devices",
+          "persist_output": true,
+          "populate_columns": false,
+          "skip_execution": false,
+          "table_columns": [
+            {
+              "column_name": "id",
+              "column_type": "integer"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01G8YPSMV4C7D5TMWH2XZ5XfE7kKoTr6Tji",
+        "name": "For Each",
+        "title": "For each device ID",
+        "type": "logic.for_each",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "description": "Query matches for each device ID",
+          "display_name": "For each device ID",
+          "skip_execution": false,
+          "source_array": "$activity.definition_activity_01G8YKO8H9JT34sFDMKULhfAs4eTfHbfLMY.output.read_table_from_json$"
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01G8ZAOLF0GX558MtTSf5KmzO3BtfAw67Za",
+            "name": "HTTP Request",
+            "title": "Get device name",
+            "type": "web-service.http_request",
+            "base_type": "activity",
+            "properties": {
+              "accept": "application/json",
+              "action_timeout": 180,
+              "allow_auto_redirect": true,
+              "content_type": "application/json",
+              "continue_on_error_status_code": true,
+              "continue_on_failure": true,
+              "custom_headers": [
+                {
+                  "name": "cache-control",
+                  "value": "no-cache"
+                }
+              ],
+              "description": "Get the name of the current device",
+              "display_name": "Get device name",
+              "method": "GET",
+              "relative_url": "/securetrack/api/devices/$activity.definition_activity_01G8YPSMV4C7D5TMWH2XZ5XfE7kKoTr6Tji.input.source_array[@].id$",
+              "runtime_user": {
+                "override_target_runtime_user": false,
+                "target_default": true
+              },
+              "skip_execution": false,
+              "target": {
+                "override_workflow_target": false,
+                "override_workflow_target_group_criteria": false,
+                "use_workflow_target": true,
+                "use_workflow_target_group": false
+              }
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01NM8MJ4Q07KU440Gv4TM60JgEdaXrThIoF",
+            "name": "Condition Block",
+            "title": "Is response OK?",
+            "type": "logic.if_else",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Is response OK?",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "blocks": [
+              {
+                "unique_name": "definition_activity_01NPG92W53IYU5nLFljuxz865QMlTkIgvLC",
+                "name": "Condition Branch",
+                "title": "No without status code",
+                "type": "logic.condition_block",
+                "base_type": "activity",
+                "properties": {
+                  "condition": {
+                    "left_operand": "$activity.definition_activity_01G8ZAOLF0GX558MtTSf5KmzO3BtfAw67Za.output.succeeded$",
+                    "operator": "eq",
+                    "right_operand": false
+                  },
+                  "continue_on_failure": false,
+                  "display_name": "No without status code",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01NPKJMQHO8ZP6vpifJezPz3x1sUkr4MdhY",
+                    "name": "Execute Python Script",
+                    "title": "Create device error message",
+                    "type": "python3.script",
+                    "base_type": "activity",
+                    "properties": {
+                      "action_timeout": 180,
+                      "continue_on_failure": false,
+                      "display_name": "Create device error message",
+                      "script": "import sys, json\n\nmessage = sys.argv[1].replace('\"', '\\'')\nerror = {\"message\": message}\nerror = json.dumps(error)",
+                      "script_arguments": [
+                        "$activity.definition_activity_01G8ZAOLF0GX558MtTSf5KmzO3BtfAw67Za.output.error.message$"
+                      ],
+                      "script_queries": [
+                        {
+                          "script_query": "error",
+                          "script_query_name": "Error",
+                          "script_query_type": "string"
+                        }
+                      ],
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity"
+                  },
+                  {
+                    "unique_name": "definition_activity_01NPG9I8ACX7W7AjYzHgc6qmy7CJiAL0ebb",
+                    "name": "Completed",
+                    "title": "Error message",
+                    "type": "logic.completed",
+                    "base_type": "activity",
+                    "properties": {
+                      "completion_type": "failed-completed",
+                      "continue_on_failure": false,
+                      "display_name": "Error message",
+                      "result_message": "$activity.definition_activity_01NPKJMQHO8ZP6vpifJezPz3x1sUkr4MdhY.output.script_queries.Error$",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              },
+              {
+                "unique_name": "definition_activity_01NM8MJY2MUYT01ftKLCReieEpsk28dWrdQ",
+                "name": "Condition Branch",
+                "title": "No with status code",
+                "type": "logic.condition_block",
+                "base_type": "activity",
+                "properties": {
+                  "condition": {
+                    "left_operand": "$activity.definition_activity_01G8ZAOLF0GX558MtTSf5KmzO3BtfAw67Za.output.status_code$",
+                    "operator": "ne",
+                    "right_operand": 200
+                  },
+                  "continue_on_failure": false,
+                  "display_name": "No with status code",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01NPLDEDISLFF4sJwgnqaLvbPHUKl70sfGf",
+                    "name": "Execute Python Script",
+                    "title": "Create device error message",
+                    "type": "python3.script",
+                    "base_type": "activity",
+                    "properties": {
+                      "action_timeout": 180,
+                      "continue_on_failure": false,
+                      "display_name": "Create device error message",
+                      "script": "import sys, json\n\nstatus_code = sys.argv[1]\nmessage = sys.argv[2]\nerror = {\"status_code\": status_code, \"message\": message}\nerror = json.dumps(error)",
+                      "script_arguments": [
+                        "$activity.definition_activity_01G8ZAOLF0GX558MtTSf5KmzO3BtfAw67Za.output.status_code$",
+                        "$activity.definition_activity_01G8ZAOLF0GX558MtTSf5KmzO3BtfAw67Za.output.response_body$"
+                      ],
+                      "script_queries": [
+                        {
+                          "script_query": "error",
+                          "script_query_name": "Error",
+                          "script_query_type": "string"
+                        }
+                      ],
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity"
+                  },
+                  {
+                    "unique_name": "definition_activity_01NM8O1H6MELK3Y0sVcGw8OsfAhif5BYYpq",
+                    "name": "Completed",
+                    "title": "Error message",
+                    "type": "logic.completed",
+                    "base_type": "activity",
+                    "properties": {
+                      "completion_type": "failed-completed",
+                      "continue_on_failure": false,
+                      "display_name": "Error message",
+                      "result_message": "$activity.definition_activity_01NPLDEDISLFF4sJwgnqaLvbPHUKl70sfGf.output.script_queries.Error$",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01G8ZD3SXO6852TD3ZmNgMm5ZqvvxESuLe5",
+            "name": "JSONPath Query",
+            "title": "Query device name",
+            "type": "corejava.jsonpathquery",
+            "base_type": "activity",
+            "properties": {
+              "action_timeout": 180,
+              "continue_on_failure": true,
+              "description": "Get the device name from the query results",
+              "display_name": "Query device name",
+              "input_json": "$activity.definition_activity_01G8ZAOLF0GX558MtTSf5KmzO3BtfAw67Za.output.response_body$",
+              "jsonpath_queries": [
+                {
+                  "jsonpath_query": "$.device.name",
+                  "jsonpath_query_name": "device_name",
+                  "jsonpath_query_type": "string"
+                }
+              ],
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01NVEUFSSVVKC63Nl35ODFLtLIrsLXuK96t",
+            "name": "Condition Block",
+            "title": "Device name extraction succeeded?",
+            "type": "logic.if_else",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Device name extraction succeeded?",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "blocks": [
+              {
+                "unique_name": "definition_activity_01NVEUGKHS7I44ZOjLGrosrwncBxKItYKlQ",
+                "name": "Condition Branch",
+                "title": "No",
+                "type": "logic.condition_block",
+                "base_type": "activity",
+                "properties": {
+                  "condition": {
+                    "left_operand": "$activity.definition_activity_01G8ZD3SXO6852TD3ZmNgMm5ZqvvxESuLe5.output.succeeded$",
+                    "operator": "eq",
+                    "right_operand": false
+                  },
+                  "continue_on_failure": false,
+                  "display_name": "No",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01NVEVHSQ6AJE33fGliomvB1tgMhk6nD9Rb",
+                    "name": "Completed",
+                    "title": "Error message",
+                    "type": "logic.completed",
+                    "base_type": "activity",
+                    "properties": {
+                      "completion_type": "failed-completed",
+                      "continue_on_failure": false,
+                      "display_name": "Error message",
+                      "result_message": "{\"message\": \"Tufin response data structure has changed. Atomic action needs to be fixed.\"}",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01G8ZE8V46KO21XYGXjjbLJQqloshfrya13",
+            "name": "Set Variables",
+            "title": "Set device name",
+            "type": "core.set_multiple_variables",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "description": "Set the current device name",
+              "display_name": "Set device name",
+              "skip_execution": false,
+              "variables_to_update": [
+                {
+                  "variable_to_update": "$workflow.definition_workflow_01G4JL4BQ019J4CDBJFJCB6iPXRhcpJDwnA.local.variable_workflow_01G8ZCCUJILQF5pwlsITr7XKnGyzvZDUFFP$",
+                  "variable_value_new": "$activity.definition_activity_01G8ZD3SXO6852TD3ZmNgMm5ZqvvxESuLe5.output.jsonpath_queries.device_name$"
+                }
+              ]
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01G8YQVNERIUH77ZTQDba2SqTFDRACPp2xp",
+            "name": "HTTP Request",
+            "title": "Get policy rules from device",
+            "type": "web-service.http_request",
+            "base_type": "activity",
+            "properties": {
+              "accept": "application/json",
+              "action_timeout": 180,
+              "allow_auto_redirect": true,
+              "content_type": "application/json",
+              "continue_on_error_status_code": true,
+              "continue_on_failure": true,
+              "custom_headers": [
+                {
+                  "name": "cache-control",
+                  "value": "no-cache"
+                }
+              ],
+              "description": "Query the matching policies from the individual device",
+              "display_name": "Get policy rules from device",
+              "method": "GET",
+              "relative_url": "/securetrack/api/rule_search/$activity.definition_activity_01G8YPSMV4C7D5TMWH2XZ5XfE7kKoTr6Tji.input.source_array[@].id$?search_text=$workflow.definition_workflow_01G4JL4BQ019J4CDBJFJCB6iPXRhcpJDwnA.input.variable_workflow_01G5GFGVRMEHQ05WlmaSmP4LmE4rZefEO1y$",
+              "runtime_user": {
+                "override_target_runtime_user": false,
+                "target_default": true
+              },
+              "skip_execution": false,
+              "target": {
+                "override_workflow_target": false,
+                "override_workflow_target_group_criteria": false,
+                "use_workflow_target": true,
+                "use_workflow_target_group": false
+              }
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01NM8RWBJGGOK4NkOtf70fSN4AqXQBmYA0f",
+            "name": "Condition Block",
+            "title": "Is response OK?",
+            "type": "logic.if_else",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Is response OK?",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "blocks": [
+              {
+                "unique_name": "definition_activity_01NPGAUTZD0304DIcdEe7yvYzX6TausukqP",
+                "name": "Condition Branch",
+                "title": "No without status code",
+                "type": "logic.condition_block",
+                "base_type": "activity",
+                "properties": {
+                  "condition": {
+                    "left_operand": "$activity.definition_activity_01G8YQVNERIUH77ZTQDba2SqTFDRACPp2xp.output.succeeded$",
+                    "operator": "eq",
+                    "right_operand": false
+                  },
+                  "continue_on_failure": false,
+                  "display_name": "No without status code",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01NPKL9XJWL8S34vWYUqM0TxEIkmho7aKNa",
+                    "name": "Execute Python Script",
+                    "title": "Create policies error message",
+                    "type": "python3.script",
+                    "base_type": "activity",
+                    "properties": {
+                      "action_timeout": 180,
+                      "continue_on_failure": false,
+                      "display_name": "Create policies error message",
+                      "script": "import sys, json\n\nmessage = sys.argv[1].replace('\"', '\\'')\nerror = {\"message\": message}\nerror = json.dumps(error)",
+                      "script_arguments": [
+                        "$activity.definition_activity_01G8YQVNERIUH77ZTQDba2SqTFDRACPp2xp.output.error.message$"
+                      ],
+                      "script_queries": [
+                        {
+                          "script_query": "error",
+                          "script_query_name": "Error",
+                          "script_query_type": "string"
+                        }
+                      ],
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity"
+                  },
+                  {
+                    "unique_name": "definition_activity_01NPGBXMDN4773ugmen6xUqfUYbJ0v2rP32",
+                    "name": "Completed",
+                    "title": "Error message",
+                    "type": "logic.completed",
+                    "base_type": "activity",
+                    "properties": {
+                      "completion_type": "failed-completed",
+                      "continue_on_failure": false,
+                      "display_name": "Error message",
+                      "result_message": "$activity.definition_activity_01NPKL9XJWL8S34vWYUqM0TxEIkmho7aKNa.output.script_queries.Error$",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              },
+              {
+                "unique_name": "definition_activity_01NM8RX6HGDF718DNeSO84qzsjtAmDw8RjX",
+                "name": "Condition Branch",
+                "title": "No with status code",
+                "type": "logic.condition_block",
+                "base_type": "activity",
+                "properties": {
+                  "condition": {
+                    "left_operand": "$activity.definition_activity_01G8YQVNERIUH77ZTQDba2SqTFDRACPp2xp.output.status_code$",
+                    "operator": "ne",
+                    "right_operand": 200
+                  },
+                  "continue_on_failure": false,
+                  "display_name": "No with status code",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01NPLF5793IIK2akKBeRLGFPFlQyXGKEMFE",
+                    "name": "Execute Python Script",
+                    "title": "Create policies error message",
+                    "type": "python3.script",
+                    "base_type": "activity",
+                    "properties": {
+                      "action_timeout": 180,
+                      "continue_on_failure": false,
+                      "display_name": "Create policies error message",
+                      "script": "import sys, json\n\nstatus_code = sys.argv[1]\nmessage = sys.argv[2]\nerror = {\"status_code\": status_code, \"message\": message}\nerror = json.dumps(error)",
+                      "script_arguments": [
+                        "$activity.definition_activity_01G8YQVNERIUH77ZTQDba2SqTFDRACPp2xp.output.status_code$",
+                        "$activity.definition_activity_01G8YQVNERIUH77ZTQDba2SqTFDRACPp2xp.output.response_body$"
+                      ],
+                      "script_queries": [
+                        {
+                          "script_query": "error",
+                          "script_query_name": "Error",
+                          "script_query_type": "string"
+                        }
+                      ],
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity"
+                  },
+                  {
+                    "unique_name": "definition_activity_01NM8U2N6EM8371vnFmvpHloPUcNLJRVF9s",
+                    "name": "Completed",
+                    "title": "Error message",
+                    "type": "logic.completed",
+                    "base_type": "activity",
+                    "properties": {
+                      "completion_type": "failed-completed",
+                      "continue_on_failure": false,
+                      "display_name": "Error message",
+                      "result_message": "$activity.definition_activity_01NPLF5793IIK2akKBeRLGFPFlQyXGKEMFE.output.script_queries.Error$",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01G8ZG3J9W1IJ3aJpSkrjA7JiLSXQOrBfqZ",
+            "name": "Execute Python Script",
+            "title": "Parse policies",
+            "type": "python3.script",
+            "base_type": "activity",
+            "properties": {
+              "action_timeout": 180,
+              "continue_on_failure": false,
+              "description": "Parse policy information from results",
+              "display_name": "Parse policies",
+              "script": "import sys, json\n\nrules = json.loads(sys.argv[1])\ndevice_name = sys.argv[2]\n\nrule_total = 0\nrule_return = []\n\nif rules['rules']['rule']:\n    for rule in rules['rules']['rule']:\n        rule_total = rule_total + 1\n        rule_return.append({\n            'device': device_name,\n            'source': [d['display_name'] for d in rule['src_network']],\n            'source_service': [d['display_name'] for d in rule['src_service']],\n            'destination': [d['display_name'] for d in rule['dst_network']],\n            'destination_service': [d['display_name'] for d in rule['dst_service']],\n            'action': rule['action']})\nrule_return = json.dumps(rule_return)",
+              "script_arguments": [
+                "$activity.definition_activity_01G8YQVNERIUH77ZTQDba2SqTFDRACPp2xp.output.response_body$",
+                "$workflow.definition_workflow_01G4JL4BQ019J4CDBJFJCB6iPXRhcpJDwnA.local.variable_workflow_01G8ZCCUJILQF5pwlsITr7XKnGyzvZDUFFP$"
+              ],
+              "script_queries": [
+                {
+                  "script_query": "rule_return",
+                  "script_query_name": "rules",
+                  "script_query_type": "string"
+                },
+                {
+                  "script_query": "rule_total",
+                  "script_query_name": "rule_total ",
+                  "script_query_type": "integer"
+                }
+              ],
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01NVFBPRY7ZZ44e66HC7QGcGxFiJ2K8gdM0",
+            "name": "Condition Block",
+            "title": "Policy parsing succeeded?",
+            "type": "logic.if_else",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Policy parsing succeeded?",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "blocks": [
+              {
+                "unique_name": "definition_activity_01NVFBQIJFI3S0jLjF4Jt7ERXXWvmC8DYP4",
+                "name": "Condition Branch",
+                "title": "No",
+                "type": "logic.condition_block",
+                "base_type": "activity",
+                "properties": {
+                  "condition": {
+                    "left_operand": "$activity.definition_activity_01G8ZG3J9W1IJ3aJpSkrjA7JiLSXQOrBfqZ.output.succeeded$",
+                    "operator": "eq",
+                    "right_operand": false
+                  },
+                  "continue_on_failure": false,
+                  "display_name": "No",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01NVFDW0WMXBL2yS0diqREaTT3gGWmy4mEo",
+                    "name": "Completed",
+                    "title": "Error message",
+                    "type": "logic.completed",
+                    "base_type": "activity",
+                    "properties": {
+                      "completion_type": "failed-completed",
+                      "continue_on_failure": false,
+                      "display_name": "Error message",
+                      "result_message": "{\"message\": \"Tufin response data structure has changed. Atomic action need to be fixed.\"}",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01NM9BYLA5KT33Dk2liYnwxPy869I9YvALD",
+            "name": "Execute Python Script",
+            "title": "Set  device JSON",
+            "type": "python3.script",
+            "base_type": "activity",
+            "properties": {
+              "action_timeout": 180,
+              "continue_on_failure": false,
+              "display_name": "Set  device JSON",
+              "script": "import sys, json\n\npolicies = json.loads(sys.argv[1])\nname = sys.argv[2]\ndevice = {\n    'device': name,\n    'policies': policies\n}\ndevice = json.dumps(device)",
+              "script_arguments": [
+                "$activity.definition_activity_01G8ZG3J9W1IJ3aJpSkrjA7JiLSXQOrBfqZ.output.script_queries.rules$",
+                "$workflow.definition_workflow_01G4JL4BQ019J4CDBJFJCB6iPXRhcpJDwnA.local.variable_workflow_01G8ZCCUJILQF5pwlsITr7XKnGyzvZDUFFP$"
+              ],
+              "script_queries": [
+                {
+                  "script_query": "device",
+                  "script_query_name": "Device",
+                  "script_query_type": "string"
+                }
+              ],
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01NMB3J9FRUIJ64DP4musgMN43o4arOchac",
+            "name": "Execute Python Script",
+            "title": "Set device JSON to output",
+            "type": "python3.script",
+            "base_type": "activity",
+            "properties": {
+              "action_timeout": 180,
+              "continue_on_failure": false,
+              "display_name": "Set device JSON to output",
+              "script": "import sys, json\n\ndevice = json.loads(sys.argv[1])\noutput = json.loads(sys.argv[2])\n\noutput.append(device)\n\noutput = json.dumps(output)",
+              "script_arguments": [
+                "$activity.definition_activity_01NM9BYLA5KT33Dk2liYnwxPy869I9YvALD.output.script_queries.Device$",
+                "$workflow.definition_workflow_01G4JL4BQ019J4CDBJFJCB6iPXRhcpJDwnA.output.variable_workflow_01NM90LRJSAVT5fQc9brf3G1KRYzJJZIqZP$"
+              ],
+              "script_queries": [
+                {
+                  "script_query": "output",
+                  "script_query_name": "Output",
+                  "script_query_type": "string"
+                }
+              ],
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01G905R9EVPK009Z3dgPKVA9EkXcqIFi8LQ",
+            "name": "Execute Python Script",
+            "title": "Increment policy count",
+            "type": "python3.script",
+            "base_type": "activity",
+            "properties": {
+              "action_timeout": 180,
+              "continue_on_failure": false,
+              "description": "Increment the policy count by the number of results for the device",
+              "display_name": "Increment policy count",
+              "script": "new_count = $workflow.definition_workflow_01G4JL4BQ019J4CDBJFJCB6iPXRhcpJDwnA.output.variable_workflow_01G5GGQA6WQN95U29vJK5iOcXbqlgpWXeau$ + $activity.definition_activity_01G8ZG3J9W1IJ3aJpSkrjA7JiLSXQOrBfqZ.output.script_queries.rule_total $",
+              "script_queries": [
+                {
+                  "script_query": "new_count",
+                  "script_query_name": "new_count ",
+                  "script_query_type": "integer"
+                }
+              ],
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01G907080VUW004a5upPVhpVeb2ArSRvfSJ",
+            "name": "Set Variables",
+            "title": "Update policy count",
+            "type": "core.set_multiple_variables",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "description": "Update the Policy Count output",
+              "display_name": "Update policy count",
+              "skip_execution": false,
+              "variables_to_update": [
+                {
+                  "variable_to_update": "$workflow.definition_workflow_01G4JL4BQ019J4CDBJFJCB6iPXRhcpJDwnA.output.variable_workflow_01G5GGQA6WQN95U29vJK5iOcXbqlgpWXeau$",
+                  "variable_value_new": "$activity.definition_activity_01G905R9EVPK009Z3dgPKVA9EkXcqIFi8LQ.output.script_queries.new_count $"
+                },
+                {
+                  "variable_to_update": "$workflow.definition_workflow_01G4JL4BQ019J4CDBJFJCB6iPXRhcpJDwnA.output.variable_workflow_01NM90LRJSAVT5fQc9brf3G1KRYzJJZIqZP$",
+                  "variable_value_new": "$activity.definition_activity_01NMB3J9FRUIJ64DP4musgMN43o4arOchac.output.script_queries.Output$"
+                }
+              ]
+            },
+            "object_type": "definition_activity"
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_01G4JLUINA0E65x8iCa6Behj8y9V0ZE9f8O"
+    ]
+  },
+  "categories": {
+    "category_01G4JLUINA0E65x8iCa6Behj8y9V0ZE9f8O": {
+      "unique_name": "category_01G4JLUINA0E65x8iCa6Behj8y9V0ZE9f8O",
+      "name": "Tufin",
+      "title": "Tufin",
+      "type": "basic.category",
+      "base_type": "category",
+      "description": "Tufin Orchestration Suite",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  }
+}
