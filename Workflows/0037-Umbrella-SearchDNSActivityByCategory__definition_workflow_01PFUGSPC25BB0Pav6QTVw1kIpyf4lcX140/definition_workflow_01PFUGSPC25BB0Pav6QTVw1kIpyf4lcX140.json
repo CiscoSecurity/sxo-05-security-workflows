@@ -1,0 +1,548 @@
+{
+	"workflow": {
+	  "unique_name": "definition_workflow_01PFUGSPC25BB0Pav6QTVw1kIpyf4lcX140",
+	  "name": "0037 - Umbrella - Search DNS Activity by Category",
+	  "title": "0037 - Umbrella - Search DNS Activity by Category",
+	  "type": "generic.workflow",
+	  "base_type": "workflow",
+	  "variables": [
+		{
+		  "schema_id": "datatype.integer",
+		  "properties": {
+			"value": 50,
+			"scope": "local",
+			"name": "Maximum Records",
+			"type": "datatype.integer",
+			"description": "The maximum number of search results to fetch",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01PUH6CUOM3R65IpQy7HDFSvXCUhH2k6RZR",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "securex-orchestration",
+			"scope": "local",
+			"name": "ServiceNow User ID",
+			"type": "datatype.string",
+			"description": "The username of the user you're using to open incident tickets. This can either match the username in your ServiceNow account key or, if the account has the appropriate permissions, can be a different user",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01PL2C2KG9Y1D1OlgUvfOeVRmPt8t26PFHG",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "Movies",
+			"scope": "input",
+			"name": "Category to Filter On",
+			"type": "datatype.string",
+			"description": "The category to search for. A list of categories can be found here: https://docs.umbrella.com/deployment-umbrella/docs/content-categories",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01PFV97RWWGC43IjdR2sbkDm2S9LqtFOI7r",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "Umbrella Organization ID",
+			"type": "datatype.string",
+			"description": "Your Umbrella organization ID. This can be found in the URL of your Umbrella dashboard. For example, in this URL the organization ID is \"1234567\": https://dashboard.umbrella.com/o/1234567/#/overview",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01PK65KYSMWJZ4DtBzbPNNLdDp3CWIg1w2m",
+		  "object_type": "variable_workflow"
+		}
+	  ],
+	  "properties": {
+		"atomic": {
+		  "is_atomic": false
+		},
+		"delete_workflow_instance": false,
+		"description": "This workflow searches and returns Umbrella DNS activity for the last 7 days based on the Umbrella category provided. The data is then parsed and posted in a ServiceNow incident.\n\nTargets: ServiceNow, Umbrella OAuth, Umbrella Reporting v2\n\nSteps:\n[] Get a token for the Umbrella reporting API\n[] Fetch a list of categories\n[] Extract the category ID for the category provided\n[] Check that the category ID was found (if not, end the workflow)\n[] Get activity for the category\n[] Extract the results\n[] Create a Service Now incident ticket\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0037",
+		"display_name": "0037 - Umbrella - Search DNS Activity by Category",
+		"runtime_user": {
+		  "target_default": true
+		},
+		"target": {
+		  "execute_on_target_group": true,
+		  "target_group": {
+			"target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+			"run_on_all_targets": false,
+			"selected_target_types": [
+			  "web-service.endpoint"
+			],
+			"use_criteria": {
+			  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+			  "conditions": [
+				{
+				  "operator": "eqi",
+				  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+				  "right_operand": "Umbrella Reporting v2"
+				}
+			  ]
+			}
+		  }
+		}
+	  },
+	  "object_type": "definition_workflow",
+	  "actions": [
+		{
+		  "unique_name": "definition_activity_01PFUSBUV6TAM5tnqg25kh5djy9LPEvgmbi",
+		  "name": "Umbrella - Reporting v2 - Get Token",
+		  "title": "Umbrella - Reporting v2 - Get Token",
+		  "type": "workflow.atomic_workflow",
+		  "base_type": "subworkflow",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Umbrella - Reporting v2 - Get Token",
+			"runtime_user": {
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "override_workflow_target_group_criteria": true,
+			  "target_group": {
+				"run_on_all_targets": false,
+				"use_criteria": {
+				  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+				  "conditions": [
+					{
+					  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+					  "operator": "eqi",
+					  "right_operand": "Umbrella OAuth"
+					}
+				  ]
+				}
+			  }
+			},
+			"workflow_id": "definition_workflow_01JAL22JA2KDM70amrajus8K4adt80jPl6C"
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01PFV2XHGPSDF50S9uOv6EcKYP40N2i4aQm",
+		  "name": "Umbrella - Reporting v2 - Get Categories",
+		  "title": "Umbrella - Reporting v2 - Get Categories",
+		  "type": "workflow.atomic_workflow",
+		  "base_type": "subworkflow",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Umbrella - Reporting v2 - Get Categories",
+			"input": {
+			  "variable_workflow_01P8BG7ZXQPTE3JquLssJ8abKflvirNVYim": "$workflow.definition_workflow_01PFUGSPC25BB0Pav6QTVw1kIpyf4lcX140.local.variable_workflow_01PK65KYSMWJZ4DtBzbPNNLdDp3CWIg1w2m$",
+			  "variable_workflow_01PFUQ4MPBQRF4iscqj62CS0z0A3lrxXOC8": "$activity.definition_activity_01PFUSBUV6TAM5tnqg25kh5djy9LPEvgmbi.output.variable_workflow_01JAL4N53R4SK3xdy9WH4uXGM8tGXCh87xF$"
+			},
+			"runtime_user": {
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "use_workflow_target_group": true
+			},
+			"workflow_id": "definition_workflow_01P8BB9H4V1SW2fmJVfRET8Ux1DZmVrzZxz"
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01PR1YSSQMNIO3xQ24dQsacPQtWVHIvtIAl",
+		  "name": "JSONPath Query",
+		  "title": "Extract category ID by label",
+		  "type": "corejava.jsonpathquery",
+		  "base_type": "activity",
+		  "properties": {
+			"action_timeout": 180,
+			"continue_on_failure": true,
+			"display_name": "Extract category ID by label",
+			"input_json": "$activity.definition_activity_01PFV2XHGPSDF50S9uOv6EcKYP40N2i4aQm.output.variable_workflow_01P9146W0DATK2fdoT91i3QhB0l7gpR4CNI$",
+			"jsonpath_queries": [
+			  {
+				"jsonpath_query": "$.data[?(@.label==\"$workflow.definition_workflow_01PFUGSPC25BB0Pav6QTVw1kIpyf4lcX140.input.variable_workflow_01PFV97RWWGC43IjdR2sbkDm2S9LqtFOI7r$\")].id",
+				"jsonpath_query_name": "categoryId",
+				"jsonpath_query_type": "integer"
+			  }
+			],
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01PR24I826FME7BL5WBbVjCYnCPXl8yKMkQ",
+		  "name": "Condition Block",
+		  "title": "Was the category found?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Was the category found?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01PR24IEXARM56oYsLwKFiwcuxQwNxWLakG",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01PR1YSSQMNIO3xQ24dQsacPQtWVHIvtIAl.output.succeeded$",
+				  "operator": "eq",
+				  "right_operand": false
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01PR25DFBQZAW63HrJx1sfBtwM3OZniUfSs",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "The category \"$workflow.definition_workflow_01PFUGSPC25BB0Pav6QTVw1kIpyf4lcX140.input.variable_workflow_01PFV97RWWGC43IjdR2sbkDm2S9LqtFOI7r$\" was not found\n\nCategory list: $activity.definition_activity_01PFV2XHGPSDF50S9uOv6EcKYP40N2i4aQm.output.variable_workflow_01P9146W0DATK2fdoT91i3QhB0l7gpR4CNI$",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01PL0MU7LUSNV4sXIQIOaLHVCC6V8hOK7Yh",
+		  "name": "Umbrella - Reporting v2 - Get Activity",
+		  "title": "Umbrella - Reporting v2 - Get Activity",
+		  "type": "workflow.atomic_workflow",
+		  "base_type": "subworkflow",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Umbrella - Reporting v2 - Get Activity",
+			"input": {
+			  "variable_workflow_01JALKO710UTO2wZpcvuLmzqFv1FA3xFzwq": "-7days",
+			  "variable_workflow_01JALKYCHU7PZ0s6aeNGfrpqMw1pg4z93nL": "now",
+			  "variable_workflow_01JALL678YJP16G9M6pDJgCQDJDEd1uClcJ": "$workflow.definition_workflow_01PFUGSPC25BB0Pav6QTVw1kIpyf4lcX140.local.variable_workflow_01PK65KYSMWJZ4DtBzbPNNLdDp3CWIg1w2m$",
+			  "variable_workflow_01JALLM5UG9555ntDGvFTiJlhR0Wn56dGXk": "$workflow.definition_workflow_01PFUGSPC25BB0Pav6QTVw1kIpyf4lcX140.local.variable_workflow_01PUH6CUOM3R65IpQy7HDFSvXCUhH2k6RZR$",
+			  "variable_workflow_01JALM16JSYI968TLYjyDQ4KMQ8p6QwTEYP": 0,
+			  "variable_workflow_01JALN226TACI3NLBO4sZ5XkjL6FZWKEqVi": "&categories=$activity.definition_activity_01PR1YSSQMNIO3xQ24dQsacPQtWVHIvtIAl.output.jsonpath_queries.categoryId$",
+			  "variable_workflow_01JALOYJ7F43M7gSov8Ntx5l0vd8WjUt1lC": "$activity.definition_activity_01PFUSBUV6TAM5tnqg25kh5djy9LPEvgmbi.output.variable_workflow_01JAL4N53R4SK3xdy9WH4uXGM8tGXCh87xF$",
+			  "variable_workflow_01JAM4ETYM1J95FPj4k0xYyEYNiGuOoZXvF": "dns"
+			},
+			"runtime_user": {
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "use_workflow_target_group": true
+			},
+			"workflow_id": "definition_workflow_01JAL8FWN0U1D7NP3p9TlCVEYn1wfnyji8a"
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01PWXKD40ZID170pWSNgcRFcUBz9cq51Z2T",
+		  "name": "Read Table from JSON",
+		  "title": "Parse Results to Table from JSON",
+		  "type": "corejava.read_table_from_json",
+		  "base_type": "activity",
+		  "properties": {
+			"action_timeout": 180,
+			"continue_on_failure": false,
+			"display_name": "Parse Results to Table from JSON",
+			"input_json": "$activity.definition_activity_01PL0MU7LUSNV4sXIQIOaLHVCC6V8hOK7Yh.output.variable_workflow_01JALS5488ZAL5BRhtCGiMvigAyQjDI5olm$",
+			"jsonpath_query": "$.data[*]",
+			"persist_output": true,
+			"populate_columns": false,
+			"skip_execution": false,
+			"table_columns": [
+			  {
+				"column_name": "internalip",
+				"column_type": "string"
+			  },
+			  {
+				"column_name": "domain",
+				"column_type": "string"
+			  },
+			  {
+				"column_name": "verdict",
+				"column_type": "string"
+			  },
+			  {
+				"column_name": "time",
+				"column_type": "string"
+			  },
+			  {
+				"column_name": "categories",
+				"column_type": "string"
+			  },
+			  {
+				"column_name": "identities",
+				"column_type": "string"
+			  },
+			  {
+				"column_name": "externalip",
+				"column_type": "string"
+			  }
+			]
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01PWYSEHQJOW87jcF8FL4N3unfFpNpgzO0R",
+		  "name": "For Each",
+		  "title": "Loop Through Results",
+		  "type": "logic.for_each",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Loop Through Results",
+			"skip_execution": false,
+			"source_array": "$activity.definition_activity_01PWXKD40ZID170pWSNgcRFcUBz9cq51Z2T.output.read_table_from_json$"
+		  },
+		  "object_type": "definition_activity",
+		  "actions": [
+			{
+			  "unique_name": "definition_activity_01PWYSUUC5UE536CGVXSuP4ZCUWRJeDdhza",
+			  "name": "JSONPath Query",
+			  "title": "Extract Identity & Category",
+			  "type": "corejava.jsonpathquery",
+			  "base_type": "activity",
+			  "properties": {
+				"action_timeout": 180,
+				"continue_on_failure": false,
+				"display_name": "Extract Identity & Category",
+				"input_json": "$activity.definition_activity_01PL0MU7LUSNV4sXIQIOaLHVCC6V8hOK7Yh.output.variable_workflow_01JALS5488ZAL5BRhtCGiMvigAyQjDI5olm$",
+				"jsonpath_queries": [
+				  {
+					"jsonpath_query": "$.data[0].identities[0].label",
+					"jsonpath_query_name": "identities",
+					"jsonpath_query_type": "string"
+				  },
+				  {
+					"jsonpath_query": "$.data[0].categories[0].label",
+					"jsonpath_query_name": "categories",
+					"jsonpath_query_type": "string"
+				  }
+				],
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity"
+			},
+			{
+			  "unique_name": "definition_activity_01PWYQDWVIPGC3nEVOJCcU8HubqhnwpG6Nn",
+			  "name": "Update Row in Table",
+			  "title": "Update Row in Table",
+			  "type": "core.updaterowintable",
+			  "base_type": "activity",
+			  "properties": {
+				"action_timeout": 180,
+				"columns": [
+				  {
+					"column_name": "categories",
+					"column_type": "string"
+				  },
+				  {
+					"column_name": "identities",
+					"column_type": "string"
+				  }
+				],
+				"continue_on_failure": false,
+				"display_name": "Update Row in Table",
+				"input_table": "$activity.definition_activity_01PWXKD40ZID170pWSNgcRFcUBz9cq51Z2T.output.read_table_from_json$",
+				"row": [
+				  {
+					"key": "categories",
+					"type": "string",
+					"value": "$activity.definition_activity_01PWYSUUC5UE536CGVXSuP4ZCUWRJeDdhza.output.jsonpath_queries.categories$"
+				  },
+				  {
+					"key": "identities",
+					"type": "string",
+					"value": "$activity.definition_activity_01PWYSUUC5UE536CGVXSuP4ZCUWRJeDdhza.output.jsonpath_queries.identities$"
+				  }
+				],
+				"rows": {
+				  "all_rows": true
+				},
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity"
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01PXRS6SQZVC66qesQ1NVWeayN7TxlMJJa7",
+		  "name": "Select from Table",
+		  "title": "Select All Data",
+		  "type": "core.selectfromtable",
+		  "base_type": "activity",
+		  "properties": {
+			"action_timeout": 180,
+			"columns": [
+			  {
+				"column_name": "internalip",
+				"column_type": "string"
+			  },
+			  {
+				"column_name": "domain",
+				"column_type": "string"
+			  },
+			  {
+				"column_name": "verdict",
+				"column_type": "string"
+			  },
+			  {
+				"column_name": "time",
+				"column_type": "string"
+			  },
+			  {
+				"column_name": "categories",
+				"column_type": "string"
+			  },
+			  {
+				"column_name": "identities",
+				"column_type": "string"
+			  }
+			],
+			"continue_on_failure": false,
+			"display_name": "Select All Data",
+			"input_table": "$activity.definition_activity_01PWXKD40ZID170pWSNgcRFcUBz9cq51Z2T.output.read_table_from_json$",
+			"number_of_rows": {
+			  "all_rows": true
+			},
+			"persist_output": false,
+			"skip_execution": false,
+			"sorting": {
+			  "no_sort": true
+			}
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01Q21FKJ2R3E16EGXPD8Afv6NPnonCXADZd",
+		  "name": "Execute Python Script",
+		  "title": "Remove Unwanted Characters",
+		  "type": "python3.script",
+		  "base_type": "activity",
+		  "properties": {
+			"action_timeout": 180,
+			"continue_on_failure": false,
+			"display_name": "Remove Unwanted Characters",
+			"script": "import sys\nmessage = sys.argv[1].replace('\"', '').replace('[', ' ').replace(']', ' ').replace('{', ' ').replace('},', '\\n').replace(',', ', ').replace('}', '')",
+			"script_arguments": [
+			  "$activity.definition_activity_01PXRS6SQZVC66qesQ1NVWeayN7TxlMJJa7.output.response_body$"
+			],
+			"script_queries": [
+			  {
+				"script_query": "message",
+				"script_query_name": "output",
+				"script_query_type": "string"
+			  }
+			],
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01PL1Y5RUT2VD6Jystix7KQS6fpDetAFQN1",
+		  "name": "ServiceNow - Create Incident",
+		  "title": "ServiceNow - Create Incident",
+		  "type": "workflow.atomic_workflow",
+		  "base_type": "subworkflow",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "ServiceNow - Create Incident",
+			"input": {
+			  "variable_workflow_01C0CK2MY2SLG1FXph6ZHp7iHmRw1KvUFlN": "Umbrella Audit of DNS Category: $workflow.definition_workflow_01PFUGSPC25BB0Pav6QTVw1kIpyf4lcX140.input.variable_workflow_01PFV97RWWGC43IjdR2sbkDm2S9LqtFOI7r$",
+			  "variable_workflow_01FGYF0DUR8HV2TMpEKctsYjQR4mzjD5OTu": "Umbrella DNS Activity for Category: $workflow.definition_workflow_01PFUGSPC25BB0Pav6QTVw1kIpyf4lcX140.input.variable_workflow_01PFV97RWWGC43IjdR2sbkDm2S9LqtFOI7r$",
+			  "variable_workflow_01FGYGCZL5M2E1m1O5tvVVn0DVzVTLwytei": 3,
+			  "variable_workflow_01FGYGPFJYM4L5aVpzNOhRwMmzKJDofqufe": 3,
+			  "variable_workflow_01FGYGZ0OYYNM5pWjyyreMjNHDjusjNe8jx": "The following data was returned from Umbrella matching the category: $workflow.definition_workflow_01PFUGSPC25BB0Pav6QTVw1kIpyf4lcX140.input.variable_workflow_01PFV97RWWGC43IjdR2sbkDm2S9LqtFOI7r$\nActivity matching the above category:\n$activity.definition_activity_01Q21FKJ2R3E16EGXPD8Afv6NPnonCXADZd.output.script_queries.output$",
+			  "variable_workflow_01FGYI8HES41K63G3UzMinBH3iApm37fBGt": "$workflow.definition_workflow_01PFUGSPC25BB0Pav6QTVw1kIpyf4lcX140.local.variable_workflow_01PL2C2KG9Y1D1OlgUvfOeVRmPt8t26PFHG$",
+			  "variable_workflow_01FMQD0HIJIDU5kce0VNx4HQiMYjMfUvBlj": "v2"
+			},
+			"runtime_user": {
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "override_workflow_target_group_criteria": true,
+			  "target_group": {
+				"run_on_all_targets": false,
+				"use_criteria": {
+				  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+				  "conditions": [
+					{
+					  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+					  "operator": "eqi",
+					  "right_operand": "ServiceNow"
+					}
+				  ]
+				}
+			  }
+			},
+			"workflow_id": "definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW"
+		  },
+		  "object_type": "definition_activity"
+		}
+	  ],
+	  "categories": [
+		"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+	  ]
+	},
+	"target_groups": {
+	  "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+		"unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+		"name": "Default TargetGroup",
+		"title": "Default TargetGroup",
+		"type": "generic.target_group",
+		"base_type": "target_group",
+		"version": "1.0.0",
+		"targets": [
+		  {
+			"data_target_type": "web-service.endpoint",
+			"view_target_type": "web-service.endpoint",
+			"include_all_targets": true
+		  },
+		  {
+			"data_target_type": "email.smtp_endpoint",
+			"view_target_type": "email.smtp_endpoint",
+			"include_all_targets": true
+		  },
+		  {
+			"data_target_type": "terminal.endpoint",
+			"view_target_type": "terminal.endpoint",
+			"include_all_targets": true
+		  },
+		  {
+			"data_target_type": "aws.endpoint",
+			"view_target_type": "aws.endpoint",
+			"include_all_targets": true
+		  }
+		],
+		"object_type": "target_group"
+	  }
+	},
+	"atomic_workflows": [
+	  "definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW",
+	  "definition_workflow_01P8BB9H4V1SW2fmJVfRET8Ux1DZmVrzZxz",
+	  "definition_workflow_01JAL8FWN0U1D7NP3p9TlCVEYn1wfnyji8a",
+	  "definition_workflow_01JAL22JA2KDM70amrajus8K4adt80jPl6C"
+	]
+  }
