@@ -16,7 +16,7 @@ Workflow #0037
 
 This workflow searches and returns Umbrella DNS activity for the last 7 days based on the Umbrella category provided. The data is then parsed and posted in a ServiceNow incident.
 
-[<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0037-Umbrella-SearchDNSActivityByCategory__definition_activity_01PR24IEXARM56oYsLwKFiwcuxQwNxWLakG.json){: .btn-cisco-outline }
+[<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0037-Umbrella-SearchDNSActivityByCategory__definition_workflow_01PFUGSPC25BB0Pav6QTVw1kIpyf4lcX140){: .btn-cisco-outline }
 
 ---
 
