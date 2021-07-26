@@ -49,3 +49,4 @@ This page contains a list of all of the workflows published in the repository so
 | 0034 | Cisco Secure Network Analytics | [Generate Casebook with Top Hosts and Peers]({{ site.baseurl }}/workflows/0034) |
 | 0035 | Microsoft Graph/Azure AD | [Get Blocked Sign-Ins]({{ site.baseurl }}/workflows/0035) |
 | 0036 | Microsoft Graph/Azure AD | [Get New Users]({{ site.baseurl }}/workflows/0036) |
+| 0037 | Cisco Umbrella | [Search DNS Activity by Category]({{ site.baseurl }}/workflows/0037) |
