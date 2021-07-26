@@ -8,11 +8,11 @@ nav_order: 36
 # Database Migration (August 2021)
 As part of our ongoing commitment to enhancing the SecureX platform, SecureX orchestration will undergo a scheduled maintenance window to perform a database migration that will improve performance and scalability. The migration will occur on the following staggered schedule:
 
-| Region | Date | Start Time | Window Length |
-|:-------|:-----|:-----------|:--------------|
-| Asia Pacific (APJC) | August 14, 2021 | 11:00 AM EST | 5 Hours |
-| EMEAR (EU) | August 21, 2021 | 3:00 PM EST | 5 Hours |
-| US and LATAM (US) | August 28, 2021 | 5:00 PM EST | 9.5 Hours |
+| Region | Date | Start and End Time | Window Length |
+|:-------|:-----|:-------------------|:--------------|
+| Asia Pacific (APJC) | Saturday, August 14, 2021 | 5:00 AM - 10:00 AM SGT | 5 Hours |
+| EMEAR (EU) | Saturday, August 21, 2021 | 9:00 PM - 2:00 AM CEST | 5 Hours |
+| US and LATAM (US) | Saturday, August 28, 2021 | 5:00 PM - 11:30 PM EDT | 6.5 Hours |
 
 *Please note that dates and times are subject to change*
 
