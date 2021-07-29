@@ -1,12 +1,14 @@
 ---
 layout: page
-title: Database Migration (August 2021)
-permalink: /updates/database-migration
+title: Scheduled Maintenance (August 2021)
+permalink: /updates/august-2021
+redirect_from:
+  - /updates/database-migration
 nav_order: 36
 ---
 
-# Database Migration (August 2021)
-As part of our ongoing commitment to enhancing the SecureX platform, SecureX orchestration will undergo a scheduled maintenance window to perform a database migration that will improve performance and scalability. The migration will occur on the following staggered schedule:
+# Scheduled Maintenance (August 2021)
+As part of our ongoing commitment to enhancing the SecureX platform, SecureX orchestration will undergo scheduled maintenance to improve performance and scalability. The maintenance will occur on the following staggered schedule:
 
 | Region | Date | Start and End Time | Window Length |
 |:-------|:-----|:-------------------|:--------------|
@@ -16,7 +18,7 @@ As part of our ongoing commitment to enhancing the SecureX platform, SecureX orc
 
 *Please note that dates and times are subject to change*
 
-During the migration to the new database infrastructure, Cisco is also implementing the following changes to how orchestration content is managed:
+As part of the maintenance, Cisco is also implementing the following changes to how orchestration content is managed:
 * Workflow execution logs (also known as “Runs”) will only be retained for 90 days going forward. We will migrate 90 days of workflow runs during the maintenance window and then keep a rolling 90-day history of runs going forward.
 * Atomic Actions for Cisco products will become “system objects.” This means that all tenants will have these atomic actions available by default without having to import them. Atomics for third-party products will continue to be published in our public GitHub repository for you to import as needed.
 
