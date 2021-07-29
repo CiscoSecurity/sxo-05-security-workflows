@@ -29,9 +29,9 @@ Please see the table above. Dates and times are subject to change.
 ### How long will orchestration be unavailable?
 The amount of time SecureX orchestration will be unavailable will vary by region. Please see the table above for more details.
 ### What behavior can I expect during the maintenance window?
-During the maintenance window, SecureX orchestration will be unavailable intermittently. Attempting to access orchestration during this period may result in a splash page that will inform you that migration is still in progress. While the migration is in progress, orchestration workflows may not execute. This includes scheduled workflows and workflows triggered by external events such as emails.
+During the maintenance window, SecureX orchestration will be unavailable intermittently. Attempting to access orchestration during this period may result in a splash page that will inform you that maintenance is still in progress. While the maintenance is in progress, orchestration workflows may not execute. This includes scheduled workflows and workflows triggered by external events such as emails.
 
 ## Looking for support?
-If you have any questions about this migration or require additional support, please contact Cisco TAC.
+If you have any questions about this maintenance or require additional support, please contact Cisco TAC.
 
 Thank you for using SecureX and for being a Cisco customer!
