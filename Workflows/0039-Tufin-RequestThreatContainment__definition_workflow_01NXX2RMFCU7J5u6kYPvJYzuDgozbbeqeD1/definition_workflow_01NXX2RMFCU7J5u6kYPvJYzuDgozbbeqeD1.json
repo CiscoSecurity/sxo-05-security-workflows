@@ -1,0 +1,362 @@
+{
+	"workflow": {
+	  "unique_name": "definition_workflow_01NXX2RMFCU7J5u6kYPvJYzuDgozbbeqeD1",
+	  "name": "0039 - Tufin - Request Threat Containment",
+	  "title": "0039 - Tufin - Request Threat Containment",
+	  "type": "generic.workflow",
+	  "base_type": "workflow",
+	  "variables": [
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Action",
+			"type": "datatype.string",
+			"description": "The action the firewall rule should take. Valid values include: Accept, Drop, Remove",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01NXXDQ7Q9BS95eJXmmcHGhgJHe64egutaR",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Subject",
+			"type": "datatype.string",
+			"description": "The subject to use for the change request",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01NXXG786RPEA6HJomKQKxdFcUqYOmp9zGT",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Destination IP",
+			"type": "datatype.string",
+			"description": "The destination IP for the firewall rule",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01NXXEF82GS6T67M6TTgzdHdQg19cfyA1Li",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Source IP",
+			"type": "datatype.string",
+			"description": "The source IP for the firewall rule",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01NXXFYPP9AQL41v6o9ftPuL7zZEd24MQ6s",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Comment",
+			"type": "datatype.string",
+			"description": "An optional comment for the change request",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01NXXE2085ETG3ZRxzdur5aRKpMz0F8AnEP",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Priority",
+			"type": "datatype.string",
+			"description": "The priority to use for the change request. Valid values include: Critical, High, Normal, Low",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01NXXF6BN16DO0zeGxiZ4wOBN0XiCPxc2EL",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Port",
+			"type": "datatype.string",
+			"description": "The port for the firewall rule",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01NXXERJ7UNF43tEIRd4DA8Cxk1DrbErXrh",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Protocol",
+			"type": "datatype.string",
+			"description": "The protocol for the firewall rule. Valid values include: TCP, UDP",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01NXXFLYEPC2E13knFpApifUUh3XGMez0jn",
+		  "object_type": "variable_workflow"
+		}
+	  ],
+	  "properties": {
+		"atomic": {
+		  "is_atomic": false
+		},
+		"delete_workflow_instance": false,
+		"description": "This workflow submits a firewall change request ticket using the Tufin SecureChange API. A confirmation message is sent using Microsoft Teams.\n\nTarget Group: Default TargetGroup\n\nTargets: Microsoft Teams Webhook, Tufin Orchestration Suite\n\nSteps:\n[] Submit firewall change request \n[] Send a message to Microsoft Teams indicating if the request was submitted successfully\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0039",
+		"display_name": "0039 - Tufin - Request Threat Containment",
+		"runtime_user": {
+		  "override_target_runtime_user": false,
+		  "specify_on_workflow_start": false,
+		  "target_default": true
+		},
+		"target": {
+		  "execute_on_target_group": true,
+		  "target_group": {
+			"target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+			"run_on_all_targets": false,
+			"selected_target_types": [
+			  "web-service.endpoint"
+			],
+			"use_criteria": {
+			  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+			  "conditions": [
+				{
+				  "operator": "eqi",
+				  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+				  "right_operand": "Tufin Orchestration Suite"
+				}
+			  ]
+			}
+		  }
+		}
+	  },
+	  "object_type": "definition_workflow",
+	  "actions": [
+		{
+		  "unique_name": "definition_activity_01NXXCZMD80GC1ZbfuSVoM8NdfdEbJEyQRH",
+		  "name": "Tufin - Submit Firewall Change Request",
+		  "title": "Tufin - Submit Firewall Change Request",
+		  "type": "workflow.atomic_workflow",
+		  "base_type": "subworkflow",
+		  "properties": {
+			"continue_on_failure": true,
+			"display_name": "Tufin - Submit Firewall Change Request",
+			"input": {
+			  "variable_workflow_01G92LX3C45BX79zWlDiGDimj5CaZGgRH0M": "$workflow.definition_workflow_01NXX2RMFCU7J5u6kYPvJYzuDgozbbeqeD1.input.variable_workflow_01NXXF6BN16DO0zeGxiZ4wOBN0XiCPxc2EL$",
+			  "variable_workflow_01G92MOXAC9LG0a9GoKH3H77hW8n9Eo867v": "$workflow.definition_workflow_01NXX2RMFCU7J5u6kYPvJYzuDgozbbeqeD1.input.variable_workflow_01NXXFYPP9AQL41v6o9ftPuL7zZEd24MQ6s$",
+			  "variable_workflow_01G92N4L94DRG0gUIOItmlcrXxAn3lgGbf7": "$workflow.definition_workflow_01NXX2RMFCU7J5u6kYPvJYzuDgozbbeqeD1.input.variable_workflow_01NXXEF82GS6T67M6TTgzdHdQg19cfyA1Li$",
+			  "variable_workflow_01G92NUSNMDZ81vNUgvziuKHdWepd4H57FW": "$workflow.definition_workflow_01NXX2RMFCU7J5u6kYPvJYzuDgozbbeqeD1.input.variable_workflow_01NXXFLYEPC2E13knFpApifUUh3XGMez0jn$",
+			  "variable_workflow_01G92O04Y4ZXD7RXXBY47jTBxg1uyjCaV0B": "$workflow.definition_workflow_01NXX2RMFCU7J5u6kYPvJYzuDgozbbeqeD1.input.variable_workflow_01NXXERJ7UNF43tEIRd4DA8Cxk1DrbErXrh$",
+			  "variable_workflow_01G92OVAP8XP45XyKk5MhTJ9ckexPsgJddj": "$workflow.definition_workflow_01NXX2RMFCU7J5u6kYPvJYzuDgozbbeqeD1.input.variable_workflow_01NXXDQ7Q9BS95eJXmmcHGhgJHe64egutaR$",
+			  "variable_workflow_01G92QC8L1MHK3JbMs4Brrfec1NYIhpACDz": "$workflow.definition_workflow_01NXX2RMFCU7J5u6kYPvJYzuDgozbbeqeD1.input.variable_workflow_01NXXG786RPEA6HJomKQKxdFcUqYOmp9zGT$",
+			  "variable_workflow_01G92R014BGTA1JOmUMpZidIambEOMLL3et": "$workflow.definition_workflow_01NXX2RMFCU7J5u6kYPvJYzuDgozbbeqeD1.input.variable_workflow_01NXXE2085ETG3ZRxzdur5aRKpMz0F8AnEP$"
+			},
+			"runtime_user": {
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "use_workflow_target_group": true
+			},
+			"workflow_id": "definition_workflow_01G92K1ETE0WV0kcnBerYl6MGBI9jDabLww"
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01NXXQCVQAL3A0suDCbdbEkWJVUjhZ0Wwqa",
+		  "name": "Condition Block",
+		  "title": "Was the request successful?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Was the request successful?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01NXXQDAT5S401pc7fdj6OSCc5dcEdui1cs",
+			  "name": "Condition Branch",
+			  "title": "Yes",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01NXXCZMD80GC1ZbfuSVoM8NdfdEbJEyQRH.output.succeeded$",
+				  "operator": "eq",
+				  "right_operand": true
+				},
+				"continue_on_failure": false,
+				"display_name": "Yes",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01NZTY6UJS31Z3bpMacR6GSVHt0e45RJQcN",
+				  "name": "Microsoft Teams - Post Message via Webhook",
+				  "title": "Microsoft Teams - Post Message via Webhook",
+				  "type": "workflow.atomic_workflow",
+				  "base_type": "subworkflow",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Microsoft Teams - Post Message via Webhook",
+					"input": {
+					  "variable_workflow_01MRIK9PFIH9457K2ZY1x7rEJvOPzYOE6eO": "Threat Containment Requested",
+					  "variable_workflow_01MRIKICJKVS16L5nynmibtyxbFIqwxBhOV": "Your firewall change request was submitted successfully for source IP $workflow.definition_workflow_01NXX2RMFCU7J5u6kYPvJYzuDgozbbeqeD1.input.variable_workflow_01NXXFYPP9AQL41v6o9ftPuL7zZEd24MQ6s$ and destination IP $workflow.definition_workflow_01NXX2RMFCU7J5u6kYPvJYzuDgozbbeqeD1.input.variable_workflow_01NXXEF82GS6T67M6TTgzdHdQg19cfyA1Li$",
+					  "variable_workflow_01MRIL2TKZ8FM1EvIZeO4VFV9ITFhG3vSlI": "#00ebc2"
+					},
+					"runtime_user": {
+					  "target_default": true
+					},
+					"skip_execution": false,
+					"target": {
+					  "override_workflow_target_group_criteria": true,
+					  "target_group": {
+						"run_on_all_targets": false,
+						"use_criteria": {
+						  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+						  "conditions": [
+							{
+							  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+							  "operator": "eqi",
+							  "right_operand": "Microsoft Teams Webhook"
+							}
+						  ]
+						}
+					  }
+					},
+					"workflow_id": "definition_workflow_01MRIE3B3DNNQ3cdFSoyGkg1RnVsYA9VdZr"
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01NXXQDBG2AJ35ph6afgjTBdCKhj56LgruR",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01NXXCZMD80GC1ZbfuSVoM8NdfdEbJEyQRH.output.succeeded$",
+				  "operator": "eq",
+				  "right_operand": false
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01NXXZV7TT3PT0siVT7MzH1PSUUrzwu4Z0q",
+				  "name": "Microsoft Teams - Post Message via Webhook",
+				  "title": "Microsoft Teams - Post Message via Webhook",
+				  "type": "workflow.atomic_workflow",
+				  "base_type": "subworkflow",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Microsoft Teams - Post Message via Webhook",
+					"input": {
+					  "variable_workflow_01MRIK9PFIH9457K2ZY1x7rEJvOPzYOE6eO": "Firewall Change Request Failed",
+					  "variable_workflow_01MRIKICJKVS16L5nynmibtyxbFIqwxBhOV": "Failed to submit firewall change request for source IP $workflow.definition_workflow_01NXX2RMFCU7J5u6kYPvJYzuDgozbbeqeD1.input.variable_workflow_01NXXFYPP9AQL41v6o9ftPuL7zZEd24MQ6s$ and destination IP $workflow.definition_workflow_01NXX2RMFCU7J5u6kYPvJYzuDgozbbeqeD1.input.variable_workflow_01NXXEF82GS6T67M6TTgzdHdQg19cfyA1Li$. Error: $activity.definition_activity_01NXXCZMD80GC1ZbfuSVoM8NdfdEbJEyQRH.output.error.message$",
+					  "variable_workflow_01MRIL2TKZ8FM1EvIZeO4VFV9ITFhG3vSlI": "#e81123"
+					},
+					"runtime_user": {
+					  "target_default": true
+					},
+					"skip_execution": false,
+					"target": {
+					  "override_workflow_target_group_criteria": true,
+					  "target_group": {
+						"run_on_all_targets": false,
+						"use_criteria": {
+						  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+						  "conditions": [
+							{
+							  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+							  "operator": "eqi",
+							  "right_operand": "Microsoft Teams Webhook"
+							}
+						  ]
+						}
+					  }
+					},
+					"workflow_id": "definition_workflow_01MRIE3B3DNNQ3cdFSoyGkg1RnVsYA9VdZr"
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		}
+	  ],
+	  "categories": [
+		"category_01G4JLUINA0E65x8iCa6Behj8y9V0ZE9f8O"
+	  ]
+	},
+	"categories": {
+	  "category_01G4JLUINA0E65x8iCa6Behj8y9V0ZE9f8O": {
+		"unique_name": "category_01G4JLUINA0E65x8iCa6Behj8y9V0ZE9f8O",
+		"name": "Tufin",
+		"title": "Tufin",
+		"type": "basic.category",
+		"base_type": "category",
+		"description": "Tufin Orchestration Suite",
+		"category_type": "custom",
+		"object_type": "category"
+	  }
+	},
+	"target_groups": {
+	  "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+		"unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+		"name": "Default TargetGroup",
+		"title": "Default TargetGroup",
+		"type": "generic.target_group",
+		"base_type": "target_group",
+		"version": "1.0.0",
+		"targets": [
+		  {
+			"data_target_type": "web-service.endpoint",
+			"view_target_type": "web-service.endpoint",
+			"include_all_targets": true
+		  },
+		  {
+			"data_target_type": "email.smtp_endpoint",
+			"view_target_type": "email.smtp_endpoint",
+			"include_all_targets": true
+		  }
+		],
+		"object_type": "target_group"
+	  }
+	},
+	"atomic_workflows": [
+	  "definition_workflow_01MRIE3B3DNNQ3cdFSoyGkg1RnVsYA9VdZr",
+	  "definition_workflow_01G92K1ETE0WV0kcnBerYl6MGBI9jDabLww"
+	]
+  }

@@ -1,0 +1,1411 @@
+{
+	"workflow": {
+	  "unique_name": "definition_workflow_01NT97A5RNHCG4tiTeyKvHhC5lhbAPKRRlJ",
+	  "name": "0038 - Tufin - IPS Alert Enrichment",
+	  "title": "0038 - Tufin - IPS Alert Enrichment",
+	  "type": "generic.workflow",
+	  "base_type": "workflow",
+	  "variables": [
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "{}",
+			"scope": "output",
+			"name": "Enrichment Output",
+			"type": "datatype.string",
+			"description": "Investigation data output in JSON format",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01NU2KKKZ5GAW4lOshFGNB0zjrbQcmoup8A",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "Folder Name",
+			"type": "datatype.string",
+			"description": "Name of the SharePoint folder to put investigation results in",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01NVJWX0TRV7D7gFSWDsThehVwjKKVi83Fh",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "[]",
+			"scope": "local",
+			"name": "Output Accumulator",
+			"type": "datatype.string",
+			"description": "Placeholder used to compile information during workflow execution. This is populated automatically",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01PRLCOZ9G1403KGGIL9IVznOErbMoyEdu8",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "{\n  \"type\": \"<type of operation>\",\n  \"output_name\": \"<output name>\",\n  \"success\": \"<true/false>\",\n  \"message\": \"<message to channel>\",\n  \"data\": \"<searching result>\"\n}",
+			"scope": "static",
+			"name": "Output Template",
+			"type": "datatype.string",
+			"description": "Data template for output accumulator",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01NTA1WTFFWXL35zURODDofgtzFckiNRbLO",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Source IP Address",
+			"type": "datatype.string",
+			"description": "Source IP address for investigation",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01NT9GA9X0I2P6YgOKePKDTpR1LrJteEIYx",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "Azure Tenant ID",
+			"type": "datatype.string",
+			"description": "The tenant ID for the Azure application being used to authenticate to Microsoft Graph APIs",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01NT9AG4HPJFW41sjtGmEDTaPR4xXgQo7gG",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Destination IP Address",
+			"type": "datatype.string",
+			"description": "Destination IP address for searching topology",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01NTX9IN47CJG2y1b2i2XFLTPbm6apy1jLe",
+		  "object_type": "variable_workflow"
+		}
+	  ],
+	  "properties": {
+		"atomic": {
+		  "is_atomic": false
+		},
+		"delete_workflow_instance": false,
+		"description": "This workflow searches for information about network objects, topology, devices and policies by IP using the Tufin API. The information discovered is uploaded to a file on Microsoft SharePoint and confirmation messages are sent to Microsoft Teams.\n\nTarget Group: Default TargetGroup\n\nTargets: Microsoft Graph, Microsoft Graph Token, Microsoft Teams Webhook, Tufin Orchestration Suite\n\nSteps:\n[] Get network objects information\n[] Get topology information\n[] Get devices and policies information\n[] Get Microsoft Graph access token\n[] Upload files with information to SharePoint\n[] Send message with execution status and links to files to Microsoft Teams\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0038",
+		"display_name": "0038 - Tufin - IPS Alert Enrichment",
+		"runtime_user": {
+		  "override_target_runtime_user": false,
+		  "specify_on_workflow_start": false,
+		  "target_default": true
+		},
+		"target": {
+		  "execute_on_target_group": true,
+		  "target_group": {
+			"target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+			"run_on_all_targets": false,
+			"selected_target_types": [
+			  "web-service.endpoint"
+			],
+			"use_criteria": {
+			  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+			  "conditions": [
+				{
+				  "operator": "eqi",
+				  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+				  "right_operand": "Tufin Orchestration Suite"
+				}
+			  ]
+			}
+		  }
+		}
+	  },
+	  "object_type": "definition_workflow",
+	  "actions": [
+		{
+		  "unique_name": "definition_activity_01NT9G13CM3QB0m6In1uYCcZzkNLQVlhEBH",
+		  "name": "Tufin - Resolve Objects",
+		  "title": "Tufin - Resolve Objects",
+		  "type": "workflow.atomic_workflow",
+		  "base_type": "subworkflow",
+		  "properties": {
+			"continue_on_failure": true,
+			"display_name": "Tufin - Resolve Objects",
+			"input": {
+			  "variable_workflow_01G5H4HMS7WE13r79jL4A2HhDQ0T1sEND58": "$workflow.definition_workflow_01NT97A5RNHCG4tiTeyKvHhC5lhbAPKRRlJ.input.variable_workflow_01NT9GA9X0I2P6YgOKePKDTpR1LrJteEIYx$"
+			},
+			"runtime_user": {
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "use_workflow_target_group": true
+			},
+			"workflow_id": "definition_workflow_01G5H3DYVBOMA3nhhpXtOd6qFaiGXk6d5dD"
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01NT9ZB5CNNKR7h795qsBoo1cR8afuVSUwD",
+		  "name": "Condition Block",
+		  "title": "Is object resolving OK?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Is object resolving OK?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01NT9ZBYC0BPB1aiPvAq5dEoUt1m15S0okx",
+			  "name": "Condition Branch",
+			  "title": "Yes",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01NT9G13CM3QB0m6In1uYCcZzkNLQVlhEBH.output.succeeded$",
+				  "operator": "eq",
+				  "right_operand": true
+				},
+				"continue_on_failure": false,
+				"display_name": "Yes",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01NTA23EIIWGA7Qjy3Q0kk4oAw5YSve6B3M",
+				  "name": "Execute Python Script",
+				  "title": "Make object success output",
+				  "type": "python3.script",
+				  "base_type": "activity",
+				  "properties": {
+					"action_timeout": 180,
+					"continue_on_failure": false,
+					"display_name": "Make object success output",
+					"script": "import sys, json\nobjects= json.loads(sys.argv[1])\noutput = json.loads(sys.argv[2])\noutput_accumulator = json.loads(sys.argv[3])\noutput['type'] = 'Objects resolving'\noutput['success'] = 'succeeded'\noutput['message'] = f'Found {len(objects)} objects'\noutput['output_name'] = 'objects'\noutput['data'] = objects\noutput_accumulator.append({'output': output})\noutput_accumulator = json.dumps(output_accumulator)",
+					"script_arguments": [
+					  "$activity.definition_activity_01NT9G13CM3QB0m6In1uYCcZzkNLQVlhEBH.output.variable_workflow_01NLEWS56G2WC34qIhthgPFcAYJFNtsaUBC$",
+					  "$workflow.definition_workflow_01NT97A5RNHCG4tiTeyKvHhC5lhbAPKRRlJ.static.variable_workflow_01NTA1WTFFWXL35zURODDofgtzFckiNRbLO$",
+					  "$workflow.definition_workflow_01NT97A5RNHCG4tiTeyKvHhC5lhbAPKRRlJ.local.variable_workflow_01PRLCOZ9G1403KGGIL9IVznOErbMoyEdu8$"
+					],
+					"script_queries": [
+					  {
+						"script_query": "output_accumulator",
+						"script_query_name": "Output Accumulator",
+						"script_query_type": "string"
+					  }
+					],
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01PRLFOFBY6QJ0HbmmBJKHXOqKwE2T7Q6kw",
+				  "name": "Set Variables",
+				  "title": "Add output to output accumulator",
+				  "type": "core.set_multiple_variables",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Add output to output accumulator",
+					"skip_execution": false,
+					"variables_to_update": [
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01NT97A5RNHCG4tiTeyKvHhC5lhbAPKRRlJ.local.variable_workflow_01PRLCOZ9G1403KGGIL9IVznOErbMoyEdu8$",
+						"variable_value_new": "$activity.definition_activity_01NTA23EIIWGA7Qjy3Q0kk4oAw5YSve6B3M.output.script_queries.Output Accumulator$"
+					  }
+					]
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01NT9ZBYZTM7N7LFkSRWvLC9tkO7gFvLL1L",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01NT9G13CM3QB0m6In1uYCcZzkNLQVlhEBH.output.succeeded$",
+				  "operator": "eq",
+				  "right_operand": false
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01NTA6ETOH07P4QnLwBnddTw1aQ84o0oFdM",
+				  "name": "Execute Python Script",
+				  "title": "Make failed object output",
+				  "type": "python3.script",
+				  "base_type": "activity",
+				  "properties": {
+					"action_timeout": 180,
+					"continue_on_failure": false,
+					"display_name": "Make failed object output",
+					"script": "import sys, json\nerror_message = sys.argv[1]\noutput = json.loads(sys.argv[2])\noutput_accumulator = json.loads(sys.argv[3])\noutput['type'] = 'Objects resolving'\noutput['success'] = 'failed'\noutput['message'] = error_message\noutput_accumulator.append({'output': output})\noutput_accumulator = json.dumps(output_accumulator)",
+					"script_arguments": [
+					  "$activity.definition_activity_01NT9G13CM3QB0m6In1uYCcZzkNLQVlhEBH.output.error.message$",
+					  "$workflow.definition_workflow_01NT97A5RNHCG4tiTeyKvHhC5lhbAPKRRlJ.static.variable_workflow_01NTA1WTFFWXL35zURODDofgtzFckiNRbLO$",
+					  "$workflow.definition_workflow_01NT97A5RNHCG4tiTeyKvHhC5lhbAPKRRlJ.local.variable_workflow_01PRLCOZ9G1403KGGIL9IVznOErbMoyEdu8$"
+					],
+					"script_queries": [
+					  {
+						"script_query": "output_accumulator",
+						"script_query_name": "Output Accumulator",
+						"script_query_type": "string"
+					  }
+					],
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01PRLL357WMPJ6FNEWoICcYnlJfQRneUYHs",
+				  "name": "Set Variables",
+				  "title": "Add output to output accumulator",
+				  "type": "core.set_multiple_variables",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Add output to output accumulator",
+					"skip_execution": false,
+					"variables_to_update": [
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01NT97A5RNHCG4tiTeyKvHhC5lhbAPKRRlJ.local.variable_workflow_01PRLCOZ9G1403KGGIL9IVznOErbMoyEdu8$",
+						"variable_value_new": "$activity.definition_activity_01NTA6ETOH07P4QnLwBnddTw1aQ84o0oFdM.output.script_queries.Output Accumulator$"
+					  }
+					]
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01NTX86IT1OIK1E5ZI9ZqpA8BTRhKWUtP9g",
+		  "name": "Tufin - Search Topology",
+		  "title": "Tufin - Search Topology",
+		  "type": "workflow.atomic_workflow",
+		  "base_type": "subworkflow",
+		  "properties": {
+			"continue_on_failure": true,
+			"display_name": "Tufin - Search Topology",
+			"input": {
+			  "variable_workflow_01G8TNUDO0R1V0tLx9iA9yKHRqlf9PzmtKt": "$workflow.definition_workflow_01NT97A5RNHCG4tiTeyKvHhC5lhbAPKRRlJ.input.variable_workflow_01NT9GA9X0I2P6YgOKePKDTpR1LrJteEIYx$",
+			  "variable_workflow_01G8TO71L18GT0V6hrPwuV0JEpUht4FZRwl": "$workflow.definition_workflow_01NT97A5RNHCG4tiTeyKvHhC5lhbAPKRRlJ.input.variable_workflow_01NTX9IN47CJG2y1b2i2XFLTPbm6apy1jLe$",
+			  "variable_workflow_01G8TP21L5ZGR46DsXJv8ifVTeiojzMmO7k": "any"
+			},
+			"runtime_user": {
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "use_workflow_target_group": true
+			},
+			"workflow_id": "definition_workflow_01G8TN3JTMR5E3t9tz73Il2cQjx9vTgVabB"
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01NTXDTB8VAKK0yFhWmvWqNv53MkbZz7Tqn",
+		  "name": "Condition Block",
+		  "title": "Is topology searching OK?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Is topology searching OK?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01NTXDU282OD14gMjYFmG3PNembMNhjaYs7",
+			  "name": "Condition Branch",
+			  "title": "Yes",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01NTX86IT1OIK1E5ZI9ZqpA8BTRhKWUtP9g.output.succeeded$",
+				  "operator": "eq",
+				  "right_operand": true
+				},
+				"continue_on_failure": false,
+				"display_name": "Yes",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01NTXDU2YMZFL4PLMmn0VDoKThIubkXT4ji",
+				  "name": "Execute Python Script",
+				  "title": "Make topology success output",
+				  "type": "python3.script",
+				  "base_type": "activity",
+				  "properties": {
+					"action_timeout": 180,
+					"continue_on_failure": false,
+					"display_name": "Make topology success output",
+					"script": "import sys, json\ntopology = json.loads(sys.argv[1])\noutput = json.loads(sys.argv[2])\ntraffic_allowed = sys.argv[3]\noutput_accumulator = json.loads(sys.argv[4])\noutput['type'] = 'Topology searching'\noutput['success'] = 'succeeded'\noutput['message'] = f'Found {len(topology)} objects'\noutput['output_name'] = 'topology'\noutput['data'] = {'traffic_allowed': traffic_allowed, 'topology': topology}\noutput_accumulator.append({'output': output})\noutput_accumulator = json.dumps(output_accumulator)",
+					"script_arguments": [
+					  "$activity.definition_activity_01NTX86IT1OIK1E5ZI9ZqpA8BTRhKWUtP9g.output.variable_workflow_01NOT8NA84JCT4tjn2EHBrv1QeTr4h6zPgX$",
+					  "$workflow.definition_workflow_01NT97A5RNHCG4tiTeyKvHhC5lhbAPKRRlJ.static.variable_workflow_01NTA1WTFFWXL35zURODDofgtzFckiNRbLO$",
+					  "$activity.definition_activity_01NTX86IT1OIK1E5ZI9ZqpA8BTRhKWUtP9g.output.variable_workflow_01G8TZTM2YELA5Kaz7gcTIiS3X9AQfSqohq$",
+					  "$workflow.definition_workflow_01NT97A5RNHCG4tiTeyKvHhC5lhbAPKRRlJ.local.variable_workflow_01PRLCOZ9G1403KGGIL9IVznOErbMoyEdu8$"
+					],
+					"script_queries": [
+					  {
+						"script_query": "output_accumulator",
+						"script_query_name": "Output Accumulator",
+						"script_query_type": "string"
+					  }
+					],
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01PRLMGRBD7BL6FJnyegsGuGfjhDpFIpfR0",
+				  "name": "Set Variables",
+				  "title": "Add output to output accumulator",
+				  "type": "core.set_multiple_variables",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Add output to output accumulator",
+					"skip_execution": false,
+					"variables_to_update": [
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01NT97A5RNHCG4tiTeyKvHhC5lhbAPKRRlJ.local.variable_workflow_01PRLCOZ9G1403KGGIL9IVznOErbMoyEdu8$",
+						"variable_value_new": "$activity.definition_activity_01NTXDU2YMZFL4PLMmn0VDoKThIubkXT4ji.output.script_queries.Output Accumulator$"
+					  }
+					]
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01NTXDUTC6RY43yOKvhotrdWXIctfVK01iZ",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01NTX86IT1OIK1E5ZI9ZqpA8BTRhKWUtP9g.output.succeeded$",
+				  "operator": "eq",
+				  "right_operand": false
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01NTXDUU28I5Z3ZiDp6Jm8l0zQcVVaVhFVd",
+				  "name": "Execute Python Script",
+				  "title": "Make failed topology output",
+				  "type": "python3.script",
+				  "base_type": "activity",
+				  "properties": {
+					"action_timeout": 180,
+					"continue_on_failure": false,
+					"display_name": "Make failed topology output",
+					"script": "import sys, json\nerror_message = sys.argv[1]\noutput = json.loads(sys.argv[2])\noutput_accumulator = json.loads(sys.argv[3])\noutput['type'] = 'Topology searching'\noutput['success'] = 'failed'\noutput['message'] = error_message\noutput_accumulator.append({'output': output})\noutput_accumulator = json.dumps(output_accumulator)",
+					"script_arguments": [
+					  "$activity.definition_activity_01NTX86IT1OIK1E5ZI9ZqpA8BTRhKWUtP9g.output.error.message$",
+					  "$workflow.definition_workflow_01NT97A5RNHCG4tiTeyKvHhC5lhbAPKRRlJ.static.variable_workflow_01NTA1WTFFWXL35zURODDofgtzFckiNRbLO$",
+					  "$workflow.definition_workflow_01NT97A5RNHCG4tiTeyKvHhC5lhbAPKRRlJ.local.variable_workflow_01PRLCOZ9G1403KGGIL9IVznOErbMoyEdu8$"
+					],
+					"script_queries": [
+					  {
+						"script_query": "output_accumulator",
+						"script_query_name": "Output Accumulator",
+						"script_query_type": "string"
+					  }
+					],
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01PRLNC0XMKF03bxVDMaaKo9vAcicBvXR7T",
+				  "name": "Set Variables",
+				  "title": "Add output to output accumulator",
+				  "type": "core.set_multiple_variables",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Add output to output accumulator",
+					"skip_execution": false,
+					"variables_to_update": [
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01NT97A5RNHCG4tiTeyKvHhC5lhbAPKRRlJ.local.variable_workflow_01PRLCOZ9G1403KGGIL9IVznOErbMoyEdu8$",
+						"variable_value_new": "$activity.definition_activity_01NTXDUU28I5Z3ZiDp6Jm8l0zQcVVaVhFVd.output.script_queries.Output Accumulator$"
+					  }
+					]
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01NU0YG4XCRUY3MAeZFhDtzryEwBAjgShXZ",
+		  "name": "Tufin - Search Policies",
+		  "title": "Tufin - Search Policies",
+		  "type": "workflow.atomic_workflow",
+		  "base_type": "subworkflow",
+		  "properties": {
+			"continue_on_failure": true,
+			"display_name": "Tufin - Search Policies",
+			"input": {
+			  "variable_workflow_01G5GFGVRMEHQ05WlmaSmP4LmE4rZefEO1y": "source:$workflow.definition_workflow_01NT97A5RNHCG4tiTeyKvHhC5lhbAPKRRlJ.input.variable_workflow_01NT9GA9X0I2P6YgOKePKDTpR1LrJteEIYx$",
+			  "variable_workflow_01G8YRY3A07VQ15wwIoWFqMqlz7O6AQTN8F": 25
+			},
+			"runtime_user": {
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "use_workflow_target_group": true
+			},
+			"workflow_id": "definition_workflow_01G4JL4BQ019J4CDBJFJCB6iPXRhcpJDwnA"
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01NU11ZMJXBML6YAmKFfglxwKqUBJ83OS0d",
+		  "name": "Condition Block",
+		  "title": "Is policies searching OK?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Is policies searching OK?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01NU120FASZJ90HwFhW8KKl2Rmthz6POjIX",
+			  "name": "Condition Branch",
+			  "title": "Yes",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01NU0YG4XCRUY3MAeZFhDtzryEwBAjgShXZ.output.succeeded$",
+				  "operator": "eq",
+				  "right_operand": true
+				},
+				"continue_on_failure": false,
+				"display_name": "Yes",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01NU120G06ZAJ5FLwHtDWqaSWOBtkF1qzur",
+				  "name": "Execute Python Script",
+				  "title": "Make policy success output",
+				  "type": "python3.script",
+				  "base_type": "activity",
+				  "properties": {
+					"action_timeout": 180,
+					"continue_on_failure": false,
+					"display_name": "Make policy success output",
+					"script": "import sys, json\ndevices = json.loads(sys.argv[1])\noutput = json.loads(sys.argv[2])\noutput_accumulator = json.loads(sys.argv[3])\ndevices_count = len(devices)\npolicies_count = sum([len(device['policies']) for device in devices])\noutput['type'] = 'Policies searching'\noutput['success'] = 'succeeded'\noutput['message'] = f'Found devices - {devices_count}, policies - {policies_count}'\noutput['output_name'] = 'devices'\noutput['data'] = devices\noutput_accumulator.append({'output': output})\noutput_accumulator = json.dumps(output_accumulator)",
+					"script_arguments": [
+					  "$activity.definition_activity_01NU0YG4XCRUY3MAeZFhDtzryEwBAjgShXZ.output.variable_workflow_01NM90LRJSAVT5fQc9brf3G1KRYzJJZIqZP$",
+					  "$workflow.definition_workflow_01NT97A5RNHCG4tiTeyKvHhC5lhbAPKRRlJ.static.variable_workflow_01NTA1WTFFWXL35zURODDofgtzFckiNRbLO$",
+					  "$workflow.definition_workflow_01NT97A5RNHCG4tiTeyKvHhC5lhbAPKRRlJ.local.variable_workflow_01PRLCOZ9G1403KGGIL9IVznOErbMoyEdu8$"
+					],
+					"script_queries": [
+					  {
+						"script_query": "output_accumulator",
+						"script_query_name": "Output Accumulator",
+						"script_query_type": "string"
+					  }
+					],
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01PRLQP9OM0Q32OFYNINFNoeeN5Uft264XV",
+				  "name": "Set Variables",
+				  "title": "Add output to output accumulator",
+				  "type": "core.set_multiple_variables",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Add output to output accumulator",
+					"skip_execution": false,
+					"variables_to_update": [
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01NT97A5RNHCG4tiTeyKvHhC5lhbAPKRRlJ.local.variable_workflow_01PRLCOZ9G1403KGGIL9IVznOErbMoyEdu8$",
+						"variable_value_new": "$activity.definition_activity_01NU120G06ZAJ5FLwHtDWqaSWOBtkF1qzur.output.script_queries.Output Accumulator$"
+					  }
+					]
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01NU1218H9XH74H7cMnoJOU55eI6ZkuhJAK",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01NU0YG4XCRUY3MAeZFhDtzryEwBAjgShXZ.output.succeeded$",
+				  "operator": "eq",
+				  "right_operand": false
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01NU12198XLL36aabcAgQKvUjWIssyiqBIr",
+				  "name": "Execute Python Script",
+				  "title": "Make failed policy output",
+				  "type": "python3.script",
+				  "base_type": "activity",
+				  "properties": {
+					"action_timeout": 180,
+					"continue_on_failure": false,
+					"display_name": "Make failed policy output",
+					"script": "import sys, json\nerror_message = sys.argv[1]\noutput = json.loads(sys.argv[2])\noutput_accumulator = json.loads(sys.argv[3])\noutput['type'] = 'Policies searching'\noutput['success'] = 'failed'\noutput['message'] = error_message\noutput_accumulator.append({'output': output})\noutput_accumulator = json.dumps(output_accumulator)",
+					"script_arguments": [
+					  "$activity.definition_activity_01NU0YG4XCRUY3MAeZFhDtzryEwBAjgShXZ.output.error.message$",
+					  "$workflow.definition_workflow_01NT97A5RNHCG4tiTeyKvHhC5lhbAPKRRlJ.static.variable_workflow_01NTA1WTFFWXL35zURODDofgtzFckiNRbLO$",
+					  "$workflow.definition_workflow_01NT97A5RNHCG4tiTeyKvHhC5lhbAPKRRlJ.local.variable_workflow_01PRLCOZ9G1403KGGIL9IVznOErbMoyEdu8$"
+					],
+					"script_queries": [
+					  {
+						"script_query": "output_accumulator",
+						"script_query_name": "Output Accumulator",
+						"script_query_type": "string"
+					  }
+					],
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01PRLRMPKETW55nDWyWd6RuAG7QKtxQrLg1",
+				  "name": "Set Variables",
+				  "title": "Add output to output accumulator",
+				  "type": "core.set_multiple_variables",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Add output to output accumulator",
+					"skip_execution": false,
+					"variables_to_update": [
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01NT97A5RNHCG4tiTeyKvHhC5lhbAPKRRlJ.local.variable_workflow_01PRLCOZ9G1403KGGIL9IVznOErbMoyEdu8$",
+						"variable_value_new": "$activity.definition_activity_01NU12198XLL36aabcAgQKvUjWIssyiqBIr.output.script_queries.Output Accumulator$"
+					  }
+					]
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01NT9VPSAUU7Z5sHPv2nUGvg1jx7t03qANM",
+		  "name": "Microsoft Graph - Get Access Token",
+		  "title": "Microsoft Graph - Get Access Token",
+		  "type": "workflow.atomic_workflow",
+		  "base_type": "subworkflow",
+		  "properties": {
+			"continue_on_failure": true,
+			"display_name": "Microsoft Graph - Get Access Token",
+			"input": {
+			  "variable_workflow_01HQN7N4UOTC65YnWUlkyv9piykyDJH4Mzv": "$workflow.definition_workflow_01NT97A5RNHCG4tiTeyKvHhC5lhbAPKRRlJ.local.variable_workflow_01NT9AG4HPJFW41sjtGmEDTaPR4xXgQo7gG$"
+			},
+			"runtime_user": {
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "override_workflow_target_group_criteria": true,
+			  "target_group": {
+				"run_on_all_targets": false,
+				"use_criteria": {
+				  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+				  "conditions": [
+					{
+					  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+					  "operator": "eqi",
+					  "right_operand": "Microsoft Graph Token"
+					}
+				  ]
+				}
+			  }
+			},
+			"workflow_id": "definition_workflow_01HQN7N57GLKN780LTDUabTblE3OpMPQVfx"
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01NTA9GY88SFY2PwYcjMjwMtUdkzr1gVdfr",
+		  "name": "Condition Block",
+		  "title": "Was the token fetched?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Was the token fetched?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01NTA9HCVLQCO6Q36KnY29crivHuW0ssrbD",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01NT9VPSAUU7Z5sHPv2nUGvg1jx7t03qANM.output.succeeded$",
+				  "operator": "eq",
+				  "right_operand": false
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01NTABYLL4VZX2STuIctQKFJJ9CF8sLOBUH",
+				  "name": "Microsoft Teams - Post Message via Webhook",
+				  "title": "Microsoft Teams - Post Message via Webhook",
+				  "type": "workflow.atomic_workflow",
+				  "base_type": "subworkflow",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Microsoft Teams - Post Message via Webhook",
+					"input": {
+					  "variable_workflow_01MRIK9PFIH9457K2ZY1x7rEJvOPzYOE6eO": "Tufin - IPS Alert Enrichment Failed",
+					  "variable_workflow_01MRIKICJKVS16L5nynmibtyxbFIqwxBhOV": "Failed to fetch Microsoft Graph access token in SecureX orchestration workflow ($workflow.definition_workflow_01NT97A5RNHCG4tiTeyKvHhC5lhbAPKRRlJ.output.instance_id$)",
+					  "variable_workflow_01MRIL2TKZ8FM1EvIZeO4VFV9ITFhG3vSlI": "#e81123"
+					},
+					"runtime_user": {
+					  "target_default": true
+					},
+					"skip_execution": false,
+					"target": {
+					  "override_workflow_target_group_criteria": true,
+					  "target_group": {
+						"run_on_all_targets": false,
+						"use_criteria": {
+						  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+						  "conditions": [
+							{
+							  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+							  "operator": "eqi",
+							  "right_operand": "Microsoft Teams Webhook"
+							}
+						  ]
+						}
+					  }
+					},
+					"workflow_id": "definition_workflow_01MRIE3B3DNNQ3cdFSoyGkg1RnVsYA9VdZr"
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01NTAHJW0EWG74Ycs0KnhwiKYZMwbbF6BoC",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "Failed to fetch Microsoft Graph access token",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01NVJRLB7A32Q6PX5u2ddsQVEe9mS98ojmO",
+		  "name": "Execute Python Script",
+		  "title": "Create folder name",
+		  "type": "python3.script",
+		  "base_type": "activity",
+		  "properties": {
+			"action_timeout": 180,
+			"continue_on_failure": false,
+			"display_name": "Create folder name",
+			"script": "import time\n\nfolder_name = 'alert_enrichment' + str(int(time.time()))",
+			"script_queries": [
+			  {
+				"script_query": "folder_name",
+				"script_query_name": "Folder Name",
+				"script_query_type": "string"
+			  }
+			],
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01NVJX277H78D05IrY1cDdb0tei9znTrlj5",
+		  "name": "Set Variables",
+		  "title": "Set folder name",
+		  "type": "core.set_multiple_variables",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Set folder name",
+			"skip_execution": false,
+			"variables_to_update": [
+			  {
+				"variable_to_update": "$workflow.definition_workflow_01NT97A5RNHCG4tiTeyKvHhC5lhbAPKRRlJ.local.variable_workflow_01NVJWX0TRV7D7gFSWDsThehVwjKKVi83Fh$",
+				"variable_value_new": "$activity.definition_activity_01NVJRLB7A32Q6PX5u2ddsQVEe9mS98ojmO.output.script_queries.Folder Name$"
+			  }
+			]
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01PRLTH7AO1P432IJGmbfbHsnGRWi5C2IQv",
+		  "name": "Read Table from JSON",
+		  "title": "Read outputs from output accumulator",
+		  "type": "corejava.read_table_from_json",
+		  "base_type": "activity",
+		  "properties": {
+			"action_timeout": 180,
+			"continue_on_failure": false,
+			"display_name": "Read outputs from output accumulator",
+			"input_json": "$workflow.definition_workflow_01NT97A5RNHCG4tiTeyKvHhC5lhbAPKRRlJ.local.variable_workflow_01PRLCOZ9G1403KGGIL9IVznOErbMoyEdu8$",
+			"jsonpath_query": "$.",
+			"persist_output": false,
+			"populate_columns": false,
+			"skip_execution": false,
+			"table_columns": [
+			  {
+				"column_name": "output",
+				"column_type": "string"
+			  }
+			]
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01NTAJXLCJQRX3zKTHr9mwHvOOIkOMZuqwa",
+		  "name": "For Each",
+		  "title": "For each output in outputs",
+		  "type": "logic.for_each",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "For each output in outputs",
+			"skip_execution": false,
+			"source_array": "$activity.definition_activity_01PRLTH7AO1P432IJGmbfbHsnGRWi5C2IQv.output.read_table_from_json$"
+		  },
+		  "object_type": "definition_activity",
+		  "actions": [
+			{
+			  "unique_name": "definition_activity_01NTALP416NRD4Hiu3TRley6v2MFuClRB8X",
+			  "name": "JSONPath Query",
+			  "title": "Read Success Status",
+			  "type": "corejava.jsonpathquery",
+			  "base_type": "activity",
+			  "properties": {
+				"action_timeout": 180,
+				"continue_on_failure": true,
+				"display_name": "Read Success Status",
+				"input_json": "$activity.definition_activity_01NTAJXLCJQRX3zKTHr9mwHvOOIkOMZuqwa.input.source_array[@].output$",
+				"jsonpath_queries": [
+				  {
+					"jsonpath_query": "$.success",
+					"jsonpath_query_name": "Success Status",
+					"jsonpath_query_type": "string"
+				  }
+				],
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity"
+			},
+			{
+			  "unique_name": "definition_activity_01PRLYP0RSL5W2Fp1aWiNlonQ7trBQhGYHl",
+			  "name": "Condition Block",
+			  "title": "Status read successfully?",
+			  "type": "logic.if_else",
+			  "base_type": "activity",
+			  "properties": {
+				"continue_on_failure": false,
+				"display_name": "Status read successfully?",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "blocks": [
+				{
+				  "unique_name": "definition_activity_01PRLYP3936ZA3ON0ZXeoukmtkHIqudGmmP",
+				  "name": "Condition Branch",
+				  "title": "No",
+				  "type": "logic.condition_block",
+				  "base_type": "activity",
+				  "properties": {
+					"condition": {
+					  "left_operand": "$activity.definition_activity_01NTALP416NRD4Hiu3TRley6v2MFuClRB8X.output.succeeded$",
+					  "operator": "eq",
+					  "right_operand": false
+					},
+					"continue_on_failure": false,
+					"display_name": "No",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "actions": [
+					{
+					  "unique_name": "definition_activity_01PRLZCB9IWKJ0DGlKXYntyuhaXOa3SDxn7",
+					  "name": "Microsoft Teams - Post Message via Webhook",
+					  "title": "Microsoft Teams - Post Message via Webhook",
+					  "type": "workflow.atomic_workflow",
+					  "base_type": "subworkflow",
+					  "properties": {
+						"continue_on_failure": false,
+						"display_name": "Microsoft Teams - Post Message via Webhook",
+						"input": {
+						  "variable_workflow_01MRIK9PFIH9457K2ZY1x7rEJvOPzYOE6eO": "Tufin - IPS Alert Enrichment Failed",
+						  "variable_workflow_01MRIKICJKVS16L5nynmibtyxbFIqwxBhOV": "Failed to read success status for object in SecureX orchestration workflow ($workflow.definition_workflow_01NT97A5RNHCG4tiTeyKvHhC5lhbAPKRRlJ.output.instance_id$)",
+						  "variable_workflow_01MRIL2TKZ8FM1EvIZeO4VFV9ITFhG3vSlI": "#e81123"
+						},
+						"runtime_user": {
+						  "target_default": true
+						},
+						"skip_execution": false,
+						"target": {
+						  "override_workflow_target_group_criteria": true,
+						  "target_group": {
+							"run_on_all_targets": false,
+							"use_criteria": {
+							  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+							  "conditions": [
+								{
+								  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+								  "operator": "eqi",
+								  "right_operand": "Microsoft Teams Webhook"
+								}
+							  ]
+							}
+						  }
+						},
+						"workflow_id": "definition_workflow_01MRIE3B3DNNQ3cdFSoyGkg1RnVsYA9VdZr"
+					  },
+					  "object_type": "definition_activity"
+					},
+					{
+					  "unique_name": "definition_activity_01PRM0FT4L4BQ2i6dDO6txtCbEmMMKYNaJj",
+					  "name": "Completed",
+					  "title": "Failed",
+					  "type": "logic.completed",
+					  "base_type": "activity",
+					  "properties": {
+						"completion_type": "failed-completed",
+						"continue_on_failure": false,
+						"display_name": "Failed",
+						"result_message": "Failed to read success status for object",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity"
+					}
+				  ]
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01NTAN4887OMT0mQNgZQaPFZqKNIVDNjkgI",
+			  "name": "Condition Block",
+			  "title": "Is status success?",
+			  "type": "logic.if_else",
+			  "base_type": "activity",
+			  "properties": {
+				"continue_on_failure": false,
+				"display_name": "Is status success?",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "blocks": [
+				{
+				  "unique_name": "definition_activity_01NTAN4N1B0QW5jUBIDX0CZSpgGGmfrUay4",
+				  "name": "Condition Branch",
+				  "title": "Yes",
+				  "type": "logic.condition_block",
+				  "base_type": "activity",
+				  "properties": {
+					"condition": {
+					  "left_operand": "$activity.definition_activity_01NTALP416NRD4Hiu3TRley6v2MFuClRB8X.output.jsonpath_queries.Success Status$",
+					  "operator": "eq",
+					  "right_operand": "succeeded"
+					},
+					"continue_on_failure": false,
+					"display_name": "Yes",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "actions": [
+					{
+					  "unique_name": "definition_activity_01NTAPKOJO2CB3vPQfjqYQIqBvad87hUtYm",
+					  "name": "Execute Python Script",
+					  "title": "Prepare file message, append data to output variable",
+					  "type": "python3.script",
+					  "base_type": "activity",
+					  "properties": {
+						"action_timeout": 180,
+						"continue_on_failure": false,
+						"display_name": "Prepare file message, append data to output variable",
+						"script": "import sys, json, time\ndata = json.loads(sys.argv[1])\nenrichment_output = json.loads(sys.argv[2])\nfolder_name = sys.argv[3]\nfile_name = data['type'].lower().replace(' ', '_') + str(int(time.time())) + '.json'\nfile_path = folder_name\nfile_content = json.dumps(data['data'], indent=2)\nmessage = data['message']\ntitle = data['type'] + ' ' + data['success']\nenrichment_output[data['output_name']] = data['data']\nenrichment_output = json.dumps(enrichment_output)",
+						"script_arguments": [
+						  "$activity.definition_activity_01NTAJXLCJQRX3zKTHr9mwHvOOIkOMZuqwa.input.source_array[@].output$",
+						  "$workflow.definition_workflow_01NT97A5RNHCG4tiTeyKvHhC5lhbAPKRRlJ.output.variable_workflow_01NU2KKKZ5GAW4lOshFGNB0zjrbQcmoup8A$",
+						  "$workflow.definition_workflow_01NT97A5RNHCG4tiTeyKvHhC5lhbAPKRRlJ.local.variable_workflow_01NVJWX0TRV7D7gFSWDsThehVwjKKVi83Fh$"
+						],
+						"script_queries": [
+						  {
+							"script_query": "file_path",
+							"script_query_name": "File Path",
+							"script_query_type": "string"
+						  },
+						  {
+							"script_query": "file_content",
+							"script_query_name": "File Content",
+							"script_query_type": "string"
+						  },
+						  {
+							"script_query": "message",
+							"script_query_name": "Message",
+							"script_query_type": "string"
+						  },
+						  {
+							"script_query": "title",
+							"script_query_name": "Title",
+							"script_query_type": "string"
+						  },
+						  {
+							"script_query": "enrichment_output",
+							"script_query_name": "Enrichment Output",
+							"script_query_type": "string"
+						  },
+						  {
+							"script_query": "file_name",
+							"script_query_name": "File Name",
+							"script_query_type": "string"
+						  }
+						],
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity"
+					},
+					{
+					  "unique_name": "definition_activity_01NU3VLWY9XGJ29KWyFr9hi3qKfiD68fyXC",
+					  "name": "Set Variables",
+					  "title": "Set output variable",
+					  "type": "core.set_multiple_variables",
+					  "base_type": "activity",
+					  "properties": {
+						"continue_on_failure": false,
+						"display_name": "Set output variable",
+						"skip_execution": false,
+						"variables_to_update": [
+						  {
+							"variable_to_update": "$workflow.definition_workflow_01NT97A5RNHCG4tiTeyKvHhC5lhbAPKRRlJ.output.variable_workflow_01NU2KKKZ5GAW4lOshFGNB0zjrbQcmoup8A$",
+							"variable_value_new": "$activity.definition_activity_01NTAPKOJO2CB3vPQfjqYQIqBvad87hUtYm.output.script_queries.Enrichment Output$"
+						  }
+						]
+					  },
+					  "object_type": "definition_activity"
+					},
+					{
+					  "unique_name": "definition_activity_01NTAS932L9B852gRZNLN4YPP9UHKPlEY4b",
+					  "name": "Microsoft Graph - Upload Text to New File",
+					  "title": "Microsoft Graph - Upload Text to New File",
+					  "type": "workflow.atomic_workflow",
+					  "base_type": "subworkflow",
+					  "properties": {
+						"continue_on_failure": true,
+						"display_name": "Microsoft Graph - Upload Text to New File",
+						"input": {
+						  "variable_workflow_01NRDU11J7RF13B2L3j0xdR2H0wvnat8gs6": "$activity.definition_activity_01NT9VPSAUU7Z5sHPv2nUGvg1jx7t03qANM.output.variable_workflow_01HQN7N4UOY2Q02vRhF0zXjAJoPNBVNKV9Q$",
+						  "variable_workflow_01NRDUO2B7GVT3Qdv9yKtFtppWoD1O126tO": "$activity.definition_activity_01NTAPKOJO2CB3vPQfjqYQIqBvad87hUtYm.output.script_queries.File Content$",
+						  "variable_workflow_01NRDV08028RZ0tzwMjW7BOUPUHyrXnk1pf": "$activity.definition_activity_01NTAPKOJO2CB3vPQfjqYQIqBvad87hUtYm.output.script_queries.File Name$",
+						  "variable_workflow_01OYA477Q7N9X2oVOJHpum1xMpkWYLfy5pN": "$activity.definition_activity_01NTAPKOJO2CB3vPQfjqYQIqBvad87hUtYm.output.script_queries.File Path$"
+						},
+						"runtime_user": {
+						  "target_default": true
+						},
+						"skip_execution": false,
+						"target": {
+						  "override_workflow_target_group_criteria": true,
+						  "target_group": {
+							"run_on_all_targets": false,
+							"use_criteria": {
+							  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+							  "conditions": [
+								{
+								  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+								  "operator": "eqi",
+								  "right_operand": "Microsoft Graph"
+								}
+							  ]
+							}
+						  }
+						},
+						"workflow_id": "definition_workflow_01NRDPGSYM5GE5SdXkMfZ7vUZ4IYz3NncKP"
+					  },
+					  "object_type": "definition_activity"
+					},
+					{
+					  "unique_name": "definition_activity_01NTWX1729E3D1GBIdwm0nRzuwOUbyRDdF4",
+					  "name": "Condition Block",
+					  "title": "Is uploading success?",
+					  "type": "logic.if_else",
+					  "base_type": "activity",
+					  "properties": {
+						"continue_on_failure": false,
+						"display_name": "Is uploading success?",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "blocks": [
+						{
+						  "unique_name": "definition_activity_01NTWX1XUYAJS5KK99wNjlyvvr0njZXDvf0",
+						  "name": "Condition Branch",
+						  "title": "Yes",
+						  "type": "logic.condition_block",
+						  "base_type": "activity",
+						  "properties": {
+							"condition": {
+							  "left_operand": "$activity.definition_activity_01NTAS932L9B852gRZNLN4YPP9UHKPlEY4b.output.succeeded$",
+							  "operator": "eq",
+							  "right_operand": true
+							},
+							"continue_on_failure": false,
+							"display_name": "Yes",
+							"skip_execution": false
+						  },
+						  "object_type": "definition_activity",
+						  "actions": [
+							{
+							  "unique_name": "definition_activity_01NTWJTE3QS9G0YMsrzeoO1ESyFrivY2385",
+							  "name": "Execute Python Script",
+							  "title": "Prepare output message",
+							  "type": "python3.script",
+							  "base_type": "activity",
+							  "properties": {
+								"action_timeout": 180,
+								"continue_on_failure": false,
+								"display_name": "Prepare output message",
+								"script": "import sys\n\nmessage, web_url, download_url = sys.argv[1:]\n\nweb_url = f\"[Web URL]({web_url.rsplit('/', 1)[0]})\"\ndownload_url = f'[Download URL]({download_url})'\n\nchannel_message = f'{message}\\n\\r{web_url}\\n\\r{download_url}'",
+								"script_arguments": [
+								  "$activity.definition_activity_01NTAPKOJO2CB3vPQfjqYQIqBvad87hUtYm.output.script_queries.Message$",
+								  "$activity.definition_activity_01NTAS932L9B852gRZNLN4YPP9UHKPlEY4b.output.variable_workflow_01NRDVE0VS4NK4AEGyjmtqdzNKlI2qf6Uth$",
+								  "$activity.definition_activity_01NTAS932L9B852gRZNLN4YPP9UHKPlEY4b.output.variable_workflow_01NRDVOJL60456agWo1rZbpGGkTksyNouwd$"
+								],
+								"script_queries": [
+								  {
+									"script_query": "channel_message",
+									"script_query_name": "Channel Message",
+									"script_query_type": "string"
+								  }
+								],
+								"skip_execution": false
+							  },
+							  "object_type": "definition_activity"
+							},
+							{
+							  "unique_name": "definition_activity_01NTWGFN9R5752Zeh1fPQ5crJrgwB77OhzE",
+							  "name": "Microsoft Teams - Post Message via Webhook",
+							  "title": "Microsoft Teams - Post Message via Webhook",
+							  "type": "workflow.atomic_workflow",
+							  "base_type": "subworkflow",
+							  "properties": {
+								"continue_on_failure": false,
+								"display_name": "Microsoft Teams - Post Message via Webhook",
+								"input": {
+								  "variable_workflow_01MRIK9PFIH9457K2ZY1x7rEJvOPzYOE6eO": "$activity.definition_activity_01NTAPKOJO2CB3vPQfjqYQIqBvad87hUtYm.output.script_queries.Title$",
+								  "variable_workflow_01MRIKICJKVS16L5nynmibtyxbFIqwxBhOV": "$activity.definition_activity_01NTWJTE3QS9G0YMsrzeoO1ESyFrivY2385.output.script_queries.Channel Message$",
+								  "variable_workflow_01MRIL2TKZ8FM1EvIZeO4VFV9ITFhG3vSlI": "#00ebc2"
+								},
+								"runtime_user": {
+								  "target_default": true
+								},
+								"skip_execution": false,
+								"target": {
+								  "override_workflow_target_group_criteria": true,
+								  "target_group": {
+									"run_on_all_targets": false,
+									"use_criteria": {
+									  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+									  "conditions": [
+										{
+										  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+										  "operator": "eqi",
+										  "right_operand": "Microsoft Teams Webhook"
+										}
+									  ]
+									}
+								  }
+								},
+								"workflow_id": "definition_workflow_01MRIE3B3DNNQ3cdFSoyGkg1RnVsYA9VdZr"
+							  },
+							  "object_type": "definition_activity"
+							}
+						  ]
+						},
+						{
+						  "unique_name": "definition_activity_01NTWX1YH10NN3m110WWmYrrrD18V2ZzcZE",
+						  "name": "Condition Branch",
+						  "title": "No",
+						  "type": "logic.condition_block",
+						  "base_type": "activity",
+						  "properties": {
+							"condition": {
+							  "left_operand": "$activity.definition_activity_01NTAS932L9B852gRZNLN4YPP9UHKPlEY4b.output.succeeded$",
+							  "operator": "eq",
+							  "right_operand": false
+							},
+							"continue_on_failure": false,
+							"display_name": "No",
+							"skip_execution": false
+						  },
+						  "object_type": "definition_activity",
+						  "actions": [
+							{
+							  "unique_name": "definition_activity_01NTX14YXFQG76s2Sng8U79rWSTjnBZmIl4",
+							  "name": "Microsoft Teams - Post Message via Webhook",
+							  "title": "Microsoft Teams - Post Message via Webhook",
+							  "type": "workflow.atomic_workflow",
+							  "base_type": "subworkflow",
+							  "properties": {
+								"continue_on_failure": false,
+								"display_name": "Microsoft Teams - Post Message via Webhook",
+								"input": {
+								  "variable_workflow_01MRIK9PFIH9457K2ZY1x7rEJvOPzYOE6eO": "Tufin - IPS Alert Enrichment Failed",
+								  "variable_workflow_01MRIKICJKVS16L5nynmibtyxbFIqwxBhOV": "Uploading file to SharePoint failed. Error: $activity.definition_activity_01NTAS932L9B852gRZNLN4YPP9UHKPlEY4b.output.error.message$",
+								  "variable_workflow_01MRIL2TKZ8FM1EvIZeO4VFV9ITFhG3vSlI": "#e81123"
+								},
+								"runtime_user": {
+								  "target_default": true
+								},
+								"skip_execution": false,
+								"target": {
+								  "override_workflow_target_group_criteria": true,
+								  "target_group": {
+									"run_on_all_targets": false,
+									"use_criteria": {
+									  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+									  "conditions": [
+										{
+										  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+										  "operator": "eqi",
+										  "right_operand": "Microsoft Teams Webhook"
+										}
+									  ]
+									}
+								  }
+								},
+								"workflow_id": "definition_workflow_01MRIE3B3DNNQ3cdFSoyGkg1RnVsYA9VdZr"
+							  },
+							  "object_type": "definition_activity"
+							}
+						  ]
+						}
+					  ]
+					}
+				  ]
+				},
+				{
+				  "unique_name": "definition_activity_01NTAN4NQUR7U4KYCttqM054Rbhyu6xMdJf",
+				  "name": "Condition Branch",
+				  "title": "No",
+				  "type": "logic.condition_block",
+				  "base_type": "activity",
+				  "properties": {
+					"condition": {
+					  "left_operand": "$activity.definition_activity_01NTALP416NRD4Hiu3TRley6v2MFuClRB8X.output.jsonpath_queries.Success Status$",
+					  "operator": "eq",
+					  "right_operand": "failed"
+					},
+					"continue_on_failure": false,
+					"display_name": "No",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "actions": [
+					{
+					  "unique_name": "definition_activity_01NU3O4QXKEGD70cauA0y8iZWSRkZbG1ju1",
+					  "name": "Execute Python Script",
+					  "title": "Prepare error message",
+					  "type": "python3.script",
+					  "base_type": "activity",
+					  "properties": {
+						"action_timeout": 180,
+						"continue_on_failure": false,
+						"display_name": "Prepare error message",
+						"script": "import sys, json\n\ndata = json.loads(sys.argv[1])\n\nmessage = data['message']\ntitle = data['type'] + ' ' + data['success']",
+						"script_arguments": [
+						  "$activity.definition_activity_01NTAJXLCJQRX3zKTHr9mwHvOOIkOMZuqwa.input.source_array[@].output$"
+						],
+						"script_queries": [
+						  {
+							"script_query": "message",
+							"script_query_name": "Message",
+							"script_query_type": "string"
+						  },
+						  {
+							"script_query": "title",
+							"script_query_name": "Title",
+							"script_query_type": "string"
+						  }
+						],
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity"
+					},
+					{
+					  "unique_name": "definition_activity_01NTWAEI36CAL4hLzFjnb3Q6N3ZUol7NJej",
+					  "name": "Microsoft Teams - Post Message via Webhook",
+					  "title": "Microsoft Teams - Post Message via Webhook",
+					  "type": "workflow.atomic_workflow",
+					  "base_type": "subworkflow",
+					  "properties": {
+						"continue_on_failure": false,
+						"display_name": "Microsoft Teams - Post Message via Webhook",
+						"input": {
+						  "variable_workflow_01MRIK9PFIH9457K2ZY1x7rEJvOPzYOE6eO": "$activity.definition_activity_01NU3O4QXKEGD70cauA0y8iZWSRkZbG1ju1.output.script_queries.Title$",
+						  "variable_workflow_01MRIKICJKVS16L5nynmibtyxbFIqwxBhOV": "$activity.definition_activity_01NU3O4QXKEGD70cauA0y8iZWSRkZbG1ju1.output.script_queries.Message$",
+						  "variable_workflow_01MRIL2TKZ8FM1EvIZeO4VFV9ITFhG3vSlI": "#e81123"
+						},
+						"runtime_user": {
+						  "target_default": true
+						},
+						"skip_execution": false,
+						"target": {
+						  "override_workflow_target_group_criteria": true,
+						  "target_group": {
+							"run_on_all_targets": false,
+							"use_criteria": {
+							  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+							  "conditions": [
+								{
+								  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+								  "operator": "eqi",
+								  "right_operand": "Microsoft Teams Webhook"
+								}
+							  ]
+							}
+						  }
+						},
+						"workflow_id": "definition_workflow_01MRIE3B3DNNQ3cdFSoyGkg1RnVsYA9VdZr"
+					  },
+					  "object_type": "definition_activity"
+					}
+				  ]
+				}
+			  ]
+			}
+		  ]
+		}
+	  ],
+	  "categories": [
+		"category_01G4JLUINA0E65x8iCa6Behj8y9V0ZE9f8O"
+	  ]
+	},
+	"categories": {
+	  "category_01G4JLUINA0E65x8iCa6Behj8y9V0ZE9f8O": {
+		"unique_name": "category_01G4JLUINA0E65x8iCa6Behj8y9V0ZE9f8O",
+		"name": "Tufin",
+		"title": "Tufin",
+		"type": "basic.category",
+		"base_type": "category",
+		"description": "Tufin Orchestration Suite",
+		"category_type": "custom",
+		"object_type": "category"
+	  }
+	},
+	"target_groups": {
+	  "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+		"unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+		"name": "Default TargetGroup",
+		"title": "Default TargetGroup",
+		"type": "generic.target_group",
+		"base_type": "target_group",
+		"version": "1.0.0",
+		"targets": [
+		  {
+			"data_target_type": "web-service.endpoint",
+			"view_target_type": "web-service.endpoint",
+			"include_all_targets": true
+		  },
+		  {
+			"data_target_type": "email.smtp_endpoint",
+			"view_target_type": "email.smtp_endpoint",
+			"include_all_targets": true
+		  }
+		],
+		"object_type": "target_group"
+	  }
+	},
+	"atomic_workflows": [
+	  "definition_workflow_01HQN7N57GLKN780LTDUabTblE3OpMPQVfx",
+	  "definition_workflow_01G5H3DYVBOMA3nhhpXtOd6qFaiGXk6d5dD",
+	  "definition_workflow_01NRDPGSYM5GE5SdXkMfZ7vUZ4IYz3NncKP",
+	  "definition_workflow_01MRIE3B3DNNQ3cdFSoyGkg1RnVsYA9VdZr",
+	  "definition_workflow_01G8TN3JTMR5E3t9tz73Il2cQjx9vTgVabB",
+	  "definition_workflow_01G4JL4BQ019J4CDBJFJCB6iPXRhcpJDwnA"
+	]
+  }
