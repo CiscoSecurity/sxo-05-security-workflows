@@ -50,3 +50,6 @@ This page contains a list of all of the workflows published in the repository so
 | 0035 | Microsoft Graph/Azure AD | [Get Blocked Sign-Ins]({{ site.baseurl }}/workflows/0035) |
 | 0036 | Microsoft Graph/Azure AD | [Get New Users]({{ site.baseurl }}/workflows/0036) |
 | 0037 | Cisco Umbrella | [Search DNS Activity by Category]({{ site.baseurl }}/workflows/0037) |
+| 0038 | Tufin | [IPS Alert Enrichment]({{ site.baseurl }}/workflows/0038) |
+| 0039 | Tufin | [Request Threat Containment]({{ site.baseurl }}/workflows/0039) |
+| 0040 | Tufin | [Request Server Decommission]({{ site.baseurl }}/workflows/0040) |

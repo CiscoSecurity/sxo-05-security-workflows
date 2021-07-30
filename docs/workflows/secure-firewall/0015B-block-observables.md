@@ -37,7 +37,6 @@ This workflow blocks an observable on Cisco Secure Firewall (formerly Firepower)
 ---
 
 ## Workflow Steps
-
 1. Convert the observable type to the types we use when creating indicators
 1. Check if the observable type is supported. If it isn't, end the workflow and return an error
 1. Generate a Threat Response access token
