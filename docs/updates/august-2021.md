@@ -10,11 +10,13 @@ nav_order: 36
 # Scheduled Maintenance (August 2021)
 As part of our ongoing commitment to enhancing the SecureX platform, SecureX orchestration will undergo scheduled maintenance to improve performance and scalability. The maintenance will occur on the following staggered schedule:
 
+<div class="cisco-alert cisco-alert-info"><i class="fa fa-info-circle mr-1 cisco-icon-info"></i> The schedule for this maintenance has been changed. New dates and times will be announced within a few days.</div>
+
 | Region | Date | Start and End Time | Window Length |
 |:-------|:-----|:-------------------|:--------------|
-| Asia Pacific (APJC) | Saturday, August 14, 2021 | 5:00 AM - 10:00 AM SGT | 5 Hours |
-| EMEAR (EU) | Saturday, August 21, 2021 | 9:00 PM - 2:00 AM CEST | 5 Hours |
-| US and LATAM (US) | Saturday, August 28, 2021 | 5:00 PM - 11:30 PM EDT | 6.5 Hours |
+| Asia Pacific (APJC) | TBD | TBD | 5 Hours |
+| EMEAR (EU) | TBD | TBD | 5 Hours |
+| US and LATAM (US) | TBD | TBD | 6.5 Hours |
 
 *Please note that dates and times are subject to change*
 
