@@ -1,0 +1,422 @@
+{
+	"workflow": {
+	  "unique_name": "definition_workflow_01PXNR87UO75W1zbbMPlENDQ4PfQN9GwLXt",
+	  "name": "Jira - Get IDs for Project",
+	  "title": "Jira - Get IDs for Project",
+	  "type": "generic.workflow",
+	  "base_type": "workflow",
+	  "variables": [
+		{
+		  "schema_id": "datatype.integer",
+		  "properties": {
+			"value": 0,
+			"scope": "output",
+			"name": "Project ID Output",
+			"type": "datatype.integer",
+			"description": "ID of the project",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01Q124P7O14BB70ZkXrq4rvt4b1QsEfNGaB",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Project Key",
+			"type": "datatype.string",
+			"description": "Jira key of the project to fetch incident, change request, and service desk IDs for. You must provide either this or a project ID",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01PXNUOO4CKG02Up9jP9ksFKghaZYwv95Vj",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.integer",
+		  "properties": {
+			"value": 0,
+			"scope": "output",
+			"name": "Report a System Problem Incident ID",
+			"type": "datatype.integer",
+			"description": "ID to use for Report a System Problem incidents",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01PXOO3IUISN224a4P82AEDJJo1CiPJinJU",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.integer",
+		  "properties": {
+			"value": 0,
+			"scope": "output",
+			"name": "Change Request ID",
+			"type": "datatype.integer",
+			"description": "ID to use for change requests",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01PXOPJ9865VM6q2LWDhlM7G3AvJwT7VjNk",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Project ID",
+			"type": "datatype.string",
+			"description": "ID of the project to fetch incident, change request, and service desk IDs for. You must provide either this or a project key",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01Q3GY8J5CUH35mt5y55eS4a3x6bp5QQegY",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.integer",
+		  "properties": {
+			"value": 0,
+			"scope": "output",
+			"name": "Report Broken Hardware Incident ID",
+			"type": "datatype.integer",
+			"description": "ID to use for Report Broken Hardware incidents",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01PXOP0ZUI3OM4TwOLNy9TBGG0hPXCmpdM1",
+		  "object_type": "variable_workflow"
+		}
+	  ],
+	  "properties": {
+		"atomic": {
+		  "atomic_group": "Jira",
+		  "is_atomic": true
+		},
+		"delete_workflow_instance": false,
+		"description": "Gets the IDs of the request types (incidents and change request) and service desk for a given project. Either a project ID or project key are required.\n\nTarget: HTTP Endpoint for your Jira instance with a path of \"/rest\"\n\nAccount Key: HTTP Password-Based Credentials with a Jira ID as the username and an API token as the password\n\nSteps:\n[] Validate the workflow input (if missing, return an error)\n[] Fetch the project information\n[] Check if the request was successful:\n[]> If it was, extract the IDs and set the output variables\n[]> If it wasn't, output an error\n\nMore information about this API: https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-servicedesk/#api-rest-servicedeskapi-servicedesk-servicedeskid-requesttype-get",
+		"display_name": "Jira - Get IDs for Project",
+		"runtime_user": {
+		  "target_default": true
+		},
+		"target": {
+		  "target_type": "web-service.endpoint",
+		  "specify_on_workflow_start": true
+		}
+	  },
+	  "object_type": "definition_workflow",
+	  "actions": [
+		{
+		  "unique_name": "definition_activity_01Q3FSMQHH3RE4rZmU0bXdRAGn2hF5LBLCw",
+		  "name": "Group",
+		  "title": "Input data check",
+		  "type": "logic.group",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Input data check",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "actions": [
+			{
+			  "unique_name": "definition_activity_01Q3G4ZOW7TJO1f7SaaOfswKcv8wN8qV4k4",
+			  "name": "Execute Python Script",
+			  "title": "Check workflow input",
+			  "type": "python3.script",
+			  "base_type": "activity",
+			  "properties": {
+				"action_timeout": 180,
+				"continue_on_failure": false,
+				"display_name": "Check workflow input",
+				"script": "import sys\nkey = (sys.argv[2] or sys.argv[1]) or \"no exist\"",
+				"script_arguments": [
+				  "$workflow.definition_workflow_01PXNR87UO75W1zbbMPlENDQ4PfQN9GwLXt.input.variable_workflow_01Q3GY8J5CUH35mt5y55eS4a3x6bp5QQegY$",
+				  "$workflow.definition_workflow_01PXNR87UO75W1zbbMPlENDQ4PfQN9GwLXt.input.variable_workflow_01PXNUOO4CKG02Up9jP9ksFKghaZYwv95Vj$"
+				],
+				"script_queries": [
+				  {
+					"script_query": "key",
+					"script_query_name": "key",
+					"script_query_type": "string"
+				  }
+				],
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity"
+			},
+			{
+			  "unique_name": "definition_activity_01Q3GNBSQ91NT1zB5qjZB6ySOgYqMXor5h9",
+			  "name": "Condition Block",
+			  "title": "Was the input valid?",
+			  "type": "logic.if_else",
+			  "base_type": "activity",
+			  "properties": {
+				"continue_on_failure": false,
+				"display_name": "Was the input valid?",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "blocks": [
+				{
+				  "unique_name": "definition_activity_01Q3GNBY1B74P49SYO3yTcB6G8bqJj1ewzR",
+				  "name": "Condition Branch",
+				  "title": "No",
+				  "type": "logic.condition_block",
+				  "base_type": "activity",
+				  "properties": {
+					"condition": {
+					  "left_operand": "$activity.definition_activity_01Q3G4ZOW7TJO1f7SaaOfswKcv8wN8qV4k4.output.script_queries.key$",
+					  "operator": "eq",
+					  "right_operand": "no exist"
+					},
+					"continue_on_failure": false,
+					"display_name": "No",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "actions": [
+					{
+					  "unique_name": "definition_activity_01Q3JOPMD1YTH3PwGFC6dG4zk53Tu9RKJlK",
+					  "name": "Completed",
+					  "title": "Failed",
+					  "type": "logic.completed",
+					  "base_type": "activity",
+					  "properties": {
+						"completion_type": "failed-completed",
+						"continue_on_failure": false,
+						"display_name": "Failed",
+						"result_message": "Either a project ID or Jira key are required",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity"
+					}
+				  ]
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01PXNV2JG2COF7n0nHjz4jvnwWI7fwegVvF",
+		  "name": "HTTP Request",
+		  "title": "Get project IDs",
+		  "type": "web-service.http_request",
+		  "base_type": "activity",
+		  "properties": {
+			"accept": "application/json",
+			"action_timeout": 180,
+			"allow_auto_redirect": true,
+			"content_type": "application/json",
+			"continue_on_error_status_code": true,
+			"continue_on_failure": false,
+			"display_name": "Get project IDs",
+			"method": "GET",
+			"relative_url": "/servicedeskapi/servicedesk/$activity.definition_activity_01Q3G4ZOW7TJO1f7SaaOfswKcv8wN8qV4k4.output.script_queries.key$/requesttype",
+			"runtime_user": {
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "use_workflow_target": true
+			}
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01PXOGS9G7FIZ4kJN9oAMYZkcoaw30USwXR",
+		  "name": "Condition Block",
+		  "title": "Was the request successful?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Was the request successful?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01PXOGSB3R1U50TRCpk4jVQX8cOrZaCE35P",
+			  "name": "Condition Branch",
+			  "title": "200/Success",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01PXNV2JG2COF7n0nHjz4jvnwWI7fwegVvF.output.status_code$",
+				  "operator": "eq",
+				  "right_operand": "200"
+				},
+				"continue_on_failure": false,
+				"display_name": "200/Success",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01PXORUOH3SJI0pkekRHDSPcIcX7T9dOKhr",
+				  "name": "JSONPath Query",
+				  "title": "Read  project details",
+				  "type": "corejava.jsonpathquery",
+				  "base_type": "activity",
+				  "properties": {
+					"action_timeout": 180,
+					"continue_on_failure": true,
+					"display_name": "Read  project details",
+					"input_json": "$activity.definition_activity_01PXNV2JG2COF7n0nHjz4jvnwWI7fwegVvF.output.response_body$",
+					"jsonpath_queries": [
+					  {
+						"jsonpath_query": "$.values[?(@.name==\"Report a system problem\")].id",
+						"jsonpath_query_name": "Incident_RSP_ID",
+						"jsonpath_query_type": "integer"
+					  },
+					  {
+						"jsonpath_query": "$.values[?(@.name==\"Report broken hardware\")].id",
+						"jsonpath_query_name": "Incident_RBH_ID",
+						"jsonpath_query_type": "integer"
+					  },
+					  {
+						"jsonpath_query": "$.values[?(@.name==\"Request a change\")].id",
+						"jsonpath_query_name": "Request_Change_ID",
+						"jsonpath_query_type": "integer"
+					  },
+					  {
+						"jsonpath_query": "$.values[0].serviceDeskId",
+						"jsonpath_query_name": "Service_Desk_ID",
+						"jsonpath_query_type": "integer"
+					  }
+					],
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01Q2M7ANHFMLU1sAcrMwgZQ8XgxjyKghj6K",
+				  "name": "Condition Block",
+				  "title": "Did we get the project details?",
+				  "type": "logic.if_else",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Did we get the project details?",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "blocks": [
+					{
+					  "unique_name": "definition_activity_01Q2M7AQWEFE522ebU6rKtM7fehFN6ZiQO4",
+					  "name": "Condition Branch",
+					  "title": "No",
+					  "type": "logic.condition_block",
+					  "base_type": "activity",
+					  "properties": {
+						"condition": {
+						  "left_operand": "$activity.definition_activity_01PXORUOH3SJI0pkekRHDSPcIcX7T9dOKhr.output.succeeded$",
+						  "operator": "ne",
+						  "right_operand": true
+						},
+						"continue_on_failure": false,
+						"display_name": "No",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "actions": [
+						{
+						  "unique_name": "definition_activity_01Q2M98VPM19I6eXELVeom5nVKJDrunJ3El",
+						  "name": "Completed",
+						  "title": "Failed",
+						  "type": "logic.completed",
+						  "base_type": "activity",
+						  "properties": {
+							"completion_type": "failed-completed",
+							"continue_on_failure": false,
+							"display_name": "Failed",
+							"result_message": "Failed to fetch project details\n\nResponse body: $activity.definition_activity_01PXNV2JG2COF7n0nHjz4jvnwWI7fwegVvF.output.response_body$",
+							"skip_execution": false
+						  },
+						  "object_type": "definition_activity"
+						}
+					  ]
+					}
+				  ]
+				},
+				{
+				  "unique_name": "definition_activity_01PXOL1ZAFIFC4ym8uKcwOTLdzGc7TdLSeR",
+				  "name": "Set Variables",
+				  "title": "Set output variables",
+				  "type": "core.set_multiple_variables",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Set output variables",
+					"skip_execution": false,
+					"variables_to_update": [
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01PXNR87UO75W1zbbMPlENDQ4PfQN9GwLXt.output.variable_workflow_01PXOO3IUISN224a4P82AEDJJo1CiPJinJU$",
+						"variable_value_new": "$activity.definition_activity_01PXORUOH3SJI0pkekRHDSPcIcX7T9dOKhr.output.jsonpath_queries.Incident_RSP_ID$"
+					  },
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01PXNR87UO75W1zbbMPlENDQ4PfQN9GwLXt.output.variable_workflow_01PXOP0ZUI3OM4TwOLNy9TBGG0hPXCmpdM1$",
+						"variable_value_new": "$activity.definition_activity_01PXORUOH3SJI0pkekRHDSPcIcX7T9dOKhr.output.jsonpath_queries.Incident_RBH_ID$"
+					  },
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01PXNR87UO75W1zbbMPlENDQ4PfQN9GwLXt.output.variable_workflow_01PXOPJ9865VM6q2LWDhlM7G3AvJwT7VjNk$",
+						"variable_value_new": "$activity.definition_activity_01PXORUOH3SJI0pkekRHDSPcIcX7T9dOKhr.output.jsonpath_queries.Request_Change_ID$"
+					  },
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01PXNR87UO75W1zbbMPlENDQ4PfQN9GwLXt.output.variable_workflow_01Q124P7O14BB70ZkXrq4rvt4b1QsEfNGaB$",
+						"variable_value_new": "$activity.definition_activity_01PXORUOH3SJI0pkekRHDSPcIcX7T9dOKhr.output.jsonpath_queries.Service_Desk_ID$"
+					  }
+					]
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01PXOGSBNP9UD6L2TppssBVFGwHLHvYY6TH",
+			  "name": "Condition Branch",
+			  "title": "NO",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01PXNV2JG2COF7n0nHjz4jvnwWI7fwegVvF.output.status_code$",
+				  "operator": "ne",
+				  "right_operand": 200
+				},
+				"continue_on_failure": false,
+				"display_name": "NO",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01PXOH876HX916wuk03ZVpO8cK0RUXinaZ8",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "Failed to fetch project information\n\nStatus code: $activity.definition_activity_01PXNV2JG2COF7n0nHjz4jvnwWI7fwegVvF.output.status_code$\nResponse body: $activity.definition_activity_01PXNV2JG2COF7n0nHjz4jvnwWI7fwegVvF.output.response_body$",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		}
+	  ],
+	  "categories": [
+		"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+	  ]
+	}
+  }

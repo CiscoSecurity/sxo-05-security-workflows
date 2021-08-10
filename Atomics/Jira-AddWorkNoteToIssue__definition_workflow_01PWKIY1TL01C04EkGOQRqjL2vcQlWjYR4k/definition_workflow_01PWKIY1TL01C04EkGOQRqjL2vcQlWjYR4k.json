@@ -1,0 +1,321 @@
+{
+	"workflow": {
+	  "unique_name": "definition_workflow_01PWKIY1TL01C04EkGOQRqjL2vcQlWjYR4k",
+	  "name": "Jira - Add Work Note to Issue",
+	  "title": "Jira - Add Work Note to Issue",
+	  "type": "generic.workflow",
+	  "base_type": "workflow",
+	  "variables": [
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Text",
+			"type": "datatype.string",
+			"description": "The text of the new work note",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01PWL4MWYNHAE027YTSHwWge1GZAkGY0vtz",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Issue ID",
+			"type": "datatype.string",
+			"description": "The ID of the issue to add a work note to. You must provide either this or an issue key",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01Q5ZQ01Z8TX66pCvq8G7dMIUYZMKcMGk4f",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "output",
+			"name": "API Response",
+			"type": "datatype.string",
+			"description": "The updated body of the response",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01PWL9IN1UU2T179HHGfy5t2wdOa7TSVRnk",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Issue Key",
+			"type": "datatype.string",
+			"description": "The Jira key of the issue to add a comment to. You must provide either this or an issue ID",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01PWKYHAUNH931tssMPCGEWcKHsGqCv5cwn",
+		  "object_type": "variable_workflow"
+		}
+	  ],
+	  "properties": {
+		"atomic": {
+		  "atomic_group": "Jira",
+		  "is_atomic": true
+		},
+		"delete_workflow_instance": false,
+		"description": "Adds a work note to an issue in Jira.\n\nTarget: HTTP Endpoint for your Jira instance with a path of \"/rest\"\n\nAccount Key: HTTP Password-Based Credentials with a Jira ID as the username and an API token as the password\n\nSteps:\n[] Validate the workflow input (if missing, return an error)\n[] Generate the JSON for the work note\n[] Request the work note to be added to the issue\n[] Check if the request was successful:\n[]> If it was, set the output variable\n[]> If it wasn't, output an error\n\nMore information about this API: https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-comments/#api-rest-api-3-issue-issueidorkey-comment-post",
+		"display_name": "Jira - Add Work Note to Issue",
+		"runtime_user": {
+		  "target_default": true
+		},
+		"target": {
+		  "target_type": "web-service.endpoint",
+		  "specify_on_workflow_start": true
+		}
+	  },
+	  "object_type": "definition_workflow",
+	  "actions": [
+		{
+		  "unique_name": "definition_activity_01Q5ZOY0W52GF0W4v1fVUJrxEXfWscaN6DL",
+		  "name": "Group",
+		  "title": "Input Data Check",
+		  "type": "logic.group",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Input Data Check",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "actions": [
+			{
+			  "unique_name": "definition_activity_01Q5ZQPEWJKZE0ui1DnyZV4Qas5xTkyrIMI",
+			  "name": "Execute Python Script",
+			  "title": "Check workflow input",
+			  "type": "python3.script",
+			  "base_type": "activity",
+			  "properties": {
+				"action_timeout": 180,
+				"continue_on_failure": false,
+				"display_name": "Check workflow input",
+				"script": "import sys\nkey = (sys.argv[2] or sys.argv[1]) or \"no exist\"",
+				"script_arguments": [
+				  "$workflow.definition_workflow_01PWKIY1TL01C04EkGOQRqjL2vcQlWjYR4k.input.variable_workflow_01PWKYHAUNH931tssMPCGEWcKHsGqCv5cwn$",
+				  "$workflow.definition_workflow_01PWKIY1TL01C04EkGOQRqjL2vcQlWjYR4k.input.variable_workflow_01Q5ZQ01Z8TX66pCvq8G7dMIUYZMKcMGk4f$"
+				],
+				"script_queries": [
+				  {
+					"script_query": "key",
+					"script_query_name": "key",
+					"script_query_type": "string"
+				  }
+				],
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity"
+			},
+			{
+			  "unique_name": "definition_activity_01Q5ZSFEEM00V5tUOGQWjNwG3zSYNUtnQsS",
+			  "name": "Condition Block",
+			  "title": "Was the input valid?",
+			  "type": "logic.if_else",
+			  "base_type": "activity",
+			  "properties": {
+				"continue_on_failure": false,
+				"display_name": "Was the input valid?",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "blocks": [
+				{
+				  "unique_name": "definition_activity_01Q5ZSFHQWFKE19HsahZwpyRDsyMon4aPMR",
+				  "name": "Condition Branch",
+				  "title": "No",
+				  "type": "logic.condition_block",
+				  "base_type": "activity",
+				  "properties": {
+					"condition": {
+					  "left_operand": "$activity.definition_activity_01Q5ZQPEWJKZE0ui1DnyZV4Qas5xTkyrIMI.output.script_queries.key$",
+					  "operator": "eq",
+					  "right_operand": "no exist"
+					},
+					"continue_on_failure": false,
+					"display_name": "No",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "actions": [
+					{
+					  "unique_name": "definition_activity_01Q5ZW70OWLEK4caBW8F5i1lCHOJKr90yYb",
+					  "name": "Completed",
+					  "title": "Failed",
+					  "type": "logic.completed",
+					  "base_type": "activity",
+					  "properties": {
+						"completion_type": "failed-completed",
+						"continue_on_failure": false,
+						"display_name": "Failed",
+						"result_message": "Either an issue ID or Jira key are required",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity"
+					}
+				  ]
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01PWKQAAU47CJ7BmoM6QBEAmJJNQsOn2mAz",
+		  "name": "Execute Python Script",
+		  "title": "Generate work note JSON",
+		  "type": "python3.script",
+		  "base_type": "activity",
+		  "properties": {
+			"action_timeout": 180,
+			"continue_on_failure": false,
+			"display_name": "Generate work note JSON",
+			"script": "import json, sys\nticket_params = {\n\t\"body\": {\n\t\t\"version\": 1,\n\t\t\"type\": \"doc\",\n\t\t\"content\": [\n\t\t\t{\n\t\t\t\t\"type\": \"paragraph\",\n\t\t\t\t\"content\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"type\": \"text\",\n\t\t\t\t\t\t\"text\": sys.argv[1]\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t}\n\t\t]\n\t},\n\t\"properties\": [\n\t\t{\n\t\t\t\"key\": \"sd.public.comment\",\n\t\t\t\"value\": {\n\t\t\t\t\"internal\": \"false\"\n\t\t\t}\n\t\t}\n\t]\n}\nticket_json = json.dumps(ticket_params)  ",
+			"script_arguments": [
+			  "$workflow.definition_workflow_01PWKIY1TL01C04EkGOQRqjL2vcQlWjYR4k.input.variable_workflow_01PWL4MWYNHAE027YTSHwWge1GZAkGY0vtz$"
+			],
+			"script_queries": [
+			  {
+				"script_query": "ticket_json",
+				"script_query_name": "ticket_json",
+				"script_query_type": "string"
+			  }
+			],
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01PWLVS7CJDQI1EP8fYXCKB9SsI24ljWgNa",
+		  "name": "HTTP Request",
+		  "title": "Create work note",
+		  "type": "web-service.http_request",
+		  "base_type": "activity",
+		  "properties": {
+			"accept": "application/json",
+			"action_timeout": 180,
+			"allow_auto_redirect": true,
+			"body": "$activity.definition_activity_01PWKQAAU47CJ7BmoM6QBEAmJJNQsOn2mAz.output.script_queries.ticket_json$",
+			"content_type": "application/json",
+			"continue_on_error_status_code": true,
+			"continue_on_failure": false,
+			"display_name": "Create work note",
+			"method": "POST",
+			"relative_url": "/api/3/issue/$activity.definition_activity_01Q5ZQPEWJKZE0ui1DnyZV4Qas5xTkyrIMI.output.script_queries.key$/comment",
+			"runtime_user": {
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "use_workflow_target": true
+			}
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01PWMR3IDKGLS3sYaHdv8g7ZidTDI1nZT3S",
+		  "name": "Condition Block",
+		  "title": "Request successful?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Request successful?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01PWMR3K27UCS3pX0e9m6yBnvgcydPLHxot",
+			  "name": "Condition Branch",
+			  "title": "201/Created",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01PWLVS7CJDQI1EP8fYXCKB9SsI24ljWgNa.output.status_code$",
+				  "operator": "eq",
+				  "right_operand": 201
+				},
+				"continue_on_failure": false,
+				"display_name": "201/Created",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01PWN1FUTDY7M0nuLiKoBBl4nAwai0FYstm",
+				  "name": "Set Variables",
+				  "title": "Set output variable",
+				  "type": "core.set_multiple_variables",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Set output variable",
+					"skip_execution": false,
+					"variables_to_update": [
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01PWKIY1TL01C04EkGOQRqjL2vcQlWjYR4k.output.variable_workflow_01PWL9IN1UU2T179HHGfy5t2wdOa7TSVRnk$",
+						"variable_value_new": "$activity.definition_activity_01PWLVS7CJDQI1EP8fYXCKB9SsI24ljWgNa.output.response_body$"
+					  }
+					]
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01PWMR3KNPTLZ6oJYSoelQ5yVeDnTz3F26G",
+			  "name": "Condition Branch",
+			  "title": "Anything Else",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01PWLVS7CJDQI1EP8fYXCKB9SsI24ljWgNa.output.status_code$",
+				  "operator": "ne",
+				  "right_operand": 201
+				},
+				"continue_on_failure": false,
+				"display_name": "Anything Else",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01PWMZQIVLEPG1J2WsCFW95005pv1MZdOII",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "Failed to create work note\n\nStatus code: $activity.definition_activity_01PWLVS7CJDQI1EP8fYXCKB9SsI24ljWgNa.output.status_code$\nResponse body: $activity.definition_activity_01PWLVS7CJDQI1EP8fYXCKB9SsI24ljWgNa.output.response_body$",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		}
+	  ],
+	  "categories": [
+		"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+	  ]
+	}
+  }
