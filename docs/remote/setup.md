@@ -103,6 +103,6 @@ One of the easiest ways to generate a key pair on Windows is by using the PuTTyg
 ---
 
 ## Next Steps
-Now that you've deployed the SXO remote virtual appliance, you can configure your on-premise targets to use it!
+Now that you've deployed the SXo remote virtual appliance, you can configure your on-premise targets to use it!
 
 [Target Configuration]({{ site.baseurl }}/remote/targets){: .btn-cisco-sky-blue }

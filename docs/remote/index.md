@@ -8,12 +8,12 @@ has_toc: false
 ---
 
 # Remote
-SecureX orchestration remote is an on-premise virtual appliance that allows your workflows to communicate with resources inside your network behind a firewall. Since many on-premise devices aren't exposed to the internet, SXO remote bridges the gap between those devices and the cloud so they can be incorporated into your workflows.
+SecureX orchestration remote is an on-premise virtual appliance that allows your workflows to communicate with resources inside your network behind a firewall. Since many on-premise devices aren't exposed to the internet, SXo remote bridges the gap between those devices and the cloud so they can be incorporated into your workflows.
 
 [<i class="fa fa-video mr-1"></i> Remote Overview](https://www.youtube.com/watch?v=EC2nCiAn1HM&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo){: .btn-cisco-outline }
 
 <div class="cisco-alert cisco-alert-info">
-	<i class="fa fa-info-circle mr-1 cisco-icon-info"></i> The initial release of SXO remote only supports HTTP Endpoint targets. Support for additional target types will be added in future releases.
+	<i class="fa fa-info-circle mr-1 cisco-icon-info"></i> The initial release of SXo remote only supports HTTP Endpoint targets. Support for additional target types will be added in future releases.
 </div>
 
 To get an orchestration remote up and running, you need to do three things:

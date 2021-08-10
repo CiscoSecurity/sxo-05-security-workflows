@@ -1,0 +1,337 @@
+{
+	"workflow": {
+	  "unique_name": "definition_workflow_01PE2LV5THK6A17oPlRCaNdCcsmwUkb8vDn",
+	  "name": "Zendesk - Create Ticket",
+	  "title": "Zendesk - Create Ticket",
+	  "type": "generic.workflow",
+	  "base_type": "workflow",
+	  "variables": [
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Subject",
+			"type": "datatype.string",
+			"description": "The subject of the ticket",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01PE4T2OPZ1493L0hE2FQn7uhhUgBYGlZO2",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "output",
+			"name": "Ticket ID",
+			"type": "datatype.string",
+			"description": "The ID of the new ticket",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01PE2LV5M7HYV16cHyklBHRH6aoM4unx3tk",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Comment",
+			"type": "datatype.string",
+			"description": "The text of the ticket",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01PE2LV5M7M9P33R7LnTZlmcD2hBcAIjSMy",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "output",
+			"name": "API Response",
+			"type": "datatype.string",
+			"description": "The response from the Zendesk API",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01PE2LV5M7NNF7XkwA5MC2w8emVkF9DFfCC",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Type",
+			"type": "datatype.string",
+			"description": "The type of this ticket. Valid values include: problem, incident, question, task",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01PE53IWC37E31h08R09dQMjMQnRx7uaWGR",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Priority",
+			"type": "datatype.string",
+			"description": "The priority of the ticket. Valid values include: urgent, high, normal, low",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01PE4KNRQC0G91ynEJqbgdLzhTuvorZT7xo",
+		  "object_type": "variable_workflow"
+		}
+	  ],
+	  "properties": {
+		"atomic": {
+		  "atomic_group": "Zendesk",
+		  "is_atomic": true
+		},
+		"delete_workflow_instance": false,
+		"description": "Create a Zendesk ticket.\n\nTarget: HTTP Endpoint for your Zendesk instance with a path of \"/api\"\n\nAccount Key: HTTP Password-Based Credentials with Zendesk API client ID as username and client secret as the password\n\nSteps:\n[] Generate the JSON for the ticket\n[] Request the ticket be created\n[] Check if the request was successful:\n[]> If it was, extract the ticket details, check if extraction was successful, and set the output variables\n[]> If it wasn't, output an error\n\nMore information about this API: https://developer.zendesk.com/api-reference/ticketing/introduction/",
+		"display_name": "Zendesk - Create Ticket",
+		"runtime_user": {
+		  "target_default": true
+		},
+		"target": {
+		  "target_type": "web-service.endpoint",
+		  "specify_on_workflow_start": true
+		}
+	  },
+	  "object_type": "definition_workflow",
+	  "actions": [
+		{
+		  "unique_name": "definition_activity_01PE2LVBBTC2A3lrnstMi9VTmMkNWhrsSQc",
+		  "name": "Execute Python Script",
+		  "title": "Generate ticket JSON",
+		  "type": "python3.script",
+		  "base_type": "activity",
+		  "properties": {
+			"action_timeout": 180,
+			"continue_on_failure": false,
+			"display_name": "Generate ticket JSON",
+			"script": "import sys, json\nticket_params = {\n\t\"comment\": {\n\t\t\"body\":sys.argv[1]\n\t},\n\t\"subject\": sys.argv[2],\n\t\"priority\": sys.argv[3],\n\t\"type\": sys.argv[4]\n}\nticket = { \"ticket\": ticket_params }\nticket_json = json.dumps(ticket)",
+			"script_arguments": [
+			  "$workflow.definition_workflow_01PE2LV5THK6A17oPlRCaNdCcsmwUkb8vDn.input.variable_workflow_01PE2LV5M7M9P33R7LnTZlmcD2hBcAIjSMy$",
+			  "$workflow.definition_workflow_01PE2LV5THK6A17oPlRCaNdCcsmwUkb8vDn.input.variable_workflow_01PE4T2OPZ1493L0hE2FQn7uhhUgBYGlZO2$",
+			  "$workflow.definition_workflow_01PE2LV5THK6A17oPlRCaNdCcsmwUkb8vDn.input.variable_workflow_01PE4KNRQC0G91ynEJqbgdLzhTuvorZT7xo$",
+			  "$workflow.definition_workflow_01PE2LV5THK6A17oPlRCaNdCcsmwUkb8vDn.input.variable_workflow_01PE53IWC37E31h08R09dQMjMQnRx7uaWGR$"
+			],
+			"script_queries": [
+			  {
+				"script_query": "ticket_json",
+				"script_query_name": "ticket_json",
+				"script_query_type": "string"
+			  }
+			],
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01PE2LVDPKP1K2dizUUBstkj5zIHklR31Kt",
+		  "name": "HTTP Request",
+		  "title": "Create ticket",
+		  "type": "web-service.http_request",
+		  "base_type": "activity",
+		  "properties": {
+			"accept": "application/json",
+			"action_timeout": 180,
+			"allow_auto_redirect": true,
+			"body": "$activity.definition_activity_01PE2LVBBTC2A3lrnstMi9VTmMkNWhrsSQc.output.script_queries.ticket_json$",
+			"content_type": "application/json",
+			"continue_on_error_status_code": true,
+			"continue_on_failure": false,
+			"display_name": "Create ticket",
+			"method": "POST",
+			"relative_url": "/v2/tickets",
+			"runtime_user": {
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "use_workflow_target": true
+			}
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01PE2LVGK2VK239qWcSXvPQzVJqpnV1CB5i",
+		  "name": "Condition Block",
+		  "title": "Was the request successful?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Was the request successful?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01PE2LVJ8PDVJ3O43bpkkJQHhYU7oMPaZv2",
+			  "name": "Condition Branch",
+			  "title": "201/Success",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01PE2LVDPKP1K2dizUUBstkj5zIHklR31Kt.output.status_code$",
+				  "operator": "eq",
+				  "right_operand": 201
+				},
+				"continue_on_failure": false,
+				"display_name": "201/Success",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01PE2LVLBW7U557WogPWCAHQA7IFH5SRtIg",
+				  "name": "JSONPath Query",
+				  "title": "Read ticket details",
+				  "type": "corejava.jsonpathquery",
+				  "base_type": "activity",
+				  "properties": {
+					"action_timeout": 180,
+					"continue_on_failure": true,
+					"display_name": "Read ticket details",
+					"input_json": "$activity.definition_activity_01PE2LVDPKP1K2dizUUBstkj5zIHklR31Kt.output.response_body$",
+					"jsonpath_queries": [
+					  {
+						"jsonpath_query": "$.ticket.id",
+						"jsonpath_query_name": "ticket_id",
+						"jsonpath_query_type": "string"
+					  }
+					],
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01PE2LVO7MILD37udQu7mReGLWLqVKw5Kwx",
+				  "name": "Condition Block",
+				  "title": "Did we get the details?",
+				  "type": "logic.if_else",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Did we get the details?",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "blocks": [
+					{
+					  "unique_name": "definition_activity_01PE2LVQT28WJ3PNIEAMBvJ5O0OV9gu7ap1",
+					  "name": "Condition Branch",
+					  "title": "No",
+					  "type": "logic.condition_block",
+					  "base_type": "activity",
+					  "properties": {
+						"condition": {
+						  "left_operand": "$activity.definition_activity_01PE2LVLBW7U557WogPWCAHQA7IFH5SRtIg.output.succeeded$",
+						  "operator": "ne",
+						  "right_operand": "true"
+						},
+						"continue_on_failure": false,
+						"display_name": "No",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "actions": [
+						{
+						  "unique_name": "definition_activity_01PE2LVSTVP5I3hLmksJt37nY7yPyNU7g0G",
+						  "name": "Completed",
+						  "title": "Failed",
+						  "type": "logic.completed",
+						  "base_type": "activity",
+						  "properties": {
+							"completion_type": "failed-completed",
+							"continue_on_failure": false,
+							"display_name": "Failed",
+							"result_message": "Failed to extract the ticket ID\n\nResponse body: $activity.definition_activity_01PE2LVDPKP1K2dizUUBstkj5zIHklR31Kt.output.response_body$",
+							"skip_execution": false
+						  },
+						  "object_type": "definition_activity"
+						}
+					  ]
+					}
+				  ]
+				},
+				{
+				  "unique_name": "definition_activity_01PE2LVVDF3I46tX7lL7wJTtJCHQHNqQCo5",
+				  "name": "Set Variables",
+				  "title": "Set output variables",
+				  "type": "core.set_multiple_variables",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Set output variables",
+					"skip_execution": false,
+					"variables_to_update": [
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01PE2LV5THK6A17oPlRCaNdCcsmwUkb8vDn.output.variable_workflow_01PE2LV5M7NNF7XkwA5MC2w8emVkF9DFfCC$",
+						"variable_value_new": "$activity.definition_activity_01PE2LVDPKP1K2dizUUBstkj5zIHklR31Kt.output.response_body$"
+					  },
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01PE2LV5THK6A17oPlRCaNdCcsmwUkb8vDn.output.variable_workflow_01PE2LV5M7HYV16cHyklBHRH6aoM4unx3tk$",
+						"variable_value_new": "$activity.definition_activity_01PE2LVLBW7U557WogPWCAHQA7IFH5SRtIg.output.jsonpath_queries.ticket_id$"
+					  }
+					]
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01PE2LVYJBTEL0u2XSmfGocJuMup7sMtfRx",
+			  "name": "Condition Branch",
+			  "title": "Anything Else",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01PE2LVDPKP1K2dizUUBstkj5zIHklR31Kt.output.status_code$",
+				  "operator": "ne",
+				  "right_operand": 201
+				},
+				"continue_on_failure": false,
+				"display_name": "Anything Else",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01PE2LW0JHCSO1MlgNiyqdtnhBBOCZ7sPfV",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "Failed to create ticket\n\nStatus code: $activity.definition_activity_01PE2LVDPKP1K2dizUUBstkj5zIHklR31Kt.output.status_code$\nResponse body: $activity.definition_activity_01PE2LVDPKP1K2dizUUBstkj5zIHklR31Kt.output.response_body$",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		}
+	  ],
+	  "categories": [
+		"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+	  ]
+	}
+  }
