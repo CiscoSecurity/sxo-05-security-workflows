@@ -53,3 +53,4 @@ This page contains a list of all of the workflows published in the repository so
 | 0038 | Tufin | [IPS Alert Enrichment]({{ site.baseurl }}/workflows/0038) |
 | 0039 | Tufin | [Request Threat Containment]({{ site.baseurl }}/workflows/0039) |
 | 0040 | Tufin | [Request Server Decommission]({{ site.baseurl }}/workflows/0040) |
+| 0041 | Cisco Umbrella | [Top 10 Blocked Identities to ServiceNow]({{ site.baseurl }}/workflows/0041) |
