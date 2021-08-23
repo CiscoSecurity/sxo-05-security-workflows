@@ -1,0 +1,612 @@
+{
+	"workflow": {
+	  "unique_name": "definition_workflow_01N9C0VHJUHFJ0TE2Er2AWAW8vR7ITVaA12",
+	  "name": "Farsight DNSDB - Get Domains Associated with the Same Records",
+	  "title": "Farsight DNSDB - Get Domains Associated with the Same Records",
+	  "type": "generic.workflow",
+	  "base_type": "workflow",
+	  "variables": [
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "[]",
+			"scope": "output",
+			"name": "Domains",
+			"type": "datatype.string",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01N9CFTMOSERI2mvCnNm2tgshyA0rjgYFz9",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "[]",
+			"scope": "local",
+			"name": "Search Results",
+			"type": "datatype.string",
+			"description": "Placeholder used to keep track of search results. This will be populated automatically",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01N9CG8NXLZQ1669P4mvmbnfZjRRZhVvQdq",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "&",
+			"scope": "local",
+			"name": "Time Parameters",
+			"type": "datatype.string",
+			"description": "Placeholder to build the query string if timestamps are provided. This will be populated automatically",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01N9CIOH7XBL83aF6Y0DYZBfFzuE8xF85j7",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "DNS Record Type",
+			"type": "datatype.string",
+			"description": "The type of DNS records to look for. For example:\n - NS for name servers\n - MX for mail exchanger\n - CNAME for canonical names",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01N9CEQG86RHG1LjkKqGxw47z7WqJIK1M9C",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.date",
+		  "properties": {
+			"value": "0001-01-01T00:00:00+00:00",
+			"scope": "input",
+			"name": "Seen Before Date",
+			"type": "datatype.date",
+			"description": "Date before which to search (optional)",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01N9GRA1M1U2N3heNIt928i5QZXCguvc59M",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.date",
+		  "properties": {
+			"value": "0001-01-01T00:00:00+00:00",
+			"scope": "input",
+			"name": "Seen After Date",
+			"type": "datatype.date",
+			"description": "Date after which  to search (optional)",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01N9GQTVPDHJW4TB7DxFvyOPZJp9lp9GDFL",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Domain",
+			"type": "datatype.string",
+			"description": "Domain to search for related records for",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01N9CFEE7Y0KB3m97DpEDa9Xn234m0NJiCd",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "100",
+			"scope": "input",
+			"name": "Record Limit",
+			"type": "datatype.string",
+			"description": "The maximum number of records to return",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01N9CI9B1TCBC5rrAu0wbAUuKOtqDB3P4TW",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.secure_string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Farsight API Key",
+			"type": "datatype.secure_string",
+			"description": "Your Farsight DNSDB API key. See: https://docs.dnsdb.info/dnsdb-api/#authentication",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01N9CHN13P3O93Bfzs9jiijx7gWjpo40Fks",
+		  "object_type": "variable_workflow"
+		}
+	  ],
+	  "properties": {
+		"atomic": {
+		  "atomic_group": "Farsight DNSDB",
+		  "is_atomic": true
+		},
+		"delete_workflow_instance": false,
+		"description": "Searches Farsight DNSDB for DNS records of the specified type related to the domain provided. Valid record types include: NS, MX, and CNAME. To avoid exceeding the request limit for your Farsight API key, you can define the date range and limit the number of returned results.\n\nTarget: HTTP Endpoint for \"api.dnsdb.info\"\n\nAccount Key: None (uses API key)\n\nSteps:\n[] Check if timestamps were provided and, if so, format them for the query string\n[] Search for records in DNSDB\n[] Check if the API request succeeded:\n[]> If it didn't, output an error\n[]> If it did:\n[]>> Extract the records and convert them to a table\n[]>> For each result, fetch related records\n[]>> Format the output JSON and set the output variable\n\nMore information about this API: https://docs.dnsdb.info/dnsdb-apiv2/",
+		"display_name": "Farsight DNSDB - Get Domains Associated with the Same Records",
+		"runtime_user": {
+		  "override_target_runtime_user": false,
+		  "specify_on_workflow_start": false,
+		  "target_default": true
+		},
+		"target": {
+		  "target_type": "web-service.endpoint",
+		  "specify_on_workflow_start": true
+		}
+	  },
+	  "object_type": "definition_workflow",
+	  "actions": [
+		{
+		  "unique_name": "definition_activity_01N9CJTL97XI63qOc0yVLRk7fbgy8NSrnfs",
+		  "name": "Condition Block",
+		  "title": "Were timestamps provided?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Were timestamps provided?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01N9CJTY9NTQ83cY177wFhCYN30b1rLRUR6",
+			  "name": "Condition Branch",
+			  "title": "Yes",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": {
+					"left_operand": "$workflow.definition_workflow_01N9C0VHJUHFJ0TE2Er2AWAW8vR7ITVaA12.input.variable_workflow_01N9GQTVPDHJW4TB7DxFvyOPZJp9lp9GDFL$",
+					"operator": "ne",
+					"right_operand": "0001-01-01T00:00:00+00:00"
+				  },
+				  "operator": "or",
+				  "right_operand": {
+					"left_operand": "$workflow.definition_workflow_01N9C0VHJUHFJ0TE2Er2AWAW8vR7ITVaA12.input.variable_workflow_01N9GRA1M1U2N3heNIt928i5QZXCguvc59M$",
+					"operator": "ne",
+					"right_operand": "0001-01-01T00:00:00+00:00"
+				  }
+				},
+				"continue_on_failure": false,
+				"display_name": "Yes",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01N9CLHZSL9UC7DcYAUwWjpC8bjoAR1Y9hg",
+				  "name": "Execute Python Script",
+				  "title": "Format timestamps",
+				  "type": "python3.script",
+				  "base_type": "activity",
+				  "properties": {
+					"action_timeout": 180,
+					"continue_on_failure": false,
+					"display_name": "Format timestamps",
+					"script": "import sys\nfrom datetime import datetime\nparameters = \"?\"\nif sys.argv[1] != \"0001-01-01T00:00:00+00:00\":\n\tparameters += \"time_last_after=\" + datetime.fromisoformat(sys.argv[1]).strftime('%s') + \"&\"\nif sys.argv[2] != \"0001-01-01T00:00:00+00:00\":\n\tparameters += \"time_last_before=\" + datetime.fromisoformat(sys.argv[2]).strftime('%s')",
+					"script_arguments": [
+					  "$workflow.definition_workflow_01N9C0VHJUHFJ0TE2Er2AWAW8vR7ITVaA12.input.variable_workflow_01N9GQTVPDHJW4TB7DxFvyOPZJp9lp9GDFL$",
+					  "$workflow.definition_workflow_01N9C0VHJUHFJ0TE2Er2AWAW8vR7ITVaA12.input.variable_workflow_01N9GRA1M1U2N3heNIt928i5QZXCguvc59M$"
+					],
+					"script_queries": [
+					  {
+						"script_query": "parameters",
+						"script_query_name": "parameters",
+						"script_query_type": "string"
+					  }
+					],
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01N9COZ3FLAIR1NZp3qx04HBm1a3T8EWx7Q",
+				  "name": "Set Variables",
+				  "title": "Set local variable",
+				  "type": "core.set_multiple_variables",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Set local variable",
+					"skip_execution": false,
+					"variables_to_update": [
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01N9C0VHJUHFJ0TE2Er2AWAW8vR7ITVaA12.local.variable_workflow_01N9CIOH7XBL83aF6Y0DYZBfFzuE8xF85j7$",
+						"variable_value_new": "$activity.definition_activity_01N9CLHZSL9UC7DcYAUwWjpC8bjoAR1Y9hg.output.script_queries.parameters$"
+					  }
+					]
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01N9CPYGMUBI14LO5roEXnicLU9Dp5jxNJc",
+		  "name": "HTTP Request",
+		  "title": "Search for records",
+		  "type": "web-service.http_request",
+		  "base_type": "activity",
+		  "properties": {
+			"accept": "application/x-ndjson",
+			"action_timeout": 180,
+			"allow_auto_redirect": true,
+			"continue_on_error_status_code": true,
+			"continue_on_failure": false,
+			"custom_headers": [
+			  {
+				"name": "X-API-Key",
+				"value": "$workflow.definition_workflow_01N9C0VHJUHFJ0TE2Er2AWAW8vR7ITVaA12.input.variable_workflow_01N9CHN13P3O93Bfzs9jiijx7gWjpo40Fks$"
+			  }
+			],
+			"display_name": "Search for records",
+			"method": "GET",
+			"relative_url": "/dnsdb/v2/lookup/rrset/name/*.$workflow.definition_workflow_01N9C0VHJUHFJ0TE2Er2AWAW8vR7ITVaA12.input.variable_workflow_01N9CFEE7Y0KB3m97DpEDa9Xn234m0NJiCd$/$workflow.definition_workflow_01N9C0VHJUHFJ0TE2Er2AWAW8vR7ITVaA12.input.variable_workflow_01N9CEQG86RHG1LjkKqGxw47z7WqJIK1M9C$?limit=$workflow.definition_workflow_01N9C0VHJUHFJ0TE2Er2AWAW8vR7ITVaA12.input.variable_workflow_01N9CI9B1TCBC5rrAu0wbAUuKOtqDB3P4TW$$workflow.definition_workflow_01N9C0VHJUHFJ0TE2Er2AWAW8vR7ITVaA12.local.variable_workflow_01N9CIOH7XBL83aF6Y0DYZBfFzuE8xF85j7$",
+			"runtime_user": {
+			  "override_target_runtime_user": false,
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "override_workflow_target": false,
+			  "override_workflow_target_group_criteria": false,
+			  "use_workflow_target": true,
+			  "use_workflow_target_group": false
+			}
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01N9CT4AER9F51Akya1SMhF9Fk92HPdxb0D",
+		  "name": "Condition Block",
+		  "title": "Was the request successful?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Was the request successful?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01N9CT4NJZGEZ6oz8ak4jOY3Wf3Tzl1vU7z",
+			  "name": "Condition Branch",
+			  "title": "200/Success",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01N9CPYGMUBI14LO5roEXnicLU9Dp5jxNJc.output.status_code$",
+				  "operator": "eq",
+				  "right_operand": 200
+				},
+				"continue_on_failure": false,
+				"display_name": "200/Success",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01N9CVDMTOG0G5LYMagkwj2npAisRrTKXVs",
+				  "name": "Execute Python Script",
+				  "title": "Extract records",
+				  "type": "python3.script",
+				  "base_type": "activity",
+				  "properties": {
+					"action_timeout": 180,
+					"continue_on_failure": false,
+					"display_name": "Extract records",
+					"script": "import sys, json\nresponse = sys.argv[1]\nresponse = response.splitlines()\nbody = [json.loads(row) for row in response][1:-1]\nentities = sum([item.get('obj').get('rdata') for item in body], [])\nentities = list(set(entities))\nentities = [{'entity': entitie} for entitie in entities]\nentities = json.dumps(entities)",
+					"script_arguments": [
+					  "$activity.definition_activity_01N9CPYGMUBI14LO5roEXnicLU9Dp5jxNJc.output.response_body$"
+					],
+					"script_queries": [
+					  {
+						"script_query": "entities",
+						"script_query_name": "entities",
+						"script_query_type": "string"
+					  }
+					],
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01N9CYC5TWERL44hc8EjHvJjXyQYJTUys4m",
+				  "name": "Read Table from JSON",
+				  "title": "Convert Records List to Array for Loop",
+				  "type": "corejava.read_table_from_json",
+				  "base_type": "activity",
+				  "properties": {
+					"action_timeout": 180,
+					"continue_on_failure": false,
+					"display_name": "Convert Records List to Array for Loop",
+					"input_json": "$activity.definition_activity_01N9CVDMTOG0G5LYMagkwj2npAisRrTKXVs.output.script_queries.entities$",
+					"jsonpath_query": "$.",
+					"persist_output": false,
+					"populate_columns": false,
+					"skip_execution": false,
+					"table_columns": [
+					  {
+						"column_name": "entity",
+						"column_type": "string"
+					  }
+					]
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01N9D03V8OFML1uHtiQEJB3bcQiQUsnpekH",
+				  "name": "For Each",
+				  "title": "For each record",
+				  "type": "logic.for_each",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "For each record",
+					"skip_execution": false,
+					"source_array": "$activity.definition_activity_01N9CYC5TWERL44hc8EjHvJjXyQYJTUys4m.output.read_table_from_json$"
+				  },
+				  "object_type": "definition_activity",
+				  "actions": [
+					{
+					  "unique_name": "definition_activity_01N9D11T16IUK4JgQz8AgCHBCwhjDuYjZYx",
+					  "name": "HTTP Request",
+					  "title": "Search for records",
+					  "type": "web-service.http_request",
+					  "base_type": "activity",
+					  "properties": {
+						"accept": "application/x-ndjson",
+						"action_timeout": 180,
+						"allow_auto_redirect": true,
+						"continue_on_error_status_code": true,
+						"continue_on_failure": false,
+						"custom_headers": [
+						  {
+							"name": "X-API-Key",
+							"value": "$workflow.definition_workflow_01N9C0VHJUHFJ0TE2Er2AWAW8vR7ITVaA12.input.variable_workflow_01N9CHN13P3O93Bfzs9jiijx7gWjpo40Fks$"
+						  }
+						],
+						"display_name": "Search for records",
+						"method": "GET",
+						"relative_url": "dnsdb/v2/lookup/rdata/name/$activity.definition_activity_01N9D03V8OFML1uHtiQEJB3bcQiQUsnpekH.input.source_array[@].entity$/$workflow.definition_workflow_01N9C0VHJUHFJ0TE2Er2AWAW8vR7ITVaA12.input.variable_workflow_01N9CEQG86RHG1LjkKqGxw47z7WqJIK1M9C$",
+						"runtime_user": {
+						  "override_target_runtime_user": false,
+						  "target_default": true
+						},
+						"skip_execution": false,
+						"target": {
+						  "override_workflow_target": false,
+						  "override_workflow_target_group_criteria": false,
+						  "use_workflow_target": true,
+						  "use_workflow_target_group": false
+						}
+					  },
+					  "object_type": "definition_activity"
+					},
+					{
+					  "unique_name": "definition_activity_01N9D37ZHGVNB2h6Q8aq64kYqRkTDsBGyan",
+					  "name": "Condition Block",
+					  "title": "Was the request successful?",
+					  "type": "logic.if_else",
+					  "base_type": "activity",
+					  "properties": {
+						"continue_on_failure": false,
+						"display_name": "Was the request successful?",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "blocks": [
+						{
+						  "unique_name": "definition_activity_01N9D38D91U4S0OVmJnSW1S8N1hPeYen9M2",
+						  "name": "Condition Branch",
+						  "title": "200/Success",
+						  "type": "logic.condition_block",
+						  "base_type": "activity",
+						  "properties": {
+							"condition": {
+							  "left_operand": "$activity.definition_activity_01N9D11T16IUK4JgQz8AgCHBCwhjDuYjZYx.output.status_code$",
+							  "operator": "eq",
+							  "right_operand": 200
+							},
+							"continue_on_failure": false,
+							"display_name": "200/Success",
+							"skip_execution": false
+						  },
+						  "object_type": "definition_activity",
+						  "actions": [
+							{
+							  "unique_name": "definition_activity_01N9D5S55LEIQ6KIS18ezzrmLvMFftehYSm",
+							  "name": "Execute Python Script",
+							  "title": "Extract domains",
+							  "type": "python3.script",
+							  "base_type": "activity",
+							  "properties": {
+								"action_timeout": 180,
+								"continue_on_failure": false,
+								"display_name": "Extract domains",
+								"script": "import sys, json\nfrom ast import literal_eval\n\nresponse, accumulator = sys.argv[1:]\naccumulator = set(literal_eval(accumulator))\n\nresponse = response.splitlines()\nbody = [json.loads(row) for row in response][1:-1]\n\ndomains = [item.get('obj').get('rrname') for item in body]\ndomains = set(domains)\n\nresult = json.dumps(list(domains | accumulator))",
+								"script_arguments": [
+								  "$activity.definition_activity_01N9D11T16IUK4JgQz8AgCHBCwhjDuYjZYx.output.response_body$",
+								  "$workflow.definition_workflow_01N9C0VHJUHFJ0TE2Er2AWAW8vR7ITVaA12.local.variable_workflow_01N9CG8NXLZQ1669P4mvmbnfZjRRZhVvQdq$"
+								],
+								"script_queries": [
+								  {
+									"script_query": "result",
+									"script_query_name": "result",
+									"script_query_type": "string"
+								  }
+								],
+								"skip_execution": false
+							  },
+							  "object_type": "definition_activity"
+							},
+							{
+							  "unique_name": "definition_activity_01N9D71XPIB292lxxV4ynJNINeW650JHz0Q",
+							  "name": "Set Variables",
+							  "title": "Update local variable",
+							  "type": "core.set_multiple_variables",
+							  "base_type": "activity",
+							  "properties": {
+								"continue_on_failure": false,
+								"display_name": "Update local variable",
+								"skip_execution": false,
+								"variables_to_update": [
+								  {
+									"variable_to_update": "$workflow.definition_workflow_01N9C0VHJUHFJ0TE2Er2AWAW8vR7ITVaA12.local.variable_workflow_01N9CG8NXLZQ1669P4mvmbnfZjRRZhVvQdq$",
+									"variable_value_new": "$activity.definition_activity_01N9D5S55LEIQ6KIS18ezzrmLvMFftehYSm.output.script_queries.result$"
+								  }
+								]
+							  },
+							  "object_type": "definition_activity"
+							}
+						  ]
+						},
+						{
+						  "unique_name": "definition_activity_01N9D38E2XPDT1npuAna6WlKrMBfwzu11cK",
+						  "name": "Condition Branch",
+						  "title": "Anything else",
+						  "type": "logic.condition_block",
+						  "base_type": "activity",
+						  "properties": {
+							"condition": {
+							  "left_operand": "$activity.definition_activity_01N9D11T16IUK4JgQz8AgCHBCwhjDuYjZYx.output.status_code$",
+							  "operator": "ne",
+							  "right_operand": 200
+							},
+							"continue_on_failure": false,
+							"display_name": "Anything else",
+							"skip_execution": false
+						  },
+						  "object_type": "definition_activity",
+						  "actions": [
+							{
+							  "unique_name": "definition_activity_01N9D51CY2BE70viFZeRrWxOtrpkqktDR3s",
+							  "name": "Completed",
+							  "title": "Return Error",
+							  "type": "logic.completed",
+							  "base_type": "activity",
+							  "properties": {
+								"completion_type": "failed-completed",
+								"continue_on_failure": false,
+								"display_name": "Return Error",
+								"result_message": "Failed to search for records in Farsight DNSDB\n\nStatus code: $activity.definition_activity_01N9D11T16IUK4JgQz8AgCHBCwhjDuYjZYx.output.status_code$\nResponse body: $activity.definition_activity_01N9D11T16IUK4JgQz8AgCHBCwhjDuYjZYx.output.response_body$",
+								"skip_execution": false
+							  },
+							  "object_type": "definition_activity"
+							}
+						  ]
+						}
+					  ]
+					}
+				  ]
+				},
+				{
+				  "unique_name": "definition_activity_01N9D8293ELZ370ArVv668aRE3IHdnhhyLu",
+				  "name": "Execute Python Script",
+				  "title": "Format output JSON",
+				  "type": "python3.script",
+				  "base_type": "activity",
+				  "properties": {
+					"action_timeout": 180,
+					"continue_on_failure": false,
+					"display_name": "Format output JSON",
+					"script": "import sys, json\nfrom ast import literal_eval\n\ndomains = literal_eval(sys.argv[1])\ndomains = [{'domain': domain} for domain in domains]\ndomains = json.dumps(domains)",
+					"script_arguments": [
+					  "$workflow.definition_workflow_01N9C0VHJUHFJ0TE2Er2AWAW8vR7ITVaA12.local.variable_workflow_01N9CG8NXLZQ1669P4mvmbnfZjRRZhVvQdq$"
+					],
+					"script_queries": [
+					  {
+						"script_query": "domains",
+						"script_query_name": "domains",
+						"script_query_type": "string"
+					  }
+					],
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01N9D8XAY2JMS7SEfy8b8fEqPBj9qYRkXbP",
+				  "name": "Set Variables",
+				  "title": "Set output variable",
+				  "type": "core.set_multiple_variables",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Set output variable",
+					"skip_execution": false,
+					"variables_to_update": [
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01N9C0VHJUHFJ0TE2Er2AWAW8vR7ITVaA12.output.variable_workflow_01N9CFTMOSERI2mvCnNm2tgshyA0rjgYFz9$",
+						"variable_value_new": "$activity.definition_activity_01N9D8293ELZ370ArVv668aRE3IHdnhhyLu.output.script_queries.domains$"
+					  }
+					]
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01N9CT4O5UNQA3RITqiQuyFNBV6BHBLmc41",
+			  "name": "Condition Branch",
+			  "title": "Anything else",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01N9CPYGMUBI14LO5roEXnicLU9Dp5jxNJc.output.status_code$",
+				  "operator": "ne",
+				  "right_operand": 200
+				},
+				"continue_on_failure": false,
+				"display_name": "Anything else",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01N9CUMBXM6JL4CfaYwZAoMQACATvUaKS3O",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "Failed to search for records in Farsight DNSDB\n\nStatus code: $activity.definition_activity_01N9CPYGMUBI14LO5roEXnicLU9Dp5jxNJc.output.status_code$\nResponse body: $activity.definition_activity_01N9CPYGMUBI14LO5roEXnicLU9Dp5jxNJc.output.response_body$",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		}
+	  ],
+	  "categories": [
+		"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+	  ]
+	}
+  }

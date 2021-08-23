@@ -1,0 +1,225 @@
+{
+	"workflow": {
+	  "unique_name": "definition_workflow_01N8FYOCCWYD05gv3SWNlMJmZQous6xayZU",
+	  "name": "Farsight DNSDB - Get Sub-Domains by Domain",
+	  "title": "Farsight DNSDB - Get Sub-Domains by Domain",
+	  "type": "generic.workflow",
+	  "base_type": "workflow",
+	  "variables": [
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "output",
+			"name": "Records",
+			"type": "datatype.string",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01N8G3YXZUPSG7EBO613xsAYqy46pwzy5QK",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Domain",
+			"type": "datatype.string",
+			"description": "Domain name to search for",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01N8G1SG9XPE60tsBCsBiH52C5XpwxhFPCP",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.secure_string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Farsight API Key",
+			"type": "datatype.secure_string",
+			"description": "Your Farsight DNSDB API key. See: https://docs.dnsdb.info/dnsdb-api/#authentication",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01N8G3CL43AN15zAAisueJs3DRo374MPJ86",
+		  "object_type": "variable_workflow"
+		}
+	  ],
+	  "properties": {
+		"atomic": {
+		  "atomic_group": "Farsight DNSDB",
+		  "is_atomic": true
+		},
+		"delete_workflow_instance": false,
+		"description": "Searches Farsight DNSDB for sub-domains under a given domain name.\n\nTarget: HTTP Endpoint for \"api.dnsdb.info\"\n\nAccount Key: None (uses API key)\n\nSteps:\n[] Search for records in DNSDB\n[] Check if the API request succeeded:\n[]> If it did, extract the records and set the output variable\n[]> If it didn't, output an error\n\nMore information about this API: https://docs.dnsdb.info/dnsdb-apiv2/",
+		"display_name": "Farsight DNSDB - Get Sub-Domains by Domain",
+		"runtime_user": {
+		  "override_target_runtime_user": false,
+		  "specify_on_workflow_start": false,
+		  "target_default": true
+		},
+		"target": {
+		  "target_type": "web-service.endpoint",
+		  "specify_on_workflow_start": true
+		}
+	  },
+	  "object_type": "definition_workflow",
+	  "actions": [
+		{
+		  "unique_name": "definition_activity_01N8G4IVDQXQ90SDwXbjscSvOKHiG05oAkt",
+		  "name": "HTTP Request",
+		  "title": "Search records",
+		  "type": "web-service.http_request",
+		  "base_type": "activity",
+		  "properties": {
+			"accept": "application/x-ndjson",
+			"action_timeout": 180,
+			"allow_auto_redirect": true,
+			"continue_on_error_status_code": true,
+			"continue_on_failure": false,
+			"custom_headers": [
+			  {
+				"name": "X-API-Key",
+				"value": "$workflow.definition_workflow_01N8FYOCCWYD05gv3SWNlMJmZQous6xayZU.input.variable_workflow_01N8G3CL43AN15zAAisueJs3DRo374MPJ86$"
+			  }
+			],
+			"display_name": "Search records",
+			"method": "GET",
+			"relative_url": "/dnsdb/v2/lookup/rrset/name/*.$workflow.definition_workflow_01N8FYOCCWYD05gv3SWNlMJmZQous6xayZU.input.variable_workflow_01N8G1SG9XPE60tsBCsBiH52C5XpwxhFPCP$",
+			"runtime_user": {
+			  "override_target_runtime_user": false,
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "override_workflow_target": false,
+			  "override_workflow_target_group_criteria": false,
+			  "use_workflow_target": true,
+			  "use_workflow_target_group": false
+			}
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01N8G8OASHZ9M5lunIvLQ6hxj9hKz18d7an",
+		  "name": "Condition Block",
+		  "title": "Was the request successful?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Was the request successful?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01N8G8OO15OD13F8TRzitb1wIfYpflOLli3",
+			  "name": "Condition Branch",
+			  "title": "200/Success",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01N8G4IVDQXQ90SDwXbjscSvOKHiG05oAkt.output.status_code$",
+				  "operator": "eq",
+				  "right_operand": 200
+				},
+				"continue_on_failure": false,
+				"display_name": "200/Success",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01N8GC4UUU8TC43AEuKATC9ZEX6TTv1hHUD",
+				  "name": "Execute Python Script",
+				  "title": "Extract hostnames",
+				  "type": "python3.script",
+				  "base_type": "activity",
+				  "properties": {
+					"action_timeout": 180,
+					"continue_on_failure": false,
+					"display_name": "Extract hostnames",
+					"script": "import sys, json\n\nresponse = sys.argv[1].splitlines()\nbody = [json.loads(row) for row in response][1:-1]\nhostnames = [row.get('obj').get('rrname') for row in body]\nhostnames = list(set(hostnames))\nhostnames = [{'hostname': hostname} for hostname in hostnames]\nhostnames = json.dumps(hostnames)",
+					"script_arguments": [
+					  "$activity.definition_activity_01N8G4IVDQXQ90SDwXbjscSvOKHiG05oAkt.output.response_body$"
+					],
+					"script_queries": [
+					  {
+						"script_query": "hostnames",
+						"script_query_name": "hostnames",
+						"script_query_type": "string"
+					  }
+					],
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01N8GSK89W7DQ5mynqd7MllHY82DZra5o89",
+				  "name": "Set Variables",
+				  "title": "Set output variables",
+				  "type": "core.set_multiple_variables",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Set output variables",
+					"skip_execution": false,
+					"variables_to_update": [
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01N8FYOCCWYD05gv3SWNlMJmZQous6xayZU.output.variable_workflow_01N8G3YXZUPSG7EBO613xsAYqy46pwzy5QK$",
+						"variable_value_new": "$activity.definition_activity_01N8GC4UUU8TC43AEuKATC9ZEX6TTv1hHUD.output.script_queries.hostnames$"
+					  }
+					]
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01N8G8OOOIIU971276rkodVs0ZGHXrTUt3b",
+			  "name": "Condition Branch",
+			  "title": "Anything else",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01N8G4IVDQXQ90SDwXbjscSvOKHiG05oAkt.output.status_code$",
+				  "operator": "ne",
+				  "right_operand": 200
+				},
+				"continue_on_failure": false,
+				"display_name": "Anything else",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01N8GA86NZ6GR5xYxTOc7ML6qUKk9A4TWnv",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "Failed to search for records in Farsight DNSDB\n\nStatus code: $activity.definition_activity_01N8G4IVDQXQ90SDwXbjscSvOKHiG05oAkt.output.status_code$\nResponse body: $activity.definition_activity_01N8G4IVDQXQ90SDwXbjscSvOKHiG05oAkt.output.response_body$",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		}
+	  ],
+	  "categories": [
+		"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+	  ]
+	}
+  }
