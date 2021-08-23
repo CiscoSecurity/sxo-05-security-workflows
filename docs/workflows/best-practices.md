@@ -32,7 +32,7 @@ Steps:
 [] Loop through each observable and get its Threat Response disposition
 [] For observables that weren't clean, conduct Threat Response enrichment to get sightings
 [] For modules with sightings, build the text to post to Webex
-[] Create the Threat Response casebook and, if a teams room is provided, post a message to Webex
+[] Create the SecureX casebook and, if a teams room is provided, post a message to Webex
 ```
 
 ---
