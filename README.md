@@ -1,43 +1,28 @@
-# Cisco SecureX Orchestration
+# Cisco SecureX orchestration
 [![published](https://static.production.devnetcloud.com/codeexchange/assets/images/devnet-published.svg)](https://developer.cisco.com/codeexchange/github/repo/CiscoSecurity/sxo-05-security-workflows)
 
-SecureX Orchestration provides a no-to-low code approach for building automated workflows. These workflows can interact with various types of resources and systems, whether they're from Cisco or a third-party.
-
-* [Documentation](https://ciscosecurity.github.io/sxo-05-security-workflows/)
+SecureX orchestration provides a no-to-low code approach for building automated workflows. These workflows can interact with various types of resources and systems, whether they're from Cisco or a third-party. Our GitHub repositories contain a wide variety of atomic actions and workflows that can be imported into SecureX orchestration.
 
 ## Getting Started
-To get started with SecureX Orchestration, we recommend checking out our [Getting Started](https://ciscosecurity.github.io/sxo-05-security-workflows/getting-started) page. This page lists helpful resources for learning about SecureX Orchestration and getting this repository configured. If you'd rather skip to getting this repository added to your SecureX instance, keep reading...
+To get started with SecureX orchestration, we recommend checking out our [Getting Started](https://ciscosecurity.github.io/sxo-05-security-workflows/getting-started) page.
 
-## Creating the Git Repository for Atomic Actions
-1. In SecureX Orchestration, expand the main menu and click on **Admin** and then **Git Repositories**
-1. Click on the **New Git Repository** button (or click on the existing repository you want to update)
-1. Provide a name for the repository (suggested: `CiscoSecurity_Atomics`)
-1. Set **No Account Keys** to `True`
-1. Fill in the Git information:
-	* Protocol: `HTTPS`
-	* REST API Repository Type: `GitHub`
-	* REST API Repository: `api.github.com/repos/CiscoSecurity/sxo-05-security-workflows`
-	* Branch: `Main`
-	* Code Path: `Atomics`
-1. Click **Submit**
+---
 
-## Creating the Git Repository for Workflows
-1. In SecureX Orchestration, expand the main menu and click on **Admin** and then **Git Repositories**
-1. Click on the **New Git Repository** button (or click on the existing repository you want to update)
-1. Provide a name for the repository (suggested: `CiscoSecurity_Workflows`)
-1. Set **No Account Keys** to `True`
-1. Fill in the Git information:
-	* Protocol: `HTTPS`
-	* REST API Repository Type: `GitHub`
-	* REST API Repository: `api.github.com/repos/CiscoSecurity/sxo-05-security-workflows`
-	* Branch: `Main`
-	* Code Path: `Workflows`
-1. Click **Submit**
+## Atomic Actions
+Atomic actions are self-contained workflows that are similar to a function in traditional programming. They can consume input, perform various actions, and then return output. They're designed to be portable, re-usable, and make building workflows more efficient.
 
-## Next Steps
-Once you have your repositories configured, you can start importing content!
+* [Documentation](https://ciscosecurity.github.io/sxo-05-security-workflows/atomics/)
 
-[Continue Reading...](https://ciscosecurity.github.io/sxo-05-security-workflows/importing)
+---
 
-## Disclaimer
-All content in this repository is provided AS-IS under the [Cisco Sample Code License](https://developer.cisco.com/site/license/cisco-sample-code-license/).
+## Workflows
+Workflows are the larger component of orchestration and are similar to a script in traditional programming. A workflow can be simple and only have a few actions or be complex and string together many different actions for different products.
+
+* [Documentation](https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/)
+
+---
+
+## Activities
+SecureX orchestration comes with a variety of built-in activities for core functionality. These activities handle things like date and time manipulation, JSON and XML parsing, HTTP requests, and more. This section contains helpful hints, best practices, and sample workflows for some of these activities.
+
+* [Documentation](https://ciscosecurity.github.io/sxo-05-security-workflows/activities/)
