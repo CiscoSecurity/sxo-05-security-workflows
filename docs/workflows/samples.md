@@ -18,7 +18,7 @@ This page contains an index of sample workflows available for various SecureX or
 * [JSONPath Query]({{ site.baseurl }}/activities/jsonpath-query#sample-workflows)
 * [Parsing Nested JSON]({{ site.baseurl }}/activities/jsonpath-query#sample-workflows)
 * [Response Workflows]({{ site.baseurl }}/workflows/response/#sample-workflows)
-* [Response Workflows - Threat Response API]({{ site.baseurl }}/workflows/response/tr-api#sample-workflows)
+* [Threat Response API]({{ site.baseurl }}/workflows/response/tr-api#sample-workflows)
 * [Tables]({{ site.baseurl }}/activities/tables#sample-workflows)
 * [Target Groups]({{ site.baseurl }}/targets/groups#sample-workflows)
 * [Wait For Event]({{ site.baseurl }}/activities/tasks/wait-for-event)

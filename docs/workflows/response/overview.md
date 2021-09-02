@@ -15,7 +15,6 @@ Response workflows are a powerful tool that allows you to customize the actions 
 ---
 
 ## User Experience
-
 Here's what workflows look like in the pivot menu after pivoting on a domain:
 
 ![]({{ site.baseurl }}/assets/images/workflows/response/pivot-menu.png)

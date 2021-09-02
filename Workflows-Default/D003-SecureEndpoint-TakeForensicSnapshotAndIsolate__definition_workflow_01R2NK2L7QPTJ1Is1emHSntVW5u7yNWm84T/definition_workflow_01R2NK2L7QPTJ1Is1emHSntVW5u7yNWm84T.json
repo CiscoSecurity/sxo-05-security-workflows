@@ -1,0 +1,601 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01R2NK2L7QPTJ1Is1emHSntVW5u7yNWm84T",
+    "name": "Take Forensic Snapshot and Isolate",
+    "title": "Take Forensic Snapshot and Isolate",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "hostname",
+          "type": "datatype.string",
+          "description": "Placeholder for the hostname. This will be populated automatically",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01R2NK2LCRFZ86J680iX6l2IFfdaxLHeDZe",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "amp_computer_guid",
+          "type": "datatype.string",
+          "description": "Placeholder for the Secure Endpoint computer GUID. This will be populated automatically",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01R2NK2LCRQZO2cnWes1Yo4SFBWFRbSaqNo",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "observable_type",
+          "type": "datatype.string",
+          "description": "The type of observable pivoted on",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01R2NK2LCS5UG7hHyh8s5oJyArINJJuR3jI",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "ip_address",
+          "type": "datatype.string",
+          "description": "Placeholder for the IP address. This will be populated automatically",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01R2NK2LCQYCS2gGIMlzrNaUJrDyrDyaykZ",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "observable_value",
+          "type": "datatype.string",
+          "description": "The value of the observable pivoted on",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01R2NK2LCRZ1K1J6wkPlxDKnzACABQLRQW0",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "description": "This workflow initiates a Cisco Orbital forensic snapshot for the endpoint identified by the provided observable and then attempts to enable host isolation using Cisco Secure Endpoint. Supported observables: ip, mac_address, amp_computer_guid\n\nTarget Group: Default TargetGroup\n\nTargets: Orbital_For_Access_Token, Orbital_Target\n\nSteps:\n[] Make sure the observable is supported and set the corresponding local variable\n[] If the observable wasn't a computer GUID, try getting a GUID from Secure Endpoint\n[] Generate an access token for Orbital\n[] Execute a forensic snapshot\n[] If a GUID was found, request host isolation\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/oob-03",
+      "display_name": "Take Forensic Snapshot and Isolate",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": true,
+        "target_group": {
+          "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+          "run_on_all_targets": false,
+          "selected_target_types": [
+            "web-service.endpoint"
+          ],
+          "use_criteria": {
+            "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+            "conditions": [
+              {
+                "operator": "eqi",
+                "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                "right_operand": "Orbital_For_Access_Token"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01R2NK2PE5CT54wu7KJaBXo8yOPnihSoeVT",
+        "name": "Condition Block",
+        "title": "Which observable type was provided?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Which observable type was provided?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01R2NK2Q1SWPZ5MUvuZH7LmiEHfriRuE04T",
+            "name": "Condition Branch",
+            "title": "IP address",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$workflow.definition_workflow_01R2NK2L7QPTJ1Is1emHSntVW5u7yNWm84T.input.variable_workflow_01R2NK2LCS5UG7hHyh8s5oJyArINJJuR3jI$",
+                "operator": "eqi",
+                "right_operand": "ip"
+              },
+              "continue_on_failure": false,
+              "display_name": "IP address",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01R2NK2QV67F75gniDw2fUGcEq2ZWdUlqJw",
+                "name": "Set Variables",
+                "title": "Set local variable",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Set local variable",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01R2NK2L7QPTJ1Is1emHSntVW5u7yNWm84T.local.variable_workflow_01R2NK2LCQYCS2gGIMlzrNaUJrDyrDyaykZ$",
+                      "variable_value_new": "$workflow.definition_workflow_01R2NK2L7QPTJ1Is1emHSntVW5u7yNWm84T.input.variable_workflow_01R2NK2LCRZ1K1J6wkPlxDKnzACABQLRQW0$"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01R2NK2RQ3AUZ6NhghL04bmiCD0A9zAQppt",
+            "name": "Condition Branch",
+            "title": "Hostname",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$workflow.definition_workflow_01R2NK2L7QPTJ1Is1emHSntVW5u7yNWm84T.input.variable_workflow_01R2NK2LCS5UG7hHyh8s5oJyArINJJuR3jI$",
+                "operator": "eqi",
+                "right_operand": "hostname"
+              },
+              "continue_on_failure": false,
+              "display_name": "Hostname",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01R2NK2SOENWC2T1vcAhkBsfE41NYc1E5hs",
+                "name": "Set Variables",
+                "title": "Set local variable",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Set local variable",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01R2NK2L7QPTJ1Is1emHSntVW5u7yNWm84T.local.variable_workflow_01R2NK2LCRFZ86J680iX6l2IFfdaxLHeDZe$",
+                      "variable_value_new": "$workflow.definition_workflow_01R2NK2L7QPTJ1Is1emHSntVW5u7yNWm84T.input.variable_workflow_01R2NK2LCRZ1K1J6wkPlxDKnzACABQLRQW0$"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01R2NK2TGHY724Lr8p3Bwoo63TGYX8sAgbr",
+            "name": "Condition Branch",
+            "title": "Computer GUID",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$workflow.definition_workflow_01R2NK2L7QPTJ1Is1emHSntVW5u7yNWm84T.input.variable_workflow_01R2NK2LCS5UG7hHyh8s5oJyArINJJuR3jI$",
+                "operator": "eqi",
+                "right_operand": "amp_computer_guid"
+              },
+              "continue_on_failure": false,
+              "display_name": "Computer GUID",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01R2NK2UAWICA7eeBwE0JpQqYj8nd02uvDk",
+                "name": "Set Variables",
+                "title": "Set local variable",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Set local variable",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01R2NK2L7QPTJ1Is1emHSntVW5u7yNWm84T.local.variable_workflow_01R2NK2LCRQZO2cnWes1Yo4SFBWFRbSaqNo$",
+                      "variable_value_new": "$workflow.definition_workflow_01R2NK2L7QPTJ1Is1emHSntVW5u7yNWm84T.input.variable_workflow_01R2NK2LCRZ1K1J6wkPlxDKnzACABQLRQW0$"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01R2NK2V83SR01VcHPzfZR26QbLb4iQRlPv",
+            "name": "Condition Branch",
+            "title": "Something else",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$workflow.definition_workflow_01R2NK2L7QPTJ1Is1emHSntVW5u7yNWm84T.output.instance_id$",
+                "operator": "eq",
+                "right_operand": "$workflow.definition_workflow_01R2NK2L7QPTJ1Is1emHSntVW5u7yNWm84T.output.instance_id$"
+              },
+              "continue_on_failure": false,
+              "display_name": "Something else",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01R2NK2W2W3R34KsXvrlWeB4TzKxpN25dQd",
+                "name": "Completed",
+                "title": "Unsupported observable",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Unsupported observable",
+                  "result_message": "This workflow does not support the observable type \"$workflow.definition_workflow_01R2NK2L7QPTJ1Is1emHSntVW5u7yNWm84T.input.variable_workflow_01R2NK2LCS5UG7hHyh8s5oJyArINJJuR3jI$\"",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01R2NK2WT6HWA5wH96DgDukyfUo0hwumlrv",
+        "name": "Condition Block",
+        "title": "Do we already have a computer GUID?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Do we already have a computer GUID?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01R2NK2XIF1NL25JKnqN5nj87bXqQk655Hd",
+            "name": "Condition Branch",
+            "title": "No, get it",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$workflow.definition_workflow_01R2NK2L7QPTJ1Is1emHSntVW5u7yNWm84T.local.variable_workflow_01R2NK2LCRQZO2cnWes1Yo4SFBWFRbSaqNo$",
+                "operator": "eq",
+                "right_operand": ""
+              },
+              "continue_on_failure": false,
+              "display_name": "No, get it",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01R2NK2YROQYC0MyqfhDzZ5srjQT6XZOtyO",
+                "name": "Secure Endpoint - Get Connector GUID",
+                "title": "Secure Endpoint - Get Connector GUID",
+                "type": "workflow.atomic_workflow",
+                "base_type": "subworkflow",
+                "properties": {
+                  "continue_on_failure": true,
+                  "display_name": "Secure Endpoint - Get Connector GUID",
+                  "input": {
+                    "variable_workflow_01PP77C52C1JW5Pqd1VUdTlo0WKZ2UQbpgw": "$workflow.definition_workflow_01R2NK2L7QPTJ1Is1emHSntVW5u7yNWm84T.local.variable_workflow_01R2NK2LCQYCS2gGIMlzrNaUJrDyrDyaykZ$",
+                    "variable_workflow_01PP77C52C2RZ0GjYGmgf3zPv3tzU1zFjVM": "$workflow.definition_workflow_01R2NK2L7QPTJ1Is1emHSntVW5u7yNWm84T.local.variable_workflow_01R2NK2LCRFZ86J680iX6l2IFfdaxLHeDZe$"
+                  },
+                  "runtime_user": {
+                    "target_default": true
+                  },
+                  "skip_execution": false,
+                  "target": {
+                    "override_workflow_target_group_criteria": true,
+                    "target_group": {
+                      "run_on_all_targets": false,
+                      "use_criteria": {
+                        "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                        "conditions": [
+                          {
+                            "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                            "operator": "eqi",
+                            "right_operand": "AMP_Target"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "workflow_id": "definition_workflow_01PP77C57P1EP5HkNX8Xjvr4GtJceSq4xxX"
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01R2NK2ZRX6T26B7aCMo9mJPbpODK2HBhdq",
+                "name": "Condition Block",
+                "title": "Was a GUID found?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Was a GUID found?",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                  {
+                    "unique_name": "definition_activity_01R2NK30J34MQ4DLAcN96j388K9C61CSINs",
+                    "name": "Condition Branch",
+                    "title": "No",
+                    "type": "logic.condition_block",
+                    "base_type": "activity",
+                    "properties": {
+                      "condition": {
+                        "left_operand": "$activity.definition_activity_01R2NK2YROQYC0MyqfhDzZ5srjQT6XZOtyO.output.succeeded$",
+                        "operator": "eq",
+                        "right_operand": false
+                      },
+                      "continue_on_failure": false,
+                      "display_name": "No",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity",
+                    "actions": [
+                      {
+                        "unique_name": "definition_activity_01R2NK318CK103iWhMNwEUKxqMfkqm1bMM6",
+                        "name": "Completed",
+                        "title": "Failed",
+                        "type": "logic.completed",
+                        "base_type": "activity",
+                        "properties": {
+                          "completion_type": "failed-completed",
+                          "continue_on_failure": false,
+                          "display_name": "Failed",
+                          "result_message": "Failed to find a GUID for the computer specified in Secure Endpoint",
+                          "skip_execution": false
+                        },
+                        "object_type": "definition_activity"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01R2NK31ZUTGD5NVbbm1A1heRP5D4wYmNxC",
+        "name": "Group",
+        "title": "Take Orbital forensic snapshot",
+        "type": "logic.group",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Take Orbital forensic snapshot",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01R2NK33J6AIU6C5Vsqy9awTHXoKfHpjSTK",
+            "name": "Generate Orbital access token",
+            "title": "Generate Orbital access token",
+            "type": "workflow.atomic_workflow",
+            "base_type": "subworkflow",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Generate Orbital access token",
+              "runtime_user": {
+                "target_default": true
+              },
+              "skip_execution": false,
+              "target": {
+                "use_workflow_target_group": true
+              },
+              "workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01R2NK34YJAQB4NRU5oiteZnM0KIQ0lS0aB",
+            "name": "Orbital - Query Endpoint",
+            "title": "Orbital - Query Endpoint",
+            "type": "workflow.atomic_workflow",
+            "base_type": "subworkflow",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Orbital - Query Endpoint",
+              "input": {
+                "variable_workflow_01PQ89Y78TFQW6l81VWArKdsXi6aTo6ttQ0": "forensic-snapshot-windows-0.0.6",
+                "variable_workflow_01PQ89Y78TJW122COMKV4v5IaRfd0rHmKya": 10,
+                "variable_workflow_01PQ89Y78TL4S4gpTXEcizKNehfpT57GFfH": "",
+                "variable_workflow_01PQ89Y78TNHZ1ejIRsg03CgWYqamCUu6fr": "$workflow.definition_workflow_01R2NK2L7QPTJ1Is1emHSntVW5u7yNWm84T.local.variable_workflow_01R2NK2LCRQZO2cnWes1Yo4SFBWFRbSaqNo$",
+                "variable_workflow_01PQ89Y78TQXF6sxdOzpuMy2ywJ5cfMO7tJ": "",
+                "variable_workflow_01PQ89Y78TS3M5dh6fdlDmbg7Le3dYWSgik": "$workflow.definition_workflow_01R2NK2L7QPTJ1Is1emHSntVW5u7yNWm84T.local.variable_workflow_01R2NK2LCQYCS2gGIMlzrNaUJrDyrDyaykZ$",
+                "variable_workflow_01PQ89Y78TT7A5llxo9E9lASXTaGfke42en": "",
+                "variable_workflow_01PQ89Y78TUBI7FD5G2DozkMtabDoLrOKty": "Snapshot for $workflow.definition_workflow_01R2NK2L7QPTJ1Is1emHSntVW5u7yNWm84T.input.variable_workflow_01R2NK2LCRZ1K1J6wkPlxDKnzACABQLRQW0$ initiated by $workflow.definition_workflow_01R2NK2L7QPTJ1Is1emHSntVW5u7yNWm84T.output.started_by$",
+                "variable_workflow_01PQ89Y78TVI01vdmVFTvVgvkyDjRy3dqcR": true,
+                "variable_workflow_01PQ89Y78TWRE5UDFeOBcXf0IXKBD4SMiNb": "$workflow.definition_workflow_01R2NK2L7QPTJ1Is1emHSntVW5u7yNWm84T.local.variable_workflow_01R2NK2LCRFZ86J680iX6l2IFfdaxLHeDZe$",
+                "variable_workflow_01PQ89Y78TZDC3GfT8KI2vHAVvZgDEtWRpC": "$activity.definition_activity_01R2NK33J6AIU6C5Vsqy9awTHXoKfHpjSTK.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$"
+              },
+              "runtime_user": {
+                "target_default": true
+              },
+              "skip_execution": false,
+              "target": {
+                "override_workflow_target_group_criteria": true,
+                "target_group": {
+                  "run_on_all_targets": false,
+                  "use_criteria": {
+                    "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                    "conditions": [
+                      {
+                        "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                        "operator": "eqi",
+                        "right_operand": "Orbital_Target"
+                      }
+                    ]
+                  }
+                }
+              },
+              "workflow_id": "definition_workflow_01PQ89Y7GHRYN1Po7FXaw3jvoMHv5VaAlG1"
+            },
+            "object_type": "definition_activity"
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01R2NK3679PQ427S8gOXzOQ8WtLMWo4qMz7",
+        "name": "Condition Block",
+        "title": "Were we able to get a computer GUID?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Were we able to get a computer GUID?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01R2NK36TIYS32OByrx9thQRpxMUFmmYSDd",
+            "name": "Condition Branch",
+            "title": "Yes, enable isolation",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$workflow.definition_workflow_01R2NK2L7QPTJ1Is1emHSntVW5u7yNWm84T.local.variable_workflow_01R2NK2LCRQZO2cnWes1Yo4SFBWFRbSaqNo$",
+                "operator": "ne",
+                "right_operand": ""
+              },
+              "continue_on_failure": false,
+              "display_name": "Yes, enable isolation",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01R2NK383JN3M4nL2mIAE4qZOL2baFylaqw",
+                "name": "Secure Endpoint - Isolate Host",
+                "title": "Secure Endpoint - Isolate Host",
+                "type": "workflow.atomic_workflow",
+                "base_type": "subworkflow",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Secure Endpoint - Isolate Host",
+                  "input": {
+                    "variable_workflow_01PP77UWF61XC6J78V5wbJCUMq6FbLtlWMn": "$workflow.definition_workflow_01R2NK2L7QPTJ1Is1emHSntVW5u7yNWm84T.local.variable_workflow_01R2NK2LCRQZO2cnWes1Yo4SFBWFRbSaqNo$"
+                  },
+                  "runtime_user": {
+                    "target_default": true
+                  },
+                  "skip_execution": false,
+                  "target": {
+                    "override_workflow_target_group_criteria": true,
+                    "target_group": {
+                      "run_on_all_targets": false,
+                      "use_criteria": {
+                        "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                        "conditions": [
+                          {
+                            "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                            "operator": "eqi",
+                            "right_operand": "AMP_Target"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "workflow_id": "definition_workflow_01PP77UWMZGOK7EpAqljGObzskFeYlPRah5"
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m"
+    ]
+  },
+  "categories": {
+    "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m": {
+      "unique_name": "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m",
+      "name": "response",
+      "title": "response",
+      "type": "basic.category",
+      "base_type": "category",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  },
+  "target_groups": {
+    "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+      "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+      "name": "Default TargetGroup",
+      "title": "Default TargetGroup",
+      "type": "generic.target_group",
+      "base_type": "target_group",
+      "version": "1.0.0",
+      "targets": [
+        {
+          "data_target_type": "web-service.endpoint",
+          "view_target_type": "web-service.endpoint",
+          "include_all_targets": true
+        },
+        {
+          "data_target_type": "email.smtp_endpoint",
+          "view_target_type": "email.smtp_endpoint",
+          "include_all_targets": true
+        }
+      ],
+      "object_type": "target_group"
+    }
+  },
+  "atomic_workflows": [
+    "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH",
+    "definition_workflow_01PQ89Y7GHRYN1Po7FXaw3jvoMHv5VaAlG1",
+    "definition_workflow_01PP77C57P1EP5HkNX8Xjvr4GtJceSq4xxX",
+    "definition_workflow_01PP77UWMZGOK7EpAqljGObzskFeYlPRah5"
+  ]
+}
