@@ -2,6 +2,8 @@
 layout: page
 title: Triggering via the Threat Response API
 permalink: /workflows/response/tr-api
+redirect_from:
+  - /workflows/response/ctr-api
 parent: Response Workflows
 grand_parent: Workflows
 nav_order: 5
@@ -110,4 +112,4 @@ Content-Type: application/json
 ## Sample Workflows
 The following sample workflows are available in our repository's workflows folder to help you get familiar with this concept. These can be imported using the instructions [here]({{ site.baseurl }}/importing) or you can view the workflow in GitHub by clicking on it.
 
-* [Sample - Listing Threat Response Response Actions]({{ site.github.repository_url }}/tree/Main/Workflows/Sample-ListingCTRResponseActions__definition_workflow_01KEU8H4I287304q6vzCWsqURk39j2wAKoZ)
+* [Sample - Listing Threat Response Actions]({{ site.github.repository_url }}/tree/Main/Workflows/Sample-ListingResponseActions__definition_workflow_01KEU8H4I287304q6vzCWsqURk39j2wAKoZ)

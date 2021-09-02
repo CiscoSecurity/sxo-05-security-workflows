@@ -1,0 +1,500 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01R2NJSB9JFRK633nOAkT1cxLRDjSKU3h8L",
+    "name": "Move Computer to Triage Group",
+    "title": "Move Computer to Triage Group",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "Triage",
+          "scope": "local",
+          "name": "Triage Group Name",
+          "type": "datatype.string",
+          "description": "Name of the Secure Endpoint device group to move computers to",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01R2NJSBIDTF91L9G6HefpykyHcfSrVSj15",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "hostname",
+          "type": "datatype.string",
+          "description": "Placeholder for the hostname. This will be populated automatically",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01R2NJSBIE11I1936K2Rkf8MOFwmnkND2T9",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "observable_type",
+          "type": "datatype.string",
+          "description": "The type of the observable pivoted on",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01R2NJSBIEU1Y7K7D6ymIy7ZJv8T1ZIh2C8",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "amp_computer_guid",
+          "type": "datatype.string",
+          "description": "Placeholder for the Secure Endpoint computer GUID. This will be populated automatically",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01R2NJSBIDGYO3i9fVGglT2yQBVp8rH6n4Y",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "ip_address",
+          "type": "datatype.string",
+          "description": "Placeholder for the IP address. This will be populated automatically",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01R2NJSBIEMXD1G5tFa553goal5RKh2oIO0",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "observable_value",
+          "type": "datatype.string",
+          "description": "The value of the observable pivoted on",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01R2NJSBIEEKU704icqLYrC6AVoPl1lRIe9",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "description": "This workflow will move the endpoint identified by the provided observable to a triage device group in Cisco Secure Endpoint. Supported observables: ip, hostname, amp_computer_guid\n\nTarget Group: Default TargetGroup\n\nTargets: AMP_Target\n\nSteps:\n[] Make sure the observable is supported and set the corresponding local variable\n[] If the observable wasn't a computer GUID, try getting a GUID from Secure Endpoint\n[] Attempt to locate the triage group to get its ID\n[] Move the computer to the group\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/oob-04",
+      "display_name": "Move Computer to Triage Group",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": true,
+        "target_group": {
+          "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+          "run_on_all_targets": false,
+          "selected_target_types": [
+            "web-service.endpoint"
+          ],
+          "use_criteria": {
+            "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+            "conditions": [
+              {
+                "operator": "eqi",
+                "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                "right_operand": "AMP_Target"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01R2NJSFXGJRA2ckt2Zl1dh6PdD0kqrlHRq",
+        "name": "Condition Block",
+        "title": "Which observable type was provided?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Which observable type was provided?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01R2NJSGQRZFL1G7bA46bNiEVRrTsIjeFpf",
+            "name": "Condition Branch",
+            "title": "IP Address",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$workflow.definition_workflow_01R2NJSB9JFRK633nOAkT1cxLRDjSKU3h8L.input.variable_workflow_01R2NJSBIEU1Y7K7D6ymIy7ZJv8T1ZIh2C8$",
+                "operator": "eqi",
+                "right_operand": "ip"
+              },
+              "continue_on_failure": false,
+              "display_name": "IP Address",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01R2NJSHQ24PW7Mkr644CSOQ2UthcJm73YT",
+                "name": "Set Variables",
+                "title": "Set local variable",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Set local variable",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01R2NJSB9JFRK633nOAkT1cxLRDjSKU3h8L.local.variable_workflow_01R2NJSBIEMXD1G5tFa553goal5RKh2oIO0$",
+                      "variable_value_new": "$workflow.definition_workflow_01R2NJSB9JFRK633nOAkT1cxLRDjSKU3h8L.input.variable_workflow_01R2NJSBIEEKU704icqLYrC6AVoPl1lRIe9$"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01R2NJSIJ32CU5bp4fGAYKR6MPbQ9FmiMSv",
+            "name": "Condition Branch",
+            "title": "Hostname",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$workflow.definition_workflow_01R2NJSB9JFRK633nOAkT1cxLRDjSKU3h8L.input.variable_workflow_01R2NJSBIEU1Y7K7D6ymIy7ZJv8T1ZIh2C8$",
+                "operator": "eqi",
+                "right_operand": "hostname"
+              },
+              "continue_on_failure": false,
+              "display_name": "Hostname",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01R2NJSJE9NCK6jaMkVFEdctbtqstqURcJ8",
+                "name": "Set Variables",
+                "title": "Set local variable",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Set local variable",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01R2NJSB9JFRK633nOAkT1cxLRDjSKU3h8L.local.variable_workflow_01R2NJSBIE11I1936K2Rkf8MOFwmnkND2T9$",
+                      "variable_value_new": "$workflow.definition_workflow_01R2NJSB9JFRK633nOAkT1cxLRDjSKU3h8L.input.variable_workflow_01R2NJSBIEEKU704icqLYrC6AVoPl1lRIe9$"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01R2NJSK8PW756tzyQHKCpPRhoyH3NP5kOM",
+            "name": "Condition Branch",
+            "title": "Computer GUID",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$workflow.definition_workflow_01R2NJSB9JFRK633nOAkT1cxLRDjSKU3h8L.input.variable_workflow_01R2NJSBIEU1Y7K7D6ymIy7ZJv8T1ZIh2C8$",
+                "operator": "eqi",
+                "right_operand": "amp_computer_guid"
+              },
+              "continue_on_failure": false,
+              "display_name": "Computer GUID",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01R2NJSL50ZZB12eO3DHK5I3bOd77mGT1kW",
+                "name": "Set Variables",
+                "title": "Set local variable",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Set local variable",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01R2NJSB9JFRK633nOAkT1cxLRDjSKU3h8L.local.variable_workflow_01R2NJSBIDGYO3i9fVGglT2yQBVp8rH6n4Y$",
+                      "variable_value_new": "$workflow.definition_workflow_01R2NJSB9JFRK633nOAkT1cxLRDjSKU3h8L.input.variable_workflow_01R2NJSBIEEKU704icqLYrC6AVoPl1lRIe9$"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01R2NJSM3OQ3U3JjEONhdVLjsVHZcdFVUu1",
+            "name": "Condition Branch",
+            "title": "Something else",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$workflow.definition_workflow_01R2NJSB9JFRK633nOAkT1cxLRDjSKU3h8L.output.instance_id$",
+                "operator": "eq",
+                "right_operand": "$workflow.definition_workflow_01R2NJSB9JFRK633nOAkT1cxLRDjSKU3h8L.output.instance_id$"
+              },
+              "continue_on_failure": false,
+              "display_name": "Something else",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01R2NJSMWADZX4Nkj0uVfCuUEtkHKhETDDY",
+                "name": "Completed",
+                "title": "Unsupported observable",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Unsupported observable",
+                  "result_message": "This workflow does not support the observable type \"$workflow.definition_workflow_01R2NJSB9JFRK633nOAkT1cxLRDjSKU3h8L.input.variable_workflow_01R2NJSBIEU1Y7K7D6ymIy7ZJv8T1ZIh2C8$\"",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01R2NJSNKCHY20h4Uzq3X4aATU7OfkehO0v",
+        "name": "Condition Block",
+        "title": "Do we already have a computer GUID?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Do we already have a computer GUID?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01R2NJSOF1YGK1mwBOh0DxXyzGbqQd4zYNB",
+            "name": "Condition Branch",
+            "title": "No",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$workflow.definition_workflow_01R2NJSB9JFRK633nOAkT1cxLRDjSKU3h8L.local.variable_workflow_01R2NJSBIDGYO3i9fVGglT2yQBVp8rH6n4Y$",
+                "operator": "eq",
+                "right_operand": ""
+              },
+              "continue_on_failure": false,
+              "display_name": "No",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01R2NJSPRBNJW0wxiolF6mXC1uKuCNAO4KH",
+                "name": "Secure Endpoint - Get Connector GUID",
+                "title": "Secure Endpoint - Get Connector GUID",
+                "type": "workflow.atomic_workflow",
+                "base_type": "subworkflow",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Secure Endpoint - Get Connector GUID",
+                  "input": {
+                    "variable_workflow_01PP77C52C1JW5Pqd1VUdTlo0WKZ2UQbpgw": "$workflow.definition_workflow_01R2NJSB9JFRK633nOAkT1cxLRDjSKU3h8L.local.variable_workflow_01R2NJSBIEMXD1G5tFa553goal5RKh2oIO0$",
+                    "variable_workflow_01PP77C52C2RZ0GjYGmgf3zPv3tzU1zFjVM": "$workflow.definition_workflow_01R2NJSB9JFRK633nOAkT1cxLRDjSKU3h8L.local.variable_workflow_01R2NJSBIE11I1936K2Rkf8MOFwmnkND2T9$"
+                  },
+                  "runtime_user": {
+                    "target_default": true
+                  },
+                  "skip_execution": false,
+                  "target": {
+                    "use_workflow_target_group": true
+                  },
+                  "workflow_id": "definition_workflow_01PP77C57P1EP5HkNX8Xjvr4GtJceSq4xxX"
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01R2NJSS18GVT1ng3QMbeC8EzVDjtue6Ah0",
+                "name": "Set Variables",
+                "title": "Set local variable",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Set local variable",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01R2NJSB9JFRK633nOAkT1cxLRDjSKU3h8L.local.variable_workflow_01R2NJSBIDGYO3i9fVGglT2yQBVp8rH6n4Y$",
+                      "variable_value_new": "$activity.definition_activity_01R2NJSPRBNJW0wxiolF6mXC1uKuCNAO4KH.output.variable_workflow_01PP77C52C41N2AUHsNvtJ2LcGWFNMvqukW$"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01R2NJSSV1RPS2qn0byRpPvwaKMmdNpVqMs",
+        "name": "Condition Block",
+        "title": "Do we have (or did we find) the GUID?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Do we have (or did we find) the GUID?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01R2NJSTJYPAP5M6XNihS3WTOogACX9iNlv",
+            "name": "Condition Branch",
+            "title": "Yes",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$workflow.definition_workflow_01R2NJSB9JFRK633nOAkT1cxLRDjSKU3h8L.local.variable_workflow_01R2NJSBIDGYO3i9fVGglT2yQBVp8rH6n4Y$",
+                "operator": "ne",
+                "right_operand": ""
+              },
+              "continue_on_failure": false,
+              "display_name": "Yes",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01R2NJSUX7PUE3hbyEcaDSTtNXEEp58Z8t5",
+                "name": "Secure Endpoint - Get Group by Name",
+                "title": "Secure Endpoint - Get Group by Name",
+                "type": "workflow.atomic_workflow",
+                "base_type": "subworkflow",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Secure Endpoint - Get Group by Name",
+                  "input": {
+                    "variable_workflow_01PP76KUS7HRK6uGjTOtsVj6VpvVkD72kCF": "$workflow.definition_workflow_01R2NJSB9JFRK633nOAkT1cxLRDjSKU3h8L.local.variable_workflow_01R2NJSBIDTF91L9G6HefpykyHcfSrVSj15$"
+                  },
+                  "runtime_user": {
+                    "target_default": true
+                  },
+                  "skip_execution": false,
+                  "target": {
+                    "use_workflow_target_group": true
+                  },
+                  "workflow_id": "definition_workflow_01PP76KUZHVDE1gUGxreX9ZVwWysIR5STCI"
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01R2NJSW9B6KM2mpHuUD59OeCLcg1HnpCrn",
+                "name": "Secure Endpoint - Move Computer to Group",
+                "title": "Secure Endpoint - Move Computer to Group",
+                "type": "workflow.atomic_workflow",
+                "base_type": "subworkflow",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Secure Endpoint - Move Computer to Group",
+                  "input": {
+                    "variable_workflow_01PP7772YYJGT12sl8b0lNmoKUbftaYK0On": "$workflow.definition_workflow_01R2NJSB9JFRK633nOAkT1cxLRDjSKU3h8L.local.variable_workflow_01R2NJSBIDGYO3i9fVGglT2yQBVp8rH6n4Y$",
+                    "variable_workflow_01PP7772YYNI25bmT3CMEF7wTcSBy5GxKH2": "$activity.definition_activity_01R2NJSUX7PUE3hbyEcaDSTtNXEEp58Z8t5.output.variable_workflow_01PP76KUS7CN72dJKlPIQk18WhifhREqD15$"
+                  },
+                  "runtime_user": {
+                    "target_default": true
+                  },
+                  "skip_execution": false,
+                  "target": {
+                    "use_workflow_target_group": true
+                  },
+                  "workflow_id": "definition_workflow_01PP77736E3Z84p2rYcNQJTutcGMh9QaXet"
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m"
+    ]
+  },
+  "categories": {
+    "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m": {
+      "unique_name": "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m",
+      "name": "response",
+      "title": "response",
+      "type": "basic.category",
+      "base_type": "category",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  },
+  "target_groups": {
+    "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+      "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+      "name": "Default TargetGroup",
+      "title": "Default TargetGroup",
+      "type": "generic.target_group",
+      "base_type": "target_group",
+      "version": "1.0.0",
+      "targets": [
+        {
+          "data_target_type": "web-service.endpoint",
+          "view_target_type": "web-service.endpoint",
+          "include_all_targets": true
+        },
+        {
+          "data_target_type": "email.smtp_endpoint",
+          "view_target_type": "email.smtp_endpoint",
+          "include_all_targets": true
+        }
+      ],
+      "object_type": "target_group"
+    }
+  },
+  "atomic_workflows": [
+    "definition_workflow_01PP77C57P1EP5HkNX8Xjvr4GtJceSq4xxX",
+    "definition_workflow_01PP76KUZHVDE1gUGxreX9ZVwWysIR5STCI",
+    "definition_workflow_01PP77736E3Z84p2rYcNQJTutcGMh9QaXet"
+  ]
+}
