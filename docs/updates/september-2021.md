@@ -15,7 +15,7 @@ As part of our ongoing commitment to enhancing the SecureX platform, SecureX orc
 
 | Region | Date | Start and End Time | Window Length |
 |:-------|:-----|:-------------------|:--------------|
-| Asia Pacific (APJC) | Saturday, September 11, 2021 | 5:00 AM - 10:00 AM SGT | 5 Hours |
+| Asia Pacific (APJC) | Saturday, September 11, 2021 | 11:00 PM - 4:00 AM SGT | 5 Hours |
 | EMEAR (EU) | Saturday, September 18, 2021 | 9:00 PM - 2:00 AM CEST | 5 Hours |
 | US and LATAM (US) | Saturday, September 25, 2021 | 5:00 PM - 11:30 PM EDT | 6.5 Hours |
 
