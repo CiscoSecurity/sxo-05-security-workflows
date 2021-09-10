@@ -20,20 +20,33 @@ This workflow fetches Cisco Secure Firewall incidents and conducts automated enr
 
 ---
 
+## Change Log
+
+| Date | Notes |
+|:-----|:------|
+| Apr 19, 2021 | - Initial release |
+| September 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+
+_See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
+
+---
+
 ## Requirements
+* The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
+	* Secure Endpoint - Get Computer by GUID
+	* Secure Endpoint - Get Connector GUID
+	* Threat Response - Generate Access Token
+	* Threat Response - Create Casebook
+	* Threat Response - Create Relationship
+	* Threat Response - Create Sighting
 * The following atomic actions must be imported before you can import this workflow:
-	* AMP - Get Computer by GUID ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* AMP - Get Connector GUID ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Response v2 - Generate Access Token ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Response v2 - Create Casebook ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Response v2 - Create Relationship ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Response v2 - Create Sighting ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* None
 * The [targets](#targets) and [account keys](#account-keys) listed below
+* Cisco Secure Endpoint
 
 ---
 
 ## Workflow Steps
-
 1. Generate an access token for Threat Response
 1. Fetch incidents for the past hour
 1. Loop through each incident:

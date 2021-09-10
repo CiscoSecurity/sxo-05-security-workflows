@@ -17,7 +17,7 @@ Response Workflow
 {: .label }
 </div>
 
-This workflow should be triggered from a SecureX pivot menu and supports IP address observables. When triggered, this workflow blocks the given IP address on a Meraki MX L3 outbound firewall (using the input observable as the rule's destination).
+This workflow blocks the given IP address on a Cisco Meraki MX L3 outbound firewall (using the input observable as the rule's destination). Supported observable: `ip`
 
 [<i class="fab fa-github mr-1"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0019-Meraki-MX-L3OutboundFirewallBlock__definition_workflow_01N8TXL33W9E22A4yIbisj9tP8Us54bTTdt){: .btn-cisco-outline }
 
@@ -29,18 +29,22 @@ This workflow should be triggered from a SecureX pivot menu and supports IP addr
 |:-----|:------|
 | Apr 5, 2021 | - Initial release |
 | Apr 8, 2021 | - Fixed an issue in one of the Python scripts that caused the rule list JSON to be double wrapped |
+| September 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
 
 _See the [Important Notes]({{ site.baseurl }}/notes#workflows) page for more information about updating workflows_
 
 ---
 
 ## Requirements
+* The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
+	* Meraki - Get Networks by Organization
+	* Meraki - Get Organizations
+	* Meraki - Network - MX - Get L3 Outbound Firewall Rules
+	* Meraki - Network - MX - Update L3 Outbound Firewall Rules
 * The following atomic actions must be imported before you can import this workflow:
-	* Meraki - Get Networks by Organization ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
-	* Meraki - Get Organizations ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
-	* Meraki - Network - MX - Get L3 Firewall Rules ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
-	* Meraki - Network - MX - Update L3 Firewall Rule ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
+	* None
 * The [targets](#targets) listed below
+* Cisco Meraki MX Firewall
 
 ---
 

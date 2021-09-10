@@ -7,34 +7,6 @@
 	  "base_type": "workflow",
 	  "variables": [
 		{
-		  "schema_id": "datatype.integer",
-		  "properties": {
-			"value": 24,
-			"scope": "local",
-			"name": "Hours to Check",
-			"type": "datatype.integer",
-			"description": "How many hours to go back in time when looking for events. We recommend running the workflow once a day, so the default value is 24",
-			"is_required": false,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01PDD0GZVUC2S4WKzSJbeSN25DGhX7Ze8ZU",
-		  "object_type": "variable_workflow"
-		},
-		{
-		  "schema_id": "datatype.string",
-		  "properties": {
-			"value": "SecureX Orchestration",
-			"scope": "local",
-			"name": "Webex Teams Room Name",
-			"type": "datatype.string",
-			"description": "The name of the Webex Teams room to post messages to. If using a bot, make sure to invite your bot to the room before attempting to send messages. If you don't want to use Webex, leave this blank",
-			"is_required": false,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01PDCPC9YAI333N6tWBbMOpWTNx09LhsV3C",
-		  "object_type": "variable_workflow"
-		},
-		{
 		  "schema_id": "datatype.secure_string",
 		  "properties": {
 			"value": "",
@@ -53,6 +25,20 @@
 		  "properties": {
 			"value": "",
 			"scope": "local",
+			"name": "Webex Teams Room Name",
+			"type": "datatype.string",
+			"description": "The name of the Webex Teams room to post messages to. If using a bot, make sure to invite your bot to the room before attempting to send messages. If you don't want to use Webex, leave this blank",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01PDCPC9YAI333N6tWBbMOpWTNx09LhsV3C",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
 			"name": "Webex Text",
 			"type": "datatype.string",
 			"description": "Placeholder used to compile the Webex message. This will be populated automatically",
@@ -60,6 +46,20 @@
 			"is_invisible": false
 		  },
 		  "unique_name": "variable_workflow_01PDCMLZF64VR5ETR1aAh7vmGWUHcn55u7r",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.integer",
+		  "properties": {
+			"value": 24,
+			"scope": "local",
+			"name": "Hours to Check",
+			"type": "datatype.integer",
+			"description": "How many hours to go back in time when looking for events. We recommend running the workflow once a day, so the default value is 24",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01PDD0GZVUC2S4WKzSJbeSN25DGhX7Ze8ZU",
 		  "object_type": "variable_workflow"
 		},
 		{
@@ -82,7 +82,7 @@
 		  "is_atomic": false
 		},
 		"delete_workflow_instance": false,
-		"description": "This workflow checks for users that were created within the past X hours (the timeframe is configurable). If any results are found, the user list is aggregated and a Webex Teams message is sent. Required Graph API permissions: AuditLog.Read.All\n\nTarget Group: Default TargetGroup\n\nTargets: Microsoft Graph, Microsoft Graph Token, Webex Teams\n\nSteps:\n[] Fetch global variables\n[] Get an access token for the Graph API\n[] Calculate and format the start date\n[] Fetch audit log events for user creation\n[] Check if the request was successful:\n[]> If not, return an error message\n[]> If it was, parse the event JSON and aggregate the list of new users in text form for Webex. If there's anything to report, send a Webex message\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0036",
+		"description": "This workflow checks for users that were created within the past X hours in Microsoft Azure (the timeframe is configurable). If any results are found, the user list is aggregated and a Webex Teams message is sent. Required Graph API permissions: AuditLog.Read.All\n\nTarget Group: Default TargetGroup\n\nTargets: Microsoft Graph, Microsoft Graph Token, Webex Teams\n\nSteps:\n[] Fetch global variables\n[] Get an access token for the Graph API\n[] Calculate and format the start date\n[] Fetch audit log events for user creation\n[] Check if the request was successful:\n[]> If not, return an error message\n[]> If it was, parse the event JSON and aggregate the list of new users in text form for Webex. If there's anything to report, send a Webex message\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0036",
 		"display_name": "0036 - Azure AD - Get New Users",
 		"runtime_user": {
 		  "target_default": true
@@ -154,13 +154,13 @@
 		},
 		{
 		  "unique_name": "definition_activity_01PD8FRDEM40K2MkZm1VLknRL7n6josfSQh",
-		  "name": "MS Graph - Get Access Token",
-		  "title": "MS Graph - Get Access Token",
+		  "name": "Microsoft Graph - Get Access Token",
+		  "title": "Microsoft Graph - Get Access Token",
 		  "type": "workflow.atomic_workflow",
 		  "base_type": "subworkflow",
 		  "properties": {
 			"continue_on_failure": false,
-			"display_name": "MS Graph - Get Access Token",
+			"display_name": "Microsoft Graph - Get Access Token",
 			"input": {
 			  "variable_workflow_01HQN7N4UOTC65YnWUlkyv9piykyDJH4Mzv": "$workflow.definition_workflow_01PD8FKF4OBFC16O6H6qxulK3Ul9Mh4i6XH.local.variable_workflow_01PE5EYFQVA0O3S8iG9JoRjez2TzRZuiVMU$"
 			},
@@ -226,6 +226,7 @@
 		  "type": "web-service.http_request",
 		  "base_type": "activity",
 		  "properties": {
+			"accept": "application/json",
 			"action_timeout": 180,
 			"allow_auto_redirect": true,
 			"content_type": "application/json",
@@ -266,7 +267,7 @@
 			{
 			  "unique_name": "definition_activity_01PD8KYQY1EE31PAY2NqIDE8OYk2304UdSE",
 			  "name": "Condition Branch",
-			  "title": "Success/200",
+			  "title": "200/Success",
 			  "type": "logic.condition_block",
 			  "base_type": "activity",
 			  "properties": {
@@ -276,7 +277,7 @@
 				  "right_operand": 200
 				},
 				"continue_on_failure": false,
-				"display_name": "Success/200",
+				"display_name": "200/Success",
 				"skip_execution": false
 			  },
 			  "object_type": "definition_activity",
@@ -828,10 +829,10 @@
 							"continue_on_failure": true,
 							"display_name": "Webex Teams - Search for Room",
 							"input": {
-							  "variable_workflow_01FHMU6RWYQWI3QFUEzjWMT7JYBcz5vquuD": "",
-							  "variable_workflow_01FHMU6RWYWY822p43LeMi8Lcx89Q9jeyek": "$workflow.definition_workflow_01PD8FKF4OBFC16O6H6qxulK3Ul9Mh4i6XH.local.variable_workflow_01PDCPC9YAI333N6tWBbMOpWTNx09LhsV3C$",
-							  "variable_workflow_01FHMU6RWYY481TVWDm0BQ1p0rWnqak191l": "$workflow.definition_workflow_01PD8FKF4OBFC16O6H6qxulK3Ul9Mh4i6XH.local.variable_workflow_01PDCPXUOF61V5ezXg0lP5bq4r3MMDxjb2M$",
-							  "variable_workflow_01FHNGCYY2O6Z0NcPmUDabszT2P4P0oqMNd": ""
+							  "variable_workflow_01PP790MCX1DN3EitpQebkUyJS65DbwS3nU": "$workflow.definition_workflow_01PD8FKF4OBFC16O6H6qxulK3Ul9Mh4i6XH.local.variable_workflow_01PDCPXUOF61V5ezXg0lP5bq4r3MMDxjb2M$",
+							  "variable_workflow_01PP790MCXB392D3R8pxh9fgOTjTde2bcMW": "$workflow.definition_workflow_01PD8FKF4OBFC16O6H6qxulK3Ul9Mh4i6XH.local.variable_workflow_01PDCPC9YAI333N6tWBbMOpWTNx09LhsV3C$",
+							  "variable_workflow_01PP790MCXHP55YE6ylOEITWsWbUFJeyWGv": "",
+							  "variable_workflow_01PP790MCXM9W1MUwo85y8iNRCoQuQ4RGNa": ""
 							},
 							"runtime_user": {
 							  "target_default": true
@@ -853,7 +854,7 @@
 								}
 							  }
 							},
-							"workflow_id": "definition_workflow_01FHMU6SD5XPL6eRW4zFXqkA1w8jWiQCIBU"
+							"workflow_id": "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez"
 						  },
 						  "object_type": "definition_activity"
 						},
@@ -898,10 +899,10 @@
 									"continue_on_failure": false,
 									"display_name": "Webex Teams - Post Message to Room",
 									"input": {
-									  "variable_workflow_01FGYY44G3MZ55amJu9YqgUeKS8GT49bZx3": "$workflow.definition_workflow_01PD8FKF4OBFC16O6H6qxulK3Ul9Mh4i6XH.local.variable_workflow_01PDCPXUOF61V5ezXg0lP5bq4r3MMDxjb2M$",
-									  "variable_workflow_01FGYY44G3TK951Crpnd8g2izonyM4bFtpW": "$activity.definition_activity_01PDCPKHSEH0934l7b0ttE7MasLKKBBSlIZ.output.variable_workflow_01FHSVE2R6ZTQ6L92WEi0kWgR5T8zhMAUzO$",
-									  "variable_workflow_01FGYY44G3UPV3heGGc3vXCV47YL5WoI2X6": "",
-									  "variable_workflow_01FGYZ9BV4QTP19CuMwcW8QywvCP9ymx2BZ": "$workflow.definition_workflow_01PD8FKF4OBFC16O6H6qxulK3Ul9Mh4i6XH.local.variable_workflow_01PDCMLZF64VR5ETR1aAh7vmGWUHcn55u7r$"
+									  "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$activity.definition_activity_01PDCPKHSEH0934l7b0ttE7MasLKKBBSlIZ.output.variable_workflow_01PP790MCXJ7Y5cAWcGZWbG4Es0126zb1I6$",
+									  "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$workflow.definition_workflow_01PD8FKF4OBFC16O6H6qxulK3Ul9Mh4i6XH.local.variable_workflow_01PDCPXUOF61V5ezXg0lP5bq4r3MMDxjb2M$",
+									  "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "$workflow.definition_workflow_01PD8FKF4OBFC16O6H6qxulK3Ul9Mh4i6XH.local.variable_workflow_01PDCMLZF64VR5ETR1aAh7vmGWUHcn55u7r$",
+									  "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": ""
 									},
 									"runtime_user": {
 									  "target_default": true
@@ -923,7 +924,7 @@
 										}
 									  }
 									},
-									"workflow_id": "definition_workflow_01FGYY44YU521254ygN3Le0In0kEHpiPNpf"
+									"workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw"
 								  },
 								  "object_type": "definition_activity"
 								}
@@ -1003,8 +1004,8 @@
 	  }
 	},
 	"atomic_workflows": [
-	  "definition_workflow_01FHMU6SD5XPL6eRW4zFXqkA1w8jWiQCIBU",
-	  "definition_workflow_01HQN7N57GLKN780LTDUabTblE3OpMPQVfx",
-	  "definition_workflow_01FGYY44YU521254ygN3Le0In0kEHpiPNpf"
+	  "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez",
+	  "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw",
+	  "definition_workflow_01HQN7N57GLKN780LTDUabTblE3OpMPQVfx"
 	]
   }

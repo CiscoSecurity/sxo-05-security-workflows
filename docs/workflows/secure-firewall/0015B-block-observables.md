@@ -17,17 +17,31 @@ Response Workflow
 {: .label }
 </div>
 
-This workflow blocks an observable on Cisco Secure Firewall (formerly Firepower) by creating a judgement for it in SecureX Threat Response. Once a judgement is created, the observable will appear on a feed which Secure Firewall polls for observable information. Supported observable types: domain, ip, ipv6, sha256, url.
+This workflow blocks an observable on Cisco Secure Firewall by creating a judgement for it in SecureX Threat Response. Once a judgement is created, the observable will appear on a feed which Secure Firewall polls for observable information. Supported observables: `domain`, `ip`, `ipv6`, `sha256`, `url`
 
 [<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0015B-SecureFirewall-BlockObservables__definition_workflow_01ML39FS25W1V5nR5onJGG8OBgXRuGG8y79){: .btn-cisco-outline }
 
 ---
 
+## Change Log
+
+| Date | Notes |
+|:-----|:------|
+| Apr 19, 2021 | - Initial release |
+| September 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+
+_See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
+
+---
+
 ## Requirements
+* The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
+	* Threat Response - Create Relationship
+	* Threat Response - Generate Access Token
 * The following atomic actions must be imported before you can import this workflow:
-	* Threat Response v2 - Create Relationship ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Response v2 - Generate Access Token ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* None
 * The [targets](#targets) and [account keys](#account-keys) listed below
+* Cisco Secure Firewall
 
 ---
 

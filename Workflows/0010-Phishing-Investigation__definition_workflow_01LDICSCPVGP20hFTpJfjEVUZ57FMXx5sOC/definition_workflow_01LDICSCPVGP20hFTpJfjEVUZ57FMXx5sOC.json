@@ -7,47 +7,6 @@
     "base_type": "workflow",
     "variables": [
       {
-        "schema_id": "datatype.integer",
-        "properties": {
-          "value": 0,
-          "scope": "local",
-          "name": "Threat Grid Threat Score",
-          "type": "datatype.integer",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01LKCO2ILYJX85BRkQksWGGjJd8umqT8nXM",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.date",
-        "properties": {
-          "value": "0001-01-01T00:00:00+00:00",
-          "scope": "local",
-          "name": "Threat Response Token Time",
-          "type": "datatype.date",
-          "description": "The time at which the most recent access token was fetched from Threat Response",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01LR9OX967DM22CD3q0QQKBsZKf9pReRVCc",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "Unknown",
-          "scope": "local",
-          "name": "Phish Recipients",
-          "type": "datatype.string",
-          "description": "The recipients of the email that was submitted for investigation. This is something we attempt to extract from the attachment headers",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01LG4HDZ009225imFLWhsAxjpJBuXZ2RxHT",
-        "object_type": "variable_workflow"
-      },
-      {
         "schema_id": "datatype.string",
         "properties": {
           "value": "Phishing Investigation Outgoing",
@@ -62,13 +21,152 @@
         "object_type": "variable_workflow"
       },
       {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "someone@domain.com",
+          "scope": "local",
+          "name": "Notification Email Addresses",
+          "type": "datatype.string",
+          "description": "List of email addresses to send investigation notifications to. The email addresses should either be comma separated or each on their own line",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01LEI57J5RYLC77T77OWmjwU64kDd6EuDDp",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "Ticket Text",
+          "type": "datatype.string",
+          "description": "Placeholder used throughout the workflow to compile information for SecureX casebooks and incidents. This will be populated automatically",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01LDICSBLLOJT3g5rFBLxbOBw1UlF0Ql9mi",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "tabletype_01KXKQ1CSRGVL7ZpP6ogcjNI0ADUjMVnIl5",
+        "properties": {
+          "scope": "local",
+          "name": "Observables Table",
+          "type": "datatype.table",
+          "description": "A table containing observables found during the investigation. This will be populated automatically",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01LDICSBLLLZT06hOstShsFs2WLumhqAto4",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "Consolidated Headers",
+          "type": "datatype.string",
+          "description": "Placeholder uses to compile a list of email headers. This will be populated automatically",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01LDICSBLLEQ84yY8NaZt1Oy244ZApGAcJj",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.integer",
+        "properties": {
+          "value": 0,
+          "scope": "local",
+          "name": "Number of Threat Grid Submissions",
+          "type": "datatype.integer",
+          "description": "How many files and URLs were submitted to Threat Grid for analysis during the investigation. This will be populated automatically",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01LGYMI6C66CI2DaD7QJ5OOD7FVtwPeaPCe",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "Unknown",
+          "scope": "local",
+          "name": "Phish Sender",
+          "type": "datatype.string",
+          "description": "The sender of the email that was submitted for investigation. This is something we attempt to extract from the attachment headers and will be populated automatically",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01LG3GJ9F9M5S2Qxe4US0DM83k8vstM2cye",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "Webex Teams Room Name",
+          "type": "datatype.string",
+          "description": "The name of the Webex Teams room to post messages to. If using a bot, make sure to invite your bot to the room before attempting to send messages. If you don't want to use Webex, leave this blank",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01LDICSBLLPMP7MNZ3m0TsDTLgF2JcMe5uS",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.integer",
+        "properties": {
+          "value": 0,
+          "scope": "local",
+          "name": "Number of Unknown Observables",
+          "type": "datatype.integer",
+          "description": "How many observables the investigation found with a Unknown disposition. This will be populated automatically",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01LGYM9HYUS0T5tnd0alUn2JbXGhc0RxCID",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.boolean",
+        "properties": {
+          "value": false,
+          "scope": "local",
+          "name": "Has Email Attachment",
+          "type": "datatype.boolean",
+          "description": "Whether or not the email sent for investigation has an email attached to it. Since we want users to forward the suspicious email as an attachment, we check to make sure this is true after the attachments are processed",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01LNOZTJ31BEI0MEzcHHscPBKxGKtR7fAJE",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "Threat Response Environment URL",
+          "type": "datatype.string",
+          "description": "Placeholder for the URL of the Threat Response environment being used. This will be populated automatically",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01LDICSBLLG976twtPV5bt5l5DrFeRLfFPe",
+        "object_type": "variable_workflow"
+      },
+      {
         "schema_id": "datatype.secure_string",
         "properties": {
           "value": "",
           "scope": "local",
           "name": "Threat Response Access Token",
           "type": "datatype.secure_string",
-          "description": "The current Threat Response access token",
+          "description": "Placeholder for the Threat Response access token. This token will be fetched as needed throughout the workflow and this variable should not be modified",
           "is_required": false,
           "is_invisible": false
         },
@@ -80,37 +178,9 @@
         "properties": {
           "value": 0,
           "scope": "local",
-          "name": "Number of Malicious Observables",
-          "type": "datatype.integer",
-          "description": "How many observables the investigation found with a Malicious disposition",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01LGYJQVFW8HJ2nEXVlQm67JaGK41nYRUUJ",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "local",
-          "name": "Threat Response Environment URL",
-          "type": "datatype.string",
-          "description": "Placeholder for the URL of the Threat Response environment being used. You don't need to provide this, it will be fetched automatically",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01LDICSBLLG976twtPV5bt5l5DrFeRLfFPe",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.integer",
-        "properties": {
-          "value": 0,
-          "scope": "local",
           "name": "Number of Clean Observables",
           "type": "datatype.integer",
-          "description": "How many observables the investigation found with a Clean disposition",
+          "description": "How many observables the investigation found with a Clean disposition. This will be populated automatically",
           "is_required": false,
           "is_invisible": false
         },
@@ -120,15 +190,15 @@
       {
         "schema_id": "datatype.string",
         "properties": {
-          "value": "",
+          "value": "Unknown",
           "scope": "local",
-          "name": "Ticket Text",
+          "name": "Phish Recipients",
           "type": "datatype.string",
-          "description": "Placeholder used throughout the workflow to compile information for Threat Response casebooks and incidents",
+          "description": "The recipients of the email that was submitted for investigation. This is something we attempt to extract from the attachment headers and will be populated automatically",
           "is_required": false,
           "is_invisible": false
         },
-        "unique_name": "variable_workflow_01LDICSBLLOJT3g5rFBLxbOBw1UlF0Ql9mi",
+        "unique_name": "variable_workflow_01LG4HDZ009225imFLWhsAxjpJBuXZ2RxHT",
         "object_type": "variable_workflow"
       },
       {
@@ -138,7 +208,7 @@
           "scope": "local",
           "name": "SecureX Environment URL",
           "type": "datatype.string",
-          "description": "Placeholder for the URL of the SecureX environment being used. You don't need to provide this, it will be fetched automatically",
+          "description": "Placeholder for the URL of the SecureX environment being used. This will be populated automatically",
           "is_required": false,
           "is_invisible": false
         },
@@ -146,16 +216,59 @@
         "object_type": "variable_workflow"
       },
       {
-        "schema_id": "tabletype_01KXKQ1CSRGVL7ZpP6ogcjNI0ADUjMVnIl5",
+        "schema_id": "datatype.string",
         "properties": {
+          "value": "",
           "scope": "local",
-          "name": "Observables Table",
-          "type": "datatype.table",
-          "description": "A table containing observables found during the investigation",
+          "name": "Secure Malware Analytics Environment URL",
+          "type": "datatype.string",
+          "description": "Placeholder for the URL of the Secure Malware Analytics environment being used. This will be populated automatically",
           "is_required": false,
           "is_invisible": false
         },
-        "unique_name": "variable_workflow_01LDICSBLLLZT06hOstShsFs2WLumhqAto4",
+        "unique_name": "variable_workflow_01LWAHHD506RJ7C8r17PWhETuCv94RscDrJ",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "[]",
+          "scope": "local",
+          "name": "Observables JSON",
+          "type": "datatype.string",
+          "description": "Placeholder used to build a JSON list of observables found during the investigation. This will be populated automatically",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01LDICSBLL7DK7UYAjRXpksRudsOQVn67Hs",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.date",
+        "properties": {
+          "value": "0001-01-01T00:00:00+00:00",
+          "scope": "local",
+          "name": "Threat Response Token Time",
+          "type": "datatype.date",
+          "description": "The time at which the Threat Response access token was last fetched. This is used to determine when it's time to fetch a new token and should not be modified",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01LR9OX967DM22CD3q0QQKBsZKf9pReRVCc",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "Unknown",
+          "scope": "local",
+          "name": "Phish Subject",
+          "type": "datatype.string",
+          "description": "The subject of the email that was submitted for investigation. This is something we attempt to extract from the attachment headers and will be populated automatically",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01LG4CXZB1PS85vMbaUCSTf8j02SCyIImgV",
         "object_type": "variable_workflow"
       },
       {
@@ -163,13 +276,13 @@
         "properties": {
           "value": 0,
           "scope": "local",
-          "name": "Number of Unknown Observables",
+          "name": "Number of Suspicious Observables",
           "type": "datatype.integer",
-          "description": "How many observables the investigation found with a Unknown disposition",
+          "description": "How many observables the investigation found with a Suspicious disposition. This will be populated automatically",
           "is_required": false,
           "is_invisible": false
         },
-        "unique_name": "variable_workflow_01LGYM9HYUS0T5tnd0alUn2JbXGhc0RxCID",
+        "unique_name": "variable_workflow_01LGYJ91SGAGA7VyrEdTBs7FjF0aFQr2yx0",
         "object_type": "variable_workflow"
       },
       {
@@ -191,41 +304,13 @@
         "properties": {
           "value": 0,
           "scope": "local",
-          "name": "Number of Suspicious Observables",
+          "name": "Number of Malicious Observables",
           "type": "datatype.integer",
-          "description": "How many observables the investigation found with a Suspicious disposition",
+          "description": "How many observables the investigation found with a Malicious disposition. This will be populated automatically",
           "is_required": false,
           "is_invisible": false
         },
-        "unique_name": "variable_workflow_01LGYJ91SGAGA7VyrEdTBs7FjF0aFQr2yx0",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "local",
-          "name": "Consolidated Headers",
-          "type": "datatype.string",
-          "description": "Placeholder uses to compile a list of email headers",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01LDICSBLLEQ84yY8NaZt1Oy244ZApGAcJj",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "someone@domain.com",
-          "scope": "local",
-          "name": "Notification Email Addresses",
-          "type": "datatype.string",
-          "description": "List of email addresses to send investigation notifications to. The email addresses should either be comma separated or each on their own line",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01LEI57J5RYLC77T77OWmjwU64kDd6EuDDp",
+        "unique_name": "variable_workflow_01LGYJQVFW8HJ2nEXVlQm67JaGK41nYRUUJ",
         "object_type": "variable_workflow"
       },
       {
@@ -233,9 +318,9 @@
         "properties": {
           "value": "",
           "scope": "local",
-          "name": "Threat Grid API Key",
+          "name": "Secure Malware Analytics API Key",
           "type": "datatype.secure_string",
-          "description": "The API key to use with Threat Grid. You can either set this here (and remove this variable from the Fetch Global Variables activity) or you can use the Fetch Global Variables activity to update this variable with an existing API key from a global variable",
+          "description": "The API key to use with Secure Malware Analytics. You can either set this here (and remove this variable from the Fetch Global Variables activity) or you can use the Fetch Global Variables activity to update this variable with an existing API key from a global variable",
           "is_required": false,
           "is_invisible": false
         },
@@ -243,101 +328,17 @@
         "object_type": "variable_workflow"
       },
       {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "Unknown",
-          "scope": "local",
-          "name": "Phish Sender",
-          "type": "datatype.string",
-          "description": "The sender of the email that was submitted for investigation. This is something we attempt to extract from the attachment headers",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01LG3GJ9F9M5S2Qxe4US0DM83k8vstM2cye",
-        "object_type": "variable_workflow"
-      },
-      {
         "schema_id": "datatype.integer",
         "properties": {
           "value": 0,
           "scope": "local",
-          "name": "Number of Threat Grid Submissions",
+          "name": "Secure Malware Analytics Threat Score",
           "type": "datatype.integer",
-          "description": "How many files and URLs were submitted to Threat Grid for analysis during the investigation",
+          "description": "Placeholder for the threat score for URLs/files being analyzed by Secure Malware Analytics. This will be populated automatically",
           "is_required": false,
           "is_invisible": false
         },
-        "unique_name": "variable_workflow_01LGYMI6C66CI2DaD7QJ5OOD7FVtwPeaPCe",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "SecureX Orchestration",
-          "scope": "local",
-          "name": "Webex Teams Room Name",
-          "type": "datatype.string",
-          "description": "The name of the Webex Teams room to post messages to. If using a bot, make sure to invite your bot to the room before attempting to send messages. If you don't want to use Webex, leave this blank",
-          "is_required": true,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01LDICSBLLPMP7MNZ3m0TsDTLgF2JcMe5uS",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "Unknown",
-          "scope": "local",
-          "name": "Phish Subject",
-          "type": "datatype.string",
-          "description": "The subject of the email that was submitted for investigation. This is something we attempt to extract from the attachment headers",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01LG4CXZB1PS85vMbaUCSTf8j02SCyIImgV",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.boolean",
-        "properties": {
-          "value": false,
-          "scope": "local",
-          "name": "Has Email Attachment",
-          "type": "datatype.boolean",
-          "description": "Whether or not the email sent for investigation has an email attached to it. Since we want users to forward the suspicious email as an attachment, we check to make sure this is true after the attachments are processed",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01LNOZTJ31BEI0MEzcHHscPBKxGKtR7fAJE",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "[]",
-          "scope": "local",
-          "name": "Observables JSON",
-          "type": "datatype.string",
-          "description": "Placeholder used to build a JSON list of observables found during the investigation",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01LDICSBLL7DK7UYAjRXpksRudsOQVn67Hs",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "local",
-          "name": "Threat Grid Environment URL",
-          "type": "datatype.string",
-          "description": "Placeholder for the URL of the Threat Grid environment being used. You don't need to provide this, it will be fetched automatically",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01LWAHHD506RJ7C8r17PWhETuCv94RscDrJ",
+        "unique_name": "variable_workflow_01LKCO2ILYJX85BRkQksWGGjJd8umqT8nXM",
         "object_type": "variable_workflow"
       }
     ],
@@ -346,7 +347,7 @@
         "is_atomic": false
       },
       "delete_workflow_instance": false,
-      "description": "This workflow monitors a mailbox for incoming suspicious email reports. When an email is received, the workflow investigates its attachments and attempts to determine if anything in the email (or its attachments) was suspicious or malicious. If anything suspicious or malicious is found, the user is told to delete the email, a casebook and incident are created in Threat Response, a Webex Teams message is posted, and an email is sent to a \"SOC\" email address.\n\nTarget Group: Default TargetGroup\n\nTargets: CTR_API, CTR_For_Access_Token, Phishing Investigation Mailbox, Phishing Investigation Outgoing, Private_CTIA_Target, ThreatGrid_Target, Webex Teams\n\nSteps:\nPlease see: https://cs.co/SXO_docs",
+      "description": "This workflow monitors a mailbox for incoming phishing reports. When an email is received, the workflow investigates its attachments and attempts to determine if anything in the email (or its attachments) was suspicious or malicious. If anything suspicious or malicious is found, the user is told to delete the email, a casebook and incident are created in Cisco SecureX, a Webex Teams message is posted, and an email is sent to a \"SOC\" email address.\n\nTarget Group: Default TargetGroup\n\nTargets: CTR_API, CTR_For_Access_Token, Phishing Investigation Mailbox, Phishing Investigation Outgoing, Private_CTIA_Target, ThreatGrid_Target, Webex Teams\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0010",
       "display_name": "0010 - Phishing Investigation",
       "runtime_user": {
         "override_target_runtime_user": false,
@@ -431,7 +432,7 @@
           {
             "unique_name": "definition_activity_01LELBL7PQBQN3rKtCICeHBTngyQS3z3YNh",
             "name": "Condition Branch",
-            "title": "Prod NAM",
+            "title": "PROD-NAM",
             "type": "logic.condition_block",
             "base_type": "activity",
             "properties": {
@@ -441,7 +442,7 @@
                 "right_operand": "prod-nam"
               },
               "continue_on_failure": false,
-              "display_name": "Prod NAM",
+              "display_name": "PROD-NAM",
               "skip_execution": false
             },
             "object_type": "definition_activity",
@@ -478,7 +479,7 @@
           {
             "unique_name": "definition_activity_01LELCF63S21L4A7U8mktcJIp4PzHadpc4H",
             "name": "Condition Branch",
-            "title": "Prod EU",
+            "title": "PROD-EU",
             "type": "logic.condition_block",
             "base_type": "activity",
             "properties": {
@@ -488,7 +489,7 @@
                 "right_operand": "prod-eu"
               },
               "continue_on_failure": false,
-              "display_name": "Prod EU",
+              "display_name": "PROD-EU",
               "skip_execution": false
             },
             "object_type": "definition_activity",
@@ -525,7 +526,7 @@
           {
             "unique_name": "definition_activity_01LELCLUQIUB54YYk4spXgVQRIZFCAtALCP",
             "name": "Condition Branch",
-            "title": "Prod APJC",
+            "title": "PROD-APJC",
             "type": "logic.condition_block",
             "base_type": "activity",
             "properties": {
@@ -535,7 +536,7 @@
                 "right_operand": "prod-apjc"
               },
               "continue_on_failure": false,
-              "display_name": "Prod APJC",
+              "display_name": "PROD-APJC",
               "skip_execution": false
             },
             "object_type": "definition_activity",
@@ -929,13 +930,13 @@
               },
               {
                 "unique_name": "definition_activity_01LDICYUDFR1Q1l5lZ9g6lFtD59Gv5ViTH6",
-                "name": "Threat Response v2 - Generate Access Token",
-                "title": "Threat Response v2 - Generate Access Token",
+                "name": "Threat Response - Generate Access Token",
+                "title": "Threat Response - Generate Access Token",
                 "type": "workflow.atomic_workflow",
                 "base_type": "subworkflow",
                 "properties": {
                   "continue_on_failure": false,
-                  "display_name": "Threat Response v2 - Generate Access Token",
+                  "display_name": "Threat Response - Generate Access Token",
                   "runtime_user": {
                     "target_default": true
                   },
@@ -956,7 +957,7 @@
                       }
                     }
                   },
-                  "workflow_id": "definition_workflow_01KWJ2ISZTF2V6ibRYe7FZ7sOuycDOpnwss"
+                  "workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
                 },
                 "object_type": "definition_activity"
               },
@@ -973,7 +974,7 @@
                   "variables_to_update": [
                     {
                       "variable_to_update": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LR9OLL4JHL86LeCidHSI0HxRbuTgtisu1$",
-                      "variable_value_new": "$activity.definition_activity_01LDICYUDFR1Q1l5lZ9g6lFtD59Gv5ViTH6.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$"
+                      "variable_value_new": "$activity.definition_activity_01LDICYUDFR1Q1l5lZ9g6lFtD59Gv5ViTH6.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$"
                     },
                     {
                       "variable_to_update": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LR9OX967DM22CD3q0QQKBsZKf9pReRVCc$",
@@ -1092,16 +1093,16 @@
                           },
                           {
                             "unique_name": "definition_activity_01LDID0SXXY9M0AbO4m7SeKnQ2XNUo30xgd",
-                            "name": "Threat Response v2 - Inspect for Observables",
-                            "title": "Threat Response v2 - Inspect for Observables",
+                            "name": "Threat Response - Inspect for Observables",
+                            "title": "Threat Response - Inspect for Observables",
                             "type": "workflow.atomic_workflow",
                             "base_type": "subworkflow",
                             "properties": {
                               "continue_on_failure": false,
-                              "display_name": "Threat Response v2 - Inspect for Observables",
+                              "display_name": "Threat Response - Inspect for Observables",
                               "input": {
-                                "variable_workflow_01KXGKYZX7V1M2gr9pVGA5BZoTbgEQPSzF1": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LR9OLL4JHL86LeCidHSI0HxRbuTgtisu1$",
-                                "variable_workflow_01KXGKYZX7ZLN1hoeZeh7hwWyjoEUkSJCbg": "$activity.definition_activity_01LDICY5T1D183Zvjig4gnJK0GTlrBVztAt.input.source_array[@].attachment_raw_body$ $workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLEQ84yY8NaZt1Oy244ZApGAcJj$"
+                                "variable_workflow_01PP7586F8ITB1sT6OpDzEF79wnWVOJk1N5": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LR9OLL4JHL86LeCidHSI0HxRbuTgtisu1$",
+                                "variable_workflow_01PP7586F8MQB2tFYbNgQC7xGbC7ZoXrOxR": "$activity.definition_activity_01LDICY5T1D183Zvjig4gnJK0GTlrBVztAt.input.source_array[@].attachment_raw_body$ $workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLEQ84yY8NaZt1Oy244ZApGAcJj$"
                               },
                               "runtime_user": {
                                 "target_default": true
@@ -1110,7 +1111,7 @@
                               "target": {
                                 "use_workflow_target_group": true
                               },
-                              "workflow_id": "definition_workflow_01KXGKZ0JA96P0p7omD4IdS6zKdw5ECiofU"
+                              "workflow_id": "definition_workflow_01PP7586MYQ913P0nWshTHMU7mQNNFG58Bv"
                             },
                             "object_type": "definition_activity"
                           },
@@ -1124,7 +1125,7 @@
                               "action_timeout": 180,
                               "continue_on_failure": false,
                               "display_name": "Convert observables to table",
-                              "input_json": "$activity.definition_activity_01LDID0SXXY9M0AbO4m7SeKnQ2XNUo30xgd.output.variable_workflow_01KXGKYZX80T50ocjT0xlIvdikhoR0AGB5u$",
+                              "input_json": "$activity.definition_activity_01LDID0SXXY9M0AbO4m7SeKnQ2XNUo30xgd.output.variable_workflow_01PP7586F8O067JBDnBPz8ZD5XctKNSenEX$",
                               "jsonpath_query": "$.",
                               "persist_output": false,
                               "populate_columns": false,
@@ -1470,13 +1471,13 @@
                                             "actions": [
                                               {
                                                 "unique_name": "definition_activity_01LRA0K5KGZCH5uLtcBvqRfnwlIjv4ZX4dq",
-                                                "name": "Threat Response v2 - Generate Access Token",
-                                                "title": "Threat Response v2 - Generate Access Token",
+                                                "name": "Threat Response - Generate Access Token",
+                                                "title": "Threat Response - Generate Access Token",
                                                 "type": "workflow.atomic_workflow",
                                                 "base_type": "subworkflow",
                                                 "properties": {
                                                   "continue_on_failure": false,
-                                                  "display_name": "Threat Response v2 - Generate Access Token",
+                                                  "display_name": "Threat Response - Generate Access Token",
                                                   "runtime_user": {
                                                     "target_default": true
                                                   },
@@ -1497,7 +1498,7 @@
                                                       }
                                                     }
                                                   },
-                                                  "workflow_id": "definition_workflow_01KWJ2ISZTF2V6ibRYe7FZ7sOuycDOpnwss"
+                                                  "workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
                                                 },
                                                 "object_type": "definition_activity"
                                               },
@@ -1514,7 +1515,7 @@
                                                   "variables_to_update": [
                                                     {
                                                       "variable_to_update": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LR9OLL4JHL86LeCidHSI0HxRbuTgtisu1$",
-                                                      "variable_value_new": "$activity.definition_activity_01LRA0K5KGZCH5uLtcBvqRfnwlIjv4ZX4dq.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$"
+                                                      "variable_value_new": "$activity.definition_activity_01LRA0K5KGZCH5uLtcBvqRfnwlIjv4ZX4dq.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$"
                                                     },
                                                     {
                                                       "variable_to_update": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LR9OX967DM22CD3q0QQKBsZKf9pReRVCc$",
@@ -1530,17 +1531,17 @@
                                       },
                                       {
                                         "unique_name": "definition_activity_01LDID21CDWBE2ED1xJBjk7hEsXBeysDs2k",
-                                        "name": "Threat Response v2 - Get Deliberate Verdict",
-                                        "title": "Threat Response v2 - Get Deliberate Verdict",
+                                        "name": "Threat Response - Deliberate Observable",
+                                        "title": "Threat Response - Deliberate Observable",
                                         "type": "workflow.atomic_workflow",
                                         "base_type": "subworkflow",
                                         "properties": {
                                           "continue_on_failure": false,
-                                          "display_name": "Threat Response v2 - Get Deliberate Verdict",
+                                          "display_name": "Threat Response - Deliberate Observable",
                                           "input": {
-                                            "variable_workflow_01KXGQWL4TDTE02Mxh65PHxstnnK3wTcCF2": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LR9OLL4JHL86LeCidHSI0HxRbuTgtisu1$",
-                                            "variable_workflow_01KXGQWL4THYI5hexa4Ip4LW0UZIJhk4ejv": "$activity.definition_activity_01LDID1EL1BQ95tGvzG554dT7BANjLOqQkw.input.source_array[@].type$",
-                                            "variable_workflow_01KXGQWL4TLPV5NbUAlHHHQUcco57lEijh9": "$activity.definition_activity_01LDID1EL1BQ95tGvzG554dT7BANjLOqQkw.input.source_array[@].value$"
+                                            "variable_workflow_01PP77MLJ2S465LuOvU8mlP8mbbcgy9uTXN": "$activity.definition_activity_01LDID1EL1BQ95tGvzG554dT7BANjLOqQkw.input.source_array[@].type$",
+                                            "variable_workflow_01PP77MLJ2XIE1H3D67PjcsCuGBsKCCBxLI": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LR9OLL4JHL86LeCidHSI0HxRbuTgtisu1$",
+                                            "variable_workflow_01PP77MLJ2ZVU1C4VxEfKYh2tlFk9iTx69p": "$activity.definition_activity_01LDID1EL1BQ95tGvzG554dT7BANjLOqQkw.input.source_array[@].value$"
                                           },
                                           "runtime_user": {
                                             "target_default": true
@@ -1549,7 +1550,7 @@
                                           "target": {
                                             "use_workflow_target_group": true
                                           },
-                                          "workflow_id": "definition_workflow_01KXGQWLMIDXG563x6DBOvwjfxpH8JrkaRW"
+                                          "workflow_id": "definition_workflow_01PP77MLQ4QAG765OwlT0ZDqBzv80HvYuPC"
                                         },
                                         "object_type": "definition_activity"
                                       },
@@ -1566,11 +1567,6 @@
                                           "input_table": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLLZT06hOstShsFs2WLumhqAto4$",
                                           "row": [
                                             {
-                                              "key": "type",
-                                              "type": "string",
-                                              "value": "$activity.definition_activity_01LDID1EL1BQ95tGvzG554dT7BANjLOqQkw.input.source_array[@].type$"
-                                            },
-                                            {
                                               "key": "value",
                                               "type": "string",
                                               "value": "$activity.definition_activity_01LDID1EL1BQ95tGvzG554dT7BANjLOqQkw.input.source_array[@].value$"
@@ -1578,7 +1574,12 @@
                                             {
                                               "key": "disposition",
                                               "type": "string",
-                                              "value": "$activity.definition_activity_01LDID21CDWBE2ED1xJBjk7hEsXBeysDs2k.output.variable_workflow_01KXGQWL4TJCC2W33mfqnp8bURFArcu7cRR$"
+                                              "value": "$activity.definition_activity_01LDID21CDWBE2ED1xJBjk7hEsXBeysDs2k.output.variable_workflow_01PP77MLJ2W9N3jUUa3J6gIRy7Dydhs937R$"
+                                            },
+                                            {
+                                              "key": "type",
+                                              "type": "string",
+                                              "value": "$activity.definition_activity_01LDID1EL1BQ95tGvzG554dT7BANjLOqQkw.input.source_array[@].type$"
                                             }
                                           ],
                                           "skip_execution": false
@@ -1618,7 +1619,7 @@
                                           "variables_to_update": [
                                             {
                                               "variable_to_update": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLOJT3g5rFBLxbOBw1UlF0Ql9mi$",
-                                              "variable_value_new": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLOJT3g5rFBLxbOBw1UlF0Ql9mi$\n* Observable \"$activity.definition_activity_01LKKCKNT59XN20QTQBTxOquHjkwBJwp1pW.output.result_string$\" ($activity.definition_activity_01LDID1EL1BQ95tGvzG554dT7BANjLOqQkw.input.source_array[@].type$) disposition: $activity.definition_activity_01LDID21CDWBE2ED1xJBjk7hEsXBeysDs2k.output.variable_workflow_01KXGQWL4TJCC2W33mfqnp8bURFArcu7cRR$"
+                                              "variable_value_new": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLOJT3g5rFBLxbOBw1UlF0Ql9mi$\n* Observable \"$activity.definition_activity_01LKKCKNT59XN20QTQBTxOquHjkwBJwp1pW.output.result_string$\" ($activity.definition_activity_01LDID1EL1BQ95tGvzG554dT7BANjLOqQkw.input.source_array[@].type$) disposition: $activity.definition_activity_01LDID21CDWBE2ED1xJBjk7hEsXBeysDs2k.output.variable_workflow_01PP77MLJ2W9N3jUUa3J6gIRy7Dydhs937R$"
                                             }
                                           ]
                                         },
@@ -1731,22 +1732,22 @@
                                                     "actions": [
                                                       {
                                                         "unique_name": "definition_activity_01LKPE4PFOHQQ2zPJP0S0J6rKByb5aHaGr9",
-                                                        "name": "Threat Grid v2 - Submit URL",
-                                                        "title": "Threat Grid v2 - Submit URL",
+                                                        "name": "Secure Malware Analytics - Submit URL",
+                                                        "title": "Secure Malware Analytics - Submit URL",
                                                         "type": "workflow.atomic_workflow",
                                                         "base_type": "subworkflow",
                                                         "properties": {
                                                           "continue_on_failure": true,
-                                                          "display_name": "Threat Grid v2 - Submit URL",
+                                                          "display_name": "Secure Malware Analytics - Submit URL",
                                                           "input": {
-                                                            "variable_workflow_01LKD7G2HMOG67VpVMWoGsGcDEi1SCYRyXh": "phishing,securex",
-                                                            "variable_workflow_01LKD7G2HMRDR1Ac8bwIgGBtX9gL0UTokzl": true,
-                                                            "variable_workflow_01LKD7G2HMV1S0J19LT31xAaJAkyRHFamj4": "",
-                                                            "variable_workflow_01LKD7G2HMXCX3wcYatNwgUBPxLVNpT9A7K": "default",
-                                                            "variable_workflow_01LKD7G2HMYI30L207he58XwfKF0NM5sIg0": true,
-                                                            "variable_workflow_01LKD7G2HMZMI1JebIHwlcekUAKTtjwcc0B": 2,
-                                                            "variable_workflow_01LKD7G2HN0OK1KBmsakMpLSN2QPo4CbnZ3": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLD3P2rqquAOD3fcHB0KFKvPYvO$",
-                                                            "variable_workflow_01LKDCRJFFFMU1yA1NdnPyw8MrMQgJYbBir": "$activity.definition_activity_01LKOYKBT0CY46MsKbSVX288arziBzzUDHD.output.script_queries.testUrl$"
+                                                            "variable_workflow_01PP78YVQL5PH0SroKbcStsP8tTzMD4VVxO": "phishing,securex",
+                                                            "variable_workflow_01PP78YVQLACW627A2oTA7Br1nBYufQEtkY": true,
+                                                            "variable_workflow_01PP78YVQLC4K2DLxGE2PQLKh5QPubd4lhW": "",
+                                                            "variable_workflow_01PP78YVQLDRB0ldfcZbpgUj4Uhw0RdwWzq": 2,
+                                                            "variable_workflow_01PP78YVQLINT4UiRyREjj9EqUiD4v7n5fu": true,
+                                                            "variable_workflow_01PP78YVQLK1045YAHrQBaZWCQHmH1uwzwX": "$activity.definition_activity_01LKOYKBT0CY46MsKbSVX288arziBzzUDHD.output.script_queries.testUrl$",
+                                                            "variable_workflow_01PP78YVQLL6W2OruzCBYvANFECP22jB7YD": "default",
+                                                            "variable_workflow_01PP78YVQLMCJ2cxzg6yVKC2i3ZMIsEHFeL": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLD3P2rqquAOD3fcHB0KFKvPYvO$"
                                                           },
                                                           "runtime_user": {
                                                             "target_default": true
@@ -1768,7 +1769,7 @@
                                                               }
                                                             }
                                                           },
-                                                          "workflow_id": "definition_workflow_01LKD7G2VQ44P3jhvJ6wDFa1EXSJdJPmv1j"
+                                                          "workflow_id": "definition_workflow_01PP78YVWMXKI3jcrOGYocGMM3VaophGkkJ"
                                                         },
                                                         "object_type": "definition_activity"
                                                       },
@@ -1785,7 +1786,7 @@
                                                           "variables_to_update": [
                                                             {
                                                               "variable_to_update": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLOJT3g5rFBLxbOBw1UlF0Ql9mi$",
-                                                              "variable_value_new": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLOJT3g5rFBLxbOBw1UlF0Ql9mi$\n* Observable was a URL, had a 2 character TLD, and responded to an HTTP GET with a 3xx redirect. Submitted to Threat Grid with sample ID: [$activity.definition_activity_01LKPE4PFOHQQ2zPJP0S0J6rKByb5aHaGr9.output.variable_workflow_01LKD7G2HMTT745KhzahqI9gFLGtN1JLDIV$](https://$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LWAHHD506RJ7C8r17PWhETuCv94RscDrJ$/mask/samples/$activity.definition_activity_01LKPE4PFOHQQ2zPJP0S0J6rKByb5aHaGr9.output.variable_workflow_01LKD7G2HMTT745KhzahqI9gFLGtN1JLDIV$)"
+                                                              "variable_value_new": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLOJT3g5rFBLxbOBw1UlF0Ql9mi$\n* Observable was a URL, had a 2 character TLD, and responded to an HTTP GET with a 3xx redirect. Submitted to Secure Malware Analytics with sample ID: [$activity.definition_activity_01LKPE4PFOHQQ2zPJP0S0J6rKByb5aHaGr9.output.variable_workflow_01PP78YVQLFJ76SQUG1BX8m7E14mpwMJ6du$](https://$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LWAHHD506RJ7C8r17PWhETuCv94RscDrJ$/mask/samples/$activity.definition_activity_01LKPE4PFOHQQ2zPJP0S0J6rKByb5aHaGr9.output.variable_workflow_01PP78YVQLFJ76SQUG1BX8m7E14mpwMJ6du$)"
                                                             },
                                                             {
                                                               "variable_to_update": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LGYMI6C66CI2DaD7QJ5OOD7FVtwPeaPCe$",
@@ -1836,7 +1837,7 @@
                                                                   "action_timeout": 180,
                                                                   "continue_on_failure": true,
                                                                   "display_name": "Extract the threat score",
-                                                                  "input_json": "$activity.definition_activity_01LKPE4PFOHQQ2zPJP0S0J6rKByb5aHaGr9.output.variable_workflow_01LKD7G2HN1TN7U91elihiN8Ygg2xHE7neU$",
+                                                                  "input_json": "$activity.definition_activity_01LKPE4PFOHQQ2zPJP0S0J6rKByb5aHaGr9.output.variable_workflow_01PP78YVQLNKM65DcBSPIIm6PsIhw9g37XO$",
                                                                   "jsonpath_queries": [
                                                                     {
                                                                       "jsonpath_query": "$.threat.threat_score",
@@ -2153,7 +2154,7 @@
                                                                   "variables_to_update": [
                                                                     {
                                                                       "variable_to_update": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLOJT3g5rFBLxbOBw1UlF0Ql9mi$",
-                                                                      "variable_value_new": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLOJT3g5rFBLxbOBw1UlF0Ql9mi$\n* Failed to submit URL to Threat Grid for analysis"
+                                                                      "variable_value_new": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLOJT3g5rFBLxbOBw1UlF0Ql9mi$\n* Failed to submit URL to Secure Malware Analytics for analysis"
                                                                     }
                                                                   ]
                                                                 },
@@ -2201,17 +2202,17 @@
                     "actions": [
                       {
                         "unique_name": "definition_activity_01LDID4KYZSXO0mtRHyYRoNxFIPagaqnd7w",
-                        "name": "Threat Response v2 - Get Deliberate Verdict",
-                        "title": "Threat Response v2 - Get Deliberate Verdict",
+                        "name": "Threat Response - Deliberate Observable",
+                        "title": "Threat Response - Deliberate Observable",
                         "type": "workflow.atomic_workflow",
                         "base_type": "subworkflow",
                         "properties": {
                           "continue_on_failure": false,
-                          "display_name": "Threat Response v2 - Get Deliberate Verdict",
+                          "display_name": "Threat Response - Deliberate Observable",
                           "input": {
-                            "variable_workflow_01KXGQWL4TDTE02Mxh65PHxstnnK3wTcCF2": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LR9OLL4JHL86LeCidHSI0HxRbuTgtisu1$",
-                            "variable_workflow_01KXGQWL4THYI5hexa4Ip4LW0UZIJhk4ejv": "sha256",
-                            "variable_workflow_01KXGQWL4TLPV5NbUAlHHHQUcco57lEijh9": "$activity.definition_activity_01LDICY5T1D183Zvjig4gnJK0GTlrBVztAt.input.source_array[@].file_hash$"
+                            "variable_workflow_01PP77MLJ2S465LuOvU8mlP8mbbcgy9uTXN": "sha256",
+                            "variable_workflow_01PP77MLJ2XIE1H3D67PjcsCuGBsKCCBxLI": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LR9OLL4JHL86LeCidHSI0HxRbuTgtisu1$",
+                            "variable_workflow_01PP77MLJ2ZVU1C4VxEfKYh2tlFk9iTx69p": "$activity.definition_activity_01LDICY5T1D183Zvjig4gnJK0GTlrBVztAt.input.source_array[@].file_hash$"
                           },
                           "runtime_user": {
                             "target_default": true
@@ -2220,7 +2221,7 @@
                           "target": {
                             "use_workflow_target_group": true
                           },
-                          "workflow_id": "definition_workflow_01KXGQWLMIDXG563x6DBOvwjfxpH8JrkaRW"
+                          "workflow_id": "definition_workflow_01PP77MLQ4QAG765OwlT0ZDqBzv80HvYuPC"
                         },
                         "object_type": "definition_activity"
                       },
@@ -2237,11 +2238,6 @@
                           "input_table": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLLZT06hOstShsFs2WLumhqAto4$",
                           "row": [
                             {
-                              "key": "type",
-                              "type": "string",
-                              "value": "sha256"
-                            },
-                            {
                               "key": "value",
                               "type": "string",
                               "value": "$activity.definition_activity_01LDICY5T1D183Zvjig4gnJK0GTlrBVztAt.input.source_array[@].file_hash$"
@@ -2249,7 +2245,12 @@
                             {
                               "key": "disposition",
                               "type": "string",
-                              "value": "$activity.definition_activity_01LDID4KYZSXO0mtRHyYRoNxFIPagaqnd7w.output.variable_workflow_01KXGQWL4TJCC2W33mfqnp8bURFArcu7cRR$"
+                              "value": "$activity.definition_activity_01LDID4KYZSXO0mtRHyYRoNxFIPagaqnd7w.output.variable_workflow_01PP77MLJ2W9N3jUUa3J6gIRy7Dydhs937R$"
+                            },
+                            {
+                              "key": "type",
+                              "type": "string",
+                              "value": "sha256"
                             }
                           ],
                           "skip_execution": false
@@ -2269,7 +2270,7 @@
                           "variables_to_update": [
                             {
                               "variable_to_update": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLOJT3g5rFBLxbOBw1UlF0Ql9mi$",
-                              "variable_value_new": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLOJT3g5rFBLxbOBw1UlF0Ql9mi$\n* Parsing attachment as a file\n* Threat Response disposition for attachment file hash: $activity.definition_activity_01LDID4KYZSXO0mtRHyYRoNxFIPagaqnd7w.output.variable_workflow_01KXGQWL4TJCC2W33mfqnp8bURFArcu7cRR$"
+                              "variable_value_new": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLOJT3g5rFBLxbOBw1UlF0Ql9mi$\n* Parsing attachment as a file\n* Threat Response disposition for attachment file hash: $activity.definition_activity_01LDID4KYZSXO0mtRHyYRoNxFIPagaqnd7w.output.variable_workflow_01PP77MLJ2W9N3jUUa3J6gIRy7Dydhs937R$"
                             }
                           ]
                         },
@@ -2296,7 +2297,7 @@
                             "base_type": "activity",
                             "properties": {
                               "condition": {
-                                "left_operand": "$activity.definition_activity_01LDID4KYZSXO0mtRHyYRoNxFIPagaqnd7w.output.variable_workflow_01KXGQWL4TJCC2W33mfqnp8bURFArcu7cRR$",
+                                "left_operand": "$activity.definition_activity_01LDID4KYZSXO0mtRHyYRoNxFIPagaqnd7w.output.variable_workflow_01PP77MLJ2W9N3jUUa3J6gIRy7Dydhs937R$",
                                 "operator": "eqi",
                                 "right_operand": "Unknown"
                               },
@@ -2400,21 +2401,21 @@
                               },
                               {
                                 "unique_name": "definition_activity_01LG7ITL1QCBU6W5fjZu8lQAxF7gOtp7Yok",
-                                "name": "Threat Grid v2 - Get Samples by File Hash",
-                                "title": "Threat Grid v2 - Get Samples by File Hash",
+                                "name": "Secure Malware Analytics - Get Samples by File Hash",
+                                "title": "Secure Malware Analytics - Get Samples by File Hash",
                                 "type": "workflow.atomic_workflow",
                                 "base_type": "subworkflow",
                                 "properties": {
                                   "continue_on_failure": false,
-                                  "display_name": "Threat Grid v2 - Get Samples by File Hash",
+                                  "display_name": "Secure Malware Analytics - Get Samples by File Hash",
                                   "input": {
-                                    "variable_workflow_01LG728NFQQ1B0w73ofaVTY1j0eCchHiq1a": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLD3P2rqquAOD3fcHB0KFKvPYvO$",
-                                    "variable_workflow_01LG728NFQWKU0AByukUVhxy7ZUnFvl1nBb": "$activity.definition_activity_01LDICY5T1D183Zvjig4gnJK0GTlrBVztAt.input.source_array[@].file_hash$",
-                                    "variable_workflow_01LG7E6RQ83DA2DnhaNSD0oBmf0W9Krw48A": "desc",
-                                    "variable_workflow_01LG7FHHK92RR24Gzv0zeE3oIzT3GvwVfa8": "submitted_at",
-                                    "variable_workflow_01LG8AGPD0UJ63Hi2sWL9MogjQUw2y0xOQA": "state=succ",
-                                    "variable_workflow_01LG8DIBRB3070jvTPUFY95yOVUqsJoeXjI": 0,
-                                    "variable_workflow_01LG8DQLC65NP0ZIA4V8zRiKvfTARgxPBWZ": 1
+                                    "variable_workflow_01PP75MUYR6BQ3JMaE2C9DeLQfA0NGKwcC0": "submitted_at",
+                                    "variable_workflow_01PP75MUYRAK15oaEltBUsDEK8LVXcyitUZ": "state=succ",
+                                    "variable_workflow_01PP75MUYRBW524x1K9sMRvOlP5rv7ZaZMl": 0,
+                                    "variable_workflow_01PP75MUYRD4R2X2ffVGla8Fm8G0NXX5VSh": "desc",
+                                    "variable_workflow_01PP75MUYREAP0sMFJtkk2iJ7DayVQxbbpD": 1,
+                                    "variable_workflow_01PP75MUYRHW34Cx3mTFnKkxx91tf2ErJMj": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLD3P2rqquAOD3fcHB0KFKvPYvO$",
+                                    "variable_workflow_01PP75MUYRJ4J17Q5LllVtuhr2dnXXWRxC6": "$activity.definition_activity_01LDICY5T1D183Zvjig4gnJK0GTlrBVztAt.input.source_array[@].file_hash$"
                                   },
                                   "runtime_user": {
                                     "target_default": true
@@ -2436,7 +2437,7 @@
                                       }
                                     }
                                   },
-                                  "workflow_id": "definition_workflow_01LG728NY19RR7dSxgZ5Pjjk6kyokjflhvJ"
+                                  "workflow_id": "definition_workflow_01PP75MV62DWN0raRr4mKAGgLjQhLnPVlFJ"
                                 },
                                 "object_type": "definition_activity"
                               },
@@ -2461,7 +2462,7 @@
                                     "base_type": "activity",
                                     "properties": {
                                       "condition": {
-                                        "left_operand": "$activity.definition_activity_01LG7ITL1QCBU6W5fjZu8lQAxF7gOtp7Yok.output.variable_workflow_01LG7GH2NBMMW0caH58Nq48w9uZxFcLysdB$",
+                                        "left_operand": "$activity.definition_activity_01LG7ITL1QCBU6W5fjZu8lQAxF7gOtp7Yok.output.variable_workflow_01PP75MUYRGQ06JQQxfMgwb1J2zavZzK5cS$",
                                         "operator": "gt",
                                         "right_operand": 0
                                       },
@@ -2481,7 +2482,7 @@
                                           "action_timeout": 180,
                                           "continue_on_failure": true,
                                           "display_name": "Extract the most recent threat score",
-                                          "input_json": "$activity.definition_activity_01LG7ITL1QCBU6W5fjZu8lQAxF7gOtp7Yok.output.variable_workflow_01LG728NFQXQK0Yx9wvpzftcQyJBmQ9gD6k$",
+                                          "input_json": "$activity.definition_activity_01LG7ITL1QCBU6W5fjZu8lQAxF7gOtp7Yok.output.variable_workflow_01PP75MUYRFJG1CNlrZRn3hAlMgNartGgrP$",
                                           "jsonpath_queries": [
                                             {
                                               "jsonpath_query": "$.data.items[0].item.analysis.threat_score",
@@ -2609,7 +2610,7 @@
                                     "base_type": "activity",
                                     "properties": {
                                       "condition": {
-                                        "left_operand": "$activity.definition_activity_01LG7ITL1QCBU6W5fjZu8lQAxF7gOtp7Yok.output.variable_workflow_01LG7GH2NBMMW0caH58Nq48w9uZxFcLysdB$",
+                                        "left_operand": "$activity.definition_activity_01LG7ITL1QCBU6W5fjZu8lQAxF7gOtp7Yok.output.variable_workflow_01PP75MUYRGQ06JQQxfMgwb1J2zavZzK5cS$",
                                         "operator": "eq",
                                         "right_operand": 0
                                       },
@@ -2634,22 +2635,22 @@
                                         "actions": [
                                           {
                                             "unique_name": "definition_activity_01LKCKA9Y3GOR4CayA3C31zvcwWOpjN47Xq",
-                                            "name": "Threat Grid v2 - Submit File",
-                                            "title": "Threat Grid v2 - Submit File",
+                                            "name": "Secure Malware Analytics - Submit File",
+                                            "title": "Secure Malware Analytics - Submit File",
                                             "type": "workflow.atomic_workflow",
                                             "base_type": "subworkflow",
                                             "properties": {
                                               "continue_on_failure": true,
-                                              "display_name": "Threat Grid v2 - Submit File",
+                                              "display_name": "Secure Malware Analytics - Submit File",
                                               "input": {
-                                                "variable_workflow_01KXH6AHLNG5E2StV8uxZASafbfe8mYXeRR": "$activity.definition_activity_01LDICY5T1D183Zvjig4gnJK0GTlrBVztAt.input.source_array[@].file_path$",
-                                                "variable_workflow_01KXH6TVT5XLK7DzxlR3iNSC9LSlGmrin10": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLD3P2rqquAOD3fcHB0KFKvPYvO$",
-                                                "variable_workflow_01KXH7QUEDAJC6KvdIWyuQ6Kt5Ua7KlhROv": "phishing,securex",
-                                                "variable_workflow_01LEFJ8WY85LM6va7vryqG1SDZFBY27gWay": true,
-                                                "variable_workflow_01LEHUVZUJIVG1z5EfrfjDHEX8IL7q5k1Hd": true,
-                                                "variable_workflow_01LEHY1S38QYK7ObKJLB8KnKUlYvPWTANta": "default",
-                                                "variable_workflow_01LEHZ5BA9I8Z1pQhnpLgTw4pO7zNB7LEme": "",
-                                                "variable_workflow_01LEI08N0GUTB23y2Jc45PTVMqNJRnJEKZV": 2
+                                                "variable_workflow_01PP74NM55PJ362fV62FXtL9GHBBhQ66Pfz": "$activity.definition_activity_01LDICY5T1D183Zvjig4gnJK0GTlrBVztAt.input.source_array[@].file_path$",
+                                                "variable_workflow_01PP74NM55QV34eSD1gdIJaL8UMUCim3z9W": 2,
+                                                "variable_workflow_01PP74NM55S5B6CIIRoWwWB91Shk6MpvTIY": "",
+                                                "variable_workflow_01PP74NM55TAH5gjeICcRS1OwiCabyW6EA9": "phishing,securex",
+                                                "variable_workflow_01PP74NM55UGN1G7wzu8nVWLg000CtEpcww": true,
+                                                "variable_workflow_01PP74NM55VKG1Wi7HIB8ZncM2WxrYb1Aja": true,
+                                                "variable_workflow_01PP74NM55WQ50Xx6VzsQ4OPigPqPB2yDYX": "default",
+                                                "variable_workflow_01PP74NM55XVY3wCv96YNn4tNOy4jPfAlGQ": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLD3P2rqquAOD3fcHB0KFKvPYvO$"
                                               },
                                               "runtime_user": {
                                                 "target_default": true
@@ -2671,7 +2672,7 @@
                                                   }
                                                 }
                                               },
-                                              "workflow_id": "definition_workflow_01KXH2YWVULRP7kaaTT7ATl62qbAEXE5cpn"
+                                              "workflow_id": "definition_workflow_01PP74NMCSJYN5DYHJIh4d3TYHAG7jqguRU"
                                             },
                                             "object_type": "definition_activity"
                                           },
@@ -2688,7 +2689,7 @@
                                               "variables_to_update": [
                                                 {
                                                   "variable_to_update": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLOJT3g5rFBLxbOBw1UlF0Ql9mi$",
-                                                  "variable_value_new": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLOJT3g5rFBLxbOBw1UlF0Ql9mi$\n* File submitted to Threat Grid with sample ID: [$activity.definition_activity_01LKCKA9Y3GOR4CayA3C31zvcwWOpjN47Xq.output.variable_workflow_01KXHAWJ5E4BA21ZS32fdAN6IeawizRgPN8$](https://$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LWAHHD506RJ7C8r17PWhETuCv94RscDrJ$/mask/samples/$activity.definition_activity_01LKCKA9Y3GOR4CayA3C31zvcwWOpjN47Xq.output.variable_workflow_01KXHAWJ5E4BA21ZS32fdAN6IeawizRgPN8$)"
+                                                  "variable_value_new": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLOJT3g5rFBLxbOBw1UlF0Ql9mi$\n* File submitted to Secure Malware Analytics with sample ID: [$activity.definition_activity_01LKCKA9Y3GOR4CayA3C31zvcwWOpjN47Xq.output.variable_workflow_01PP74NM55Z1T7HvTBiaG4TzvrufjpM8VpD$](https://$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LWAHHD506RJ7C8r17PWhETuCv94RscDrJ$/mask/samples/$activity.definition_activity_01LKCKA9Y3GOR4CayA3C31zvcwWOpjN47Xq.output.variable_workflow_01PP74NM55Z1T7HvTBiaG4TzvrufjpM8VpD$)"
                                                 },
                                                 {
                                                   "variable_to_update": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LGYMI6C66CI2DaD7QJ5OOD7FVtwPeaPCe$",
@@ -2739,7 +2740,7 @@
                                                       "action_timeout": 180,
                                                       "continue_on_failure": true,
                                                       "display_name": "Extract the threat score",
-                                                      "input_json": "$activity.definition_activity_01LKCKA9Y3GOR4CayA3C31zvcwWOpjN47Xq.output.variable_workflow_01LEFKI6ZT38G6ATipS7OfdT2qS41jpF2Lx$",
+                                                      "input_json": "$activity.definition_activity_01LKCKA9Y3GOR4CayA3C31zvcwWOpjN47Xq.output.variable_workflow_01PP74NM55JD36ASY6fJOYWTFANhew9kx8C$",
                                                       "jsonpath_queries": [
                                                         {
                                                           "jsonpath_query": "$.threat.threat_score",
@@ -2890,7 +2891,7 @@
                                                       "variables_to_update": [
                                                         {
                                                           "variable_to_update": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLOJT3g5rFBLxbOBw1UlF0Ql9mi$",
-                                                          "variable_value_new": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLOJT3g5rFBLxbOBw1UlF0Ql9mi$\n* Failed to submit file to Threat Grid for analysis"
+                                                          "variable_value_new": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLOJT3g5rFBLxbOBw1UlF0Ql9mi$\n* Failed to submit file to Secure Malware Analytics for analysis"
                                                         }
                                                       ]
                                                     },
@@ -3127,7 +3128,7 @@
                             "base_type": "activity",
                             "properties": {
                               "condition": {
-                                "left_operand": "$activity.definition_activity_01LDID4KYZSXO0mtRHyYRoNxFIPagaqnd7w.output.variable_workflow_01KXGQWL4TJCC2W33mfqnp8bURFArcu7cRR$",
+                                "left_operand": "$activity.definition_activity_01LDID4KYZSXO0mtRHyYRoNxFIPagaqnd7w.output.variable_workflow_01PP77MLJ2W9N3jUUa3J6gIRy7Dydhs937R$",
                                 "operator": "ne",
                                 "right_operand": "Unknown"
                               },
@@ -3158,7 +3159,7 @@
                                     {
                                       "key": "disposition",
                                       "type": "string",
-                                      "value": "$activity.definition_activity_01LDID4KYZSXO0mtRHyYRoNxFIPagaqnd7w.output.variable_workflow_01KXGQWL4TJCC2W33mfqnp8bURFArcu7cRR$"
+                                      "value": "$activity.definition_activity_01LDID4KYZSXO0mtRHyYRoNxFIPagaqnd7w.output.variable_workflow_01PP77MLJ2W9N3jUUa3J6gIRy7Dydhs937R$"
                                     }
                                   ],
                                   "rows": {
@@ -3496,13 +3497,13 @@
                 "actions": [
                   {
                     "unique_name": "definition_activity_01LDIDKP42Z4T0hGz0qVKv6nVCSvogJXewT",
-                    "name": "Threat Response v2 - Generate Access Token",
-                    "title": "Threat Response v2 - Generate Access Token",
+                    "name": "Threat Response - Generate Access Token",
+                    "title": "Threat Response - Generate Access Token",
                     "type": "workflow.atomic_workflow",
                     "base_type": "subworkflow",
                     "properties": {
                       "continue_on_failure": false,
-                      "display_name": "Threat Response v2 - Generate Access Token",
+                      "display_name": "Threat Response - Generate Access Token",
                       "runtime_user": {
                         "target_default": true
                       },
@@ -3523,7 +3524,7 @@
                           }
                         }
                       },
-                      "workflow_id": "definition_workflow_01KWJ2ISZTF2V6ibRYe7FZ7sOuycDOpnwss"
+                      "workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
                     },
                     "object_type": "definition_activity"
                   },
@@ -3659,20 +3660,20 @@
                   },
                   {
                     "unique_name": "definition_activity_01LDIDMPCNF4I3mnNTAAESN9mn022Fh1JKb",
-                    "name": "Threat Response v2 - Create Casebook",
-                    "title": "Threat Response v2 - Create Casebook",
+                    "name": "Threat Response - Create Casebook",
+                    "title": "Threat Response - Create Casebook",
                     "type": "workflow.atomic_workflow",
                     "base_type": "subworkflow",
                     "properties": {
                       "continue_on_failure": false,
-                      "display_name": "Threat Response v2 - Create Casebook",
+                      "display_name": "Threat Response - Create Casebook",
                       "input": {
-                        "variable_workflow_01KVOGF4J481T6SCd7uh5fW7n47Q712nleJ": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLL7DK7UYAjRXpksRudsOQVn67Hs$",
-                        "variable_workflow_01KVOGF4J4FZC0jmaR42b1FbIzVZA19KbYL": "An investigation was conducted in response to an email arriving in the investigation mailbox.\n\nObservable statistics:\n* Clean: $workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LGYIGNL764O6e6Ge5cmuGi0m766DQgdTC$\n* Suspicious: $workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LGYJ91SGAGA7VyrEdTBs7FjF0aFQr2yx0$\n* Malicious: $workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LGYJQVFW8HJ2nEXVlQm67JaGK41nYRUUJ$\n* Unknown: $workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LGYM9HYUS0T5tnd0alUn2JbXGhc0RxCID$\n\n$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLOJT3g5rFBLxbOBw1UlF0Ql9mi$",
-                        "variable_workflow_01KVOGF4J4IG81TQKFjqzLlnFJwiiNwXwSq": "$activity.definition_activity_01LDIDKP42Z4T0hGz0qVKv6nVCSvogJXewT.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$",
-                        "variable_workflow_01KVOGF4J4JL52xC9ZXdjYwHt2SvRYkArli": "Email Investigation for \"$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LG4CXZB1PS85vMbaUCSTf8j02SCyIImgV$\"",
-                        "variable_workflow_01KVOMXV9ERSV0M9j1WarflgSG8r5SpZ8b5": "Email Investigation for \"$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LG4CXZB1PS85vMbaUCSTf8j02SCyIImgV$\"",
-                        "variable_workflow_01LFBYQJV9FZA2THdEQrMftLyGiiHP65nUq": "amber"
+                        "variable_workflow_01PP75X6NM0AY6YDlJckkMg6hCbMEMGO72O": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLL7DK7UYAjRXpksRudsOQVn67Hs$",
+                        "variable_workflow_01PP75X6NM1M46Jjob8LUKg8R3yRRVOvu9q": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LR9OLL4JHL86LeCidHSI0HxRbuTgtisu1$",
+                        "variable_workflow_01PP75X6NM2V27Or3EssfIABNZiE45Ddziu": "amber",
+                        "variable_workflow_01PP75X6NM4123PBwUedJ5QqeBr8G1sefjQ": "Email Investigation for \"$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LG4CXZB1PS85vMbaUCSTf8j02SCyIImgV$\"",
+                        "variable_workflow_01PP75X6NM54W5qTbpCb1h6bTTrp7eFQjaq": "Email Investigation for \"$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LG4CXZB1PS85vMbaUCSTf8j02SCyIImgV$\"",
+                        "variable_workflow_01PP75X6NM7FE4BmQ3AKIykyWFDSV9umy02": "An investigation was conducted in response to an email arriving in the investigation mailbox.\nObservable statistics:\n* Clean: $workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LGYIGNL764O6e6Ge5cmuGi0m766DQgdTC$\n* Suspicious: $workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LGYJ91SGAGA7VyrEdTBs7FjF0aFQr2yx0$\n* Malicious: $workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LGYJQVFW8HJ2nEXVlQm67JaGK41nYRUUJ$\n* Unknown: $workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LGYM9HYUS0T5tnd0alUn2JbXGhc0RxCID$\n$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLOJT3g5rFBLxbOBw1UlF0Ql9mi$"
                       },
                       "runtime_user": {
                         "target_default": true
@@ -3694,26 +3695,26 @@
                           }
                         }
                       },
-                      "workflow_id": "definition_workflow_01KVOGF574Y291CRwQLNB1TtzEHDNwyUx7O"
+                      "workflow_id": "definition_workflow_01PP75X6VPQNK4hKE1XQXIMeIcHrE1khIML"
                     },
                     "object_type": "definition_activity"
                   },
                   {
                     "unique_name": "definition_activity_01LDIDN5QVVPU66SAM8RfsHldRGGXDmUl2I",
-                    "name": "Threat Response v2 - Create Incident",
-                    "title": "Threat Response v2 - Create Incident",
+                    "name": "Threat Response - Create Incident",
+                    "title": "Threat Response - Create Incident",
                     "type": "workflow.atomic_workflow",
                     "base_type": "subworkflow",
                     "properties": {
                       "continue_on_failure": false,
-                      "display_name": "Threat Response v2 - Create Incident",
+                      "display_name": "Threat Response - Create Incident",
                       "input": {
-                        "variable_workflow_01KVVWMAKJ5X54vaAuNkKq259VyiO5JCeuC": "$activity.definition_activity_01LDIDKP42Z4T0hGz0qVKv6nVCSvogJXewT.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$",
-                        "variable_workflow_01KVVWMAKJ9HX4TuMb2g74UqzpRLRxjwlwm": "Email Investigation for \"$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LG4CXZB1PS85vMbaUCSTf8j02SCyIImgV$\"",
-                        "variable_workflow_01KVVWMAKJBSF1Fxv8uLSCRGpOJCxkue4OH": "An investigation was conducted in response to an email arriving in the investigation mailbox.\n\nObservable statistics:\n* Clean: $workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LGYIGNL764O6e6Ge5cmuGi0m766DQgdTC$\n* Suspicious: $workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LGYJ91SGAGA7VyrEdTBs7FjF0aFQr2yx0$\n* Malicious: $workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LGYJQVFW8HJ2nEXVlQm67JaGK41nYRUUJ$\n* Unknown: $workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LGYM9HYUS0T5tnd0alUn2JbXGhc0RxCID$",
-                        "variable_workflow_01KWIVDCZ7VJU1t9jPK4nZnnwHqnllu7dJm": "New",
-                        "variable_workflow_01KWIVQVGZKUC0vUPbm3oCvqsYVV036tieP": "High",
-                        "variable_workflow_01LFBWLGJNHPS450Wh1dwGf1Xqot6KHUTwY": "amber"
+                        "variable_workflow_01PP773PC153N1sUPzhFqV9bCbaxsz3yDwH": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LR9OLL4JHL86LeCidHSI0HxRbuTgtisu1$",
+                        "variable_workflow_01PP773PC19C57fpPyxEFzuX0kP8dAqdVoQ": "An investigation was conducted in response to an email arriving in the investigation mailbox.\nObservable statistics:\n* Clean: $workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LGYIGNL764O6e6Ge5cmuGi0m766DQgdTC$\n* Suspicious: $workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LGYJ91SGAGA7VyrEdTBs7FjF0aFQr2yx0$\n* Malicious: $workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LGYJQVFW8HJ2nEXVlQm67JaGK41nYRUUJ$\n* Unknown: $workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LGYM9HYUS0T5tnd0alUn2JbXGhc0RxCID$",
+                        "variable_workflow_01PP773PC1ALV47FYVyDKQsPCuKzTZwYeyv": "New",
+                        "variable_workflow_01PP773PC1DZZ2rpbgvgD3IRrMsngkGxWkK": "Email Investigation for \"$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LG4CXZB1PS85vMbaUCSTf8j02SCyIImgV$\"",
+                        "variable_workflow_01PP773PC1F547IibuvGX89UFFJE9ZNlHgb": "amber",
+                        "variable_workflow_01PP773PC1G7V6ZMj5IyCTQcEPiVhQm1fYO": "High"
                       },
                       "runtime_user": {
                         "target_default": true
@@ -3735,27 +3736,27 @@
                           }
                         }
                       },
-                      "workflow_id": "definition_workflow_01KVVWMB2UTRF5uVHVH9DtiT6vgIfnzTdRS"
+                      "workflow_id": "definition_workflow_01PP773PI1X3Y1YQWhirIL8Uy40Thd6ND7r"
                     },
                     "object_type": "definition_activity"
                   },
                   {
                     "unique_name": "definition_activity_01LDIDNUHM2KW0nfaMPztt5XK8Seh1qXEEl",
-                    "name": "Threat Response v2 - Create Relationship",
-                    "title": "Threat Response v2 - Create Relationship",
+                    "name": "Threat Response - Create Relationship",
+                    "title": "Threat Response - Create Relationship",
                     "type": "workflow.atomic_workflow",
                     "base_type": "subworkflow",
                     "properties": {
                       "continue_on_failure": false,
-                      "display_name": "Threat Response v2 - Create Relationship",
+                      "display_name": "Threat Response - Create Relationship",
                       "input": {
-                        "variable_workflow_01KWID476NLS63mQo7De2Wk9Q1WAJb0dJXe": "$activity.definition_activity_01LDIDKP42Z4T0hGz0qVKv6nVCSvogJXewT.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$",
-                        "variable_workflow_01KWID476NNBL4xUNZ1ze05KmIr6MTOd2tf": "related-to",
-                        "variable_workflow_01KWID476NOW27YCzfBvT6jlpfoo4jDNQoS": "",
-                        "variable_workflow_01KWID476NRV53BPxHqiyGzSy3hiS50IIYt": "",
-                        "variable_workflow_01KWIOPHDZHRM2nxENJ5E3iBUjDizSHzujd": "$activity.definition_activity_01LDIDMPCNF4I3mnNTAAESN9mn022Fh1JKb.output.variable_workflow_01KVOGF4J4HBH1AEO1b5YnhSpqUnFihUeXS$",
-                        "variable_workflow_01KWIP24K2A5P6ag8merXYIrzb5KHnOSzU3": "$activity.definition_activity_01LDIDN5QVVPU66SAM8RfsHldRGGXDmUl2I.output.variable_workflow_01KVVWMAKJDWL0w7z086xbnRNZMwGcpxweP$",
-                        "variable_workflow_01LFBZWJ98ZH426APtwKiW7OM9nNQMfT7IA": "amber"
+                        "variable_workflow_01PP78LVV8JKR6NKKuym8RA2VYFgUJrR4qU": "$activity.definition_activity_01LDIDMPCNF4I3mnNTAAESN9mn022Fh1JKb.output.variable_workflow_01PP75X6NM6A27cUzf6oC7zeZQTz0YxT8J0$",
+                        "variable_workflow_01PP78LVV8NS94TRyx07G3ajwZ5eE5oWZ36": "",
+                        "variable_workflow_01PP78LVV8P3X5wkMhrcIXTnToxb6HxuLpk": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LR9OLL4JHL86LeCidHSI0HxRbuTgtisu1$",
+                        "variable_workflow_01PP78LVV8QB314gJIqe5PQHoWnRTMtwhK4": "amber",
+                        "variable_workflow_01PP78LVV8RLZ02Yzy68Uz59X8kInnUomdU": "",
+                        "variable_workflow_01PP78LVV8SVF31gxGXEVhu26vewW98cJxO": "$activity.definition_activity_01LDIDN5QVVPU66SAM8RfsHldRGGXDmUl2I.output.variable_workflow_01PP773PC1BPV1bDuA5gxMPKC5vx4EJTYXw$",
+                        "variable_workflow_01PP78LVV8V4B28e1wJKo9WReVhIZ3bvM6f": "related-to"
                       },
                       "runtime_user": {
                         "target_default": true
@@ -3777,28 +3778,28 @@
                           }
                         }
                       },
-                      "workflow_id": "definition_workflow_01KWID47SRHY30TYWU3BQSFODWA7PVO360x"
+                      "workflow_id": "definition_workflow_01PP78LW2WNY80aDM6OHNiRu2VPG4BrR8bq"
                     },
                     "object_type": "definition_activity"
                   },
                   {
                     "unique_name": "definition_activity_01LLGAS736PV81GdS3woVjsGfNpr6Bx6wy9",
-                    "name": "Threat Response v2 - Create Sighting",
-                    "title": "Threat Response v2 - Create Sighting",
+                    "name": "Threat Response - Create Sighting",
+                    "title": "Threat Response - Create Sighting",
                     "type": "workflow.atomic_workflow",
                     "base_type": "subworkflow",
                     "properties": {
                       "continue_on_failure": false,
-                      "display_name": "Threat Response v2 - Create Sighting",
+                      "display_name": "Threat Response - Create Sighting",
                       "input": {
-                        "variable_workflow_01KWI6XBXC36X5fDp4P3C4W39e3ii12zcYI": "User targeted by a suspicious email",
-                        "variable_workflow_01KWI6XBXC8MT4PhPchVEzUFUYhgJ5L37zI": "User targeted by a suspicious email",
-                        "variable_workflow_01KWI6XBXCB6Z7FBz7mVAbr2nQMRfJrB9h4": "$activity.definition_activity_01LDIDKP42Z4T0hGz0qVKv6nVCSvogJXewT.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$",
-                        "variable_workflow_01KWI8HQQALI75l9Rdg4OpEokFpKs35ZysU": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLL7DK7UYAjRXpksRudsOQVn67Hs$",
-                        "variable_workflow_01KWI98GQEUY83GabUEPdfqY7XaeitLae2F": "Medium",
-                        "variable_workflow_01KWIBOK8V9E16FTFfn7IAUK0P0mHgXZrGT": "[{\"type\":\"user\",\"observables\":[{\"type\":\"email\",\"value\":\"$trigger.triggerevent_01LDICT231ZS43miaxKIy0SEERAAMo7ddn6.output.sender$\"}],\"observed_time\":{\"start_time\":\"$activity.definition_activity_01LDIDMPCNF4I3mnNTAAESN9mn022Fh1JKb.output.end_time$\"}}]",
-                        "variable_workflow_01KWIYHA5ADVS34NX0EPNpeSYNtUj522l8P": "High",
-                        "variable_workflow_01LFBXTCC6NTI4FkW9IYQZb6HAYE8EtHfl7": "amber"
+                        "variable_workflow_01PP74DHJ8XU51NVPLntEun5tp9o8KR83zJ": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLL7DK7UYAjRXpksRudsOQVn67Hs$",
+                        "variable_workflow_01PP74DHJ913T5hOMl3EkIZtk7LiiQ2y1lv": "Medium",
+                        "variable_workflow_01PP74DHJ93KY4W3oJh8Fg8G0FtZvIcWRnn": "[{\"type\":\"user\",\"observables\":[{\"type\":\"email\",\"value\":\"$trigger.triggerevent_01LDICT231ZS43miaxKIy0SEERAAMo7ddn6.output.sender$\"}],\"observed_time\":{\"start_time\":\"$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.output.start_time$\"}}]",
+                        "variable_workflow_01PP74DHJ94QR7IwrK8FFJ7w9dF90hOhQPJ": "High",
+                        "variable_workflow_01PP74DHJ95XG4OD0Oerb03wh756BfcC48H": "User targeted by a suspicious email",
+                        "variable_workflow_01PP74DHJ973W3os2PwE2QF1JBKKZxC18jZ": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LR9OLL4JHL86LeCidHSI0HxRbuTgtisu1$",
+                        "variable_workflow_01PP74DHJ98JF0qum4O6sDBuhh4xcV7c0pE": "User targeted by a suspicious email",
+                        "variable_workflow_01PP74DHJ99R34tbMy9eetTEbaLfWVGscCW": "amber"
                       },
                       "runtime_user": {
                         "target_default": true
@@ -3820,27 +3821,27 @@
                           }
                         }
                       },
-                      "workflow_id": "definition_workflow_01KWI6XE6K5YD5I6K2wZF5Vp0M9FyXUl34y"
+                      "workflow_id": "definition_workflow_01PP74DHPLES477KZo2MCv9N9Dx5fza9wiU"
                     },
                     "object_type": "definition_activity"
                   },
                   {
                     "unique_name": "definition_activity_01LLGJRLG9S3T4k5NR4UpRZAWrYpxP4OGK2",
-                    "name": "Threat Response v2 - Create Relationship",
-                    "title": "Threat Response v2 - Create Relationship",
+                    "name": "Threat Response - Create Relationship",
+                    "title": "Threat Response - Create Relationship",
                     "type": "workflow.atomic_workflow",
                     "base_type": "subworkflow",
                     "properties": {
                       "continue_on_failure": false,
-                      "display_name": "Threat Response v2 - Create Relationship",
+                      "display_name": "Threat Response - Create Relationship",
                       "input": {
-                        "variable_workflow_01KWID476NLS63mQo7De2Wk9Q1WAJb0dJXe": "$activity.definition_activity_01LDIDKP42Z4T0hGz0qVKv6nVCSvogJXewT.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$",
-                        "variable_workflow_01KWID476NNBL4xUNZ1ze05KmIr6MTOd2tf": "related-to",
-                        "variable_workflow_01KWID476NOW27YCzfBvT6jlpfoo4jDNQoS": "",
-                        "variable_workflow_01KWID476NRV53BPxHqiyGzSy3hiS50IIYt": "",
-                        "variable_workflow_01KWIOPHDZHRM2nxENJ5E3iBUjDizSHzujd": "$activity.definition_activity_01LLGAS736PV81GdS3woVjsGfNpr6Bx6wy9.output.variable_workflow_01KWI6XBXCA122ks58vY1MiMR3fTMolsjyC$",
-                        "variable_workflow_01KWIP24K2A5P6ag8merXYIrzb5KHnOSzU3": "$activity.definition_activity_01LDIDN5QVVPU66SAM8RfsHldRGGXDmUl2I.output.variable_workflow_01KVVWMAKJDWL0w7z086xbnRNZMwGcpxweP$",
-                        "variable_workflow_01LFBZWJ98ZH426APtwKiW7OM9nNQMfT7IA": "amber"
+                        "variable_workflow_01PP78LVV8JKR6NKKuym8RA2VYFgUJrR4qU": "$activity.definition_activity_01LLGAS736PV81GdS3woVjsGfNpr6Bx6wy9.output.variable_workflow_01PP74DHJ92FH4K1jCaTCFvVKlkim02lhCn$",
+                        "variable_workflow_01PP78LVV8NS94TRyx07G3ajwZ5eE5oWZ36": "",
+                        "variable_workflow_01PP78LVV8P3X5wkMhrcIXTnToxb6HxuLpk": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LR9OLL4JHL86LeCidHSI0HxRbuTgtisu1$",
+                        "variable_workflow_01PP78LVV8QB314gJIqe5PQHoWnRTMtwhK4": "amber",
+                        "variable_workflow_01PP78LVV8RLZ02Yzy68Uz59X8kInnUomdU": "",
+                        "variable_workflow_01PP78LVV8SVF31gxGXEVhu26vewW98cJxO": "$activity.definition_activity_01LDIDN5QVVPU66SAM8RfsHldRGGXDmUl2I.output.variable_workflow_01PP773PC1BPV1bDuA5gxMPKC5vx4EJTYXw$",
+                        "variable_workflow_01PP78LVV8V4B28e1wJKo9WReVhIZ3bvM6f": "related-to"
                       },
                       "runtime_user": {
                         "target_default": true
@@ -3862,7 +3863,7 @@
                           }
                         }
                       },
-                      "workflow_id": "definition_workflow_01KWID47SRHY30TYWU3BQSFODWA7PVO360x"
+                      "workflow_id": "definition_workflow_01PP78LW2WNY80aDM6OHNiRu2VPG4BrR8bq"
                     },
                     "object_type": "definition_activity"
                   }
@@ -3922,10 +3923,10 @@
                               "continue_on_failure": true,
                               "display_name": "Webex Teams - Search for Room",
                               "input": {
-                                "variable_workflow_01FHMU6RWYQWI3QFUEzjWMT7JYBcz5vquuD": "",
-                                "variable_workflow_01FHMU6RWYWY822p43LeMi8Lcx89Q9jeyek": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLPMP7MNZ3m0TsDTLgF2JcMe5uS$",
-                                "variable_workflow_01FHMU6RWYY481TVWDm0BQ1p0rWnqak191l": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLJRV47QVDw1J8FWKogMqJWCDk6$",
-                                "variable_workflow_01FHNGCYY2O6Z0NcPmUDabszT2P4P0oqMNd": ""
+                                "variable_workflow_01PP790MCX1DN3EitpQebkUyJS65DbwS3nU": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLJRV47QVDw1J8FWKogMqJWCDk6$",
+                                "variable_workflow_01PP790MCXB392D3R8pxh9fgOTjTde2bcMW": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLPMP7MNZ3m0TsDTLgF2JcMe5uS$",
+                                "variable_workflow_01PP790MCXHP55YE6ylOEITWsWbUFJeyWGv": "",
+                                "variable_workflow_01PP790MCXM9W1MUwo85y8iNRCoQuQ4RGNa": ""
                               },
                               "runtime_user": {
                                 "target_default": true
@@ -3947,7 +3948,7 @@
                                   }
                                 }
                               },
-                              "workflow_id": "definition_workflow_01FHMU6SD5XPL6eRW4zFXqkA1w8jWiQCIBU"
+                              "workflow_id": "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez"
                             },
                             "object_type": "definition_activity"
                           },
@@ -3992,10 +3993,10 @@
                                       "continue_on_failure": false,
                                       "display_name": "Webex Teams - Post Message to Room",
                                       "input": {
-                                        "variable_workflow_01FGYY44G3MZ55amJu9YqgUeKS8GT49bZx3": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLJRV47QVDw1J8FWKogMqJWCDk6$",
-                                        "variable_workflow_01FGYY44G3TK951Crpnd8g2izonyM4bFtpW": "$activity.definition_activity_01LDIDQ51UR5S1ATJNsEOHOFzny2THwA1qc.output.variable_workflow_01FHSVE2R6ZTQ6L92WEi0kWgR5T8zhMAUzO$",
-                                        "variable_workflow_01FGYY44G3UPV3heGGc3vXCV47YL5WoI2X6": "",
-                                        "variable_workflow_01FGYZ9BV4QTP19CuMwcW8QywvCP9ymx2BZ": "❗️ A new suspicious email investigation has been created in response to a user-submitted email! The sample submitted **contained malicious or suspicious** content! ❗️\\n * Email Subject: `$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LG4CXZB1PS85vMbaUCSTf8j02SCyIImgV$` \\n * Sender: `$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LG3GJ9F9M5S2Qxe4US0DM83k8vstM2cye$` \\n * Recipient(s): `$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LG4HDZ009225imFLWhsAxjpJBuXZ2RxHT$` \\n * Number of Attachments: $trigger.triggerevent_01LDICT231ZS43miaxKIy0SEERAAMo7ddn6.output.attachments_count$ \\n\\n Actions: \\n * [Investigate in Threat Response](https://$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLG976twtPV5bt5l5DrFeRLfFPe$/investigate?spid=$activity.definition_activity_01LDIDMPCNF4I3mnNTAAESN9mn022Fh1JKb.output.variable_workflow_01LQB3XURV3CD6Girik0OfXDWL0RV2MiDK9$) \\n* [View Threat Response Incident](https://$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLG976twtPV5bt5l5DrFeRLfFPe$/incidents?q=id:$activity.definition_activity_01LDIDN5QVVPU66SAM8RfsHldRGGXDmUl2I.output.variable_workflow_01LQB1IH60ROO1jxW6qZj3vj88GYE6CdpUH$)"
+                                        "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$activity.definition_activity_01LDIDQ51UR5S1ATJNsEOHOFzny2THwA1qc.output.variable_workflow_01PP790MCXJ7Y5cAWcGZWbG4Es0126zb1I6$",
+                                        "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLJRV47QVDw1J8FWKogMqJWCDk6$",
+                                        "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "❗️ A new suspicious email investigation has been created in response to a user-submitted email! The sample submitted **contained malicious or suspicious** content! ❗️\n\n* Email Subject: `$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LG4CXZB1PS85vMbaUCSTf8j02SCyIImgV$`\n* Sender: `$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LG3GJ9F9M5S2Qxe4US0DM83k8vstM2cye$`\n* Recipient(s): `$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LG4HDZ009225imFLWhsAxjpJBuXZ2RxHT$`\n* Number of Attachments: $trigger.triggerevent_01LDICT231ZS43miaxKIy0SEERAAMo7ddn6.output.attachments_count$\n\nActions:\n* [Investigate in Threat Response](https://$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLKUF7R3TFDHTFVtSJMW1Pb0w9D$/investigate?spid=$activity.definition_activity_01LDIDMPCNF4I3mnNTAAESN9mn022Fh1JKb.output.variable_workflow_01PP75X6NLWYO1BiZbBFEXJyqmmfiQcqId3$)\n* [View Threat Response Incident](https://$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLKUF7R3TFDHTFVtSJMW1Pb0w9D$/incidents?q=id:$activity.definition_activity_01LDIDN5QVVPU66SAM8RfsHldRGGXDmUl2I.output.variable_workflow_01PP773PC1CVM3SzJJrvuZfEsO3Nbw7IO7S$)",
+                                        "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": ""
                                       },
                                       "runtime_user": {
                                         "target_default": true
@@ -4017,7 +4018,7 @@
                                           }
                                         }
                                       },
-                                      "workflow_id": "definition_workflow_01FGYY44YU521254ygN3Le0In0kEHpiPNpf"
+                                      "workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw"
                                     },
                                     "object_type": "definition_activity"
                                   }
@@ -4052,7 +4053,7 @@
                     "base_type": "activity",
                     "properties": {
                       "action_timeout": 180,
-                      "body": "An email was submitted to the investigation mailbox that was found to contain malicious and/or suspicious observables.\n\nReported by: $trigger.triggerevent_01LDICT231ZS43miaxKIy0SEERAAMo7ddn6.output.sender$\nThreat Response Incident: https://$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLG976twtPV5bt5l5DrFeRLfFPe$/incidents?q=id:$activity.definition_activity_01LDIDN5QVVPU66SAM8RfsHldRGGXDmUl2I.output.variable_workflow_01LQB1IH60ROO1jxW6qZj3vj88GYE6CdpUH$\nThreat Response Investigation: https://$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLG976twtPV5bt5l5DrFeRLfFPe$/investigate?spid=$activity.definition_activity_01LDIDMPCNF4I3mnNTAAESN9mn022Fh1JKb.output.variable_workflow_01LQB3XURV3CD6Girik0OfXDWL0RV2MiDK9$\nWorkflow Instance: https://$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLKUF7R3TFDHTFVtSJMW1Pb0w9D$/orch-ui/runs/$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.output.instance_id$\n\nInformation about the investigation:\n$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLOJT3g5rFBLxbOBw1UlF0Ql9mi$",
+                      "body": "An email was submitted to the investigation mailbox that was found to contain malicious and/or suspicious observables.\nReported by: $trigger.triggerevent_01LDICT231ZS43miaxKIy0SEERAAMo7ddn6.output.sender$\nThreat Response Incident: https://$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLG976twtPV5bt5l5DrFeRLfFPe$/incidents?q=id:$activity.definition_activity_01LDIDN5QVVPU66SAM8RfsHldRGGXDmUl2I.output.variable_workflow_01PP773PC1CVM3SzJJrvuZfEsO3Nbw7IO7S$\nThreat Response Investigation: https://$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLG976twtPV5bt5l5DrFeRLfFPe$/investigate?spid=$activity.definition_activity_01LDIDMPCNF4I3mnNTAAESN9mn022Fh1JKb.output.variable_workflow_01PP75X6NLWYO1BiZbBFEXJyqmmfiQcqId3$\nWorkflow Instance: https://$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLKUF7R3TFDHTFVtSJMW1Pb0w9D$/orch-ui/runs/$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.output.instance_id$\nInformation about the investigation:\n$workflow.definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC.local.variable_workflow_01LDICSBLLOJT3g5rFBLxbOBw1UlF0Ql9mi$",
                       "continue_if_one_address_valid": false,
                       "continue_on_failure": false,
                       "display_name": "Send SOC notification",
@@ -4265,7 +4266,9 @@
         ]
       }
     ],
-    "categories": []
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
   },
   "triggers": {
     "triggerevent_01LDICT231ZS43miaxKIy0SEERAAMo7ddn6": {
@@ -4276,7 +4279,7 @@
       "type": "event",
       "base_type": "trigger",
       "ref_id": "event_01LGC5X9EJUOC0K1s0akjTy0WxbVxkmzIxO",
-      "version": "",
+      "version": "1.0.0",
       "disabled": true,
       "unique_name": "triggerevent_01LDICT231ZS43miaxKIy0SEERAAMo7ddn6",
       "object_type": "triggerevent"
@@ -4381,12 +4384,6 @@
       "display_name": "Phishing Response - Observables",
       "columns": [
         {
-          "is_required": true,
-          "name": "value",
-          "title": "value",
-          "type": "string"
-        },
-        {
           "name": "disposition",
           "title": "disposition",
           "type": "string"
@@ -4395,6 +4392,12 @@
           "is_required": true,
           "name": "type",
           "title": "type",
+          "type": "string"
+        },
+        {
+          "is_required": true,
+          "name": "value",
+          "title": "value",
           "type": "string"
         }
       ],
@@ -4406,21 +4409,6 @@
       "data_type": "datatype.tabletype",
       "display_name": "Phishing Response - Statistics",
       "columns": [
-        {
-          "name": "start_time",
-          "title": "start_time",
-          "type": "date"
-        },
-        {
-          "name": "threatgrid_submissions",
-          "title": "threatgrid_submissions",
-          "type": "integer"
-        },
-        {
-          "name": "end_time",
-          "title": "end_time",
-          "type": "date"
-        },
         {
           "name": "num_attachments",
           "title": "num_attachments",
@@ -4445,6 +4433,21 @@
           "name": "observables_unknown",
           "title": "observables_unknown",
           "type": "integer"
+        },
+        {
+          "name": "start_time",
+          "title": "start_time",
+          "type": "date"
+        },
+        {
+          "name": "threatgrid_submissions",
+          "title": "threatgrid_submissions",
+          "type": "integer"
+        },
+        {
+          "name": "end_time",
+          "title": "end_time",
+          "type": "date"
         }
       ],
       "base_type": "datatype",
@@ -4452,17 +4455,17 @@
     }
   },
   "atomic_workflows": [
-    "definition_workflow_01KWJ2ISZTF2V6ibRYe7FZ7sOuycDOpnwss",
-    "definition_workflow_01KWID47SRHY30TYWU3BQSFODWA7PVO360x",
-    "definition_workflow_01LKD7G2VQ44P3jhvJ6wDFa1EXSJdJPmv1j",
-    "definition_workflow_01FGYY44YU521254ygN3Le0In0kEHpiPNpf",
-    "definition_workflow_01KVVWMB2UTRF5uVHVH9DtiT6vgIfnzTdRS",
-    "definition_workflow_01KVOGF574Y291CRwQLNB1TtzEHDNwyUx7O",
-    "definition_workflow_01KWI6XE6K5YD5I6K2wZF5Vp0M9FyXUl34y",
-    "definition_workflow_01LG728NY19RR7dSxgZ5Pjjk6kyokjflhvJ",
-    "definition_workflow_01KXGKZ0JA96P0p7omD4IdS6zKdw5ECiofU",
-    "definition_workflow_01FHMU6SD5XPL6eRW4zFXqkA1w8jWiQCIBU",
-    "definition_workflow_01KXGQWLMIDXG563x6DBOvwjfxpH8JrkaRW",
-    "definition_workflow_01KXH2YWVULRP7kaaTT7ATl62qbAEXE5cpn"
+    "definition_workflow_01PP77MLQ4QAG765OwlT0ZDqBzv80HvYuPC",
+    "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw",
+    "definition_workflow_01PP7586MYQ913P0nWshTHMU7mQNNFG58Bv",
+    "definition_workflow_01PP773PI1X3Y1YQWhirIL8Uy40Thd6ND7r",
+    "definition_workflow_01PP74NMCSJYN5DYHJIh4d3TYHAG7jqguRU",
+    "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH",
+    "definition_workflow_01PP74DHPLES477KZo2MCv9N9Dx5fza9wiU",
+    "definition_workflow_01PP78YVWMXKI3jcrOGYocGMM3VaophGkkJ",
+    "definition_workflow_01PP75MV62DWN0raRr4mKAGgLjQhLnPVlFJ",
+    "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez",
+    "definition_workflow_01PP75X6VPQNK4hKE1XQXIMeIcHrE1khIML",
+    "definition_workflow_01PP78LW2WNY80aDM6OHNiRu2VPG4BrR8bq"
   ]
 }

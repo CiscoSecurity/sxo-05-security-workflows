@@ -17,16 +17,30 @@ Response Workflow
 {: .label }
 </div>
 
-This workflow should be triggered from a SecureX pivot menu and supports IP address observables. When triggered, this workflow submits a change request in ServiceNow with pre-defined ticket text and the observable provided as input.
+This workflow submits a change request in ServiceNow with pre-defined ticket text and the observable provided as input to the workflow. Supported observable: `ip`
 
 [<i class="fab fa-github mr-1"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0018-ServiceNow-RequestFirewallNullRoute__definition_workflow_01N181T3IG8ZO3hpAavtoimVvrNmkjIiCuM){: .btn-cisco-outline }
 
 ---
 
+## Change Log
+
+| Date | Notes |
+|:-----|:------|
+| Apr 1, 2021 | - Initial release |
+| September 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+
+_See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
+
+---
+
 ## Requirements
+* The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
+	* None
 * The following atomic actions must be imported before you can import this workflow:
 	* ServiceNow - Create Change Request ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
 * The [targets](#targets) and [account keys](#account-keys) listed below
+* ServiceNow
 
 ---
 

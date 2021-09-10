@@ -9,29 +9,15 @@
       {
         "schema_id": "datatype.string",
         "properties": {
-          "value": "Secure_Firewall_SecureX_Indicator",
+          "value": "",
           "scope": "local",
-          "name": "Indicator Name",
+          "name": "Indicator ID",
           "type": "datatype.string",
-          "description": "The base indicator name to use when referencing feeds. The type of observable will be appended to this. If you change this, you will also need to update the same variable in workflow 0015B",
+          "description": "Placeholder for the indicator ID being built",
           "is_required": false,
           "is_invisible": false
         },
-        "unique_name": "variable_workflow_01JB3JSTG1V9N2ARVNBoVp9zIMRWO8KO9EW",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "IPv4,IP Watchlist\nIPv6,IP Watchlist\nDomain,Domain Watchlist\nURL,URL Watchlist\nSHA256,File Hash Watchlist",
-          "scope": "static",
-          "name": "Observable Types",
-          "type": "datatype.string",
-          "description": "The list of observable types to create indicators and feeds for",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01MKA3XPM5KSA5Vuu661ozZMovlevdm6Qlx",
+        "unique_name": "variable_workflow_01ML2386S4K8A0ztaCP2ovqYuGpPz6OrUJZ",
         "object_type": "variable_workflow"
       },
       {
@@ -64,15 +50,15 @@
       {
         "schema_id": "datatype.string",
         "properties": {
-          "value": "",
-          "scope": "local",
-          "name": "Indicator ID",
+          "value": "IPv4,IP Watchlist\nIPv6,IP Watchlist\nDomain,Domain Watchlist\nURL,URL Watchlist\nSHA256,File Hash Watchlist",
+          "scope": "static",
+          "name": "Observable Types",
           "type": "datatype.string",
-          "description": "Placeholder for the indicator ID being built",
+          "description": "The list of observable types to create indicators and feeds for",
           "is_required": false,
           "is_invisible": false
         },
-        "unique_name": "variable_workflow_01ML2386S4K8A0ztaCP2ovqYuGpPz6OrUJZ",
+        "unique_name": "variable_workflow_01MKA3XPM5KSA5Vuu661ozZMovlevdm6Qlx",
         "object_type": "variable_workflow"
       },
       {
@@ -88,6 +74,20 @@
         },
         "unique_name": "variable_workflow_01JDOWSNWW2VZ47ASe2TcwOJ9bS5dQS80CV",
         "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "Secure_Firewall_SecureX_Indicator",
+          "scope": "local",
+          "name": "Indicator Name",
+          "type": "datatype.string",
+          "description": "The base indicator name to use when referencing feeds. The type of observable will be appended to this. If you change this, you will also need to update the same variable in workflow 0015B",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01JB3JSTG1V9N2ARVNBoVp9zIMRWO8KO9EW",
+        "object_type": "variable_workflow"
       }
     ],
     "properties": {
@@ -95,7 +95,7 @@
         "is_atomic": false
       },
       "delete_workflow_instance": false,
-      "description": "This workflow creates a series of indicators and feeds for various observable types in SecureX Threat Response. These feeds can then be added to Cisco Secure Firewall (formerly Firepower) to block observables at the firewall level.\n\nNOTE: At the end of this workflow, the Output Text variable will contain the list of feed URLs you need to configure in your firewall.\n\nTarget Group: Default TargetGroup\n\nTargets: CTR_For_Access_Token, Private_CTIA_Target\n\nSteps:\n[] Generate a Threat Response access token\n[] For each observable type:\n[]\u003e Search for an indicator for this observable type\n[]\u003e Check if the indicator was found:\n[]\u003e\u003e If it was, extract the indicator ID\n[]\u003e\u003e If it wasn't, create the indicator\n[]\u003e Search for a feed for this observable type\n[]\u003e Check if the feed was found:\n[]\u003e\u003e If it was, extract the feed view URL\n[]\u003e\u003e If it wasn't, create the feed\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0015A",
+      "description": "This workflow creates a series of indicators and feeds for various observable types in Cisco Threat Response. These feeds can then be added to Cisco Secure Firewall (or other compatible platforms) to block observables.\n\nNOTE: At the end of this workflow, the Output Text variable will contain the list of feed URLs you need to configure in your firewall.\n\nTarget Group: Default TargetGroup\n\nTargets: CTR_For_Access_Token, Private_CTIA_Target\n\nSteps:\n[] Generate a Threat Response access token\n[] For each observable type:\n[]> Search for an indicator for this observable type\n[]> Check if the indicator was found:\n[]>> If it was, extract the indicator ID\n[]>> If it wasn't, create the indicator\n[]> Search for a feed for this observable type\n[]> Check if the feed was found:\n[]>> If it was, extract the feed view URL\n[]>> If it wasn't, create the feed\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0015A",
       "display_name": "0015A - Secure Firewall - Block Observables - Setup",
       "runtime_user": {
         "override_target_runtime_user": false,
@@ -127,13 +127,13 @@
     "actions": [
       {
         "unique_name": "definition_activity_01MK6B2SA8KMN2Nlx8NQPgliDIlOymCaCGk",
-        "name": "Threat Response v2 - Generate Access Token",
-        "title": "Threat Response v2 - Generate Access Token",
+        "name": "Threat Response - Generate Access Token",
+        "title": "Threat Response - Generate Access Token",
         "type": "workflow.atomic_workflow",
         "base_type": "subworkflow",
         "properties": {
           "continue_on_failure": false,
-          "display_name": "Threat Response v2 - Generate Access Token",
+          "display_name": "Threat Response - Generate Access Token",
           "runtime_user": {
             "target_default": true
           },
@@ -154,7 +154,7 @@
               }
             }
           },
-          "workflow_id": "definition_workflow_01KWJ2ISZTF2V6ibRYe7FZ7sOuycDOpnwss"
+          "workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
         },
         "object_type": "definition_activity"
       },
@@ -247,12 +247,12 @@
               "custom_headers": [
                 {
                   "name": "Authorization",
-                  "value": "Bearer $activity.definition_activity_01MK6B2SA8KMN2Nlx8NQPgliDIlOymCaCGk.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$"
+                  "value": "Bearer $activity.definition_activity_01MK6B2SA8KMN2Nlx8NQPgliDIlOymCaCGk.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$"
                 }
               ],
               "display_name": "Search for existing indicators",
               "method": "GET",
-              "relative_url": "/ctia/indicator/search?limit=1\u0026offset=0\u0026query=title:$workflow.definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX.local.variable_workflow_01JB3JSTG1V9N2ARVNBoVp9zIMRWO8KO9EW$_$activity.definition_activity_01ML1JI9RFE5J5gBUjyQEOXjoyeNGMFxbhR.output.parts[0]$",
+              "relative_url": "/ctia/indicator/search?limit=1&offset=0&query=title:$workflow.definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX.local.variable_workflow_01JB3JSTG1V9N2ARVNBoVp9zIMRWO8KO9EW$_$activity.definition_activity_01ML1JI9RFE5J5gBUjyQEOXjoyeNGMFxbhR.output.parts[0]$",
               "runtime_user": {
                 "override_target_runtime_user": false,
                 "target_default": true
@@ -366,7 +366,7 @@
                       "action_timeout": 180,
                       "continue_on_failure": false,
                       "display_name": "Generate indicator JSON",
-                      "script": "import json, sys\nfrom datetime import datetime, date, timedelta\n\n# Get the current date/time\ndateTime = datetime.now()\n\n# Validate the indicator type list\nindicator_types = sys.argv[2]\nif len(indicator_types) \u003e 0:\n\tindicator_types = json.loads(indicator_types)\nelse:\n\tindicator_types = []\n\n# Build the indicator objects\nindicator_object = {}\nindicator_object[\"description\"] = \"\"\nindicator_object[\"producer\"] = \"NGFW\"\nindicator_object[\"schema_version\"] = \"1.0.19\"\nindicator_object[\"type\"] = \"indicator\"\nindicator_object[\"source\"] = \"securex-orchestration\"\nindicator_object[\"short_description\"] = sys.argv[1]\nindicator_object[\"title\"] = sys.argv[1]\nindicator_object[\"indicator_type\"] = indicator_types\nindicator_object[\"severity\"] = \"Info\"\nindicator_object[\"tlp\"] = \"amber\"\nindicator_object[\"timestamp\"] = dateTime.strftime(\"%Y-%m-%dT%H:%M:%SZ\")\nindicator_object[\"confidence\"] = \"High\"\n\nindicator_json = json.dumps(indicator_object)",
+                      "script": "import json, sys\nfrom datetime import datetime, date, timedelta\n\n# Get the current date/time\ndateTime = datetime.now()\n\n# Validate the indicator type list\nindicator_types = sys.argv[2]\nif len(indicator_types) > 0:\n\tindicator_types = json.loads(indicator_types)\nelse:\n\tindicator_types = []\n\n# Build the indicator objects\nindicator_object = {}\nindicator_object[\"description\"] = \"\"\nindicator_object[\"producer\"] = \"NGFW\"\nindicator_object[\"schema_version\"] = \"1.0.19\"\nindicator_object[\"type\"] = \"indicator\"\nindicator_object[\"source\"] = \"securex-orchestration\"\nindicator_object[\"short_description\"] = sys.argv[1]\nindicator_object[\"title\"] = sys.argv[1]\nindicator_object[\"indicator_type\"] = indicator_types\nindicator_object[\"severity\"] = \"Info\"\nindicator_object[\"tlp\"] = \"amber\"\nindicator_object[\"timestamp\"] = dateTime.strftime(\"%Y-%m-%dT%H:%M:%SZ\")\nindicator_object[\"confidence\"] = \"High\"\n\nindicator_json = json.dumps(indicator_object)",
                       "script_arguments": [
                         "$workflow.definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX.local.variable_workflow_01JB3JSTG1V9N2ARVNBoVp9zIMRWO8KO9EW$_$activity.definition_activity_01ML1JI9RFE5J5gBUjyQEOXjoyeNGMFxbhR.output.parts[0]$",
                         "[ \"$activity.definition_activity_01ML1JI9RFE5J5gBUjyQEOXjoyeNGMFxbhR.output.parts[-1]$\" ]"
@@ -399,7 +399,7 @@
                       "custom_headers": [
                         {
                           "name": "Authorization",
-                          "value": "Bearer $activity.definition_activity_01MK6B2SA8KMN2Nlx8NQPgliDIlOymCaCGk.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$"
+                          "value": "Bearer $activity.definition_activity_01MK6B2SA8KMN2Nlx8NQPgliDIlOymCaCGk.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$"
                         }
                       ],
                       "display_name": "Create the indicator",
@@ -547,12 +547,12 @@
               "custom_headers": [
                 {
                   "name": "Authorization",
-                  "value": "Bearer $activity.definition_activity_01MK6B2SA8KMN2Nlx8NQPgliDIlOymCaCGk.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$"
+                  "value": "Bearer $activity.definition_activity_01MK6B2SA8KMN2Nlx8NQPgliDIlOymCaCGk.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$"
                 }
               ],
               "display_name": "Search for existing feeds",
               "method": "GET",
-              "relative_url": "/ctia/feed/search?limit=1\u0026offset=0\u0026query=title:$workflow.definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX.local.variable_workflow_01JDOWSNWW2VZ47ASe2TcwOJ9bS5dQS80CV$_$activity.definition_activity_01ML1JI9RFE5J5gBUjyQEOXjoyeNGMFxbhR.output.parts[0]$",
+              "relative_url": "/ctia/feed/search?limit=1&offset=0&query=title:$workflow.definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX.local.variable_workflow_01JDOWSNWW2VZ47ASe2TcwOJ9bS5dQS80CV$_$activity.definition_activity_01ML1JI9RFE5J5gBUjyQEOXjoyeNGMFxbhR.output.parts[0]$",
               "runtime_user": {
                 "override_target_runtime_user": false,
                 "target_default": true
@@ -699,7 +699,7 @@
                       "custom_headers": [
                         {
                           "name": "Authorization",
-                          "value": "Bearer $activity.definition_activity_01MK6B2SA8KMN2Nlx8NQPgliDIlOymCaCGk.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$"
+                          "value": "Bearer $activity.definition_activity_01MK6B2SA8KMN2Nlx8NQPgliDIlOymCaCGk.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$"
                         }
                       ],
                       "display_name": "Create the feed",
@@ -875,22 +875,12 @@
           "data_target_type": "email.smtp_endpoint",
           "view_target_type": "email.smtp_endpoint",
           "include_all_targets": true
-        },
-        {
-          "data_target_type": "terminal.endpoint",
-          "view_target_type": "terminal.endpoint",
-          "include_all_targets": true
-        },
-        {
-          "data_target_type": "aws.endpoint",
-          "view_target_type": "aws.endpoint",
-          "include_all_targets": true
         }
       ],
       "object_type": "target_group"
     }
   },
   "atomic_workflows": [
-    "definition_workflow_01KWJ2ISZTF2V6ibRYe7FZ7sOuycDOpnwss"
+    "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
   ]
 }

@@ -17,16 +17,30 @@ Response Workflow
 {: .label }
 </div>
 
-This workflow removes an endpoint from quarantine in Cisco Identity Services Engine (ISE) by clearing its ANC Policy assignments.
+This workflow removes an endpoint from quarantine in Cisco Identity Services Engine (ISE) by clearing its ANC Policy assignments. Supported observable: `mac_address`
 
 [<i class="fab fa-github mr-1"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0028-ISE-UnQuarantineEndpoint__definition_workflow_01O3B646121ZW3GCZiNVPrwXwn7B87qf2vm){: .btn-cisco-outline }
 
 ---
 
+## Change Log
+
+| Date | Notes |
+|:-----|:------|
+| May 26, 2021 | - Initial release |
+| September 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+
+_See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
+
+---
+
 ## Requirements
+* The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
+	* ISE - ERS - ANC Policy - Clear from Endpoint
 * The following atomic actions must be imported before you can import this workflow:
-	* ISE - ERS - ANC Policy - Clear from Endpoint ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
+	* None
 * The [targets](#targets) and [account keys](#account-keys) listed below
+* Cisco Identity Services Engine (ISE)
 
 ---
 

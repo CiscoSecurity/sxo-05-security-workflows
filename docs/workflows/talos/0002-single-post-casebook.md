@@ -15,7 +15,7 @@ Workflow #0002
 {: .label }
 </div>
 
-This workflow parses a single Talos blog post and converts it into a SecureX casebook. This casebook can then be investigated with one click in Threat Response.
+This workflow takes a Talos blog post, conducts an investigation into it using Cisco Threat Response, and then puts the results in a SecureX casebook. If a Webex Teams room name and bot token are provided, a message with the investigation's results will be sent.
 
 [<i class="fab fa-github mr-1"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0002-Talos-SingleBlogPostToCTRCasebook__definition_workflow_01KEM2V2JAIPS3zmyEiCmuy3kvr3wxHrEuJ){: .btn-cisco-outline }
 
@@ -31,28 +31,27 @@ This workflow is an adaptation of the sub-workflow used by the [Talos - Get New 
 | Date | Notes |
 |:-----|:------|
 | Nov 24, 2020 | - Initial release |
-| Feb 5, 2021 | - Updated to use new Threat Response v2 atomics<br />- Fixed an issue where the Threat Response token could expire during investigation ([Issue #2]({{ site.github.repository_url }}/issues/2))<br />- Added auto-detection for the Threat Response environment URL<br />- Changed how the Webex message and casebook summary are generated to be more reliable and useful |
+| Feb 5, 2021 | - Updated to use new Threat Response atomics<br />- Fixed an issue where the Threat Response token could expire during investigation ([Issue #2]({{ site.github.repository_url }}/issues/2))<br />- Added auto-detection for the Threat Response environment URL<br />- Changed how the Webex message and casebook summary are generated to be more reliable and useful |
 | Jun 24, 2021 | - Updated the user agent header being used to fetch blog posts from Talos |
+| September 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 
 ---
 
 ## Requirements
+* The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
+	* Threat Response - Create Casebook
+	* Threat Response - Deliberate Observable
+	* Threat Response - Enrich Observable
+	* Threat Response - Generate Access Token
+	* Threat Response - Inspect for Observables
+	* Webex Teams - Search for Room
+	* Webex Teams - Post Message to Room
 * The following atomic actions must be imported before you can import this workflow:
-	* Threat Response v2 - Create Casebook ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Response v2 - Deliberate Observable ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Response v2 - Enrich Observable ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Response v2 - Generate Access Token ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Response v2 - Inspect for Observables ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Webex Teams - Post Message to Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos)) * See note below!
-	* Webex Teams - Search for Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* None
 * The [targets](#targets) and [account keys](#account-keys) listed below
 * (Optional) A Webex Teams access token and room name to post messages to
-
-### Important Notes
-* The latest version of this workflow uses new Threat Response v2 atomic actions. You may need to import these before updating the workflow.
-* You may have an old version of the `Webex Teams - Post Message to Room` atomic. To ensure the best experience with this workflow, be sure to import the latest version of this atomic from the `GitHub_Target_Atomics` repository!
 
 ---
 
@@ -64,7 +63,7 @@ This workflow is designed to parse a single blog post into a casebook.
 1. Loop through each observable and get its Threat Response disposition
 1. For observables that weren't clean, conduct Threat Response enrichment to get sightings
 1. For modules with sightings, build the text to post to Webex
-1. Create the Threat Response casebook and, if a teams room is provided, post a message to Webex
+1. Create the SecureX casebook and, if a teams room is provided, post a message to Webex
 
 ---
 

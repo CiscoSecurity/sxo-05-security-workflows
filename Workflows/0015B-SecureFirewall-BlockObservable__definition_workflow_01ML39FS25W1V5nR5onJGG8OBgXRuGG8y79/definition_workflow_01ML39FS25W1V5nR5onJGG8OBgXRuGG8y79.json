@@ -9,12 +9,26 @@
       {
         "schema_id": "datatype.string",
         "properties": {
+          "value": "Secure_Firewall_SecureX_Indicator",
+          "scope": "local",
+          "name": "Indicator Name",
+          "type": "datatype.string",
+          "description": "The base indicator name to use when referencing feeds. The type of observable will be appended to this. If you change this, you will also need to update the same variable in workflow 0015A",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01ML3OGSXO15K2DY4fUvR8Vh9QbHoJezgaf",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
           "value": "",
           "scope": "input",
           "name": "observable_value",
           "type": "datatype.string",
           "description": "The value of the observable pivoted on",
-          "is_required": false,
+          "is_required": true,
           "is_invisible": false
         },
         "unique_name": "variable_workflow_01ML3BIJEVG3N6sxdcUKX1lLBTf5i2pR4aL",
@@ -27,25 +41,11 @@
           "scope": "input",
           "name": "observable_type",
           "type": "datatype.string",
-          "description": "The type of the observable pivoted on",
-          "is_required": false,
+          "description": "The type of observable pivoted on",
+          "is_required": true,
           "is_invisible": false
         },
         "unique_name": "variable_workflow_01ML3BD7SISBS077kpX3Y8XYWmlJkq7gXjq",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "Secure_Firewall_SecureX_Indicator",
-          "scope": "local",
-          "name": "Indicator Name",
-          "type": "datatype.string",
-          "description": "The base indicator name to use when referencing feeds. The type of observable will be appended to this. If you change this, you will also need to update the same variable in workflow 0015A",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01ML3OGSXO15K2DY4fUvR8Vh9QbHoJezgaf",
         "object_type": "variable_workflow"
       }
     ],
@@ -54,7 +54,7 @@
         "is_atomic": false
       },
       "delete_workflow_instance": false,
-      "description": "This workflow blocks an observable on Cisco Secure Firewall (formerly Firepower) by creating a judgement for it in SecureX Threat Response. Once a judgement is created, the observable will appear on a feed which the firewall polls for observable information. Supported observable types: domain, ip, ipv6, sha256, url\n\nNote: Workflow 0015A should be executed to create the required indicators and feeds in SecureX before you run this workflow. See the documentation for more information.\n\nTarget Group: Default TargetGroup\n\nTargets: CTR_For_Access_Token, Private_CTIA_Target\n\nSteps:\nPlease see: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0015B",
+      "description": "This workflow blocks an observable on Cisco Secure Firewall by creating a judgement for it in SecureX Threat Response. Once a judgement is created, the observable will appear on a feed which Secure Firewall polls for observable information. Supported observables: domain, ip, ipv6, sha256, url\n\nNote: Workflow 0015A should be executed to create the required indicators and feeds in SecureX before you run this workflow. See the documentation for more information.\n\nTarget Group: Default TargetGroup\n\nTargets: CTR_For_Access_Token, Private_CTIA_Target\n\nSteps:\nPlease see: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0015B",
       "display_name": "0015B - Secure Firewall - Block Observable",
       "runtime_user": {
         "override_target_runtime_user": false,
@@ -161,13 +161,13 @@
       },
       {
         "unique_name": "definition_activity_01ML3C85GA79F69XhfaknVY0dUtYgvytVUe",
-        "name": "Threat Response v2 - Generate Access Token",
-        "title": "Threat Response v2 - Generate Access Token",
+        "name": "Threat Response - Generate Access Token",
+        "title": "Threat Response - Generate Access Token",
         "type": "workflow.atomic_workflow",
         "base_type": "subworkflow",
         "properties": {
           "continue_on_failure": false,
-          "display_name": "Threat Response v2 - Generate Access Token",
+          "display_name": "Threat Response - Generate Access Token",
           "runtime_user": {
             "target_default": true
           },
@@ -188,7 +188,7 @@
               }
             }
           },
-          "workflow_id": "definition_workflow_01KWJ2ISZTF2V6ibRYe7FZ7sOuycDOpnwss"
+          "workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
         },
         "object_type": "definition_activity"
       },
@@ -208,12 +208,12 @@
           "custom_headers": [
             {
               "name": "Authorization",
-              "value": "Bearer $activity.definition_activity_01ML3C85GA79F69XhfaknVY0dUtYgvytVUe.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$"
+              "value": "Bearer $activity.definition_activity_01ML3C85GA79F69XhfaknVY0dUtYgvytVUe.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$"
             }
           ],
           "display_name": "Search for indicator",
           "method": "GET",
-          "relative_url": "/ctia/indicator/search?limit=1\u0026offset=0\u0026query=title:$workflow.definition_workflow_01ML39FS25W1V5nR5onJGG8OBgXRuGG8y79.local.variable_workflow_01ML3OGSXO15K2DY4fUvR8Vh9QbHoJezgaf$_$activity.definition_activity_01ML3PI1DN9N547S7mrpKLPl4ohlCYHOggx.output.script_queries.observable_out$",
+          "relative_url": "/ctia/indicator/search?limit=1&offset=0&query=title:$workflow.definition_workflow_01ML39FS25W1V5nR5onJGG8OBgXRuGG8y79.local.variable_workflow_01ML3OGSXO15K2DY4fUvR8Vh9QbHoJezgaf$_$activity.definition_activity_01ML3PI1DN9N547S7mrpKLPl4ohlCYHOggx.output.script_queries.observable_out$",
           "runtime_user": {
             "override_target_runtime_user": false,
             "target_default": true
@@ -410,7 +410,7 @@
           "custom_headers": [
             {
               "name": "Authorization",
-              "value": "Bearer $activity.definition_activity_01ML3C85GA79F69XhfaknVY0dUtYgvytVUe.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$"
+              "value": "Bearer $activity.definition_activity_01ML3C85GA79F69XhfaknVY0dUtYgvytVUe.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$"
             }
           ],
           "display_name": "Create the judgment",
@@ -482,21 +482,21 @@
               },
               {
                 "unique_name": "definition_activity_01ML3NIGUHCI23qiJX9Qz02Hyb7O2OF9Lvb",
-                "name": "Threat Response v2 - Create Relationship",
-                "title": "Threat Response v2 - Create Relationship",
+                "name": "Threat Response - Create Relationship",
+                "title": "Threat Response - Create Relationship",
                 "type": "workflow.atomic_workflow",
                 "base_type": "subworkflow",
                 "properties": {
                   "continue_on_failure": false,
-                  "display_name": "Threat Response v2 - Create Relationship",
+                  "display_name": "Threat Response - Create Relationship",
                   "input": {
-                    "variable_workflow_01KWID476NLS63mQo7De2Wk9Q1WAJb0dJXe": "$activity.definition_activity_01ML3C85GA79F69XhfaknVY0dUtYgvytVUe.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$",
-                    "variable_workflow_01KWID476NNBL4xUNZ1ze05KmIr6MTOd2tf": "element-of",
-                    "variable_workflow_01KWID476NOW27YCzfBvT6jlpfoo4jDNQoS": "",
-                    "variable_workflow_01KWID476NRV53BPxHqiyGzSy3hiS50IIYt": "",
-                    "variable_workflow_01KWIOPHDZHRM2nxENJ5E3iBUjDizSHzujd": "$activity.definition_activity_01NUVFQLBS5940rSXyF0wGfNZlNuaOWmlH8.output.jsonpath_queries.id$",
-                    "variable_workflow_01KWIP24K2A5P6ag8merXYIrzb5KHnOSzU3": "$activity.definition_activity_01ML3TPYTTXZT5KKlcVUtt5aX2f1woUJKx9.output.jsonpath_queries.indicator_id$",
-                    "variable_workflow_01LFBZWJ98ZH426APtwKiW7OM9nNQMfT7IA": "amber"
+                    "variable_workflow_01PP78LVV8JKR6NKKuym8RA2VYFgUJrR4qU": "$activity.definition_activity_01NUVFQLBS5940rSXyF0wGfNZlNuaOWmlH8.output.jsonpath_queries.id$",
+                    "variable_workflow_01PP78LVV8NS94TRyx07G3ajwZ5eE5oWZ36": "",
+                    "variable_workflow_01PP78LVV8P3X5wkMhrcIXTnToxb6HxuLpk": "$activity.definition_activity_01ML3C85GA79F69XhfaknVY0dUtYgvytVUe.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$",
+                    "variable_workflow_01PP78LVV8QB314gJIqe5PQHoWnRTMtwhK4": "amber",
+                    "variable_workflow_01PP78LVV8RLZ02Yzy68Uz59X8kInnUomdU": "",
+                    "variable_workflow_01PP78LVV8SVF31gxGXEVhu26vewW98cJxO": "$activity.definition_activity_01ML3TPYTTXZT5KKlcVUtt5aX2f1woUJKx9.output.jsonpath_queries.indicator_id$",
+                    "variable_workflow_01PP78LVV8V4B28e1wJKo9WReVhIZ3bvM6f": "element-of"
                   },
                   "runtime_user": {
                     "target_default": true
@@ -505,7 +505,7 @@
                   "target": {
                     "use_workflow_target_group": true
                   },
-                  "workflow_id": "definition_workflow_01KWID47SRHY30TYWU3BQSFODWA7PVO360x"
+                  "workflow_id": "definition_workflow_01PP78LW2WNY80aDM6OHNiRu2VPG4BrR8bq"
                 },
                 "object_type": "definition_activity"
               }
@@ -571,23 +571,13 @@
           "data_target_type": "email.smtp_endpoint",
           "view_target_type": "email.smtp_endpoint",
           "include_all_targets": true
-        },
-        {
-          "data_target_type": "terminal.endpoint",
-          "view_target_type": "terminal.endpoint",
-          "include_all_targets": true
-        },
-        {
-          "data_target_type": "aws.endpoint",
-          "view_target_type": "aws.endpoint",
-          "include_all_targets": true
         }
       ],
       "object_type": "target_group"
     }
   },
   "atomic_workflows": [
-    "definition_workflow_01KWJ2ISZTF2V6ibRYe7FZ7sOuycDOpnwss",
-    "definition_workflow_01KWID47SRHY30TYWU3BQSFODWA7PVO360x"
+    "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH",
+    "definition_workflow_01PP78LW2WNY80aDM6OHNiRu2VPG4BrR8bq"
   ]
 }

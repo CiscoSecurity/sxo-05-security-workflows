@@ -11,13 +11,13 @@
         "properties": {
           "value": "",
           "scope": "local",
-          "name": "Secure Endpoint Environment URL",
+          "name": "SecureX Environment URL",
           "type": "datatype.string",
-          "description": "Placeholder for the URL of the Secure Endpoint environment being used. You don't need to provide this, it will be fetched automatically",
+          "description": "Placeholder for the URL of the SecureX environment being used. This will be populated automatically",
           "is_required": false,
           "is_invisible": false
         },
-        "unique_name": "variable_workflow_01M9UUWLBYOWM1bFFn94eaBo65H4QZ2vS0r",
+        "unique_name": "variable_workflow_01M9V6I4PRNX01dXKElTmBbBAetvFLHjo5A",
         "object_type": "variable_workflow"
       },
       {
@@ -25,13 +25,13 @@
         "properties": {
           "value": "",
           "scope": "local",
-          "name": "SecureX Environment URL",
+          "name": "Secure Endpoint Environment URL",
           "type": "datatype.string",
-          "description": "Placeholder for the URL of the SecureX environment being used. You don't need to provide this, it will be fetched automatically",
+          "description": "Placeholder for the URL of the Secure Endpoint environment being used. This will be populated automatically",
           "is_required": false,
           "is_invisible": false
         },
-        "unique_name": "variable_workflow_01M9V6I4PRNX01dXKElTmBbBAetvFLHjo5A",
+        "unique_name": "variable_workflow_01M9UUWLBYOWM1bFFn94eaBo65H4QZ2vS0r",
         "object_type": "variable_workflow"
       }
     ],
@@ -40,7 +40,7 @@
         "is_atomic": false
       },
       "delete_workflow_instance": false,
-      "description": "This workflow periodically checks a Secure Endpoint instance for SecureX Threat Hunting events. When an event is returned, the workflow collects information from it and creates a casebook and incident in Threat Response to document what happened. This workflow is designed to run every 5 minutes on a schedule.\n\nTarget Group: Default TargetGroup\n\nTargets: AMP_Target, CTR_For_Access_Token, Private_CTIA_Target\n\nSteps:\n[] Detect the region/environment being used\n[] Calculate date/times\n[] Fetch events from Secure Endpoint\n[] Check if events were returned, if not end the workflow\n[] For each event:\n[]\u003e Extract the event's information\n[]\u003e Format the information for Threat Response\n[]\u003e Create an incident, casebook, and sighting\n\nMore information: https://cs.co/SXO_docs",
+      "description": "This workflow periodically checks Cisco Secure Endpoint for SecureX Threat Hunting events. When an event is returned, the workflow collects information from it and creates a casebook and incident in Cisco SecureX to document what happened. This workflow is designed to run every 5 minutes on a schedule.\n\nTarget Group: Default TargetGroup\n\nTargets: AMP_Target, CTR_For_Access_Token, Private_CTIA_Target\n\nSteps:\n[] Detect the region/environment being used\n[] Calculate date/times\n[] Fetch events from Secure Endpoint\n[] Check if events were returned, if not end the workflow\n[] For each event:\n[]> Extract the event's information\n[]> Format the information for Threat Response\n[]> Create an incident, casebook, and sighting\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0012",
       "display_name": "0012 - Secure Endpoint - Threat Hunting Events to Incidents",
       "runtime_user": {
         "override_target_runtime_user": false,
@@ -86,7 +86,7 @@
           {
             "unique_name": "definition_activity_01M9UUZN8S8X41kyMb3nN8vNqGQqd2jctLm",
             "name": "Condition Branch",
-            "title": "PROD-NAM",
+            "title": "PROD NAM",
             "type": "logic.condition_block",
             "base_type": "activity",
             "properties": {
@@ -96,7 +96,7 @@
                 "right_operand": "prod-nam"
               },
               "continue_on_failure": false,
-              "display_name": "PROD-NAM",
+              "display_name": "PROD NAM",
               "skip_execution": false
             },
             "object_type": "definition_activity",
@@ -129,7 +129,7 @@
           {
             "unique_name": "definition_activity_01M9UVY47JOBD74Wv3rZLDxKViNsTGvJY7g",
             "name": "Condition Branch",
-            "title": "PROD-EU",
+            "title": "PROD EU",
             "type": "logic.condition_block",
             "base_type": "activity",
             "properties": {
@@ -139,7 +139,7 @@
                 "right_operand": "prod-eu"
               },
               "continue_on_failure": false,
-              "display_name": "PROD-EU",
+              "display_name": "PROD EU",
               "skip_execution": false
             },
             "object_type": "definition_activity",
@@ -172,7 +172,7 @@
           {
             "unique_name": "definition_activity_01M9UW6P01WJ26DM8DO1w0DOC0gPr2ugQ2B",
             "name": "Condition Branch",
-            "title": "PROD-APJC",
+            "title": "PROD APJC",
             "type": "logic.condition_block",
             "base_type": "activity",
             "properties": {
@@ -182,7 +182,7 @@
                 "right_operand": "prod-apjc"
               },
               "continue_on_failure": false,
-              "display_name": "PROD-APJC",
+              "display_name": "PROD APJC",
               "skip_execution": false
             },
             "object_type": "definition_activity",
@@ -272,7 +272,7 @@
               "continue_on_failure": false,
               "display_name": "Get recent Threat Hunting events",
               "method": "GET",
-              "relative_url": "events?start_date=$activity.definition_activity_01M2FNMLGFHLF1cLSeDWpJZ6HscKs06pLb4.output.result$\u0026event_type=1107296344",
+              "relative_url": "events?start_date=$activity.definition_activity_01M2FNMLGFHLF1cLSeDWpJZ6HscKs06pLb4.output.result$&event_type=1107296344",
               "runtime_user": {
                 "target_default": true
               },
@@ -674,13 +674,13 @@
                 "actions": [
                   {
                     "unique_name": "definition_activity_01M3CAEF34IHL369NDSCxUj3Y0wzWgIHqDV",
-                    "name": "Threat Response v2 - Generate Access Token",
-                    "title": "Threat Response v2 - Generate Access Token",
+                    "name": "Threat Response - Generate Access Token",
+                    "title": "Threat Response - Generate Access Token",
                     "type": "workflow.atomic_workflow",
                     "base_type": "subworkflow",
                     "properties": {
                       "continue_on_failure": false,
-                      "display_name": "Threat Response v2 - Generate Access Token",
+                      "display_name": "Threat Response - Generate Access Token",
                       "runtime_user": {
                         "target_default": true
                       },
@@ -701,26 +701,26 @@
                           }
                         }
                       },
-                      "workflow_id": "definition_workflow_01KWJ2ISZTF2V6ibRYe7FZ7sOuycDOpnwss"
+                      "workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
                     },
                     "object_type": "definition_activity"
                   },
                   {
                     "unique_name": "definition_activity_01M3CBF64F04V67EJkexKkUoYfvpj6jhQk9",
-                    "name": "Threat Response v2 - Create Incident",
-                    "title": "Threat Response v2 - Create Incident",
+                    "name": "Threat Response - Create Incident",
+                    "title": "Threat Response - Create Incident",
                     "type": "workflow.atomic_workflow",
                     "base_type": "subworkflow",
                     "properties": {
                       "continue_on_failure": false,
-                      "display_name": "Threat Response v2 - Create Incident",
+                      "display_name": "Threat Response - Create Incident",
                       "input": {
-                        "variable_workflow_01KVVWMAKJ5X54vaAuNkKq259VyiO5JCeuC": "$activity.definition_activity_01M3CAEF34IHL369NDSCxUj3Y0wzWgIHqDV.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$",
-                        "variable_workflow_01KVVWMAKJ9HX4TuMb2g74UqzpRLRxjwlwm": "$activity.definition_activity_01M3CD9CQM8TB2G97hkNtJoO6xSlm7tKjAG.output.jsonpath_queries.incident_title$ ($activity.definition_activity_01M3CCEV9XQ760A8j96bTWyRSHwzfkmHuqk.output.jsonpath_queries.hostname$)",
-                        "variable_workflow_01KVVWMAKJBSF1Fxv8uLSCRGpOJCxkue4OH": "* [View Incident in Secure Endpoint](https://$workflow.definition_workflow_01M2FIQ8COLYA7BMDsc3UeOgYjJxoF9WFZ1.local.variable_workflow_01M9UUWLBYOWM1bFFn94eaBo65H4QZ2vS0r$/threat_hunting/incidents/$activity.definition_activity_01M3CD9CQM8TB2G97hkNtJoO6xSlm7tKjAG.output.jsonpath_queries.incident_report_guid$)\n* [View Endpoint Trajectory](https://$workflow.definition_workflow_01M2FIQ8COLYA7BMDsc3UeOgYjJxoF9WFZ1.local.variable_workflow_01M9UUWLBYOWM1bFFn94eaBo65H4QZ2vS0r$/computers/$activity.definition_activity_01M3CCEV9XQ760A8j96bTWyRSHwzfkmHuqk.output.jsonpath_queries.connector_guid$/trajectory2)\n* [View Workflow Run](https://$workflow.definition_workflow_01M2FIQ8COLYA7BMDsc3UeOgYjJxoF9WFZ1.local.variable_workflow_01M9V6I4PRNX01dXKElTmBbBAetvFLHjo5A$/orch-ui/runs/$workflow.definition_workflow_01M2FIQ8COLYA7BMDsc3UeOgYjJxoF9WFZ1.output.instance_id$)\n\n***\n\n$activity.definition_activity_01M3TUEBIN5VH6ZNCs9OaFTYIXDpX9PEYQ9.output.result_string$\n\n***\n\n$activity.definition_activity_01M432KUBF88N5G0pyoYwyLUWHF2EY2ffo8.output.result_string$",
-                        "variable_workflow_01KWIVDCZ7VJU1t9jPK4nZnnwHqnllu7dJm": "New",
-                        "variable_workflow_01KWIVQVGZKUC0vUPbm3oCvqsYVV036tieP": "High",
-                        "variable_workflow_01LFBWLGJNHPS450Wh1dwGf1Xqot6KHUTwY": "amber"
+                        "variable_workflow_01PP773PC153N1sUPzhFqV9bCbaxsz3yDwH": "$activity.definition_activity_01M3CAEF34IHL369NDSCxUj3Y0wzWgIHqDV.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$",
+                        "variable_workflow_01PP773PC19C57fpPyxEFzuX0kP8dAqdVoQ": "* [View Incident in Secure Endpoint](https://$workflow.definition_workflow_01M2FIQ8COLYA7BMDsc3UeOgYjJxoF9WFZ1.local.variable_workflow_01M9UUWLBYOWM1bFFn94eaBo65H4QZ2vS0r$/threat_hunting/incidents/$activity.definition_activity_01M3CD9CQM8TB2G97hkNtJoO6xSlm7tKjAG.output.jsonpath_queries.incident_report_guid$)\n* [View Endpoint Trajectory](https://$workflow.definition_workflow_01M2FIQ8COLYA7BMDsc3UeOgYjJxoF9WFZ1.local.variable_workflow_01M9UUWLBYOWM1bFFn94eaBo65H4QZ2vS0r$/computers/$activity.definition_activity_01M3CCEV9XQ760A8j96bTWyRSHwzfkmHuqk.output.jsonpath_queries.connector_guid$/trajectory2)\n* [View Workflow Run](https://$workflow.definition_workflow_01M2FIQ8COLYA7BMDsc3UeOgYjJxoF9WFZ1.local.variable_workflow_01M9V6I4PRNX01dXKElTmBbBAetvFLHjo5A$/orch-ui/runs/$workflow.definition_workflow_01M2FIQ8COLYA7BMDsc3UeOgYjJxoF9WFZ1.output.instance_id$)\n\n***\n\n$activity.definition_activity_01M3TUEBIN5VH6ZNCs9OaFTYIXDpX9PEYQ9.output.result_string$\n\n***\n\n$activity.definition_activity_01M432KUBF88N5G0pyoYwyLUWHF2EY2ffo8.output.result_string$",
+                        "variable_workflow_01PP773PC1ALV47FYVyDKQsPCuKzTZwYeyv": "New",
+                        "variable_workflow_01PP773PC1DZZ2rpbgvgD3IRrMsngkGxWkK": "$activity.definition_activity_01M3CD9CQM8TB2G97hkNtJoO6xSlm7tKjAG.output.jsonpath_queries.incident_title$ ($activity.definition_activity_01M3CCEV9XQ760A8j96bTWyRSHwzfkmHuqk.output.jsonpath_queries.hostname$)",
+                        "variable_workflow_01PP773PC1F547IibuvGX89UFFJE9ZNlHgb": "amber",
+                        "variable_workflow_01PP773PC1G7V6ZMj5IyCTQcEPiVhQm1fYO": "High"
                       },
                       "runtime_user": {
                         "target_default": true
@@ -729,26 +729,26 @@
                       "target": {
                         "use_workflow_target_group": true
                       },
-                      "workflow_id": "definition_workflow_01KVVWMB2UTRF5uVHVH9DtiT6vgIfnzTdRS"
+                      "workflow_id": "definition_workflow_01PP773PI1X3Y1YQWhirIL8Uy40Thd6ND7r"
                     },
                     "object_type": "definition_activity"
                   },
                   {
                     "unique_name": "definition_activity_01M3CGZZURE5A054rYSrOWqw7CctziarVJg",
-                    "name": "Threat Response v2 - Create Casebook",
-                    "title": "Threat Response v2 - Create Casebook",
+                    "name": "Threat Response - Create Casebook",
+                    "title": "Threat Response - Create Casebook",
                     "type": "workflow.atomic_workflow",
                     "base_type": "subworkflow",
                     "properties": {
                       "continue_on_failure": false,
-                      "display_name": "Threat Response v2 - Create Casebook",
+                      "display_name": "Threat Response - Create Casebook",
                       "input": {
-                        "variable_workflow_01KVOGF4J481T6SCd7uh5fW7n47Q712nleJ": "[{ \"type\": \"amp_computer_guid\", \"value\": \"$activity.definition_activity_01M3CCEV9XQ760A8j96bTWyRSHwzfkmHuqk.output.jsonpath_queries.connector_guid$\" }, { \"type\": \"hostname\", \"value\": \"$activity.definition_activity_01M3CCEV9XQ760A8j96bTWyRSHwzfkmHuqk.output.jsonpath_queries.hostname$\" }]",
-                        "variable_workflow_01KVOGF4J4FZC0jmaR42b1FbIzVZA19KbYL": "* [View Incident in Secure Endpoint](https://$workflow.definition_workflow_01M2FIQ8COLYA7BMDsc3UeOgYjJxoF9WFZ1.local.variable_workflow_01M9UUWLBYOWM1bFFn94eaBo65H4QZ2vS0r$/threat_hunting/incidents/$activity.definition_activity_01M3CD9CQM8TB2G97hkNtJoO6xSlm7tKjAG.output.jsonpath_queries.incident_report_guid$)\n* [View Endpoint Trajectory](https://$workflow.definition_workflow_01M2FIQ8COLYA7BMDsc3UeOgYjJxoF9WFZ1.local.variable_workflow_01M9UUWLBYOWM1bFFn94eaBo65H4QZ2vS0r$/computers/$activity.definition_activity_01M3CCEV9XQ760A8j96bTWyRSHwzfkmHuqk.output.jsonpath_queries.connector_guid$/trajectory2)\n* [View Workflow Run](https://$workflow.definition_workflow_01M2FIQ8COLYA7BMDsc3UeOgYjJxoF9WFZ1.local.variable_workflow_01M9V6I4PRNX01dXKElTmBbBAetvFLHjo5A$/orch-ui/runs/$workflow.definition_workflow_01M2FIQ8COLYA7BMDsc3UeOgYjJxoF9WFZ1.output.instance_id$)\n\n$activity.definition_activity_01M432KUBF88N5G0pyoYwyLUWHF2EY2ffo8.output.result_string$",
-                        "variable_workflow_01KVOGF4J4IG81TQKFjqzLlnFJwiiNwXwSq": "$activity.definition_activity_01M3CAEF34IHL369NDSCxUj3Y0wzWgIHqDV.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$",
-                        "variable_workflow_01KVOGF4J4JL52xC9ZXdjYwHt2SvRYkArli": "$activity.definition_activity_01M3CD9CQM8TB2G97hkNtJoO6xSlm7tKjAG.output.jsonpath_queries.incident_title$ ($activity.definition_activity_01M3CCEV9XQ760A8j96bTWyRSHwzfkmHuqk.output.jsonpath_queries.hostname$)",
-                        "variable_workflow_01KVOMXV9ERSV0M9j1WarflgSG8r5SpZ8b5": "A SecureX Threat Hunting event was detected in Secure Endpoint for host $activity.definition_activity_01M3CCEV9XQ760A8j96bTWyRSHwzfkmHuqk.output.jsonpath_queries.hostname$",
-                        "variable_workflow_01LFBYQJV9FZA2THdEQrMftLyGiiHP65nUq": "amber"
+                        "variable_workflow_01PP75X6NM0AY6YDlJckkMg6hCbMEMGO72O": "[{ \"type\": \"amp_computer_guid\", \"value\": \"$activity.definition_activity_01M3CCEV9XQ760A8j96bTWyRSHwzfkmHuqk.output.jsonpath_queries.connector_guid$\" }, { \"type\": \"hostname\", \"value\": \"$activity.definition_activity_01M3CCEV9XQ760A8j96bTWyRSHwzfkmHuqk.output.jsonpath_queries.hostname$\" }]",
+                        "variable_workflow_01PP75X6NM1M46Jjob8LUKg8R3yRRVOvu9q": "$activity.definition_activity_01M3CAEF34IHL369NDSCxUj3Y0wzWgIHqDV.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$",
+                        "variable_workflow_01PP75X6NM2V27Or3EssfIABNZiE45Ddziu": "amber",
+                        "variable_workflow_01PP75X6NM4123PBwUedJ5QqeBr8G1sefjQ": "$activity.definition_activity_01M3CD9CQM8TB2G97hkNtJoO6xSlm7tKjAG.output.jsonpath_queries.incident_title$ ($activity.definition_activity_01M3CCEV9XQ760A8j96bTWyRSHwzfkmHuqk.output.jsonpath_queries.hostname$)",
+                        "variable_workflow_01PP75X6NM54W5qTbpCb1h6bTTrp7eFQjaq": "A SecureX Threat Hunting event was detected in Secure Endpoint for host $activity.definition_activity_01M3CCEV9XQ760A8j96bTWyRSHwzfkmHuqk.output.jsonpath_queries.hostname$",
+                        "variable_workflow_01PP75X6NM7FE4BmQ3AKIykyWFDSV9umy02": "* [View Incident in Secure Endpoint](https://$workflow.definition_workflow_01M2FIQ8COLYA7BMDsc3UeOgYjJxoF9WFZ1.local.variable_workflow_01M9UUWLBYOWM1bFFn94eaBo65H4QZ2vS0r$/threat_hunting/incidents/$activity.definition_activity_01M3CD9CQM8TB2G97hkNtJoO6xSlm7tKjAG.output.jsonpath_queries.incident_report_guid$)\n* [View Endpoint Trajectory](https://$workflow.definition_workflow_01M2FIQ8COLYA7BMDsc3UeOgYjJxoF9WFZ1.local.variable_workflow_01M9UUWLBYOWM1bFFn94eaBo65H4QZ2vS0r$/computers/$activity.definition_activity_01M3CCEV9XQ760A8j96bTWyRSHwzfkmHuqk.output.jsonpath_queries.connector_guid$/trajectory2)\n* [View Workflow Run](https://$workflow.definition_workflow_01M2FIQ8COLYA7BMDsc3UeOgYjJxoF9WFZ1.local.variable_workflow_01M9V6I4PRNX01dXKElTmBbBAetvFLHjo5A$/orch-ui/runs/$workflow.definition_workflow_01M2FIQ8COLYA7BMDsc3UeOgYjJxoF9WFZ1.output.instance_id$)\n\n$activity.definition_activity_01M432KUBF88N5G0pyoYwyLUWHF2EY2ffo8.output.result_string$"
                       },
                       "runtime_user": {
                         "target_default": true
@@ -757,27 +757,27 @@
                       "target": {
                         "use_workflow_target_group": true
                       },
-                      "workflow_id": "definition_workflow_01KVOGF574Y291CRwQLNB1TtzEHDNwyUx7O"
+                      "workflow_id": "definition_workflow_01PP75X6VPQNK4hKE1XQXIMeIcHrE1khIML"
                     },
                     "object_type": "definition_activity"
                   },
                   {
                     "unique_name": "definition_activity_01M3CH9XSSGZM5lbaHwTfVm5xBmJjmEgwh2",
-                    "name": "Threat Response v2 - Create Relationship",
-                    "title": "Threat Response v2 - Create Relationship",
+                    "name": "Threat Response - Create Relationship",
+                    "title": "Threat Response - Create Relationship",
                     "type": "workflow.atomic_workflow",
                     "base_type": "subworkflow",
                     "properties": {
                       "continue_on_failure": false,
-                      "display_name": "Threat Response v2 - Create Relationship",
+                      "display_name": "Threat Response - Create Relationship",
                       "input": {
-                        "variable_workflow_01KWID476NLS63mQo7De2Wk9Q1WAJb0dJXe": "$activity.definition_activity_01M3CAEF34IHL369NDSCxUj3Y0wzWgIHqDV.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$",
-                        "variable_workflow_01KWID476NNBL4xUNZ1ze05KmIr6MTOd2tf": "related-to",
-                        "variable_workflow_01KWID476NOW27YCzfBvT6jlpfoo4jDNQoS": "SecureX Threat Hunting Event",
-                        "variable_workflow_01KWID476NRV53BPxHqiyGzSy3hiS50IIYt": "",
-                        "variable_workflow_01KWIOPHDZHRM2nxENJ5E3iBUjDizSHzujd": "$activity.definition_activity_01M3CGZZURE5A054rYSrOWqw7CctziarVJg.output.variable_workflow_01KVOGF4J4HBH1AEO1b5YnhSpqUnFihUeXS$",
-                        "variable_workflow_01KWIP24K2A5P6ag8merXYIrzb5KHnOSzU3": "$activity.definition_activity_01M3CBF64F04V67EJkexKkUoYfvpj6jhQk9.output.variable_workflow_01KVVWMAKJDWL0w7z086xbnRNZMwGcpxweP$",
-                        "variable_workflow_01LFBZWJ98ZH426APtwKiW7OM9nNQMfT7IA": "amber"
+                        "variable_workflow_01PP78LVV8JKR6NKKuym8RA2VYFgUJrR4qU": "$activity.definition_activity_01M3CGZZURE5A054rYSrOWqw7CctziarVJg.output.variable_workflow_01PP75X6NM6A27cUzf6oC7zeZQTz0YxT8J0$",
+                        "variable_workflow_01PP78LVV8NS94TRyx07G3ajwZ5eE5oWZ36": "",
+                        "variable_workflow_01PP78LVV8P3X5wkMhrcIXTnToxb6HxuLpk": "$activity.definition_activity_01M3CAEF34IHL369NDSCxUj3Y0wzWgIHqDV.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$",
+                        "variable_workflow_01PP78LVV8QB314gJIqe5PQHoWnRTMtwhK4": "amber",
+                        "variable_workflow_01PP78LVV8RLZ02Yzy68Uz59X8kInnUomdU": "SecureX Threat Hunting Event",
+                        "variable_workflow_01PP78LVV8SVF31gxGXEVhu26vewW98cJxO": "$activity.definition_activity_01M3CBF64F04V67EJkexKkUoYfvpj6jhQk9.output.variable_workflow_01PP773PC1BPV1bDuA5gxMPKC5vx4EJTYXw$",
+                        "variable_workflow_01PP78LVV8V4B28e1wJKo9WReVhIZ3bvM6f": "related-to"
                       },
                       "runtime_user": {
                         "target_default": true
@@ -786,28 +786,28 @@
                       "target": {
                         "use_workflow_target_group": true
                       },
-                      "workflow_id": "definition_workflow_01KWID47SRHY30TYWU3BQSFODWA7PVO360x"
+                      "workflow_id": "definition_workflow_01PP78LW2WNY80aDM6OHNiRu2VPG4BrR8bq"
                     },
                     "object_type": "definition_activity"
                   },
                   {
                     "unique_name": "definition_activity_01M3UTX69JPU43VRcP9NASiFY5HOfQI53dj",
-                    "name": "Threat Response v2 - Create Sighting",
-                    "title": "Threat Response v2 - Create Sighting",
+                    "name": "Threat Response - Create Sighting",
+                    "title": "Threat Response - Create Sighting",
                     "type": "workflow.atomic_workflow",
                     "base_type": "subworkflow",
                     "properties": {
                       "continue_on_failure": false,
-                      "display_name": "Threat Response v2 - Create Sighting",
+                      "display_name": "Threat Response - Create Sighting",
                       "input": {
-                        "variable_workflow_01KWI6XBXC36X5fDp4P3C4W39e3ii12zcYI": "Endpoint related to a SecureX Threat Hunting event",
-                        "variable_workflow_01KWI6XBXC8MT4PhPchVEzUFUYhgJ5L37zI": "$activity.definition_activity_01M3CD9CQM8TB2G97hkNtJoO6xSlm7tKjAG.output.jsonpath_queries.incident_title$",
-                        "variable_workflow_01KWI6XBXCB6Z7FBz7mVAbr2nQMRfJrB9h4": "$activity.definition_activity_01M3CAEF34IHL369NDSCxUj3Y0wzWgIHqDV.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$",
-                        "variable_workflow_01KWI8HQQALI75l9Rdg4OpEokFpKs35ZysU": "[{ \"type\": \"amp_computer_guid\", \"value\": \"$activity.definition_activity_01M3CCEV9XQ760A8j96bTWyRSHwzfkmHuqk.output.jsonpath_queries.connector_guid$\" }, {\"type\": \"hostname\", \"value\": \"$activity.definition_activity_01M3CCEV9XQ760A8j96bTWyRSHwzfkmHuqk.output.jsonpath_queries.hostname$\" }]",
-                        "variable_workflow_01KWI98GQEUY83GabUEPdfqY7XaeitLae2F": "Medium",
-                        "variable_workflow_01KWIBOK8V9E16FTFfn7IAUK0P0mHgXZrGT": "[{ \"type\": \"endpoint\", \"observables\": [{ \"type\": \"amp_computer_guid\", \"value\": \"$activity.definition_activity_01M3CCEV9XQ760A8j96bTWyRSHwzfkmHuqk.output.jsonpath_queries.connector_guid$\" }], \"observed_time\": {\"start_time\": \"$activity.definition_activity_01M3ABFBZDJQM0lMI1uGosP2g1O9r1kM7SZ.input.source_array[@].date$\" }}]",
-                        "variable_workflow_01KWIYHA5ADVS34NX0EPNpeSYNtUj522l8P": "High",
-                        "variable_workflow_01LFBXTCC6NTI4FkW9IYQZb6HAYE8EtHfl7": "amber"
+                        "variable_workflow_01PP74DHJ8XU51NVPLntEun5tp9o8KR83zJ": "[{ \"type\": \"amp_computer_guid\", \"value\": \"$activity.definition_activity_01M3CCEV9XQ760A8j96bTWyRSHwzfkmHuqk.output.jsonpath_queries.connector_guid$\" }, {\"type\": \"hostname\", \"value\": \"$activity.definition_activity_01M3CCEV9XQ760A8j96bTWyRSHwzfkmHuqk.output.jsonpath_queries.hostname$\" }]",
+                        "variable_workflow_01PP74DHJ913T5hOMl3EkIZtk7LiiQ2y1lv": "Medium",
+                        "variable_workflow_01PP74DHJ93KY4W3oJh8Fg8G0FtZvIcWRnn": "[{ \"type\": \"endpoint\", \"observables\": [{ \"type\": \"amp_computer_guid\", \"value\": \"$activity.definition_activity_01M3CCEV9XQ760A8j96bTWyRSHwzfkmHuqk.output.jsonpath_queries.connector_guid$\" }], \"observed_time\": {\"start_time\": \"$activity.definition_activity_01M3ABFBZDJQM0lMI1uGosP2g1O9r1kM7SZ.input.source_array[@].date$\" }}]",
+                        "variable_workflow_01PP74DHJ94QR7IwrK8FFJ7w9dF90hOhQPJ": "High",
+                        "variable_workflow_01PP74DHJ95XG4OD0Oerb03wh756BfcC48H": "Endpoint related to a SecureX Threat Hunting event",
+                        "variable_workflow_01PP74DHJ973W3os2PwE2QF1JBKKZxC18jZ": "$activity.definition_activity_01M3CAEF34IHL369NDSCxUj3Y0wzWgIHqDV.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$",
+                        "variable_workflow_01PP74DHJ98JF0qum4O6sDBuhh4xcV7c0pE": "$activity.definition_activity_01M3CD9CQM8TB2G97hkNtJoO6xSlm7tKjAG.output.jsonpath_queries.incident_title$",
+                        "variable_workflow_01PP74DHJ99R34tbMy9eetTEbaLfWVGscCW": "amber"
                       },
                       "runtime_user": {
                         "target_default": true
@@ -816,27 +816,27 @@
                       "target": {
                         "use_workflow_target_group": true
                       },
-                      "workflow_id": "definition_workflow_01KWI6XE6K5YD5I6K2wZF5Vp0M9FyXUl34y"
+                      "workflow_id": "definition_workflow_01PP74DHPLES477KZo2MCv9N9Dx5fza9wiU"
                     },
                     "object_type": "definition_activity"
                   },
                   {
                     "unique_name": "definition_activity_01M3CGLVU0T474EvUfFEhkr2wn5rdOX0cX5",
-                    "name": "Threat Response v2 - Create Relationship",
-                    "title": "Threat Response v2 - Create Relationship",
+                    "name": "Threat Response - Create Relationship",
+                    "title": "Threat Response - Create Relationship",
                     "type": "workflow.atomic_workflow",
                     "base_type": "subworkflow",
                     "properties": {
                       "continue_on_failure": false,
-                      "display_name": "Threat Response v2 - Create Relationship",
+                      "display_name": "Threat Response - Create Relationship",
                       "input": {
-                        "variable_workflow_01KWID476NLS63mQo7De2Wk9Q1WAJb0dJXe": "$activity.definition_activity_01M3CAEF34IHL369NDSCxUj3Y0wzWgIHqDV.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$",
-                        "variable_workflow_01KWID476NNBL4xUNZ1ze05KmIr6MTOd2tf": "related-to",
-                        "variable_workflow_01KWID476NOW27YCzfBvT6jlpfoo4jDNQoS": "",
-                        "variable_workflow_01KWID476NRV53BPxHqiyGzSy3hiS50IIYt": "",
-                        "variable_workflow_01KWIOPHDZHRM2nxENJ5E3iBUjDizSHzujd": "$activity.definition_activity_01M3UTX69JPU43VRcP9NASiFY5HOfQI53dj.output.variable_workflow_01KWI6XBXCA122ks58vY1MiMR3fTMolsjyC$",
-                        "variable_workflow_01KWIP24K2A5P6ag8merXYIrzb5KHnOSzU3": "$activity.definition_activity_01M3CBF64F04V67EJkexKkUoYfvpj6jhQk9.output.variable_workflow_01KVVWMAKJDWL0w7z086xbnRNZMwGcpxweP$",
-                        "variable_workflow_01LFBZWJ98ZH426APtwKiW7OM9nNQMfT7IA": "amber"
+                        "variable_workflow_01PP78LVV8JKR6NKKuym8RA2VYFgUJrR4qU": "$activity.definition_activity_01M3UTX69JPU43VRcP9NASiFY5HOfQI53dj.output.variable_workflow_01PP74DHJ92FH4K1jCaTCFvVKlkim02lhCn$",
+                        "variable_workflow_01PP78LVV8NS94TRyx07G3ajwZ5eE5oWZ36": "",
+                        "variable_workflow_01PP78LVV8P3X5wkMhrcIXTnToxb6HxuLpk": "$activity.definition_activity_01M3CAEF34IHL369NDSCxUj3Y0wzWgIHqDV.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$",
+                        "variable_workflow_01PP78LVV8QB314gJIqe5PQHoWnRTMtwhK4": "amber",
+                        "variable_workflow_01PP78LVV8RLZ02Yzy68Uz59X8kInnUomdU": "",
+                        "variable_workflow_01PP78LVV8SVF31gxGXEVhu26vewW98cJxO": "$activity.definition_activity_01M3CBF64F04V67EJkexKkUoYfvpj6jhQk9.output.variable_workflow_01PP773PC1BPV1bDuA5gxMPKC5vx4EJTYXw$",
+                        "variable_workflow_01PP78LVV8V4B28e1wJKo9WReVhIZ3bvM6f": "related-to"
                       },
                       "runtime_user": {
                         "target_default": true
@@ -845,7 +845,7 @@
                       "target": {
                         "use_workflow_target_group": true
                       },
-                      "workflow_id": "definition_workflow_01KWID47SRHY30TYWU3BQSFODWA7PVO360x"
+                      "workflow_id": "definition_workflow_01PP78LW2WNY80aDM6OHNiRu2VPG4BrR8bq"
                     },
                     "object_type": "definition_activity"
                   }
@@ -869,7 +869,7 @@
       "type": "schedule",
       "base_type": "trigger",
       "ref_id": "schedule_01M9V3AE6WMAE7G8U2p3FQ76xYovrQLlwkV",
-      "version": "",
+      "version": "1.0.0",
       "disabled": true,
       "unique_name": "triggerschedule_01M42X8Q76VUY7a5Dp7hWfwU49rUTydbRPa",
       "object_type": "triggerschedule"
@@ -914,26 +914,16 @@
           "data_target_type": "email.smtp_endpoint",
           "view_target_type": "email.smtp_endpoint",
           "include_all_targets": true
-        },
-        {
-          "data_target_type": "terminal.endpoint",
-          "view_target_type": "terminal.endpoint",
-          "include_all_targets": true
-        },
-        {
-          "data_target_type": "aws.endpoint",
-          "view_target_type": "aws.endpoint",
-          "include_all_targets": true
         }
       ],
       "object_type": "target_group"
     }
   },
   "atomic_workflows": [
-    "definition_workflow_01KWI6XE6K5YD5I6K2wZF5Vp0M9FyXUl34y",
-    "definition_workflow_01KVOGF574Y291CRwQLNB1TtzEHDNwyUx7O",
-    "definition_workflow_01KWJ2ISZTF2V6ibRYe7FZ7sOuycDOpnwss",
-    "definition_workflow_01KVVWMB2UTRF5uVHVH9DtiT6vgIfnzTdRS",
-    "definition_workflow_01KWID47SRHY30TYWU3BQSFODWA7PVO360x"
+    "definition_workflow_01PP773PI1X3Y1YQWhirIL8Uy40Thd6ND7r",
+    "definition_workflow_01PP75X6VPQNK4hKE1XQXIMeIcHrE1khIML",
+    "definition_workflow_01PP78LW2WNY80aDM6OHNiRu2VPG4BrR8bq",
+    "definition_workflow_01PP74DHPLES477KZo2MCv9N9Dx5fza9wiU",
+    "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
   ]
 }

@@ -2,32 +2,51 @@
 layout: page
 title: Take Orbital Forensic Snapshot
 permalink: /workflows/response/take-snapshot
+redirect_from:
+  - /workflows/D002
 parent: Response Workflows
 grand_parent: Workflows
 ---
 
 # Take Orbital Forensic Snapshot
 <div markdown="1">
+Out of Box
+{: .label }
+
 Response Workflow
 {: .label }
 </div>
 
-This workflow should be triggered from a SecureX pivot menu and supports IP address, hostname, and AMP computer GUID observables. When triggered, this workflow will take a forensic snapshot of the computer provided as the observable.
+This workflow initiates a Cisco Orbital forensic snapshot for the endpoint identified by the provided observable. Supported observables: `ip`, `mac_address`, `amp_computer_guid`
+
+---
+
+## Change Log
+
+| Date | Notes |
+|:-----|:------|
+| Jun 29, 2020 | - Initial release |
+| September 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+
+_See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 
 ---
 
 ## Requirements
+* The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
+	* Orbital - Query Endpoint
+	* Threat Response - Generate Access Token
 * The following atomic actions must be imported before you can import this workflow:
-	* CTRGenerateAccessToken ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Orbital - Query Endpoint ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* None
 * The [targets](#targets) and [account keys](#account-keys) listed below
-* Endpoints running AMP for Endpoints with Orbital enabled
+* Cisco Secure Endpoint with Orbital
 
 ---
 
 ## Workflow Steps
-1. Check that a supported observable was provided as input
-1. Generate an Orbital access token and request a forensic snapshot
+1. Make sure the observable is supported and set the corresponding local variable
+1. Generate an access token for Orbital
+1. Execute a forensic snapshot
 
 ---
 

@@ -11,20 +11,6 @@
         "properties": {
           "value": "",
           "scope": "input",
-          "name": "observable_type",
-          "type": "datatype.string",
-          "description": "The type of observable pivoted on",
-          "is_required": true,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01O3B645SYOE55FtehOBzkM0lrk103mLuCc",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "input",
           "name": "observable_value",
           "type": "datatype.string",
           "description": "The value of the observable pivoted on",
@@ -33,6 +19,20 @@
         },
         "unique_name": "variable_workflow_01O3B645SYHEN0urHeq5U16NN7OvgFU9Lrl",
         "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "observable_type",
+          "type": "datatype.string",
+          "description": "The type of observable pivoted on",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O3B645SYOE55FtehOBzkM0lrk103mLuCc",
+        "object_type": "variable_workflow"
       }
     ],
     "properties": {
@@ -40,7 +40,7 @@
         "is_atomic": false
       },
       "delete_workflow_instance": false,
-      "description": "This workflow removes an endpoint from quarantine in Cisco Identity Services Engine (ISE) by clearing its ANC Policy assignments.\n\nTarget Group: Default TargetGroup\n\nTargets: Cisco ISE ERS\n\nSteps:\n[] Make sure the observable type provided is supported\n[] Clear the ANC policies from the endpoint\n\nMore information: http://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0028",
+      "description": "This workflow removes an endpoint from quarantine in Cisco Identity Services Engine (ISE) by clearing its ANC Policy assignments. Supported observable: mac_address\n\nTarget Group: Default TargetGroup\n\nTargets: Cisco ISE ERS\n\nSteps:\n[] Make sure the observable type provided is supported\n[] Clear the ANC policies from the endpoint\n\nMore information: http://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0028",
       "display_name": "0028 - ISE - UnQuarantine Endpoint",
       "runtime_user": {
         "override_target_runtime_user": false,
@@ -130,7 +130,7 @@
           "continue_on_failure": false,
           "display_name": "ISE - ERS - ANC Policy - Clear from Endpoint",
           "input": {
-            "variable_workflow_01N8OZLR9IDO322736Vjk6eojzARuQDWLd6": "$workflow.definition_workflow_01O3B646121ZW3GCZiNVPrwXwn7B87qf2vm.input.variable_workflow_01O3B645SYHEN0urHeq5U16NN7OvgFU9Lrl$"
+            "variable_workflow_01PP76CFEDG783EcVbduwVtMFkBsOmTEAST": "$workflow.definition_workflow_01O3B646121ZW3GCZiNVPrwXwn7B87qf2vm.input.variable_workflow_01O3B645SYHEN0urHeq5U16NN7OvgFU9Lrl$"
           },
           "runtime_user": {
             "target_default": true
@@ -139,7 +139,7 @@
           "target": {
             "use_workflow_target_group": true
           },
-          "workflow_id": "definition_workflow_01N8OZLRHISAO32C0yk9erMlWLEbJhuM7IV"
+          "workflow_id": "definition_workflow_01PP76CFLL9QC418KyUrnSeKLdrAAMteaUC"
         },
         "object_type": "definition_activity"
       }
@@ -177,22 +177,12 @@
           "data_target_type": "email.smtp_endpoint",
           "view_target_type": "email.smtp_endpoint",
           "include_all_targets": true
-        },
-        {
-          "data_target_type": "terminal.endpoint",
-          "view_target_type": "terminal.endpoint",
-          "include_all_targets": true
-        },
-        {
-          "data_target_type": "aws.endpoint",
-          "view_target_type": "aws.endpoint",
-          "include_all_targets": true
         }
       ],
       "object_type": "target_group"
     }
   },
   "atomic_workflows": [
-    "definition_workflow_01N8OZLRHISAO32C0yk9erMlWLEbJhuM7IV"
+    "definition_workflow_01PP76CFLL9QC418KyUrnSeKLdrAAMteaUC"
   ]
 }

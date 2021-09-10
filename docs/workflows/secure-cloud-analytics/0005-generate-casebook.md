@@ -18,32 +18,45 @@ Response Workflow
 {: .label }
 </div>
 
-This workflow should be triggered from a SecureX pivot menu and supports IP address observables. When triggered, this workflow generates a Threat Response casebook with links to investigate the IP address in Secure Cloud Analytics (SCA).
+This workflow generates a Cisco SecureX casebook with links to investigate the IP address in Cisco Secure Cloud Analytics (SCA). Supported observable: `ip`
 
 [<i class="fab fa-github mr-1"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0005-SCA-GenerateCasebookWithFlowLinks__definition_workflow_01JQ5LGT2UB1G2SLd05xQjb0EZz2HZn3c0d){: .btn-cisco-outline }
 
 ---
 
+## Change Log
+
+| Date | Notes |
+|:-----|:------|
+| Nov 20, 2020 | - Initial release |
+| September 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+
+_See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
+
+---
+
 ## Requirements
+* The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
+	* Threat Response - Create Casebook
+	* Threat Response - Generate Access Token
 * The following atomic actions must be imported before you can import this workflow:
-	* CTRGenerateAccessToken ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* CTR Create Casebook ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* None
 * The [targets](#targets) and [account keys](#account-keys) listed below
-* A Secure Cloud Analytics instance
+* Cisco Secure Cloud Analytics (SCA)
 
 ---
 
 ## Workflow Steps
 1. Calculate date 7 days ago
-1. Format 7 days ago date to SCA format
-1. Format today's date to SCA format
+1. Format 7 days ago date to Secure Cloud Analytics format
+1. Format today's date to Secure Cloud Analytics format
 1. Generate Threat Response access token
 1. Create casebook with investigation links
 
 ---
 
 ## Configuration
-* Set your SCA instance URL in the `SCA Instance URL` local variable
+* Set your Secure Cloud Analytics instance URL in the `SCA Instance URL` local variable
 * If you want to change the name of this workflow in the pivot menu, change its display name
 
 ---

@@ -7,6 +7,48 @@
     "base_type": "workflow",
     "variables": [
       {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "Secure Cloud Analytics API Key",
+          "type": "datatype.secure_string",
+          "description": "You can generate or regenerate an API key on your user page in your Secure Cloud Analytics portal. If you already have an API key for SCA in a global variable, use the group at the beginning of the workflow to set this variable to the global variable's value",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01KB7F57FRAHX0eIZj9N660f66nj1aDjTv3",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "eu-north-1",
+          "scope": "local",
+          "name": "AWS Region",
+          "type": "datatype.string",
+          "description": "The name of your AWS region",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01KB83WGA3SEH5DB832FFhzfrv4RF63yaBq",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "Webex Teams Access Token",
+          "type": "datatype.secure_string",
+          "description": "The access token to use to authenticate to the Webex Teams API. Information about using a bot, which is what we recommend, can be found here: https://developer.webex.com/docs/bots",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01KB7F57FR9CT5j3Rzga92YQDS7rU71BZhR",
+        "object_type": "variable_workflow"
+      },
+      {
         "schema_id": "datatype.string",
         "properties": {
           "value": "20.1.1.1/32",
@@ -25,37 +67,9 @@
         "properties": {
           "value": "",
           "scope": "local",
-          "name": "Webex Teams Room Name",
-          "type": "datatype.string",
-          "description": "The name of the Webex Teams room to post messages to. If you'd rather provide a room ID, leave this blank and set the \"Webex Teams Room ID\" local variable instead",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01KBAYWW9BMR26fi5wz1golH9Zj9xXqe8w7",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.secure_string",
-        "properties": {
-          "value": "",
-          "scope": "local",
-          "name": "Webex Teams Bot Token",
-          "type": "datatype.secure_string",
-          "description": "Your Webex Teams bot's access token. If you already have a bot token in a global variable, use the group at the beginning of the workflow to set this variable to the global variable's value",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01KB7F57FR9CT5j3Rzga92YQDS7rU71BZhR",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "local",
           "name": "Webex Text",
           "type": "datatype.string",
-          "description": "This is a placeholder used by the workflow to build Webex content. You don't need to put anything here",
+          "description": "Placeholder for the text to send via Webex. This will be populated automatically",
           "is_required": false,
           "is_invisible": false
         },
@@ -63,17 +77,17 @@
         "object_type": "variable_workflow"
       },
       {
-        "schema_id": "datatype.secure_string",
+        "schema_id": "datatype.string",
         "properties": {
           "value": "",
           "scope": "local",
-          "name": "Secure Cloud Analytics API Key",
-          "type": "datatype.secure_string",
-          "description": "You can generate or regenerate an API key on your user page in your Secure Cloud Analytics portal. If you already have an API key for SCA in a global variable, use the group at the beginning of the workflow to set this variable to the global variable's value",
+          "name": "Webex Teams Room Name",
+          "type": "datatype.string",
+          "description": "The name of the Webex Teams room to post messages to. If you'd rather provide a room ID, leave this blank and set the \"Webex Teams Room ID\" local variable instead",
           "is_required": false,
           "is_invisible": false
         },
-        "unique_name": "variable_workflow_01KB7F57FRAHX0eIZj9N660f66nj1aDjTv3",
+        "unique_name": "variable_workflow_01KBAYWW9BMR26fi5wz1golH9Zj9xXqe8w7",
         "object_type": "variable_workflow"
       },
       {
@@ -89,19 +103,6 @@
         },
         "unique_name": "variable_workflow_01KB7F57FR35373aOB0pgqYotJeTG3TNsYR",
         "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "eu-north-1",
-          "scope": "local",
-          "name": "AWS Region",
-          "type": "datatype.string",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01KB83WGA3SEH5DB832FFhzfrv4RF63yaBq",
-        "object_type": "variable_workflow"
       }
     ],
     "properties": {
@@ -109,7 +110,7 @@
         "is_atomic": false
       },
       "delete_workflow_instance": false,
-      "description": "This workflow fetches \"Geographically Unusual Remote Access\" alerts from the Secure Cloud Analytics (SCA) API for the past hour and restricts SSH access to matching AWS instances.\n\nTargets: Amazon Web Services, Secure Cloud Analytics, Webex Teams\n\nSteps:\n[] (Optional) Add global variables to local variables\n[] Calculate the start/end times for a 1 hour period of time\n[] Fetch `Geographically Unusual Remote Access` alerts from SCA for that time frame\n[] Convert the alerts to a table\n[] If a Teams room name was provided, translate it into a room ID\n[] For each alert in the table:\n[]\u003e Check if the instance was already quarantined (if so, skip it)\n[]\u003e Get information about the instance from AWS and extract its security group\n[]\u003e Revoke SSH access to the group and add an exception for the CIDR network in the local variable\n[]\u003e Create an approval request to remove the instance from quarantine\n[]\u003e Send a Webex Teams notification\n\nMore information: https://cs.co/SXO_docs",
+      "description": "This workflow fetches \"Geographically Unusual Remote Access\" alerts from the Cisco Secure Cloud Analytics (SCA) API for the past hour. For each alerts, it looks for a matching Amazon Web Services (AWS) instance and restrict SSH access to its security group. Notifications are sent using Webex Teams and an approval is requested to lift the quarantine restrictions.\n\nTargets: Amazon Web Services, Secure Cloud Analytics, Webex Teams\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0006",
       "display_name": "0006 - SCA - Quarantine AWS Instances from Alerts",
       "runtime_user": {
         "override_target_runtime_user": false,
@@ -148,7 +149,6 @@
         "base_type": "activity",
         "properties": {
           "continue_on_failure": false,
-          "description": "If you have information stored in global variables, you can enable this group and use the set variables it contains to update your local variables with the global variable values",
           "display_name": "Fetch global variables",
           "skip_execution": true
         },
@@ -157,12 +157,12 @@
           {
             "unique_name": "definition_activity_01KB7F66B6LG171UYqEk7Qt1ku7KFh4DqPY",
             "name": "Set Variables",
-            "title": "Set local variables",
+            "title": "Fetch global variables",
             "type": "core.set_multiple_variables",
             "base_type": "activity",
             "properties": {
               "continue_on_failure": false,
-              "display_name": "Set local variables",
+              "display_name": "Fetch global variables",
               "skip_execution": false,
               "variables_to_update": [
                 {
@@ -193,47 +193,37 @@
         "object_type": "definition_activity",
         "actions": [
           {
-            "unique_name": "definition_activity_01KB7F6PNRWET2mmYDC8CFY6CQTesL1wzO6",
-            "name": "Util - Get X Hour Window",
-            "title": "Util - Get X Hour Window",
-            "type": "workflow.atomic_workflow",
-            "base_type": "subworkflow",
+            "unique_name": "definition_activity_01QDYPRYG657S1IS8mDaHORtE5fptE7Hjis",
+            "name": "Calculate Date",
+            "title": "Calculate Date 1 Hour Ago",
+            "type": "core.calculate_date",
+            "base_type": "activity",
             "properties": {
+              "adjustment": -3600,
               "continue_on_failure": false,
-              "display_name": "Util - Get X Hour Window",
-              "input": {
-                "variable_workflow_01J33OSN1BHDV1RAyTK6c6R3Q4mAb2uX2b9": 1,
-                "variable_workflow_01J33P2M1J0SE7OlAW5e3kyi3cqIhBI7vkn": "0001-01-01T00:00:00+00:00",
-                "variable_workflow_01J33P7EL7N9Z2D3fmNjs46CQD8rJi6rMgC": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.output.start_time$"
-              },
-              "runtime_user": {
-                "target_default": true
-              },
-              "skip_execution": false,
-              "target": {
-                "no_target": true
-              },
-              "workflow_id": "definition_workflow_01IX8GGX9MV8B5ihSMEc7KHwEmgTSLojS1m"
+              "display_name": "Calculate Date 1 Hour Ago",
+              "original_date": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.output.start_time$",
+              "skip_execution": false
             },
             "object_type": "definition_activity"
           },
           {
             "unique_name": "definition_activity_01KB7F72WMX0X7J88TBH1OZIRBP9Dn5lfdf",
-            "name": "SWC - Get Alerts",
-            "title": "SWC - Get Alerts",
+            "name": "SCA - Get Alerts",
+            "title": "SCA - Get Alerts",
             "type": "workflow.atomic_workflow",
             "base_type": "subworkflow",
             "properties": {
               "continue_on_failure": false,
-              "display_name": "SWC - Get Alerts",
+              "display_name": "SCA - Get Alerts",
               "input": {
-                "variable_workflow_01H8OAFZX3PVJ2gBlzD0wmTeXt8drvaID1r": "open",
-                "variable_workflow_01H8OAFZX3VRW3e33tmv7ONFkT7hIMgQaRA": "Geographically Unusual Remote Access",
-                "variable_workflow_01JJTHD7IHEKH4CfnZPIuHOW4pSfP2jpM7f": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FRAHX0eIZj9N660f66nj1aDjTv3$",
-                "variable_workflow_01JQWGJ4HWCUQ36M42Thbyc5tw3P5jTYlZb": "$activity.definition_activity_01KB7F6PNRWET2mmYDC8CFY6CQTesL1wzO6.output.variable_workflow_01IX8GYT9CBMT5PeCD6IeXcC9h92BtaV6iw$",
-                "variable_workflow_01JQWGNWQATNN3GIyC9KzclrzWdmwmjGVjA": "$activity.definition_activity_01KB7F6PNRWET2mmYDC8CFY6CQTesL1wzO6.output.variable_workflow_01IX8H3ACM1UE6liaN2Axf7QZvGmYeFwQyZ$",
-                "variable_workflow_01JQY57TY57SM3IfUSu5UVS2WlnF1I5hN0s": 100,
-                "variable_workflow_01JQY5EAYHCBH4NcW2BXgfWCA5OHldZvJva": 0
+                "variable_workflow_01PP767ENJBFA5SN9YJC7swhvNCTdtgTVvK": "$activity.definition_activity_01QDYPRYG657S1IS8mDaHORtE5fptE7Hjis.output.result$",
+                "variable_workflow_01PP767ENJEQ96BUYwuD5WCUPqI1f7d8tW5": "Geographically Unusual Remote Access",
+                "variable_workflow_01PP767ENJFWZ2lRbLkNzB68HQefGY1Mr4e": "open",
+                "variable_workflow_01PP767ENJH2S4VttPD6BHxHR3AZszCkzg8": 0,
+                "variable_workflow_01PP767ENJI7Y1nCg4PDqDlFSw9BGqcc48m": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.output.start_time$",
+                "variable_workflow_01PP767ENJKGT3cQ36vcV8I04GCm7Z0JuZi": 100,
+                "variable_workflow_01PP767ENJLM97Xsdwn8fEod1HP3whVWfvU": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FRAHX0eIZj9N660f66nj1aDjTv3$"
               },
               "runtime_user": {
                 "target_default": true
@@ -255,7 +245,7 @@
                   }
                 }
               },
-              "workflow_id": "definition_workflow_01H8OAG0M0TEP6YXQdVScazNJ4Jyg66obMD"
+              "workflow_id": "definition_workflow_01PP767EUS6Q52H9Ww5DQjcJoxKwKBIMkdK"
             },
             "object_type": "definition_activity"
           },
@@ -293,7 +283,7 @@
               "action_timeout": 180,
               "continue_on_failure": false,
               "display_name": "Convert alerts to table",
-              "input_json": "$activity.definition_activity_01KB7F72WMX0X7J88TBH1OZIRBP9Dn5lfdf.output.variable_workflow_01JKTJ3RR7PXJ0TJBYopV620eYQHZiXl2Yt$",
+              "input_json": "$activity.definition_activity_01KB7F72WMX0X7J88TBH1OZIRBP9Dn5lfdf.output.variable_workflow_01PP767ENJJDI5V6ZUMTo1uD5nXQKHXXps5$",
               "jsonpath_query": "$.objects",
               "persist_output": true,
               "populate_columns": false,
@@ -400,10 +390,10 @@
                   "continue_on_failure": false,
                   "display_name": "Webex Teams - Search for Room",
                   "input": {
-                    "variable_workflow_01FHMU6RWYQWI3QFUEzjWMT7JYBcz5vquuD": "",
-                    "variable_workflow_01FHMU6RWYWY822p43LeMi8Lcx89Q9jeyek": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KBAYWW9BMR26fi5wz1golH9Zj9xXqe8w7$",
-                    "variable_workflow_01FHMU6RWYY481TVWDm0BQ1p0rWnqak191l": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR9CT5j3Rzga92YQDS7rU71BZhR$",
-                    "variable_workflow_01FHNGCYY2O6Z0NcPmUDabszT2P4P0oqMNd": ""
+                    "variable_workflow_01PP790MCX1DN3EitpQebkUyJS65DbwS3nU": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR9CT5j3Rzga92YQDS7rU71BZhR$",
+                    "variable_workflow_01PP790MCXB392D3R8pxh9fgOTjTde2bcMW": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KBAYWW9BMR26fi5wz1golH9Zj9xXqe8w7$",
+                    "variable_workflow_01PP790MCXHP55YE6ylOEITWsWbUFJeyWGv": "",
+                    "variable_workflow_01PP790MCXM9W1MUwo85y8iNRCoQuQ4RGNa": ""
                   },
                   "runtime_user": {
                     "target_default": true
@@ -425,7 +415,7 @@
                       }
                     }
                   },
-                  "workflow_id": "definition_workflow_01FHMU6SD5XPL6eRW4zFXqkA1w8jWiQCIBU"
+                  "workflow_id": "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez"
                 },
                 "object_type": "definition_activity"
               },
@@ -442,7 +432,7 @@
                   "variables_to_update": [
                     {
                       "variable_to_update": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR35373aOB0pgqYotJeTG3TNsYR$",
-                      "variable_value_new": "$activity.definition_activity_01KBB06GKJG7A6DuaR7wRjPzfOyRLp6dOhg.output.variable_workflow_01FHSVE2R6ZTQ6L92WEi0kWgR5T8zhMAUzO$"
+                      "variable_value_new": "$activity.definition_activity_01KBB06GKJG7A6DuaR7wRjPzfOyRLp6dOhg.output.variable_workflow_01PP790MCXJ7Y5cAWcGZWbG4Es0126zb1I6$"
                     }
                   ]
                 },
@@ -617,7 +607,7 @@
             "properties": {
               "action_timeout": 180,
               "api_call_method": "ec2",
-              "api_url": "https://ec2.$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB83WGA3SEH5DB832FFhzfrv4RF63yaBq$.amazonaws.com/?Action=DescribeInstances\u0026InstanceId.1=$activity.definition_activity_01KB7F810HAED3GMUVxfnulBayospYYLybz.input.source_array[@].hostname$\u0026Version=2016-11-15",
+              "api_url": "https://ec2.$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB83WGA3SEH5DB832FFhzfrv4RF63yaBq$.amazonaws.com/?Action=DescribeInstances&InstanceId.1=$activity.definition_activity_01KB7F810HAED3GMUVxfnulBayospYYLybz.input.source_array[@].hostname$&Version=2016-11-15",
               "continue_on_failure": true,
               "display_name": "Get instance information from AWS",
               "runtime_user": {
@@ -716,7 +706,7 @@
                     "properties": {
                       "action_timeout": 180,
                       "api_call_method": "ec2",
-                      "api_url": "https://ec2.$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB83WGA3SEH5DB832FFhzfrv4RF63yaBq$.amazonaws.com/?Action=RevokeSecurityGroupIngress\u0026GroupName.1=$activity.definition_activity_01KB7FA9BTG6I4ogFDeiXgMO92DiJZbjKhF.output.xpath_queries.groupName$\u0026Version=2016-11-15\u0026IpPermissions.1.IpProtocol=tcp\u0026IpPermissions.1.FromPort=22\u0026IpPermissions.1.ToPort=22\u0026IpPermissions.1.IpRanges.1.CidrIp=0.0.0.0/0",
+                      "api_url": "https://ec2.$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB83WGA3SEH5DB832FFhzfrv4RF63yaBq$.amazonaws.com/?Action=RevokeSecurityGroupIngress&GroupName.1=$activity.definition_activity_01KB7FA9BTG6I4ogFDeiXgMO92DiJZbjKhF.output.xpath_queries.groupName$&Version=2016-11-15&IpPermissions.1.IpProtocol=tcp&IpPermissions.1.FromPort=22&IpPermissions.1.ToPort=22&IpPermissions.1.IpRanges.1.CidrIp=0.0.0.0/0",
                       "continue_on_failure": true,
                       "display_name": "Revoke SSH access to AWS instance",
                       "runtime_user": {
@@ -789,7 +779,7 @@
                             "properties": {
                               "action_timeout": 180,
                               "api_call_method": "ec2",
-                              "api_url": "https://ec2.$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB83WGA3SEH5DB832FFhzfrv4RF63yaBq$.amazonaws.com/?Action=AuthorizeSecurityGroupIngress\u0026GroupName.1=$activity.definition_activity_01KB7FA9BTG6I4ogFDeiXgMO92DiJZbjKhF.output.xpath_queries.groupName$\u0026Version=2016-11-15\u0026IpPermissions.1.IpProtocol=tcp\u0026IpPermissions.1.FromPort=22\u0026IpPermissions.1.ToPort=22\u0026IpPermissions.1.IpRanges.1.CidrIp=$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR8562y1RJyYeyq7eBDM5TJQAnc$",
+                              "api_url": "https://ec2.$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB83WGA3SEH5DB832FFhzfrv4RF63yaBq$.amazonaws.com/?Action=AuthorizeSecurityGroupIngress&GroupName.1=$activity.definition_activity_01KB7FA9BTG6I4ogFDeiXgMO92DiJZbjKhF.output.xpath_queries.groupName$&Version=2016-11-15&IpPermissions.1.IpProtocol=tcp&IpPermissions.1.FromPort=22&IpPermissions.1.ToPort=22&IpPermissions.1.IpRanges.1.CidrIp=$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR8562y1RJyYeyq7eBDM5TJQAnc$",
                               "continue_on_failure": true,
                               "display_name": "Add SSH access to AWS instance from specific IP",
                               "runtime_user": {
@@ -1027,62 +1017,86 @@
             ]
           },
           {
-            "unique_name": "definition_activity_01KB7GQVCDU0C4eyWPwMGWprsSsB2nRAH1h",
-            "name": "Post message to Webex",
-            "title": "Post message to Webex",
-            "type": "workflow.atomic_workflow",
-            "base_type": "subworkflow",
+            "unique_name": "definition_activity_01Q7W96LOY1LB7TvAzyMStkCfbjQuG8PVfe",
+            "name": "Condition Block",
+            "title": "Is there a teams room ID?",
+            "type": "logic.if_else",
+            "base_type": "activity",
             "properties": {
               "continue_on_failure": false,
-              "display_name": "Post message to Webex",
-              "input": {
-                "variable_workflow_01FGYY44G3MZ55amJu9YqgUeKS8GT49bZx3": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR9CT5j3Rzga92YQDS7rU71BZhR$",
-                "variable_workflow_01FGYY44G3TK951Crpnd8g2izonyM4bFtpW": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR35373aOB0pgqYotJeTG3TNsYR$",
-                "variable_workflow_01FGYY44G3UPV3heGGc3vXCV47YL5WoI2X6": "",
-                "variable_workflow_01FGYZ9BV4QTP19CuMwcW8QywvCP9ymx2BZ": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR6VD7f1c1MtAKDuwyjsNFmwTou$"
-              },
-              "runtime_user": {
-                "override_target_runtime_user": false,
-                "target_default": true
-              },
-              "skip_execution": false,
-              "target": {
-                "override_workflow_target_group_criteria": true,
-                "target_group": {
-                  "run_on_all_targets": false,
-                  "use_criteria": {
-                    "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-                    "conditions": [
-                      {
-                        "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-                        "operator": "eqi",
-                        "right_operand": "Webex Teams"
-                      }
-                    ]
-                  }
-                }
-              },
-              "workflow_id": "definition_workflow_01FGYY44YU521254ygN3Le0In0kEHpiPNpf"
+              "display_name": "Is there a teams room ID?",
+              "skip_execution": false
             },
-            "object_type": "definition_activity"
+            "object_type": "definition_activity",
+            "blocks": [
+              {
+                "unique_name": "definition_activity_01Q7W96SR2A6R7BXqgPbvOA13Dmqk9Cuy65",
+                "name": "Condition Branch",
+                "title": "Yes",
+                "type": "logic.condition_block",
+                "base_type": "activity",
+                "properties": {
+                  "condition": {
+                    "left_operand": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR35373aOB0pgqYotJeTG3TNsYR$",
+                    "operator": "ne",
+                    "right_operand": ""
+                  },
+                  "continue_on_failure": false,
+                  "display_name": "Yes",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01KB7GQVCDU0C4eyWPwMGWprsSsB2nRAH1h",
+                    "name": "Post message to Webex",
+                    "title": "Post message to Webex",
+                    "type": "workflow.atomic_workflow",
+                    "base_type": "subworkflow",
+                    "properties": {
+                      "continue_on_failure": false,
+                      "display_name": "Post message to Webex",
+                      "input": {
+                        "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR35373aOB0pgqYotJeTG3TNsYR$",
+                        "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR9CT5j3Rzga92YQDS7rU71BZhR$",
+                        "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR6VD7f1c1MtAKDuwyjsNFmwTou$",
+                        "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": ""
+                      },
+                      "runtime_user": {
+                        "override_target_runtime_user": false,
+                        "target_default": true
+                      },
+                      "skip_execution": false,
+                      "target": {
+                        "override_workflow_target_group_criteria": true,
+                        "target_group": {
+                          "run_on_all_targets": false,
+                          "use_criteria": {
+                            "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                            "conditions": [
+                              {
+                                "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                "operator": "eqi",
+                                "right_operand": "Webex Teams"
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw"
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              }
+            ]
           }
         ]
       }
     ],
     "categories": [
-      "category_01KB985T807PN72HWdrDjvYCedj6wNtjbF6"
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
     ]
-  },
-  "categories": {
-    "category_01KB985T807PN72HWdrDjvYCedj6wNtjbF6": {
-      "unique_name": "category_01KB985T807PN72HWdrDjvYCedj6wNtjbF6",
-      "name": "Secure Cloud Analytics",
-      "title": "Secure Cloud Analytics",
-      "type": "basic.category",
-      "base_type": "category",
-      "category_type": "custom",
-      "object_type": "category"
-    }
   },
   "target_groups": {
     "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
@@ -1104,11 +1118,6 @@
           "include_all_targets": true
         },
         {
-          "data_target_type": "terminal.endpoint",
-          "view_target_type": "terminal.endpoint",
-          "include_all_targets": true
-        },
-        {
           "data_target_type": "aws.endpoint",
           "view_target_type": "aws.endpoint",
           "include_all_targets": true
@@ -1118,9 +1127,8 @@
     }
   },
   "atomic_workflows": [
-    "definition_workflow_01IX8GGX9MV8B5ihSMEc7KHwEmgTSLojS1m",
-    "definition_workflow_01H8OAG0M0TEP6YXQdVScazNJ4Jyg66obMD",
-    "definition_workflow_01FHMU6SD5XPL6eRW4zFXqkA1w8jWiQCIBU",
-    "definition_workflow_01FGYY44YU521254ygN3Le0In0kEHpiPNpf"
+    "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez",
+    "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw",
+    "definition_workflow_01PP767EUS6Q52H9Ww5DQjcJoxKwKBIMkdK"
   ]
 }

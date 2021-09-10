@@ -20,19 +20,31 @@ Microsoft provides a JSON-formatted feed of their networks and domains for their
 
 ---
 
+## Change Log
+
+| Date | Notes |
+|:-----|:------|
+| May 26, 2021 | - Initial release |
+| September 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+
+_See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
+
+---
+
 ## Requirements
+* The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
+	* Secure Firewall - Create Dynamic Object Group
+	* Secure Firewall - Get Access Token
+	* Secure Firewall - Get Dynamic Object Group Mappings
+	* Secure Firewall - Update Dynamic Object Group Mappings
 * The following atomic actions must be imported before you can import this workflow:
-	* Secure Firewall - Create Dynamic Object Group ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
-	* Secure Firewall - Get Access Token ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
-	* Secure Firewall - Get Dynamic Object Group Mappings ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
-	* Secure Firewall - Update Dynamic Object Group Mappings ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
+	* None
 * The [targets](#targets) and [account keys](#account-keys) listed below
-* Secure Firewall software version 7.0 or newer
+* Cisco Secure Firewall (software version 7.0 or newer)
 
 ---
 
 ## Workflow Steps
-
 1. Get an access token for Secure Firewall
 1. Get the existing dynamic object group mappings
 1. Check if fetching the mappings succeeded (if not, create a new dynamic object group)

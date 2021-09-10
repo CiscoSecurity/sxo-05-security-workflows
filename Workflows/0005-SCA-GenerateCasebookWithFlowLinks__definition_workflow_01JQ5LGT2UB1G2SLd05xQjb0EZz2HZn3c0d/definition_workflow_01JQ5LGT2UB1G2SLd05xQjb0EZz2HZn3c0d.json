@@ -10,10 +10,25 @@
         "schema_id": "datatype.string",
         "properties": {
           "value": "",
+          "scope": "local",
+          "name": "SCA Instance URL",
+          "type": "datatype.string",
+          "description": "This should be the part of your SCA instance's URL before \".obsrvbl.com\". For example, if your URL is \"company.obsrvbl.com\" you would enter \"company\"",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01KB96A1UNN9Z2I2ZJH0MMRzulMXImpRlQz",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
           "scope": "input",
           "name": "observable_type",
           "type": "datatype.string",
-          "is_required": false,
+          "description": "The type of observable pivoted on",
+          "is_required": true,
           "is_invisible": false
         },
         "unique_name": "variable_workflow_01JQ5LGSPSRLM3pjcr2FL9Ot8FQZCqmDBNG",
@@ -26,24 +41,11 @@
           "scope": "input",
           "name": "observable_value",
           "type": "datatype.string",
-          "is_required": false,
+          "description": "The value of the observable pivoted on",
+          "is_required": true,
           "is_invisible": false
         },
         "unique_name": "variable_workflow_01JQ5LGSPSUQ35BkumxxSWnHn3MaaN01lOA",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "cisco-demo",
-          "scope": "local",
-          "name": "SCA Instance URL",
-          "type": "datatype.string",
-          "description": "This should be the part of your SCA instance's URL before \".obsrvbl.com\". For example, if your URL is \"company.obsrvbl.com\" you would enter \"company\"",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01KB96A1UNN9Z2I2ZJH0MMRzulMXImpRlQz",
         "object_type": "variable_workflow"
       }
     ],
@@ -52,7 +54,7 @@
         "is_atomic": false
       },
       "delete_workflow_instance": false,
-      "description": "This workflow should be triggered from a SecureX pivot menu and supports IP address observables. When triggered, this workflow generates a Threat Response casebook with links to investigate the IP address in Secure Cloud Analytics (SCA).\n\nHint: If you want to change the name of this workflow in the pivot menu, change its display name.\n\nConfiguration: You must set your SCA instance URL in the \"SCA Instance URL\" local variable!\n\nTargets: CTR_For_Access_Token, Private_CTIA_Target\n\nSteps:\n[] Calculate date 7 days ago\n[] Format 7 days ago date to SCA format\n[] Format today's date to SCA format\n[] Generate Threat Response access token\n[] Create casebook with investigation links\n\nMore information: https://cs.co/SXO_docs",
+      "description": "This workflow generates a Cisco SecureX casebook with links to investigate the IP address in Cisco Secure Cloud Analytics (SCA). Supported observable: ip\n\nHint: If you want to change the name of this workflow in the pivot menu, change its display name.\n\nConfiguration: You must set your Secure Cloud Analytics instance URL in the \"SCA Instance URL\" local variable!\n\nTargets: CTR_For_Access_Token, Private_CTIA_Target\n\nSteps:\n[] Calculate date 7 days ago\n[] Format 7 days ago date to Secure Cloud Analytics format\n[] Format today's date to Secure Cloud Analytics format\n[] Generate Threat Response access token\n[] Create casebook with investigation links\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0005",
       "display_name": "0005 - SCA - Generate Casebook with Flow Links",
       "runtime_user": {
         "override_target_runtime_user": false,
@@ -181,13 +183,13 @@
       },
       {
         "unique_name": "definition_activity_01JQ5LIYRR7411hv6PSyRQcbOBdQkKy4Ewo",
-        "name": "Generate access token for CTR",
-        "title": "Generate access token for CTR",
+        "name": "Threat Response - Generate Access Token",
+        "title": "Threat Response - Generate Access Token",
         "type": "workflow.atomic_workflow",
         "base_type": "subworkflow",
         "properties": {
           "continue_on_failure": false,
-          "display_name": "Generate access token for CTR",
+          "display_name": "Threat Response - Generate Access Token",
           "runtime_user": {
             "target_default": true
           },
@@ -195,25 +197,26 @@
           "target": {
             "use_workflow_target_group": true
           },
-          "workflow_id": "definition_workflow_01779LB6MV0P02kvka9TGV5cEam84NrCTy4"
+          "workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
         },
         "object_type": "definition_activity"
       },
       {
         "unique_name": "definition_activity_01JQ5LJJV4KIS28SLjKhzByJf7sqxvc1BG5",
-        "name": "Create Casebook",
-        "title": "Create Casebook",
+        "name": "Threat Response - Create Casebook",
+        "title": "Threat Response - Create Casebook",
         "type": "workflow.atomic_workflow",
         "base_type": "subworkflow",
         "properties": {
           "continue_on_failure": false,
-          "display_name": "Create Casebook",
+          "display_name": "Threat Response - Create Casebook",
           "input": {
-            "variable_workflow_01E8OQUDV95VA45dnDR0Kzm5HlMxNSnk7HH": "$activity.definition_activity_01JQ5LIYRR7411hv6PSyRQcbOBdQkKy4Ewo.output.variable_workflow_01BNOOXA3G6MV1PGAvsfZOKDdMYcE6XS726$",
-            "variable_workflow_01FI7GJDK40MI6qNg2jcng0YaHlmz0Zgwq5": "[Flows from this IP](https://$workflow.definition_workflow_01JQ5LGT2UB1G2SLd05xQjb0EZz2HZn3c0d.local.variable_workflow_01KB96A1UNN9Z2I2ZJH0MMRzulMXImpRlQz$.obsrvbl.com/#/traffic/sessions/table?start_datetime=$activity.definition_activity_01JQ5LI60FJQY3hUgO7d2Nh42rfsUEVEePV.output.result$\u0026end_datetime=$activity.definition_activity_01JQ5LHUX3RC92WX1rUz4AB7gyizEM0pmbT.output.result$\u0026ip=$workflow.definition_workflow_01JQ5LGT2UB1G2SLd05xQjb0EZz2HZn3c0d.input.variable_workflow_01JQ5LGSPSUQ35BkumxxSWnHn3MaaN01lOA$)\n\n[Flows to this IP](https://$workflow.definition_workflow_01JQ5LGT2UB1G2SLd05xQjb0EZz2HZn3c0d.local.variable_workflow_01KB96A1UNN9Z2I2ZJH0MMRzulMXImpRlQz$.obsrvbl.com/#/traffic/sessions/table?start_datetime=$activity.definition_activity_01JQ5LI60FJQY3hUgO7d2Nh42rfsUEVEePV.output.result$\u0026end_datetime=$activity.definition_activity_01JQ5LHUX3RC92WX1rUz4AB7gyizEM0pmbT.output.result$\u0026connected_ip=$workflow.definition_workflow_01JQ5LGT2UB1G2SLd05xQjb0EZz2HZn3c0d.input.variable_workflow_01JQ5LGSPSUQ35BkumxxSWnHn3MaaN01lOA$)",
-            "variable_workflow_01FI7JJEVXRFA5s9maRdVwlqV7ENc6KhST2": "Secure Cloud Analytics Forensic Flow Investigation for $workflow.definition_workflow_01JQ5LGT2UB1G2SLd05xQjb0EZz2HZn3c0d.input.variable_workflow_01JQ5LGSPSUQ35BkumxxSWnHn3MaaN01lOA$ - $activity.definition_activity_01JQ5LHUX3RC92WX1rUz4AB7gyizEM0pmbT.output.result$",
-            "variable_workflow_01FI7NA9QZI9I46crflRbf7I6zIfajxuHrX": "[{\"type\":\"$workflow.definition_workflow_01JQ5LGT2UB1G2SLd05xQjb0EZz2HZn3c0d.input.variable_workflow_01JQ5LGSPSRLM3pjcr2FL9Ot8FQZCqmDBNG$\", \"value\":\"$workflow.definition_workflow_01JQ5LGT2UB1G2SLd05xQjb0EZz2HZn3c0d.input.variable_workflow_01JQ5LGSPSUQ35BkumxxSWnHn3MaaN01lOA$\"}]",
-            "variable_workflow_01FRLITVY3NO678mmPZHG5lCdqLjEyY2j1h": "md"
+            "variable_workflow_01PP75X6NM0AY6YDlJckkMg6hCbMEMGO72O": "[{\"type\":\"$workflow.definition_workflow_01JQ5LGT2UB1G2SLd05xQjb0EZz2HZn3c0d.input.variable_workflow_01JQ5LGSPSRLM3pjcr2FL9Ot8FQZCqmDBNG$\", \"value\":\"$workflow.definition_workflow_01JQ5LGT2UB1G2SLd05xQjb0EZz2HZn3c0d.input.variable_workflow_01JQ5LGSPSUQ35BkumxxSWnHn3MaaN01lOA$\"}]",
+            "variable_workflow_01PP75X6NM1M46Jjob8LUKg8R3yRRVOvu9q": "$activity.definition_activity_01JQ5LIYRR7411hv6PSyRQcbOBdQkKy4Ewo.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$",
+            "variable_workflow_01PP75X6NM2V27Or3EssfIABNZiE45Ddziu": "amber",
+            "variable_workflow_01PP75X6NM4123PBwUedJ5QqeBr8G1sefjQ": "Secure Cloud Analytics Forensic Flow Investigation for $workflow.definition_workflow_01JQ5LGT2UB1G2SLd05xQjb0EZz2HZn3c0d.input.variable_workflow_01JQ5LGSPSUQ35BkumxxSWnHn3MaaN01lOA$ - $activity.definition_activity_01JQ5LHUX3RC92WX1rUz4AB7gyizEM0pmbT.output.result$",
+            "variable_workflow_01PP75X6NM54W5qTbpCb1h6bTTrp7eFQjaq": "",
+            "variable_workflow_01PP75X6NM7FE4BmQ3AKIykyWFDSV9umy02": "[Flows from this IP](https://$workflow.definition_workflow_01JQ5LGT2UB1G2SLd05xQjb0EZz2HZn3c0d.local.variable_workflow_01KB96A1UNN9Z2I2ZJH0MMRzulMXImpRlQz$.obsrvbl.com/#/traffic/sessions/table?start_datetime=$activity.definition_activity_01JQ5LI60FJQY3hUgO7d2Nh42rfsUEVEePV.output.result$&end_datetime=$activity.definition_activity_01JQ5LHUX3RC92WX1rUz4AB7gyizEM0pmbT.output.result$&ip=$workflow.definition_workflow_01JQ5LGT2UB1G2SLd05xQjb0EZz2HZn3c0d.input.variable_workflow_01JQ5LGSPSUQ35BkumxxSWnHn3MaaN01lOA$)\n[Flows to this IP](https://$workflow.definition_workflow_01JQ5LGT2UB1G2SLd05xQjb0EZz2HZn3c0d.local.variable_workflow_01KB96A1UNN9Z2I2ZJH0MMRzulMXImpRlQz$.obsrvbl.com/#/traffic/sessions/table?start_datetime=$activity.definition_activity_01JQ5LI60FJQY3hUgO7d2Nh42rfsUEVEePV.output.result$&end_datetime=$activity.definition_activity_01JQ5LHUX3RC92WX1rUz4AB7gyizEM0pmbT.output.result$&connected_ip=$workflow.definition_workflow_01JQ5LGT2UB1G2SLd05xQjb0EZz2HZn3c0d.input.variable_workflow_01JQ5LGSPSUQ35BkumxxSWnHn3MaaN01lOA$)"
           },
           "runtime_user": {
             "target_default": true
@@ -235,7 +238,7 @@
               }
             }
           },
-          "workflow_id": "definition_workflow_01DS6ELBOO8YR3uFJZju566LqiqR18VlE6r"
+          "workflow_id": "definition_workflow_01PP75X6VPQNK4hKE1XQXIMeIcHrE1khIML"
         },
         "object_type": "definition_activity"
       }
@@ -283,23 +286,13 @@
           "data_target_type": "email.smtp_endpoint",
           "view_target_type": "email.smtp_endpoint",
           "include_all_targets": true
-        },
-        {
-          "data_target_type": "terminal.endpoint",
-          "view_target_type": "terminal.endpoint",
-          "include_all_targets": true
-        },
-        {
-          "data_target_type": "aws.endpoint",
-          "view_target_type": "aws.endpoint",
-          "include_all_targets": true
         }
       ],
       "object_type": "target_group"
     }
   },
   "atomic_workflows": [
-    "definition_workflow_01779LB6MV0P02kvka9TGV5cEam84NrCTy4",
-    "definition_workflow_01DS6ELBOO8YR3uFJZju566LqiqR18VlE6r"
+    "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH",
+    "definition_workflow_01PP75X6VPQNK4hKE1XQXIMeIcHrE1khIML"
   ]
 }

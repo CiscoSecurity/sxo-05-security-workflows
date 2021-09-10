@@ -15,23 +15,35 @@ Workflow #0021
 {: .label }
 </div>
 
-This workflow periodically checks for "Vulnerable Application Detected" events in Cisco Secure Endpoint (formerly known as AMP). If events are found, the associated CVEs are checked to see if they meet the threshold configured in the workflow. If the threshold is met for at least one of the endpoint's vulnerabilities, a ServiceNow incident is opened.
+This workflow periodically checks for "Vulnerable Application Detected" events in Cisco Secure Endpoint. If events are found, the associated CVEs are checked to see if they meet the threshold configured in the workflow. If the threshold is met for at least one of the endpoint's vulnerabilities, a ServiceNow incident is opened.
 
 [<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0021-SecureEndpoint-VulnerabilitiesToServiceNowIncidents__definition_workflow_01NLOGX5XZWH36I4ILmqUiBywWOAxnScesV){: .btn-cisco-outline }
 
 ---
 
+## Change Log
+
+| Date | Notes |
+|:-----|:------|
+| Apr 8, 2021 | - Initial release |
+| September 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+
+_See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
+
+---
+
 ## Requirements
+* The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
+	* Secure Endpoint - Get Events
 * The following atomic actions must be imported before you can import this workflow:
-	* AMP - Get Events ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* ServiceNow - Create Incident ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* ServiceNow - Create Incident ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
 * The [targets](#targets) and [account keys](#account-keys) listed below
-* A ServiceNow instance and API account
+* Cisco Secure Endpoint
+* ServiceNow
 
 ---
 
 ## Workflow Steps
-
 1. Calculate the time 24 hours ago
 1. While there are events to process:
 	* Get events from Secure Endpoint

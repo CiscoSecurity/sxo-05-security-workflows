@@ -1,3 +1,4 @@
+
 ---
 layout: page
 title: Index by ID
@@ -8,6 +9,20 @@ nav_order: 5
 
 # Index by ID
 This page contains a list of all of the workflows published in the repository sorted by their ID.
+
+## Out of Box Workflows
+The first time you log into orchestration, you'll see these five workflows by default. All of them are [response workflows]({{ site.baseurl }}/workflows/response) which means they're simple to configure and use.
+
+| ID   | Product | Workflow Name |
+|:-----|:--------|:--------------|
+| D001 | Cisco Secure Endpoint | [Host Isolation with Tier 2 Approval]({{ site.baseurl }}/workflows/D001) |
+| D002 | Cisco Orbital | [Take Orbital Forensic Snapshot]({{ site.baseurl }}/workflows/D002) |
+| D003 | Cisco Secure Endpoint | [Take Forensic Snapshot and Isolate]({{ site.baseurl }}/workflows/D003) |
+| D004 | Cisco Secure Endpoint | [Move Computer to Triage Group]({{ site.baseurl }}/workflows/D004) |
+| D005 | Cisco Secure Malware Analytics | [Submit URL to Secure Malware Analytics]({{ site.baseurl }}/workflows/D005) |
+
+## Github Repository Workflows
+The workflows in the Cisco Security Github repository are meant to address real world use cases and provide inspiration for you to create your own use cases. You can [import]({{ site.baseurl }}/importing) these workflows as needed depending on the products you have in your environment and your organization's needs.
 
 | ID   | Product | Workflow Name |
 |:-----|:--------|:--------------|

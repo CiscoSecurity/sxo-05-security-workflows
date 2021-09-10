@@ -54,7 +54,7 @@
         "is_atomic": false
       },
       "delete_workflow_instance": false,
-      "description": "This workflow monitors a mailbox for retrospective detection alerts from Cisco Secure Email. When an alert is received via Cisco Secure Endpoint (formerly AMP) for a file hash, an investigation is conducted to determine if there were any sightings for the hash. If there are sightings, an instant message is sent with details.\n\nTarget Group: Default TargetGroup\n\nTargets: CTR_API, CTR_For_Access_Token, Microsoft Teams Webhook, Webex Teams\n\nSteps:\n[] Fetch global variables (optional)\n[] Extract the information we need from the email\n[] Generate an access token for Threat Response\n[] Enrich the file hash to look for sightings\n[] Extract the sightings\n[] Check if there were any, if not end the workflow\n[] Compile the sighting data for the past 30 days\n[] Send instant message notifications\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0025",
+      "description": "This workflow monitors a mailbox for retrospective detection alerts from Cisco Secure Email. When an alert is received via Cisco Secure Endpoint for a file hash, an investigation is conducted to determine if there were any sightings for the hash. If there are sightings, an instant message is sent with details.\n\nTarget Group: Default TargetGroup\n\nTargets: CTR_API, CTR_For_Access_Token, Microsoft Teams Webhook, Webex Teams\n\nSteps:\n[] Fetch global variables (optional)\n[] Extract the information we need from the email\n[] Generate an access token for Threat Response\n[] Enrich the file hash to look for sightings\n[] Extract the sightings\n[] Check if there were any, if not end the workflow\n[] Compile the sighting data for the past 30 days\n[] Send instant message notifications\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0025",
       "display_name": "0025 - Secure Email - Investigate Retrospective Alerts",
       "runtime_user": {
         "override_target_runtime_user": false,
@@ -161,13 +161,13 @@
       },
       {
         "unique_name": "definition_activity_01NS8QBMA3ANL5EmKa5q82KzimlQl4RFg1b",
-        "name": "Threat Response v2 - Generate Access Token",
-        "title": "Threat Response v2 - Generate Access Token",
+        "name": "Threat Response - Generate Access Token",
+        "title": "Threat Response - Generate Access Token",
         "type": "workflow.atomic_workflow",
         "base_type": "subworkflow",
         "properties": {
           "continue_on_failure": false,
-          "display_name": "Threat Response v2 - Generate Access Token",
+          "display_name": "Threat Response - Generate Access Token",
           "runtime_user": {
             "target_default": true
           },
@@ -188,23 +188,23 @@
               }
             }
           },
-          "workflow_id": "definition_workflow_01KWJ2ISZTF2V6ibRYe7FZ7sOuycDOpnwss"
+          "workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
         },
         "object_type": "definition_activity"
       },
       {
         "unique_name": "definition_activity_01NS8QDTV5N506WmJ14BblNbmBIGgauSydn",
-        "name": "Threat Response v2 - Enrich Observable",
-        "title": "Threat Response v2 - Enrich Observable",
+        "name": "Threat Response - Enrich Observable",
+        "title": "Threat Response - Enrich Observable",
         "type": "workflow.atomic_workflow",
         "base_type": "subworkflow",
         "properties": {
           "continue_on_failure": false,
-          "display_name": "Threat Response v2 - Enrich Observable",
+          "display_name": "Threat Response - Enrich Observable",
           "input": {
-            "variable_workflow_01LFCW7BK9JWU2I0o0vdWjBcKeGI9cTXwLT": "sha256",
-            "variable_workflow_01LFCW7BK9RRM61vI2vN9AXklLnXrOFOSdu": "$activity.definition_activity_01NS8QB6REKBH39KqGBvBT44LAtJHOkxZ3G.output.script_queries.sha256$",
-            "variable_workflow_01LFCW7BK9SW92Ai5bUZzG2IKUi6lVxRR2Z": "$activity.definition_activity_01NS8QBMA3ANL5EmKa5q82KzimlQl4RFg1b.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$"
+            "variable_workflow_01PP78TYDTQ2L5AWh7XpLPkXldkBYssq6SC": "$activity.definition_activity_01NS8QB6REKBH39KqGBvBT44LAtJHOkxZ3G.output.script_queries.sha256$",
+            "variable_workflow_01PP78TYDTTUQ6Qtv47uK5sgOFSbJ4b4Cno": "sha256",
+            "variable_workflow_01PP78TYDTV5R5JK6DtYaS5E95bWbZBstS5": "$activity.definition_activity_01NS8QBMA3ANL5EmKa5q82KzimlQl4RFg1b.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$"
           },
           "runtime_user": {
             "target_default": true
@@ -213,7 +213,7 @@
           "target": {
             "use_workflow_target_group": true
           },
-          "workflow_id": "definition_workflow_01LFCW7C2Q1BU6Szjo7JqBWHWPmevmW7uIn"
+          "workflow_id": "definition_workflow_01PP78TYLE76D6188QkWvzWydNU6L8PtlvS"
         },
         "object_type": "definition_activity"
       },
@@ -227,7 +227,7 @@
           "action_timeout": 180,
           "continue_on_failure": true,
           "display_name": "Extract the endpoint sightings",
-          "input_json": "$activity.definition_activity_01NS8QDTV5N506WmJ14BblNbmBIGgauSydn.output.variable_workflow_01LFCW7BK9PHR4US5QvFoxwf05w5gnBzrNU$",
+          "input_json": "$activity.definition_activity_01NS8QDTV5N506WmJ14BblNbmBIGgauSydn.output.variable_workflow_01PP78TYDTWG01QGHDq5uwDKdvEqS9CdcYg$",
           "jsonpath_queries": [
             {
               "jsonpath_query": "$.data[?(@.module == '$workflow.definition_workflow_01NS8Q78T90QI7lCpLw6wNvtsfGk0xwiQ6h.local.variable_workflow_01NS8Q78JPXEZ1XMq0vSN2BTMWIoKgFGZQ1$')].data.sightings",
@@ -280,7 +280,7 @@
                   "completion_type": "succeeded",
                   "continue_on_failure": false,
                   "display_name": "Completed",
-                  "result_message": "There weren't any sightings in Secure Endpoint for the hash $activity.definition_activity_01NS8QB6REKBH39KqGBvBT44LAtJHOkxZ3G.output.script_queries.sha256$",
+                  "result_message": "There weren't any sightings in Cisco Secure Endpoint for the hash $activity.definition_activity_01NS8QB6REKBH39KqGBvBT44LAtJHOkxZ3G.output.script_queries.sha256$",
                   "skip_execution": false
                 },
                 "object_type": "definition_activity"
@@ -314,7 +314,7 @@
           "action_timeout": 180,
           "continue_on_failure": false,
           "display_name": "Extract sighting data",
-          "script": "import sys, json, datetime\n\nsightings = sys.argv[1]\nsightings = json.loads(sightings)\n\nstartTime = datetime.datetime.strptime(sys.argv[2][:19], '%Y-%m-%dT%H:%M:%S')\n\nfileHash = sys.argv[3]\nenvironment = sys.argv[4]\n\nendpoints = []\noverflowEndpoints = []\n\n# Loop through each sighting\nfor sighting in sightings['docs']:\n\t# Did the sighting happen after the start time provided?\n\tif datetime.datetime.strptime(sighting['observed_time']['start_time'][:19], '%Y-%m-%dT%H:%M:%S') \u003e startTime:\n\t\t# Make sure the sighting has targets\n\t\tif 'targets' in sighting:\n\t\t\t# Loop through each target\n\t\t\tfor target in sighting['targets']:\n\t\t\t\tendpoint = { 'source_uri': sighting['source_uri'] }\n\t\t\t\t\n\t\t\t\t# Extract this target's hostname and computer GUID\n\t\t\t\tfor observable in target['observables']:\n\t\t\t\t\tif observable['type'] == 'hostname':\n\t\t\t\t\t\tendpoint['hostname'] = observable['value']\n\t\t\t\t\tif observable['type'] == 'amp_computer_guid':\n\t\t\t\t\t\tendpoint['amp_computer_guid'] = observable['value']\n\t\t\t\t\n\t\t\t\t# Add this target to a list (if it's not already in it)\n\t\t\t\tif len(endpoints) \u003c 25:\n\t\t\t\t\tif not endpoint in endpoints:\n\t\t\t\t\t\tendpoints.append(endpoint)\n\t\t\t\telif not endpoint in overflowEndpoints:\n\t\t\t\t\toverflowEndpoints.append(endpoint)\n\nmessageText = ''\n\nfor endpoint in endpoints:\n\tmessageText = messageText + \"\\n * [\" + endpoint['hostname'] + '](' + endpoint['source_uri'] + ')'\n\nif len(overflowEndpoints) \u003e 0:\n\tampUrl = 'https://console.'\n\t\n\tif environment == 'prod-eu':\n\t\tampUrl = ampUrl + 'eu.'\n\telif environment == 'prod-apjc':\n\t\tampUrl = ampUrl + 'apjc.'\n\t\n\tmessageText = messageText + \"\\n * \" + str(len(overflowEndpoints)) + ' additional endpoints had sightings but were truncated. [Click here](' + ampUrl + 'amp.cisco.com/search?query=' + fileHash + ') to view them in Secure Endpoint'",
+          "script": "import sys, json, datetime\n\nsightings = sys.argv[1]\nsightings = json.loads(sightings)\n\nstartTime = datetime.datetime.strptime(sys.argv[2][:19], '%Y-%m-%dT%H:%M:%S')\n\nfileHash = sys.argv[3]\nenvironment = sys.argv[4]\n\nendpoints = []\noverflowEndpoints = []\n\n# Loop through each sighting\nfor sighting in sightings['docs']:\n\t# Did the sighting happen after the start time provided?\n\tif datetime.datetime.strptime(sighting['observed_time']['start_time'][:19], '%Y-%m-%dT%H:%M:%S') > startTime:\n\t\t# Make sure the sighting has targets\n\t\tif 'targets' in sighting:\n\t\t\t# Loop through each target\n\t\t\tfor target in sighting['targets']:\n\t\t\t\tendpoint = { 'source_uri': sighting['source_uri'] }\n\t\t\t\t\n\t\t\t\t# Extract this target's hostname and computer GUID\n\t\t\t\tfor observable in target['observables']:\n\t\t\t\t\tif observable['type'] == 'hostname':\n\t\t\t\t\t\tendpoint['hostname'] = observable['value']\n\t\t\t\t\tif observable['type'] == 'amp_computer_guid':\n\t\t\t\t\t\tendpoint['amp_computer_guid'] = observable['value']\n\t\t\t\t\n\t\t\t\t# Add this target to a list (if it's not already in it)\n\t\t\t\tif len(endpoints) < 25:\n\t\t\t\t\tif not endpoint in endpoints:\n\t\t\t\t\t\tendpoints.append(endpoint)\n\t\t\t\telif not endpoint in overflowEndpoints:\n\t\t\t\t\toverflowEndpoints.append(endpoint)\n\nmessageText = ''\n\nfor endpoint in endpoints:\n\tmessageText = messageText + \"\\n * [\" + endpoint['hostname'] + '](' + endpoint['source_uri'] + ')'\n\nif len(overflowEndpoints) > 0:\n\tampUrl = 'https://console.'\n\t\n\tif environment == 'prod-eu':\n\t\tampUrl = ampUrl + 'eu.'\n\telif environment == 'prod-apjc':\n\t\tampUrl = ampUrl + 'apjc.'\n\t\n\tmessageText = messageText + \"\\n * \" + str(len(overflowEndpoints)) + ' additional endpoints had sightings but were truncated. [Click here](' + ampUrl + 'amp.cisco.com/search?query=' + fileHash + ') to view them in Secure Endpoint'",
           "script_arguments": [
             "$activity.definition_activity_01NS8QEM9VNZC61w6BrWYxsArHajTuOy9OE.output.jsonpath_queries.ampSightings$",
             "$activity.definition_activity_01NS8QGMKA3JU7K2gDjvqT5FDxwsQDh7mh3.output.result$",
@@ -359,68 +359,29 @@
             "object_type": "definition_activity",
             "actions": [
               {
-                "unique_name": "definition_activity_01NS8QIRQYA833RlGBAWblLKdKsTJSP4qSj",
-                "name": "Webex Teams - Search for Room",
-                "title": "Webex Teams - Search for Room",
-                "type": "workflow.atomic_workflow",
-                "base_type": "subworkflow",
-                "properties": {
-                  "continue_on_failure": true,
-                  "display_name": "Webex Teams - Search for Room",
-                  "input": {
-                    "variable_workflow_01FHMU6RWYQWI3QFUEzjWMT7JYBcz5vquuD": "",
-                    "variable_workflow_01FHMU6RWYWY822p43LeMi8Lcx89Q9jeyek": "$workflow.definition_workflow_01NS8Q78T90QI7lCpLw6wNvtsfGk0xwiQ6h.local.variable_workflow_01NS8Q78JPVSL2uNOTleTPcAyrBQYjBRm0N$",
-                    "variable_workflow_01FHMU6RWYY481TVWDm0BQ1p0rWnqak191l": "$workflow.definition_workflow_01NS8Q78T90QI7lCpLw6wNvtsfGk0xwiQ6h.local.variable_workflow_01NS8Q78JQ0PR5hwJ2hQGbSDJX0DRpZUazq$",
-                    "variable_workflow_01FHNGCYY2O6Z0NcPmUDabszT2P4P0oqMNd": ""
-                  },
-                  "runtime_user": {
-                    "target_default": true
-                  },
-                  "skip_execution": false,
-                  "target": {
-                    "override_workflow_target_group_criteria": true,
-                    "target_group": {
-                      "run_on_all_targets": false,
-                      "use_criteria": {
-                        "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-                        "conditions": [
-                          {
-                            "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-                            "operator": "eqi",
-                            "right_operand": "Webex Teams"
-                          }
-                        ]
-                      }
-                    }
-                  },
-                  "workflow_id": "definition_workflow_01FHMU6SD5XPL6eRW4zFXqkA1w8jWiQCIBU"
-                },
-                "object_type": "definition_activity"
-              },
-              {
-                "unique_name": "definition_activity_01NS8QJK3DULO5e5LUH7eqGUjCHCWWT5hkX",
+                "unique_name": "definition_activity_01QJ54HHJAFOI5dwzAq8gENV7LUanN7PJie",
                 "name": "Condition Block",
-                "title": "Was the room found?",
+                "title": "Was a teams room name provided?",
                 "type": "logic.if_else",
                 "base_type": "activity",
                 "properties": {
                   "continue_on_failure": false,
-                  "display_name": "Was the room found?",
+                  "display_name": "Was a teams room name provided?",
                   "skip_execution": false
                 },
                 "object_type": "definition_activity",
                 "blocks": [
                   {
-                    "unique_name": "definition_activity_01NS8QKCBV4NN2oEoKwDe0VLn3kXbotSL3A",
+                    "unique_name": "definition_activity_01QJ54HU2TMRI0xIfkusdRlKNkhgwVKinYa",
                     "name": "Condition Branch",
                     "title": "Yes",
                     "type": "logic.condition_block",
                     "base_type": "activity",
                     "properties": {
                       "condition": {
-                        "left_operand": "$activity.definition_activity_01NS8QIRQYA833RlGBAWblLKdKsTJSP4qSj.output.succeeded$",
-                        "operator": "eq",
-                        "right_operand": true
+                        "left_operand": "$workflow.definition_workflow_01NS8Q78T90QI7lCpLw6wNvtsfGk0xwiQ6h.local.variable_workflow_01NS8Q78JPVSL2uNOTleTPcAyrBQYjBRm0N$",
+                        "operator": "ne",
+                        "right_operand": ""
                       },
                       "continue_on_failure": false,
                       "display_name": "Yes",
@@ -429,19 +390,19 @@
                     "object_type": "definition_activity",
                     "actions": [
                       {
-                        "unique_name": "definition_activity_01NS8QKG1V04Y0g0yRh8WkDZgOoS2AzFxLC",
-                        "name": "Webex Teams - Post Message to Room",
-                        "title": "Webex Teams - Post Message to Room",
+                        "unique_name": "definition_activity_01NS8QIRQYA833RlGBAWblLKdKsTJSP4qSj",
+                        "name": "Webex Teams - Search for Room",
+                        "title": "Webex Teams - Search for Room",
                         "type": "workflow.atomic_workflow",
                         "base_type": "subworkflow",
                         "properties": {
-                          "continue_on_failure": false,
-                          "display_name": "Webex Teams - Post Message to Room",
+                          "continue_on_failure": true,
+                          "display_name": "Webex Teams - Search for Room",
                           "input": {
-                            "variable_workflow_01FGYY44G3MZ55amJu9YqgUeKS8GT49bZx3": "$workflow.definition_workflow_01NS8Q78T90QI7lCpLw6wNvtsfGk0xwiQ6h.local.variable_workflow_01NS8Q78JQ0PR5hwJ2hQGbSDJX0DRpZUazq$",
-                            "variable_workflow_01FGYY44G3TK951Crpnd8g2izonyM4bFtpW": "$activity.definition_activity_01NS8QIRQYA833RlGBAWblLKdKsTJSP4qSj.output.variable_workflow_01FHSVE2R6ZTQ6L92WEi0kWgR5T8zhMAUzO$",
-                            "variable_workflow_01FGYY44G3UPV3heGGc3vXCV47YL5WoI2X6": "",
-                            "variable_workflow_01FGYZ9BV4QTP19CuMwcW8QywvCP9ymx2BZ": "An investigation has been conducted in response to a Secure Endpoint retroactive detection event for the SHA256 hash `$activity.definition_activity_01NS8QB6REKBH39KqGBvBT44LAtJHOkxZ3G.output.script_queries.sha256$`. The verdict of the hash changed from `$activity.definition_activity_01NS8QB6REKBH39KqGBvBT44LAtJHOkxZ3G.output.script_queries.oldVerdict$` to `$activity.definition_activity_01NS8QB6REKBH39KqGBvBT44LAtJHOkxZ3G.output.script_queries.newVerdict$`.\n\nThe following endpoints have seen this file hash in the past 30 days:\n$activity.definition_activity_01NS8QHFALB8A6rinqwSEGIsxs2HoF3t3JB.output.script_queries.messageText$"
+                            "variable_workflow_01PP790MCX1DN3EitpQebkUyJS65DbwS3nU": "$workflow.definition_workflow_01NS8Q78T90QI7lCpLw6wNvtsfGk0xwiQ6h.local.variable_workflow_01NS8Q78JQ0PR5hwJ2hQGbSDJX0DRpZUazq$",
+                            "variable_workflow_01PP790MCXB392D3R8pxh9fgOTjTde2bcMW": "$workflow.definition_workflow_01NS8Q78T90QI7lCpLw6wNvtsfGk0xwiQ6h.local.variable_workflow_01NS8Q78JPVSL2uNOTleTPcAyrBQYjBRm0N$",
+                            "variable_workflow_01PP790MCXHP55YE6ylOEITWsWbUFJeyWGv": "",
+                            "variable_workflow_01PP790MCXM9W1MUwo85y8iNRCoQuQ4RGNa": ""
                           },
                           "runtime_user": {
                             "target_default": true
@@ -463,9 +424,83 @@
                               }
                             }
                           },
-                          "workflow_id": "definition_workflow_01FGYY44YU521254ygN3Le0In0kEHpiPNpf"
+                          "workflow_id": "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez"
                         },
                         "object_type": "definition_activity"
+                      },
+                      {
+                        "unique_name": "definition_activity_01NS8QJK3DULO5e5LUH7eqGUjCHCWWT5hkX",
+                        "name": "Condition Block",
+                        "title": "Was the room found?",
+                        "type": "logic.if_else",
+                        "base_type": "activity",
+                        "properties": {
+                          "continue_on_failure": false,
+                          "display_name": "Was the room found?",
+                          "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "blocks": [
+                          {
+                            "unique_name": "definition_activity_01NS8QKCBV4NN2oEoKwDe0VLn3kXbotSL3A",
+                            "name": "Condition Branch",
+                            "title": "Yes",
+                            "type": "logic.condition_block",
+                            "base_type": "activity",
+                            "properties": {
+                              "condition": {
+                                "left_operand": "$activity.definition_activity_01NS8QIRQYA833RlGBAWblLKdKsTJSP4qSj.output.succeeded$",
+                                "operator": "eq",
+                                "right_operand": true
+                              },
+                              "continue_on_failure": false,
+                              "display_name": "Yes",
+                              "skip_execution": false
+                            },
+                            "object_type": "definition_activity",
+                            "actions": [
+                              {
+                                "unique_name": "definition_activity_01NS8QKG1V04Y0g0yRh8WkDZgOoS2AzFxLC",
+                                "name": "Webex Teams - Post Message to Room",
+                                "title": "Webex Teams - Post Message to Room",
+                                "type": "workflow.atomic_workflow",
+                                "base_type": "subworkflow",
+                                "properties": {
+                                  "continue_on_failure": false,
+                                  "display_name": "Webex Teams - Post Message to Room",
+                                  "input": {
+                                    "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$activity.definition_activity_01NS8QIRQYA833RlGBAWblLKdKsTJSP4qSj.output.variable_workflow_01PP790MCXJ7Y5cAWcGZWbG4Es0126zb1I6$",
+                                    "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$workflow.definition_workflow_01NS8Q78T90QI7lCpLw6wNvtsfGk0xwiQ6h.local.variable_workflow_01NS8Q78JQ0PR5hwJ2hQGbSDJX0DRpZUazq$",
+                                    "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "An investigation has been conducted in response to a Secure Endpoint retroactive detection event for the SHA256 hash `$activity.definition_activity_01NS8QB6REKBH39KqGBvBT44LAtJHOkxZ3G.output.script_queries.sha256$`. The verdict of the hash changed from `$activity.definition_activity_01NS8QB6REKBH39KqGBvBT44LAtJHOkxZ3G.output.script_queries.oldVerdict$` to `$activity.definition_activity_01NS8QB6REKBH39KqGBvBT44LAtJHOkxZ3G.output.script_queries.newVerdict$`.\nThe following endpoints have seen this file hash in the past 30 days:\n$activity.definition_activity_01NS8QHFALB8A6rinqwSEGIsxs2HoF3t3JB.output.script_queries.messageText$",
+                                    "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": ""
+                                  },
+                                  "runtime_user": {
+                                    "target_default": true
+                                  },
+                                  "skip_execution": false,
+                                  "target": {
+                                    "override_workflow_target_group_criteria": true,
+                                    "target_group": {
+                                      "run_on_all_targets": false,
+                                      "use_criteria": {
+                                        "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                        "conditions": [
+                                          {
+                                            "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                            "operator": "eqi",
+                                            "right_operand": "Webex Teams"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  "workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw"
+                                },
+                                "object_type": "definition_activity"
+                              }
+                            ]
+                          }
+                        ]
                       }
                     ]
                   }
@@ -542,7 +577,7 @@
       "type": "event",
       "base_type": "trigger",
       "ref_id": "event_01NQL1QCR9SKH3TY0X6nN0VDF1DN5H1iGGf",
-      "version": "",
+      "version": "1.0.0",
       "disabled": true,
       "unique_name": "triggerevent_01NS8Q8TRDXYI68IK9jCBzzXNdvzaFo3fB1",
       "object_type": "triggerevent"
@@ -611,26 +646,16 @@
           "data_target_type": "email.smtp_endpoint",
           "view_target_type": "email.smtp_endpoint",
           "include_all_targets": true
-        },
-        {
-          "data_target_type": "terminal.endpoint",
-          "view_target_type": "terminal.endpoint",
-          "include_all_targets": true
-        },
-        {
-          "data_target_type": "aws.endpoint",
-          "view_target_type": "aws.endpoint",
-          "include_all_targets": true
         }
       ],
       "object_type": "target_group"
     }
   },
   "atomic_workflows": [
-    "definition_workflow_01KWJ2ISZTF2V6ibRYe7FZ7sOuycDOpnwss",
-    "definition_workflow_01LFCW7C2Q1BU6Szjo7JqBWHWPmevmW7uIn",
-    "definition_workflow_01FHMU6SD5XPL6eRW4zFXqkA1w8jWiQCIBU",
-    "definition_workflow_01FGYY44YU521254ygN3Le0In0kEHpiPNpf",
-    "definition_workflow_01MRIE3B3DNNQ3cdFSoyGkg1RnVsYA9VdZr"
+    "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH",
+    "definition_workflow_01MRIE3B3DNNQ3cdFSoyGkg1RnVsYA9VdZr",
+    "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw",
+    "definition_workflow_01PP78TYLE76D6188QkWvzWydNU6L8PtlvS",
+    "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez"
   ]
 }

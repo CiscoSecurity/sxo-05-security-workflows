@@ -23,6 +23,8 @@ Note: The link to download the file posted in Microsoft Teams contains a tempora
 ---
 
 ## Requirements
+* The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
+	* None
 * The following atomic actions must be imported before you can import this workflow:
 	* Microsoft Graph - Get Access Token ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
 	* Microsoft Teams - Post Message via Webhook ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
@@ -73,5 +75,5 @@ Target Group: `Default TargetGroup`
 
 | Account Key Name | Type | Details | Notes |
 |:-----------------|:-----|:--------|:------|
-| Tufin Credentials | HTTP Basic Authentication | _Username:_ Tufin Admin Username<br />_Password:_ Tufin Admin Password |  |
+| Tufin Credentials | HTTP Basic Authentication | _Username:_ Tufin Admin Username<br />_Password:_ Tufin Admin Password | |
 | Microsoft Graph API | HTTP Basic Authentication | _Username:_ Client ID<br />_Password:_ Client Secret | |

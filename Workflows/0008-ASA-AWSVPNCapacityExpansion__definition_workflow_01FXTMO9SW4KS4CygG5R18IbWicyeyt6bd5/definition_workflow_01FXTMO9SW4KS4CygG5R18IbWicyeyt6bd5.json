@@ -9,6 +9,34 @@
       {
         "schema_id": "datatype.string",
         "properties": {
+          "value": "approver@company.com",
+          "scope": "local",
+          "name": "Task Approver",
+          "type": "datatype.string",
+          "description": "The email address of the user who is  responsible for approving expansion requests",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01JR0BZ0COPME4u4tAN0SiVNbMsc9BqhFsz",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "SecureX Region",
+          "type": "datatype.string",
+          "description": "The region of SecureX you're using. This will be populated automatically",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01JR0D8A1N4MM5CeM1hvcmmfwcrdx7KNP7h",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
           "value": "",
           "scope": "local",
           "name": "Webex Teams Room Name",
@@ -25,41 +53,13 @@
         "properties": {
           "value": "",
           "scope": "local",
-          "name": "Webex Teams Bot Token",
+          "name": "Webex Teams Access Token",
           "type": "datatype.secure_string",
-          "description": "The access token to use to authenticate to the Webex Teams API",
+          "description": "The access token to use to authenticate to the Webex Teams API. Information about using a bot, which is what we recommend, can be found here: https://developer.webex.com/docs/bots",
           "is_required": false,
           "is_invisible": false
         },
         "unique_name": "variable_workflow_01KENW54APJT007wjtsBrVn7uCnNzTxARqG",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "us",
-          "scope": "local",
-          "name": "SecureX Region",
-          "type": "datatype.string",
-          "description": "The region of SecureX you're using. This should be: us, eu, or apjc",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01JR0D8A1N4MM5CeM1hvcmmfwcrdx7KNP7h",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "approver@company.com",
-          "scope": "local",
-          "name": "Task Approver",
-          "type": "datatype.string",
-          "description": "The email address of the user who is  responsible for approving expansion requests",
-          "is_required": true,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01JR0BZ0COPME4u4tAN0SiVNbMsc9BqhFsz",
         "object_type": "variable_workflow"
       }
     ],
@@ -68,7 +68,7 @@
         "is_atomic": false
       },
       "delete_workflow_instance": false,
-      "description": "This workflow demonstrates the ability to dynamically expand ASA head end capacity using Amazon EC2 if an existing ASA has VPN user load over 70%. If load is 70% or more, approval is requested using the built-in task/approval features within SecureX orchestration prior to AWS deployment.\n\nTargets: ASA VPN Target, AWS EC2 Target, Webex Teams\n\nSteps:\n[] Attempt to locate the Webex Teams room and get its ID\n[] SSH to the target ASA and get its VPN device load\n[] Check whether or not the load is 70% or more\n[]\u003e If the load is less than 70%, end the workflow\n[]\u003e If the load is 70% or more:\n[]\u003e\u003e Create an approval task\n[]\u003e\u003e Post a message to Webex Teams indicating an approval is required\n[]\u003e\u003e When a response is received, continue\n[]\u003e\u003e If approved, deploy a new ASAv using the AWS EC2 API and post a confirmation to Webex Teams with the new public IP address\n[]\u003e\u003e If denied, post a message to Webex Teams\n[]\u003e\u003e If expired, post a message to Webex Teams\n\nMore information: https://cs.co/SXO_docs",
+      "description": "This workflow demonstrates the ability to dynamically expand Cisco Adaptive Security Appliance (ASA) head end capacity using Amazon EC2 if an existing ASA has VPN user load over 70%. If load is 70% or more, approval is requested using the built-in task/approval features within SecureX orchestration prior to Amazon Web Services (AWS) deployment.\n\nTarget Group: Default TargetGroup\n\nTargets: ASA VPN Target, AWS EC2 Target, Webex Teams\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0008",
       "display_name": "0008 - ASA - AWS VPN Capacity Expansion",
       "runtime_user": {
         "override_target_runtime_user": false,
@@ -108,7 +108,6 @@
         "base_type": "activity",
         "properties": {
           "continue_on_failure": false,
-          "description": "If you have information stored in global variables, you can enable this group and use the set variables it contains to update your local variables with the global variable values",
           "display_name": "Fetch global variables",
           "skip_execution": true
         },
@@ -117,12 +116,12 @@
           {
             "unique_name": "definition_activity_01KEO0PDQ76KP58GtlQtUzs7U2YVgW1QQIi",
             "name": "Set Variables",
-            "title": "Set local variables",
+            "title": "Fetch global variables",
             "type": "core.set_multiple_variables",
             "base_type": "activity",
             "properties": {
               "continue_on_failure": false,
-              "display_name": "Set local variables",
+              "display_name": "Fetch global variables",
               "skip_execution": false,
               "variables_to_update": [
                 {
@@ -131,6 +130,138 @@
               ]
             },
             "object_type": "definition_activity"
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01QDYUX1FMNCH6gQA6m6o25SctaAcCCSY42",
+        "name": "Condition Block",
+        "title": "Set the environment URL",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Set the environment URL",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01QDYUX8S314M518ta5e9NQMa2jHknysrGp",
+            "name": "Condition Branch",
+            "title": "PROD-NAM",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG.env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG$",
+                "operator": "eqi",
+                "right_operand": "prod-nam"
+              },
+              "continue_on_failure": false,
+              "display_name": "PROD-NAM",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01QDYVFI5J3J756RxpmwOH1p1EgEBNevKBD",
+                "name": "Set Variables",
+                "title": "Set local environment variables",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Set local environment variables",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01JR0D8A1N4MM5CeM1hvcmmfwcrdx7KNP7h$",
+                      "variable_value_new": "us"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01QDYVWPIA71J4ou6coeMVRxVXIx9pHvpew",
+            "name": "Condition Branch",
+            "title": "PROD-EU",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG.env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG$",
+                "operator": "eqi",
+                "right_operand": "prod-eu"
+              },
+              "continue_on_failure": false,
+              "display_name": "PROD-EU",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01QDYVWQIIUZI1KqTFUj8XO627JDDtPvVEn",
+                "name": "Set Variables",
+                "title": "Set local environment variables",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Set local environment variables",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01JR0D8A1N4MM5CeM1hvcmmfwcrdx7KNP7h$",
+                      "variable_value_new": "eu"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01QDYW5B0NP4S7L49v2YWfYHZNRTS27yUBj",
+            "name": "Condition Branch",
+            "title": "PROD-APJC",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG.env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG$",
+                "operator": "eqi",
+                "right_operand": "prod-apjc"
+              },
+              "continue_on_failure": false,
+              "display_name": "PROD-APJC",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01QDYW5CBIEVM01rxncdXWRAHbZaOoxe16z",
+                "name": "Set Variables",
+                "title": "Set local environment variables",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Set local environment variables",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01JR0D8A1N4MM5CeM1hvcmmfwcrdx7KNP7h$",
+                      "variable_value_new": "apjc"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              }
+            ]
           }
         ]
       },
@@ -157,10 +288,10 @@
               "continue_on_failure": true,
               "display_name": "Webex Teams - Search for Room",
               "input": {
-                "variable_workflow_01FHMU6RWYQWI3QFUEzjWMT7JYBcz5vquuD": "",
-                "variable_workflow_01FHMU6RWYWY822p43LeMi8Lcx89Q9jeyek": "$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01KENWF5BYMOG6DyDbKBIy7R1KO9Ah0P9ts$",
-                "variable_workflow_01FHMU6RWYY481TVWDm0BQ1p0rWnqak191l": "$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01KENW54APJT007wjtsBrVn7uCnNzTxARqG$",
-                "variable_workflow_01FHNGCYY2O6Z0NcPmUDabszT2P4P0oqMNd": ""
+                "variable_workflow_01PP790MCX1DN3EitpQebkUyJS65DbwS3nU": "$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01KENW54APJT007wjtsBrVn7uCnNzTxARqG$",
+                "variable_workflow_01PP790MCXB392D3R8pxh9fgOTjTde2bcMW": "$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01KENWF5BYMOG6DyDbKBIy7R1KO9Ah0P9ts$",
+                "variable_workflow_01PP790MCXHP55YE6ylOEITWsWbUFJeyWGv": "",
+                "variable_workflow_01PP790MCXM9W1MUwo85y8iNRCoQuQ4RGNa": ""
               },
               "runtime_user": {
                 "target_default": true
@@ -182,7 +313,7 @@
                   }
                 }
               },
-              "workflow_id": "definition_workflow_01FHMU6SD5XPL6eRW4zFXqkA1w8jWiQCIBU"
+              "workflow_id": "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez"
             },
             "object_type": "definition_activity"
           },
@@ -412,10 +543,10 @@
                   "continue_on_failure": false,
                   "display_name": "Post Webex message about approval",
                   "input": {
-                    "variable_workflow_01FGYY44G3MZ55amJu9YqgUeKS8GT49bZx3": "$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01KENW54APJT007wjtsBrVn7uCnNzTxARqG$",
-                    "variable_workflow_01FGYY44G3TK951Crpnd8g2izonyM4bFtpW": "$activity.definition_activity_01KENWMY3JR774zzO8UHaWvROg6KOGXPYt4.output.variable_workflow_01FHSVE2R6ZTQ6L92WEi0kWgR5T8zhMAUzO$",
-                    "variable_workflow_01FGYY44G3UPV3heGGc3vXCV47YL5WoI2X6": "",
-                    "variable_workflow_01FGYZ9BV4QTP19CuMwcW8QywvCP9ymx2BZ": "AWS EC2 ASA approval request sent to $workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01JR0BZ0COPME4u4tAN0SiVNbMsc9BqhFsz$. [Click here](https://securex-ao.$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01JR0D8A1N4MM5CeM1hvcmmfwcrdx7KNP7h$.security.cisco.com/orch-ui/tasks/$activity.definition_activity_01FXTRWG12S052UdUDStzZF5UaNc94FQFDU.output.task_id$) to view the approval task"
+                    "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$activity.definition_activity_01KENWMY3JR774zzO8UHaWvROg6KOGXPYt4.output.variable_workflow_01PP790MCXJ7Y5cAWcGZWbG4Es0126zb1I6$",
+                    "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01KENW54APJT007wjtsBrVn7uCnNzTxARqG$",
+                    "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "AWS EC2 ASA approval request sent to $workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01JR0BZ0COPME4u4tAN0SiVNbMsc9BqhFsz$. [Click here](https://securex-ao.$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01JR0D8A1N4MM5CeM1hvcmmfwcrdx7KNP7h$.security.cisco.com/orch-ui/tasks/$activity.definition_activity_01FXTRWG12S052UdUDStzZF5UaNc94FQFDU.output.task_id$) to view the approval task",
+                    "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": ""
                   },
                   "runtime_user": {
                     "target_default": true
@@ -437,7 +568,7 @@
                       }
                     }
                   },
-                  "workflow_id": "definition_workflow_01FGYY44YU521254ygN3Le0In0kEHpiPNpf"
+                  "workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw"
                 },
                 "object_type": "definition_activity"
               },
@@ -548,10 +679,10 @@
                           "continue_on_failure": false,
                           "display_name": "Post Webex message with instance IP",
                           "input": {
-                            "variable_workflow_01FGYY44G3MZ55amJu9YqgUeKS8GT49bZx3": "$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01KENW54APJT007wjtsBrVn7uCnNzTxARqG$",
-                            "variable_workflow_01FGYY44G3TK951Crpnd8g2izonyM4bFtpW": "$activity.definition_activity_01KENWMY3JR774zzO8UHaWvROg6KOGXPYt4.output.variable_workflow_01FHSVE2R6ZTQ6L92WEi0kWgR5T8zhMAUzO$",
-                            "variable_workflow_01FGYY44G3UPV3heGGc3vXCV47YL5WoI2X6": "",
-                            "variable_workflow_01FGYZ9BV4QTP19CuMwcW8QywvCP9ymx2BZ": "A new EC2 ASA VPN head end has been deployed. The public IP address is $activity.definition_activity_01FXTSAVWVYR55GmIgPQv6Fm28Ukp9t5i2P.output.instances[0].public_ip_address$. [Click here](https://securex-ao.$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01JR0D8A1N4MM5CeM1hvcmmfwcrdx7KNP7h$.security.cisco.com/orch-ui/tasks/$activity.definition_activity_01FXTRWG12S052UdUDStzZF5UaNc94FQFDU.output.task_id$) to view the approval"
+                            "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$activity.definition_activity_01KENWMY3JR774zzO8UHaWvROg6KOGXPYt4.output.variable_workflow_01PP790MCXJ7Y5cAWcGZWbG4Es0126zb1I6$",
+                            "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01KENW54APJT007wjtsBrVn7uCnNzTxARqG$",
+                            "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "A new EC2 ASA VPN head end has been deployed. The public IP address is $activity.definition_activity_01FXTSAVWVYR55GmIgPQv6Fm28Ukp9t5i2P.output.instances[0].public_ip_address$. [Click here](https://securex-ao.$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01JR0D8A1N4MM5CeM1hvcmmfwcrdx7KNP7h$.security.cisco.com/orch-ui/tasks/$activity.definition_activity_01FXTRWG12S052UdUDStzZF5UaNc94FQFDU.output.task_id$) to view the approval",
+                            "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": ""
                           },
                           "runtime_user": {
                             "target_default": true
@@ -573,7 +704,7 @@
                               }
                             }
                           },
-                          "workflow_id": "definition_workflow_01FGYY44YU521254ygN3Le0In0kEHpiPNpf"
+                          "workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw"
                         },
                         "object_type": "definition_activity"
                       }
@@ -607,10 +738,10 @@
                           "continue_on_failure": false,
                           "display_name": "Post Webex message about rejection",
                           "input": {
-                            "variable_workflow_01FGYY44G3MZ55amJu9YqgUeKS8GT49bZx3": "$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01KENW54APJT007wjtsBrVn7uCnNzTxARqG$",
-                            "variable_workflow_01FGYY44G3TK951Crpnd8g2izonyM4bFtpW": "$activity.definition_activity_01KENWMY3JR774zzO8UHaWvROg6KOGXPYt4.output.variable_workflow_01FHSVE2R6ZTQ6L92WEi0kWgR5T8zhMAUzO$",
-                            "variable_workflow_01FGYY44G3UPV3heGGc3vXCV47YL5WoI2X6": "",
-                            "variable_workflow_01FGYZ9BV4QTP19CuMwcW8QywvCP9ymx2BZ": "Approval to deploy a new EC2 ASA VPN head end instance was denied. [Click here](https://securex-ao.$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01JR0D8A1N4MM5CeM1hvcmmfwcrdx7KNP7h$.security.cisco.com/orch-ui/tasks/$activity.definition_activity_01FXTRWG12S052UdUDStzZF5UaNc94FQFDU.output.task_id$) to view the denial"
+                            "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$activity.definition_activity_01KENWMY3JR774zzO8UHaWvROg6KOGXPYt4.output.variable_workflow_01PP790MCXJ7Y5cAWcGZWbG4Es0126zb1I6$",
+                            "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01KENW54APJT007wjtsBrVn7uCnNzTxARqG$",
+                            "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "Approval to deploy a new EC2 ASA VPN head end instance was denied. [Click here](https://securex-ao.$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01JR0D8A1N4MM5CeM1hvcmmfwcrdx7KNP7h$.security.cisco.com/orch-ui/tasks/$activity.definition_activity_01FXTRWG12S052UdUDStzZF5UaNc94FQFDU.output.task_id$) to view the denial",
+                            "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": ""
                           },
                           "runtime_user": {
                             "target_default": true
@@ -632,7 +763,7 @@
                               }
                             }
                           },
-                          "workflow_id": "definition_workflow_01FGYY44YU521254ygN3Le0In0kEHpiPNpf"
+                          "workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw"
                         },
                         "object_type": "definition_activity"
                       }
@@ -666,10 +797,10 @@
                           "continue_on_failure": false,
                           "display_name": "Post Webex message about expiration",
                           "input": {
-                            "variable_workflow_01FGYY44G3MZ55amJu9YqgUeKS8GT49bZx3": "$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01KENW54APJT007wjtsBrVn7uCnNzTxARqG$",
-                            "variable_workflow_01FGYY44G3TK951Crpnd8g2izonyM4bFtpW": "$activity.definition_activity_01KENWMY3JR774zzO8UHaWvROg6KOGXPYt4.output.variable_workflow_01FHSVE2R6ZTQ6L92WEi0kWgR5T8zhMAUzO$",
-                            "variable_workflow_01FGYY44G3UPV3heGGc3vXCV47YL5WoI2X6": "",
-                            "variable_workflow_01FGYZ9BV4QTP19CuMwcW8QywvCP9ymx2BZ": "Approval to deploy a new EC2 ASA VPN head end instance was not received before the request expired. [Click here](https://securex-ao..security.cisco.com/orch-ui/tasks/$activity.definition_activity_01FXTRWG12S052UdUDStzZF5UaNc94FQFDU.output.task_id$) to view the approval"
+                            "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$activity.definition_activity_01KENWMY3JR774zzO8UHaWvROg6KOGXPYt4.output.variable_workflow_01PP790MCXJ7Y5cAWcGZWbG4Es0126zb1I6$",
+                            "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01KENW54APJT007wjtsBrVn7uCnNzTxARqG$",
+                            "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "Approval to deploy a new EC2 ASA VPN head end instance was not received before the request expired. [Click here](https://securex-ao.$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01JR0D8A1N4MM5CeM1hvcmmfwcrdx7KNP7h$.security.cisco.com/orch-ui/tasks/$activity.definition_activity_01FXTRWG12S052UdUDStzZF5UaNc94FQFDU.output.task_id$) to view the approval",
+                            "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": ""
                           },
                           "runtime_user": {
                             "target_default": true
@@ -691,7 +822,7 @@
                               }
                             }
                           },
-                          "workflow_id": "definition_workflow_01FGYY44YU521254ygN3Le0In0kEHpiPNpf"
+                          "workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw"
                         },
                         "object_type": "definition_activity"
                       }
@@ -705,19 +836,8 @@
       }
     ],
     "categories": [
-      "category_01JFUQPO1XMLT66actth5nIPZxLCRDsgEXd"
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
     ]
-  },
-  "categories": {
-    "category_01JFUQPO1XMLT66actth5nIPZxLCRDsgEXd": {
-      "unique_name": "category_01JFUQPO1XMLT66actth5nIPZxLCRDsgEXd",
-      "name": "SecureX TME",
-      "title": "SecureX TME",
-      "type": "basic.category",
-      "base_type": "category",
-      "category_type": "custom",
-      "object_type": "category"
-    }
   },
   "target_groups": {
     "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
@@ -739,13 +859,13 @@
           "include_all_targets": true
         },
         {
-          "data_target_type": "terminal.endpoint",
-          "view_target_type": "terminal.endpoint",
+          "data_target_type": "aws.endpoint",
+          "view_target_type": "aws.endpoint",
           "include_all_targets": true
         },
         {
-          "data_target_type": "aws.endpoint",
-          "view_target_type": "aws.endpoint",
+          "data_target_type": "terminal.endpoint",
+          "view_target_type": "terminal.endpoint",
           "include_all_targets": true
         }
       ],
@@ -753,7 +873,7 @@
     }
   },
   "atomic_workflows": [
-    "definition_workflow_01FHMU6SD5XPL6eRW4zFXqkA1w8jWiQCIBU",
-    "definition_workflow_01FGYY44YU521254ygN3Le0In0kEHpiPNpf"
+    "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez",
+    "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw"
   ]
 }

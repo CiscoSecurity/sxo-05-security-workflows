@@ -17,17 +17,31 @@ Response Workflow
 {: .label }
 </div>
 
-This workflow should be triggered from a SecureX pivot menu and supports IP address, domain, and URL observables. When triggered, this workflow adds an observable to the configured destination list in Cisco Umbrella.
+This workflow adds an observable to the configured destination list in Cisco Umbrella. Supported observables: `ip`, `domain`
 
 [<i class="fab fa-github mr-1"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0017-Umbrella-AddToDestinationList__definition_workflow_01N8STV59EM7C519ZuO1Sx67ovm5MDpdBn5){: .btn-cisco-outline }
 
 ---
 
+## Change Log
+
+| Date | Notes |
+|:-----|:------|
+| Apr 1, 2021 | - Initial release |
+| September 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+
+_See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
+
+---
+
 ## Requirements
+* The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
+	* Umbrella - Management - Add Record to Destination List
+	* Umbrella - Management - Get Destination Lists
 * The following atomic actions must be imported before you can import this workflow:
-	* Umbrella - Management V1 - Add Record to Destination List ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
-	* Umbrella - Management V1 - Get Destination Lists ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
+	* None
 * The [targets](#targets) and [account keys](#account-keys) listed below
+* Cisco Umbrella
 
 ---
 

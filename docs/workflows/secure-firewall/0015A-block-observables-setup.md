@@ -14,16 +14,30 @@ Workflow #0015A
 {: .label }
 </div>
 
-This workflow creates a series of indicators and feeds for various observable types in SecureX Threat Response. These feeds can then be added to Cisco Secure Firewall (or other compatible platforms) to block observables.
+This workflow creates a series of indicators and feeds for various observable types in Cisco Threat Response. These feeds can then be added to Cisco Secure Firewall (or other compatible platforms) to block observables.
 
 [<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0015A-SecureFirewall-BlockObservablesSetup__definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX){: .btn-cisco-outline }
 
 ---
 
+## Change Log
+
+| Date | Notes |
+|:-----|:------|
+| Apr 19, 2021 | - Initial release |
+| September 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+
+_See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
+
+---
+
 ## Requirements
+* The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
+	* Threat Response - Generate Access Token
 * The following atomic actions must be imported before you can import this workflow:
-	* Threat Response v2 - Generate Access Token ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* None
 * The [targets](#targets) and [account keys](#account-keys) listed below
+* Cisco Secure Firewall
 
 ---
 
@@ -35,7 +49,6 @@ This workflow creates a series of indicators and feeds for various observable ty
 ---
 
 ## Workflow Steps
-
 1. Generate a Threat Response access token
 1. For each observable type:
 	* Search for an indicator for this observable type

@@ -1,41 +1,59 @@
 ---
 layout: page
-title: Move Computer to AMP Triage Group
+title: Move Computer to Triage Group
 permalink: /workflows/response/move-computer-triage
+redirect_from:
+  - /workflows/D004
 parent: Response Workflows
 grand_parent: Workflows
 ---
 
-# Move Computer to AMP Triage Group
+# Move Computer to Triage Group
 <div markdown="1">
+Out of Box
+{: .label }
+
 Response Workflow
 {: .label }
 </div>
 
-This workflow should be triggered from a SecureX pivot menu and supports IP address, hostname, and AMP computer GUID observables. When triggered, this workflow attempts to move the computer provided as the observable to the group configured in the workflow.
+This workflow will move the endpoint identified by the provided observable to a triage device group in Cisco Secure Endpoint. Supported observables: `ip`, `hostname`, `amp_computer_guid`
+
+---
+
+## Change Log
+
+| Date | Notes |
+|:-----|:------|
+| Jun 23, 2020 | - Initial release |
+| September 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+
+_See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 
 ---
 
 ## Requirements
+* The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
+	* Secure Endpoint - Get Connector GUID
+	* Secure Endpoint - Get Group by Name
+	* Secure Endpoint - Move Computer to Group
 * The following atomic actions must be imported before you can import this workflow:
-	* AMP - Get Connector GUID ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* AMP - Get Group by Name ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* AMP - Move Computer to Group ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* None
 * The [targets](#targets) and [account keys](#account-keys) listed below
-* An active AMP for Endpoints account
+* Cisco Secure Endpoint
 
 ---
 
 ## Workflow Steps
-1. Check that a supported observable was provided as input
-1. If a GUID wasn't provided, convert the observable provided into the computer's AMP GUID
-1. Look up the triage group provided and get its GUID
-1. Request the computer be moved to the triage group
+1. Make sure the observable is supported and set the corresponding local variable
+1. If the observable wasn't a computer GUID, try getting a GUID from Secure Endpoint
+1. Attempt to locate the triage group to get its ID
+1. Move the computer to the group
 
 ---
 
 ## Configuration
-* Provide the name of the group you want computers moved to in the `Triage Group Name` local variable
+* Set the `Triage Group Name` local variable to the name of the group you want to move computers to
 * If you want to change the name of this workflow in the pivot menu, change its display name
 
 ---

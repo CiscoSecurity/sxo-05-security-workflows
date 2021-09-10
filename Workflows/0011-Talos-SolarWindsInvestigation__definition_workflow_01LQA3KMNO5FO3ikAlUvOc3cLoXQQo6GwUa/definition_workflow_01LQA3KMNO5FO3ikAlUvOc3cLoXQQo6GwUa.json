@@ -9,15 +9,15 @@
       {
         "schema_id": "datatype.string",
         "properties": {
-          "value": "[]",
+          "value": "https://blog.talosintelligence.com/2020/12/solarwinds-supplychain-coverage.html",
           "scope": "local",
-          "name": "Targets",
+          "name": "Blog Post URL",
           "type": "datatype.string",
-          "description": "Placeholder for a list of targets from your Threat Response module sightings",
-          "is_required": false,
+          "description": "The URL of the blog post to investigate. In this workflow, we hard-code this to the post about the SolarWinds supply chain attack",
+          "is_required": true,
           "is_invisible": false
         },
-        "unique_name": "variable_workflow_01LQA3KM7NB162pOsKvh0MYscpUAdDCmsAu",
+        "unique_name": "variable_workflow_01LQA3KM7NC2U361aXK4jC2A22tI9NKsLN5",
         "object_type": "variable_workflow"
       },
       {
@@ -37,15 +37,29 @@
       {
         "schema_id": "datatype.string",
         "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "Webex Teams Room Name",
+          "type": "datatype.string",
+          "description": "The name of the Webex Teams room to post messages to. If using a bot, make sure to invite your bot to the room before attempting to send messages. If you don't want to use Webex, leave this blank",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01LQA3KM7NGBB54aYNtHzu1k3WgZbA48VAJ",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
           "value": "[]",
           "scope": "local",
-          "name": "Non-Clean Observables",
+          "name": "Targets",
           "type": "datatype.string",
-          "description": "Placeholder for storing a list of non-clean observables found during the investigation. This includes observables with a disposition of suspicious, malicious, or unknown",
+          "description": "Placeholder for a list of targets from your Threat Response module sightings. This will be populated automatically",
           "is_required": false,
           "is_invisible": false
         },
-        "unique_name": "variable_workflow_01LQA3KM7N0ZQ5yh05yjpFd1QJPphky11Tc",
+        "unique_name": "variable_workflow_01LQA3KM7NB162pOsKvh0MYscpUAdDCmsAu",
         "object_type": "variable_workflow"
       },
       {
@@ -53,69 +67,13 @@
         "properties": {
           "value": "",
           "scope": "local",
-          "name": "SecureX Environment URL",
+          "name": "Secure Endpoint Module ID",
           "type": "datatype.string",
-          "description": "Placeholder for the URL of the SecureX environment being used. You don't need to provide this, it will be fetched automatically",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01LQA3KM7NE8X4BL0sVq1TGXb38LXv7GO0y",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "local",
-          "name": "AMP Module ID",
-          "type": "datatype.string",
-          "description": "Placeholder for the instance ID of your AMP module from Threat Response. You don't need to provide this, it will be fetched automatically",
+          "description": "Placeholder for the instance ID of your Secure Endpoint\n module from Threat Response. This will be populated automatically",
           "is_required": false,
           "is_invisible": false
         },
         "unique_name": "variable_workflow_01LQA3KM7N2782rAj75kNVVS1dkh5ZfKEEn",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.date",
-        "properties": {
-          "value": "0001-01-01T00:00:00+00:00",
-          "scope": "local",
-          "name": "Threat Response Token Time",
-          "type": "datatype.date",
-          "description": "The time at which the Threat Response access token was last fetched. This is used to determine when it's time to fetch a new token and should not be modified",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01LQA3KM7N5ID7MkEJtOfSycDExS14JxOXn",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "mycompany.service-now.com",
-          "scope": "local",
-          "name": "ServiceNow Instance URL",
-          "type": "datatype.string",
-          "description": "The URL of your ServiceNow instance. For example: mycompany.service-now.com",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01LQA3KM7N8QT7PLkRLBev75d0XTL3nIW9o",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.secure_string",
-        "properties": {
-          "value": "",
-          "scope": "local",
-          "name": "Threat Response Access Token",
-          "type": "datatype.secure_string",
-          "description": "Placeholder for the Threat Response access token. This token will be fetched as needed throughout the workflow and this variable should not be modified",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01LQA3KM7N3AC7b0MjcdtjGf0hEOwXgILQN",
         "object_type": "variable_workflow"
       },
       {
@@ -135,43 +93,43 @@
       {
         "schema_id": "datatype.string",
         "properties": {
-          "value": "securex-operations",
+          "value": "mycompany.service-now.com",
           "scope": "local",
-          "name": "Slack Channel",
+          "name": "ServiceNow Instance URL",
           "type": "datatype.string",
-          "description": "The name of the Slack channel to post messages to. If you don't want to use Slack, leave this blank",
+          "description": "The URL of your ServiceNow instance. For example: mycompany.service-now.com",
           "is_required": false,
           "is_invisible": false
         },
-        "unique_name": "variable_workflow_01LQA3KM7NFA53LeWYM0XIDGYR88m9OCoIM",
+        "unique_name": "variable_workflow_01LQA3KM7N8QT7PLkRLBev75d0XTL3nIW9o",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.date",
+        "properties": {
+          "value": "0001-01-01T00:00:00+00:00",
+          "scope": "local",
+          "name": "Threat Response Token Time",
+          "type": "datatype.date",
+          "description": "The time at which the Threat Response access token was last fetched. This is used to determine when it's time to fetch a new token and should not be modified",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01LQA3KM7N5ID7MkEJtOfSycDExS14JxOXn",
         "object_type": "variable_workflow"
       },
       {
         "schema_id": "datatype.string",
         "properties": {
-          "value": "https://blog.talosintelligence.com/2020/12/solarwinds-supplychain-coverage.html",
+          "value": "",
           "scope": "local",
-          "name": "Blog Post URL",
+          "name": "Remediation Text",
           "type": "datatype.string",
-          "description": "The URL of the blog post to investigate. In this workflow, we hard-code this to the post about the SolarWinds supply chain attack",
-          "is_required": true,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01LQA3KM7NC2U361aXK4jC2A22tI9NKsLN5",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "SecureX orchestration",
-          "scope": "local",
-          "name": "Webex Teams Room Name",
-          "type": "datatype.string",
-          "description": "The name of the Webex Teams room to post messages to. If using a bot, make sure to invite your bot to the room before attempting to send messages. If you don't want to use Webex, leave this blank",
+          "description": "Placeholder used to assemble information about the remediation actions taken. This will be populated automatically",
           "is_required": false,
           "is_invisible": false
         },
-        "unique_name": "variable_workflow_01LQA3KM7NGBB54aYNtHzu1k3WgZbA48VAJ",
+        "unique_name": "variable_workflow_01LQC9H7M8IQL34YBcsXA3Wt2NHkqNohzeX",
         "object_type": "variable_workflow"
       },
       {
@@ -195,7 +153,7 @@
           "scope": "local",
           "name": "Sightings",
           "type": "datatype.string",
-          "description": "Placeholder for a list of sightings from your Threat Response modules",
+          "description": "Placeholder for a list of sightings from your Threat Response modules. This will be populated automatically",
           "is_required": false,
           "is_invisible": false
         },
@@ -207,13 +165,27 @@
         "properties": {
           "value": "",
           "scope": "local",
-          "name": "Remediation Text",
+          "name": "SecureX Environment URL",
           "type": "datatype.string",
-          "description": "Placeholder used to assemble information about the remediation actions taken",
+          "description": "Placeholder for the URL of the SecureX environment being used. This will be populated automatically",
           "is_required": false,
           "is_invisible": false
         },
-        "unique_name": "variable_workflow_01LQC9H7M8IQL34YBcsXA3Wt2NHkqNohzeX",
+        "unique_name": "variable_workflow_01LQA3KM7NE8X4BL0sVq1TGXb38LXv7GO0y",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "[]",
+          "scope": "local",
+          "name": "Non-Clean Observables",
+          "type": "datatype.string",
+          "description": "A JSON-formatted list of observables that have a disposition of unknown, suspicious, or malicious. This will be populated automatically",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01LQA3KM7N0ZQ5yh05yjpFd1QJPphky11Tc",
         "object_type": "variable_workflow"
       },
       {
@@ -231,13 +203,41 @@
         "object_type": "variable_workflow"
       },
       {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "Threat Response Access Token",
+          "type": "datatype.secure_string",
+          "description": "Placeholder for the Threat Response access token. This token will be fetched as needed throughout the workflow and this variable should not be modified",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01LQA3KM7N3AC7b0MjcdtjGf0hEOwXgILQN",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "Slack Channel",
+          "type": "datatype.string",
+          "description": "The name of the Slack channel to post messages to. If you don't want to use Slack, leave this blank",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01LQA3KM7NFA53LeWYM0XIDGYR88m9OCoIM",
+        "object_type": "variable_workflow"
+      },
+      {
         "schema_id": "datatype.string",
         "properties": {
           "value": "",
           "scope": "local",
           "name": "Umbrella Module ID",
           "type": "datatype.string",
-          "description": "Placeholder for the instance ID of your Umbrella module from Threat Response. You don't need to provide this, it will be fetched automatically",
+          "description": "Placeholder for the instance ID of your Umbrella module from Threat Response. This will be populated automatically",
           "is_required": false,
           "is_invisible": false
         },
@@ -250,7 +250,7 @@
         "is_atomic": false
       },
       "delete_workflow_instance": false,
-      "description": "This workflow uses a Talos blog post about the SolarWinds supply chain attack as a source of intelligence. Using observables extracted from the blog post, it conducts an investigation and looks for sightings within your environment. If there are sightings, a variety of actions are taken including creating a Threat Response incident and casebook, creating a ServiceNow incident, sending a Webex Teams message, sending a message on Slack, and sending an email. The workflow also supports automated remediation (with approval). If the resulting approval task is approved, unknown or suspicious file hashes and domains are blocked using AMP and Umbrella respectively. If there are any target endpoints, Orbital is used to take a forensic snapshot and AMP is used to enable host isolation.\n\nTarget Group: Default TargetGroup\n\nTargets Used: CTR_For_Access_Token, CTR_API, Orbital_For_Access_Token, Email Endpoint, Orbital_Target, Private_CTIA_Target, ServiceNow, Slack, Webex Teams\n\nSteps:\nPlease see: https://cs.co/SXO_docs",
+      "description": "This workflow uses a Talos blog post about the SolarWinds supply chain attack as a source of intelligence. Using observables extracted from the blog post, it conducts an investigation and looks for sightings within your environment. If there are sightings, a variety of actions are taken including creating a Cisco SecureX incident and casebook, creating a ServiceNow incident, sending a Webex Teams message, sending a message on Slack, and sending an email. The workflow also supports automated remediation (with approval). If the resulting approval task is approved, unknown or suspicious file hashes and domains are blocked using Cisco Secure Endpoint and Umbrella respectively. If there are any target endpoints, Cisco Orbital is used to take a forensic snapshot and Secure Endpoint is used to enable host isolation.\n\nTarget Group: Default TargetGroup\n\nTargets Used: See documentation\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0011",
       "display_name": "0011 - Talos - SolarWinds Investigation",
       "runtime_user": {
         "override_target_runtime_user": false,
@@ -289,7 +289,6 @@
         "base_type": "activity",
         "properties": {
           "continue_on_failure": false,
-          "description": "If you have information stored in global variables, you can enable this group and use the set variables it contains to update your local variables with the global variable values",
           "display_name": "Fetch global variables",
           "skip_execution": true
         },
@@ -298,12 +297,12 @@
           {
             "unique_name": "definition_activity_01LQA3LLNJRTF20t7gBOgVv4piZEmFMZPwi",
             "name": "Set Variables",
-            "title": "Set local variables",
+            "title": "Fetch global variables",
             "type": "core.set_multiple_variables",
             "base_type": "activity",
             "properties": {
-              "continue_on_failure": true,
-              "display_name": "Set local variables",
+              "continue_on_failure": false,
+              "display_name": "Fetch global variables",
               "skip_execution": false,
               "variables_to_update": [
                 {
@@ -336,7 +335,7 @@
           {
             "unique_name": "definition_activity_01LQA3M23IU2F2yidm7otUfSVEx2EoU4QMy",
             "name": "Condition Branch",
-            "title": "Prod NAM",
+            "title": "PROD-NAM",
             "type": "logic.condition_block",
             "base_type": "activity",
             "properties": {
@@ -346,7 +345,7 @@
                 "right_operand": "prod-nam"
               },
               "continue_on_failure": false,
-              "display_name": "Prod NAM",
+              "display_name": "PROD-NAM",
               "skip_execution": false
             },
             "object_type": "definition_activity",
@@ -379,7 +378,7 @@
           {
             "unique_name": "definition_activity_01LQA3MHP475F0uJUucDVDAob1iHorXYWpk",
             "name": "Condition Branch",
-            "title": "Prod EU",
+            "title": "PROD-EU",
             "type": "logic.condition_block",
             "base_type": "activity",
             "properties": {
@@ -389,7 +388,7 @@
                 "right_operand": "prod-eu"
               },
               "continue_on_failure": false,
-              "display_name": "Prod EU",
+              "display_name": "PROD-EU",
               "skip_execution": false
             },
             "object_type": "definition_activity",
@@ -422,7 +421,7 @@
           {
             "unique_name": "definition_activity_01LQA3MV5U1RZ24K9qb5g9KiAhpT1SMx4EL",
             "name": "Condition Branch",
-            "title": "Prod APJC",
+            "title": "PROD-APJC",
             "type": "logic.condition_block",
             "base_type": "activity",
             "properties": {
@@ -432,7 +431,7 @@
                 "right_operand": "prod-apjc"
               },
               "continue_on_failure": false,
-              "display_name": "Prod APJC",
+              "display_name": "PROD-APJC",
               "skip_execution": false
             },
             "object_type": "definition_activity",
@@ -455,49 +454,6 @@
                     {
                       "variable_to_update": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7ND6U6I8MfIQxnmWNMQtwf9dvPk$",
                       "variable_value_new": "visibility.apjc.amp.cisco.com"
-                    }
-                  ]
-                },
-                "object_type": "definition_activity"
-              }
-            ]
-          },
-          {
-            "unique_name": "definition_activity_01LQA3N87LGA5499rvbeMXlmBFZNiMdtoD2",
-            "name": "Condition Branch",
-            "title": "INT",
-            "type": "logic.condition_block",
-            "base_type": "activity",
-            "properties": {
-              "condition": {
-                "left_operand": "$env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG.env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG$",
-                "operator": "eqi",
-                "right_operand": "int"
-              },
-              "continue_on_failure": false,
-              "display_name": "INT",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity",
-            "actions": [
-              {
-                "unique_name": "definition_activity_01LQA3NEVODMJ3X4EbgGHA56McIgFiMJYlM",
-                "name": "Set Variables",
-                "title": "Set local environment variables",
-                "type": "core.set_multiple_variables",
-                "base_type": "activity",
-                "properties": {
-                  "continue_on_failure": false,
-                  "display_name": "Set local environment variables",
-                  "skip_execution": false,
-                  "variables_to_update": [
-                    {
-                      "variable_to_update": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7NE8X4BL0sVq1TGXb38LXv7GO0y$",
-                      "variable_value_new": "ao.int.iroh.site"
-                    },
-                    {
-                      "variable_to_update": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7ND6U6I8MfIQxnmWNMQtwf9dvPk$",
-                      "variable_value_new": "visibility.int.iroh.site"
                     }
                   ]
                 },
@@ -530,7 +486,7 @@
               "action_timeout": 180,
               "continue_on_failure": true,
               "display_name": "Fetch and clean blog post",
-              "script": "import sys,re,requests\n\n# Get the blog post URL from the script input\nblogUrl = sys.argv[1]\n\n# Request the content of the blog post\nblogRequest = requests.get(blogUrl, headers={ 'User-Agent': 'SecureX/definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa' })\n\n# Make sure the request was successful\nif not blogRequest.status_code == 200:\n    sys.exit(\"Unable to fetch blog content. HTTP code \" + blogRequest.status_code)\n\n# Extract the HTML of the blog post\nblogHtml = blogRequest.text\n\n# Default the blog post to being unavailable in case we can't find it\npostTitle = \"Post Title Unavailable\"\n\n# Attempt to extract the blog post title from the HTML\ntitleMatches = re.search(r'\u003ctitle\u003e([^\u003c]+)\u003c\\/title\u003e', blogHtml, re.MULTILINE)\nif titleMatches:\n    # We found a \u003ctitle\u003e tag, so use that as the title\n    postTitle = titleMatches.group(1)\n    postTitle = postTitle[(postTitle.find(\":\") + 2):]\n    postTitle = postTitle.replace(\"\\\"\", \"'\")\n\n# Strip \u003cscript /\u003e tags\nblogHtml = re.sub(r'\u003cscript\\b[^\u003c]*(?:(?!\u003c\\/script\u003e)\u003c[^\u003c]*)*\u003c\\/script\u003e', '', str(blogHtml), flags=re.DOTALL)\n\n# Strip \u003cstyle /\u003e tags\nblogHtml = re.sub(r'\u003cstyle\\b[^\u003c]*(?:(?!\u003c\\/style\u003e)\u003c[^\u003c]*)*\u003c\\/style\u003e', '', blogHtml, flags=re.DOTALL)\n\n# Strip other HTML\nblogHtml = re.sub(r'\u003c[^\u003c]+?\u003e', '', blogHtml, flags=re.DOTALL)\n\n# Replace new lines with a space\nblogHtml = blogHtml.replace(\"\\n\", \" \")",
+              "script": "import sys,re,requests\n\n# Get the blog post URL from the script input\nblogUrl = sys.argv[1]\n\n# Request the content of the blog post\nblogRequest = requests.get(blogUrl, headers={ 'User-Agent': 'SecureX/definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa' })\n\n# Make sure the request was successful\nif not blogRequest.status_code == 200:\n    sys.exit(\"Unable to fetch blog content. HTTP code \" + blogRequest.status_code)\n\n# Extract the HTML of the blog post\nblogHtml = blogRequest.text\n\n# Default the blog post to being unavailable in case we can't find it\npostTitle = \"Post Title Unavailable\"\n\n# Attempt to extract the blog post title from the HTML\ntitleMatches = re.search(r'<title>([^<]+)<\\/title>', blogHtml, re.MULTILINE)\nif titleMatches:\n    # We found a <title> tag, so use that as the title\n    postTitle = titleMatches.group(1)\n    postTitle = postTitle[(postTitle.find(\":\") + 2):]\n    postTitle = postTitle.replace(\"\\\"\", \"'\")\n\n# Strip <script /> tags\nblogHtml = re.sub(r'<script\\b[^<]*(?:(?!<\\/script>)<[^<]*)*<\\/script>', '', str(blogHtml), flags=re.DOTALL)\n\n# Strip <style /> tags\nblogHtml = re.sub(r'<style\\b[^<]*(?:(?!<\\/style>)<[^<]*)*<\\/style>', '', blogHtml, flags=re.DOTALL)\n\n# Strip other HTML\nblogHtml = re.sub(r'<[^<]+?>', '', blogHtml, flags=re.DOTALL)\n\n# Replace new lines with a space\nblogHtml = blogHtml.replace(\"\\n\", \" \")",
               "script_arguments": [
                 "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7NC2U361aXK4jC2A22tI9NKsLN5$"
               ],
@@ -617,13 +573,13 @@
         "actions": [
           {
             "unique_name": "definition_activity_01LQA3OVCZBBC3zJW0wvVLed3Rv8onCOxY1",
-            "name": "Threat Response v2 - Generate Access Token",
-            "title": "Threat Response v2 - Generate Access Token",
+            "name": "Threat Response - Generate Access Token",
+            "title": "Threat Response - Generate Access Token",
             "type": "workflow.atomic_workflow",
             "base_type": "subworkflow",
             "properties": {
               "continue_on_failure": false,
-              "display_name": "Threat Response v2 - Generate Access Token",
+              "display_name": "Threat Response - Generate Access Token",
               "runtime_user": {
                 "target_default": true
               },
@@ -644,7 +600,7 @@
                   }
                 }
               },
-              "workflow_id": "definition_workflow_01KWJ2ISZTF2V6ibRYe7FZ7sOuycDOpnwss"
+              "workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
             },
             "object_type": "definition_activity"
           },
@@ -661,7 +617,7 @@
               "variables_to_update": [
                 {
                   "variable_to_update": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N3AC7b0MjcdtjGf0hEOwXgILQN$",
-                  "variable_value_new": "$activity.definition_activity_01LQA3OVCZBBC3zJW0wvVLed3Rv8onCOxY1.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$"
+                  "variable_value_new": "$activity.definition_activity_01LQA3OVCZBBC3zJW0wvVLed3Rv8onCOxY1.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$"
                 },
                 {
                   "variable_to_update": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N5ID7MkEJtOfSycDExS14JxOXn$",
@@ -673,16 +629,16 @@
           },
           {
             "unique_name": "definition_activity_01LQA3PGOF1ZM5iMIryG1R8maaxUm6kEHFQ",
-            "name": "Threat Response v2 - Inspect for Observables",
-            "title": "Threat Response v2 - Inspect for Observables",
+            "name": "Threat Response - Inspect for Observables",
+            "title": "Threat Response - Inspect for Observables",
             "type": "workflow.atomic_workflow",
             "base_type": "subworkflow",
             "properties": {
               "continue_on_failure": false,
-              "display_name": "Threat Response v2 - Inspect for Observables",
+              "display_name": "Threat Response - Inspect for Observables",
               "input": {
-                "variable_workflow_01KXGKYZX7V1M2gr9pVGA5BZoTbgEQPSzF1": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N3AC7b0MjcdtjGf0hEOwXgILQN$",
-                "variable_workflow_01KXGKYZX7ZLN1hoeZeh7hwWyjoEUkSJCbg": "$activity.definition_activity_01LQA3NW9YXAR54vSsJE7BprwY6HaX5r3t9.output.script_queries.blogHtml$"
+                "variable_workflow_01PP7586F8ITB1sT6OpDzEF79wnWVOJk1N5": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N3AC7b0MjcdtjGf0hEOwXgILQN$",
+                "variable_workflow_01PP7586F8MQB2tFYbNgQC7xGbC7ZoXrOxR": "$activity.definition_activity_01LQA3NW9YXAR54vSsJE7BprwY6HaX5r3t9.output.script_queries.blogHtml$"
               },
               "runtime_user": {
                 "target_default": true
@@ -691,7 +647,7 @@
               "target": {
                 "use_workflow_target_group": true
               },
-              "workflow_id": "definition_workflow_01KXGKZ0JA96P0p7omD4IdS6zKdw5ECiofU"
+              "workflow_id": "definition_workflow_01PP7586MYQ913P0nWshTHMU7mQNNFG58Bv"
             },
             "object_type": "definition_activity"
           },
@@ -705,7 +661,7 @@
               "action_timeout": 180,
               "continue_on_failure": true,
               "display_name": "Test for results",
-              "input_json": "$activity.definition_activity_01LQA3PGOF1ZM5iMIryG1R8maaxUm6kEHFQ.output.variable_workflow_01KXGKYZX80T50ocjT0xlIvdikhoR0AGB5u$",
+              "input_json": "$activity.definition_activity_01LQA3PGOF1ZM5iMIryG1R8maaxUm6kEHFQ.output.variable_workflow_01PP7586F8O067JBDnBPz8ZD5XctKNSenEX$",
               "jsonpath_queries": [
                 {
                   "jsonpath_query": "$.[0].value",
@@ -777,7 +733,7 @@
               "action_timeout": 180,
               "continue_on_failure": false,
               "display_name": "Convert list of observables to table",
-              "input_json": "$activity.definition_activity_01LQA3PGOF1ZM5iMIryG1R8maaxUm6kEHFQ.output.variable_workflow_01KXGKYZX80T50ocjT0xlIvdikhoR0AGB5u$",
+              "input_json": "$activity.definition_activity_01LQA3PGOF1ZM5iMIryG1R8maaxUm6kEHFQ.output.variable_workflow_01PP7586F8O067JBDnBPz8ZD5XctKNSenEX$",
               "jsonpath_query": "$.*",
               "persist_output": true,
               "populate_columns": false,
@@ -830,17 +786,17 @@
             "actions": [
               {
                 "unique_name": "definition_activity_01LQA3RAAE9J52yk8w4sWVmtN7bMq67yvEc",
-                "name": "Threat Response v2 - Deliberate Observable",
-                "title": "Threat Response v2 - Deliberate Observable",
+                "name": "Threat Response - Deliberate Observable",
+                "title": "Threat Response - Deliberate Observable",
                 "type": "workflow.atomic_workflow",
                 "base_type": "subworkflow",
                 "properties": {
                   "continue_on_failure": false,
-                  "display_name": "Threat Response v2 - Deliberate Observable",
+                  "display_name": "Threat Response - Deliberate Observable",
                   "input": {
-                    "variable_workflow_01KXGQWL4TDTE02Mxh65PHxstnnK3wTcCF2": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N3AC7b0MjcdtjGf0hEOwXgILQN$",
-                    "variable_workflow_01KXGQWL4THYI5hexa4Ip4LW0UZIJhk4ejv": "$activity.definition_activity_01LQA3QY4M5341k2MkGBmoAP64JkxuOtdBd.input.source_array[@].type$",
-                    "variable_workflow_01KXGQWL4TLPV5NbUAlHHHQUcco57lEijh9": "$activity.definition_activity_01LQA3QY4M5341k2MkGBmoAP64JkxuOtdBd.input.source_array[@].value$"
+                    "variable_workflow_01PP77MLJ2S465LuOvU8mlP8mbbcgy9uTXN": "$activity.definition_activity_01LQA3QY4M5341k2MkGBmoAP64JkxuOtdBd.input.source_array[@].type$",
+                    "variable_workflow_01PP77MLJ2XIE1H3D67PjcsCuGBsKCCBxLI": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N3AC7b0MjcdtjGf0hEOwXgILQN$",
+                    "variable_workflow_01PP77MLJ2ZVU1C4VxEfKYh2tlFk9iTx69p": "$activity.definition_activity_01LQA3QY4M5341k2MkGBmoAP64JkxuOtdBd.input.source_array[@].value$"
                   },
                   "runtime_user": {
                     "target_default": true
@@ -849,7 +805,7 @@
                   "target": {
                     "use_workflow_target_group": true
                   },
-                  "workflow_id": "definition_workflow_01KXGQWLMIDXG563x6DBOvwjfxpH8JrkaRW"
+                  "workflow_id": "definition_workflow_01PP77MLQ4QAG765OwlT0ZDqBzv80HvYuPC"
                 },
                 "object_type": "definition_activity"
               },
@@ -914,13 +870,13 @@
                         "actions": [
                           {
                             "unique_name": "definition_activity_01LQA3SF80BP41T2CwGrMuBqPjR8EEbQPrc",
-                            "name": "Threat Response v2 - Generate Access Token",
-                            "title": "Threat Response v2 - Generate Access Token",
+                            "name": "Threat Response - Generate Access Token",
+                            "title": "Threat Response - Generate Access Token",
                             "type": "workflow.atomic_workflow",
                             "base_type": "subworkflow",
                             "properties": {
                               "continue_on_failure": false,
-                              "display_name": "Threat Response v2 - Generate Access Token",
+                              "display_name": "Threat Response - Generate Access Token",
                               "runtime_user": {
                                 "target_default": true
                               },
@@ -941,7 +897,7 @@
                                   }
                                 }
                               },
-                              "workflow_id": "definition_workflow_01KWJ2ISZTF2V6ibRYe7FZ7sOuycDOpnwss"
+                              "workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
                             },
                             "object_type": "definition_activity"
                           },
@@ -958,7 +914,7 @@
                               "variables_to_update": [
                                 {
                                   "variable_to_update": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N3AC7b0MjcdtjGf0hEOwXgILQN$",
-                                  "variable_value_new": "$activity.definition_activity_01LQA3SF80BP41T2CwGrMuBqPjR8EEbQPrc.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$"
+                                  "variable_value_new": "$activity.definition_activity_01LQA3SF80BP41T2CwGrMuBqPjR8EEbQPrc.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$"
                                 },
                                 {
                                   "variable_to_update": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N5ID7MkEJtOfSycDExS14JxOXn$",
@@ -995,7 +951,7 @@
                     {
                       "key": "disposition",
                       "type": "string",
-                      "value": "$activity.definition_activity_01LQA3RAAE9J52yk8w4sWVmtN7bMq67yvEc.output.variable_workflow_01KXGQWL4TJCC2W33mfqnp8bURFArcu7cRR$"
+                      "value": "$activity.definition_activity_01LQA3RAAE9J52yk8w4sWVmtN7bMq67yvEc.output.variable_workflow_01PP77MLJ2W9N3jUUa3J6gIRy7Dydhs937R$"
                     }
                   ],
                   "rows": {
@@ -1027,7 +983,7 @@
                     "base_type": "activity",
                     "properties": {
                       "condition": {
-                        "left_operand": "$activity.definition_activity_01LQA3RAAE9J52yk8w4sWVmtN7bMq67yvEc.output.variable_workflow_01KXGQWL4TJCC2W33mfqnp8bURFArcu7cRR$",
+                        "left_operand": "$activity.definition_activity_01LQA3RAAE9J52yk8w4sWVmtN7bMq67yvEc.output.variable_workflow_01PP77MLJ2W9N3jUUa3J6gIRy7Dydhs937R$",
                         "operator": "ne",
                         "right_operand": "Clean"
                       },
@@ -1052,7 +1008,7 @@
                             "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N0ZQ5yh05yjpFd1QJPphky11Tc$",
                             "$activity.definition_activity_01LQA3QY4M5341k2MkGBmoAP64JkxuOtdBd.input.source_array[@].type$",
                             "$activity.definition_activity_01LQA3QY4M5341k2MkGBmoAP64JkxuOtdBd.input.source_array[@].value$",
-                            "$activity.definition_activity_01LQA3RAAE9J52yk8w4sWVmtN7bMq67yvEc.output.variable_workflow_01KXGQWL4TJCC2W33mfqnp8bURFArcu7cRR$"
+                            "$activity.definition_activity_01LQA3RAAE9J52yk8w4sWVmtN7bMq67yvEc.output.variable_workflow_01PP77MLJ2W9N3jUUa3J6gIRy7Dydhs937R$"
                           ],
                           "script_queries": [
                             {
@@ -1278,13 +1234,13 @@
                         "actions": [
                           {
                             "unique_name": "definition_activity_01LQA3WNIQFKH05ATs1lYPfqzFgUSCIhRpI",
-                            "name": "Threat Response v2 - Generate Access Token",
-                            "title": "Threat Response v2 - Generate Access Token",
+                            "name": "Threat Response - Generate Access Token",
+                            "title": "Threat Response - Generate Access Token",
                             "type": "workflow.atomic_workflow",
                             "base_type": "subworkflow",
                             "properties": {
                               "continue_on_failure": false,
-                              "display_name": "Threat Response v2 - Generate Access Token",
+                              "display_name": "Threat Response - Generate Access Token",
                               "runtime_user": {
                                 "target_default": true
                               },
@@ -1305,7 +1261,7 @@
                                   }
                                 }
                               },
-                              "workflow_id": "definition_workflow_01KWJ2ISZTF2V6ibRYe7FZ7sOuycDOpnwss"
+                              "workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
                             },
                             "object_type": "definition_activity"
                           },
@@ -1322,7 +1278,7 @@
                               "variables_to_update": [
                                 {
                                   "variable_to_update": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N3AC7b0MjcdtjGf0hEOwXgILQN$",
-                                  "variable_value_new": "$activity.definition_activity_01LQA3WNIQFKH05ATs1lYPfqzFgUSCIhRpI.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$"
+                                  "variable_value_new": "$activity.definition_activity_01LQA3WNIQFKH05ATs1lYPfqzFgUSCIhRpI.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$"
                                 },
                                 {
                                   "variable_to_update": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N5ID7MkEJtOfSycDExS14JxOXn$",
@@ -1340,17 +1296,17 @@
               },
               {
                 "unique_name": "definition_activity_01LQA3X9O2IP61ODR3M9NkGuzJB13C0i53Y",
-                "name": "Threat Response v2 - Enrich Observable",
-                "title": "Threat Response v2 - Enrich Observable",
+                "name": "Threat Response - Enrich Observable",
+                "title": "Threat Response - Enrich Observable",
                 "type": "workflow.atomic_workflow",
                 "base_type": "subworkflow",
                 "properties": {
                   "continue_on_failure": false,
-                  "display_name": "Threat Response v2 - Enrich Observable",
+                  "display_name": "Threat Response - Enrich Observable",
                   "input": {
-                    "variable_workflow_01LFCW7BK9JWU2I0o0vdWjBcKeGI9cTXwLT": "$activity.definition_activity_01LQA3UZ0IKHZ6KR5r6G3dO7JyQ3azcTeWV.input.source_array[@].type$",
-                    "variable_workflow_01LFCW7BK9RRM61vI2vN9AXklLnXrOFOSdu": "$activity.definition_activity_01LQA3UZ0IKHZ6KR5r6G3dO7JyQ3azcTeWV.input.source_array[@].value$",
-                    "variable_workflow_01LFCW7BK9SW92Ai5bUZzG2IKUi6lVxRR2Z": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N3AC7b0MjcdtjGf0hEOwXgILQN$"
+                    "variable_workflow_01PP78TYDTQ2L5AWh7XpLPkXldkBYssq6SC": "$activity.definition_activity_01LQA3UZ0IKHZ6KR5r6G3dO7JyQ3azcTeWV.input.source_array[@].value$",
+                    "variable_workflow_01PP78TYDTTUQ6Qtv47uK5sgOFSbJ4b4Cno": "$activity.definition_activity_01LQA3UZ0IKHZ6KR5r6G3dO7JyQ3azcTeWV.input.source_array[@].type$",
+                    "variable_workflow_01PP78TYDTV5R5JK6DtYaS5E95bWbZBstS5": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N3AC7b0MjcdtjGf0hEOwXgILQN$"
                   },
                   "runtime_user": {
                     "target_default": true
@@ -1359,7 +1315,7 @@
                   "target": {
                     "use_workflow_target_group": true
                   },
-                  "workflow_id": "definition_workflow_01LFCW7C2Q1BU6Szjo7JqBWHWPmevmW7uIn"
+                  "workflow_id": "definition_workflow_01PP78TYLE76D6188QkWvzWydNU6L8PtlvS"
                 },
                 "object_type": "definition_activity"
               },
@@ -1373,7 +1329,7 @@
                   "action_timeout": 180,
                   "continue_on_failure": true,
                   "display_name": "Convert list of enrichments to table",
-                  "input_json": "$activity.definition_activity_01LQA3X9O2IP61ODR3M9NkGuzJB13C0i53Y.output.variable_workflow_01LFCW7BK9PHR4US5QvFoxwf05w5gnBzrNU$",
+                  "input_json": "$activity.definition_activity_01LQA3X9O2IP61ODR3M9NkGuzJB13C0i53Y.output.variable_workflow_01PP78TYDTWG01QGHDq5uwDKdvEqS9CdcYg$",
                   "jsonpath_query": "$.data[*]",
                   "persist_output": false,
                   "populate_columns": false,
@@ -1542,7 +1498,7 @@
                       "action_timeout": 180,
                       "continue_on_failure": false,
                       "display_name": "Extract sightings and targets",
-                      "script": "import sys,json\n\n# Get the name of the module being investigated\nmoduleName = sys.argv[1]\n\n# Parse the existing list of sightings and targets\nexistingSightings = json.loads(sys.argv[3])\nexistingTargets = json.loads(sys.argv[4])\n\n# Parse the new sightings\nnewSightings = json.loads(sys.argv[2])\n\n# Loop through each sighting\nfor sighting in newSightings:\n\tsighting[\"module_name\"] = moduleName\n\t\n\t# Append this sighting to the master list\n\texistingSightings.append(sighting)\n\t\n\t# Check if this sighting has any targets\n\tif \"targets\" in sighting.keys() and len(sighting[\"targets\"]) \u003e 0:\n\t\t# Loop through each target\n\t\tfor target in sighting[\"targets\"]:\n\t\t\t# Check if this target is an endpoint\n\t\t\tif target[\"type\"] == \"endpoint\":\n\t\t\t\t# Loop through each observable\n\t\t\t\tfor observable in target[\"observables\"]:\n\t\t\t\t\tif observable[\"type\"] == \"amp_computer_guid\" and not observable in existingTargets:\n\t\t\t\t\t\texistingTargets.append(observable)\n\n# Build the new JSON\nnewSightings = json.dumps(existingSightings)\nnewTargets = json.dumps(existingTargets)",
+                      "script": "import sys,json\n\n# Get the name of the module being investigated\nmoduleName = sys.argv[1]\n\n# Parse the existing list of sightings and targets\nexistingSightings = json.loads(sys.argv[3])\nexistingTargets = json.loads(sys.argv[4])\n\n# Parse the new sightings\nnewSightings = json.loads(sys.argv[2])\n\n# Loop through each sighting\nfor sighting in newSightings:\n\tsighting[\"module_name\"] = moduleName\n\t\n\t# Append this sighting to the master list\n\texistingSightings.append(sighting)\n\t\n\t# Check if this sighting has any targets\n\tif \"targets\" in sighting.keys() and len(sighting[\"targets\"]) > 0:\n\t\t# Loop through each target\n\t\tfor target in sighting[\"targets\"]:\n\t\t\t# Check if this target is an endpoint\n\t\t\tif target[\"type\"] == \"endpoint\":\n\t\t\t\t# Loop through each observable\n\t\t\t\tfor observable in target[\"observables\"]:\n\t\t\t\t\tif observable[\"type\"] == \"amp_computer_guid\" and not observable in existingTargets:\n\t\t\t\t\t\texistingTargets.append(observable)\n\n# Build the new JSON\nnewSightings = json.dumps(existingSightings)\nnewTargets = json.dumps(existingTargets)",
                       "script_arguments": [
                         "$activity.definition_activity_01LQA3YF6WSF65tjGAd0lNnrB1boj9HzY7A.input.source_array[@].module$",
                         "$activity.definition_activity_01LQA3YQM4HQP4nvqOsW7484eDMr898SmUF.output.jsonpath_queries.sightingData$",
@@ -1617,7 +1573,7 @@
               "action_timeout": 180,
               "continue_on_failure": false,
               "display_name": "Convert sighting data to usable text for messaging",
-              "script": "import sys,json\n\n# Get and parse the sighting data\nsightings = json.loads(sys.argv[1])\n\n# Placeholders for output\nsightingCounts = {}\nmoduleNames = []\ntargets = []\n\n# Loop through each sighting\nfor sighting in sightings:\n\t# If there aren't any targets, initialize that array index to an empty list\n\tif not \"targets\" in sighting:\n\t\tsighting[\"targets\"] = []\n\t\t\n\t# Loop through each target\n\ttargetCount = 0\n\tfor target in sighting[\"targets\"]:\n\t\t# Remove the observed time (so two of the same target aren't considered different)\n\t\tdel target[\"observed_time\"]\n\t\t\n\t\t# Add this target to our master list if it's not already in the list (and count it)\n\t\tif not target in targets:\n\t\t\ttargetCount += 1\n\t\t\ttargets.append(target)\n\t\n\t# Is this module already in our count array?\n\tif sighting[\"module_name\"] in sightingCounts.keys():\n\t\t# Yes, so increment the counts\n\t\tsightingCounts[sighting[\"module_name\"]][\"count\"] += 1\n\t\tsightingCounts[sighting[\"module_name\"]][\"targets\"] += targetCount\n\telse:\n\t\t# No, so add it and its counts\n\t\tsightingCounts[sighting[\"module_name\"]] = {\n\t\t\t\"count\": 1,\n\t\t\t\"targets\": targetCount\n\t\t}\n\t\tmoduleNames.append(sighting[\"module_name\"])\n\n# Placeholders for output\nhtmlSummary = \"\"\nhtmlTruncated = False\nmarkdownSummary = \"\"\nmarkdownTruncated = False\nmrkdwnSummary = \"\"\nmrkdwnTruncated = False\n\n# Loop through the sighting counts\nfor module in moduleNames:\n\t# Make sure the HTML summary (for email and ServiceNow) isn't already too long\n\tif len(htmlSummary.encode(\"utf-8\")) \u003e 4000 and not htmlTruncated:\n\t\t# It's getting too long, so mark the message as truncated (and we'll add a warning later)\n\t\thtmlTruncated = True\n\telif not htmlTruncated:\n\t\t# The message isn't too long, so append this module\n\t\thtmlSummary = htmlSummary + \"\u003cli\u003eModule \u003cstrong\u003e\" + module + \"\u003c/strong\u003e returned \u003cstrong\u003e\" + str(sightingCounts[module][\"count\"]) + \" sightings\u003c/strong\u003e with a total of \u003cstrong\u003e\" + str(sightingCounts[module][\"targets\"]) + \" targets\u003c/strong\u003e\u003c/li\u003e\"\n\t\n\t# Make sure the markdown summary (for Threat Response and Webex) isn't already too long\n\tif len(markdownSummary.encode(\"utf-8\")) \u003e 4000 and not markdownTruncated:\n\t\t# It's getting too long, so add a message indicating that the text was truncated\n\t\tmarkdownSummary = markdownSummary + \"\\n\\n Additional information was available but truncated due to message length\"\n\t\tmarkdownTruncated = True\n\telif not markdownTruncated:\n\t\t# The message isn't too long, so append this module\n\t\tmarkdownSummary = markdownSummary + (\"\\n\" if len(markdownSummary) \u003e 0 else \"\") + \"* Module **\" + module + \"** returned **\" + str(sightingCounts[module][\"count\"]) + \" sightings** with a total of **\" + str(sightingCounts[module][\"targets\"]) + \" targets**\"\n\t\n\t# Make sure the mrkdwn summary (for Slack) isn't already too long\n\tif len(mrkdwnSummary.encode(\"utf-8\")) \u003e 4000 and not mrkdwnTruncated:\n\t\t# It's getting too long, so add a message indicating that the text was truncated\n\t\tmrkdwnSummary = mrkdwnSummary + \"\\n\\n Additional information was available but truncated due to message length\"\n\t\tmrkdwnTruncated = True\n\telif not mrkdwnTruncated:\n\t\t# The message isn't too long, so append this module\n\t\tmrkdwnSummary = mrkdwnSummary + (\"\\n\" if len(mrkdwnSummary) \u003e 0 else \"\") + \"- Module *\" + module + \"* returned *\" + str(sightingCounts[module][\"count\"]) + \" sightings* with a total of *\" + str(sightingCounts[module][\"targets\"]) + \" targets*\"\n\t\n# Finish the HTML summary\nhtmlSummary = \"\u003cul\u003e\" + htmlSummary + \"\u003c/ul\u003e\"\n\nif htmlTruncated:\n\thtmlSummary = htmlSummary + \"\u003cbr /\u003e\u003cbr /\u003e\u003cstrong\u003eAdditional information was available but truncated due to message length\u003c/strong\u003e\"\n\n# Convert the targets to a JSON list\ntargetJson = json.dumps(targets)",
+              "script": "import sys,json\n\n# Get and parse the sighting data\nsightings = json.loads(sys.argv[1])\n\n# Placeholders for output\nsightingCounts = {}\nmoduleNames = []\ntargets = []\n\n# Loop through each sighting\nfor sighting in sightings:\n\t# If there aren't any targets, initialize that array index to an empty list\n\tif not \"targets\" in sighting:\n\t\tsighting[\"targets\"] = []\n\t\t\n\t# Loop through each target\n\ttargetCount = 0\n\tfor target in sighting[\"targets\"]:\n\t\t# Remove the observed time (so two of the same target aren't considered different)\n\t\tdel target[\"observed_time\"]\n\t\t\n\t\t# Add this target to our master list if it's not already in the list (and count it)\n\t\tif not target in targets:\n\t\t\ttargetCount += 1\n\t\t\ttargets.append(target)\n\t\n\t# Is this module already in our count array?\n\tif sighting[\"module_name\"] in sightingCounts.keys():\n\t\t# Yes, so increment the counts\n\t\tsightingCounts[sighting[\"module_name\"]][\"count\"] += 1\n\t\tsightingCounts[sighting[\"module_name\"]][\"targets\"] += targetCount\n\telse:\n\t\t# No, so add it and its counts\n\t\tsightingCounts[sighting[\"module_name\"]] = {\n\t\t\t\"count\": 1,\n\t\t\t\"targets\": targetCount\n\t\t}\n\t\tmoduleNames.append(sighting[\"module_name\"])\n\n# Placeholders for output\nhtmlSummary = \"\"\nhtmlTruncated = False\nmarkdownSummary = \"\"\nmarkdownTruncated = False\nmrkdwnSummary = \"\"\nmrkdwnTruncated = False\n\n# Loop through the sighting counts\nfor module in moduleNames:\n\t# Make sure the HTML summary (for email and ServiceNow) isn't already too long\n\tif len(htmlSummary.encode(\"utf-8\")) > 4000 and not htmlTruncated:\n\t\t# It's getting too long, so mark the message as truncated (and we'll add a warning later)\n\t\thtmlTruncated = True\n\telif not htmlTruncated:\n\t\t# The message isn't too long, so append this module\n\t\thtmlSummary = htmlSummary + \"<li>Module <strong>\" + module + \"</strong> returned <strong>\" + str(sightingCounts[module][\"count\"]) + \" sightings</strong> with a total of <strong>\" + str(sightingCounts[module][\"targets\"]) + \" targets</strong></li>\"\n\t\n\t# Make sure the markdown summary (for Threat Response and Webex) isn't already too long\n\tif len(markdownSummary.encode(\"utf-8\")) > 4000 and not markdownTruncated:\n\t\t# It's getting too long, so add a message indicating that the text was truncated\n\t\tmarkdownSummary = markdownSummary + \"\\n\\n Additional information was available but truncated due to message length\"\n\t\tmarkdownTruncated = True\n\telif not markdownTruncated:\n\t\t# The message isn't too long, so append this module\n\t\tmarkdownSummary = markdownSummary + (\"\\n\" if len(markdownSummary) > 0 else \"\") + \"* Module **\" + module + \"** returned **\" + str(sightingCounts[module][\"count\"]) + \" sightings** with a total of **\" + str(sightingCounts[module][\"targets\"]) + \" targets**\"\n\t\n\t# Make sure the mrkdwn summary (for Slack) isn't already too long\n\tif len(mrkdwnSummary.encode(\"utf-8\")) > 4000 and not mrkdwnTruncated:\n\t\t# It's getting too long, so add a message indicating that the text was truncated\n\t\tmrkdwnSummary = mrkdwnSummary + \"\\n\\n Additional information was available but truncated due to message length\"\n\t\tmrkdwnTruncated = True\n\telif not mrkdwnTruncated:\n\t\t# The message isn't too long, so append this module\n\t\tmrkdwnSummary = mrkdwnSummary + (\"\\n\" if len(mrkdwnSummary) > 0 else \"\") + \"- Module *\" + module + \"* returned *\" + str(sightingCounts[module][\"count\"]) + \" sightings* with a total of *\" + str(sightingCounts[module][\"targets\"]) + \" targets*\"\n\t\n# Finish the HTML summary\nhtmlSummary = \"<ul>\" + htmlSummary + \"</ul>\"\n\nif htmlTruncated:\n\thtmlSummary = htmlSummary + \"<br /><br /><strong>Additional information was available but truncated due to message length</strong>\"\n\n# Convert the targets to a JSON list\ntargetJson = json.dumps(targets)",
               "script_arguments": [
                 "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N4E44QQrR7T7ZiBrpIxLXuea3N$"
               ],
@@ -1701,7 +1657,7 @@
                 "variable_workflow_01FGYF0DUR8HV2TMpEKctsYjQR4mzjD5OTu": "An automated investigation into observables related to the SolarWinds supply chain attack was conducted by SecureX orchestration.",
                 "variable_workflow_01FGYGCZL5M2E1m1O5tvVVn0DVzVTLwytei": 2,
                 "variable_workflow_01FGYGPFJYM4L5aVpzNOhRwMmzKJDofqufe": 1,
-                "variable_workflow_01FGYGZ0OYYNM5pWjyyreMjNHDjusjNe8jx": "[code]\u003ca href=\"https://$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7NE8X4BL0sVq1TGXb38LXv7GO0y$/orch-ui/workflows/$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.output.instance_id$\" target=\"_blank\"\u003eView Workflow\u003c/a\u003e\u003cbr /\u003e\u003cbr /\u003e\u003cu\u003eSighting Summary\u003c/u\u003e:\u003cbr /\u003e$activity.definition_activity_01LQA408F7H271QaFpQsehnziJjWgPmrUjk.output.script_queries.htmlSummary$[/code]",
+                "variable_workflow_01FGYGZ0OYYNM5pWjyyreMjNHDjusjNe8jx": "[code]<a href=\"https://$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7NE8X4BL0sVq1TGXb38LXv7GO0y$/orch-ui/workflows/$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.output.instance_id$\" target=\"_blank\">View Workflow</a><br /><br /><u>Sighting Summary</u>:<br />$activity.definition_activity_01LQA408F7H271QaFpQsehnziJjWgPmrUjk.output.script_queries.htmlSummary$[/code]",
                 "variable_workflow_01FGYI8HES41K63G3UzMinBH3iApm37fBGt": "securex-orchestration",
                 "variable_workflow_01FMQD0HIJIDU5kce0VNx4HQiMYjMfUvBlj": "v2"
               },
@@ -1746,20 +1702,20 @@
         "actions": [
           {
             "unique_name": "definition_activity_01LQA41JOI611360w26PVvf2LUzoKdlj3qA",
-            "name": "Threat Response v2 - Create Casebook",
-            "title": "Threat Response v2 - Create Casebook",
+            "name": "Threat Response - Create Casebook",
+            "title": "Threat Response - Create Casebook",
             "type": "workflow.atomic_workflow",
             "base_type": "subworkflow",
             "properties": {
               "continue_on_failure": false,
-              "display_name": "Threat Response v2 - Create Casebook",
+              "display_name": "Threat Response - Create Casebook",
               "input": {
-                "variable_workflow_01KVOGF4J481T6SCd7uh5fW7n47Q712nleJ": "$activity.definition_activity_01LQA40FKYFSB4zYnC6a7PRWrkfTdzN02rc.output.script_queries.plainObservableJson$",
-                "variable_workflow_01KVOGF4J4FZC0jmaR42b1FbIzVZA19KbYL": "This casebook was generated by SecureX orchestration from a Talos blog post about the SolarWinds supply chain attack.\n\n[Click here]($workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7NC2U361aXK4jC2A22tI9NKsLN5$) to view the blog post.\n\n[Click here](https://$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N8QT7PLkRLBev75d0XTL3nIW9o$/nav_to.do?uri=incident.do?sysparm_query=number=$activity.definition_activity_01LQA40ZQMYE70xj5Cp53kDZLSBiJKRjxZv.output.variable_workflow_01C0EMLG2EEYD14wKqkFjhK8dTwJa20Jihp$) to view the ServiceNow incident ticket.\n\n_Sighting Summary_:\n$activity.definition_activity_01LQA408F7H271QaFpQsehnziJjWgPmrUjk.output.script_queries.markdownSummary$",
-                "variable_workflow_01KVOGF4J4IG81TQKFjqzLlnFJwiiNwXwSq": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N3AC7b0MjcdtjGf0hEOwXgILQN$",
-                "variable_workflow_01KVOGF4J4JL52xC9ZXdjYwHt2SvRYkArli": "Talos - SolarWinds Investigation",
-                "variable_workflow_01KVOMXV9ERSV0M9j1WarflgSG8r5SpZ8b5": "Casebook generated from a Talos blog post",
-                "variable_workflow_01LFBYQJV9FZA2THdEQrMftLyGiiHP65nUq": "amber"
+                "variable_workflow_01PP75X6NM0AY6YDlJckkMg6hCbMEMGO72O": "$activity.definition_activity_01LQA40FKYFSB4zYnC6a7PRWrkfTdzN02rc.output.script_queries.plainObservableJson$",
+                "variable_workflow_01PP75X6NM1M46Jjob8LUKg8R3yRRVOvu9q": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N3AC7b0MjcdtjGf0hEOwXgILQN$",
+                "variable_workflow_01PP75X6NM2V27Or3EssfIABNZiE45Ddziu": "amber",
+                "variable_workflow_01PP75X6NM4123PBwUedJ5QqeBr8G1sefjQ": "Talos - SolarWinds Investigation",
+                "variable_workflow_01PP75X6NM54W5qTbpCb1h6bTTrp7eFQjaq": "Casebook generated from a Talos blog post",
+                "variable_workflow_01PP75X6NM7FE4BmQ3AKIykyWFDSV9umy02": "This casebook was generated by SecureX orchestration from a Talos blog post about the SolarWinds supply chain attack.\n\n[Click here]($workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7NC2U361aXK4jC2A22tI9NKsLN5$) to view the blog post.\n[Click here](https://$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N8QT7PLkRLBev75d0XTL3nIW9o$/nav_to.do?uri=incident.do?sysparm_query=number=$activity.definition_activity_01LQA40ZQMYE70xj5Cp53kDZLSBiJKRjxZv.output.variable_workflow_01C0EMLG2EEYD14wKqkFjhK8dTwJa20Jihp$) to view the ServiceNow incident ticket.\n\n_Sighting Summary_:\n$activity.definition_activity_01LQA408F7H271QaFpQsehnziJjWgPmrUjk.output.script_queries.markdownSummary$"
               },
               "runtime_user": {
                 "target_default": true
@@ -1781,26 +1737,26 @@
                   }
                 }
               },
-              "workflow_id": "definition_workflow_01KVOGF574Y291CRwQLNB1TtzEHDNwyUx7O"
+              "workflow_id": "definition_workflow_01PP75X6VPQNK4hKE1XQXIMeIcHrE1khIML"
             },
             "object_type": "definition_activity"
           },
           {
             "unique_name": "definition_activity_01LQA42677HA90Kd6O8uxVsng1tTMRkjdyD",
-            "name": "Threat Response v2 - Create Incident",
-            "title": "Threat Response v2 - Create Incident",
+            "name": "Threat Response - Create Incident",
+            "title": "Threat Response - Create Incident",
             "type": "workflow.atomic_workflow",
             "base_type": "subworkflow",
             "properties": {
               "continue_on_failure": false,
-              "display_name": "Threat Response v2 - Create Incident",
+              "display_name": "Threat Response - Create Incident",
               "input": {
-                "variable_workflow_01KVVWMAKJ5X54vaAuNkKq259VyiO5JCeuC": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N3AC7b0MjcdtjGf0hEOwXgILQN$",
-                "variable_workflow_01KVVWMAKJ9HX4TuMb2g74UqzpRLRxjwlwm": "Talos - SolarWinds Investigation",
-                "variable_workflow_01KVVWMAKJBSF1Fxv8uLSCRGpOJCxkue4OH": "This incident was generated by SecureX orchestration from a Talos blog post about the SolarWinds supply chain attack.\n\n[Click here]($workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7NC2U361aXK4jC2A22tI9NKsLN5$) to view the blog post.\n\n[Click here](https://$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N8QT7PLkRLBev75d0XTL3nIW9o$/nav_to.do?uri=incident.do?sysparm_query=number=$activity.definition_activity_01LQA40ZQMYE70xj5Cp53kDZLSBiJKRjxZv.output.variable_workflow_01C0EMLG2EEYD14wKqkFjhK8dTwJa20Jihp$) to view the ServiceNow incident ticket.\n\n_Sighting Summary_:\n$activity.definition_activity_01LQA408F7H271QaFpQsehnziJjWgPmrUjk.output.script_queries.markdownSummary$",
-                "variable_workflow_01KWIVDCZ7VJU1t9jPK4nZnnwHqnllu7dJm": "New",
-                "variable_workflow_01KWIVQVGZKUC0vUPbm3oCvqsYVV036tieP": "High",
-                "variable_workflow_01LFBWLGJNHPS450Wh1dwGf1Xqot6KHUTwY": "amber"
+                "variable_workflow_01PP773PC153N1sUPzhFqV9bCbaxsz3yDwH": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N3AC7b0MjcdtjGf0hEOwXgILQN$",
+                "variable_workflow_01PP773PC19C57fpPyxEFzuX0kP8dAqdVoQ": "This incident was generated by SecureX orchestration from a Talos blog post about the SolarWinds supply chain attack.\n\n[Click here]($workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7NC2U361aXK4jC2A22tI9NKsLN5$) to view the blog post.\n[Click here](https://$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N8QT7PLkRLBev75d0XTL3nIW9o$/nav_to.do?uri=incident.do?sysparm_query=number=$activity.definition_activity_01LQA40ZQMYE70xj5Cp53kDZLSBiJKRjxZv.output.variable_workflow_01C0EMLG2EEYD14wKqkFjhK8dTwJa20Jihp$) to view the ServiceNow incident ticket.\n\n_Sighting Summary_:\n$activity.definition_activity_01LQA408F7H271QaFpQsehnziJjWgPmrUjk.output.script_queries.markdownSummary$",
+                "variable_workflow_01PP773PC1ALV47FYVyDKQsPCuKzTZwYeyv": "New",
+                "variable_workflow_01PP773PC1DZZ2rpbgvgD3IRrMsngkGxWkK": "Talos - SolarWinds Investigation",
+                "variable_workflow_01PP773PC1F547IibuvGX89UFFJE9ZNlHgb": "amber",
+                "variable_workflow_01PP773PC1G7V6ZMj5IyCTQcEPiVhQm1fYO": "High"
               },
               "runtime_user": {
                 "target_default": true
@@ -1822,27 +1778,27 @@
                   }
                 }
               },
-              "workflow_id": "definition_workflow_01KVVWMB2UTRF5uVHVH9DtiT6vgIfnzTdRS"
+              "workflow_id": "definition_workflow_01PP773PI1X3Y1YQWhirIL8Uy40Thd6ND7r"
             },
             "object_type": "definition_activity"
           },
           {
             "unique_name": "definition_activity_01LQA42HWTPKT5F9ms2oIecj1VrgPpUhNnv",
-            "name": "Threat Response v2 - Create Relationship",
-            "title": "Threat Response v2 - Create Relationship",
+            "name": "Threat Response - Create Relationship",
+            "title": "Threat Response - Create Relationship",
             "type": "workflow.atomic_workflow",
             "base_type": "subworkflow",
             "properties": {
               "continue_on_failure": false,
-              "display_name": "Threat Response v2 - Create Relationship",
+              "display_name": "Threat Response - Create Relationship",
               "input": {
-                "variable_workflow_01KWID476NLS63mQo7De2Wk9Q1WAJb0dJXe": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N3AC7b0MjcdtjGf0hEOwXgILQN$",
-                "variable_workflow_01KWID476NNBL4xUNZ1ze05KmIr6MTOd2tf": "related-to",
-                "variable_workflow_01KWID476NOW27YCzfBvT6jlpfoo4jDNQoS": "",
-                "variable_workflow_01KWID476NRV53BPxHqiyGzSy3hiS50IIYt": "",
-                "variable_workflow_01KWIOPHDZHRM2nxENJ5E3iBUjDizSHzujd": "$activity.definition_activity_01LQA41JOI611360w26PVvf2LUzoKdlj3qA.output.variable_workflow_01KVOGF4J4HBH1AEO1b5YnhSpqUnFihUeXS$",
-                "variable_workflow_01KWIP24K2A5P6ag8merXYIrzb5KHnOSzU3": "$activity.definition_activity_01LQA42677HA90Kd6O8uxVsng1tTMRkjdyD.output.variable_workflow_01KVVWMAKJDWL0w7z086xbnRNZMwGcpxweP$",
-                "variable_workflow_01LFBZWJ98ZH426APtwKiW7OM9nNQMfT7IA": "amber"
+                "variable_workflow_01PP78LVV8JKR6NKKuym8RA2VYFgUJrR4qU": "$activity.definition_activity_01LQA41JOI611360w26PVvf2LUzoKdlj3qA.output.variable_workflow_01PP75X6NM6A27cUzf6oC7zeZQTz0YxT8J0$",
+                "variable_workflow_01PP78LVV8NS94TRyx07G3ajwZ5eE5oWZ36": "",
+                "variable_workflow_01PP78LVV8P3X5wkMhrcIXTnToxb6HxuLpk": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N3AC7b0MjcdtjGf0hEOwXgILQN$",
+                "variable_workflow_01PP78LVV8QB314gJIqe5PQHoWnRTMtwhK4": "amber",
+                "variable_workflow_01PP78LVV8RLZ02Yzy68Uz59X8kInnUomdU": "",
+                "variable_workflow_01PP78LVV8SVF31gxGXEVhu26vewW98cJxO": "$activity.definition_activity_01LQA42677HA90Kd6O8uxVsng1tTMRkjdyD.output.variable_workflow_01PP773PC1BPV1bDuA5gxMPKC5vx4EJTYXw$",
+                "variable_workflow_01PP78LVV8V4B28e1wJKo9WReVhIZ3bvM6f": "related-to"
               },
               "runtime_user": {
                 "target_default": true
@@ -1863,7 +1819,7 @@
                   }
                 }
               },
-              "workflow_id": "definition_workflow_01KWID47SRHY30TYWU3BQSFODWA7PVO360x"
+              "workflow_id": "definition_workflow_01PP78LW2WNY80aDM6OHNiRu2VPG4BrR8bq"
             },
             "object_type": "definition_activity"
           }
@@ -1884,15 +1840,15 @@
         "actions": [
           {
             "unique_name": "definition_activity_01LQA431Y41Q73IYMv4fd4am3oX9yof6Hdd",
-            "name": "Service Now - Add Work Note to Incident",
-            "title": "Service Now - Add Work Note to Incident",
+            "name": "ServiceNow - Add Work Note to Incident",
+            "title": "ServiceNow - Add Work Note to Incident",
             "type": "workflow.atomic_workflow",
             "base_type": "subworkflow",
             "properties": {
               "continue_on_failure": false,
-              "display_name": "Service Now - Add Work Note to Incident",
+              "display_name": "ServiceNow - Add Work Note to Incident",
               "input": {
-                "variable_workflow_01FMQTASNW19F198DyWHV14WHmkxNhmxaQu": "[code]\u003ca href=\"https://$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7ND6U6I8MfIQxnmWNMQtwf9dvPk$/incidents?q=id:$activity.definition_activity_01LQA42677HA90Kd6O8uxVsng1tTMRkjdyD.output.variable_workflow_01LQB1IH60ROO1jxW6qZj3vj88GYE6CdpUH$\" target=\"_blank\"\u003eView Threat Response Incident\u003c/a\u003e\u003cbr /\u003e\u003ca href=\"https://$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7ND6U6I8MfIQxnmWNMQtwf9dvPk$/investigate?spid=$activity.definition_activity_01LQA41JOI611360w26PVvf2LUzoKdlj3qA.output.variable_workflow_01LQB3XURV3CD6Girik0OfXDWL0RV2MiDK9$\" target=\"_blank\"\u003eInvestigate in Threat Response\u003c/a\u003e[/code]",
+                "variable_workflow_01FMQTASNW19F198DyWHV14WHmkxNhmxaQu": "[code]<a href=\"https://$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7ND6U6I8MfIQxnmWNMQtwf9dvPk$/incidents?q=id:$activity.definition_activity_01LQA42677HA90Kd6O8uxVsng1tTMRkjdyD.output.variable_workflow_01PP773PC1CVM3SzJJrvuZfEsO3Nbw7IO7S$\" target=\"_blank\">View Threat Response Incident</a><br /><a href=\"https://$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7ND6U6I8MfIQxnmWNMQtwf9dvPk$/investigate?spid=$activity.definition_activity_01LQA41JOI611360w26PVvf2LUzoKdlj3qA.output.variable_workflow_01PP75X6NLWYO1BiZbBFEXJyqmmfiQcqId3$\" target=\"_blank\">Investigate in Threat Response</a>[/code]",
                 "variable_workflow_01FMQTASNW78T0tgvbFoES84str3rrkOfBq": "v2",
                 "variable_workflow_01FMQVGD9LTQK0vkSN3y7c0YHxc5cWQnVRt": "$activity.definition_activity_01LQA40ZQMYE70xj5Cp53kDZLSBiJKRjxZv.output.variable_workflow_01C0F7F9L7IYM3YXHCizJhunwKtPlSJWEWM$"
               },
@@ -1945,7 +1901,7 @@
               "action_timeout": 180,
               "continue_on_failure": false,
               "display_name": "Generate approval text message",
-              "script": "import sys,json\n\n# Parse the observables and targets\nobservables = json.loads(sys.argv[1])\ntargets = json.loads(sys.argv[2])\n\n# Placeholders for output\napprovalText = \"\"\n\n# Loop through each non-clean observable\nfor observable in observables:\n\t# Is this suspicious or unknown?\n\tif not observable[\"disposition\"] in [\"Unknown\", \"Suspicious\"]:\n\t\tcontinue\n\t\n\tapprovalText = approvalText + \"\\n\" + (observable[\"value\"].replace(\".\", \"[.]\") if observable[\"type\"] in [\"domain\", \"url\"] else observable[\"value\"]) + \" (\" + observable[\"type\"] + \")\"\n\n# Are there targets?\nif len(targets) \u003e 0:\n\tapprovalText = approvalText + \"\\n\\nThe following targets will have a forensic snapshot taken and be isolated:\"\n\t\n\t# Loop through each target\n\tfor target in targets:\n\t\tapprovalText = approvalText + \"\\n\" + target[\"value\"] + \" (\" + target[\"type\"] + \")\"",
+              "script": "import sys,json\n\n# Parse the observables and targets\nobservables = json.loads(sys.argv[1])\ntargets = json.loads(sys.argv[2])\n\n# Placeholders for output\napprovalText = \"\"\n\n# Loop through each non-clean observable\nfor observable in observables:\n\t# Is this suspicious or unknown?\n\tif not observable[\"disposition\"] in [\"Unknown\", \"Suspicious\"]:\n\t\tcontinue\n\t\n\tapprovalText = approvalText + \"\\n\" + (observable[\"value\"].replace(\".\", \"[.]\") if observable[\"type\"] in [\"domain\", \"url\"] else observable[\"value\"]) + \" (\" + observable[\"type\"] + \")\"\n\n# Are there targets?\nif len(targets) > 0:\n\tapprovalText = approvalText + \"\\n\\nThe following targets will have a forensic snapshot taken and be isolated:\"\n\t\n\t# Loop through each target\n\tfor target in targets:\n\t\tapprovalText = approvalText + \"\\n\" + target[\"value\"] + \" (\" + target[\"type\"] + \")\"",
               "script_arguments": [
                 "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N0ZQ5yh05yjpFd1QJPphky11Tc$",
                 "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7NB162pOsKvh0MYscpUAdDCmsAu$"
@@ -2131,10 +2087,10 @@
                           "continue_on_failure": true,
                           "display_name": "Webex Teams - Search for Room",
                           "input": {
-                            "variable_workflow_01FHMU6RWYQWI3QFUEzjWMT7JYBcz5vquuD": "",
-                            "variable_workflow_01FHMU6RWYWY822p43LeMi8Lcx89Q9jeyek": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7NGBB54aYNtHzu1k3WgZbA48VAJ$",
-                            "variable_workflow_01FHMU6RWYY481TVWDm0BQ1p0rWnqak191l": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N9U008BtkYC6UOqkypo4MfD4IG$",
-                            "variable_workflow_01FHNGCYY2O6Z0NcPmUDabszT2P4P0oqMNd": ""
+                            "variable_workflow_01PP790MCX1DN3EitpQebkUyJS65DbwS3nU": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N9U008BtkYC6UOqkypo4MfD4IG$",
+                            "variable_workflow_01PP790MCXB392D3R8pxh9fgOTjTde2bcMW": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7NGBB54aYNtHzu1k3WgZbA48VAJ$",
+                            "variable_workflow_01PP790MCXHP55YE6ylOEITWsWbUFJeyWGv": "",
+                            "variable_workflow_01PP790MCXM9W1MUwo85y8iNRCoQuQ4RGNa": ""
                           },
                           "runtime_user": {
                             "target_default": true
@@ -2156,7 +2112,7 @@
                               }
                             }
                           },
-                          "workflow_id": "definition_workflow_01FHMU6SD5XPL6eRW4zFXqkA1w8jWiQCIBU"
+                          "workflow_id": "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez"
                         },
                         "object_type": "definition_activity"
                       },
@@ -2201,10 +2157,10 @@
                                   "continue_on_failure": false,
                                   "display_name": "Webex Teams - Post Message to Room",
                                   "input": {
-                                    "variable_workflow_01FGYY44G3MZ55amJu9YqgUeKS8GT49bZx3": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N9U008BtkYC6UOqkypo4MfD4IG$",
-                                    "variable_workflow_01FGYY44G3TK951Crpnd8g2izonyM4bFtpW": "$activity.definition_activity_01LQA45E79XK50pZovz52Z7OuK06H8JOzzu.output.variable_workflow_01FHSVE2R6ZTQ6L92WEi0kWgR5T8zhMAUzO$",
-                                    "variable_workflow_01FGYY44G3UPV3heGGc3vXCV47YL5WoI2X6": "",
-                                    "variable_workflow_01FGYZ9BV4QTP19CuMwcW8QywvCP9ymx2BZ": "A Threat Response incident has been created for the blog post [$activity.definition_activity_01LQA3NW9YXAR54vSsJE7BprwY6HaX5r3t9.output.script_queries.postTitle$]($workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7NC2U361aXK4jC2A22tI9NKsLN5$) from Talos. [Click here](https://$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7ND6U6I8MfIQxnmWNMQtwf9dvPk$/incidents?q=id:$activity.definition_activity_01LQA42677HA90Kd6O8uxVsng1tTMRkjdyD.output.variable_workflow_01LQB1IH60ROO1jxW6qZj3vj88GYE6CdpUH$) to view the incident or [click here](https://$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7ND6U6I8MfIQxnmWNMQtwf9dvPk$/investigate?spid=$activity.definition_activity_01LQA41JOI611360w26PVvf2LUzoKdlj3qA.output.variable_workflow_01LQB3XURV3CD6Girik0OfXDWL0RV2MiDK9$) to investigate.\n\n[Click here](https://$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7NE8X4BL0sVq1TGXb38LXv7GO0y$/orch-ui/tasks/$activity.definition_activity_01LQA44CUSIXP25QKcE6uzQu4XuT5KuTN8A.output.task_id$) to approve automated remediation.\n\n[Click here](https://$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N8QT7PLkRLBev75d0XTL3nIW9o$/nav_to.do?uri=incident.do?sysparm_query=number=$activity.definition_activity_01LQA40ZQMYE70xj5Cp53kDZLSBiJKRjxZv.output.variable_workflow_01C0EMLG2EEYD14wKqkFjhK8dTwJa20Jihp$) to view the ServiceNow incident.\n\n_Sighting Summary_:\n$activity.definition_activity_01LQA408F7H271QaFpQsehnziJjWgPmrUjk.output.script_queries.markdownSummary$"
+                                    "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$activity.definition_activity_01LQA45E79XK50pZovz52Z7OuK06H8JOzzu.output.variable_workflow_01PP790MCXJ7Y5cAWcGZWbG4Es0126zb1I6$",
+                                    "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N9U008BtkYC6UOqkypo4MfD4IG$",
+                                    "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "A Threat Response incident has been created for the blog post [$activity.definition_activity_01LQA3NW9YXAR54vSsJE7BprwY6HaX5r3t9.output.script_queries.postTitle$]($workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7NC2U361aXK4jC2A22tI9NKsLN5$) from Talos. [Click here](https://$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7NE8X4BL0sVq1TGXb38LXv7GO0y$/incidents?q=id:$activity.definition_activity_01LQA42677HA90Kd6O8uxVsng1tTMRkjdyD.output.variable_workflow_01PP773PC1CVM3SzJJrvuZfEsO3Nbw7IO7S$) to view the incident or [click here](https://$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7NE8X4BL0sVq1TGXb38LXv7GO0y$/investigate?spid=$activity.definition_activity_01LQA41JOI611360w26PVvf2LUzoKdlj3qA.output.variable_workflow_01PP75X6NLWYO1BiZbBFEXJyqmmfiQcqId3$) to investigate.\n[Click here](https://$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7NE8X4BL0sVq1TGXb38LXv7GO0y$/orch-ui/tasks/$activity.definition_activity_01LQA44CUSIXP25QKcE6uzQu4XuT5KuTN8A.output.task_id$) to approve automated remediation.\n[Click here](https://$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N8QT7PLkRLBev75d0XTL3nIW9o$/nav_to.do?uri=incident.do?sysparm_query=number=$activity.definition_activity_01LQA40ZQMYE70xj5Cp53kDZLSBiJKRjxZv.output.variable_workflow_01C0EMLG2EEYD14wKqkFjhK8dTwJa20Jihp$) to view the ServiceNow incident.\n_Sighting Summary_:\n$activity.definition_activity_01LQA408F7H271QaFpQsehnziJjWgPmrUjk.output.script_queries.markdownSummary$",
+                                    "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": ""
                                   },
                                   "runtime_user": {
                                     "target_default": true
@@ -2226,7 +2182,7 @@
                                       }
                                     }
                                   },
-                                  "workflow_id": "definition_workflow_01FGYY44YU521254ygN3Le0In0kEHpiPNpf"
+                                  "workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw"
                                 },
                                 "object_type": "definition_activity"
                               }
@@ -2295,7 +2251,7 @@
                           "display_name": "Slack - Send Message to Channel",
                           "input": {
                             "variable_workflow_01HQNZKTLIV8Z5287vTq4qKrS29IMFD3g7H": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7NFA53LeWYM0XIDGYR88m9OCoIM$",
-                            "variable_workflow_01HQOXVG5Y94H1B55vC2dK9RzxZSEDLMGkg": "A Threat Response incident has been created for the blog post \u003c$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7NC2U361aXK4jC2A22tI9NKsLN5$|$activity.definition_activity_01LQA3NW9YXAR54vSsJE7BprwY6HaX5r3t9.output.script_queries.postTitle$\u003e from Talos. \u003chttps://$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7ND6U6I8MfIQxnmWNMQtwf9dvPk$/incidents?q=id:$activity.definition_activity_01LQA42677HA90Kd6O8uxVsng1tTMRkjdyD.output.variable_workflow_01LQB1IH60ROO1jxW6qZj3vj88GYE6CdpUH$|Click here\u003e to view the incident or \u003chttps://$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7ND6U6I8MfIQxnmWNMQtwf9dvPk$/investigate?spid=$activity.definition_activity_01LQA41JOI611360w26PVvf2LUzoKdlj3qA.output.variable_workflow_01LQB3XURV3CD6Girik0OfXDWL0RV2MiDK9$|click here\u003e to investigate.\n\n\u003chttps://$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7NE8X4BL0sVq1TGXb38LXv7GO0y$/orch-ui/tasks/$activity.definition_activity_01LQA44CUSIXP25QKcE6uzQu4XuT5KuTN8A.output.task_id$|Click here\u003e to approve automated remediation.\n\n\u003chttps://$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N8QT7PLkRLBev75d0XTL3nIW9o$/nav_to.do?uri=incident.do?sysparm_query=number=$activity.definition_activity_01LQA40ZQMYE70xj5Cp53kDZLSBiJKRjxZv.output.variable_workflow_01C0EMLG2EEYD14wKqkFjhK8dTwJa20Jihp$|Click here\u003e to view the ServiceNow incident.\n\n_Sighting Summary_:\n$activity.definition_activity_01LQA408F7H271QaFpQsehnziJjWgPmrUjk.output.script_queries.mrkdwnSummary$",
+                            "variable_workflow_01HQOXVG5Y94H1B55vC2dK9RzxZSEDLMGkg": "A SecureX incident has been created for the blog post <$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7NC2U361aXK4jC2A22tI9NKsLN5$|$activity.definition_activity_01LQA3NW9YXAR54vSsJE7BprwY6HaX5r3t9.output.script_queries.postTitle$> from Talos. <https://$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7ND6U6I8MfIQxnmWNMQtwf9dvPk$/incidents?q=id:$activity.definition_activity_01LQA42677HA90Kd6O8uxVsng1tTMRkjdyD.output.variable_workflow_01PP773PC1CVM3SzJJrvuZfEsO3Nbw7IO7S$|Click here> to view the incident or <https://$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7ND6U6I8MfIQxnmWNMQtwf9dvPk$/investigate?spid=$activity.definition_activity_01LQA41JOI611360w26PVvf2LUzoKdlj3qA.output.variable_workflow_01PP75X6NLWYO1BiZbBFEXJyqmmfiQcqId3$|click here> to investigate.\n<https://$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7NE8X4BL0sVq1TGXb38LXv7GO0y$/orch-ui/tasks/$activity.definition_activity_01LQA44CUSIXP25QKcE6uzQu4XuT5KuTN8A.output.task_id$|Click here> to approve automated remediation.\n<https://$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N8QT7PLkRLBev75d0XTL3nIW9o$/nav_to.do?uri=incident.do?sysparm_query=number=$activity.definition_activity_01LQA40ZQMYE70xj5Cp53kDZLSBiJKRjxZv.output.variable_workflow_01C0EMLG2EEYD14wKqkFjhK8dTwJa20Jihp$|Click here> to view the ServiceNow incident.\n_Sighting Summary_:\n$activity.definition_activity_01LQA408F7H271QaFpQsehnziJjWgPmrUjk.output.script_queries.mrkdwnSummary$",
                             "variable_workflow_01HRF4D5938OI4mcYJ4JF2tkjIAztrs1c2z": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7NHC54z1GyNQIsr2wJtZSSy1aY5$"
                           },
                           "runtime_user": {
@@ -2349,7 +2305,7 @@
                 "base_type": "activity",
                 "properties": {
                   "action_timeout": 180,
-                  "body": "A Threat Response incident has been created for the blog post \u003ca href=\"$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7NC2U361aXK4jC2A22tI9NKsLN5$\"\u003e$activity.definition_activity_01LQA3NW9YXAR54vSsJE7BprwY6HaX5r3t9.output.script_queries.postTitle$\u003c/a\u003e from Talos.\u003cbr /\u003e\n\u003cbr /\u003e\n\u003ca href=\"https://$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7ND6U6I8MfIQxnmWNMQtwf9dvPk$/incidents?q=id:$activity.definition_activity_01LQA42677HA90Kd6O8uxVsng1tTMRkjdyD.output.variable_workflow_01LQB1IH60ROO1jxW6qZj3vj88GYE6CdpUH$\"\u003eClick here\u003c/a\u003e to view the incident.\u003cbr /\u003e\n\u003ca href=\"https://$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7ND6U6I8MfIQxnmWNMQtwf9dvPk$/investigate?spid=$activity.definition_activity_01LQA41JOI611360w26PVvf2LUzoKdlj3qA.output.variable_workflow_01LQB3XURV3CD6Girik0OfXDWL0RV2MiDK9$\"\u003eClick here\u003c/a\u003e to investigate.\u003cbr /\u003e\n\u003cbr /\u003e\n\u003ca href=\"https://$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N8QT7PLkRLBev75d0XTL3nIW9o$/nav_to.do?uri=incident.do?sysparm_query=number=$activity.definition_activity_01LQA40ZQMYE70xj5Cp53kDZLSBiJKRjxZv.output.variable_workflow_01C0EMLG2EEYD14wKqkFjhK8dTwJa20Jihp$\"\u003eClick here\u003c/a\u003e to view the ServiceNow incident\u003cbr /\u003e\n\u003cbr /\u003e\n\u003ca href=\"https://$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7NE8X4BL0sVq1TGXb38LXv7GO0y$/orch-ui/tasks/$activity.definition_activity_01LQA44CUSIXP25QKcE6uzQu4XuT5KuTN8A.output.task_id$\"\u003eClick here\u003c/a\u003e to approve automated remediation.\u003cbr /\u003e\n\u003cbr /\u003e\n$activity.definition_activity_01LQA408F7H271QaFpQsehnziJjWgPmrUjk.output.script_queries.htmlSummary$",
+                  "body": "A SecureX incident has been created for the blog post <a href=\"$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7NC2U361aXK4jC2A22tI9NKsLN5$\">$activity.definition_activity_01LQA3NW9YXAR54vSsJE7BprwY6HaX5r3t9.output.script_queries.postTitle$</a> from Talos.<br />\n<br />\n<a href=\"https://$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7ND6U6I8MfIQxnmWNMQtwf9dvPk$/incidents?q=id:$activity.definition_activity_01LQA42677HA90Kd6O8uxVsng1tTMRkjdyD.output.variable_workflow_01PP773PC1CVM3SzJJrvuZfEsO3Nbw7IO7S$\">Click here</a> to view the incident.<br />\n<a href=\"https://$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7ND6U6I8MfIQxnmWNMQtwf9dvPk$/investigate?spid=$activity.definition_activity_01LQA41JOI611360w26PVvf2LUzoKdlj3qA.output.variable_workflow_01PP75X6NLWYO1BiZbBFEXJyqmmfiQcqId3$\">Click here</a> to investigate.<br />\n<br />\n<a href=\"https://$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N8QT7PLkRLBev75d0XTL3nIW9o$/nav_to.do?uri=incident.do?sysparm_query=number=$activity.definition_activity_01LQA40ZQMYE70xj5Cp53kDZLSBiJKRjxZv.output.variable_workflow_01C0EMLG2EEYD14wKqkFjhK8dTwJa20Jihp$\">Click here</a> to view the ServiceNow incident<br />\n<br />\n<a href=\"https://$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7NE8X4BL0sVq1TGXb38LXv7GO0y$/orch-ui/tasks/$activity.definition_activity_01LQA44CUSIXP25QKcE6uzQu4XuT5KuTN8A.output.task_id$\">Click here</a> to approve automated remediation.<br />\n<br />\n$activity.definition_activity_01LQA408F7H271QaFpQsehnziJjWgPmrUjk.output.script_queries.htmlSummary$",
                   "continue_if_one_address_valid": false,
                   "continue_on_failure": false,
                   "display_name": "Send Email",
@@ -2453,13 +2409,13 @@
                 "actions": [
                   {
                     "unique_name": "definition_activity_01LQA4966NAH14jqd7nl05YCZ0p8vUshq98",
-                    "name": "Threat Response v2 - Generate Access Token",
-                    "title": "Threat Response v2 - Generate Access Token",
+                    "name": "Threat Response - Generate Access Token",
+                    "title": "Threat Response - Generate Access Token",
                     "type": "workflow.atomic_workflow",
                     "base_type": "subworkflow",
                     "properties": {
                       "continue_on_failure": false,
-                      "display_name": "Threat Response v2 - Generate Access Token",
+                      "display_name": "Threat Response - Generate Access Token",
                       "runtime_user": {
                         "target_default": true
                       },
@@ -2480,7 +2436,7 @@
                           }
                         }
                       },
-                      "workflow_id": "definition_workflow_01KWJ2ISZTF2V6ibRYe7FZ7sOuycDOpnwss"
+                      "workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
                     },
                     "object_type": "definition_activity"
                   },
@@ -2500,29 +2456,29 @@
                       {
                         "unique_name": "definition_activity_01LQA49IY6WR45I1go8U445VpaosKEmjfqU",
                         "name": "Parallel Branch",
-                        "title": "Get AMP module ID",
+                        "title": "Get Secure Endpoint module ID",
                         "type": "logic.parallel_block",
                         "base_type": "activity",
                         "properties": {
                           "continue_on_failure": false,
-                          "display_name": "Get AMP module ID",
+                          "display_name": "Get Secure Endpoint module ID",
                           "skip_execution": false
                         },
                         "object_type": "definition_activity",
                         "actions": [
                           {
                             "unique_name": "definition_activity_01LQA49RB1ODW4INIgtYUiIERilUoOfLxCy",
-                            "name": "Threat Response v2 - List Response Actions",
-                            "title": "Threat Response v2 - List Response Actions",
+                            "name": "Threat Response - List Response Actions",
+                            "title": "Threat Response - List Response Actions",
                             "type": "workflow.atomic_workflow",
                             "base_type": "subworkflow",
                             "properties": {
                               "continue_on_failure": true,
-                              "display_name": "Threat Response v2 - List Response Actions",
+                              "display_name": "Threat Response - List Response Actions",
                               "input": {
-                                "variable_workflow_01LN1L19G5QMY2si62lBJsZOMzQiYNcFavH": "ee4ec2a1d909afe0feaffadfef2d9785e447a48217c573c9fd9543743d4fd0da",
-                                "variable_workflow_01LN1L19G5XT05gbSZsyqyvxyRmPMFnqpby": "$activity.definition_activity_01LQA4966NAH14jqd7nl05YCZ0p8vUshq98.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$",
-                                "variable_workflow_01LN1L19G62JF0LmmycxXMXAJRAwme5cfSX": "sha256"
+                                "variable_workflow_01PP74F8NFMVL1nunnh0tHmJ6q93eKENUIo": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N3AC7b0MjcdtjGf0hEOwXgILQN$",
+                                "variable_workflow_01PP74F8NFSAR6gmDctGdu1ipiminc8zxQ9": "ee4ec2a1d909afe0feaffadfef2d9785e447a48217c573c9fd9543743d4fd0da",
+                                "variable_workflow_01PP74F8NFTHL23oJ81CQyQ3RzEdWnabkIB": "sha256"
                               },
                               "runtime_user": {
                                 "target_default": true
@@ -2531,7 +2487,7 @@
                               "target": {
                                 "use_workflow_target_group": true
                               },
-                              "workflow_id": "definition_workflow_01LN1L19T0TV005DmQQel75kxFub6INhKKO"
+                              "workflow_id": "definition_workflow_01PP74F8V7XK02YLxMMHUqVt4JVetzJhR9D"
                             },
                             "object_type": "definition_activity"
                           },
@@ -2569,14 +2525,14 @@
                                   {
                                     "unique_name": "definition_activity_01LQA4AI3O0OZ7Gx3I7C2Kdv89wuIYzSnpZ",
                                     "name": "JSONPath Query",
-                                    "title": "Extract AMP actions",
+                                    "title": "Extract Secure Endpoint actions",
                                     "type": "corejava.jsonpathquery",
                                     "base_type": "activity",
                                     "properties": {
                                       "action_timeout": 180,
                                       "continue_on_failure": true,
-                                      "display_name": "Extract AMP actions",
-                                      "input_json": " $activity.definition_activity_01LQA49RB1ODW4INIgtYUiIERilUoOfLxCy.output.variable_workflow_01LN1L19G61AZ0FyrfzhxbvHZKX33SMiztz$",
+                                      "display_name": "Extract Secure Endpoint actions",
+                                      "input_json": " $activity.definition_activity_01LQA49RB1ODW4INIgtYUiIERilUoOfLxCy.output.variable_workflow_01PP74F8NFQWX7VN6IXaZIyIoHTzy3tJDxa$",
                                       "jsonpath_queries": [
                                         {
                                           "jsonpath_query": "$.[?(@.module=='AMP for Endpoints')]",
@@ -2591,12 +2547,12 @@
                                   {
                                     "unique_name": "definition_activity_01LQA4ARKX80I3JDx0ndtJIdmeZwlSNWlN2",
                                     "name": "Condition Block",
-                                    "title": "Are there AMP actions?",
+                                    "title": "Are there Secure Endpoint actions?",
                                     "type": "logic.if_else",
                                     "base_type": "activity",
                                     "properties": {
                                       "continue_on_failure": false,
-                                      "display_name": "Are there AMP actions?",
+                                      "display_name": "Are there Secure Endpoint actions?",
                                       "skip_execution": false
                                     },
                                     "object_type": "definition_activity",
@@ -2781,17 +2737,17 @@
                         "actions": [
                           {
                             "unique_name": "definition_activity_01LQA4C38UMEN5uy4JnQFN6iUa6mfAobXoS",
-                            "name": "Threat Response v2 - List Response Actions",
-                            "title": "Threat Response v2 - List Response Actions",
+                            "name": "Threat Response - List Response Actions",
+                            "title": "Threat Response - List Response Actions",
                             "type": "workflow.atomic_workflow",
                             "base_type": "subworkflow",
                             "properties": {
                               "continue_on_failure": true,
-                              "display_name": "Threat Response v2 - List Response Actions",
+                              "display_name": "Threat Response - List Response Actions",
                               "input": {
-                                "variable_workflow_01LN1L19G5QMY2si62lBJsZOMzQiYNcFavH": "cisco.com",
-                                "variable_workflow_01LN1L19G5XT05gbSZsyqyvxyRmPMFnqpby": "$activity.definition_activity_01LQA4966NAH14jqd7nl05YCZ0p8vUshq98.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$",
-                                "variable_workflow_01LN1L19G62JF0LmmycxXMXAJRAwme5cfSX": "domain"
+                                "variable_workflow_01PP74F8NFMVL1nunnh0tHmJ6q93eKENUIo": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N3AC7b0MjcdtjGf0hEOwXgILQN$",
+                                "variable_workflow_01PP74F8NFSAR6gmDctGdu1ipiminc8zxQ9": "cisco.com",
+                                "variable_workflow_01PP74F8NFTHL23oJ81CQyQ3RzEdWnabkIB": "domain"
                               },
                               "runtime_user": {
                                 "target_default": true
@@ -2800,7 +2756,7 @@
                               "target": {
                                 "use_workflow_target_group": true
                               },
-                              "workflow_id": "definition_workflow_01LN1L19T0TV005DmQQel75kxFub6INhKKO"
+                              "workflow_id": "definition_workflow_01PP74F8V7XK02YLxMMHUqVt4JVetzJhR9D"
                             },
                             "object_type": "definition_activity"
                           },
@@ -2845,7 +2801,7 @@
                                       "action_timeout": 180,
                                       "continue_on_failure": true,
                                       "display_name": "Extract Umbrella actions",
-                                      "input_json": " $activity.definition_activity_01LQA4C38UMEN5uy4JnQFN6iUa6mfAobXoS.output.variable_workflow_01LN1L19G61AZ0FyrfzhxbvHZKX33SMiztz$",
+                                      "input_json": " $activity.definition_activity_01LQA4C38UMEN5uy4JnQFN6iUa6mfAobXoS.output.variable_workflow_01PP74F8NFQWX7VN6IXaZIyIoHTzy3tJDxa$",
                                       "jsonpath_queries": [
                                         {
                                           "jsonpath_query": "$.[?(@.module=='Umbrella')]",
@@ -2953,7 +2909,7 @@
                                                       "skip_execution": false,
                                                       "variables_to_update": [
                                                         {
-                                                          "variable_to_update": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N2782rAj75kNVVS1dkh5ZfKEEn$",
+                                                          "variable_to_update": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7MWX051majkqz4KodFSdK8BRJNZ$",
                                                           "variable_value_new": "$activity.definition_activity_01LQA4DTEFJBB0GQ2I1afXxQvVYMQ4tvJDx.output.jsonpath_queries.moduleInstanceId$"
                                                         }
                                                       ]
@@ -3082,7 +3038,7 @@
                       "variables_to_update": [
                         {
                           "variable_to_update": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQC9H7M8IQL34YBcsXA3Wt2NHkqNohzeX$",
-                          "variable_value_new": "**Automated remediation approved by $activity.definition_activity_01LQA48G4BZFC0UCul81QKGubOoQuYkl74c.output.assignee_responses[0].assignee$ for workflow instance: https://$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7NE8X4BL0sVq1TGXb38LXv7GO0y$/orch-ui/runs/$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.output.instance_id$**\n\n* AMP Module ID: $workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N2782rAj75kNVVS1dkh5ZfKEEn$\n* Umbrella Module ID: $workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7MWX051majkqz4KodFSdK8BRJNZ$\n* Processing $activity.definition_activity_01LQA4ECSZYCH45xUVWDcHwHxVVfZQtQVmb.output.row_count$ observables"
+                          "variable_value_new": "**Automated remediation approved by $activity.definition_activity_01LQA48G4BZFC0UCul81QKGubOoQuYkl74c.output.assignee_responses[0].assignee$ for workflow instance: https://$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7NE8X4BL0sVq1TGXb38LXv7GO0y$/orch-ui/runs/$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.output.instance_id$**\n* Secure Endpoint Module ID: $workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N2782rAj75kNVVS1dkh5ZfKEEn$\n* Umbrella Module ID: $workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7MWX051majkqz4KodFSdK8BRJNZ$\n* Processing $activity.definition_activity_01LQA4ECSZYCH45xUVWDcHwHxVVfZQtQVmb.output.row_count$ observables"
                         }
                       ]
                     },
@@ -3192,12 +3148,12 @@
                               {
                                 "unique_name": "definition_activity_01LQA4G0CVEDY28zzTScWLnMqfBYBOQ5bPs",
                                 "name": "Condition Block",
-                                "title": "Do we have an AMP module ID?",
+                                "title": "Do we have a Secure Endpoint module ID?",
                                 "type": "logic.if_else",
                                 "base_type": "activity",
                                 "properties": {
                                   "continue_on_failure": false,
-                                  "display_name": "Do we have an AMP module ID?",
+                                  "display_name": "Do we have a Secure Endpoint module ID?",
                                   "skip_execution": false
                                 },
                                 "object_type": "definition_activity",
@@ -3233,7 +3189,7 @@
                                           "variables_to_update": [
                                             {
                                               "variable_to_update": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQC9H7M8IQL34YBcsXA3Wt2NHkqNohzeX$",
-                                              "variable_value_new": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQC9H7M8IQL34YBcsXA3Wt2NHkqNohzeX$\n* Triggering AMP response action for sha256 hash: $activity.definition_activity_01LQA4EMTKKD22Fy3AtCJxymDu9m6Jc1dVo.input.source_array[@].value$"
+                                              "variable_value_new": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQC9H7M8IQL34YBcsXA3Wt2NHkqNohzeX$\n* Triggering Secure Endpoint response action for sha256 hash: $activity.definition_activity_01LQA4EMTKKD22Fy3AtCJxymDu9m6Jc1dVo.input.source_array[@].value$"
                                             }
                                           ]
                                         },
@@ -3241,19 +3197,19 @@
                                       },
                                       {
                                         "unique_name": "definition_activity_01LQA4GFBIZ286mCiSxnbrTY7CMlXfK1OEX",
-                                        "name": "Threat Response v2 - Trigger Response Action",
-                                        "title": "Threat Response v2 - Trigger Response Action",
+                                        "name": "Threat Response - Trigger Response Action",
+                                        "title": "Threat Response - Trigger Response Action",
                                         "type": "workflow.atomic_workflow",
                                         "base_type": "subworkflow",
                                         "properties": {
                                           "continue_on_failure": true,
-                                          "display_name": "Threat Response v2 - Trigger Response Action",
+                                          "display_name": "Threat Response - Trigger Response Action",
                                           "input": {
-                                            "variable_workflow_01LN6IZDPTNMB5pRSd3ZMzyhwlTbZP48rTX": "$activity.definition_activity_01LQA4EMTKKD22Fy3AtCJxymDu9m6Jc1dVo.input.source_array[@].type$",
-                                            "variable_workflow_01LN6IZDPTRLB7U1KoVCDGKUILR1skREG7m": "$activity.definition_activity_01LQA4EMTKKD22Fy3AtCJxymDu9m6Jc1dVo.input.source_array[@].value$",
-                                            "variable_workflow_01LN6IZDPTU0109BkPnBB71keB4fGFc6WUF": "$activity.definition_activity_01LQA4966NAH14jqd7nl05YCZ0p8vUshq98.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$",
-                                            "variable_workflow_01LN6M2W5VH7T23pKBE2H7GaOM4Q1t3GHHt": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N2782rAj75kNVVS1dkh5ZfKEEn$",
-                                            "variable_workflow_01LN6MA1TB57N3Sg3a3cljrZjle2Uh86FdZ": "amp-add-sha256-scd"
+                                            "variable_workflow_01PP78A5DV9V56KZdyeivoLTMkTbz5ekKij": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N3AC7b0MjcdtjGf0hEOwXgILQN$",
+                                            "variable_workflow_01PP78A5DVEZD4w3lMF930OCo7g09iIEXaA": "$activity.definition_activity_01LQA4EMTKKD22Fy3AtCJxymDu9m6Jc1dVo.input.source_array[@].type$",
+                                            "variable_workflow_01PP78A5DVG8Z4DyPKNPwN8vRnZZjPMX6Kv": "$activity.definition_activity_01LQA4EMTKKD22Fy3AtCJxymDu9m6Jc1dVo.input.source_array[@].value$",
+                                            "variable_workflow_01PP78A5DVHGO154mbjdWl8LrFNbWQh1BLW": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N2782rAj75kNVVS1dkh5ZfKEEn$",
+                                            "variable_workflow_01PP78A5DVINP4cS0HN9ZngNtE0GuQBPVBv": "amp-add-sha256-scd"
                                           },
                                           "runtime_user": {
                                             "target_default": true
@@ -3262,7 +3218,7 @@
                                           "target": {
                                             "use_workflow_target_group": true
                                           },
-                                          "workflow_id": "definition_workflow_01LN6IZE1Z5WH2mlJ3e0EXoRIJbLEQDRYAa"
+                                          "workflow_id": "definition_workflow_01PP78A5LQXZA7PavA44Ex35KroriQgIjvH"
                                         },
                                         "object_type": "definition_activity"
                                       }
@@ -3299,7 +3255,7 @@
                                           "variables_to_update": [
                                             {
                                               "variable_to_update": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQC9H7M8IQL34YBcsXA3Wt2NHkqNohzeX$",
-                                              "variable_value_new": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQC9H7M8IQL34YBcsXA3Wt2NHkqNohzeX$\n* Unable to trigger AMP response action for sha256 hash: $activity.definition_activity_01LQA4EMTKKD22Fy3AtCJxymDu9m6Jc1dVo.input.source_array[@].value$ (no AMP module detected)"
+                                              "variable_value_new": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQC9H7M8IQL34YBcsXA3Wt2NHkqNohzeX$\n* Unable to trigger Secure Endpoint response action for sha256 hash: $activity.definition_activity_01LQA4EMTKKD22Fy3AtCJxymDu9m6Jc1dVo.input.source_array[@].value$ (no Secure Endpoint module detected)"
                                             }
                                           ]
                                         },
@@ -3401,19 +3357,19 @@
                                       },
                                       {
                                         "unique_name": "definition_activity_01LQA4HH25W3G6UROkUDjGDWwYjWDV4U7Eh",
-                                        "name": "Threat Response v2 - Trigger Response Action",
-                                        "title": "Threat Response v2 - Trigger Response Action",
+                                        "name": "Threat Response - Trigger Response Action",
+                                        "title": "Threat Response - Trigger Response Action",
                                         "type": "workflow.atomic_workflow",
                                         "base_type": "subworkflow",
                                         "properties": {
                                           "continue_on_failure": true,
-                                          "display_name": "Threat Response v2 - Trigger Response Action",
+                                          "display_name": "Threat Response - Trigger Response Action",
                                           "input": {
-                                            "variable_workflow_01LN6IZDPTNMB5pRSd3ZMzyhwlTbZP48rTX": "$activity.definition_activity_01LQA4EMTKKD22Fy3AtCJxymDu9m6Jc1dVo.input.source_array[@].type$",
-                                            "variable_workflow_01LN6IZDPTRLB7U1KoVCDGKUILR1skREG7m": "$activity.definition_activity_01LQA4EMTKKD22Fy3AtCJxymDu9m6Jc1dVo.input.source_array[@].value$",
-                                            "variable_workflow_01LN6IZDPTU0109BkPnBB71keB4fGFc6WUF": "$activity.definition_activity_01LQA4966NAH14jqd7nl05YCZ0p8vUshq98.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$",
-                                            "variable_workflow_01LN6M2W5VH7T23pKBE2H7GaOM4Q1t3GHHt": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7MWX051majkqz4KodFSdK8BRJNZ$",
-                                            "variable_workflow_01LN6MA1TB57N3Sg3a3cljrZjle2Uh86FdZ": "block"
+                                            "variable_workflow_01PP78A5DV9V56KZdyeivoLTMkTbz5ekKij": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N3AC7b0MjcdtjGf0hEOwXgILQN$",
+                                            "variable_workflow_01PP78A5DVEZD4w3lMF930OCo7g09iIEXaA": "$activity.definition_activity_01LQA4EMTKKD22Fy3AtCJxymDu9m6Jc1dVo.input.source_array[@].type$",
+                                            "variable_workflow_01PP78A5DVG8Z4DyPKNPwN8vRnZZjPMX6Kv": "$activity.definition_activity_01LQA4EMTKKD22Fy3AtCJxymDu9m6Jc1dVo.input.source_array[@].value$",
+                                            "variable_workflow_01PP78A5DVHGO154mbjdWl8LrFNbWQh1BLW": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7MWX051majkqz4KodFSdK8BRJNZ$",
+                                            "variable_workflow_01PP78A5DVINP4cS0HN9ZngNtE0GuQBPVBv": "block"
                                           },
                                           "runtime_user": {
                                             "target_default": true
@@ -3422,7 +3378,7 @@
                                           "target": {
                                             "use_workflow_target_group": true
                                           },
-                                          "workflow_id": "definition_workflow_01LN6IZE1Z5WH2mlJ3e0EXoRIJbLEQDRYAa"
+                                          "workflow_id": "definition_workflow_01PP78A5LQXZA7PavA44Ex35KroriQgIjvH"
                                         },
                                         "object_type": "definition_activity"
                                       }
@@ -3536,13 +3492,13 @@
                         "actions": [
                           {
                             "unique_name": "definition_activity_01LQA4ILM1S2J5R1Z4r2miqBUBkkoJ6mTOu",
-                            "name": "Threat Response v2 - Generate Orbital Access Token",
-                            "title": "Threat Response v2 - Generate Orbital Access Token",
+                            "name": "Threat Response - Generate Orbital Access Token",
+                            "title": "Threat Response - Generate Orbital Access Token",
                             "type": "workflow.atomic_workflow",
                             "base_type": "subworkflow",
                             "properties": {
                               "continue_on_failure": false,
-                              "display_name": "Threat Response v2 - Generate Orbital Access Token",
+                              "display_name": "Threat Response - Generate Orbital Access Token",
                               "runtime_user": {
                                 "target_default": true
                               },
@@ -3563,7 +3519,7 @@
                                   }
                                 }
                               },
-                              "workflow_id": "definition_workflow_01KWJ2ISZTF2V6ibRYe7FZ7sOuycDOpnwss"
+                              "workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
                             },
                             "object_type": "definition_activity"
                           },
@@ -3591,17 +3547,17 @@
                                   "continue_on_failure": true,
                                   "display_name": "Orbital - Query Endpoint",
                                   "input": {
-                                    "variable_workflow_01F4YGKGSPQ4R0cp29F0OqpDcXkjpph7LCH": "",
-                                    "variable_workflow_01F4YGKGSPVOT0mTZ6DAQYFbZROdb9xnhdU": "$activity.definition_activity_01LQA4ILM1S2J5R1Z4r2miqBUBkkoJ6mTOu.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$",
-                                    "variable_workflow_01F4YGKGSPWTB4YpUnQ0yxhqhW0mK5GRc8M": "",
-                                    "variable_workflow_01F4YGKGSPZ6U1aJjRQVdPZLfGTDaKUp6aj": "",
-                                    "variable_workflow_01F4YGKGSQ0CV4Aoqb5dI0cE4BnX2d363Q6": "$activity.definition_activity_01LQA4ITUGNBO1pYPuzjEGNMeFq8ctmsDIj.input.source_array[@].value$",
-                                    "variable_workflow_01F4YGKGSQ1G12UKXH09WJ1SniEvSl5Mvix": "",
-                                    "variable_workflow_01F5OLF57L9ZO3EqIUyCbALqlT8zl1g2Ewx": false,
-                                    "variable_workflow_01F5OPGZKY45B6qt4GZaTWFCQgeubkvxetW": "forensic-snapshot-windows-0.0.6",
-                                    "variable_workflow_01F5OQ33Z1FYY6EU9WApPObYDLrXazVhrX6": 5,
-                                    "variable_workflow_01F6IYTZNLX4G5pSwr6DIkCQrikF0bhHcja": "",
-                                    "variable_workflow_01FBQGUI51HH37Ch8QLjCXWxN0bdvHzSslk": "SolarWinds - Snapshot for $activity.definition_activity_01LQA4ITUGNBO1pYPuzjEGNMeFq8ctmsDIj.input.source_array[@].value$"
+                                    "variable_workflow_01PQ89Y78TFQW6l81VWArKdsXi6aTo6ttQ0": "forensic-snapshot-windows-0.0.6",
+                                    "variable_workflow_01PQ89Y78TJW122COMKV4v5IaRfd0rHmKya": 5,
+                                    "variable_workflow_01PQ89Y78TL4S4gpTXEcizKNehfpT57GFfH": "",
+                                    "variable_workflow_01PQ89Y78TNHZ1ejIRsg03CgWYqamCUu6fr": "$activity.definition_activity_01LQA4ITUGNBO1pYPuzjEGNMeFq8ctmsDIj.input.source_array[@].value$",
+                                    "variable_workflow_01PQ89Y78TQXF6sxdOzpuMy2ywJ5cfMO7tJ": "",
+                                    "variable_workflow_01PQ89Y78TS3M5dh6fdlDmbg7Le3dYWSgik": "",
+                                    "variable_workflow_01PQ89Y78TT7A5llxo9E9lASXTaGfke42en": "",
+                                    "variable_workflow_01PQ89Y78TUBI7FD5G2DozkMtabDoLrOKty": "SolarWinds - Snapshot for $activity.definition_activity_01LQA4ITUGNBO1pYPuzjEGNMeFq8ctmsDIj.input.source_array[@].value$",
+                                    "variable_workflow_01PQ89Y78TVI01vdmVFTvVgvkyDjRy3dqcR": false,
+                                    "variable_workflow_01PQ89Y78TWRE5UDFeOBcXf0IXKBD4SMiNb": "",
+                                    "variable_workflow_01PQ89Y78TZDC3GfT8KI2vHAVvZgDEtWRpC": "$activity.definition_activity_01LQA4ILM1S2J5R1Z4r2miqBUBkkoJ6mTOu.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$"
                                   },
                                   "runtime_user": {
                                     "target_default": true
@@ -3623,19 +3579,19 @@
                                       }
                                     }
                                   },
-                                  "workflow_id": "definition_workflow_01F4YGKHBBM2L2SwIZBJ2sKamNjm3QtxeAQ"
+                                  "workflow_id": "definition_workflow_01PQ89Y7GHRYN1Po7FXaw3jvoMHv5VaAlG1"
                                 },
                                 "object_type": "definition_activity"
                               },
                               {
                                 "unique_name": "definition_activity_01LQA4JM5D0J11CK23B1t5Plt201vtmZawN",
                                 "name": "Condition Block",
-                                "title": "Do we have an AMP module ID?",
+                                "title": "Do we have a Secure Endpoint module ID?",
                                 "type": "logic.if_else",
                                 "base_type": "activity",
                                 "properties": {
                                   "continue_on_failure": false,
-                                  "display_name": "Do we have an AMP module ID?",
+                                  "display_name": "Do we have a Secure Endpoint module ID?",
                                   "skip_execution": false
                                 },
                                 "object_type": "definition_activity",
@@ -3671,7 +3627,7 @@
                                           "variables_to_update": [
                                             {
                                               "variable_to_update": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQC9H7M8IQL34YBcsXA3Wt2NHkqNohzeX$",
-                                              "variable_value_new": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQC9H7M8IQL34YBcsXA3Wt2NHkqNohzeX$\n* Executing forensic snapshot and AMP host isolation for GUID: $activity.definition_activity_01LQA4ITUGNBO1pYPuzjEGNMeFq8ctmsDIj.input.source_array[@].value$"
+                                              "variable_value_new": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQC9H7M8IQL34YBcsXA3Wt2NHkqNohzeX$\n* Executing forensic snapshot and Secure Endpoint host isolation for GUID: $activity.definition_activity_01LQA4ITUGNBO1pYPuzjEGNMeFq8ctmsDIj.input.source_array[@].value$"
                                             }
                                           ]
                                         },
@@ -3679,19 +3635,19 @@
                                       },
                                       {
                                         "unique_name": "definition_activity_01LQA4K1G6Q5S4xISfEUVjPz6SuBHohMgHQ",
-                                        "name": "Threat Response v2 - Trigger Response Action",
-                                        "title": "Threat Response v2 - Trigger Response Action",
+                                        "name": "Threat Response - Trigger Response Action",
+                                        "title": "Threat Response - Trigger Response Action",
                                         "type": "workflow.atomic_workflow",
                                         "base_type": "subworkflow",
                                         "properties": {
                                           "continue_on_failure": true,
-                                          "display_name": "Threat Response v2 - Trigger Response Action",
+                                          "display_name": "Threat Response - Trigger Response Action",
                                           "input": {
-                                            "variable_workflow_01LN6IZDPTNMB5pRSd3ZMzyhwlTbZP48rTX": "$activity.definition_activity_01LQA4ITUGNBO1pYPuzjEGNMeFq8ctmsDIj.input.source_array[@].type$",
-                                            "variable_workflow_01LN6IZDPTRLB7U1KoVCDGKUILR1skREG7m": "$activity.definition_activity_01LQA4ITUGNBO1pYPuzjEGNMeFq8ctmsDIj.input.source_array[@].value$",
-                                            "variable_workflow_01LN6IZDPTU0109BkPnBB71keB4fGFc6WUF": "$activity.definition_activity_01LQA4966NAH14jqd7nl05YCZ0p8vUshq98.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$",
-                                            "variable_workflow_01LN6M2W5VH7T23pKBE2H7GaOM4Q1t3GHHt": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N2782rAj75kNVVS1dkh5ZfKEEn$",
-                                            "variable_workflow_01LN6MA1TB57N3Sg3a3cljrZjle2Uh86FdZ": "amp-start-isolation-amp-computer-guid"
+                                            "variable_workflow_01PP78A5DV9V56KZdyeivoLTMkTbz5ekKij": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N3AC7b0MjcdtjGf0hEOwXgILQN$",
+                                            "variable_workflow_01PP78A5DVEZD4w3lMF930OCo7g09iIEXaA": "$activity.definition_activity_01LQA4ITUGNBO1pYPuzjEGNMeFq8ctmsDIj.input.source_array[@].type$",
+                                            "variable_workflow_01PP78A5DVG8Z4DyPKNPwN8vRnZZjPMX6Kv": "$activity.definition_activity_01LQA4ITUGNBO1pYPuzjEGNMeFq8ctmsDIj.input.source_array[@].value$",
+                                            "variable_workflow_01PP78A5DVHGO154mbjdWl8LrFNbWQh1BLW": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N2782rAj75kNVVS1dkh5ZfKEEn$",
+                                            "variable_workflow_01PP78A5DVINP4cS0HN9ZngNtE0GuQBPVBv": "amp-start-isolation-amp-computer-guid"
                                           },
                                           "runtime_user": {
                                             "target_default": true
@@ -3700,7 +3656,7 @@
                                           "target": {
                                             "use_workflow_target_group": true
                                           },
-                                          "workflow_id": "definition_workflow_01LN6IZE1Z5WH2mlJ3e0EXoRIJbLEQDRYAa"
+                                          "workflow_id": "definition_workflow_01PP78A5LQXZA7PavA44Ex35KroriQgIjvH"
                                         },
                                         "object_type": "definition_activity"
                                       }
@@ -3737,7 +3693,7 @@
                                           "variables_to_update": [
                                             {
                                               "variable_to_update": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQC9H7M8IQL34YBcsXA3Wt2NHkqNohzeX$",
-                                              "variable_value_new": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQC9H7M8IQL34YBcsXA3Wt2NHkqNohzeX$\n* Triggered forensic snapshot for GUID: $activity.definition_activity_01LQA4ITUGNBO1pYPuzjEGNMeFq8ctmsDIj.input.source_array[@].value$\n* Unable to trigger AMP host isolation for GUID: $activity.definition_activity_01LQA4ITUGNBO1pYPuzjEGNMeFq8ctmsDIj.input.source_array[@].value$ (no AMP module detected)"
+                                              "variable_value_new": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQC9H7M8IQL34YBcsXA3Wt2NHkqNohzeX$\n* Triggered forensic snapshot for GUID: $activity.definition_activity_01LQA4ITUGNBO1pYPuzjEGNMeFq8ctmsDIj.input.source_array[@].value$\n* Unable to trigger Secure Endpoint host isolation for GUID: $activity.definition_activity_01LQA4ITUGNBO1pYPuzjEGNMeFq8ctmsDIj.input.source_array[@].value$ (no Secure Endpoint module detected)"
                                             }
                                           ]
                                         },
@@ -3858,13 +3814,13 @@
             "actions": [
               {
                 "unique_name": "definition_activity_01LQI9W22HQGO7EJ6jVFOh6QpYteZQ5DLc7",
-                "name": "Service Now - Add Work Note to Incident",
-                "title": "Service Now - Add Work Note to Incident",
+                "name": "ServiceNow - Add Work Note to Incident",
+                "title": "ServiceNow - Add Work Note to Incident",
                 "type": "workflow.atomic_workflow",
                 "base_type": "subworkflow",
                 "properties": {
                   "continue_on_failure": false,
-                  "display_name": "Service Now - Add Work Note to Incident",
+                  "display_name": "ServiceNow - Add Work Note to Incident",
                   "input": {
                     "variable_workflow_01FMQTASNW19F198DyWHV14WHmkxNhmxaQu": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQC9H7M8IQL34YBcsXA3Wt2NHkqNohzeX$",
                     "variable_workflow_01FMQTASNW78T0tgvbFoES84str3rrkOfBq": "v2",
@@ -3963,10 +3919,10 @@
                               "continue_on_failure": true,
                               "display_name": "Webex Teams - Search for Room",
                               "input": {
-                                "variable_workflow_01FHMU6RWYQWI3QFUEzjWMT7JYBcz5vquuD": "",
-                                "variable_workflow_01FHMU6RWYWY822p43LeMi8Lcx89Q9jeyek": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7NGBB54aYNtHzu1k3WgZbA48VAJ$",
-                                "variable_workflow_01FHMU6RWYY481TVWDm0BQ1p0rWnqak191l": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N9U008BtkYC6UOqkypo4MfD4IG$",
-                                "variable_workflow_01FHNGCYY2O6Z0NcPmUDabszT2P4P0oqMNd": ""
+                                "variable_workflow_01PP790MCX1DN3EitpQebkUyJS65DbwS3nU": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N9U008BtkYC6UOqkypo4MfD4IG$",
+                                "variable_workflow_01PP790MCXB392D3R8pxh9fgOTjTde2bcMW": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7NGBB54aYNtHzu1k3WgZbA48VAJ$",
+                                "variable_workflow_01PP790MCXHP55YE6ylOEITWsWbUFJeyWGv": "",
+                                "variable_workflow_01PP790MCXM9W1MUwo85y8iNRCoQuQ4RGNa": ""
                               },
                               "runtime_user": {
                                 "target_default": true
@@ -3988,7 +3944,7 @@
                                   }
                                 }
                               },
-                              "workflow_id": "definition_workflow_01FHMU6SD5XPL6eRW4zFXqkA1w8jWiQCIBU"
+                              "workflow_id": "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez"
                             },
                             "object_type": "definition_activity"
                           },
@@ -4033,10 +3989,10 @@
                                       "continue_on_failure": false,
                                       "display_name": "Webex Teams - Post Message to Room",
                                       "input": {
-                                        "variable_workflow_01FGYY44G3MZ55amJu9YqgUeKS8GT49bZx3": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N9U008BtkYC6UOqkypo4MfD4IG$",
-                                        "variable_workflow_01FGYY44G3TK951Crpnd8g2izonyM4bFtpW": "$activity.definition_activity_01LQCGIT3BSRH48GGCa3jLbhuxVhNoTto3m.output.variable_workflow_01FHSVE2R6ZTQ6L92WEi0kWgR5T8zhMAUzO$",
-                                        "variable_workflow_01FGYY44G3UPV3heGGc3vXCV47YL5WoI2X6": "",
-                                        "variable_workflow_01FGYZ9BV4QTP19CuMwcW8QywvCP9ymx2BZ": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQC9H7M8IQL34YBcsXA3Wt2NHkqNohzeX$"
+                                        "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$activity.definition_activity_01LQCGIT3BSRH48GGCa3jLbhuxVhNoTto3m.output.variable_workflow_01PP790MCXJ7Y5cAWcGZWbG4Es0126zb1I6$",
+                                        "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQA3KM7N9U008BtkYC6UOqkypo4MfD4IG$",
+                                        "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "$workflow.definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa.local.variable_workflow_01LQC9H7M8IQL34YBcsXA3Wt2NHkqNohzeX$",
+                                        "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": ""
                                       },
                                       "runtime_user": {
                                         "target_default": true
@@ -4058,7 +4014,7 @@
                                           }
                                         }
                                       },
-                                      "workflow_id": "definition_workflow_01FGYY44YU521254ygN3Le0In0kEHpiPNpf"
+                                      "workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw"
                                     },
                                     "object_type": "definition_activity"
                                   }
@@ -4193,20 +4149,20 @@
     }
   },
   "atomic_workflows": [
-    "definition_workflow_01KVOGF574Y291CRwQLNB1TtzEHDNwyUx7O",
-    "definition_workflow_01LN1L19T0TV005DmQQel75kxFub6INhKKO",
-    "definition_workflow_01FGYY44YU521254ygN3Le0In0kEHpiPNpf",
-    "definition_workflow_01HQNWMZ0DF0F1hMGyE56KyjIltjC5jQuIY",
-    "definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW",
-    "definition_workflow_01LN6IZE1Z5WH2mlJ3e0EXoRIJbLEQDRYAa",
-    "definition_workflow_01KXGQWLMIDXG563x6DBOvwjfxpH8JrkaRW",
-    "definition_workflow_01LFCW7C2Q1BU6Szjo7JqBWHWPmevmW7uIn",
-    "definition_workflow_01KVVWMB2UTRF5uVHVH9DtiT6vgIfnzTdRS",
-    "definition_workflow_01F4YGKHBBM2L2SwIZBJ2sKamNjm3QtxeAQ",
     "definition_workflow_01FMQTAT3H5VC4NVbonulAhVztfqidbUGlJ",
-    "definition_workflow_01KWID47SRHY30TYWU3BQSFODWA7PVO360x",
-    "definition_workflow_01KWJ2ISZTF2V6ibRYe7FZ7sOuycDOpnwss",
-    "definition_workflow_01KXGKZ0JA96P0p7omD4IdS6zKdw5ECiofU",
-    "definition_workflow_01FHMU6SD5XPL6eRW4zFXqkA1w8jWiQCIBU"
+    "definition_workflow_01PP75X6VPQNK4hKE1XQXIMeIcHrE1khIML",
+    "definition_workflow_01PP78A5LQXZA7PavA44Ex35KroriQgIjvH",
+    "definition_workflow_01PP7586MYQ913P0nWshTHMU7mQNNFG58Bv",
+    "definition_workflow_01PP74F8V7XK02YLxMMHUqVt4JVetzJhR9D",
+    "definition_workflow_01HQNWMZ0DF0F1hMGyE56KyjIltjC5jQuIY",
+    "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez",
+    "definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW",
+    "definition_workflow_01PP77MLQ4QAG765OwlT0ZDqBzv80HvYuPC",
+    "definition_workflow_01PP78LW2WNY80aDM6OHNiRu2VPG4BrR8bq",
+    "definition_workflow_01PP78TYLE76D6188QkWvzWydNU6L8PtlvS",
+    "definition_workflow_01PP773PI1X3Y1YQWhirIL8Uy40Thd6ND7r",
+    "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw",
+    "definition_workflow_01PQ89Y7GHRYN1Po7FXaw3jvoMHv5VaAlG1",
+    "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
   ]
 }

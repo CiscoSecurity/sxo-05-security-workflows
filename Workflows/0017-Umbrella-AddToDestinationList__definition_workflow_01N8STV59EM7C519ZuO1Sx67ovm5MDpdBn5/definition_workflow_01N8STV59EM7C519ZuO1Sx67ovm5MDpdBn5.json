@@ -68,7 +68,7 @@
         "is_atomic": false
       },
       "delete_workflow_instance": false,
-      "description": "This workflow adds an observable to the configured destination list in Cisco Umbrella.\n\nTarget Group: Default TargetGroup\n\nTarget: Umbrella Management\n\nSteps:\n[] Make sure the observable type provided is supported\n[] Get all of the organization's destination lists\n[] Extract the ID of the configured destination list\n[] Check if extracting the destination list ID was successful:\n[]\u003e If it was, add the record to the list\n[]\u003e If it wasn't, output an error\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0017",
+      "description": "This workflow adds an observable to the configured destination list in Cisco Umbrella. Supported observables: ip, domain\n\nTarget Group: Default TargetGroup\n\nTarget: Umbrella Management\n\nSteps:\n[] Make sure the observable type provided is supported\n[] Get all of the organization's destination lists\n[] Extract the ID of the configured destination list\n[] Check if extracting the destination list ID was successful:\n[]> If it was, add the record to the list\n[]> If it wasn't, output an error\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0017",
       "display_name": "0017 - Umbrella - Add to Destination List",
       "runtime_user": {
         "override_target_runtime_user": false,
@@ -166,17 +166,17 @@
       },
       {
         "unique_name": "definition_activity_01N8UPF48V2L92Hwfs4IjMmeWuMpkFFyzJp",
-        "name": "Umbrella - Management V1 - Get Destination Lists",
-        "title": "Umbrella - Management V1 - Get Destination Lists",
+        "name": "Umbrella - Management - Get Destination Lists",
+        "title": "Umbrella - Management - Get Destination Lists",
         "type": "workflow.atomic_workflow",
         "base_type": "subworkflow",
         "properties": {
           "continue_on_failure": false,
-          "display_name": "Umbrella - Management V1 - Get Destination Lists",
+          "display_name": "Umbrella - Management - Get Destination Lists",
           "input": {
-            "variable_workflow_01G69L4U20EAO1KzW4LYqhf3F7uLULy1mZh": "$workflow.definition_workflow_01N8STV59EM7C519ZuO1Sx67ovm5MDpdBn5.local.variable_workflow_01N8SUWB4QWLQ1Lzb9SpNsCmvTqhJPl0opk$",
-            "variable_workflow_01G69PXB4KQOF0O9IMqwV5XJBCf6nPDSK32": 1,
-            "variable_workflow_01G69RL6R8EA65qOdmej1r2FYjpunYbc7wx": 100
+            "variable_workflow_01PP76E2I524R2Ds69P8MPBNOsTC97lLsjE": "$workflow.definition_workflow_01N8STV59EM7C519ZuO1Sx67ovm5MDpdBn5.local.variable_workflow_01N8SUWB4QWLQ1Lzb9SpNsCmvTqhJPl0opk$",
+            "variable_workflow_01PP76E2I57QC1YKSGlj4FvrIirJajhuiJU": 100,
+            "variable_workflow_01PP76E2I598J2s8XLXecj9Ai9616xQ7Vv3": 1
           },
           "runtime_user": {
             "target_default": true
@@ -185,7 +185,7 @@
           "target": {
             "use_workflow_target_group": true
           },
-          "workflow_id": "definition_workflow_01G69L4UF224D74f3o12wMoObVApFrjb0gK"
+          "workflow_id": "definition_workflow_01PP76E2PZZDF6jy3jVpYnYp5STVy3zReDB"
         },
         "object_type": "definition_activity"
       },
@@ -199,7 +199,7 @@
           "action_timeout": 180,
           "continue_on_failure": true,
           "display_name": "Extract destination list ID",
-          "input_json": "$activity.definition_activity_01N8UPF48V2L92Hwfs4IjMmeWuMpkFFyzJp.output.variable_workflow_01G69S783EXSQ3OIHYr51DhNWHdAQ8bjAmM$",
+          "input_json": "$activity.definition_activity_01N8UPF48V2L92Hwfs4IjMmeWuMpkFFyzJp.output.variable_workflow_01PP76E2I5AGW6ER9Z87Zvcb4O1pjn9Wcwc$",
           "jsonpath_queries": [
             {
               "jsonpath_query": "$.data[?(@.name==\"$workflow.definition_workflow_01N8STV59EM7C519ZuO1Sx67ovm5MDpdBn5.local.variable_workflow_01N8SX42CUI766QzPyCMY66ZucixntbJR1h$\")].id",
@@ -244,18 +244,18 @@
             "actions": [
               {
                 "unique_name": "definition_activity_01N8SUJTZKNLF2n1YlYfLoQhlfdH8R4xrbV",
-                "name": "Umbrella - Management V1 - Add Record to Destination List",
-                "title": "Umbrella - Management V1 - Add Record to Destination List",
+                "name": "Umbrella - Management - Add Record to Destination List",
+                "title": "Umbrella - Management - Add Record to Destination List",
                 "type": "workflow.atomic_workflow",
                 "base_type": "subworkflow",
                 "properties": {
                   "continue_on_failure": false,
-                  "display_name": "Umbrella - Management V1 - Add Record to Destination List",
+                  "display_name": "Umbrella - Management - Add Record to Destination List",
                   "input": {
-                    "variable_workflow_01G69XFF4HLEZ7QayzU2DO9thN3J5u0SoSV": "$workflow.definition_workflow_01N8STV59EM7C519ZuO1Sx67ovm5MDpdBn5.local.variable_workflow_01N8SUWB4QWLQ1Lzb9SpNsCmvTqhJPl0opk$",
-                    "variable_workflow_01G69XFF4HSX14Tl2ZeZ5IltuMfgtTvdvaR": "$activity.definition_activity_01N8UOVO5WFWG2bpePpxlqtJkbqb9vpJtFE.output.jsonpath_queries.destinationListId$",
-                    "variable_workflow_01G69YIDRG6EL4aPWYIhXOayFu3Myu8ZgI1": "$workflow.definition_workflow_01N8STV59EM7C519ZuO1Sx67ovm5MDpdBn5.input.variable_workflow_01N8SU73XGBU53LOwNS2lAY8aQfkTQGRoxf$",
-                    "variable_workflow_01G69YNV23UZ71b2pOX15WUHGqceHm9hXUO": "Added by SecureX Orchestration"
+                    "variable_workflow_01PR38PRA8DAV0ueGoV9r6wwpoD7SSF757y": "Added by SecureX orchestration",
+                    "variable_workflow_01PR38PRA8HGK1pzCqHFCWKILh6nWkPrpC0": "$workflow.definition_workflow_01N8STV59EM7C519ZuO1Sx67ovm5MDpdBn5.local.variable_workflow_01N8SUWB4QWLQ1Lzb9SpNsCmvTqhJPl0opk$",
+                    "variable_workflow_01PR38PRA8ISH0QK4PJTeo7pPubN1Ft8vi7": "$activity.definition_activity_01N8UOVO5WFWG2bpePpxlqtJkbqb9vpJtFE.output.jsonpath_queries.destinationListId$",
+                    "variable_workflow_01PR38PRA8JXW531nZH86NP15pwRBtmRMOT": "$workflow.definition_workflow_01N8STV59EM7C519ZuO1Sx67ovm5MDpdBn5.input.variable_workflow_01N8SU73XGBU53LOwNS2lAY8aQfkTQGRoxf$"
                   },
                   "runtime_user": {
                     "target_default": true
@@ -264,7 +264,7 @@
                   "target": {
                     "use_workflow_target_group": true
                   },
-                  "workflow_id": "definition_workflow_01G69XFFLC3O94DC4lJCtqSiuUqtz259IS0"
+                  "workflow_id": "definition_workflow_01PR38PRIL1R04x7je59e5UtYqDQ0B1NHet"
                 },
                 "object_type": "definition_activity"
               }
@@ -341,23 +341,13 @@
           "data_target_type": "email.smtp_endpoint",
           "view_target_type": "email.smtp_endpoint",
           "include_all_targets": true
-        },
-        {
-          "data_target_type": "terminal.endpoint",
-          "view_target_type": "terminal.endpoint",
-          "include_all_targets": true
-        },
-        {
-          "data_target_type": "aws.endpoint",
-          "view_target_type": "aws.endpoint",
-          "include_all_targets": true
         }
       ],
       "object_type": "target_group"
     }
   },
   "atomic_workflows": [
-    "definition_workflow_01G69XFFLC3O94DC4lJCtqSiuUqtz259IS0",
-    "definition_workflow_01G69L4UF224D74f3o12wMoObVApFrjb0gK"
+    "definition_workflow_01PP76E2PZZDF6jy3jVpYnYp5STVy3zReDB",
+    "definition_workflow_01PR38PRIL1R04x7je59e5UtYqDQ0B1NHet"
   ]
 }

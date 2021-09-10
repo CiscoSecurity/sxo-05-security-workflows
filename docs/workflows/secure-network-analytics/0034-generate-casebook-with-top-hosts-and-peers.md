@@ -17,25 +17,38 @@ Response Workflow
 {: .label }
 </div>
 
-When triggered, this workflow fetches the top 10 hosts and peers that communicated with the IP address pivoted on from Secure Network Analytics. The lists of IPs are then added to a SecureX Threat Response casebook.
+This workflow fetches the top 10 hosts and peers that communicated with the IP address pivoted on from Cisco Secure Network Analytics (SNA). The lists of IPs are then added to a SecureX casebook. Supported observable: `ip`
 
 Hint: If you want to change the name of this workflow in the pivot menu, change its display name.
 
-[<i class="fab fa-github mr-1"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/XXX){: .btn-cisco-outline }
+[<i class="fab fa-github mr-1"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0034-SNA-GenerateCasebookWithTopHostsAndPeers__definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR){: .btn-cisco-outline }
+
+---
+
+## Change Log
+
+| Date | Notes |
+|:-----|:------|
+| Jun 17, 2021 | - Initial release |
+| September 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+
+_See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 
 ---
 
 ## Requirements
+* The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
+	* SNA - Get Tenants
+	* SNA - Get Tokens
+	* SNA - Get Top Hosts by IP Address
+	* SNA - Get Top Peers by IP Address
+	* Threat Response - Create Casebook
+	* Threat Response - Generate Access Token
 * The following atomic actions must be imported before you can import this workflow:
-	* SNA - Get Tenants ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
-	* SNA - Get Tokens ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
-	* SNA - Get Top Hosts by IP Address ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
-	* SNA - Get Top Peers by IP Address ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
-	* Threat Response v2 - Generate Access Token ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Response v2 - Create Casebook ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* None
 * The [targets](#targets) and [account keys](#account-keys) listed below
-* A Secure Network Analytics instance
-* A [SecureX orchestration remote]({{ site.baseurl }}/remote) with connectivity to your SNA instance
+* A [SecureX orchestration remote]({{ site.baseurl }}/remote) with connectivity to your Secure Network Analytics instance
+* Cisco Secure Network Analytics (SNA)
 
 ---
 
@@ -43,7 +56,7 @@ Hint: If you want to change the name of this workflow in the pivot menu, change 
 1. Make sure the observable type provided is supported
 1. Fetch global variables
 1. Calculate date 24 hours ago
-1. Get SNA tokens and tenant information
+1. Get Secure Network Analytics tokens and tenant information
 1. Fetch and parse the top peers
 1. Fetch and parse the top hosts
 1. Make sure at least one of the queries returned data
@@ -52,7 +65,7 @@ Hint: If you want to change the name of this workflow in the pivot menu, change 
 ---
 
 ## Configuration
-* Add your SNA API username and password to `SNA Username` and `SNA Password` (or, if you have them stored in global variables, use the `Fetch Global Variables` group at the beginning of the workflow to update the local variables)
+* Add your Secure Network Analytics API username and password to `SNA Username` and `SNA Password` (or, if you have them stored in global variables, use the `Fetch Global Variables` group at the beginning of the workflow to update the local variables)
 * Set the `SNA Tenant Name` to the name of the tenant you want to work in
 * If you want to change the name of this workflow in the pivot menu, change its display name
 

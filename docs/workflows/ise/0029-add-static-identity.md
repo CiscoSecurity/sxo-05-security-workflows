@@ -17,19 +17,33 @@ Response Workflow
 {: .label }
 </div>
 
-This workflow adds a static identity group assignment to a MAC address in Cisco Identity Services Engine (ISE). For example, if you're using identity groups to determine which authorization profile to apply, you can use this response workflow to alter an endpoint's permissions.
+This workflow adds a static identity group assignment to a MAC address in Cisco Identity Services Engine (ISE). For example, if you're using identity groups to determine which authorization profile to apply, you can use this response workflow to alter an endpoint's permissions. Supported observable: `mac_address`
 
 [<i class="fab fa-github mr-1"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0029-ISE-AddEndpointToIdentityGroup__definition_workflow_01O466MIFZKMV0qedvuz6jffSKFa38bptVQ){: .btn-cisco-outline }
 
 ---
 
+## Change Log
+
+| Date | Notes |
+|:-----|:------|
+| May 26, 2021 | - Initial release |
+| September 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+
+_See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
+
+---
+
 ## Requirements
+* The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
+	* ISE - ERS - Endpoint - Create Endpoint
+	* ISE - ERS - Endpoint - Search
+	* ISE - ERS - Endpoint - Update Identity Group
+	* ISE - ERS - Endpoint Identity Group - Get by Name
 * The following atomic actions must be imported before you can import this workflow:
-	* ISE - ERS - Endpoint - Create Endpoint ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
-	* ISE - ERS - Endpoint - Search ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
-	* ISE - ERS - Endpoint - Update Identity Group ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
-	* ISE - ERS - Endpoint Identity Group - Get by Name ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
+	* None
 * The [targets](#targets) and [account keys](#account-keys) listed below
+* Cisco Identity Services Engine (ISE)
 
 ---
 

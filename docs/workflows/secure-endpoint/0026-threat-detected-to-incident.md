@@ -14,33 +14,46 @@ Workflow #0026
 {: .label }
 </div>
 
-This workflow periodically checks a Secure Endpoint instance for Threat Detected events. When an event is returned, the workflow collects information from it and creates a casebook and incident in Threat Response to document what happened. This workflow is designed to run every 5 minutes on a schedule.
+This workflow periodically checks Cisco Secure Endpoint for Threat Detected events. When an event is returned, the workflow collects information from it and creates a casebook and incident in Cisco SecureX to document what happened. This workflow is designed to run every 5 minutes on a schedule.
 
 [<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0026-SecureEndpoint-ThreatDetectedEventsToIncidents__definition_workflow_01NSEREWTPFQR6mMCkT1Qe4LO6bppVMYLMW){: .btn-cisco-outline }
 
 ---
 
+## Change Log
+
+| Date | Notes |
+|:-----|:------|
+| Apr 16, 2021 | - Initial release |
+| September 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+
+_See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
+
+---
+
 ## Requirements
+* The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
+	* Secure Endpoint - Get Events
+	* Threat Response - Create Casebook
+	* Threat Response - Create Incident
+	* Threat Response - Create Relationship
+	* Threat Response - Create Sighting
+	* Threat Response - Generate Access Token
 * The following atomic actions must be imported before you can import this workflow:
-	* AMP - Get Events ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Response v2 - Create Casebook ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Response v2 - Create Incident ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Response v2 - Create Relationship ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Response v2 - Create Sighting ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Response v2 - Generate Access Token ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* None
 * The [targets](#targets) and [account keys](#account-keys) listed below
+* Cisco Secure Endpoint
 
 ---
 
 ## Workflow Steps
-
 1. Detect the region/environment being used
 1. Calculate date/times
 1. Fetch events from Secure Endpoint
 1. Check if events were returned, if not end the workflow
 1. For each event:
 	* Extract the event's information
-	* Format the information for Threat Response
+	* Format the information for SecureX
 	* Create an incident, casebook, and sighting
 
 ---
