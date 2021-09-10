@@ -1,0 +1,242 @@
+{
+	"workflow": {
+	  "unique_name": "definition_workflow_01PV9FLWXZHNA1gKq6UBTXF0OtZq0fX3vOA",
+	  "name": "Palo Alto - Panorama - Create Address Object",
+	  "title": "Palo Alto - Panorama - Create Address Object",
+	  "type": "generic.workflow",
+	  "base_type": "workflow",
+	  "variables": [
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Device Group Name",
+			"type": "datatype.string",
+			"description": "The name of the device group to create address groups for. This is only required when Location is set to device-group",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01PV9FLWQOTLD2TLTPNcMq53rjqjLf4fxFv",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Object Name",
+			"type": "datatype.string",
+			"description": "A name for the new address object",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01PV9LJ5MXCJE2koNt6iSROrJPCwxVywbac",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Address Value",
+			"type": "datatype.string",
+			"description": "The address to add to the new object. This must be the correct format for the Address Type provided.\n- ip-netmask:\n    an IPv4 or IPv6 address or a network using the \n    slash notation (Ex. 192.168.80.150 or 92.168.80.0/24);\n-  ip-range:\n    an IPv4 or IPv6 address range (Ex. 10.0.0.1-10.0.0.4);\n- ip-wildcard:\n    an IP wildcard mask (Ex. 10.20.1.0/0.0.248.255);\n- fqdn:\n    fully qualified domain name, up to 255 characters.\nSee: https://docs.paloaltonetworks.com/pan-os/8-1/pan-os-web-interface-help/objects/objects-addresses.html#Type",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01PV9K80OYC8T52l4kVd0xqRnClAMPZMaGS",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "shared",
+			"scope": "input",
+			"name": "Location",
+			"type": "datatype.string",
+			"description": "The availability of the adress group. Valid values include: shared, device-group. If using device-group, you must provide a Device Group Name",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01PV9FLWQOR11432sTk3DBOlEBnMhEtAvGR",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Object Description",
+			"type": "datatype.string",
+			"description": "A description for the new address object (up to 1023 characters)",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01PV9NW72DRO54OJsK9YTOORvkgEMijwghN",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.secure_string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "API Key",
+			"type": "datatype.secure_string",
+			"description": "Your API key for the Panorama REST API. See: https://docs.paloaltonetworks.com/pan-os/10-0/pan-os-panorama-api/get-started-with-the-pan-os-xml-api/get-your-api-key.html",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01PV9FLWQOSET23iwr0r3CksorFepGCrNbv",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Address Type",
+			"type": "datatype.string",
+			"description": "The type of object to create. Valid values include: \n- ip-netmask\n- ip-range\n- ip-wildcard\n- fqdn\nSee: https://docs.paloaltonetworks.com/pan-os/8-1/pan-os-web-interface-help/objects/objects-addresses.html#Type",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01PV9JRMU3WNX3r9x8rH6CMEVXNWPU0rbjt",
+		  "object_type": "variable_workflow"
+		}
+	  ],
+	  "properties": {
+		"atomic": {
+		  "atomic_group": "Palo Alto Panorama",
+		  "is_atomic": true
+		},
+		"delete_workflow_instance": false,
+		"description": "Creates an address object in Palo Alto Panorama. \n\nNote: You may need to use a SecureX Orchestration Remote to communicate with Panorama if it's on-premise. See: https://ciscosecurity.github.io/sxo-05-security-workflows/remote\n\nTarget: HTTP Endpoint for your Panorama instance with a path of \"/restapi/\"\n\nAccount Key: None (uses an API key)\n\nSteps:\n[] Build the address object JSON\n[] Request the object be created\n[] Check if the request was successful:\n[]> If it wasn't, output an error\n\nMore information about this API: https://<your Panorama>/restapi-doc/#tag/objects-addresses/paths/~1restapi~1v10.0~1Objects~1Addresses/post",
+		"display_name": "Palo Alto - Panorama - Create Address Object",
+		"runtime_user": {
+		  "target_default": true
+		},
+		"target": {
+		  "target_type": "web-service.endpoint",
+		  "specify_on_workflow_start": true
+		}
+	  },
+	  "object_type": "definition_workflow",
+	  "actions": [
+		{
+		  "unique_name": "definition_activity_01PV9GE0I7W2B4Jw7ZiFpyRmhUYz0TTcWQd",
+		  "name": "Execute Python Script",
+		  "title": "Build the address object",
+		  "type": "python3.script",
+		  "base_type": "activity",
+		  "properties": {
+			"action_timeout": 180,
+			"continue_on_failure": false,
+			"display_name": "Build the address object",
+			"script": "import sys\nimport json\naddress_object = {\n  sys.argv[1]: sys.argv[2],\n  '@name': sys.argv[3]\n}\ndescription = sys.argv[4].strip()\nif description:\n    address_object['description'] = description\naddress_object = json.dumps({'entry': address_object})",
+			"script_arguments": [
+			  "$workflow.definition_workflow_01PV9FLWXZHNA1gKq6UBTXF0OtZq0fX3vOA.input.variable_workflow_01PV9JRMU3WNX3r9x8rH6CMEVXNWPU0rbjt$",
+			  "$workflow.definition_workflow_01PV9FLWXZHNA1gKq6UBTXF0OtZq0fX3vOA.input.variable_workflow_01PV9K80OYC8T52l4kVd0xqRnClAMPZMaGS$",
+			  "$workflow.definition_workflow_01PV9FLWXZHNA1gKq6UBTXF0OtZq0fX3vOA.input.variable_workflow_01PV9LJ5MXCJE2koNt6iSROrJPCwxVywbac$",
+			  "$workflow.definition_workflow_01PV9FLWXZHNA1gKq6UBTXF0OtZq0fX3vOA.input.variable_workflow_01PV9NW72DRO54OJsK9YTOORvkgEMijwghN$"
+			],
+			"script_queries": [
+			  {
+				"script_query": "address_object",
+				"script_query_name": "Address Object",
+				"script_query_type": "string"
+			  }
+			],
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01PV9FMH9GWF90SfjATnbIwmrPpLn9LRU9J",
+		  "name": "HTTP Request",
+		  "title": "Create address",
+		  "type": "web-service.http_request",
+		  "base_type": "activity",
+		  "properties": {
+			"accept": "application/json",
+			"action_timeout": 180,
+			"allow_auto_redirect": true,
+			"body": "$activity.definition_activity_01PV9GE0I7W2B4Jw7ZiFpyRmhUYz0TTcWQd.output.script_queries.Address Object$",
+			"content_type": "application/json",
+			"continue_on_error_status_code": true,
+			"continue_on_failure": false,
+			"custom_headers": [
+			  {
+				"name": "X-PAN-KEY",
+				"value": "$workflow.definition_workflow_01PV9FLWXZHNA1gKq6UBTXF0OtZq0fX3vOA.input.variable_workflow_01PV9FLWQOSET23iwr0r3CksorFepGCrNbv$"
+			  }
+			],
+			"display_name": "Create address",
+			"method": "POST",
+			"relative_url": "v10.0/Objects/Addresses?location=$workflow.definition_workflow_01PV9FLWXZHNA1gKq6UBTXF0OtZq0fX3vOA.input.variable_workflow_01PV9FLWQOR11432sTk3DBOlEBnMhEtAvGR$&device-group=$workflow.definition_workflow_01PV9FLWXZHNA1gKq6UBTXF0OtZq0fX3vOA.input.variable_workflow_01PV9FLWQOTLD2TLTPNcMq53rjqjLf4fxFv$&name=$workflow.definition_workflow_01PV9FLWXZHNA1gKq6UBTXF0OtZq0fX3vOA.input.variable_workflow_01PV9LJ5MXCJE2koNt6iSROrJPCwxVywbac$",
+			"runtime_user": {
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "use_workflow_target": true
+			}
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01PV9FMLE2Y3Z1kROtsISFA286kB9NVxm5J",
+		  "name": "Condition Block",
+		  "title": "Was the request successful?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Was the request successful?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01PV9FMX2XD701TxMTFMHb5Rh4qi7eHFZFy",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01PV9FMH9GWF90SfjATnbIwmrPpLn9LRU9J.output.status_code$",
+				  "operator": "ne",
+				  "right_operand": 200
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01PV9FMZC4ZQU1ktlNavMhrSoIv7CJo6svc",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "Failed to create the address object\n\nStatus code: $activity.definition_activity_01PV9FMH9GWF90SfjATnbIwmrPpLn9LRU9J.output.status_code$\nResponse body: $activity.definition_activity_01PV9FMH9GWF90SfjATnbIwmrPpLn9LRU9J.output.response_body$",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		}
+	  ],
+	  "categories": [
+		"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+	  ]
+	}
+  }
