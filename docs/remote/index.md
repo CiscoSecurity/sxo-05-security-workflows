@@ -13,7 +13,7 @@ SecureX orchestration remote is an on-premise virtual appliance that allows your
 [<i class="fa fa-video mr-1"></i> Remote Overview](https://www.youtube.com/watch?v=EC2nCiAn1HM&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo){: .btn-cisco-outline }
 
 <div class="cisco-alert cisco-alert-info">
-	<i class="fa fa-info-circle mr-1 cisco-icon-info"></i> The initial release of SXo remote only supports HTTP Endpoint targets. Support for additional target types will be added in future releases.
+	<i class="fa fa-info-circle mr-1 cisco-icon-info"></i> Has your remote stopped working after your region's <a href="../updates/september-2021">September maintenance window</a>? You'll need to deploy a new remote, even if your existing remote shows as connected. Be sure to download the latest remote image and generate a new configuration using the steps on this page
 </div>
 
 To get an orchestration remote up and running, you need to do three things:
