@@ -11,8 +11,6 @@ nav_order: 12
 # Upcoming Maintenance
 As part of our ongoing commitment to enhancing the SecureX platform, SecureX orchestration will undergo scheduled maintenance to improve performance and scalability. The maintenance will occur on the following staggered schedule:
 
-<div class="cisco-alert cisco-alert-info"><i class="fa fa-info-circle mr-1 cisco-icon-info"></i> The schedule for this maintenance has been changed. Please see the new dates in the table below.</div>
-
 | Region | Date | Start and End Time | Window Length |
 |:-------|:-----|:-------------------|:--------------|
 | Asia Pacific (APJC) | Saturday, September 11, 2021 | 11:00 PM - 4:00 AM SGT | 5 Hours |
@@ -23,7 +21,11 @@ As part of our ongoing commitment to enhancing the SecureX platform, SecureX orc
 
 As part of the maintenance, Cisco is also implementing the following changes to how orchestration content is managed:
 * Workflow execution logs (also known as “Runs”) will only be retained for 90 days going forward. We will migrate 90 days of workflow runs during the maintenance window and then keep a rolling 90-day history of runs going forward.
-* Atomic Actions for Cisco products will become “system objects.” This means that all tenants will have these atomic actions available by default without having to import them. Atomics for third-party products will continue to be published in our public GitHub repository for you to import as needed.
+* Atomic Actions for Cisco products will become “[system objects]({{ site.baseurl }}/atomics/system).” This means that all tenants will have these atomic actions available by default without having to import them. Atomics for third-party products will continue to be published in our public GitHub repository for you to import as needed.
+
+<div class="cisco-alert cisco-alert-danger">
+	<i class="fa fa-exclamation-circle mr-1 cisco-icon-danger"></i> If you have any <a href="../remote">SecureX orchestration remotes</a>, they will need to be replaced after your region's maintenance window due to a certificate change. Even though the remotes may show as connected, they will not function properly. For more information about deploying a new remote, please see <a href="../remote">this page</a>
+</div>
 
 ---
 

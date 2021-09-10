@@ -14,9 +14,7 @@ SecureX orchestration provides a no-to-low code approach for building automated 
 ---
 
 ## <i class="far fa-star mr-1"></i> What's New
-[SecureX orchestration remote]({{ site.baseurl }}/remote) is now available! SXo remote allows you to deploy a virtual appliance on-premise so you can use your on-premise products in orchestration workflows. The initial release of SXo remote only supports `HTTP Endpoint` [targets]({{ site.baseurl }}/targets). Support for additional target types will be added in future releases.
-
-[Learn More]({{ site.baseurl }}/remote){: .btn-cisco-outline }
+SecureX orchestration is undergoing scheduled maintenance this month. Please see [this page]({{ site.baseurl }}/updates/september-2021) for important information about the maintenance being performed and the changes you can expect to see.
 
 ---
 

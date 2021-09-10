@@ -24,9 +24,10 @@ Once you create a remote in SecureX orchestration, you can deploy the virtual ap
 
 If you want to verify the file hash of the OVA, please refer to the following table:
 
-| File Name | MD5 Hash | SHA256 Hash |
-|:----------|:---------|:------------|
-| sxo-remote-1.0.ova | 9b2a378a2785485db613a271523f119c | b7164d23e22f21c7b820d9ea70d7b22779b577692c55dbc62d1c08d47a3e2903 |
+| File Name | SHA256 Hash |
+|:----------|:------------|
+| sxo-remote-1.0.ova | b7164d23e22f21c7b820d9ea70d7b22779b577692c55dbc62d1c08d47a3e2903 |
+| sxo-remote-1.1.ova | a3fb8cb3e7c25269bb783c605719821830b28e051923b415a403a67282ff15ab |
 
 ---
 
