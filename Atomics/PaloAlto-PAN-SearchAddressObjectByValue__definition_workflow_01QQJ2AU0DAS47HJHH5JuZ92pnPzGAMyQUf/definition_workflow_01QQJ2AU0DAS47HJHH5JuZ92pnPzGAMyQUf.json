@@ -1,0 +1,320 @@
+{
+	"workflow": {
+	  "unique_name": "definition_workflow_01QQJ2AU0DAS47HJHH5JuZ92pnPzGAMyQUf",
+	  "name": "Palo Alto - Panorama - Search Address Object by Value",
+	  "title": "Palo Alto - Panorama - Search Address Object by Value",
+	  "type": "generic.workflow",
+	  "base_type": "workflow",
+	  "variables": [
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Address Value",
+			"type": "datatype.string",
+			"description": "Value of the address object to search for. The format of this depends on the address object type you are searching for. See: https://docs.paloaltonetworks.com/pan-os/8-1/pan-os-web-interface-help/objects/objects-addresses.html",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QQJ8548OJSE4eJAV87mzk5VeExR1rC68j",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "shared",
+			"scope": "input",
+			"name": "Location",
+			"type": "datatype.string",
+			"description": "The availability of the Address object. Valid values include: shared, device-group. If you use device-group, you must provide a Device Group Name",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QQJ6D2CD5JW7ldEaoy5fnpGTDq8LJIl5b",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Device Group Name",
+			"type": "datatype.string",
+			"description": "The name of the device group to manage Address objects for. This is only required when Location is set to device-group",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QQJ730X162E19IFiajCJampLGGo0ZaE4h",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.secure_string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "API Key",
+			"type": "datatype.secure_string",
+			"description": "Your API key for the Panorama REST API. See: https://docs.paloaltonetworks.com/pan-os/10-0/pan-os-panorama-api/get-started-with-the-pan-os-xml-api/get-your-api-key.html",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QQJ3ORB4TTJ3j3iwK0HjnEit3E4lAFjQh",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "output",
+			"name": "Address Body",
+			"type": "datatype.string",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QQJ9YLG8H4J24YzFjHLCrrPCsnRH2blAP",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "output",
+			"name": "Address Name",
+			"type": "datatype.string",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QR8AJP967JD4PRplkAHusJHE7hX1EhPbV",
+		  "object_type": "variable_workflow"
+		}
+	  ],
+	  "properties": {
+		"atomic": {
+		  "atomic_group": "Palo Alto Panorama",
+		  "is_atomic": true
+		},
+		"delete_workflow_instance": false,
+		"description": "Searches address objects in Palo Alto Panorama by value.\n\nNote: You may need to use a SecureX Orchestration Remote to communicate with Panorama if it's on-premise. See: https://ciscosecurity.github.io/sxo-05-security-workflows/remote\n\nTarget: HTTP Endpoint for your Panorama instance with a path of \"/restapi/\"\n\nAccount Key: None (uses an API key)\n\nSteps:\n[] Request address objects\n[] Check if the request was successful:\n[]> If it was, extract the desired address object and set the output variables\n[]> If it wasn't, output an error\n\nMore information about this API: https://<your Panorama>//restapi-doc/#tag/objects-addresses/paths/~1restapi~1v10.0~1Objects~1Addresses/get",
+		"display_name": "Palo Alto - Panorama - Search Address Object by Value",
+		"runtime_user": {
+		  "target_default": true
+		},
+		"target": {
+		  "target_type": "web-service.endpoint",
+		  "specify_on_workflow_start": true
+		}
+	  },
+	  "object_type": "definition_workflow",
+	  "actions": [
+		{
+		  "unique_name": "definition_activity_01QQK00HC77JG0wDpTWVx3zM1sYh3hfTztA",
+		  "name": "HTTP Request",
+		  "title": "Fetch address objects",
+		  "type": "web-service.http_request",
+		  "base_type": "activity",
+		  "properties": {
+			"accept": "application/json",
+			"action_timeout": 180,
+			"allow_auto_redirect": true,
+			"continue_on_error_status_code": true,
+			"continue_on_failure": false,
+			"custom_headers": [
+			  {
+				"name": "X-PAN-KEY",
+				"value": "$workflow.definition_workflow_01QQJ2AU0DAS47HJHH5JuZ92pnPzGAMyQUf.input.variable_workflow_01QQJ3ORB4TTJ3j3iwK0HjnEit3E4lAFjQh$"
+			  }
+			],
+			"display_name": "Fetch address objects",
+			"method": "GET",
+			"relative_url": "v10.0/Objects/Addresses?location=$workflow.definition_workflow_01QQJ2AU0DAS47HJHH5JuZ92pnPzGAMyQUf.input.variable_workflow_01QQJ6D2CD5JW7ldEaoy5fnpGTDq8LJIl5b$&device-group=$workflow.definition_workflow_01QQJ2AU0DAS47HJHH5JuZ92pnPzGAMyQUf.input.variable_workflow_01QQJ730X162E19IFiajCJampLGGo0ZaE4h$",
+			"runtime_user": {
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "use_workflow_target": true
+			}
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01QQK1KARVJIC43AlsuPwxWeMoqyiNpN3S4",
+		  "name": "Condition Block",
+		  "title": "Was the request successful?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Was the request successful?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01QQK1KCGVX3L5e5qLX4t4OGwZPQ2Rzpl8z",
+			  "name": "Condition Branch",
+			  "title": "200/Success",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01QQK00HC77JG0wDpTWVx3zM1sYh3hfTztA.output.status_code$",
+				  "operator": "eq",
+				  "right_operand": 200
+				},
+				"continue_on_failure": false,
+				"display_name": "200/Success",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01QQK50JG7U7Y4pKH2vTvgyUgu0T4polVCp",
+				  "name": "Execute Python Script",
+				  "title": "Search address object by value",
+				  "type": "python3.script",
+				  "base_type": "activity",
+				  "properties": {
+					"action_timeout": 180,
+					"continue_on_failure": true,
+					"display_name": "Search address object by value",
+					"script": "import sys\nimport json\nobjects = json.loads(sys.argv[1])['result']['entry']\nvalue = sys.argv[2]\nobject_name, object_body = '', ''\nvalue_fields = {'ip-netmask', 'ip-range', 'ip-wildcard', 'fqdn'}\nfor obj in objects:\n    obj_keys = set(obj.keys())\n    obj_value = obj[(value_fields & obj_keys).pop()]\n    if obj_value == value:\n        object_name = obj['@name']\n        object_body = json.dumps(obj)\n        break",
+					"script_arguments": [
+					  "$activity.definition_activity_01QQK00HC77JG0wDpTWVx3zM1sYh3hfTztA.output.response_body$",
+					  "$workflow.definition_workflow_01QQJ2AU0DAS47HJHH5JuZ92pnPzGAMyQUf.input.variable_workflow_01QQJ8548OJSE4eJAV87mzk5VeExR1rC68j$"
+					],
+					"script_queries": [
+					  {
+						"script_query": "object_name",
+						"script_query_name": "Object Name",
+						"script_query_type": "string"
+					  },
+					  {
+						"script_query": "object_body",
+						"script_query_name": "Object Body",
+						"script_query_type": "string"
+					  }
+					],
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01QR8ATNWOD8I7WqKhGDc3UzDqHiCoP8W1d",
+				  "name": "Condition Block",
+				  "title": "Search executed successfully?",
+				  "type": "logic.if_else",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Search executed successfully?",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "blocks": [
+					{
+					  "unique_name": "definition_activity_01QR8ATPLGTJ25c8vymxA5aHQ6it9mOaOxS",
+					  "name": "Condition Branch",
+					  "title": "No",
+					  "type": "logic.condition_block",
+					  "base_type": "activity",
+					  "properties": {
+						"condition": {
+						  "left_operand": "$activity.definition_activity_01QQK50JG7U7Y4pKH2vTvgyUgu0T4polVCp.output.succeeded$",
+						  "operator": "eq",
+						  "right_operand": false
+						},
+						"continue_on_failure": false,
+						"display_name": "No",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "actions": [
+						{
+						  "unique_name": "definition_activity_01QR8FZ28SQJQ5SladjfWHtfsjBHOUuA32o",
+						  "name": "Completed",
+						  "title": "Failed",
+						  "type": "logic.completed",
+						  "base_type": "activity",
+						  "properties": {
+							"completion_type": "failed-completed",
+							"continue_on_failure": false,
+							"display_name": "Failed",
+							"result_message": "Failed to extract address object from search results",
+							"skip_execution": false
+						  },
+						  "object_type": "definition_activity"
+						}
+					  ]
+					}
+				  ]
+				},
+				{
+				  "unique_name": "definition_activity_01QR8HM3666PY6cMcLh1bdNAjdhJi3ps1eZ",
+				  "name": "Set Variables",
+				  "title": "Set output variables",
+				  "type": "core.set_multiple_variables",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Set output variables",
+					"skip_execution": false,
+					"variables_to_update": [
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01QQJ2AU0DAS47HJHH5JuZ92pnPzGAMyQUf.output.variable_workflow_01QQJ9YLG8H4J24YzFjHLCrrPCsnRH2blAP$",
+						"variable_value_new": "$activity.definition_activity_01QQK50JG7U7Y4pKH2vTvgyUgu0T4polVCp.output.script_queries.Object Body$"
+					  },
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01QQJ2AU0DAS47HJHH5JuZ92pnPzGAMyQUf.output.variable_workflow_01QR8AJP967JD4PRplkAHusJHE7hX1EhPbV$",
+						"variable_value_new": "$activity.definition_activity_01QQK50JG7U7Y4pKH2vTvgyUgu0T4polVCp.output.script_queries.Object Name$"
+					  }
+					]
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01QQK1KD2VX5O1cfvhlmFU9BXnCw4AghVCU",
+			  "name": "Condition Branch",
+			  "title": "Anything else",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01QQK00HC77JG0wDpTWVx3zM1sYh3hfTztA.output.status_code$",
+				  "operator": "ne",
+				  "right_operand": 200
+				},
+				"continue_on_failure": false,
+				"display_name": "Anything else",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01QR8L5DNCQ270tdmH1IZvK9UBNA8RWavhf",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "Failed to search for address objects\n\nStatus code: $activity.definition_activity_01QQK00HC77JG0wDpTWVx3zM1sYh3hfTztA.output.status_code$\nResponse Body: $activity.definition_activity_01QQK00HC77JG0wDpTWVx3zM1sYh3hfTztA.output.response_body$",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		}
+	  ],
+	  "categories": [
+		"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+	  ]
+	}
+  }

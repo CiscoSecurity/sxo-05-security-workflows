@@ -1,0 +1,298 @@
+{
+	"workflow": {
+	  "unique_name": "definition_workflow_01QHZLKF4PW2S03YhXbDF5JiiEuhxDkNu6I",
+	  "name": "Palo Alto - Panorama - Get Custom URL Categories",
+	  "title": "Palo Alto - Panorama - Get Custom URL Categories",
+	  "type": "generic.workflow",
+	  "base_type": "workflow",
+	  "variables": [
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "shared",
+			"scope": "input",
+			"name": "Location",
+			"type": "datatype.string",
+			"description": "The availability of the address group. Valid values include: shared, device-group. If you use device-group, you must provide a Device Group Name",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QHZR3NSHDGA7Nvwr5WslJHXs87O3V9ffk",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "output",
+			"name": "Custom URL Categories",
+			"type": "datatype.string",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QI125KS35XI6U7cQXlLHcBd91X3fwUWY3",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Category Name",
+			"type": "datatype.string",
+			"description": "Name of the custom URL category to fetch",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QHZSBIXHPKP077vMXk0NKVbvuD982FWuh",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Device Group Name",
+			"type": "datatype.string",
+			"description": "The name of the device group to fetch custom URL groups for. This is only required when Location is set to device-group",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QHZRRA68ATB16mkABdSVZbJjBZbHeDDIS",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.secure_string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "API Key",
+			"type": "datatype.secure_string",
+			"description": "Your API key for the Panorama REST API. See: https://docs.paloaltonetworks.com/pan-os/10-0/pan-os-panorama-api/get-started-with-the-pan-os-xml-api/get-your-api-key.html",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QHZPGLJ1ZFR2KqeSk3MEdQkW9uPMVkqEE",
+		  "object_type": "variable_workflow"
+		}
+	  ],
+	  "properties": {
+		"atomic": {
+		  "atomic_group": "Palo Alto Panorama",
+		  "is_atomic": true
+		},
+		"delete_workflow_instance": false,
+		"description": "Gets a list of custom URL categories from Palo Alto Panorama. If a category name is provided, the first matching category will be returned.\n\nNote: You may need to use a SecureX Orchestration Remote to communicate with Panorama if it's on-premise. See: https://ciscosecurity.github.io/sxo-05-security-workflows/remote\n\nTarget: HTTP Endpoint for your Panorama instance with a path of \"/restapi/\"\n\nAccount Key: None (uses an API key)\n\nSteps:\n[] Request a list of custom URL categories\n[] Check if the request was successful:\n[]> If it was, extract the categories and set the output variable\n[]> If it wasn't, output an error\n\nMore information about this API: https://<your Panorama>/restapi-doc/#tag/objects-custom-url-categories/paths/~1restapi~1v10.0~1Objects~1CustomURLCategories/get",
+		"display_name": "Palo Alto - Panorama - Get Custom URL Categories",
+		"runtime_user": {
+		  "target_default": true
+		},
+		"target": {
+		  "target_type": "web-service.endpoint",
+		  "specify_on_workflow_start": true
+		}
+	  },
+	  "object_type": "definition_workflow",
+	  "actions": [
+		{
+		  "unique_name": "definition_activity_01QHZO7X73XQ87lPIIC6MWLK1Bzvl2ebiAK",
+		  "name": "HTTP Request",
+		  "title": "Get custom URL categories",
+		  "type": "web-service.http_request",
+		  "base_type": "activity",
+		  "properties": {
+			"accept": "application/json",
+			"action_timeout": 180,
+			"allow_auto_redirect": true,
+			"continue_on_error_status_code": true,
+			"continue_on_failure": false,
+			"custom_headers": [
+			  {
+				"name": "X-PAN-KEY",
+				"value": "$workflow.definition_workflow_01QHZLKF4PW2S03YhXbDF5JiiEuhxDkNu6I.input.variable_workflow_01QHZPGLJ1ZFR2KqeSk3MEdQkW9uPMVkqEE$"
+			  }
+			],
+			"display_name": "Get custom URL categories",
+			"method": "GET",
+			"relative_url": "v10.0/Objects/CustomURLCategories?location=$workflow.definition_workflow_01QHZLKF4PW2S03YhXbDF5JiiEuhxDkNu6I.input.variable_workflow_01QHZR3NSHDGA7Nvwr5WslJHXs87O3V9ffk$&device-group=$workflow.definition_workflow_01QHZLKF4PW2S03YhXbDF5JiiEuhxDkNu6I.input.variable_workflow_01QHZRRA68ATB16mkABdSVZbJjBZbHeDDIS$&name=$workflow.definition_workflow_01QHZLKF4PW2S03YhXbDF5JiiEuhxDkNu6I.input.variable_workflow_01QHZSBIXHPKP077vMXk0NKVbvuD982FWuh$",
+			"runtime_user": {
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "use_workflow_target": true
+			}
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01QI0GODP7FYL3szg9X3qRIJ0LHO1gNy4hZ",
+		  "name": "Condition Block",
+		  "title": "Was the request successful?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Was the request successful?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01QI0GOFD8JK03UO5pYVsWascRya029DrLl",
+			  "name": "Condition Branch",
+			  "title": "200/Success",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01QHZO7X73XQ87lPIIC6MWLK1Bzvl2ebiAK.output.status_code$",
+				  "operator": "eq",
+				  "right_operand": 200
+				},
+				"continue_on_failure": false,
+				"display_name": "200/Success",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01QION0VDXCI23HQcKLCvhkEQ1NWaghcgJ4",
+				  "name": "Execute Python Script",
+				  "title": "Extract custom URL categories",
+				  "type": "python3.script",
+				  "base_type": "activity",
+				  "properties": {
+					"action_timeout": 180,
+					"continue_on_failure": true,
+					"display_name": "Extract custom URL categories",
+					"script": "import sys\nimport json\ncategory_name = sys.argv[1]\nresponse = json.loads(sys.argv[2])\ncategories = response['result']['entry']\noutput = json.dumps(\n  categories[0] if category_name else categories\n)",
+					"script_arguments": [
+					  "$workflow.definition_workflow_01QHZLKF4PW2S03YhXbDF5JiiEuhxDkNu6I.input.variable_workflow_01QHZSBIXHPKP077vMXk0NKVbvuD982FWuh$",
+					  "$activity.definition_activity_01QHZO7X73XQ87lPIIC6MWLK1Bzvl2ebiAK.output.response_body$"
+					],
+					"script_queries": [
+					  {
+						"script_query": "output",
+						"script_query_name": "Output",
+						"script_query_type": "string"
+					  }
+					],
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01QI0OTBRBSST00BHOzupwmRIsMUNV0FGqE",
+				  "name": "Condition Block",
+				  "title": "Extraction successful?",
+				  "type": "logic.if_else",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Extraction successful?",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "blocks": [
+					{
+					  "unique_name": "definition_activity_01QI0OTDH3R1P6kD5QVTWBN632dVlw3qTPZ",
+					  "name": "Condition Branch",
+					  "title": "No",
+					  "type": "logic.condition_block",
+					  "base_type": "activity",
+					  "properties": {
+						"condition": {
+						  "left_operand": "$activity.definition_activity_01QION0VDXCI23HQcKLCvhkEQ1NWaghcgJ4.output.succeeded$",
+						  "operator": "eq",
+						  "right_operand": false
+						},
+						"continue_on_failure": false,
+						"display_name": "No",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "actions": [
+						{
+						  "unique_name": "definition_activity_01QI0R4PNGOH12MzakcoEiEi05u0cY5f5Cw",
+						  "name": "Completed",
+						  "title": "Failed",
+						  "type": "logic.completed",
+						  "base_type": "activity",
+						  "properties": {
+							"completion_type": "failed-completed",
+							"continue_on_failure": false,
+							"display_name": "Failed",
+							"result_message": "Failed to extract custom URL categories",
+							"skip_execution": false
+						  },
+						  "object_type": "definition_activity"
+						}
+					  ]
+					}
+				  ]
+				},
+				{
+				  "unique_name": "definition_activity_01QI10NCEO42X7dQfY0uznaRsZlcBd5nmB8",
+				  "name": "Set Variables",
+				  "title": "Set output variable",
+				  "type": "core.set_multiple_variables",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Set output variable",
+					"skip_execution": false,
+					"variables_to_update": [
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01QHZLKF4PW2S03YhXbDF5JiiEuhxDkNu6I.output.variable_workflow_01QI125KS35XI6U7cQXlLHcBd91X3fwUWY3$",
+						"variable_value_new": "$activity.definition_activity_01QION0VDXCI23HQcKLCvhkEQ1NWaghcgJ4.output.script_queries.Output$"
+					  }
+					]
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01QI0GOFVT4ZS7SXliBzxd6jS8iNG9wjoy5",
+			  "name": "Condition Branch",
+			  "title": "Anything else",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01QHZO7X73XQ87lPIIC6MWLK1Bzvl2ebiAK.output.status_code$",
+				  "operator": "ne",
+				  "right_operand": 200
+				},
+				"continue_on_failure": false,
+				"display_name": "Anything else",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01QI12T9N9H7W5KV0CvddkujBZsDzCnIlgv",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "Failed to fetch custom URL categories\n\nStatus code: $activity.definition_activity_01QHZO7X73XQ87lPIIC6MWLK1Bzvl2ebiAK.output.status_code$\nResponse body: $activity.definition_activity_01QHZO7X73XQ87lPIIC6MWLK1Bzvl2ebiAK.output.response_body$",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		}
+	  ],
+	  "categories": [
+		"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+	  ]
+	}
+  }

@@ -1,0 +1,282 @@
+{
+	"workflow": {
+	  "unique_name": "definition_workflow_01QX8JWMGJAN62rNq9eOELilQGTQnw0gWI4",
+	  "name": "Palo Alto - Panorama - Create Address Group",
+	  "title": "Palo Alto - Panorama - Create Address Group",
+	  "type": "generic.workflow",
+	  "base_type": "workflow",
+	  "variables": [
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "[]",
+			"scope": "input",
+			"name": "Addresses",
+			"type": "datatype.string",
+			"description": "JSON-formatted list of address objects or address groups to add to the new group",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QX8JWMAC82G51FrckhConauFQnIHCiSNO",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Address Group Name",
+			"type": "datatype.string",
+			"description": "A name for the new address group. This must be an alphanumeric string beginning with a letter (up to 63 characters)",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QX8JWMAC6W77H7DIUhp3lYyARGTrnoh6Q",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.secure_string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "API Key",
+			"type": "datatype.secure_string",
+			"description": "Your API key for the Panorama REST API. See: https://docs.paloaltonetworks.com/pan-os/10-0/pan-os-panorama-api/get-started-with-the-pan-os-xml-api/get-your-api-key.html",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QX8JWMAC4IA4va0xj7nIObeK6uoXgDIuH",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "shared",
+			"scope": "input",
+			"name": "Location",
+			"type": "datatype.string",
+			"description": "The availability of the address group. Valid values include: shared, device-group. If you use device-group, you must provide a Device Group Name",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QX8JWMAC5PM7DZg1HWIZ3EL8zMXRGQerv",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Address Group Description",
+			"type": "datatype.string",
+			"description": "A description for the new address group (up to 1023 characters)",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QX8JWMAC37U4BKWKTjdan9fd2AjzmhGty",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Device Group Name",
+			"type": "datatype.string",
+			"description": "The name of the device group to create address groups for. This is only required when Location is set to device-group",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QX8JWMAC9675JYsLLYk1RgNUPSethbj6H",
+		  "object_type": "variable_workflow"
+		}
+	  ],
+	  "properties": {
+		"atomic": {
+		  "atomic_group": "Palo Alto Panorama",
+		  "is_atomic": true
+		},
+		"delete_workflow_instance": false,
+		"description": "Creates a static address group in Palo Alto Panorama. \n\nNote: You may need to use a SecureX Orchestration Remote to communicate with Panorama if it's on-premise. See: https://ciscosecurity.github.io/sxo-05-security-workflows/remote\n\nTarget: HTTP Endpoint for your Panorama instance with a path of \"/restapi/\"\n\nAccount Key: None (uses an API key)\n\nSteps:\n[] Build the address group JSON\n[] Check if the JSON was built correctly:\n[]> If not, output an error\n[] Request the group be created\n[] Check if the request was successful:\n[]> If it wasn't, output an error\n\nMore information about this API: https://<your Panorama>/restapi-doc/#tag/objects-addresses/paths/~1restapi~1v10.0~1Objects~1Addresses/post",
+		"display_name": "Palo Alto - Panorama - Create Address Group",
+		"runtime_user": {
+		  "target_default": true
+		},
+		"target": {
+		  "target_type": "web-service.endpoint",
+		  "specify_on_workflow_start": true
+		}
+	  },
+	  "object_type": "definition_workflow",
+	  "actions": [
+		{
+		  "unique_name": "definition_activity_01QX8JWSRK80L6UZ7tqbjYX0cR3TPGIxZBJ",
+		  "name": "Execute Python Script",
+		  "title": "Build the address group object",
+		  "type": "python3.script",
+		  "base_type": "activity",
+		  "properties": {
+			"action_timeout": 180,
+			"continue_on_failure": true,
+			"display_name": "Build the address group object",
+			"script": "import sys\nimport json\nNO_ADDRESSES = (\n  \"Invalid input data: Can't create Address Group without any addresses\"\n)\nWRONG_ADDRESSES_FPRMAT = (\n  \"Invalid input data: Adresses must be in a JSON-formatted list\"\n)\nname, description = sys.argv[2:4]\nadresses = []\naddress_group = {}\nerror_message = ''\ntry:\n    adresses = json.loads(sys.argv[1])\nexcept json.decoder.JSONDecodeError:\n    error_message = WRONG_ADDRESSES_FPRMAT\nelse:\n    if not adresses:\n        error_message = NO_ADDRESSES\n    else:\n        address_group = {\n          '@name': name,\n          'static': {'member': adresses}\n        }\n    if description.strip():\n        address_group['description'] = description\naddress_group = json.dumps({'entry': address_group})",
+			"script_arguments": [
+			  "$workflow.definition_workflow_01QX8JWMGJAN62rNq9eOELilQGTQnw0gWI4.input.variable_workflow_01QX8JWMAC82G51FrckhConauFQnIHCiSNO$",
+			  "$workflow.definition_workflow_01QX8JWMGJAN62rNq9eOELilQGTQnw0gWI4.input.variable_workflow_01QX8JWMAC6W77H7DIUhp3lYyARGTrnoh6Q$",
+			  "$workflow.definition_workflow_01QX8JWMGJAN62rNq9eOELilQGTQnw0gWI4.input.variable_workflow_01QX8JWMAC37U4BKWKTjdan9fd2AjzmhGty$"
+			],
+			"script_queries": [
+			  {
+				"script_query": "address_group",
+				"script_query_name": "Address Group",
+				"script_query_type": "string"
+			  },
+			  {
+				"script_query": "error_message",
+				"script_query_name": "Error Message",
+				"script_query_type": "string"
+			  }
+			],
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01QXC9KPFC0921vtXg8sOenSQ2qRbdBpUkM",
+		  "name": "Condition Block",
+		  "title": "Input data correct?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Input data correct?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01QXC9KS6W22V4nTKmrsVBNxfJONQs9FmKn",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01QX8JWSRK80L6UZ7tqbjYX0cR3TPGIxZBJ.output.script_queries.Error Message$",
+				  "operator": "ne",
+				  "right_operand": ""
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01QXCA3C92LQO310YmsodvIyG3LDsFo8w8S",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "Failed to generate the address group object JSON",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01QX8JWVAI3VZ7kCcT3gGRYpHGV1qdwFxkc",
+		  "name": "HTTP Request",
+		  "title": "Create address group",
+		  "type": "web-service.http_request",
+		  "base_type": "activity",
+		  "properties": {
+			"accept": "application/json",
+			"action_timeout": 180,
+			"allow_auto_redirect": true,
+			"body": "$activity.definition_activity_01QX8JWSRK80L6UZ7tqbjYX0cR3TPGIxZBJ.output.script_queries.Address Group$",
+			"content_type": "application/json",
+			"continue_on_error_status_code": true,
+			"continue_on_failure": false,
+			"custom_headers": [
+			  {
+				"name": "X-PAN-KEY",
+				"value": "$workflow.definition_workflow_01QX8JWMGJAN62rNq9eOELilQGTQnw0gWI4.input.variable_workflow_01QX8JWMAC4IA4va0xj7nIObeK6uoXgDIuH$"
+			  }
+			],
+			"display_name": "Create address group",
+			"method": "POST",
+			"relative_url": "v10.0/Objects/AddressGroups?location=$workflow.definition_workflow_01QX8JWMGJAN62rNq9eOELilQGTQnw0gWI4.input.variable_workflow_01QX8JWMAC5PM7DZg1HWIZ3EL8zMXRGQerv$&device-group=$workflow.definition_workflow_01QX8JWMGJAN62rNq9eOELilQGTQnw0gWI4.input.variable_workflow_01QX8JWMAC9675JYsLLYk1RgNUPSethbj6H$&name=$workflow.definition_workflow_01QX8JWMGJAN62rNq9eOELilQGTQnw0gWI4.input.variable_workflow_01QX8JWMAC6W77H7DIUhp3lYyARGTrnoh6Q$",
+			"runtime_user": {
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "use_workflow_target": true
+			}
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01QX8JWY6AMA36fpaTV6phr2zASGwTHSZWS",
+		  "name": "Condition Block",
+		  "title": "Was the request successful?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Was the request successful?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01QX8JX0PAQQD35CjNiMGfwZLucYSfNemIa",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01QX8JWVAI3VZ7kCcT3gGRYpHGV1qdwFxkc.output.status_code$",
+				  "operator": "ne",
+				  "right_operand": 200
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01QX8JX2GHEER5n4Zf2L0AjfKEWkSIqVOyR",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "Failed to create address group\n\nStatus code: $activity.definition_activity_01QX8JWVAI3VZ7kCcT3gGRYpHGV1qdwFxkc.output.status_code$\nResponse body: $activity.definition_activity_01QX8JWVAI3VZ7kCcT3gGRYpHGV1qdwFxkc.output.response_body$",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		}
+	  ],
+	  "categories": [
+		"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+	  ]
+	}
+  }

@@ -1,0 +1,734 @@
+{
+	"workflow": {
+	  "unique_name": "definition_workflow_01QNWS0U2T5QY6MfHyMZT0BUd9sNyLnQyTk",
+	  "name": "Palo Alto - Panorama - Update Security Policy Pre Rule",
+	  "title": "Palo Alto - Panorama - Update Security Policy Pre Rule",
+	  "type": "generic.workflow",
+	  "base_type": "workflow",
+	  "variables": [
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Pre Rule Action",
+			"type": "datatype.string",
+			"description": "Security policy pre rule action. Valid values include: deny, allow, drop, reset-client, reset-server, reset-both",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QORT3NX7VTY0FhfmHt2FM59GfYYrPC7hf",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Source Address",
+			"type": "datatype.string",
+			"description": "Source address or address group to add to the security policy pre rule",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QORU1IFYXEO5s5MH67x18Ys5PWVzj1V0L",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Custom URL Category",
+			"type": "datatype.string",
+			"description": "Custom URL category to add to the security policy pre rule",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QORVO26588W59DhdqGmAZYtzfc1q4kZZb",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.secure_string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "API Key",
+			"type": "datatype.secure_string",
+			"description": "Your API key for the Panorama REST API. See: https://docs.paloaltonetworks.com/pan-os/10-0/pan-os-panorama-api/get-started-with-the-pan-os-xml-api/get-your-api-key.html",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QORDBZK6YF64HcaH4ephX41pXR32BulYH",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "shared",
+			"scope": "input",
+			"name": "Location",
+			"type": "datatype.string",
+			"description": "The availability of the security policy pre rule. Valid values include: shared, device-group. If you use device-group, you must provide a Device Group Name",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QORE7C3W1GS0C06sZWCHoOPy2KTc7ZIEJ",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Pre Rule JSON",
+			"type": "datatype.string",
+			"description": "JSON body of the existing pre rule to be updated. Either this or a rule name are required",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QOROBKETGTA5uK2Sso1LLGUJBfbmHaCap",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Service",
+			"type": "datatype.string",
+			"description": "Service or service group to add to the security policy pre rule",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QORV740TZ3Y7l3CMEzFHjqCl8Nxhuhmi7",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Destination Address",
+			"type": "datatype.string",
+			"description": "Destination address or address group to add to the security policy pre rule",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QOTXQJBHQ1U23Nlcz8ZM6S92fmdwsOGxx",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Pre Rule Name",
+			"type": "datatype.string",
+			"description": "Name of the existing pre rule to be updated. Either this or a rule JSON body are required",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QORNV7L6VFC2GEJQjV9aYccoU9l1XhNpE",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Device Group Name",
+			"type": "datatype.string",
+			"description": "The name of the device group to manage security policy pre rules for. This is only required when Location is set to device-group",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QORLXE4CFPO3GESHrSxqVZjMffKJYH7eW",
+		  "object_type": "variable_workflow"
+		}
+	  ],
+	  "properties": {
+		"atomic": {
+		  "atomic_group": "Palo Alto Panorama",
+		  "is_atomic": true
+		},
+		"delete_workflow_instance": false,
+		"description": "Updates an existing security policy pre rule in Palo Alto Panorama. Either a rule name or JSON body are required.\n\nNote: You may need to use a SecureX Orchestration Remote to communicate with Panorama if it's on-premise. See: https://ciscosecurity.github.io/sxo-05-security-workflows/remote\n\nTarget: HTTP Endpoint for your Panorama instance with a path of \"/restapi/\"\n\nAccount Key: None (uses an API key)\n\nSteps:\n[] Validate input data (if not correct, output an error)\n[] Check if a name or body was provided:\n[]> If name: Fetch the rule and extract its JSON body\n[]> If body: Extract the rule name\n[] Generate the updated pre rule JSON to post\n[] Update the pre rule in Panorama\n[] Check if the request was successful (if not, output an error)\n\nMore information about this API: https://<your Panorama>//restapi-doc/#tag/policies-security-pre-rules/paths/~1restapi~1v10.0~1Policies~1SecurityPreRules/put",
+		"display_name": "Palo Alto - Panorama - Update Security Policy Pre Rule",
+		"runtime_user": {
+		  "target_default": true
+		},
+		"target": {
+		  "target_type": "web-service.endpoint",
+		  "specify_on_workflow_start": true
+		}
+	  },
+	  "object_type": "definition_workflow",
+	  "actions": [
+		{
+		  "unique_name": "definition_activity_01QOROYTT3EUF0ifPXioHBQGyVaXt2FFUly",
+		  "name": "Execute Python Script",
+		  "title": "Check input data",
+		  "type": "python3.script",
+		  "base_type": "activity",
+		  "properties": {
+			"action_timeout": 180,
+			"continue_on_failure": false,
+			"display_name": "Check input data",
+			"script": "from sys import argv\nerror = None\nif not any(argv[1:3]):\n    error = (\n  'Requires at least one of: '\n  'Security Policy Pre Rule name or '\n  'Security Policy Pre Rule body in JSON format.'\n)\nif not any(argv[3:8]):\n    error = (\n  'Requires at least one of: '\n  'Source Address name, '\n  'Destination Address name, '\n  'Servise name, '\n  'Custome URL Category or Action.'\n)",
+			"script_arguments": [
+			  "$workflow.definition_workflow_01QNWS0U2T5QY6MfHyMZT0BUd9sNyLnQyTk.input.variable_workflow_01QOROBKETGTA5uK2Sso1LLGUJBfbmHaCap$",
+			  "$workflow.definition_workflow_01QNWS0U2T5QY6MfHyMZT0BUd9sNyLnQyTk.input.variable_workflow_01QORNV7L6VFC2GEJQjV9aYccoU9l1XhNpE$",
+			  "$workflow.definition_workflow_01QNWS0U2T5QY6MfHyMZT0BUd9sNyLnQyTk.input.variable_workflow_01QORT3NX7VTY0FhfmHt2FM59GfYYrPC7hf$",
+			  "$workflow.definition_workflow_01QNWS0U2T5QY6MfHyMZT0BUd9sNyLnQyTk.input.variable_workflow_01QORU1IFYXEO5s5MH67x18Ys5PWVzj1V0L$",
+			  "$workflow.definition_workflow_01QNWS0U2T5QY6MfHyMZT0BUd9sNyLnQyTk.input.variable_workflow_01QOTXQJBHQ1U23Nlcz8ZM6S92fmdwsOGxx$",
+			  "$workflow.definition_workflow_01QNWS0U2T5QY6MfHyMZT0BUd9sNyLnQyTk.input.variable_workflow_01QORV740TZ3Y7l3CMEzFHjqCl8Nxhuhmi7$",
+			  "$workflow.definition_workflow_01QNWS0U2T5QY6MfHyMZT0BUd9sNyLnQyTk.input.variable_workflow_01QORVO26588W59DhdqGmAZYtzfc1q4kZZb$"
+			],
+			"script_queries": [
+			  {
+				"script_query": "error",
+				"script_query_name": "Error",
+				"script_query_type": "string"
+			  }
+			],
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01QOS5Q65D4OM76o9Ows9pxJyWkANaNVmVM",
+		  "name": "Condition Block",
+		  "title": "Input data correct?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Input data correct?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01QOS5Q941POH259h5bDupShG9KNI60zDPR",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01QOROYTT3EUF0ifPXioHBQGyVaXt2FFUly.output.script_queries.Error$",
+				  "operator": "ne",
+				  "right_operand": "None"
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01QOS679A51KA1Yq9gvPPLl9Hb7GmxKNr9A",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "Input validation failed:\n$activity.definition_activity_01QOROYTT3EUF0ifPXioHBQGyVaXt2FFUly.output.script_queries.Error$",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01QOS97WP8UTC60RhMn07n5xk6Q73GL8aHC",
+		  "name": "Condition Block",
+		  "title": "Rule name or body provided?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Rule name or body provided?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01QOS980MK8WJ64UQUAVIvDWmpwc8EGWq0a",
+			  "name": "Condition Branch",
+			  "title": "Name",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$workflow.definition_workflow_01QNWS0U2T5QY6MfHyMZT0BUd9sNyLnQyTk.input.variable_workflow_01QORNV7L6VFC2GEJQjV9aYccoU9l1XhNpE$",
+				  "operator": "ne",
+				  "right_operand": ""
+				},
+				"continue_on_failure": false,
+				"display_name": "Name",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01QOSBH4742BI7T2X6vm9gIza8EjNj5stkc",
+				  "name": "HTTP Request",
+				  "title": "Get security policy pre rule",
+				  "type": "web-service.http_request",
+				  "base_type": "activity",
+				  "properties": {
+					"accept": "application/json",
+					"action_timeout": 180,
+					"allow_auto_redirect": true,
+					"continue_on_error_status_code": true,
+					"continue_on_failure": false,
+					"custom_headers": [
+					  {
+						"name": "X-PAN-KEY",
+						"value": "$workflow.definition_workflow_01QNWS0U2T5QY6MfHyMZT0BUd9sNyLnQyTk.input.variable_workflow_01QORDBZK6YF64HcaH4ephX41pXR32BulYH$"
+					  }
+					],
+					"display_name": "Get security policy pre rule",
+					"method": "GET",
+					"relative_url": "v10.0/Policies/SecurityPreRules?location=$workflow.definition_workflow_01QNWS0U2T5QY6MfHyMZT0BUd9sNyLnQyTk.input.variable_workflow_01QORE7C3W1GS0C06sZWCHoOPy2KTc7ZIEJ$&device-group=$workflow.definition_workflow_01QNWS0U2T5QY6MfHyMZT0BUd9sNyLnQyTk.input.variable_workflow_01QORLXE4CFPO3GESHrSxqVZjMffKJYH7eW$&name=$workflow.definition_workflow_01QNWS0U2T5QY6MfHyMZT0BUd9sNyLnQyTk.input.variable_workflow_01QORNV7L6VFC2GEJQjV9aYccoU9l1XhNpE$",
+					"runtime_user": {
+					  "target_default": true
+					},
+					"skip_execution": false,
+					"target": {
+					  "use_workflow_target": true
+					}
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01QOSE4CNVFMV3EtfqEmtClCLKpLDfUs7IA",
+				  "name": "Condition Block",
+				  "title": "Was the request successful?",
+				  "type": "logic.if_else",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Was the request successful?",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "blocks": [
+					{
+					  "unique_name": "definition_activity_01QOSE4EDB2PS7SprzXAvHcewqdVil71i70",
+					  "name": "Condition Branch",
+					  "title": "No",
+					  "type": "logic.condition_block",
+					  "base_type": "activity",
+					  "properties": {
+						"condition": {
+						  "left_operand": "$activity.definition_activity_01QOSBH4742BI7T2X6vm9gIza8EjNj5stkc.output.status_code$",
+						  "operator": "ne",
+						  "right_operand": 200
+						},
+						"continue_on_failure": false,
+						"display_name": "No",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "actions": [
+						{
+						  "unique_name": "definition_activity_01QOSFGPRUC5I07j29q1xXMVjYRsCDJC8ID",
+						  "name": "Completed",
+						  "title": "Failed",
+						  "type": "logic.completed",
+						  "base_type": "activity",
+						  "properties": {
+							"completion_type": "failed-completed",
+							"continue_on_failure": false,
+							"display_name": "Failed",
+							"result_message": "Failed to fetch the existing security policy pre rule\n\nStatus code: $activity.definition_activity_01QOSBH4742BI7T2X6vm9gIza8EjNj5stkc.output.status_code$\nResponse body: $activity.definition_activity_01QOSBH4742BI7T2X6vm9gIza8EjNj5stkc.output.response_body$",
+							"skip_execution": false
+						  },
+						  "object_type": "definition_activity"
+						}
+					  ]
+					}
+				  ]
+				},
+				{
+				  "unique_name": "definition_activity_01QOSGMJHIRH00onxUc2bJ28bFR9z6X0BGp",
+				  "name": "JSONPath Query",
+				  "title": "Extract the pre rule",
+				  "type": "corejava.jsonpathquery",
+				  "base_type": "activity",
+				  "properties": {
+					"action_timeout": 180,
+					"continue_on_failure": true,
+					"display_name": "Extract the pre rule",
+					"input_json": "$activity.definition_activity_01QOSBH4742BI7T2X6vm9gIza8EjNj5stkc.output.response_body$",
+					"jsonpath_queries": [
+					  {
+						"jsonpath_query": "$.result.entry[0]",
+						"jsonpath_query_name": "Pre Rule JSON",
+						"jsonpath_query_type": "string"
+					  }
+					],
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01QOSI15YJYNJ5bELvp5qHDhc9PzAoqQzsN",
+				  "name": "Condition Block",
+				  "title": "Extraction successful?",
+				  "type": "logic.if_else",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Extraction successful?",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "blocks": [
+					{
+					  "unique_name": "definition_activity_01QOSI17LX3DY72l3vuueBUV2kkckSDdiBT",
+					  "name": "Condition Branch",
+					  "title": "No",
+					  "type": "logic.condition_block",
+					  "base_type": "activity",
+					  "properties": {
+						"condition": {
+						  "left_operand": "$activity.definition_activity_01QOSGMJHIRH00onxUc2bJ28bFR9z6X0BGp.output.succeeded$",
+						  "operator": "eq",
+						  "right_operand": false
+						},
+						"continue_on_failure": false,
+						"display_name": "No",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "actions": [
+						{
+						  "unique_name": "definition_activity_01QOSITY6YXOK18cyTdWzlMVV2pNBkgxHu2",
+						  "name": "Completed",
+						  "title": "Failed",
+						  "type": "logic.completed",
+						  "base_type": "activity",
+						  "properties": {
+							"completion_type": "failed-completed",
+							"continue_on_failure": false,
+							"display_name": "Failed",
+							"result_message": "Failed to extract the pre rule JSON from the search result",
+							"skip_execution": false
+						  },
+						  "object_type": "definition_activity"
+						}
+					  ]
+					}
+				  ]
+				},
+				{
+				  "unique_name": "definition_activity_01QOSK5UKR7J14IdLK7YWbTGxnNWAjXxtJE",
+				  "name": "Set Variables",
+				  "title": "Set local pre rule JSON",
+				  "type": "core.set_multiple_variables",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Set local pre rule JSON",
+					"skip_execution": false,
+					"variables_to_update": [
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01QNWS0U2T5QY6MfHyMZT0BUd9sNyLnQyTk.input.variable_workflow_01QOROBKETGTA5uK2Sso1LLGUJBfbmHaCap$",
+						"variable_value_new": "$activity.definition_activity_01QOSGMJHIRH00onxUc2bJ28bFR9z6X0BGp.output.jsonpath_queries.Pre Rule JSON$"
+					  }
+					]
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01QOS9817GF3W1Lzs7A6ZW6W2cTjaeuROWs",
+			  "name": "Condition Branch",
+			  "title": "Body",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$workflow.definition_workflow_01QNWS0U2T5QY6MfHyMZT0BUd9sNyLnQyTk.input.variable_workflow_01QOROBKETGTA5uK2Sso1LLGUJBfbmHaCap$",
+				  "operator": "ne",
+				  "right_operand": ""
+				},
+				"continue_on_failure": false,
+				"display_name": "Body",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01QOT9AWSLI2C4ZbXSxklHlbplJTTrxI1jU",
+				  "name": "JSONPath Query",
+				  "title": "Extract pre rule name",
+				  "type": "corejava.jsonpathquery",
+				  "base_type": "activity",
+				  "properties": {
+					"action_timeout": 180,
+					"continue_on_failure": true,
+					"display_name": "Extract pre rule name",
+					"input_json": "$workflow.definition_workflow_01QNWS0U2T5QY6MfHyMZT0BUd9sNyLnQyTk.input.variable_workflow_01QOROBKETGTA5uK2Sso1LLGUJBfbmHaCap$",
+					"jsonpath_queries": [
+					  {
+						"jsonpath_query": "$.@name",
+						"jsonpath_query_name": "Pre Rule Name",
+						"jsonpath_query_type": "string"
+					  }
+					],
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01QOTEZSLNF3N3SkDazrBe4AKgrX75HaodV",
+				  "name": "Condition Block",
+				  "title": "Extraction successful?",
+				  "type": "logic.if_else",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Extraction successful?",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "blocks": [
+					{
+					  "unique_name": "definition_activity_01QOTEZUA54W56sd4biFs8fF9MsNJitG8BN",
+					  "name": "Condition Branch",
+					  "title": "No",
+					  "type": "logic.condition_block",
+					  "base_type": "activity",
+					  "properties": {
+						"condition": {
+						  "left_operand": "$activity.definition_activity_01QOT9AWSLI2C4ZbXSxklHlbplJTTrxI1jU.output.succeeded$",
+						  "operator": "eq",
+						  "right_operand": false
+						},
+						"continue_on_failure": false,
+						"display_name": "No",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "actions": [
+						{
+						  "unique_name": "definition_activity_01QOTGVMRJ7PR1fjhMzM0aMZXxuFbZP8dBc",
+						  "name": "Completed",
+						  "title": "Failed",
+						  "type": "logic.completed",
+						  "base_type": "activity",
+						  "properties": {
+							"completion_type": "failed-completed",
+							"continue_on_failure": false,
+							"display_name": "Failed",
+							"result_message": "Failed to extract pre rule name from JSON body provided",
+							"skip_execution": false
+						  },
+						  "object_type": "definition_activity"
+						}
+					  ]
+					}
+				  ]
+				},
+				{
+				  "unique_name": "definition_activity_01QOTJRSVTJQP3WTzv6LpojTIlXvyJqE8hL",
+				  "name": "Set Variables",
+				  "title": "Set local pre rule name",
+				  "type": "core.set_multiple_variables",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Set local pre rule name",
+					"skip_execution": false,
+					"variables_to_update": [
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01QNWS0U2T5QY6MfHyMZT0BUd9sNyLnQyTk.input.variable_workflow_01QORNV7L6VFC2GEJQjV9aYccoU9l1XhNpE$",
+						"variable_value_new": "$activity.definition_activity_01QOT9AWSLI2C4ZbXSxklHlbplJTTrxI1jU.output.jsonpath_queries.Pre Rule Name$"
+					  }
+					]
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01QNWS10IQBNL3XeLVPMRwNbaT5hBBFNcqX",
+		  "name": "Execute Python Script",
+		  "title": "Prepare updated pre rule payload",
+		  "type": "python3.script",
+		  "base_type": "activity",
+		  "properties": {
+			"action_timeout": 180,
+			"continue_on_failure": true,
+			"display_name": "Prepare updated pre rule payload",
+			"script": "import json\nfrom sys import argv\nfrom collections import namedtuple\n# --------------------------------------------------------------\nObj = namedtuple('Obj', 'field singles value')\nclass Object(Obj):\n    def _clean_from_singles(self, values: list):\n        if len(values) == 1 and (values[0] in self.singles):\n            values.clear()\n    def _insert_if_not_contain(self, container: list):\n        if self.value not in container:\n            container.append(self.value)\n    def inject_to(self, body: dict):\n        if body.get(self.field):\n            self._clean_from_singles(body[self.field]['member'])\n            self._insert_if_not_contain(body[self.field]['member'])\n        else:\n            body.update({self.field: {'member': [self.value]}})\n            \n            \ndef remove_extra_fields(extra_fields, body):\n    for field in extra_fields:\n        body.pop(field, None)\n    return body\n# --------------------------------------------------------------\nextra_fields = ('@uuid', '@location', '@device-group')\n# fields_to_update contain field name and tuple of values,\n# which have to be removed if we want to set object instead\nfields_to_update = (\n    ('source', ('any',)),\n    ('destination', ('any',)),\n    ('category', ('any',)),\n    ('service', ('application-default', 'any'))\n)\nrule_body = remove_extra_fields(extra_fields, json.loads(argv[1]))\nfor field_singles, value in zip(fields_to_update, argv[3:7]):\n    if value:\n        Object(*field_singles, value).inject_to(rule_body)\naction = argv[2]\nif action:\n    rule_body['action'] = action.lower()\npayload = json.dumps({'entry': rule_body})",
+			"script_arguments": [
+			  "$workflow.definition_workflow_01QNWS0U2T5QY6MfHyMZT0BUd9sNyLnQyTk.input.variable_workflow_01QOROBKETGTA5uK2Sso1LLGUJBfbmHaCap$",
+			  "$workflow.definition_workflow_01QNWS0U2T5QY6MfHyMZT0BUd9sNyLnQyTk.input.variable_workflow_01QORT3NX7VTY0FhfmHt2FM59GfYYrPC7hf$",
+			  "$workflow.definition_workflow_01QNWS0U2T5QY6MfHyMZT0BUd9sNyLnQyTk.input.variable_workflow_01QORU1IFYXEO5s5MH67x18Ys5PWVzj1V0L$",
+			  "$workflow.definition_workflow_01QNWS0U2T5QY6MfHyMZT0BUd9sNyLnQyTk.input.variable_workflow_01QOTXQJBHQ1U23Nlcz8ZM6S92fmdwsOGxx$",
+			  "$workflow.definition_workflow_01QNWS0U2T5QY6MfHyMZT0BUd9sNyLnQyTk.input.variable_workflow_01QORVO26588W59DhdqGmAZYtzfc1q4kZZb$",
+			  "$workflow.definition_workflow_01QNWS0U2T5QY6MfHyMZT0BUd9sNyLnQyTk.input.variable_workflow_01QORV740TZ3Y7l3CMEzFHjqCl8Nxhuhmi7$"
+			],
+			"script_queries": [
+			  {
+				"script_query": "payload",
+				"script_query_name": "Payload",
+				"script_query_type": "string"
+			  }
+			],
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01QNWS12W2ZCF5lT3ThSIm3LdrI8hh71qyD",
+		  "name": "Condition Block",
+		  "title": "Was the payload built?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Was the payload built?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01QNWS15CS3CS074saewsM5gahkgBjfiJMt",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01QNWS10IQBNL3XeLVPMRwNbaT5hBBFNcqX.output.succeeded$",
+				  "operator": "eq",
+				  "right_operand": false
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01QNWS176W3VC6qNHEs4R6DVd2af47oZtZB",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "Failed to build new pre rule payload",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01QNWS19I5XXR7mw9wuZOhSzzzVHCQEDpgs",
+		  "name": "HTTP Request",
+		  "title": "Update security policy pre rule",
+		  "type": "web-service.http_request",
+		  "base_type": "activity",
+		  "properties": {
+			"accept": "application/json",
+			"action_timeout": 180,
+			"allow_auto_redirect": true,
+			"body": "$activity.definition_activity_01QNWS10IQBNL3XeLVPMRwNbaT5hBBFNcqX.output.script_queries.Payload$",
+			"continue_on_error_status_code": true,
+			"continue_on_failure": false,
+			"custom_headers": [
+			  {
+				"name": "X-PAN-KEY",
+				"value": "$workflow.definition_workflow_01QNWS0U2T5QY6MfHyMZT0BUd9sNyLnQyTk.input.variable_workflow_01QORDBZK6YF64HcaH4ephX41pXR32BulYH$"
+			  }
+			],
+			"display_name": "Update security policy pre rule",
+			"method": "PUT",
+			"relative_url": "v10.0/Policies/SecurityPreRules?location=$workflow.definition_workflow_01QNWS0U2T5QY6MfHyMZT0BUd9sNyLnQyTk.input.variable_workflow_01QORE7C3W1GS0C06sZWCHoOPy2KTc7ZIEJ$&device-group=$workflow.definition_workflow_01QNWS0U2T5QY6MfHyMZT0BUd9sNyLnQyTk.input.variable_workflow_01QORLXE4CFPO3GESHrSxqVZjMffKJYH7eW$&name=$workflow.definition_workflow_01QNWS0U2T5QY6MfHyMZT0BUd9sNyLnQyTk.input.variable_workflow_01QORNV7L6VFC2GEJQjV9aYccoU9l1XhNpE$",
+			"runtime_user": {
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "use_workflow_target": true
+			}
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01QNWS1C726A70iKN2r5Tf5GmOi4PRpgFIa",
+		  "name": "Condition Block",
+		  "title": "Was the request successful?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Was the request successful?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01QNWS1EKWQCP2UEJFUCLZwwzpYB1HjL8rp",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01QNWS19I5XXR7mw9wuZOhSzzzVHCQEDpgs.output.status_code$",
+				  "operator": "ne",
+				  "right_operand": 200
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01QNWS1GD2BQE5Aef2BMJQbAXZn2yOda7tF",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "Failed to update security policy pre rule\n\nStatus code: $activity.definition_activity_01QNWS19I5XXR7mw9wuZOhSzzzVHCQEDpgs.output.status_code$\nResponse body: $activity.definition_activity_01QNWS19I5XXR7mw9wuZOhSzzzVHCQEDpgs.output.response_body$",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		}
+	  ],
+	  "categories": [
+		"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+	  ]
+	}
+  }

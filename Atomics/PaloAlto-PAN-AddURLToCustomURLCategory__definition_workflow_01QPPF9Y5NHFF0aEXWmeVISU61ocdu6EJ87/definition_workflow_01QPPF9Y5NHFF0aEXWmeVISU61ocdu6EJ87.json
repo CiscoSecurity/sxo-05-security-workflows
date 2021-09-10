@@ -1,0 +1,691 @@
+{
+	"workflow": {
+	  "unique_name": "definition_workflow_01QPPF9Y5NHFF0aEXWmeVISU61ocdu6EJ87",
+	  "name": "Palo Alto - Panorama - Add URL to Custom URL Category",
+	  "title": "Palo Alto - Panorama - Add URL to Custom URL Category",
+	  "type": "generic.workflow",
+	  "base_type": "workflow",
+	  "variables": [
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "shared",
+			"scope": "input",
+			"name": "Location",
+			"type": "datatype.string",
+			"description": "The availability of the custom URL categories. Valid values include: shared, device-group. If you use device-group, you must provide a Device Group Name",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QPPF9XY1G365mc10xqWXUtvF5tpALfWT2",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "URL",
+			"type": "datatype.string",
+			"description": "The URL to add to the custom URL category",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QPPNTZTYWL27CvqczHbxfaNZGjkJaqfP6",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Device Group Name",
+			"type": "datatype.string",
+			"description": "The name of the device group to manage custom URL categories for. This is only required when Location is set to device-group",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QPPF9XY1QEO1pIzAfd0YfScLd2zSLFCTJ",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.secure_string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "API Key",
+			"type": "datatype.secure_string",
+			"description": "Your API key for the Panorama REST API. See: https://docs.paloaltonetworks.com/pan-os/10-0/pan-os-panorama-api/get-started-with-the-pan-os-xml-api/get-your-api-key.html",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QPPF9XY1LMX4tLygVRS60WYShuJ8RMUb5",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "URL Category Name",
+			"type": "datatype.string",
+			"description": "Name of the existing URL category to be updated. Either this or a category JSON body are required",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QPPF9XY1MVV5aNdMfhqDaD4vf5hxMN2Xb",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "URL Category JSON",
+			"type": "datatype.string",
+			"description": "JSON body of the existing URL category to be updated. Either this or a category name are required",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QPPF9XY1P7N1VMgdwfXXrHQqpgHqbyB5B",
+		  "object_type": "variable_workflow"
+		}
+	  ],
+	  "properties": {
+		"atomic": {
+		  "atomic_group": "Palo Alto Panorama",
+		  "is_atomic": true
+		},
+		"delete_workflow_instance": false,
+		"description": "Adds a URL to a custom URL category with a URL list type in Palo Alto Panorama.\n\nNote: You may need to use a SecureX Orchestration Remote to communicate with Panorama if it's on-premise. See: https://ciscosecurity.github.io/sxo-05-security-workflows/remote\n\nTarget: HTTP Endpoint for your Panorama instance with a path of \"/restapi/\"\n\nAccount Key: None (uses an API key)\n\nSteps:\n[] Validate input data (if not correct, output an error)\n[] Check if a name or body was provided:\n[]> If name: Fetch the category and extract its JSON body\n[]> If body: Extract the category name\n[] Generate the updated category JSON to post\n[] Check that preparation of the JSON payload was successful\n[] Update the category in Panorama\n[] Check if the request was successful (if not, output an error)\n\nMore information about this API: https://<your Panorama>/restapi-doc/#tag/objects-custom-url-categories/paths/~1restapi~1v10.0~1Objects~1CustomURLCategories/put",
+		"display_name": "Palo Alto - Panorama - Add URL to Custom URL Category",
+		"runtime_user": {
+		  "target_default": true
+		},
+		"target": {
+		  "target_type": "web-service.endpoint",
+		  "specify_on_workflow_start": true
+		}
+	  },
+	  "object_type": "definition_workflow",
+	  "actions": [
+		{
+		  "unique_name": "definition_activity_01QPPFA6KQY6B7jb3kFMjV3dfii1NDhrp5s",
+		  "name": "Condition Block",
+		  "title": "Input data correct?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Input data correct?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01QPPFA92QETO7UaCNhDkLDUT9JAhArSCHC",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": {
+					"left_operand": "$workflow.definition_workflow_01QPPF9Y5NHFF0aEXWmeVISU61ocdu6EJ87.input.variable_workflow_01QPPF9XY1MVV5aNdMfhqDaD4vf5hxMN2Xb$",
+					"operator": "eq",
+					"right_operand": ""
+				  },
+				  "operator": "and",
+				  "right_operand": {
+					"left_operand": "$workflow.definition_workflow_01QPPF9Y5NHFF0aEXWmeVISU61ocdu6EJ87.input.variable_workflow_01QPPF9XY1P7N1VMgdwfXXrHQqpgHqbyB5B$",
+					"operator": "eq",
+					"right_operand": ""
+				  }
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01QPPFABINQHM3ZSOCP7enAGYfOsyjT18Db",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "Either a category name or JSON body is required",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01QPPFAE2WD9X6BzuGazzM7NX0yTtUeH6Ku",
+		  "name": "Condition Block",
+		  "title": "Category name or body provided?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Category name or body provided?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01QPPFAGE12CJ0BJKOo9sKcmGFUQXD44jUp",
+			  "name": "Condition Branch",
+			  "title": "Name",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$workflow.definition_workflow_01QPPF9Y5NHFF0aEXWmeVISU61ocdu6EJ87.input.variable_workflow_01QPPF9XY1MVV5aNdMfhqDaD4vf5hxMN2Xb$",
+				  "operator": "ne",
+				  "right_operand": ""
+				},
+				"continue_on_failure": false,
+				"display_name": "Name",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01QPPFAI46SRS5INk2gGg6h0yAZSwgQHsvD",
+				  "name": "HTTP Request",
+				  "title": "Get custom URL category",
+				  "type": "web-service.http_request",
+				  "base_type": "activity",
+				  "properties": {
+					"accept": "application/json",
+					"action_timeout": 180,
+					"allow_auto_redirect": true,
+					"continue_on_error_status_code": true,
+					"continue_on_failure": false,
+					"custom_headers": [
+					  {
+						"name": "X-PAN-KEY",
+						"value": "$workflow.definition_workflow_01QPPF9Y5NHFF0aEXWmeVISU61ocdu6EJ87.input.variable_workflow_01QPPF9XY1LMX4tLygVRS60WYShuJ8RMUb5$"
+					  }
+					],
+					"display_name": "Get custom URL category",
+					"method": "GET",
+					"relative_url": "v10.0/Objects/CustomURLCategories?location=$workflow.definition_workflow_01QPPF9Y5NHFF0aEXWmeVISU61ocdu6EJ87.input.variable_workflow_01QPPF9XY1G365mc10xqWXUtvF5tpALfWT2$&device-group=$workflow.definition_workflow_01QPPF9Y5NHFF0aEXWmeVISU61ocdu6EJ87.input.variable_workflow_01QPPF9XY1QEO1pIzAfd0YfScLd2zSLFCTJ$&name=$workflow.definition_workflow_01QPPF9Y5NHFF0aEXWmeVISU61ocdu6EJ87.input.variable_workflow_01QPPF9XY1MVV5aNdMfhqDaD4vf5hxMN2Xb$",
+					"runtime_user": {
+					  "target_default": true
+					},
+					"skip_execution": false,
+					"target": {
+					  "use_workflow_target": true
+					}
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01QPPFAKGN2W44qd1GmRYKaPGdwNItAfZxt",
+				  "name": "Condition Block",
+				  "title": "Was the request successful?",
+				  "type": "logic.if_else",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Was the request successful?",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "blocks": [
+					{
+					  "unique_name": "definition_activity_01QPPFAMV5AYX384Q9EjlLXzbZLL3KkzrEZ",
+					  "name": "Condition Branch",
+					  "title": "No",
+					  "type": "logic.condition_block",
+					  "base_type": "activity",
+					  "properties": {
+						"condition": {
+						  "left_operand": "$activity.definition_activity_01QPPFAI46SRS5INk2gGg6h0yAZSwgQHsvD.output.status_code$",
+						  "operator": "ne",
+						  "right_operand": 200
+						},
+						"continue_on_failure": false,
+						"display_name": "No",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "actions": [
+						{
+						  "unique_name": "definition_activity_01QPPFAOQ2HN01VqR2d0VPuHMHd1G5VjaLU",
+						  "name": "Completed",
+						  "title": "Failed",
+						  "type": "logic.completed",
+						  "base_type": "activity",
+						  "properties": {
+							"completion_type": "failed-completed",
+							"continue_on_failure": false,
+							"display_name": "Failed",
+							"result_message": "Failed to fetch the URL category\n\nStatus code: $activity.definition_activity_01QPPFAI46SRS5INk2gGg6h0yAZSwgQHsvD.output.status_code$\nMessage: $activity.definition_activity_01QPPFAI46SRS5INk2gGg6h0yAZSwgQHsvD.output.response_body$",
+							"skip_execution": false
+						  },
+						  "object_type": "definition_activity"
+						}
+					  ]
+					}
+				  ]
+				},
+				{
+				  "unique_name": "definition_activity_01QPPFAR01CJY6SKhnhH7FBH3SP3skXpJ3m",
+				  "name": "JSONPath Query",
+				  "title": "Extract the category",
+				  "type": "corejava.jsonpathquery",
+				  "base_type": "activity",
+				  "properties": {
+					"action_timeout": 180,
+					"continue_on_failure": true,
+					"display_name": "Extract the category",
+					"input_json": "$activity.definition_activity_01QPPFAI46SRS5INk2gGg6h0yAZSwgQHsvD.output.response_body$",
+					"jsonpath_queries": [
+					  {
+						"jsonpath_query": "$.result.entry[0]",
+						"jsonpath_query_name": "URL Category",
+						"jsonpath_query_type": "string"
+					  }
+					],
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01QPPFATPM1CJ1azyQ3scX416QK3ltj1401",
+				  "name": "Condition Block",
+				  "title": "Extraction successful?",
+				  "type": "logic.if_else",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Extraction successful?",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "blocks": [
+					{
+					  "unique_name": "definition_activity_01QPPFAW5CDH764jZ68PliZpRzAZNxp4K79",
+					  "name": "Condition Branch",
+					  "title": "No",
+					  "type": "logic.condition_block",
+					  "base_type": "activity",
+					  "properties": {
+						"condition": {
+						  "left_operand": "$activity.definition_activity_01QPPFAR01CJY6SKhnhH7FBH3SP3skXpJ3m.output.succeeded$",
+						  "operator": "eq",
+						  "right_operand": false
+						},
+						"continue_on_failure": false,
+						"display_name": "No",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "actions": [
+						{
+						  "unique_name": "definition_activity_01QPPFAYC36022gh0pGDqKyKRRgSAg2CkQa",
+						  "name": "Completed",
+						  "title": "Failed",
+						  "type": "logic.completed",
+						  "base_type": "activity",
+						  "properties": {
+							"completion_type": "failed-completed",
+							"continue_on_failure": false,
+							"display_name": "Failed",
+							"result_message": "Failed to extract the URL category JSON from the search result",
+							"skip_execution": false
+						  },
+						  "object_type": "definition_activity"
+						}
+					  ]
+					}
+				  ]
+				},
+				{
+				  "unique_name": "definition_activity_01QPPFB0YZX600NlJ1pyPHHn8smVcLfDmED",
+				  "name": "Set Variables",
+				  "title": "Set local category JSON",
+				  "type": "core.set_multiple_variables",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Set local category JSON",
+					"skip_execution": false,
+					"variables_to_update": [
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01QPPF9Y5NHFF0aEXWmeVISU61ocdu6EJ87.input.variable_workflow_01QPPF9XY1P7N1VMgdwfXXrHQqpgHqbyB5B$",
+						"variable_value_new": "$activity.definition_activity_01QPPFAR01CJY6SKhnhH7FBH3SP3skXpJ3m.output.jsonpath_queries.URL Category$"
+					  }
+					]
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01QPPFB3OZ09Q2L56NzI6xgWLP3qNYM4iFD",
+			  "name": "Condition Branch",
+			  "title": "Body",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$workflow.definition_workflow_01QPPF9Y5NHFF0aEXWmeVISU61ocdu6EJ87.input.variable_workflow_01QPPF9XY1P7N1VMgdwfXXrHQqpgHqbyB5B$",
+				  "operator": "ne",
+				  "right_operand": ""
+				},
+				"continue_on_failure": false,
+				"display_name": "Body",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01QPPFB5DH77M4QRYCA7njZA83z7Dfvdp80",
+				  "name": "JSONPath Query",
+				  "title": "Extract URL category name",
+				  "type": "corejava.jsonpathquery",
+				  "base_type": "activity",
+				  "properties": {
+					"action_timeout": 180,
+					"continue_on_failure": true,
+					"display_name": "Extract URL category name",
+					"input_json": "$workflow.definition_workflow_01QPPF9Y5NHFF0aEXWmeVISU61ocdu6EJ87.input.variable_workflow_01QPPF9XY1P7N1VMgdwfXXrHQqpgHqbyB5B$",
+					"jsonpath_queries": [
+					  {
+						"jsonpath_query": "$.@name",
+						"jsonpath_query_name": "URL category Name",
+						"jsonpath_query_type": "string"
+					  }
+					],
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01QPPFB7PEQ2I38moMu2lTvM0pZQpzMqGMC",
+				  "name": "Condition Block",
+				  "title": "Extraction successful?",
+				  "type": "logic.if_else",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Extraction successful?",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "blocks": [
+					{
+					  "unique_name": "definition_activity_01QPPFBA1F4EI7JCRU43icnjmtGNkMc1COX",
+					  "name": "Condition Branch",
+					  "title": "No",
+					  "type": "logic.condition_block",
+					  "base_type": "activity",
+					  "properties": {
+						"condition": {
+						  "left_operand": "$activity.definition_activity_01QPPFB5DH77M4QRYCA7njZA83z7Dfvdp80.output.succeeded$",
+						  "operator": "eq",
+						  "right_operand": false
+						},
+						"continue_on_failure": false,
+						"display_name": "No",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "actions": [
+						{
+						  "unique_name": "definition_activity_01QPPFBBSXQ247k3rQkagJX3FTTKlr0zJWb",
+						  "name": "Completed",
+						  "title": "Failed",
+						  "type": "logic.completed",
+						  "base_type": "activity",
+						  "properties": {
+							"completion_type": "failed-completed",
+							"continue_on_failure": false,
+							"display_name": "Failed",
+							"result_message": "Failed to extract URL category name from JSON body provided",
+							"skip_execution": false
+						  },
+						  "object_type": "definition_activity"
+						}
+					  ]
+					}
+				  ]
+				},
+				{
+				  "unique_name": "definition_activity_01QPPFBE66TLP1caB5MNiH4SFma1t0Hdu8a",
+				  "name": "Set Variables",
+				  "title": "Set local category name",
+				  "type": "core.set_multiple_variables",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Set local category name",
+					"skip_execution": false,
+					"variables_to_update": [
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01QPPF9Y5NHFF0aEXWmeVISU61ocdu6EJ87.input.variable_workflow_01QPPF9XY1MVV5aNdMfhqDaD4vf5hxMN2Xb$",
+						"variable_value_new": "$activity.definition_activity_01QPPFB5DH77M4QRYCA7njZA83z7Dfvdp80.output.jsonpath_queries.URL category Name$"
+					  }
+					]
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01QPPFBGWGOGS3Y8Hje8nZGrZLlijb7KZZu",
+		  "name": "Execute Python Script",
+		  "title": "Prepare updated URL category object",
+		  "type": "python3.script",
+		  "base_type": "activity",
+		  "properties": {
+			"action_timeout": 180,
+			"continue_on_failure": true,
+			"display_name": "Prepare updated URL category object",
+			"script": "import json\nfrom sys import argv\n# --------------------------------------------------------------\ndef remove_extra_fields(extra_fields, body):\n    for field in extra_fields:\n        body.pop(field, None)\n    return body\n# --------------------------------------------------------------\nurl_in_category = None\nextra_fields = ('@uuid', '@location', '@device-group')\nurl_category = remove_extra_fields(extra_fields, json.loads(argv[1]))\nurl = argv[2]\nif url_category.get('list'):\n    if url not in url_category['list']['member']:\n        url_category['list']['member'].append(url)\n    else:\n        url_in_category = f'{url} already present in {url_category[\"@name\"]} URL category'\nelse:\n    url_category.update({\"list\": {\"member\": [url]}})\npayload = json.dumps({'entry': url_category})",
+			"script_arguments": [
+			  "$workflow.definition_workflow_01QPPF9Y5NHFF0aEXWmeVISU61ocdu6EJ87.input.variable_workflow_01QPPF9XY1P7N1VMgdwfXXrHQqpgHqbyB5B$",
+			  "$workflow.definition_workflow_01QPPF9Y5NHFF0aEXWmeVISU61ocdu6EJ87.input.variable_workflow_01QPPNTZTYWL27CvqczHbxfaNZGjkJaqfP6$"
+			],
+			"script_queries": [
+			  {
+				"script_query": "payload",
+				"script_query_name": "Payload",
+				"script_query_type": "string"
+			  },
+			  {
+				"script_query": "url_in_category",
+				"script_query_name": "URL in Category",
+				"script_query_type": "string"
+			  }
+			],
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01QPPFBJA5RVM6ySiNka79Og78zfU5JPHri",
+		  "name": "Condition Block",
+		  "title": "Preparation successful?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Preparation successful?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01QPPFBLPBE4W5Rvc63ISzd7zuDFs8oeoE9",
+			  "name": "Condition Branch",
+			  "title": "Incorrect body",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01QPPFBGWGOGS3Y8Hje8nZGrZLlijb7KZZu.output.succeeded$",
+				  "operator": "eq",
+				  "right_operand": false
+				},
+				"continue_on_failure": false,
+				"display_name": "Incorrect body",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01QPPFBNFADJ02mF8uYXWHyVh1fiqyFnLcU",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "Failed to build new URL category payload",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01QQDV7KW3LV64yHiH77cBxA48QV5OBBV37",
+			  "name": "Condition Branch",
+			  "title": "URL already in category",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01QPPFBGWGOGS3Y8Hje8nZGrZLlijb7KZZu.output.script_queries.URL in Category$",
+				  "operator": "ne",
+				  "right_operand": "None"
+				},
+				"continue_on_failure": false,
+				"display_name": "URL already in category",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01QQDWAWN62AX0jmhWCO52YcrcyPCnpgBHe",
+				  "name": "Completed",
+				  "title": "Completed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "succeeded",
+					"continue_on_failure": false,
+					"display_name": "Completed",
+					"result_message": "URL provided already in category",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01QPPFBPON2NL4Nndj7iNgnosGdomXjF6K7",
+		  "name": "HTTP Request",
+		  "title": "Update custom URL category",
+		  "type": "web-service.http_request",
+		  "base_type": "activity",
+		  "properties": {
+			"accept": "application/json",
+			"action_timeout": 180,
+			"allow_auto_redirect": true,
+			"body": "$activity.definition_activity_01QPPFBGWGOGS3Y8Hje8nZGrZLlijb7KZZu.output.script_queries.Payload$",
+			"continue_on_error_status_code": true,
+			"continue_on_failure": false,
+			"custom_headers": [
+			  {
+				"name": "X-PAN-KEY",
+				"value": "$workflow.definition_workflow_01QPPF9Y5NHFF0aEXWmeVISU61ocdu6EJ87.input.variable_workflow_01QPPF9XY1LMX4tLygVRS60WYShuJ8RMUb5$"
+			  }
+			],
+			"display_name": "Update custom URL category",
+			"method": "PUT",
+			"relative_url": "v10.0/Objects/CustomURLCategories?location=$workflow.definition_workflow_01QPPF9Y5NHFF0aEXWmeVISU61ocdu6EJ87.input.variable_workflow_01QPPF9XY1G365mc10xqWXUtvF5tpALfWT2$&device-group=$workflow.definition_workflow_01QPPF9Y5NHFF0aEXWmeVISU61ocdu6EJ87.input.variable_workflow_01QPPF9XY1QEO1pIzAfd0YfScLd2zSLFCTJ$&name=$workflow.definition_workflow_01QPPF9Y5NHFF0aEXWmeVISU61ocdu6EJ87.input.variable_workflow_01QPPF9XY1MVV5aNdMfhqDaD4vf5hxMN2Xb$",
+			"runtime_user": {
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "use_workflow_target": true
+			}
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01QPPFBSA26RI0nH61RxB6q2DjDmoqFek1v",
+		  "name": "Condition Block",
+		  "title": "Was the request successful?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Was the request successful?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01QPPFBUMFTEW7WZYUHGJOlRJ8HKmoAsvsg",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01QPPFBPON2NL4Nndj7iNgnosGdomXjF6K7.output.status_code$",
+				  "operator": "ne",
+				  "right_operand": 200
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01QPPFBWDNQQD7DlJmckFzQFY2CZVa76NPz",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "Failed to update URL category\n\nStatus code: $activity.definition_activity_01QPPFBPON2NL4Nndj7iNgnosGdomXjF6K7.output.status_code$\nResponse body: $activity.definition_activity_01QPPFBPON2NL4Nndj7iNgnosGdomXjF6K7.output.response_body$",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		}
+	  ],
+	  "categories": [
+		"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+	  ]
+	}
+  }
