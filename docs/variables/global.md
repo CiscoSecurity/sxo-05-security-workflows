@@ -21,7 +21,7 @@ Global variables are created and managed under the **Variables** section of orch
 
 ![]({{ site.baseurl }}/assets/images/variables/global/menu.png)
 
-To create a new global variable, simply click the **New Variable** button and fill in the form. Refer to the [data types]({{ site.base_url }}/variables/types) page for more information about the various data types available.
+To create a new global variable, simply click the **New Variable** button and fill in the form. Refer to the [data types]({{ site.baseurl }}/variables/types) page for more information about the various data types available.
 
 ---
 
