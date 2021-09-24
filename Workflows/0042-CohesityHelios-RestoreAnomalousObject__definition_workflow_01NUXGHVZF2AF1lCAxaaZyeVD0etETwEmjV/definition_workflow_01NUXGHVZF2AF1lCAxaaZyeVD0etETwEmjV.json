@@ -1,0 +1,200 @@
+{
+	"workflow": {
+	  "unique_name": "definition_workflow_01NUXGHVZF2AF1lCAxaaZyeVD0etETwEmjV",
+	  "name": "0042 - Cohesity Helios - Restore Anomalous Object",
+	  "title": "0042 - Cohesity Helios - Restore Anomalous Object",
+	  "type": "generic.workflow",
+	  "base_type": "workflow",
+	  "variables": [
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "yes",
+			"scope": "local",
+			"name": "Delete Sighting and Incident",
+			"type": "datatype.string",
+			"description": "Whether or not to delete the SecureX sighting and incident. Valid values: yes, no",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QV3PFLRX4NF0CIy0sCsgE5DxqlLL2DsNU",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "observable_value",
+			"type": "datatype.string",
+			"description": "The value of the observable pivoted on",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01ODWTJSCZ96M4KhhpqDbguOo97fMvseIVQ",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.secure_string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "SecureX API Secret",
+			"type": "datatype.secure_string",
+			"description": "Secret for your Cisco SecureX API client. You can generate API clients in the Administration section of SecureX",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QV7VO0M4TYE3wV73kwZ6BRSVFOEHLqhfD",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.secure_string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "Helios API Key",
+			"type": "datatype.secure_string",
+			"description": "Your Cohesity Helios API key",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QV7VX4RNO9314NItxvNPCDGzf4Gr1901W",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "SecureX API Client ID",
+			"type": "datatype.string",
+			"description": "Client ID for your Cisco SecureX API client. You can generate API clients in the Administration section of SecureX",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01RLE9L1HYW4G4dXEZQu0T3FilgUSXZn8GL",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "observable_type",
+			"type": "datatype.string",
+			"description": "The type of observable pivoted on",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01ODWTCB0VZK94wpcD6k3SaKO0ROElMiaeN",
+		  "object_type": "variable_workflow"
+		}
+	  ],
+	  "properties": {
+		"atomic": {
+		  "is_atomic": false
+		},
+		"delete_workflow_instance": false,
+		"description": "Note: This workflow was developed and is supported by Cohesity\n\nThis workflow restores the specified anomalous object to the latest clean snapshot in Cohesity Helios. It also resolves the alert on Helios once the restore task is triggered. The restored VM name will be in the format \"Recover-{original VM name}-VM-{restore time}\" and the restore task name on the cluster will be in the format \"Cisco_SecureX_triggered_restore_task_{object name}\". Supported observable: hostname\n\nTargets: None\n\nSteps:\n[] Make sure the observable type provided is supported\n[] Execute a Python script to restore the object, resolve the alert, and perform optional cleanup in SecureX\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0042",
+		"display_name": "0042 - Cohesity Helios - Restore Anomalous Object",
+		"runtime_user": {
+		  "override_target_runtime_user": false,
+		  "specify_on_workflow_start": false,
+		  "target_default": true
+		},
+		"target": {
+		  "no_target": true
+		}
+	  },
+	  "object_type": "definition_workflow",
+	  "actions": [
+		{
+		  "unique_name": "definition_activity_01RLEFZ9K39XH4pemr07Q006lPo1wbCC3kq",
+		  "name": "Condition Block",
+		  "title": "Is the observable provided supported?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Is the observable provided supported?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01RLEFZHEN1YO60e4Ul5nFAjjmi3E5fhkSE",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$workflow.definition_workflow_01NUXGHVZF2AF1lCAxaaZyeVD0etETwEmjV.input.variable_workflow_01ODWTCB0VZK94wpcD6k3SaKO0ROElMiaeN$",
+				  "operator": "ne",
+				  "right_operand": "hostname"
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01RLEG9896A387JS5u9rllKAE4dK9TNZgPY",
+				  "name": "Completed",
+				  "title": "Unsupported observable",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Unsupported observable",
+					"result_message": "The observable type \"$workflow.definition_workflow_01NUXGHVZF2AF1lCAxaaZyeVD0etETwEmjV.input.variable_workflow_01ODWTCB0VZK94wpcD6k3SaKO0ROElMiaeN$\" is not supported by this workflow",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01O3MC7VAUEO77GjZ3U9Z2Q8OMY2pPnH6eG",
+		  "name": "Execute Python Script",
+		  "title": "Restore anomalous object and resolve alert",
+		  "type": "python3.script",
+		  "base_type": "activity",
+		  "properties": {
+			"action_timeout": 180,
+			"continue_on_failure": false,
+			"display_name": "Restore anomalous object and resolve alert",
+			"script": "'''\nSecureX orchestration workflow python script used to restore an anomalous object on Helios\nto the latest clean snapshot.\nSupported environments: VMware\nScript usage:\npython restore_to_latest_clean_snapshot.py <client_id> <client_password> <helios_api_key> <object> <delete>\nclient_id: Threat Response API client id\nclient_password: Threat Response API client password\nhelios_api_key: Cohesity Helios API key\nobject: Anomalous object name\ndelete: Specifies where to delete or not the sighting once the anomalous object is\n        restored to the latest clean snapshot. Can be 'yes' or 'no'.\n'''\nimport argparse\nimport requests\nimport sys\nimport time\n##### Cisco Functions ##### \ndef _get_access_token(args):\n    '''\n    Get Threat Response access token\n    :param args:\n    :return:\n    '''\n    try:\n        url = \"https://visibility.amp.cisco.com/iroh/oauth2/token\"\n        headers = {\n            \"Content-Type\": \"application/x-www-form-urlencoded\",\n            \"Accept\": \"application/json\"\n        }\n        response = requests.post(url, headers=headers, auth=(args.client_id, args.client_password),\n                                 verify=False, data={'grant_type': 'client_credentials'})\n        if response.status_code != 200:\n            raise Exception(str(response.json()))\n        return response.json()['access_token']\n    except Exception as e:\n        raise Exception(\"Failed to get threat response access token, \" + str(e))\ndef update_or_delete_sighting(tr_access_token, args):\n    '''\n    update or delete sighting once anomalous object is restored\n    :param tr_access_token:\n    :param args:\n    :return:\n    '''\n    try:\n        headers = {\n            'Authorization': 'Bearer ' + tr_access_token,\n            'Content-Type': 'application/json'\n        }\n        url = 'https://private.intel.amp.cisco.com/ctia/sighting/search'\n        params = {\n            \"observables.value\": args.object,\n            \"observables.type\": \"hostname\",\n            \"source\": \"Cohesity Helios\"\n        }\n        response = requests.get(url, params=params, headers=headers, verify=False)\n        if response.status_code != 200 or not response.json():\n            raise Exception(\"Failed to find the sighting, \" + str(response.json()))\n        sighting = response.json()[0]\n        sightingId = sighting['id']\n        url = 'https://private.intel.amp.cisco.com/ctia/sighting/' + sighting['id'].split('/')[-1]\n        if args.delete == 'yes':\n            response = requests.delete(url, headers=headers, verify=False)\n            if response.status_code != 204:\n                raise Exception(\"Failed to delete sighting, \" + str(response.json()))\n            else:\n                incident_id, relationship_id = get_incident_and_relationship_id(tr_access_token, sightingId)\n                update_or_delete_incident(tr_access_token, incident_id)\n                update_or_delete_relationship(tr_access_token, relationship_id)\n        else:\n            sighting['resolution'] = 'Anomalous object is restored to latest clean snapshot'\n            response = requests.put(url, headers=headers,\n                                    verify=False, json=sighting)\n            if response.status_code != 200:\n                raise Exception('Failed to update the sighting, ' + str(response.json()))\n            else:\n                incident_id, relationship_id = get_incident_and_relationship_id(tr_access_token, sightingId)\n                update_or_delete_incident(tr_access_token, incident_id)\n                update_or_delete_relationship(tr_access_token, relationship_id)\n    except Exception as e:\n        raise Exception(str(e))\ndef get_restore_properties(args):\n    '''\n    Get the alert id and the properties needed for\n    restore operation\n    :param args:\n    :return:\n    '''\n    try:\n        alert_id = ''\n        url = 'https://helios.cohesity.com/mcm/alerts?alertCategoryList=kSecurity&alertStateList=kOpen'\n        params = {\n            \"maxAlerts\": 1000,\n            \"alertCategoryList\": \"kSecurity\",\n            \"alertStateList\": \"kOpen\",\n            \"_includeTenantInfo\": True\n        }\n        headers = {'Content-Type': 'application/json', 'apiKey': args.helios_api_key}\n        # get security alerts\n        response = requests.get(url, headers=headers, params=params, verify=False)\n        if response.status_code != 200:\n            raise Exception(\"Failed to get security alerts from helios, \" + str(response.json()))\n        restore_properties = {}\n        for alert in response.json():\n            if alert['severity'] == 'kCritical' and alert['alertState'] == 'kOpen' and \\\n                    alert['alertCode'] == 'CE01516011':\n                property_dict = get_property_dict(alert['propertyList'])\n                if property_dict.get('object', \"\") == args.object:\n                    restore_properties = property_dict\n                    alert_id = alert['id']\n                    break\n        return restore_properties, alert_id\n    except Exception as e:\n        raise Exception(str(e))\ndef get_incident_and_relationship_id(tr_access_token, sightingId):\n    incident_id = \"\"\n    headers = {\n        'Authorization': 'Bearer ' + tr_access_token,\n        'Content-Type': 'application/json'\n    }\n    try:\n        url = 'https://private.intel.amp.cisco.com/ctia/relationship/search'\n        params = {\"source_ref\": str(sightingId)}\n        response = requests.get(url, params=params, headers=headers, verify=False)\n        if response.status_code != 200:\n            raise Exception('Failed to get relation, ' + str(response.json()))\n        else:\n            incident_id = response.json()[0]['target_ref']\n            relationship_id = response.json()[0]['id']\n            return incident_id, relationship_id\n    except Exception as e:\n        raise Exception(str(e))\ndef update_or_delete_incident(tr_access_token, incident_id):\n    try:\n        headers = {\n            'Authorization': 'Bearer ' + tr_access_token,\n            'Content-Type': 'application/json'\n        }\n        url = 'https://private.intel.amp.cisco.com/ctia/incident/search'\n        params = {\n            \"id\": str(incident_id.split('/')[-1])\n        }\n        response = requests.get(url, headers=headers, params=params, verify=False)\n        if response.status_code != 200 or not response.json():\n            raise Exception(\"Failed to find the incident, \" + str(response.json()))\n        incident = response.json()[0]\n        url = 'https://private.intel.amp.cisco.com/ctia/incident/' + str(incident_id.split('/')[-1])\n        if args.delete == 'yes':\n            response = requests.delete(url, headers=headers, verify=False)\n            if response.status_code != 204:\n                raise Exception(\"Failed to delete incident, \" + str(response))\n        else:\n            incident['status'] = 'Closed'\n            response = requests.put(url, headers=headers,\n                                    verify=False, json=incident)\n            if response.status_code != 200:\n                raise Exception(\"Failed to delete incident, \" + str(response))\n    except Exception as e:\n        raise Exception(str(e))\ndef update_or_delete_relationship(tr_access_token, relationship_id):\n    if args.delete == 'yes':\n        try:\n            headers = {\n                'Authorization': 'Bearer ' + tr_access_token,\n                'Content-Type': 'application/json'\n            }\n            url = 'https://private.intel.amp.cisco.com/ctia/relationship/' + str(relationship_id.split('/')[-1])\n            response = requests.delete(url, headers=headers, verify=False)\n            if response.status_code != 204:\n                raise Exception(\"Failed to delete relationship, \" + str(response))\n        except Exception as e:\n            raise Exception(str(e))\n##### Cohesity Functions #####\ndef get_property_dict(property_list):\n    '''\n    get property dictionary from list of property dicts\n    with keys, values\n    :param property_list:\n    :return:\n    '''\n    property_dict = {}\n    for property in property_list:\n        property_dict[property['key']] = property['value']\n    return property_dict\ndef restore_vmware_object(restore_properties, args):\n    '''\n    restore anomalous object to the latest clean snapshot\n    :param restore_properties:\n    :param args:\n    :return:\n    '''\n    try:\n        headers = {'Content-Type': 'application/json', 'apiKey': args.helios_api_key}\n        request_payload = {\n            \"name\": \"Cisco_SecureX_triggered_restore_task_\" + restore_properties[\"object\"],\n            \"type\": \"kRecoverVMs\",\n            \"vmwareParameters\": {\n                \"poweredOn\": True,\n                \"prefix\" : \"Recover-\",\n                \"suffix\" : \"-VM-\" + str(int(time.time()))\n            },\n            \"objects\": [\n                {\n                    \"jobId\": int(restore_properties[\"jobId\"]),\n                    \"jobRunId\": int(restore_properties[\"jobInstanceId\"]),\n                    \"startedTimeUsecs\": int(restore_properties[\"jobStartTimeUsecs\"]),\n                    \"sourceName\": restore_properties[\"object\"],\n                    \"protectionSourceId\": int(restore_properties[\"entityId\"])\n                }\n            ]\n        }\n        url = 'https://helios.cohesity.com/irisservices/api/v1/public/restore/recover'\n        headers['clusterid'] = restore_properties['cid']\n        response = requests.post(url, headers=headers, json=request_payload, verify=False)\n        if response.status_code != 201:\n            raise Exception(\"Failed to restore \" + restore_properties['object'] +\n                            ' to latest clean snapshot. ' + str(response.json()))\n    except Exception as e:\n        raise Exception(str(e))\ndef resolve_alert(alert_id, args):\n    '''\n    resolve ransomware alert on helios\n    :param alert_id:\n    :param args:\n    :return:\n    '''\n    try:\n        headers = {'Content-Type': 'application/json', 'apiKey': args.helios_api_key}\n        request_payload = {\n            \"status\": \"kResolved\"\n        }\n        url = 'https://helios.cohesity.com/mcm/alerts/' + alert_id\n        response = requests.patch(url, headers=headers, json=request_payload, verify=False)\n        if response.status_code != 200:\n            raise Exception(\"Successful in restoring the anomalous object\"\n                            \" but failed to resolve the alert on Helios\")\n    except Exception as e:\n        raise Exception(str(e))\ndef main(args):\n    '''\n    :param args: commandline arguments\n    :return:\n    '''\n    try:\n        restore_properties, alert_id = get_restore_properties(args)\n        if not restore_properties:\n            raise Exception(\"Failed to find the anomalous object on Helios\")\n        elif restore_properties.get('environment', \"\") != 'kVMware':\n            raise Exception(\"Workflow supports only VMware environment\")\n        # restore VMware anomalous object\n        elif restore_properties and restore_properties.get('environment') == 'kVMware':\n            restore_vmware_object(restore_properties, args)\n            resolve_alert(alert_id, args)\n            tr_access_token = _get_access_token(args)\n            update_or_delete_sighting(tr_access_token, args)\n        print(\"Workflow succeeded\")\n    except Exception as e:\n        sys.exit(\"Workflow failed: \" + str(e))\nparser = argparse.ArgumentParser(\n    description=\"Arguments to restore anomalous object to latest clean snapshot\")\nparser.add_argument(\"client_id\", help=\"Threat Response API client id\")\nparser.add_argument(\"client_password\", help=\"Threat Response API client password\")\nparser.add_argument(\"helios_api_key\", help=\"Cohesity Helios API key\")\nparser.add_argument(\"object\", help=\"Anomalous object name\")\nparser.add_argument(\"delete\", choices=['yes', 'no'],\n                    help=\"Specify if sighting has to be removed from\"\n                         \" private intelligence once anomalous object is\"\n                         \" restored to the latest clean snapshot\")\nargs = parser.parse_args()\nmain(args)",
+			"script_arguments": [
+			  "$workflow.definition_workflow_01NUXGHVZF2AF1lCAxaaZyeVD0etETwEmjV.local.variable_workflow_01RLE9L1HYW4G4dXEZQu0T3FilgUSXZn8GL$",
+			  "$workflow.definition_workflow_01NUXGHVZF2AF1lCAxaaZyeVD0etETwEmjV.local.variable_workflow_01QV7VO0M4TYE3wV73kwZ6BRSVFOEHLqhfD$",
+			  "$workflow.definition_workflow_01NUXGHVZF2AF1lCAxaaZyeVD0etETwEmjV.local.variable_workflow_01QV7VX4RNO9314NItxvNPCDGzf4Gr1901W$",
+			  "$workflow.definition_workflow_01NUXGHVZF2AF1lCAxaaZyeVD0etETwEmjV.input.variable_workflow_01ODWTJSCZ96M4KhhpqDbguOo97fMvseIVQ$",
+			  "$workflow.definition_workflow_01NUXGHVZF2AF1lCAxaaZyeVD0etETwEmjV.local.variable_workflow_01QV3PFLRX4NF0CIy0sCsgE5DxqlLL2DsNU$"
+			],
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity"
+		}
+	  ],
+	  "categories": [
+		"category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m"
+	  ]
+	},
+	"categories": {
+	  "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m": {
+		"unique_name": "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m",
+		"name": "response",
+		"title": "response",
+		"type": "basic.category",
+		"base_type": "category",
+		"category_type": "custom",
+		"object_type": "category"
+	  }
+	}
+  }

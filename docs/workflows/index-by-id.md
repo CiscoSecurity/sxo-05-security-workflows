@@ -1,4 +1,3 @@
-
 ---
 layout: page
 title: Index by ID
@@ -69,3 +68,7 @@ The workflows in the Cisco Security Github repository are meant to address real 
 | 0039 | Tufin | [Request Threat Containment]({{ site.baseurl }}/workflows/0039) |
 | 0040 | Tufin | [Request Server Decommission]({{ site.baseurl }}/workflows/0040) |
 | 0041 | Cisco Umbrella | [Top 10 Blocked Identities to ServiceNow]({{ site.baseurl }}/workflows/0041) |
+| 0042 | Cohesity Helios | [Restore Anomalous Object]({{ site.baseurl }}/workflows/0042) |
+| 0043 | Cohesity Helios | [Ransomware Alerts to SecureX]({{ site.baseurl }}/workflows/0043) |
+| 0044 | Cohesity Helios | [Ransomware Alerts to SecureX and ServiceNow]({{ site.baseurl }}/workflows/0044) |
+| 0045 | Cohesity Helios | [Ignore Anomalous Object]({{ site.baseurl }}/workflows/0045) |
