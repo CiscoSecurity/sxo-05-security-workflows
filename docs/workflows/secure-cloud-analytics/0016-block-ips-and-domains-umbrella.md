@@ -14,29 +14,42 @@ Workflow #0016
 {: .label }
 </div>
 
-This workflow fetches alerts from Secure Cloud Analytics (formerly Stealthwatch Cloud) for the past 24 hours based on the alert name and status provided. Observations are extracted from the alerts and their associated IPs, domain names, and URLs are logged. Each IP address, domain name, and URL is then added to a destination list in Umbrella (depending on workflow configuration). Finally, a Webex Teams message is sent with a summary.
+This workflow fetches alerts from Cisco Secure Cloud Analytics (SCA) for the past 24 hours based on the alert name and status provided. Observations are extracted from the alerts and their associated IPs, domain names, and URLs are logged. Each IP address, domain name, and URL is then added to a destination list in Cisco Umbrella (depending on workflow configuration). Finally, a Webex Teams message is sent with a summary.
 
 [<i class="fab fa-github mr-1"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0016-SCA-BlockIPsAndDomainsFromAlerts__definition_workflow_01J72R7Z249ZJ1XEtWCLhQJx44IKOv2c5iF){: .btn-cisco-outline }
 
 ---
 
+## Change Log
+
+| Date | Notes |
+|:-----|:------|
+| Apr 1, 2021 | - Initial release |
+| September 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+
+_See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
+
+---
+
 ## Requirements
+* The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
+	* SCA - Get Alerts
+	* SCA - Get Observation Details by ID
+	* Umbrella - Management - Add Record to Destination List
+	* Umbrella - Management - Get Destination Lists
+	* Webex Teams - Post Message to Room
+	* Webex Teams - Search for Room
 * The following atomic actions must be imported before you can import this workflow:
-	* SWC - Get Alerts ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
-	* SWC - Get Observation Details by ID ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
-	* Umbrella - Management V1 - Add Record to Destination List ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
-	* Umbrella - Management V1 - Get Destination Lists ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
-	* Webex Teams - Post Message to Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos)) * See note below!
-	* Webex Teams - Search for Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* None
 * The [targets](#targets) and [account keys](#account-keys) listed below
 * (Optional) A Webex Teams access token and room name to post messages to
-
-**Note:** You may have an old version of the `Webex Teams - Post Message to Room` atomic. To ensure the best experience with this workflow, be sure to import the latest version of this atomic from the `GitHub_Target_Atomics` repository!
+* Cisco Secure Cloud Analytics (SCA)
+* Cisco Umbrella
 
 ---
 
 ## Workflow Steps
-1. (Optional) Fetch any necessary global variables
+1. (Optional) Fetch global variables
 1. Make sure at least one destination list was provided
 1. Calculate dates
 1. Fetch alerts from Secure Cloud Analytics
@@ -70,7 +83,7 @@ This workflow fetches alerts from Secure Cloud Analytics (formerly Stealthwatch 
 ## Configuration
 * Set the `Secure Cloud Analytics Alert Name` local variable to the name of the alert type you want to respond to
 * Set the `Secure Cloud Analytics Alert Status` local variable to the alert status you want to response to
-* Add your SCA API key to the `Secure Cloud Analytics API Key` local variable (or, if you have an API key in a global variable already, set the local variable to the global's value using the `Fetch Global Variables` group at the beginning of the workflow)
+* Add your Secure Cloud Analytics API key to the `Secure Cloud Analytics API Key` local variable (or, if you have an API key in a global variable already, set the local variable to the global's value using the `Fetch Global Variables` group at the beginning of the workflow)
 * Set the `Umbrella Domain Destination List` local variable to the name of the destination list you want domains added to
 * Set the `Umbrella IP Destination List` local variable to the name of the destination list you want IP addresses added to
 * Set the `Umbrella Organization ID` local variable to your Umbrella organization's ID (found in your Umbrella dashboard's URL)

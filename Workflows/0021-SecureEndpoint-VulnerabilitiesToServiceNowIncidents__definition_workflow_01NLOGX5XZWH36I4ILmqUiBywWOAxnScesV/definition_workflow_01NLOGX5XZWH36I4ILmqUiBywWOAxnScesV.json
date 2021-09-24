@@ -7,6 +7,20 @@
     "base_type": "workflow",
     "variables": [
       {
+        "schema_id": "datatype.number",
+        "properties": {
+          "value": 6.5,
+          "scope": "local",
+          "name": "CVE Score Threshold",
+          "type": "datatype.number",
+          "description": "The minimum score a vulnerability should have before being promoted to a ServiceNow incident. If at least one vulnerability for a given endpoint meets this threshold, all of its vulnerabilites will be included in the ticket",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01NLP82MVSO856OvN1Kj9Lxm3wneUkHeMeS",
+        "object_type": "variable_workflow"
+      },
+      {
         "schema_id": "datatype.integer",
         "properties": {
           "value": 0,
@@ -33,20 +47,6 @@
         },
         "unique_name": "variable_workflow_01NLOVHM6S1J257o9GIy4uhgVsAg3rVqOVV",
         "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.number",
-        "properties": {
-          "value": 6.5,
-          "scope": "local",
-          "name": "CVE Score Threshold",
-          "type": "datatype.number",
-          "description": "The minimum score a vulnerability should have before being promoted to a ServiceNow incident. If at least one vulnerability for a given endpoint meets this threshold, all of its vulnerabilites will be included in the ticket",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01NLP82MVSO856OvN1Kj9Lxm3wneUkHeMeS",
-        "object_type": "variable_workflow"
       }
     ],
     "properties": {
@@ -54,7 +54,7 @@
         "is_atomic": false
       },
       "delete_workflow_instance": false,
-      "description": "This workflow periodically checks for \"Vulnerable Application Detected\" events in Cisco Secure Endpoint. If events are found, the associated CVEs are checked to see if they meet the threshold configured in the workflow. If the threshold is met for at least one of the endpoint's vulnerabilities, a ServiceNow incident is opened. By default, the schedule trigger is disabled.\n\nTarget Group: Default TargetGroup\n\nTargets: AMP_Target, ServiceNow\n\nSteps:\n[] Calculate the time 24 hours ago\n[] While there are events to process:\n[]\u003e Get events from Secure Endpoint\n[]\u003e Convert the events to a table\n[]\u003e Loop through each event:\n[]\u003e\u003e Extract attributes from the event\n[]\u003e\u003e Convert the list of vulnerabilities to text\n[]\u003e\u003e Check if the CVE threshold was met. If it was, open a ServiceNow incident\n[]\u003e Check if there's another page of events\n[]\u003e\u003e If there is, update the paging variables and continue\n[]\u003e\u003e If there isn't, end the workflow\n\nMore information: http://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0021",
+      "description": "This workflow periodically checks for \"Vulnerable Application Detected\" events in Cisco Secure Endpoint. If events are found, the associated CVEs are checked to see if they meet the threshold configured in the workflow. If the threshold is met for at least one of the endpoint's vulnerabilities, a ServiceNow incident is opened. By default, the schedule trigger is disabled.\n\nTarget Group: Default TargetGroup\n\nTargets: AMP_Target, ServiceNow\n\nSteps:\n[] Calculate the time 24 hours ago\n[] While there are events to process:\n[]> Get events from Secure Endpoint\n[]> Convert the events to a table\n[]> Loop through each event:\n[]>> Extract attributes from the event\n[]>> Convert the list of vulnerabilities to text\n[]>> Check if the CVE threshold was met. If it was, open a ServiceNow incident\n[]> Check if there's another page of events\n[]>> If there is, update the paging variables and continue\n[]>> If there isn't, end the workflow\n\nMore information: http://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0021",
       "display_name": "0021 - Secure Endpoint - Vulnerabilities to ServiceNow Incidents",
       "runtime_user": {
         "override_target_runtime_user": false,
@@ -132,20 +132,20 @@
             "actions": [
               {
                 "unique_name": "definition_activity_01NLOO1BOLG090VSoBZiarPQr9rtYGucZPt",
-                "name": "AMP - Get Events",
-                "title": "AMP - Get Events",
+                "name": "Secure Endpoint - Get Events",
+                "title": "Secure Endpoint - Get Events",
                 "type": "workflow.atomic_workflow",
                 "base_type": "subworkflow",
                 "properties": {
                   "continue_on_failure": false,
-                  "display_name": "AMP - Get Events",
+                  "display_name": "Secure Endpoint - Get Events",
                   "input": {
-                    "variable_workflow_01NLOHEWQ3EYU2YO916lmOa9Uv2eiS36SJC": "1107296279",
-                    "variable_workflow_01NLOJEGILIMQ6lrx1RBhzUX3evFt4NmwS7": "$activity.definition_activity_01NLOOESAHZ3L2jlh0BPrqbzPqCP6jsbfPZ.output.result$",
-                    "variable_workflow_01NLOJS6NE7SY0WUtZVTJNxds8A5dX10U44": "$workflow.definition_workflow_01NLOGX5XZWH36I4ILmqUiBywWOAxnScesV.local.variable_workflow_01NLOVBFP0V6F0RnLUZNy2oJh1Zpe2ex4hw$",
-                    "variable_workflow_01NLOJZJ7CXOH31o6ESB0VpjVaFwwtV4U1b": "$workflow.definition_workflow_01NLOGX5XZWH36I4ILmqUiBywWOAxnScesV.local.variable_workflow_01NLOVHM6S1J257o9GIy4uhgVsAg3rVqOVV$",
-                    "variable_workflow_01NLQ07LY7W877UXHMoWgPX92d8oIQqlBMG": "",
-                    "variable_workflow_01NLQ84KCCRO20jYZjtcBDYL39V9Xyp17HM": ""
+                    "variable_workflow_01PP76FTIW76B6i8dsARoetEFjDV8PeExbc": "$activity.definition_activity_01NLOOESAHZ3L2jlh0BPrqbzPqCP6jsbfPZ.output.result$",
+                    "variable_workflow_01PP76FTIWBEE1vRRgKYgDMpmua9alDz5oL": "$workflow.definition_workflow_01NLOGX5XZWH36I4ILmqUiBywWOAxnScesV.local.variable_workflow_01NLOVBFP0V6F0RnLUZNy2oJh1Zpe2ex4hw$",
+                    "variable_workflow_01PP76FTIWCO51PbmnWtoPn7UnPPlCWmcKk": "",
+                    "variable_workflow_01PP76FTIWF081mpPdgdyGqtRJNVgp4aXvk": "1107296279",
+                    "variable_workflow_01PP76FTIWGCY73dmexNMVLCN0ZHBBhBW4d": "",
+                    "variable_workflow_01PP76FTIWHIT3p0c53p7gngfiLbXG6T3YX": "$workflow.definition_workflow_01NLOGX5XZWH36I4ILmqUiBywWOAxnScesV.local.variable_workflow_01NLOVHM6S1J257o9GIy4uhgVsAg3rVqOVV$"
                   },
                   "runtime_user": {
                     "target_default": true
@@ -154,7 +154,7 @@
                   "target": {
                     "use_workflow_target_group": true
                   },
-                  "workflow_id": "definition_workflow_01NLOHEWXZ4MT3Lmcq3DkEVkx5EOTre59dL"
+                  "workflow_id": "definition_workflow_01PP76FTQKEYW2dg8RXriNAf2EkkZ4Agqg9"
                 },
                 "object_type": "definition_activity"
               },
@@ -168,7 +168,7 @@
                   "action_timeout": 180,
                   "continue_on_failure": false,
                   "display_name": "Convert events to table",
-                  "input_json": "$activity.definition_activity_01NLOO1BOLG090VSoBZiarPQr9rtYGucZPt.output.variable_workflow_01NLOHEWQ3A1X2NsIGnOf9axSPuI8nl1ZJL$",
+                  "input_json": "$activity.definition_activity_01NLOO1BOLG090VSoBZiarPQr9rtYGucZPt.output.variable_workflow_01PP76FTIWDTO0oCBTx9p4kTyE4bXcQlyDr$",
                   "jsonpath_query": "$.data",
                   "persist_output": false,
                   "populate_columns": false,
@@ -274,7 +274,7 @@
                       "action_timeout": 180,
                       "continue_on_failure": false,
                       "display_name": "Convert vulnerability list to text",
-                      "script": "import json,sys\n\nvulnerabilities = json.loads(sys.argv[1])\nscoreThreshold = float(sys.argv[2])\nthresholdMet = False\noutString = '\u003ctable border=\"1\"\u003e\u003cthead\u003e\u003ctr\u003e\u003cth\u003eCVE\u003c/th\u003e\u003cth\u003eScore\u003c/th\u003e\u003c/tr\u003e\u003c/thead\u003e\u003ctbody\u003e'\n\nfor vulnerability in vulnerabilities:\n  if float(vulnerability['score']) \u003e= scoreThreshold:\n    thresholdMet = True\n  \n  outString = outString + '\u003ctr\u003e\u003ctd\u003e\u003ca href=\"' + vulnerability['url'] + '\" target=\"_blank\"\u003e' + vulnerability['cve'] + '\u003c/a\u003e\u003c/td\u003e\u003ctd\u003e' + vulnerability['score'] + '\u003c/td\u003e\u003c/tr\u003e'\n\noutString = outString + '\u003c/tbody\u003e\u003c/table\u003e'",
+                      "script": "import json,sys\n\nvulnerabilities = json.loads(sys.argv[1])\nscoreThreshold = float(sys.argv[2])\nthresholdMet = False\noutString = '<table border=\"1\"><thead><tr><th>CVE</th><th>Score</th></tr></thead><tbody>'\n\nfor vulnerability in vulnerabilities:\n  if float(vulnerability['score']) >= scoreThreshold:\n    thresholdMet = True\n  \n  outString = outString + '<tr><td><a href=\"' + vulnerability['url'] + '\" target=\"_blank\">' + vulnerability['cve'] + '</a></td><td>' + vulnerability['score'] + '</td></tr>'\n\noutString = outString + '</tbody></table>'",
                       "script_arguments": [
                         "$activity.definition_activity_01NLOXNNGU8427csq1l19fIl65rEmtYlQHo.input.source_array[@].vulnerabilities$",
                         "$workflow.definition_workflow_01NLOGX5XZWH36I4ILmqUiBywWOAxnScesV.local.variable_workflow_01NLP82MVSO856OvN1Kj9Lxm3wneUkHeMeS$"
@@ -340,7 +340,7 @@
                                 "variable_workflow_01FGYF0DUR8HV2TMpEKctsYjQR4mzjD5OTu": "Cisco Secure Endpoint has detected a known-vulnerable application running on an endpoint",
                                 "variable_workflow_01FGYGCZL5M2E1m1O5tvVVn0DVzVTLwytei": 2,
                                 "variable_workflow_01FGYGPFJYM4L5aVpzNOhRwMmzKJDofqufe": 2,
-                                "variable_workflow_01FGYGZ0OYYNM5pWjyyreMjNHDjusjNe8jx": "[code]\u003cstrong\u003eEndpoint:\u003c/strong\u003e \u003ca href=\"$activity.definition_activity_01NLPC0D6AYY8510VqRSGFTURduYYTnIeuF.output.result_string$\" target=\"_blank\"\u003e$activity.definition_activity_01NLOXW288VFR2ECg88BWP28rQfsh03jvPk.output.jsonpath_queries.hostname$\u003c/a\u003e\u003cbr /\u003e\u003cstrong\u003eIP Address:\u003c/strong\u003e $activity.definition_activity_01NLOXW288VFR2ECg88BWP28rQfsh03jvPk.output.jsonpath_queries.firstIp$\u003cbr /\u003e\u003cbr /\u003e$activity.definition_activity_01NLP2BK1WMOR55zd2amSMcXzlj7bNIMRvW.output.script_queries.outString$[/code]",
+                                "variable_workflow_01FGYGZ0OYYNM5pWjyyreMjNHDjusjNe8jx": "[code]<strong>Endpoint:</strong> <a href=\"$activity.definition_activity_01NLPC0D6AYY8510VqRSGFTURduYYTnIeuF.output.result_string$\" target=\"_blank\">$activity.definition_activity_01NLOXW288VFR2ECg88BWP28rQfsh03jvPk.output.jsonpath_queries.hostname$</a><br /><strong>IP Address:</strong> $activity.definition_activity_01NLOXW288VFR2ECg88BWP28rQfsh03jvPk.output.jsonpath_queries.firstIp$<br /><br />$activity.definition_activity_01NLP2BK1WMOR55zd2amSMcXzlj7bNIMRvW.output.script_queries.outString$[/code]",
                                 "variable_workflow_01FGYI8HES41K63G3UzMinBH3iApm37fBGt": "securex-orchestration",
                                 "variable_workflow_01FMQD0HIJIDU5kce0VNx4HQiMYjMfUvBlj": "v2"
                               },
@@ -384,7 +384,7 @@
                   "action_timeout": 180,
                   "continue_on_failure": true,
                   "display_name": "Check if there's a next page",
-                  "input_json": "$activity.definition_activity_01NLOO1BOLG090VSoBZiarPQr9rtYGucZPt.output.variable_workflow_01NLOHEWQ3A1X2NsIGnOf9axSPuI8nl1ZJL$",
+                  "input_json": "$activity.definition_activity_01NLOO1BOLG090VSoBZiarPQr9rtYGucZPt.output.variable_workflow_01PP76FTIWDTO0oCBTx9p4kTyE4bXcQlyDr$",
                   "jsonpath_queries": [
                     {
                       "jsonpath_query": "$.metadata.links.next",
@@ -547,23 +547,13 @@
           "data_target_type": "email.smtp_endpoint",
           "view_target_type": "email.smtp_endpoint",
           "include_all_targets": true
-        },
-        {
-          "data_target_type": "terminal.endpoint",
-          "view_target_type": "terminal.endpoint",
-          "include_all_targets": true
-        },
-        {
-          "data_target_type": "aws.endpoint",
-          "view_target_type": "aws.endpoint",
-          "include_all_targets": true
         }
       ],
       "object_type": "target_group"
     }
   },
   "atomic_workflows": [
-    "definition_workflow_01NLOHEWXZ4MT3Lmcq3DkEVkx5EOTre59dL",
+    "definition_workflow_01PP76FTQKEYW2dg8RXriNAf2EkkZ4Agqg9",
     "definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW"
   ]
 }

@@ -7,17 +7,17 @@
     "base_type": "workflow",
     "variables": [
       {
-        "schema_id": "datatype.integer",
+        "schema_id": "datatype.string",
         "properties": {
-          "value": 2,
+          "value": "securex-orchestration",
           "scope": "local",
-          "name": "Orbital Query Wait Time (Minutes)",
-          "type": "datatype.integer",
-          "description": "How long to wait for Orbital query results in minutes. The longer you wait, the more results you'll probably get since endpoints will answer the query as they come online and receive it.",
+          "name": "ServiceNow User ID",
+          "type": "datatype.string",
+          "description": "The username of the user you're using to open incident tickets. This can either match the username in your ServiceNow account key or, if the account has the appropriate permissions, can be a different user",
           "is_required": false,
           "is_invisible": false
         },
-        "unique_name": "variable_workflow_01KEOJFPD69K61svv0Lh0ZpKPMSziil8UhZ",
+        "unique_name": "variable_workflow_01KQRTMB91ICM67jVYYWh04AQp8ZZalDKqP",
         "object_type": "variable_workflow"
       },
       {
@@ -27,6 +27,7 @@
           "scope": "local",
           "name": "Ticket Text",
           "type": "datatype.string",
+          "description": "Placeholder for the text to be added to the ServiceNow incident. This will be populated automatically",
           "is_required": false,
           "is_invisible": false
         },
@@ -34,17 +35,17 @@
         "object_type": "variable_workflow"
       },
       {
-        "schema_id": "datatype.string",
+        "schema_id": "datatype.integer",
         "properties": {
-          "value": "securex-orchestration",
+          "value": 2,
           "scope": "local",
-          "name": "ServiceNow User ID",
-          "type": "datatype.string",
-          "description": "The username of the user you're using to open incident tickets. This can either match the username in your ServiceNow account key or, if the account has the appropriate permissions, can be a different user.",
+          "name": "Orbital Query Wait Time (Minutes)",
+          "type": "datatype.integer",
+          "description": "How long to wait for Orbital query results in minutes. The longer you wait, the more results you'll probably get since endpoints will answer the query as they come online and receive it",
           "is_required": false,
           "is_invisible": false
         },
-        "unique_name": "variable_workflow_01KQRTMB91ICM67jVYYWh04AQp8ZZalDKqP",
+        "unique_name": "variable_workflow_01KEOJFPD69K61svv0Lh0ZpKPMSziil8UhZ",
         "object_type": "variable_workflow"
       }
     ],
@@ -53,7 +54,7 @@
         "is_atomic": false
       },
       "delete_workflow_instance": false,
-      "description": "This workflow uses Orbital to look for endpoints that are vulnerable for a given CVE. For demonstration purposes we use CVE-2020-0796 which has been added to Orbital as a catalog query. After the Orbital query is executed, we open a ServiceNow incident with the results.\n\nTargets: Orbital_For_Access_Token, Orbital_Target, Service Now\n\nSteps:\n[] Get an API token for Orbital\n[] Execute a catalog query for all endpoints using Orbital\n[] Fetch the results of the Orbital query\n[] Iterate through each result and build a table of vulnerable/not-vulnerable endpoints\n[] Assemble the text for the ServiceNow incident\n[] Create the ServiceNow incident ticket\n\nMore information: https://cs.co/SXO_docs",
+      "description": "This workflow uses Cisco Orbital to look for endpoints that are vulnerable for a given CVE. For demonstration purposes we use CVE-2020-0796 which has been added to Orbital as a catalog query. After the Orbital query is executed, we open a ServiceNow incident with the results.\n\nTarget Group: Default TargetGroup\n\nTargets: Orbital_For_Access_Token, Orbital_Target, ServiceNow\n\nSteps:\n[] Get an API token for Orbital\n[] Execute a catalog query for all endpoints using Orbital\n[] Fetch the results of the Orbital query\n[] Iterate through each result and build a table of vulnerable/not-vulnerable endpoints\n[] Assemble the text for the ServiceNow incident\n[] Create the ServiceNow incident ticket\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0009",
       "display_name": "0009 - Orbital - CVE Hunt to ServiceNow Incident",
       "runtime_user": {
         "override_target_runtime_user": false,
@@ -99,7 +100,7 @@
           "target": {
             "use_workflow_target_group": true
           },
-          "workflow_id": "definition_workflow_01779LB6MV0P02kvka9TGV5cEam84NrCTy4"
+          "workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
         },
         "object_type": "definition_activity"
       },
@@ -113,12 +114,12 @@
           "continue_on_failure": false,
           "display_name": "Orbital - Query All Endpoints",
           "input": {
-            "variable_workflow_01JGM8XOCL3992k7Wt6FuiBlIzEIMI6V8y5": "cve_2020_0796_monitoring",
-            "variable_workflow_01JGM8XOCL8NJ2QcI1lUMksO4uAjPZAoglR": "HUNT FOR POSSIBLE CVE-2020-0796",
-            "variable_workflow_01JGM8XOCLCNK4sWmmEChXZug28aJ9QANdy": true,
-            "variable_workflow_01JGM8XOCLEYQ14xbtBvSGBBOU8JPkGibyq": "$activity.definition_activity_01FXZ65RS8EWE0DTcSwbnmUJV3u0Pg76tWK.output.variable_workflow_01BNOOXA3G6MV1PGAvsfZOKDdMYcE6XS726$",
-            "variable_workflow_01JGM8XOCLHGH6d9lwc3hvI4sBaCDZlLjXi": "",
-            "variable_workflow_01JGM8XOCLKTJ3rIoOhQoYD6yS9xhkRIIer": "$workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01KEOJFPD69K61svv0Lh0ZpKPMSziil8UhZ$"
+            "variable_workflow_01PP74XXDJ6I02lUbtpjEKbDd7y0gpOYS4y": true,
+            "variable_workflow_01PP74XXDJ7U10PBSYZl7md3gg6krQ03p57": "",
+            "variable_workflow_01PP74XXDJ95H0lvwlcEnTPXWXQgvbbTKe6": "cve_2020_0796_monitoring",
+            "variable_workflow_01PP74XXDJAL33MsBJCm3Iptr9I5iu7pLvI": "HUNT FOR POSSIBLE CVE-2020-0796",
+            "variable_workflow_01PP74XXDJFAH5HLlFGbENuXfD77aWNTPrF": "$activity.definition_activity_01FXZ65RS8EWE0DTcSwbnmUJV3u0Pg76tWK.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$",
+            "variable_workflow_01PP74XXDJGFR2b0QKga75DJjqwiX0K9Nbt": "$workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01KEOJFPD69K61svv0Lh0ZpKPMSziil8UhZ$"
           },
           "runtime_user": {
             "target_default": true
@@ -140,7 +141,7 @@
               }
             }
           },
-          "workflow_id": "definition_workflow_01JGM8XOOZ5J64EWGHln955eAJFIOwmjbZr"
+          "workflow_id": "definition_workflow_01PP74XXLH4JK5RznBkKvbBUhiBqVm0A35C"
         },
         "object_type": "definition_activity"
       },
@@ -154,7 +155,7 @@
           "action_timeout": 180,
           "continue_on_failure": true,
           "display_name": "Check for results",
-          "input_json": "$activity.definition_activity_01JGMBHGCAZ920Kn5fGWKR6QEdBs1jLD1dW.output.variable_workflow_01JGM8XOCLJR95aRiy0KBGi0AdBneH5tZ9g$",
+          "input_json": "$activity.definition_activity_01JGMBHGCAZ920Kn5fGWKR6QEdBs1jLD1dW.output.variable_workflow_01PP74XXDJBRP6hhz6uRRyhmvLv1NKZQnt9$",
           "jsonpath_queries": [
             {
               "jsonpath_query": "$.[0].node",
@@ -226,7 +227,7 @@
           "action_timeout": 180,
           "continue_on_failure": false,
           "display_name": "Parse results to table",
-          "input_json": "$activity.definition_activity_01JGMBHGCAZ920Kn5fGWKR6QEdBs1jLD1dW.output.variable_workflow_01JGM8XOCLJR95aRiy0KBGi0AdBneH5tZ9g$",
+          "input_json": "$activity.definition_activity_01JGMBHGCAZ920Kn5fGWKR6QEdBs1jLD1dW.output.variable_workflow_01PP74XXDJBRP6hhz6uRRyhmvLv1NKZQnt9$",
           "jsonpath_query": "$.[*]",
           "persist_output": true,
           "populate_columns": false,
@@ -272,7 +273,7 @@
               "action_timeout": 180,
               "continue_on_failure": false,
               "display_name": "Extract this computer's details",
-              "input_json": "$activity.definition_activity_01JGMBHGCAZ920Kn5fGWKR6QEdBs1jLD1dW.output.variable_workflow_01JGM8XOCLJR95aRiy0KBGi0AdBneH5tZ9g$",
+              "input_json": "$activity.definition_activity_01JGMBHGCAZ920Kn5fGWKR6QEdBs1jLD1dW.output.variable_workflow_01PP74XXDJBRP6hhz6uRRyhmvLv1NKZQnt9$",
               "jsonpath_queries": [
                 {
                   "jsonpath_query": "$.[?(@.node==\"$activity.definition_activity_01FXZ6MTQ84UC4xjbo7QaPgVzIQozCGwWPd.input.source_array[@].node$\")]",
@@ -438,7 +439,7 @@
                   "variables_to_update": [
                     {
                       "variable_to_update": "$workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01FXZDEXSWJYN6wLEkThGE16CG6oDbZY7Z9$",
-                      "variable_value_new": "VULNERABLE DEVICES:\n"
+                      "variable_value_new": "<strong>VULNERABLE DEVICES:</strong>\n"
                     }
                   ]
                 },
@@ -471,7 +472,7 @@
                       "variables_to_update": [
                         {
                           "variable_to_update": "$workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01FXZDEXSWJYN6wLEkThGE16CG6oDbZY7Z9$",
-                          "variable_value_new": "$workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01FXZDEXSWJYN6wLEkThGE16CG6oDbZY7Z9$[code]\u003ca href=\"https://orbital.amp.cisco.com/nodes/$activity.definition_activity_01FXZE0WRN1LN2ubC48C3CZqBoBsuJ3ybqd.input.source_array[@].node$\" target=\"_blank\"\u003e$activity.definition_activity_01FXZE0WRN1LN2ubC48C3CZqBoBsuJ3ybqd.input.source_array[@].hostname$\u003c/a\u003e[/code]\n"
+                          "variable_value_new": "$workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01FXZDEXSWJYN6wLEkThGE16CG6oDbZY7Z9$<a href=\"https://orbital.amp.cisco.com/nodes/$activity.definition_activity_01FXZE0WRN1LN2ubC48C3CZqBoBsuJ3ybqd.input.source_array[@].node$\" target=\"_blank\">$activity.definition_activity_01FXZE0WRN1LN2ubC48C3CZqBoBsuJ3ybqd.input.source_array[@].hostname$</a><br />"
                         }
                       ]
                     },
@@ -567,7 +568,7 @@
                   "variables_to_update": [
                     {
                       "variable_to_update": "$workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01FXZDEXSWJYN6wLEkThGE16CG6oDbZY7Z9$",
-                      "variable_value_new": "$workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01FXZDEXSWJYN6wLEkThGE16CG6oDbZY7Z9$\nNOT VULNERABLE DEVICES:\n"
+                      "variable_value_new": "$workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01FXZDEXSWJYN6wLEkThGE16CG6oDbZY7Z9$\n<strong>NOT VULNERABLE DEVICES:</strong>\n"
                     }
                   ]
                 },
@@ -600,7 +601,7 @@
                       "variables_to_update": [
                         {
                           "variable_to_update": "$workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01FXZDEXSWJYN6wLEkThGE16CG6oDbZY7Z9$",
-                          "variable_value_new": "$workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01FXZDEXSWJYN6wLEkThGE16CG6oDbZY7Z9$[code]\u003ca href=\"https://orbital.amp.cisco.com/nodes/$activity.definition_activity_01FXZFZ7X97AL4Gg554cg29eSmX5Z3J6G8g.input.source_array[@].node$\" target=\"_blank\"\u003e$activity.definition_activity_01FXZFZ7X97AL4Gg554cg29eSmX5Z3J6G8g.input.source_array[@].hostname$\u003c/a\u003e[/code]\n"
+                          "variable_value_new": "$workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01FXZDEXSWJYN6wLEkThGE16CG6oDbZY7Z9$<a href=\"https://orbital.amp.cisco.com/nodes/$activity.definition_activity_01FXZFZ7X97AL4Gg554cg29eSmX5Z3J6G8g.input.source_array[@].node$\" target=\"_blank\">$activity.definition_activity_01FXZFZ7X97AL4Gg554cg29eSmX5Z3J6G8g.input.source_array[@].hostname$</a><br />"
                         }
                       ]
                     },
@@ -657,7 +658,7 @@
                     "variable_workflow_01FGYF0DUR8HV2TMpEKctsYjQR4mzjD5OTu": "Orbital query to discover SMB servers potentially vulnerable to CVE-2020-0796. Indicates vulnerability when shares are present, SMB compression is enabled, and Windows build is 18362 or 18363",
                     "variable_workflow_01FGYGCZL5M2E1m1O5tvVVn0DVzVTLwytei": 2,
                     "variable_workflow_01FGYGPFJYM4L5aVpzNOhRwMmzKJDofqufe": 1,
-                    "variable_workflow_01FGYGZ0OYYNM5pWjyyreMjNHDjusjNe8jx": "A scheduled Orbital query has executed and found devices vulnerable for CVE-2020-0796.\n\n[code]\u003ca href=\"https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2020-0796\" target=\"_blank\"\u003eClick here\u003c/a\u003e[/code] to view the Microsoft Advisory for mitigations and workaround information\n\n$workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01FXZDEXSWJYN6wLEkThGE16CG6oDbZY7Z9$\n\n[code]\u003ca href=\"https://orbital.amp.cisco.com/jobs/$activity.definition_activity_01JGMBHGCAZ920Kn5fGWKR6QEdBs1jLD1dW.output.variable_workflow_01JGM8XOCL61S7FlUgD7FR9kGp6ljbzir8A$/results\" target=\"_blank\"\u003eLink to Orbital Query Results\u003c/a\u003e[/code]\n[code]\u003ca href=\"https://orbital.amp.cisco.com/query/cve_2020_0796_monitoring?target=all\" target=\"_blank\"\u003eRe-run Orbital Query\u003c/a\u003e[/code]",
+                    "variable_workflow_01FGYGZ0OYYNM5pWjyyreMjNHDjusjNe8jx": "A scheduled Orbital query has executed and found devices vulnerable for CVE-2020-0796.\n[code]<a href=\"https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2020-0796\" target=\"_blank\">Click here</a> to view the Microsoft Advisory for mitigations and workaround information<br />\n<a href=\"https://orbital.amp.cisco.com/jobs/$activity.definition_activity_01JGMBHGCAZ920Kn5fGWKR6QEdBs1jLD1dW.output.variable_workflow_01PP74XXDJCY74dJLD4gRvaMADzoTM2ZCHK$/results\" target=\"_blank\">Link to Orbital Query Results</a><br />\n<a href=\"https://orbital.amp.cisco.com/query/cve_2020_0796_monitoring?target=all\" target=\"_blank\">Re-run Orbital Query</a><br /><br />\n$workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01FXZDEXSWJYN6wLEkThGE16CG6oDbZY7Z9$\n[/code]",
                     "variable_workflow_01FGYI8HES41K63G3UzMinBH3iApm37fBGt": "$workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01KQRTMB91ICM67jVYYWh04AQp8ZZalDKqP$",
                     "variable_workflow_01FMQD0HIJIDU5kce0VNx4HQiMYjMfUvBlj": "v2"
                   },
@@ -741,19 +742,8 @@
       }
     ],
     "categories": [
-      "category_01JFUQPO1XMLT66actth5nIPZxLCRDsgEXd"
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
     ]
-  },
-  "categories": {
-    "category_01JFUQPO1XMLT66actth5nIPZxLCRDsgEXd": {
-      "unique_name": "category_01JFUQPO1XMLT66actth5nIPZxLCRDsgEXd",
-      "name": "SecureX TME",
-      "title": "SecureX TME",
-      "type": "basic.category",
-      "base_type": "category",
-      "category_type": "custom",
-      "object_type": "category"
-    }
   },
   "target_groups": {
     "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
@@ -773,24 +763,14 @@
           "data_target_type": "email.smtp_endpoint",
           "view_target_type": "email.smtp_endpoint",
           "include_all_targets": true
-        },
-        {
-          "data_target_type": "terminal.endpoint",
-          "view_target_type": "terminal.endpoint",
-          "include_all_targets": true
-        },
-        {
-          "data_target_type": "aws.endpoint",
-          "view_target_type": "aws.endpoint",
-          "include_all_targets": true
         }
       ],
       "object_type": "target_group"
     }
   },
   "atomic_workflows": [
-    "definition_workflow_01779LB6MV0P02kvka9TGV5cEam84NrCTy4",
-    "definition_workflow_01JGM8XOOZ5J64EWGHln955eAJFIOwmjbZr",
+    "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH",
+    "definition_workflow_01PP74XXLH4JK5RznBkKvbBUhiBqVm0A35C",
     "definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW"
   ]
 }

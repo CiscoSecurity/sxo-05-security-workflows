@@ -40,7 +40,7 @@
         "is_atomic": false
       },
       "delete_workflow_instance": false,
-      "description": "This workflow removes a static identity group assignment from a MAC address in Cisco Identity Services Engine (ISE). Note that this workflow does not move the endpoint back to an \"Unknown\" status. This means the endpoint may stay in the identity group until it's reprofiled and moved elsewhere.\n\nTarget Group: Default TargetGroup\n\nTargets: Cisco ISE ERS\n\nSteps:\n[] Make sure the observable type provided is supported\n[] Make sure the endpoint exists and get its ID\n[] Reset the endpoint's static group assignment\n\nMore information: http://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0030",
+      "description": "This workflow removes a static identity group assignment from a MAC address in Cisco Identity Services Engine (ISE). Note that this workflow does not move the endpoint back to an \"Unknown\" status. This means the endpoint may stay in the identity group until it's reprofiled and moved elsewhere. Supported observable: mac_address\n\nTarget Group: Default TargetGroup\n\nTargets: Cisco ISE ERS\n\nSteps:\n[] Make sure the observable type provided is supported\n[] Make sure the endpoint exists and get its ID\n[] Reset the endpoint's static group assignment\n\nMore information: http://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0030",
       "display_name": "0030 - ISE - Remove Endpoint from Identity Group",
       "runtime_user": {
         "override_target_runtime_user": false,
@@ -130,12 +130,12 @@
           "continue_on_failure": false,
           "display_name": "ISE - ERS - Endpoint - Search",
           "input": {
-            "variable_workflow_01N7YAGMBB2MP4xNxkJN6UoMKqtv3pi85rb": "$workflow.definition_workflow_01O4672ZYS2D51XvK1Z5YkQO1YgjBHeAuiU.input.variable_workflow_01O4672ZS4NDL7kiMVAm6B2u583iNoqQFnJ$",
-            "variable_workflow_01N7YI6TLCISJ1VMBy7XWTavricV0A6WwOh": "",
-            "variable_workflow_01N7YIE8K25LC4z1LqLoYUjouzd9GDyr3dx": "",
-            "variable_workflow_01N7YIMDSVW6126d6z3VEuV9Dw6tNs7um82": "",
-            "variable_workflow_01N8NQW324CT31XTaL0jvdtxNC44b6DCz4z": 1,
-            "variable_workflow_01N8NRZ2Q15TL7Wd7ezL9AXWgJqFb82m7Ot": 1
+            "variable_workflow_01PP741NBPGDK3P3ojsN4Henv016yT3TpoE": "",
+            "variable_workflow_01PP741NBPK9J2KfgPs4urcnQmVBVgDtKGl": "$workflow.definition_workflow_01O4672ZYS2D51XvK1Z5YkQO1YgjBHeAuiU.input.variable_workflow_01O4672ZS4NDL7kiMVAm6B2u583iNoqQFnJ$",
+            "variable_workflow_01PP741NBPLKW1lNnikhh7vU4Mv3Z85Zpw6": "",
+            "variable_workflow_01PP741NBPMQV2RC0CIicEQwrduDDVHydqt": 1,
+            "variable_workflow_01PP741NBPQ7T4OgjEo5oJEDBEvzXpinnED": "",
+            "variable_workflow_01PP741NBPRD45vrrjbW3JIJmYFBNdSLGxw": 1
           },
           "runtime_user": {
             "target_default": true
@@ -144,7 +144,7 @@
           "target": {
             "use_workflow_target_group": true
           },
-          "workflow_id": "definition_workflow_01N7YAGMK5OYX6RLZ5KXSdzQ2pC7NQdy8sR"
+          "workflow_id": "definition_workflow_01PP741NI2OEW7ApUcPxHO8m6v9Lnerc155"
         },
         "object_type": "definition_activity"
       },
@@ -169,7 +169,7 @@
             "base_type": "activity",
             "properties": {
               "condition": {
-                "left_operand": "$activity.definition_activity_01O467D8I2STS4lkaKt2B8IioAWHhsGngWa.output.variable_workflow_01N8NQ5EPLRTP61wNIGGo4iFIsdyFkrZgWy$",
+                "left_operand": "$activity.definition_activity_01O467D8I2STS4lkaKt2B8IioAWHhsGngWa.output.variable_workflow_01PP741NBPNW00rOtLgdqQvS0ozvrzxn5fF$",
                 "operator": "gt",
                 "right_operand": 0
               },
@@ -189,7 +189,7 @@
                   "action_timeout": 180,
                   "continue_on_failure": false,
                   "display_name": "Extract endpoint ID",
-                  "input_json": "$activity.definition_activity_01O467D8I2STS4lkaKt2B8IioAWHhsGngWa.output.variable_workflow_01N7YAGMBAT0N1BZNfMruGGGq8KefxLN94q$",
+                  "input_json": "$activity.definition_activity_01O467D8I2STS4lkaKt2B8IioAWHhsGngWa.output.variable_workflow_01PP741NBPSSL0wvCm2qGI3xpayBHBuCWLx$",
                   "jsonpath_queries": [
                     {
                       "jsonpath_query": "$.SearchResult.resources[0].id",
@@ -211,9 +211,9 @@
                   "continue_on_failure": false,
                   "display_name": "ISE - ERS - Endpoint - Update Identity Group",
                   "input": {
-                    "variable_workflow_01N804QIBLVRZ6a9EA8Bv0yroRf2Pem3X1e": "$activity.definition_activity_01O467GK49ZKK0zTblH1msGPUlfpWYkkkqP.output.jsonpath_queries.endpointId$",
-                    "variable_workflow_01N808D0U4VM16Wve1Ps5i0r489vdy8h4WV": "",
-                    "variable_workflow_01N8O0KL4UCQ90CTf1nf3fZzsYzwgfKvQPx": false
+                    "variable_workflow_01PP77IYSPYEV2dMVRlBpjSu8N9UYS2quKx": false,
+                    "variable_workflow_01PP77IYSPZY836dg7UIpvcX6yRlIAEn5FY": "$activity.definition_activity_01O467GK49ZKK0zTblH1msGPUlfpWYkkkqP.output.jsonpath_queries.endpointId$",
+                    "variable_workflow_01PP77IYSQALV7bF7MjSNlFxOJ484OBLLC7": ""
                   },
                   "runtime_user": {
                     "target_default": true
@@ -222,7 +222,7 @@
                   "target": {
                     "use_workflow_target_group": true
                   },
-                  "workflow_id": "definition_workflow_01N804QIJG8SL1A6XrXWqRI5M2XXNCV6xTb"
+                  "workflow_id": "definition_workflow_01PP77IZNEYPG1haO9bFuIW04QCWzsAnX73"
                 },
                 "object_type": "definition_activity"
               }
@@ -264,23 +264,13 @@
           "data_target_type": "email.smtp_endpoint",
           "view_target_type": "email.smtp_endpoint",
           "include_all_targets": true
-        },
-        {
-          "data_target_type": "terminal.endpoint",
-          "view_target_type": "terminal.endpoint",
-          "include_all_targets": true
-        },
-        {
-          "data_target_type": "aws.endpoint",
-          "view_target_type": "aws.endpoint",
-          "include_all_targets": true
         }
       ],
       "object_type": "target_group"
     }
   },
   "atomic_workflows": [
-    "definition_workflow_01N7YAGMK5OYX6RLZ5KXSdzQ2pC7NQdy8sR",
-    "definition_workflow_01N804QIJG8SL1A6XrXWqRI5M2XXNCV6xTb"
+    "definition_workflow_01PP741NI2OEW7ApUcPxHO8m6v9Lnerc155",
+    "definition_workflow_01PP77IZNEYPG1haO9bFuIW04QCWzsAnX73"
   ]
 }

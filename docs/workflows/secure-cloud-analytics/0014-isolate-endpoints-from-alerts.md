@@ -14,30 +14,41 @@ Workflow #0014
 {: .label }
 </div>
 
-This workflow fetches alerts from Secure Cloud Analytics for the past 24 hours based on the alert name and status provided. Observations are extracted from the alerts and devices are searched for in Secure Endpoint (formerly AMP for Endpoints). If an endpoint is found, host isolation is enabled. Finally, a Webex Teams message is sent with a summary.
+This workflow fetches alerts from Cisco Secure Cloud Analytics (SCA) for the past 24 hours based on the alert name and status provided. Observations are extracted from the alerts and devices are searched for in Cisco Secure Endpoint. If an endpoint is found, host isolation is enabled. Finally, a Webex Teams message is sent with a summary.
 
 [<i class="fab fa-github mr-1"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0014-SCA-IsolateEndpointsFromAlerts__definition_workflow_01JQ060DZK6NK5xH8K3RAQLb9kkLPppMrQU){: .btn-cisco-outline }
 
 ---
 
+## Change Log
+
+| Date | Notes |
+|:-----|:------|
+| Feb 25, 2021 | - Initial release |
+| September 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+
+_See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
+
+---
+
 ## Requirements
 * The following atomic actions must be imported before you can import this workflow:
-	* AMP - Get Connector GUID ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* AMP - Isolate Host ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* SWC - Get Alerts ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
-	* SWC - Get Device Details by ID ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
-	* SWC - Get Observation Details by ID ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
-	* Webex Teams - Post Message to Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos)) * See note below!
-	* Webex Teams - Search for Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* Secure Endpoint - Get Connector GUID ([System Atomic]({{ site.baseurl }}/atomics/system))
+	* Secure Endpoint - Isolate Host ([System Atomic]({{ site.baseurl }}/atomics/system))
+	* SCA - Get Alerts ([System Atomic]({{ site.baseurl }}/atomics/system))
+	* SCA - Get Device Details by ID ([System Atomic]({{ site.baseurl }}/atomics/system))
+	* SCA - Get Observation Details by ID ([System Atomic]({{ site.baseurl }}/atomics/system))
+	* Webex Teams - Post Message to Room ([System Atomic]({{ site.baseurl }}/atomics/system))
+	* Webex Teams - Search for Room ([System Atomic]({{ site.baseurl }}/atomics/system))
 * The [targets](#targets) and [account keys](#account-keys) listed below
-* (Optional) A Webex Teams access token and room name to post messages to
-
-**Note:** You may have an old version of the `Webex Teams - Post Message to Room` atomic. To ensure the best experience with this workflow, be sure to import the latest version of this atomic from the `GitHub_Target_Atomics` repository!
+* A Webex Teams access token and room name to post messages to
+* Cisco Secure Cloud Analytics (SCA)
+* Cisco Secure Endpoint
 
 ---
 
 ## Workflow Steps
-1. (Optional) Fetch any necessary global variables
+1. Fetch global variables
 1. Calculate dates
 1. Fetch alerts from Secure Cloud Analytics
 1. Extract observations from the alerts

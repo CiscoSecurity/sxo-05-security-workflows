@@ -17,16 +17,30 @@ Response Workflow
 {: .label }
 </div>
 
-This workflow quarantines an endpoint in Cisco Identity Services Engine (ISE) by applying an Adaptive Network Control (ANC) policy.
+This workflow quarantines an endpoint in Cisco Identity Services Engine (ISE) by applying an Adaptive Network Control (ANC) policy. Supported observable: `mac_address`
 
 [<i class="fab fa-github mr-1"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0027-ISE-QuarantineEndpoint__definition_workflow_01O39GXAGAAR65AsfAl2NPgy97Z8XcT6Bir){: .btn-cisco-outline }
 
 ---
 
+## Change Log
+
+| Date | Notes |
+|:-----|:------|
+| May 26, 2021 | - Initial release |
+| September 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+
+_See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
+
+---
+
 ## Requirements
+* The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
+	* ISE - ERS - ANC Policy - Apply to Endpoint
 * The following atomic actions must be imported before you can import this workflow:
-	* ISE - ERS - ANC Policy - Apply to Endpoint ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
+	* None
 * The [targets](#targets) and [account keys](#account-keys) listed below
+* Cisco Identity Services Engine (ISE)
 
 ---
 

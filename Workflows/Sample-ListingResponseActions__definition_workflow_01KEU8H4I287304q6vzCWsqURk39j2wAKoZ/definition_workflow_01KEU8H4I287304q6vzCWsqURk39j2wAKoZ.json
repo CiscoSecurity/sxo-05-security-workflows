@@ -1,11 +1,25 @@
 {
   "workflow": {
     "unique_name": "definition_workflow_01KEU8H4I287304q6vzCWsqURk39j2wAKoZ",
-    "name": "Sample - Listing CTR Response Actions",
-    "title": "Sample - Listing CTR Response Actions",
+    "name": "Sample - Listing Threat Response Actions",
+    "title": "Sample - Listing Threat Response Actions",
     "type": "generic.workflow",
     "base_type": "workflow",
     "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "ip",
+          "scope": "input",
+          "name": "Observable Type",
+          "type": "datatype.string",
+          "description": "The type of observable to get actions for. Examples of valid observable types include: domain, ip, hostname, url, and sha256",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01KEV7Z7YL8AC51AMFt4X6AN1yrBbqHoMR4",
+        "object_type": "variable_workflow"
+      },
       {
         "schema_id": "datatype.string",
         "properties": {
@@ -33,20 +47,6 @@
         },
         "unique_name": "variable_workflow_01KEV89F69NZJ21iHOK9fy65CrazIlF8nw8",
         "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "ip",
-          "scope": "input",
-          "name": "Observable Type",
-          "type": "datatype.string",
-          "description": "The type of observable to get actions for. Examples of valid observable types include: domain, ip, hostname, url, and sha256",
-          "is_required": true,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01KEV7Z7YL8AC51AMFt4X6AN1yrBbqHoMR4",
-        "object_type": "variable_workflow"
       }
     ],
     "properties": {
@@ -54,8 +54,8 @@
         "is_atomic": false
       },
       "delete_workflow_instance": false,
-      "description": "This workflow shows how to get a list of available response actions from Cisco Threat Response for a given observable. The actions returned may vary depending on the type of observable provided. SecureX orchestration workflows will be returned for any observable type and it's up to the workflow to decide which observables to accept and process.\n\nTargets: CTR_For_Access_Token, CTR_API\n\nSteps:\n[] Get an access token for CTR\n[] Get the available response actions from CTR\n[] Print a human-readable list of modules and actions using Python (see this activity's output for a list of all actions)\n[] Check if an action to find was provided. If so:\n[]\u003e Convert the actions to a table\n[]\u003e Loop through each action looking for the one we want\n[]\u003e If a matching action is found, end the workflow and return its information\n\nMore information about response workflows and actions can be found in our GitHub documentation at https://cs.co/SXO_docs\n\nRun this workflow and inspect each activity's output carefully.",
-      "display_name": "Sample - Listing CTR Response Actions",
+      "description": "This workflow shows how to get a list of response actions from Cisco Threat Response for a given observable. The actions returned may vary depending on the type of observable provided. SecureX orchestration workflows will be returned for any observable type and it's up to the workflow to decide which observables to accept and process.\n\nTargets: CTR_For_Access_Token, CTR_API\n\nSteps:\n[] Get an access token for Threat Response\n[] Get the available response actions from Threat Response\n[] Print a human-readable list of modules and actions using Python (see this activity's output for a list of all actions)\n[] Check if an action to find was provided. If so:\n[]> Convert the actions to a table\n[]> Loop through each action looking for the one we want\n[]> If a matching action is found, end the workflow and return its information\n\nMore information about response workflows and actions can be found in our GitHub documentation at https://cs.co/SXO_docs\n\nRun this workflow and inspect each activity's output carefully.",
+      "display_name": "Sample - Listing Threat Response Actions",
       "runtime_user": {
         "override_target_runtime_user": false,
         "specify_on_workflow_start": false,
@@ -99,13 +99,13 @@
         "actions": [
           {
             "unique_name": "definition_activity_01KEU8QQU6GLB2SEvO3NK9F6icINwbIk5ZN",
-            "name": "Generate CTR access token",
-            "title": "Generate CTR access token",
+            "name": "Threat Response - Generate Access Token",
+            "title": "Threat Response - Generate Access Token",
             "type": "workflow.atomic_workflow",
             "base_type": "subworkflow",
             "properties": {
               "continue_on_failure": false,
-              "display_name": "Generate CTR access token",
+              "display_name": "Threat Response - Generate Access Token",
               "runtime_user": {
                 "target_default": true
               },
@@ -126,23 +126,23 @@
                   }
                 }
               },
-              "workflow_id": "definition_workflow_01779LB6MV0P02kvka9TGV5cEam84NrCTy4"
+              "workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
             },
             "object_type": "definition_activity"
           },
           {
             "unique_name": "definition_activity_01KEU8OOOMYPO4NANeFXCz2SCARC73pqc1u",
-            "name": "List CTR response actions",
-            "title": "List CTR response actions",
+            "name": "Threat Response - List Response Actions",
+            "title": "Threat Response - List Response Actions",
             "type": "workflow.atomic_workflow",
             "base_type": "subworkflow",
             "properties": {
               "continue_on_failure": false,
-              "display_name": "List CTR response actions",
+              "display_name": "Threat Response - List Response Actions",
               "input": {
-                "variable_workflow_01DBYEK861JR84w4pjFDDI1bkoc1GoFxUzy": "$workflow.definition_workflow_01KEU8H4I287304q6vzCWsqURk39j2wAKoZ.input.variable_workflow_01KEV7Z7YL8AC51AMFt4X6AN1yrBbqHoMR4$",
-                "variable_workflow_01DBYF0AOVGVR20gz1OEgDx7i2Y2lnrr4mT": "$workflow.definition_workflow_01KEU8H4I287304q6vzCWsqURk39j2wAKoZ.input.variable_workflow_01KEV89F69NZJ21iHOK9fy65CrazIlF8nw8$",
-                "variable_workflow_01DBZ4EAOYVFJ0yY3VzkdOSJmyXf0X5OmfZ": "$activity.definition_activity_01KEU8QQU6GLB2SEvO3NK9F6icINwbIk5ZN.output.variable_workflow_01BNOOXA3G6MV1PGAvsfZOKDdMYcE6XS726$"
+                "variable_workflow_01PP74F8NFMVL1nunnh0tHmJ6q93eKENUIo": "$activity.definition_activity_01KEU8QQU6GLB2SEvO3NK9F6icINwbIk5ZN.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$",
+                "variable_workflow_01PP74F8NFSAR6gmDctGdu1ipiminc8zxQ9": "$workflow.definition_workflow_01KEU8H4I287304q6vzCWsqURk39j2wAKoZ.input.variable_workflow_01KEV89F69NZJ21iHOK9fy65CrazIlF8nw8$",
+                "variable_workflow_01PP74F8NFTHL23oJ81CQyQ3RzEdWnabkIB": "$workflow.definition_workflow_01KEU8H4I287304q6vzCWsqURk39j2wAKoZ.input.variable_workflow_01KEV7Z7YL8AC51AMFt4X6AN1yrBbqHoMR4$"
               },
               "runtime_user": {
                 "target_default": true
@@ -151,7 +151,7 @@
               "target": {
                 "use_workflow_target_group": true
               },
-              "workflow_id": "definition_workflow_01DBY5MO9LF981MXZeedBSbaIpOSx3NRF2Q"
+              "workflow_id": "definition_workflow_01PP74F8V7XK02YLxMMHUqVt4JVetzJhR9D"
             },
             "object_type": "definition_activity"
           }
@@ -168,9 +168,9 @@
           "continue_on_failure": false,
           "description": "Look at this output's activity for a human readable list of modules and actions",
           "display_name": "Convert module list into readable text",
-          "script": "import sys,json\n\n# Look at this output's activity for a human readable list of modules and actions\n\nctrJson = json.loads(sys.argv[1])\n\nfor module in ctrJson['data']:\n  print('------------------------------------------------------------------------------------------------------------------\\nModule Name: ' + module['module'] + '\\nInstance ID: ' + module['module_instance_id'] + '\\nAction ID: ' + module['id'] + '\\nAction Title: ' + module['title'] + '\\nAction URL: /iroh-response' + module['url'] + '\\n------------------------------------------------------------------------------------------------------------------')\n",
+          "script": "import sys,json\n# Look at this output's activity for a human readable list of modules and actions\nctrJson = json.loads(sys.argv[1])\nfor module in ctrJson:\n  print('------------------------------------------------------------------------------------------------------------------\\nModule Name: ' + module['module'] + '\\nInstance ID: ' + module['module_instance_id'] + '\\nAction ID: ' + module['id'] + '\\nAction Title: ' + module['title'] + '\\nAction URL: /iroh-response' + module['url'] + '\\n------------------------------------------------------------------------------------------------------------------')\n",
           "script_arguments": [
-            "$activity.definition_activity_01KEU8OOOMYPO4NANeFXCz2SCARC73pqc1u.output.variable_workflow_01DBYDZ93SS5K4rAnOFkPjegb7K8ChItJMS$"
+            "$activity.definition_activity_01KEU8OOOMYPO4NANeFXCz2SCARC73pqc1u.output.variable_workflow_01PP74F8NFQWX7VN6IXaZIyIoHTzy3tJDxa$"
           ],
           "skip_execution": false
         },
@@ -230,8 +230,8 @@
                       "action_timeout": 180,
                       "continue_on_failure": false,
                       "display_name": "Convert actions to table",
-                      "input_json": "$activity.definition_activity_01KEU8OOOMYPO4NANeFXCz2SCARC73pqc1u.output.variable_workflow_01DBYDZ93SS5K4rAnOFkPjegb7K8ChItJMS$",
-                      "jsonpath_query": "$.data",
+                      "input_json": "$activity.definition_activity_01KEU8OOOMYPO4NANeFXCz2SCARC73pqc1u.output.variable_workflow_01PP74F8NFQWX7VN6IXaZIyIoHTzy3tJDxa$",
+                      "jsonpath_query": "$.",
                       "persist_output": false,
                       "populate_columns": false,
                       "skip_execution": false,
@@ -336,7 +336,7 @@
                       "completion_type": "failed-completed",
                       "continue_on_failure": false,
                       "display_name": "Action not found",
-                      "result_message": "A matching action was not found for the input provided. Remember, the action name must match what's in CTR exactly.",
+                      "result_message": "A matching action was not found for the input provided. Remember, the action name must match what's in Threat Response exactly.",
                       "skip_execution": false
                     },
                     "object_type": "definition_activity"
@@ -349,20 +349,8 @@
       }
     ],
     "categories": [
-      "category_01K8NQAII212R5jdJi1LLd5SCDT9F91tvBR"
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
     ]
-  },
-  "categories": {
-    "category_01K8NQAII212R5jdJi1LLd5SCDT9F91tvBR": {
-      "unique_name": "category_01K8NQAII212R5jdJi1LLd5SCDT9F91tvBR",
-      "name": "Sample Workflow",
-      "title": "Sample Workflow",
-      "type": "basic.category",
-      "base_type": "category",
-      "description": "Simple workflows that show how to use various aspects of SecureX orchestration",
-      "category_type": "custom",
-      "object_type": "category"
-    }
   },
   "target_groups": {
     "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
@@ -382,23 +370,13 @@
           "data_target_type": "email.smtp_endpoint",
           "view_target_type": "email.smtp_endpoint",
           "include_all_targets": true
-        },
-        {
-          "data_target_type": "terminal.endpoint",
-          "view_target_type": "terminal.endpoint",
-          "include_all_targets": true
-        },
-        {
-          "data_target_type": "aws.endpoint",
-          "view_target_type": "aws.endpoint",
-          "include_all_targets": true
         }
       ],
       "object_type": "target_group"
     }
   },
   "atomic_workflows": [
-    "definition_workflow_01779LB6MV0P02kvka9TGV5cEam84NrCTy4",
-    "definition_workflow_01DBY5MO9LF981MXZeedBSbaIpOSx3NRF2Q"
+    "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH",
+    "definition_workflow_01PP74F8V7XK02YLxMMHUqVt4JVetzJhR9D"
   ]
 }

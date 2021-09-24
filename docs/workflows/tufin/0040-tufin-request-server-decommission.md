@@ -17,13 +17,15 @@ Response Workflow
 {: .label }
 </div>
 
-This workflow submits a ticket for server decommission using the Tufin SecureChange API. A confirmation message is sent using Microsoft Teams. Supported observable: ip.
+This workflow submits a ticket for server decommission using the Tufin SecureChange API. A confirmation message is sent using Microsoft Teams. Supported observable: `ip`
 
 [<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0040-Tufin-RequestServerDecommission__definition_workflow_01O1F6IBOLSP37KQEAt003257hQcJuDvvWu){: .btn-cisco-outline }
 
 ---
 
 ## Requirements
+* The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
+	* None
 * The following atomic actions must be imported before you can import this workflow:
 	* Microsoft Teams - Post Message via Webhook ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
 	* Tufin - Submit Server Decommission Request ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
@@ -62,4 +64,4 @@ Target Group: `Default TargetGroup`
 
 | Account Key Name | Type | Details | Notes |
 |:-----------------|:-----|:--------|:------|
-| Tufin Credentials | HTTP Basic Authentication | _Username:_ Tufin Admin Username<br />_Password:_ Tufin Admin Password |  |
+| Tufin Credentials | HTTP Basic Authentication | _Username:_ Tufin Admin Username<br />_Password:_ Tufin Admin Password | |

@@ -17,17 +17,31 @@ Response Workflow
 {: .label }
 </div>
 
-This workflow removes a static identity group assignment from a MAC address in Cisco Identity Services Engine (ISE). Note that this workflow does not move the endpoint back to an "Unknown" status. This means the endpoint may stay in the identity group until it's reprofiled and moved elsewhere.
+This workflow removes a static identity group assignment from a MAC address in Cisco Identity Services Engine (ISE). Note that this workflow does not move the endpoint back to an "Unknown" status. This means the endpoint may stay in the identity group until it's reprofiled and moved elsewhere. Supported observable: `mac_address`
 
 [<i class="fab fa-github mr-1"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0030-ISE-RemoveEndpointFromIdentityGroup__definition_workflow_01O4672ZYS2D51XvK1Z5YkQO1YgjBHeAuiU){: .btn-cisco-outline }
 
 ---
 
+## Change Log
+
+| Date | Notes |
+|:-----|:------|
+| May 26, 2021 | - Initial release |
+| September 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+
+_See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
+
+---
+
 ## Requirements
+* The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
+	* ISE - ERS - Endpoint - Search
+	* ISE - ERS - Endpoint - Update Identity Group
 * The following atomic actions must be imported before you can import this workflow:
-	* ISE - ERS - Endpoint - Search ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
-	* ISE - ERS - Endpoint - Update Identity Group ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
+	* None
 * The [targets](#targets) and [account keys](#account-keys) listed below
+* Cisco Identity Services Engine (ISE)
 
 ---
 

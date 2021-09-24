@@ -14,7 +14,7 @@ Workflow #0020
 {: .label }
 </div>
 
-This workflow allows you to bulk-delete incidents from your SecureX incident manager. The incidents to delete are identified by a Lucene/ES query and a time window. A dry run is executed first and an approval task is generated to confirm how many incidents will be deleted. If the approval task is approved, deletion is completed.
+This workflow allows you to bulk-delete incidents from your Cisco SecureX incident manager. The incidents to delete are identified by a Lucene/ES query and a time window. A dry run is executed first and an approval task is generated to confirm how many incidents will be deleted. If the approval task is approved, deletion is completed.
 
 <div class="cisco-alert cisco-alert-danger"><i class="fa fa-exclamation-circle mr-1 cisco-icon-danger"></i> NOTE: DELETED INCIDENTS CANNOT BE RECOVERED!</div>
 
@@ -22,16 +22,29 @@ This workflow allows you to bulk-delete incidents from your SecureX incident man
 
 ---
 
+## Change Log
+
+| Date | Notes |
+|:-----|:------|
+| Apr 8, 2021 | - Initial release |
+| September 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+
+_See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
+
+---
+
 ## Requirements
+* The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
+	* Threat Response - Generate Access Token
 * The following atomic actions must be imported before you can import this workflow:
-	* Threat Response v2 - Generate Access Token ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* None
 * The [targets](#targets) and [account keys](#account-keys) listed below
 
 ---
 
 ## Workflow Steps
 1. Validate inputs and format date/times
-1. Get an access token for SecureX
+1. Get an access token for Cisco SecureX
 1. Execute a dry run of the deletion query
 1. Check if the request was successful:
 	* If it wasn't, output an error

@@ -15,7 +15,7 @@ Workflow #0010
 {: .label }
 </div>
 
-This workflow monitors a mailbox for incoming phishing reports. When an email is received, the workflow investigates its attachments and attempts to determine if anything in the email (or its attachments) was suspicious or malicious. If anything suspicious or malicious is found, the user is told to delete the email, a casebook and incident are created in Threat Response, a Webex Teams message is posted, and an email is sent to a "SOC" email address.
+This workflow monitors a mailbox for incoming phishing reports. When an email is received, the workflow investigates its attachments and attempts to determine if anything in the email (or its attachments) was suspicious or malicious. If anything suspicious or malicious is found, the user is told to delete the email, a casebook and incident are created in Cisco SecureX, a Webex Teams message is posted, and an email is sent to a "SOC" email address.
 
 [<i class="fa fa-video mr-1"></i> Overview](https://www.youtube.com/watch?v=xUehFeCJGL4&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo){: .btn-cisco-outline .mr-2 } [<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0010-Phishing-Investigation__definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC){: .btn-cisco-outline }
 
@@ -26,32 +26,33 @@ This workflow monitors a mailbox for incoming phishing reports. When an email is
 | Date | Notes |
 |:-----|:------|
 | Jan 21, 2021 | - Initial release |
-| Jan 29, 2021 | - Changed Threat Grid disposition for scores less than 70 to Unknown instead of Clean<br />- Removed the email notification to the reporting user when everything is clean/unknown. The SOC should take over the investigation from this point and make the final determination<br />- Fixed Threat Grid submission count not being incremented for URL submissions<br />- Added an environment variable for the Threat Grid instance URL |
+| Jan 29, 2021 | - Changed Secure Malware Analytics disposition for scores less than 70 to Unknown instead of Clean<br />- Removed the email notification to the reporting user when everything is clean/unknown. The SOC should take over the investigation from this point and make the final determination<br />- Fixed Secure Malware Analytics submission count not being incremented for URL submissions<br />- Added an environment variable for the Secure Malware Analytics instance URL |
 | Feb 25, 2021 | - Added the subject and sender of the reported email as observables ([Issue #10]({{ site.github.repository_url }}/issues/10))<br />- Updated the Python script that generates casebook text to handle truncation more reliably ([Issue #12]({{ site.github.repository_url }}/issues/12))<br />- Updated the incident and casebook text with the reported email's actual subject ([Issue #8]({{ site.github.repository_url }}/issues/8)) |
+| September 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
 
 _See the [Important Notes]({{ site.baseurl }}/notes#workflows) page for more information about updating workflows_
 
 ---
 
 ## Requirements
+* The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
+	* Secure Malware Analytics - Get Samples by File Hash
+	* Secure Malware Analytics - Submit File
+	* Secure Malware Analytics - Submit URL
+	* Threat Response - Create Casebook
+	* Threat Response - Create Incident
+	* Threat Response - Create Relationship
+	* Threat Response - Create Sighting
+	* Threat Response - Deliberate Observable
+	* Threat Response - Generate Access Token
+	* Threat Response - Inspect for Observables
+	* Webex Teams - Post Message to Room * See note below!
+	* Webex Teams - Search for Room
 * The following atomic actions must be imported before you can import this workflow:
-	* Threat Grid v2 - Get Samples by File Hash ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Grid v2 - Submit File ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Grid v2 - Submit URL ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Response v2 - Create Casebook ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Response v2 - Create Incident ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Response v2 - Create Relationship ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Response v2 - Create Sighting ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Response v2 - Deliberate Observable ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Response v2 - Generate Access Token ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Response v2 - Inspect for Observables ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Webex Teams - Post Message to Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos)) * See note below!
-	* Webex Teams - Search for Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* None
 * The [targets](#targets) and [account keys](#account-keys) listed below
-* An active Threat Grid account and API key
 * (Optional) A Webex Teams access token and room name to post messages to
-
-Note: You may have an old version of the `Webex Teams - Post Message to Room` atomic. To ensure the best experience with this workflow, be sure to import the latest version of this atomic from the `GitHub_Target_Atomics` repository!
+* Cisco Secure Malware Analytics
 
 ---
 
@@ -78,28 +79,28 @@ This workflow is designed to be triggered by an email arriving in a phishing inv
 				* Fetch the observable's disposition and add it to a main observables table
 				* Check if the observable is a URL with a 2 character top level domain (TLD):
 					* If it is:
-						* Assume the URL might be from a URL shortener and submit it to Threat Grid
+						* Assume the URL might be from a URL shortener and submit it to Secure Malware Analytics
 						* Extract the threat score for the URL and assign a disposition based on the score in the main observables table
 		* If it isn't:
 			* Check if the file hash for the attachment has a disposition in Threat Response:
 				* If the disposition is anything besides unknown, update the main observables table
 				* If the disposition is unknown:
-					* Check if the file type is supported by Threat Grid:
+					* Check if the file type is supported by Secure Malware Analytics:
 						* If it isn't, skip the attachment since we can't analyze it further
 						* If it is:
-							* Check if a file with this hash was already analyzed by Threat Grid:
+							* Check if a file with this hash was already analyzed by Secure Malware Analytics:
 								* If it was, use the most recent threat score
-								* If it wasn't, submit the file to Threat Grid and extract the threat score
+								* If it wasn't, submit the file to Secure Malware Analytics and extract the threat score
 							* Assign a disposition to the file based on the threat score and update the main observables table
 1. Build statistics for each observable disposition
 1. Check if there was anything suspicious or malicious:
 	* If there was:
 		* Generate an access token for Threat Response
 		* Compile the non-clean observables into a JSON list
-		* Create a Threat Response casebook
-		* Create a Threat Response incident
+		* Create a SecureX casebook
+		* Create a SecureX incident
 		* Relate the two new objects to each other
-		* Create a Threat Response sighting
+		* Create a sighting
 		* Relate the sighting to the incident
 		* If a Webex Teams room was provided:
 			* Look up the room and get the room ID
@@ -118,20 +119,20 @@ This workflow is designed to be triggered by an email arriving in a phishing inv
 * A list of required targets and account keys can be found [below](#targets). Make sure they all exist and are configured properly
 
 ### Local Variables
-* Provide the workflow your Threat Grid API token by either:
-	* Storing your token in a [global variable]({{ site.baseurl }}/variables/global) and using the `Fetch Global Variables` group at the beginning of the workflow to update the `Threat Grid API Key` local variable; or
-	* Remove the `Threat Grid API Key` from the `Fetch Global Variables` group and add your token directly to the `Threat Grid API Key` local variable
+* Provide the workflow your Secure Malware Analytics API token by either:
+	* Storing your token in a [global variable]({{ site.baseurl }}/variables/global) and using the `Fetch Global Variables` group at the beginning of the workflow to update the `Secure Malware Analytics API Key` local variable; or
+	* Remove the `Secure Malware Analytics API Key` from the `Fetch Global Variables` group and add your token directly to the `Secure Malware Analytics API Key` local variable
 * See [this page]({{ site.baseurl }}/atomics/configuration/webex#configuring-our-workflows) for information on configuring the workflow for Webex Teams
 * Set `Notification Email Addresses` to the email addresses you want notified when the workflow detects a phishing attempt
-* This workflow is configured to auto-detect which SecureX environment you're using based on the `SECUREX_ENVIRONMENT` environment variable and then assumes you're using the same environment for Threat Response and Threat Grid
+* This workflow is configured to auto-detect which SecureX environment you're using based on the `SECUREX_ENVIRONMENT` environment variable and then assumes you're using the same environment for Threat Response and Secure Malware Analytics
 	* The default region associations are:
-		* SecureX North America (NAM) - Threat Response NAM, Threat Grid NAM
-		* SecureX Europe (EU) - Threat Response EU, Threat Grid EU
-		* SecureX Asia Pacific (APJC) - Threat Response APJC, Threat Grid EU
+		* SecureX North America (NAM) - Threat Response NAM, Secure Malware Analytics NAM
+		* SecureX Europe (EU) - Threat Response EU, Secure Malware Analytics EU
+		* SecureX Asia Pacific (APJC) - Threat Response APJC, Secure Malware Analytics EU
 	* You can change these defaults by editing the contents of the `Set the environment URLs` condition block at the beginning of the workflow
 
 ### Activities
-* This workflow has a default configuration for determining when a Threat Score (from Threat Grid) is considered unknown, suspicious, or malicious
+* This workflow has a default configuration for determining when a Threat Score (from Secure Malware Analytics) is considered unknown, suspicious, or malicious
 	* The default ranges are:
 		* Unknown: Less than 70
 		* Suspicious: Greater than or equal to 70 but less than 90

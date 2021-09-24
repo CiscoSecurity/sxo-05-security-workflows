@@ -1,7 +1,9 @@
 ---
 layout: page
 title: Cisco Defense Orchestrator
-permalink: /workflows/cdo/
+permalink: /workflows/defense-orchestrator/
+redirect_from:
+  - /workflows/cdo/
 parent: Workflows
 has_children: true
 ---

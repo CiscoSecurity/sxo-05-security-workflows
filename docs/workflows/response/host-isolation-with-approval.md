@@ -1,43 +1,68 @@
 ---
 layout: page
-title: AMP Host Isolation with Tier 2 Approval
+title: Host Isolation with Tier 2 Approval
 permalink: /workflows/response/host-isolation-with-approval
+redirect_from:
+  - /workflows/D001
 parent: Response Workflows
 grand_parent: Workflows
 ---
 
-# AMP Host Isolation with Tier 2 Approval
+# Host Isolation with Tier 2 Approval
 <div markdown="1">
+Out of Box
+{: .label }
+
 Response Workflow
 {: .label }
 </div>
 
-This workflow should be triggered from a SecureX pivot menu and supports AMP computer GUID observables. When triggered, this workflow will create an approval task requesting to enable host isolation for the computer provided as the observable. If approval is obtained, isolation is enabled. If approval is not obtained, the workflow takes no action.
+This workflow requests approval to isolate an endpoint using Cisco Secure Endpoint host isolation. If approved, isolation is enabled using the Cisco Threat Response host isolation response action. Supported observable: `amp_computer_guid`
+
+---
+
+## Change Log
+
+| Date | Notes |
+|:-----|:------|
+| Jun 23, 2020 | - Initial release |
+| September 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+
+_See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 
 ---
 
 ## Requirements
+* The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
+	* Threat Response - Generate Access Token
+	* Threat Response - List Response Actions
+	* Threat Response - Trigger Response Action
 * The following atomic actions must be imported before you can import this workflow:
-	* CTRGenerateAccessToken ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* CTR List Actions ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* CTR Trigger an Action ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* None
 * The [targets](#targets) and [account keys](#account-keys) listed below
-* An active AMP for Endpoints account
+* Cisco Secure Endpoint
 
 ---
 
 ## Workflow Steps
-1. Check that a supported observable was provided as input
-1. Get a list of available actions from Threat Response
-1. Create the approval task
-1. (Optional) Send an email notification (also requires an SMTP Target)
-1. Wait for approval
-1. If approved, trigger the host isolation action through Threat Response
+1. Make sure the observable is supported
+1. Generate an access token for Threat Response
+1. Fetch available response actions
+1. Check that Secure Endpoint actions are available (if not, end the workflow)
+1. Extract the module instance ID for Secure Endpoint
+1. (Optional) Send an email notification (requires an SMTP Endpoint target)
+1. Create the approval request and wait...
+1. If the request is approved, trigger the response action to isolate the endpoint
 
 ---
 
 ## Configuration
-* Provide the name of your AMP Threat Response module in the `AMP module name` local variable
+* Set the `Secure Endpoint Module Name` local variable to the name of your Secure Endpoint SecureX module
+* Set the `Task Approver` local variable to the email address of the SecureX user you want to approve requests from the workflow
+* Set the `Task Requestor` local variable to the email address of the SecureX user you want to own requests from the workflow
+* If you want the workflow to send emails, you need to:
+	* Create an SMTP Endpoint target called `SMTP Target` for the workflow to use
+	* Enable the `Send Email` activity and customize it as needed
 * If you want to change the name of this workflow in the pivot menu, change its display name
 
 ---

@@ -15,7 +15,7 @@ Workflow #0011
 {: .label }
 </div>
 
-This workflow uses a Talos blog post about the SolarWinds supply chain attack as a source of intelligence. Using observables extracted from the blog post, it conducts an investigation and looks for sightings within your environment. If there are sightings, a variety of actions are taken including creating a Threat Response incident and casebook, creating a ServiceNow incident, sending a Webex Teams message, sending a message on Slack, and sending an email. The workflow also supports automated remediation (with approval). If the resulting approval task is approved, unknown or suspicious file hashes and domains are blocked using AMP and Umbrella respectively. If there are any target endpoints, Orbital is used to take a forensic snapshot and AMP is used to enable host isolation.
+This workflow uses a Talos blog post about the SolarWinds supply chain attack as a source of intelligence. Using observables extracted from the blog post, it conducts an investigation and looks for sightings within your environment. If there are sightings, a variety of actions are taken including creating a Cisco SecureX incident and casebook, creating a ServiceNow incident, sending a Webex Teams message, sending a message on Slack, and sending an email. The workflow also supports automated remediation (with approval). If the resulting approval task is approved, unknown or suspicious file hashes and domains are blocked using Cisco Secure Endpoint and Umbrella respectively. If there are any target endpoints, Cisco Orbital is used to take a forensic snapshot and Secure Endpoint is used to enable host isolation.
 
 [<i class="fa fa-video mr-1"></i> Overview](https://www.youtube.com/watch?v=WR6pr-BEM6E&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo){: .btn-cisco-outline .mr-2 } [<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0011-Talos-SolarWindsInvestigation__definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa){: .btn-cisco-outline }
 
@@ -27,38 +27,40 @@ This workflow uses a Talos blog post about the SolarWinds supply chain attack as
 |:-----|:------|
 | Jan 22, 2021 | - Initial release |
 | Jun 24, 2021 | - Updated the user agent header being used to fetch blog posts from Talos |
+| September 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 
 ---
 
 ## Requirements
+* The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
+	* Orbital - Query Endpoint
+	* Threat Response - Create Casebook
+	* Threat Response - Create Incident
+	* Threat Response - Create Relationship
+	* Threat Response - Deliberate Observable
+	* Threat Response - Enrich Observable
+	* Threat Response - Generate Access Token
+	* Threat Response - Inspect for Observables
+	* Threat Response - List Response Actions
+	* Threat Response - Trigger Response Action
+	* Webex Teams - Post Message to Room
+	* Webex Teams - Search for Room
 * The following atomic actions must be imported before you can import this workflow:
-	* Orbital - Query Endpoint ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* ServiceNow - Add Work Note to Incident ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* ServiceNow - Create Incident ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* ServiceNow - Add Work Note to Incident ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
+	* ServiceNow - Create Incident ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
 	* Slack - Send Message to Channel ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
-	* Threat Response v2 - Create Casebook ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Response v2 - Create Incident ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Response v2 - Create Relationship ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Response v2 - Deliberate Observable ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Response v2 - Enrich Observable ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Response v2 - Generate Access Token ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Response v2 - Inspect for Observables ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Response v2 - List Response Actions ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Response v2 - Trigger Response Action ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Webex Teams - Post Message to Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos)) * See note below!
-	* Webex Teams - Search for Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 * The [targets](#targets) and [account keys](#account-keys) listed below
 * (Optional) A Webex Teams access token and room name to post messages to
 * (Optional) A Slack access token and a channel name to post messages to
-
-**Note:** You may have an old version of the `Webex Teams - Post Message to Room` atomic. To ensure the best experience with this workflow, be sure to import the latest version of this atomic from the `GitHub_Target_Atomics` repository!
+* Cisco Secure Endpoint with Orbital
+* Cisco Umbrella
+* ServiceNow
 
 ---
 
 ## Workflow Steps
-
 1. Fetch any necessary global variables and set the environment URLs for SecureX and Threat Response
 1. Fetch the blog post content and strip out any HTML
 1. Request a Threat Response access token and inspect the blog post content for observables
@@ -67,7 +69,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 	* For modules with sightings, extract the sightings and targets for use later
 1. Generate a summary of the workflow's findings in HTML (for email and ServiceNow), markdown (for Webex Teams and Threat Response), and mrkdwn (for Slack)
 1. Create a ServiceNow incident ticket
-1. Create the Threat Response casebook and incident
+1. Create the SecureX casebook and incident
 1. Add a work note to the ServiceNow incident with a link to investigate in Threat Response
 1. Generate the text for an approval task and request automated remediation
 1. Send notifications:
@@ -77,14 +79,14 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 1. Wait for the approval task to be completed
 1. If completed and approved:
 	* Fetch an access token for Threat Response
-	* Fetch the AMP and Umbrella module instance IDs from Threat Response
+	* Fetch the Cisco Secure Endpoint and Umbrella module instance IDs from Threat Response
 	* Loop through each observable:
-		* If it's a file hash, add it to the AMP simple custom detections list using Threat Response
+		* If it's a file hash, add it to the Secure Endpoint simple custom detections list using Threat Response
 		* If it's a domain, block it in Umbrella using Threat Response
 	* Loop through each target:
-		* Fetch an access token for Orbital (using the `Threat Response v2 - Generate Access Token` atomic)
-		* Request a forensic snapshot of the endpoint using Orbital
-		* Isolate the endpoint using AMP for Endpoints
+		* Fetch an access token for Orbital (using the `Threat Response - Generate Access Token` atomic)
+		* Request a forensic snapshot of the endpoint using Cisco Orbital
+		* Isolate the endpoint using Secure Endpoint
 
 ---
 
@@ -106,8 +108,8 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 	* A `Task Requestor`
 	* A `Task Owner`
 	* One or more `Task Assignees`
-* If your AMP for Endpoints module isn't named `AMP for Endpoints` in SecureX, you need to update the `JSONPath Query` on the `Extract AMP Actions` activity with your module's name
-* If your Umbrella module isn't named `Umbrella` in SecureX, you need to update the `JSONPath Query` on the `Extract Umbrella Actions` activity with your module's name
+* If your Cisco Secure Endpoint module isn't named `AMP for Endpoints` in SecureX, you need to update the `JSONPath Query` on the `Extract Secure Endpoint Actions` activity with your module's name
+* If your Cisco Umbrella module isn't named `Umbrella` in SecureX, you need to update the `JSONPath Query` on the `Extract Umbrella Actions` activity with your module's name
 
 ---
 

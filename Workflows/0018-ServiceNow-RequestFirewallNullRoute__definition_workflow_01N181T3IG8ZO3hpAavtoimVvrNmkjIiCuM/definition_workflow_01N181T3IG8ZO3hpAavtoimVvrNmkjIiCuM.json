@@ -11,20 +11,6 @@
         "properties": {
           "value": "",
           "scope": "input",
-          "name": "observable_type",
-          "type": "datatype.string",
-          "description": "The type of observable pivoted on",
-          "is_required": true,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01N8S186NI31957xscTO2TAxWr46A2JPb5w",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "input",
           "name": "observable_value",
           "type": "datatype.string",
           "description": "The value of the observable pivoted on",
@@ -33,6 +19,20 @@
         },
         "unique_name": "variable_workflow_01N8S1D4BY2C40tnWB6SPtVINnSwwQcD9H9",
         "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "observable_type",
+          "type": "datatype.string",
+          "description": "The type of observable pivoted on",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01N8S186NI31957xscTO2TAxWr46A2JPb5w",
+        "object_type": "variable_workflow"
       }
     ],
     "properties": {
@@ -40,7 +40,7 @@
         "is_atomic": false
       },
       "delete_workflow_instance": false,
-      "description": "This workflow submits a change request in ServiceNow with pre-defined ticket text and the observable provided as input. Supported observable: ip.\n\nTarget Group: Default TargetGroup\n\nTargets: ServiceNow\n\nSteps:\n[] Make sure the observable type provided is supported\n[] Calculate the ticket start and end time (defaults to three days from now from 2-5 AM eastern time)\n[] Create the change request in ServiceNow\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0018",
+      "description": "This workflow submits a change request in ServiceNow with pre-defined ticket text and the observable provided as input to the workflow. Supported observable: ip\n\nTarget Group: Default TargetGroup\n\nTargets: ServiceNow\n\nSteps:\n[] Make sure the observable type provided is supported\n[] Calculate the ticket start and end time (defaults to three days from now from 2-5 AM eastern time)\n[] Create the change request in ServiceNow\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0018",
       "display_name": "0018 - ServiceNow - Request Firewall NullRoute",
       "runtime_user": {
         "override_target_runtime_user": false,
@@ -263,16 +263,6 @@
         {
           "data_target_type": "email.smtp_endpoint",
           "view_target_type": "email.smtp_endpoint",
-          "include_all_targets": true
-        },
-        {
-          "data_target_type": "terminal.endpoint",
-          "view_target_type": "terminal.endpoint",
-          "include_all_targets": true
-        },
-        {
-          "data_target_type": "aws.endpoint",
-          "view_target_type": "aws.endpoint",
           "include_all_targets": true
         }
       ],

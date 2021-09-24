@@ -2,36 +2,55 @@
 layout: page
 title: Take Forensic Snapshot and Isolate
 permalink: /workflows/response/take-snapshot-isolate
+redirect_from:
+  - /workflows/D003
 parent: Response Workflows
 grand_parent: Workflows
 ---
 
 # Take Forensic Snapshot and Isolate
 <div markdown="1">
+Out of Box
+{: .label }
+
 Response Workflow
 {: .label }
 </div>
 
-This workflow should be triggered from a SecureX pivot menu and supports IP address, hostname, and AMP computer GUID observables. When triggered, this workflow will take a forensic snapshot of the computer provided as the observable and then request AMP host isolation be enabled.
+This workflow initiates a Cisco Orbital forensic snapshot for the endpoint identified by the provided observable and then attempts to enable host isolation using Cisco Secure Endpoint. Supported observables: `ip`, `mac_address`, `amp_computer_guid`
+
+---
+
+## Change Log
+
+| Date | Notes |
+|:-----|:------|
+| Jun 29, 2020 | - Initial release |
+| September 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+
+_See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 
 ---
 
 ## Requirements
+* The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
+	* Orbital - Query Endpoint
+	* Secure Endpoint - Get Connector GUID
+	* Secure Endpoint - Isolate Host
+	* Threat Response - Generate Access Token
 * The following atomic actions must be imported before you can import this workflow:
-	* AMP - Get Connector GUID ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* AMP - Isolate Host ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* CTRGenerateAccessToken ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Orbital - Query Endpoint ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
+	* None
 * The [targets](#targets) and [account keys](#account-keys) listed below
-* Endpoints running AMP for Endpoints with Orbital enabled
+*  Cisco Secure Endpoint with Orbital
 
 ---
 
 ## Workflow Steps
-1. Check that a supported observable was provided as input
-1. If a GUID wasn't provided, convert the observable provided into the computer's AMP GUID
-1. Generate an Orbital access token and request a forensic snapshot
-1. Request AMP host isolation be enabled
+1. Make sure the observable is supported and set the corresponding local variable
+1. If the observable wasn't a computer GUID, try getting a GUID from Secure Endpoint
+1. Generate an access token for Orbital
+1. Execute a forensic snapshot
+1. If a GUID was found, request host isolation
 
 ---
 

@@ -14,23 +14,37 @@ Workflow #0023
 {: .label }
 </div>
 
-This workflow fetches request per category statistics from Cisco Umbrella for a 1 hour window. If any of the categories had a request count higher than the threshold configured in the workflow, an incident is created in SecureX.
+This workflow fetches request per category statistics from Cisco Umbrella for a 1 hour window. If any of the categories had a request count higher than the threshold configured in the workflow, an incident is created in Cisco SecureX.
 
 [<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0023-Umbrella-ExcessiveRequestsToIncidents__definition_workflow_01NOZNOLQGMUL2K59yNj2rcOYLAsvxkoKuD){: .btn-cisco-outline }
 
 ---
 
+## Change Log
+
+| Date | Notes |
+|:-----|:------|
+| Apr 13, 2021 | - Initial release |
+| Jun 14, 2021 | - Additional error handling |
+| September 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+
+_See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
+
+---
+
 ## Requirements
+* The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
+	* Threat Response - Create Incident
+	* Threat Response - Generate Access Token
+	* Umbrella - Reporting v2 - Get Token
 * The following atomic actions must be imported before you can import this workflow:
-	* Threat Response v2 - Create Incident ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Threat Response v2 - Generate Access Token ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-	* Umbrella - Reporting v2 - Get Token ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
+	* None
 * The [targets](#targets) and [account keys](#account-keys) listed below
+* Cisco Umbrella
 
 ---
 
 ## Workflow Steps
-
 1. Get a token for the Umbrella API
 1. Request statistics for DNS categories
 1. Check if the request was successful:
@@ -41,7 +55,6 @@ This workflow fetches request per category statistics from Cisco Umbrella for a 
 1. Check if any categories exceeded the threshold (overall)
 	* If none of them did, end the workflow
 1. Generate an access token for SecureX and create an incident
-
 
 ---
 

@@ -33,6 +33,10 @@ _See the [Important Notes]({{ site.baseurl }}/notes#workflows) page for more inf
 ---
 
 ## Requirements
+* The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
+	* None
+* The following atomic actions must be imported before you can import this workflow:
+	* None
 * The [targets](#targets) and [account keys](#account-keys) listed below
 
 ---

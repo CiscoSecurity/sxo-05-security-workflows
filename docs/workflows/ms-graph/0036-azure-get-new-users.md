@@ -14,23 +14,33 @@ Workflow #0036
 {: .label }
 </div>
 
-This workflow checks for users that were created within the past X hours (the timeframe is configurable). If any results are found, the user list is aggregated and a Webex Teams message is sent. Required Graph API permissions: AuditLog.Read.All
+This workflow checks for users that were created within the past X hours in Microsoft Azure (the timeframe is configurable). If any results are found, the user list is aggregated and a Webex Teams message is sent. Required Graph API permissions: AuditLog.Read.All
 
 [<i class="fab fa-github mr-1"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0036-AzureAD-GetNewUsers__definition_workflow_01PD8FKF4OBFC16O6H6qxulK3Ul9Mh4i6XH){: .btn-cisco-outline }
 
 ---
 
-## Requirements
-* The following atomic actions must be imported before you can import this workflow:
-	* MS Graph - Get Access Token ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
-	* Webex Teams - Post Message to Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos)) * See note below!
-	* Webex Teams - Search for Room ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-* The [targets](#targets) and [account keys](#account-keys) listed below
-* An Azure Active Directory instance
-* An Azure App Registration with the `AuditLog.Read.All` API permission
-* (Optional) A Webex Teams access token and room name to post messages to
+## Change Log
 
-**Note:** You may have an old version of the `Webex Teams - Post Message to Room` atomic. To ensure the best experience with this workflow, be sure to import the latest version of this atomic from the `GitHub_Target_Atomics` repository!
+| Date | Notes |
+|:-----|:------|
+| Jun 29, 2021 | - Initial release |
+| September 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+
+_See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
+
+---
+
+## Requirements
+* The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
+	* Webex Teams - Post Message to Room
+	* Webex Teams - Search for Room
+* The following atomic actions must be imported before you can import this workflow:
+	* Microsoft Graph - Get Access Token ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
+* The [targets](#targets) and [account keys](#account-keys) listed below
+* (Optional) A Webex Teams access token and room name to post messages to
+* Microsoft Azure Active Directory
+* Microsoft Azure App Registration with the `AuditLog.Read.All` API permission
 
 ---
 

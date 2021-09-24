@@ -10,39 +10,11 @@
 		  "schema_id": "datatype.string",
 		  "properties": {
 			"value": "",
-			"scope": "local",
-			"name": "SNA Tenant Name",
-			"type": "datatype.string",
-			"description": "The name of the Secure Network Analytics tenant you want to operate in",
-			"is_required": false,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01OOH4Z29IBSF5fDphwNrsD8ueTGhP1XXhg",
-		  "object_type": "variable_workflow"
-		},
-		{
-		  "schema_id": "datatype.string",
-		  "properties": {
-			"value": "",
-			"scope": "local",
-			"name": "SNA Username",
-			"type": "datatype.string",
-			"description": "Username for the Secure Network Analytics API",
-			"is_required": false,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01OOGWLRE1Y6B6gF49BAMOO7qIzVRr7rGrC",
-		  "object_type": "variable_workflow"
-		},
-		{
-		  "schema_id": "datatype.string",
-		  "properties": {
-			"value": "",
 			"scope": "input",
 			"name": "observable_value",
 			"type": "datatype.string",
 			"description": "The value of the observable pivoted on",
-			"is_required": false,
+			"is_required": true,
 			"is_invisible": false
 		  },
 		  "unique_name": "variable_workflow_01OOGJEF1UONL2Mckd4PlfSnebpmlsqFbBK",
@@ -63,17 +35,17 @@
 		  "object_type": "variable_workflow"
 		},
 		{
-		  "schema_id": "datatype.string",
+		  "schema_id": "datatype.secure_string",
 		  "properties": {
 			"value": "",
-			"scope": "input",
-			"name": "observable_type",
-			"type": "datatype.string",
-			"description": "The type of observable pivoted on",
+			"scope": "local",
+			"name": "SNA Password",
+			"type": "datatype.secure_string",
+			"description": "Password for the Secure Network Analytics API",
 			"is_required": false,
 			"is_invisible": false
 		  },
-		  "unique_name": "variable_workflow_01OOGJEF1UUTL7QJNEFlzUryP84Ur12Ybcm",
+		  "unique_name": "variable_workflow_01OOGWWO4LXC11rnybXDFznXZ6AhjNOo407",
 		  "object_type": "variable_workflow"
 		},
 		{
@@ -91,17 +63,45 @@
 		  "object_type": "variable_workflow"
 		},
 		{
-		  "schema_id": "datatype.secure_string",
+		  "schema_id": "datatype.string",
 		  "properties": {
 			"value": "",
 			"scope": "local",
-			"name": "SNA Password",
-			"type": "datatype.secure_string",
-			"description": "Password for the Secure Network Analytics API",
+			"name": "SNA Tenant Name",
+			"type": "datatype.string",
+			"description": "The name of the Secure Network Analytics tenant you want to operate in",
 			"is_required": false,
 			"is_invisible": false
 		  },
-		  "unique_name": "variable_workflow_01OOGWWO4LXC11rnybXDFznXZ6AhjNOo407",
+		  "unique_name": "variable_workflow_01OOH4Z29IBSF5fDphwNrsD8ueTGhP1XXhg",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "observable_type",
+			"type": "datatype.string",
+			"description": "The type of observable pivoted on",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01OOGJEF1UUTL7QJNEFlzUryP84Ur12Ybcm",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "SNA Username",
+			"type": "datatype.string",
+			"description": "Username for the Secure Network Analytics API",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01OOGWLRE1Y6B6gF49BAMOO7qIzVRr7rGrC",
 		  "object_type": "variable_workflow"
 		}
 	  ],
@@ -110,7 +110,7 @@
 		  "is_atomic": false
 		},
 		"delete_workflow_instance": false,
-		"description": "When triggered, this workflow fetches the top 10 hosts and peers that communicated with the IP address pivoted on from Secure Network Analytics (formerly Stealtwatch Enterprise). The lists of IPs are then added to a SecureX Threat Response casebook.\n\nHint: If you want to change the name of this workflow in the pivot menu, change its display name.\n\nTarget Group: Default TargetGroup\n\nTargets: CTR_For_Access_Token, Private_CTIA_Target, Secure Network Analytics\n\nSteps:\n[] Make sure the observable type provided is supported\n[] Fetch global variables\n[] Calculate date 24 hours ago\n[] Get SNA tokens and tenant information\n[] Fetch and parse the top peers\n[] Fetch and parse the top hosts\n[] Make sure at least one of the queries returned data\n[] Create a casebook in SecureX\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0034",
+		"description": "This workflow fetches the top 10 hosts and peers that communicated with the IP address pivoted on from Cisco Secure Network Analytics (SNA). The lists of IPs are then added to a SecureX casebook. Supported observable: ip\n\nHint: If you want to change the name of this workflow in the pivot menu, change its display name.\n\nTarget Group: Default TargetGroup\n\nTargets: CTR_For_Access_Token, Private_CTIA_Target, Secure Network Analytics\n\nSteps:\n[] Make sure the observable type provided is supported\n[] Fetch global variables\n[] Calculate date 24 hours ago\n[] Get Secure Network Analytics tokens and tenant information\n[] Fetch and parse the top peers\n[] Fetch and parse the top hosts\n[] Make sure at least one of the queries returned data\n[] Create a casebook in SecureX\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0034",
 		"display_name": "0034 - SNA - Generate Casebook with Top Hosts and Peers",
 		"runtime_user": {
 		  "override_target_runtime_user": false,
@@ -266,8 +266,8 @@
 				"continue_on_failure": false,
 				"display_name": "SNA - Get Tokens",
 				"input": {
-				  "variable_workflow_01O8B28Z6224F1USyc6BoOT3l71lA4OdnnV": "$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.local.variable_workflow_01OOGWLRE1Y6B6gF49BAMOO7qIzVRr7rGrC$",
-				  "variable_workflow_01O8B2JIMD60I6sCzwyw6ldB8aWuVGKQOB2": "$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.local.variable_workflow_01OOGWWO4LXC11rnybXDFznXZ6AhjNOo407$"
+				  "variable_workflow_01PP77WNJZR8O6EmgrneE38PqpQGAdDLHP9": "$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.local.variable_workflow_01OOGWLRE1Y6B6gF49BAMOO7qIzVRr7rGrC$",
+				  "variable_workflow_01PP77WNJZUTO5HBYxlCRb8YoxIpqKI226W": "$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.local.variable_workflow_01OOGWWO4LXC11rnybXDFznXZ6AhjNOo407$"
 				},
 				"runtime_user": {
 				  "target_default": true
@@ -276,7 +276,7 @@
 				"target": {
 				  "use_workflow_target_group": true
 				},
-				"workflow_id": "definition_workflow_01GBFRZVXJ6IS1IQNUam11EG0TxcLagZxCi"
+				"workflow_id": "definition_workflow_01PP77WNPU2BN3NLVN76izYSiOOsrn8CSKk"
 			  },
 			  "object_type": "definition_activity"
 			},
@@ -290,8 +290,8 @@
 				"continue_on_failure": false,
 				"display_name": "SNA - Get Tenants",
 				"input": {
-				  "variable_workflow_01O1E9UE3M5HK399jFe2hWQFBMrKCO0Enfc": "$activity.definition_activity_01OOGS89BR1SX0UoNem4cln0Lnh4w7IDImm.output.variable_workflow_01O0PKQ81JEAI3RtD4bt2vZu0Qx6nsUFVXk$",
-				  "variable_workflow_01OX6VF9MTDC87bhCTwT3bZ3Dq6FHFOhCdD": "$activity.definition_activity_01OOGS89BR1SX0UoNem4cln0Lnh4w7IDImm.output.variable_workflow_01OX5LJ3FFHMJ57lDoGnC8Y9LzNRiWsw4Z3$"
+				  "variable_workflow_01PP74BRJD1I739hU0oWIBzYJ8VVh5YdiIx": "$activity.definition_activity_01OOGS89BR1SX0UoNem4cln0Lnh4w7IDImm.output.variable_workflow_01PP77WNJZXB95ChLW4Z8YpZyZRIoHAQOMf$",
+				  "variable_workflow_01PP74BRJD6GZ6viFJIE8h5phuAxS45A7qp": "$activity.definition_activity_01OOGS89BR1SX0UoNem4cln0Lnh4w7IDImm.output.variable_workflow_01PP77WNJZW466xJB4ifxkhlUFYL1VzZIUC$"
 				},
 				"runtime_user": {
 				  "target_default": true
@@ -300,7 +300,7 @@
 				"target": {
 				  "use_workflow_target_group": true
 				},
-				"workflow_id": "definition_workflow_01GBFORA2YBMP0BtdcLgiiRCLoOkNTctmHg"
+				"workflow_id": "definition_workflow_01PP74BRQ6UWD4BGykZegThMmriMz2isf2V"
 			  },
 			  "object_type": "definition_activity"
 			},
@@ -314,7 +314,7 @@
 				"action_timeout": 180,
 				"continue_on_failure": true,
 				"display_name": "Extract tenant ID",
-				"input_json": "$activity.definition_activity_01OOGSHO029AK6ePxETibdWbKeuSK4ZwHLR.output.variable_workflow_01GBFPEVG1JAU0P5Xaye3avbi97EjSrahcy$",
+				"input_json": "$activity.definition_activity_01OOGSHO029AK6ePxETibdWbKeuSK4ZwHLR.output.variable_workflow_01PP74BRJD58J2b2PD6lrEZocnboTm7BmfR$",
 				"jsonpath_queries": [
 				  {
 					"jsonpath_query": "*.[?(@.displayName==\"$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.local.variable_workflow_01OOH4Z29IBSF5fDphwNrsD8ueTGhP1XXhg$\")].id",
@@ -401,13 +401,13 @@
 				"continue_on_failure": true,
 				"display_name": "SNA - Get Top Peers by IP Address",
 				"input": {
-				  "variable_workflow_01GBH7Z402L4M1KgYIthIKEmtUOCBt8VEAV": "$activity.definition_activity_01OOGJGSP1KNN74MaU234ffrrQ5pDcQq2V2.output.result$",
-				  "variable_workflow_01GBH7Z402QJ53udRJOdj1BQBVALdFVyIul": "$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.output.start_time$",
-				  "variable_workflow_01GBH7Z402TDN15kSVLdi3n625vtRwBC5UC": 10,
-				  "variable_workflow_01GBH7Z402VW61QvlvF0PubwDw9goRhqlBx": "$activity.definition_activity_01OOH2AT36I154C6CIbYplzOPVgmAiDH029.output.jsonpath_queries.tenant_id$",
-				  "variable_workflow_01GBH7Z402X2P6qoEXDHdqSINfhtY5wpK6w": "$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.input.variable_workflow_01OOGJEF1UONL2Mckd4PlfSnebpmlsqFbBK$",
-				  "variable_workflow_01O1IGRJT7PV32ABIiuJ4cqoSSZ0l5p7Dno": "$activity.definition_activity_01OOGS89BR1SX0UoNem4cln0Lnh4w7IDImm.output.variable_workflow_01O0PKQ81JEAI3RtD4bt2vZu0Qx6nsUFVXk$",
-				  "variable_workflow_01OX5SFLCHO8J6HwHOyeXmyo8NGMW313PNt": "$activity.definition_activity_01OOGS89BR1SX0UoNem4cln0Lnh4w7IDImm.output.variable_workflow_01OX5LJ3FFHMJ57lDoGnC8Y9LzNRiWsw4Z3$"
+				  "variable_workflow_01PP76AT0Z9HR6IXiQwYsXKudtOJzMiGuOp": "$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.output.start_time$",
+				  "variable_workflow_01PP76AT0ZDJ54HEXE0hI5KEhN6S8Y1utQf": "$activity.definition_activity_01OOH2AT36I154C6CIbYplzOPVgmAiDH029.output.jsonpath_queries.tenant_id$",
+				  "variable_workflow_01PP76AT0ZEWX0sUoDvAuaBmP19Zcy5QOde": "$activity.definition_activity_01OOGS89BR1SX0UoNem4cln0Lnh4w7IDImm.output.variable_workflow_01PP77WNJZW466xJB4ifxkhlUFYL1VzZIUC$",
+				  "variable_workflow_01PP76AT0ZHC26h850Tyf41YtAWMpBpkfnB": 10,
+				  "variable_workflow_01PP76AT0ZIID1HmS3SGYDvvZENUuVXvC4D": "$activity.definition_activity_01OOGS89BR1SX0UoNem4cln0Lnh4w7IDImm.output.variable_workflow_01PP77WNJZXB95ChLW4Z8YpZyZRIoHAQOMf$",
+				  "variable_workflow_01PP76AT0ZJWT3dBXhLozzkrSUyiLvaSkas": "$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.input.variable_workflow_01OOGJEF1UONL2Mckd4PlfSnebpmlsqFbBK$",
+				  "variable_workflow_01PP76AT0ZL1N4Hl0TeGvFEIzTydTVXbuzd": "$activity.definition_activity_01OOGJGSP1KNN74MaU234ffrrQ5pDcQq2V2.output.result$"
 				},
 				"runtime_user": {
 				  "target_default": true
@@ -416,7 +416,7 @@
 				"target": {
 				  "use_workflow_target_group": true
 				},
-				"workflow_id": "definition_workflow_01GBH7Z4DQTQU1yOKAziIiSxlueN2QU0Mq7"
+				"workflow_id": "definition_workflow_01PP76AT8QYG929NIvcgtPseTVCwPd1BtkQ"
 			  },
 			  "object_type": "definition_activity"
 			},
@@ -461,7 +461,7 @@
 						"action_timeout": 180,
 						"continue_on_failure": true,
 						"display_name": "Parse top peer IPs",
-						"input_json": "$activity.definition_activity_01P182AX9LLT736KowF2C6Wy6adC7DJSva0.output.variable_workflow_01GBH7Z402S0B20ACYl4L2LhfdSizbFCRMX$",
+						"input_json": "$activity.definition_activity_01P182AX9LLT736KowF2C6Wy6adC7DJSva0.output.variable_workflow_01PP76AT0ZG590HJiJxjPKBJz8Lxcp9gszg$",
 						"jsonpath_queries": [
 						  {
 							"jsonpath_query": "$..ipAddress",
@@ -542,13 +542,13 @@
 				"continue_on_failure": true,
 				"display_name": "SNA - Get Top Hosts by IP Address",
 				"input": {
-				  "variable_workflow_01GBG7JCN5X0T77hHGcaOjeAKAE0jlPS05z": "$activity.definition_activity_01OOH2AT36I154C6CIbYplzOPVgmAiDH029.output.jsonpath_queries.tenant_id$",
-				  "variable_workflow_01GBG8Q67NPZT61xy98ln86Er5SfGcrNovI": "$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.input.variable_workflow_01OOGJEF1UONL2Mckd4PlfSnebpmlsqFbBK$",
-				  "variable_workflow_01GBG8VBNA3NV71PXqEtUqmmoXorBloRjAn": "$activity.definition_activity_01OOGJGSP1KNN74MaU234ffrrQ5pDcQq2V2.output.result$",
-				  "variable_workflow_01GBG9OFEBLPP131gTXjIMAhzFl202kFnyS": "$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.output.start_time$",
-				  "variable_workflow_01GBGXMY98RUV7BZJzN88ueySR1ScgX4Xok": 10,
-				  "variable_workflow_01O1IB95ZIX350lzPmTMS5hqjCsAZ3qBaZ2": "$activity.definition_activity_01OOGS89BR1SX0UoNem4cln0Lnh4w7IDImm.output.variable_workflow_01O0PKQ81JEAI3RtD4bt2vZu0Qx6nsUFVXk$",
-				  "variable_workflow_01OX5T7RMVCPI4nnth2vFO0cLmKtl2V3pEx": "$activity.definition_activity_01OOGS89BR1SX0UoNem4cln0Lnh4w7IDImm.output.variable_workflow_01OX5LJ3FFHMJ57lDoGnC8Y9LzNRiWsw4Z3$"
+				  "variable_workflow_01PP76PXQLYW84786mUhR3yKBwH2fUuE7db": "$activity.definition_activity_01OOH2AT36I154C6CIbYplzOPVgmAiDH029.output.jsonpath_queries.tenant_id$",
+				  "variable_workflow_01PP76PXQM2B17N0Y38Ly4GGe5I1lLYO3Nt": 10,
+				  "variable_workflow_01PP76PXQM3KR1JzckXNPQm7JwEw2ijwod9": "$activity.definition_activity_01OOGS89BR1SX0UoNem4cln0Lnh4w7IDImm.output.variable_workflow_01PP77WNJZXB95ChLW4Z8YpZyZRIoHAQOMf$",
+				  "variable_workflow_01PP76PXQM4S105aVkTG3PavE7xg6ZS2O6X": "$activity.definition_activity_01OOGS89BR1SX0UoNem4cln0Lnh4w7IDImm.output.variable_workflow_01PP77WNJZW466xJB4ifxkhlUFYL1VzZIUC$",
+				  "variable_workflow_01PP76PXQM5ZW3lAiv2kLMNp9ebWWXGBwvL": "$activity.definition_activity_01OOGJGSP1KNN74MaU234ffrrQ5pDcQq2V2.output.result$",
+				  "variable_workflow_01PP76PXQM7F71YVdrdwBvRXzmvoG6NUdyb": "$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.input.variable_workflow_01OOGJEF1UONL2Mckd4PlfSnebpmlsqFbBK$",
+				  "variable_workflow_01PP76PXQMGVJ2y3RRruNrIAEdzCQN0oy1M": "$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.output.start_time$"
 				},
 				"runtime_user": {
 				  "target_default": true
@@ -557,7 +557,7 @@
 				"target": {
 				  "use_workflow_target_group": true
 				},
-				"workflow_id": "definition_workflow_01GBG4ZMW5LO93juPo9gDpDSJniTyoeNjxH"
+				"workflow_id": "definition_workflow_01PP76PXYQLBT1aOmM6zsC3eUZkk8zscJfW"
 			  },
 			  "object_type": "definition_activity"
 			},
@@ -602,7 +602,7 @@
 						"action_timeout": 180,
 						"continue_on_failure": true,
 						"display_name": "Parse top host IPs",
-						"input_json": "$activity.definition_activity_01P17TAZDRUNN3cr1vhsXIleJHH8wDEU091.output.variable_workflow_01GBGINZ77JMC1MCngbOwP5v6iQLWaqktiC$",
+						"input_json": "$activity.definition_activity_01P17TAZDRUNN3cr1vhsXIleJHH8wDEU091.output.variable_workflow_01PP76PXQM9AQ5xkqiAwBlo38hi0gDF6XuS$",
 						"jsonpath_queries": [
 						  {
 							"jsonpath_query": "$..ipAddress",
@@ -793,13 +793,13 @@
 		},
 		{
 		  "unique_name": "definition_activity_01P87ZKR29WDD5GS56r1xFbjldQTTE5xOgf",
-		  "name": "Threat Response v2 - Generate Access Token",
-		  "title": "Threat Response v2 - Generate Access Token",
+		  "name": "Threat Response - Generate Access Token",
+		  "title": "Threat Response - Generate Access Token",
 		  "type": "workflow.atomic_workflow",
 		  "base_type": "subworkflow",
 		  "properties": {
 			"continue_on_failure": false,
-			"display_name": "Threat Response v2 - Generate Access Token",
+			"display_name": "Threat Response - Generate Access Token",
 			"runtime_user": {
 			  "target_default": true
 			},
@@ -820,26 +820,26 @@
 				}
 			  }
 			},
-			"workflow_id": "definition_workflow_01KWJ2ISZTF2V6ibRYe7FZ7sOuycDOpnwss"
+			"workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
 		  },
 		  "object_type": "definition_activity"
 		},
 		{
 		  "unique_name": "definition_activity_01P880KG7IPMF7M1aQMK5JGCqQcyl44MLcv",
-		  "name": "Threat Response v2 - Create Casebook",
-		  "title": "Threat Response v2 - Create Casebook",
+		  "name": "Threat Response - Create Casebook",
+		  "title": "Threat Response - Create Casebook",
 		  "type": "workflow.atomic_workflow",
 		  "base_type": "subworkflow",
 		  "properties": {
 			"continue_on_failure": false,
-			"display_name": "Threat Response v2 - Create Casebook",
+			"display_name": "Threat Response - Create Casebook",
 			"input": {
-			  "variable_workflow_01KVOGF4J481T6SCd7uh5fW7n47Q712nleJ": "[ { \"type\": \"$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.input.variable_workflow_01OOGJEF1UUTL7QJNEFlzUryP84Ur12Ybcm$\", \"value\": \"$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.input.variable_workflow_01OOGJEF1UONL2Mckd4PlfSnebpmlsqFbBK$\" } ]",
-			  "variable_workflow_01KVOGF4J4FZC0jmaR42b1FbIzVZA19KbYL": "Top Hosts:\n$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.local.variable_workflow_01P1E8L3QBQUN2ZDAWfTGpssgiWuFszwlNu$\nTop Peers:\n$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.local.variable_workflow_01P1E8QEJ4CTQ5Q3cMyAeZHvmOTFVDSJiwc$",
-			  "variable_workflow_01KVOGF4J4IG81TQKFjqzLlnFJwiiNwXwSq": "$activity.definition_activity_01P87ZKR29WDD5GS56r1xFbjldQTTE5xOgf.output.variable_workflow_01KWJ2ISHZ9753Hoi7x9S5EPpucAbm53HHF$",
-			  "variable_workflow_01KVOGF4J4JL52xC9ZXdjYwHt2SvRYkArli": "Secure Network Analytics - Nework  Flow Investigation for $workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.input.variable_workflow_01OOGJEF1UONL2Mckd4PlfSnebpmlsqFbBK$",
-			  "variable_workflow_01KVOMXV9ERSV0M9j1WarflgSG8r5SpZ8b5": "",
-			  "variable_workflow_01LFBYQJV9FZA2THdEQrMftLyGiiHP65nUq": "amber"
+			  "variable_workflow_01PP75X6NM0AY6YDlJckkMg6hCbMEMGO72O": "[ { \"type\": \"$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.input.variable_workflow_01OOGJEF1UUTL7QJNEFlzUryP84Ur12Ybcm$\", \"value\": \"$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.input.variable_workflow_01OOGJEF1UONL2Mckd4PlfSnebpmlsqFbBK$\" } ]",
+			  "variable_workflow_01PP75X6NM1M46Jjob8LUKg8R3yRRVOvu9q": "$activity.definition_activity_01P87ZKR29WDD5GS56r1xFbjldQTTE5xOgf.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$",
+			  "variable_workflow_01PP75X6NM2V27Or3EssfIABNZiE45Ddziu": "amber",
+			  "variable_workflow_01PP75X6NM4123PBwUedJ5QqeBr8G1sefjQ": "Secure Network Analytics - Nework Flow Investigation for $workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.input.variable_workflow_01OOGJEF1UONL2Mckd4PlfSnebpmlsqFbBK$",
+			  "variable_workflow_01PP75X6NM54W5qTbpCb1h6bTTrp7eFQjaq": "",
+			  "variable_workflow_01PP75X6NM7FE4BmQ3AKIykyWFDSV9umy02": "Top Hosts:\n$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.local.variable_workflow_01P1E8L3QBQUN2ZDAWfTGpssgiWuFszwlNu$\n\nTop Peers:\n$workflow.definition_workflow_01OOGJEF9CEVE5ssyxxdxK11rd8d3SSbQOR.local.variable_workflow_01P1E8QEJ4CTQ5Q3cMyAeZHvmOTFVDSJiwc$"
 			},
 			"runtime_user": {
 			  "target_default": true
@@ -861,7 +861,7 @@
 				}
 			  }
 			},
-			"workflow_id": "definition_workflow_01KVOGF574Y291CRwQLNB1TtzEHDNwyUx7O"
+			"workflow_id": "definition_workflow_01PP75X6VPQNK4hKE1XQXIMeIcHrE1khIML"
 		  },
 		  "object_type": "definition_activity"
 		}
@@ -905,11 +905,11 @@
 	  }
 	},
 	"atomic_workflows": [
-	  "definition_workflow_01GBFORA2YBMP0BtdcLgiiRCLoOkNTctmHg",
-	  "definition_workflow_01GBH7Z4DQTQU1yOKAziIiSxlueN2QU0Mq7",
-	  "definition_workflow_01GBG4ZMW5LO93juPo9gDpDSJniTyoeNjxH",
-	  "definition_workflow_01KWJ2ISZTF2V6ibRYe7FZ7sOuycDOpnwss",
-	  "definition_workflow_01GBFRZVXJ6IS1IQNUam11EG0TxcLagZxCi",
-	  "definition_workflow_01KVOGF574Y291CRwQLNB1TtzEHDNwyUx7O"
+	  "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH",
+	  "definition_workflow_01PP75X6VPQNK4hKE1XQXIMeIcHrE1khIML",
+	  "definition_workflow_01PP77WNPU2BN3NLVN76izYSiOOsrn8CSKk",
+	  "definition_workflow_01PP74BRQ6UWD4BGykZegThMmriMz2isf2V",
+	  "definition_workflow_01PP76AT8QYG929NIvcgtPseTVCwPd1BtkQ",
+	  "definition_workflow_01PP76PXYQLBT1aOmM6zsC3eUZkk8zscJfW"
 	]
   }
