@@ -14,11 +14,7 @@ SecureX orchestration provides a no-to-low code approach for building automated 
 ---
 
 ## <i class="far fa-star mr-1"></i> What's New
-SecureX orchestration is undergoing scheduled maintenance this month. Please see [this page]({{ site.baseurl }}/updates/september-2021) for important information about the maintenance being performed and the changes you can expect to see.
-
-<div class="cisco-alert cisco-alert-info">
-	<i class="fa fa-info-circle mr-1 cisco-icon-info"></i> You will not be able to import the latest workflows from this repository until after your region's scheduled maintenance is complete. If your region has not had maintenance completed, you will need to import a previous version of most of our workflows. The latest versions make use of content that's only available after maintenance is complete
-</div>
+SecureX orchestration recently underwent scheduled maintenance. Please see [this page]({{ site.baseurl }}/updates/september-2021) for important information about changes and new features you may see in the product.
 
 ---
 
