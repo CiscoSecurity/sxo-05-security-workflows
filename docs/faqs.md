@@ -3,6 +3,7 @@ layout: page
 title: Frequently Asked Questions
 permalink: /faqs
 nav_order: 10
+has_children: true
 ---
 
 # Frequently Asked Questions
@@ -26,8 +27,8 @@ This page contains a list of frequently asked questions about SecureX orchestrat
 | Europe (EU) | 52.48.136.126<br />63.33.97.243<br />3.251.20.134 |
 | North America (NAM) | 54.166.136.151<br />18.213.248.192<br />54.211.175.37 |
 
-### Q: How do I connect to on-premise devices?
-**A**: You can use the SecureX orchestration remote to integrate on-premise resources into your workflows. Check out [this page]({{ site.baseurl }}/remote) for more information.
+### Q: How do I connect to on-premises devices?
+**A**: You can use the SecureX orchestration remote to integrate on-premises resources into your workflows. Check out [this page]({{ site.baseurl }}/remote) for more information.
 
 ### Q: What Python modules are available?
 **A**: See the [Python Modules]({{ site.baseurl }}/activities/python/modules) page.
@@ -37,3 +38,6 @@ This page contains a list of frequently asked questions about SecureX orchestrat
 
 ### Q: How do I make a workflow appear in Threat Response/SecureX ribbon/product pivot menus?
 **A**: See the [Response Workflows]({{ site.baseurl }}/workflows/response/) page.
+
+### Q: How long are workflow execution logs kept?
+**A**: Workflow execution logs, also known as runs, are kept for 90 days.
