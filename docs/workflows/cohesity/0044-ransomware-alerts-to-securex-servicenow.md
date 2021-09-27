@@ -6,6 +6,7 @@ redirect_from:
   - /workflows/0044
 parent: Cohesity Helios
 grand_parent: Workflows
+nav_order: 20
 ---
 
 # Ransomware Alerts to SecureX and ServiceNow
