@@ -6,6 +6,7 @@ redirect_from:
   - /workflows/0042
 parent: Cohesity Helios
 grand_parent: Workflows
+nav_order: 40
 ---
 
 # Restore Anomalous Object

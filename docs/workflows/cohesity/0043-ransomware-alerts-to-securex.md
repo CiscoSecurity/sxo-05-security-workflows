@@ -6,6 +6,7 @@ redirect_from:
   - /workflows/0043
 parent: Cohesity Helios
 grand_parent: Workflows
+nav_order: 10
 ---
 
 # Ransomware Alerts to SecureX
