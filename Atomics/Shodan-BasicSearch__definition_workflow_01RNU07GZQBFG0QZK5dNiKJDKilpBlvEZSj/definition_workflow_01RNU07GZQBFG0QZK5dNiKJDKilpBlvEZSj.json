@@ -1,0 +1,661 @@
+{
+	"workflow": {
+	  "unique_name": "definition_workflow_01RNU07GZQBFG0QZK5dNiKJDKilpBlvEZSj",
+	  "name": "Shodan - Basic Search",
+	  "title": "Shodan - Basic Search",
+	  "type": "generic.workflow",
+	  "base_type": "workflow",
+	  "variables": [
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "IP Address",
+			"type": "datatype.string",
+			"description": "IP address to search for",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01RQG3N8TXBTU3VczTe50IVfAwk1xsVaMtK",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Hostname",
+			"type": "datatype.string",
+			"description": "Hostname to search for",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01RTXIEO1ACXF4liAJf8tUrOcSRomCCSCOq",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.secure_string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "API Key",
+			"type": "datatype.secure_string",
+			"description": "Your Shodan API key. For more information, please visit: https://developer.shodan.io/api",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01RNU07H723D32E4oM3qlD48K3oaa8ieahl",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Generic Query",
+			"type": "datatype.string",
+			"description": "A generic query to submit. For example: cisco.com port:80",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01RNU07H72EFH17Ej3X974EBiNYrZLuaZnH",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "output",
+			"name": "Search Results",
+			"type": "datatype.string",
+			"description": "Search results from Shodan",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01RPHS64BOLRE3JYX7XUELQWhd8v2kwwPeQ",
+		  "object_type": "variable_workflow"
+		}
+	  ],
+	  "properties": {
+		"atomic": {
+		  "atomic_group": "Shodan",
+		  "is_atomic": true
+		},
+		"delete_workflow_instance": false,
+		"description": "Builds and executes a Shodan search for an IP address, hostname, or generic query.\n\nTarget: HTTP Endpoint for \"api.shodan.io\"\n\nAccount Key: None (uses an API key)\n\nSteps:\n[] Determine the input type:\n[]> For an IP address or generic query:\n[]>> Execute the search\n[]>> Check if the request was successful:\n[]>>> If it was, set the output variable\n[]>>> If it wasn't, return an error\n[]> For a hostname/URL:\n[]>> Resolve the host to an IP\n[]>> If resolution was successful, clean up the IP and search for it (and set the output variable)\n[]>> If resolution failed, return an error\n\nMore information about this API: https://developer.shodan.io/api",
+		"display_name": "Shodan - Basic Search",
+		"runtime_user": {
+		  "target_default": true
+		},
+		"target": {
+		  "target_type": "web-service.endpoint",
+		  "specify_on_workflow_start": true
+		}
+	  },
+	  "object_type": "definition_workflow",
+	  "actions": [
+		{
+		  "unique_name": "definition_activity_01RQG3YCTI6JS7ej4XpQysdrDAlXgMBfqkm",
+		  "name": "Condition Block",
+		  "title": "What is the query type?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "What is the query type?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01RQG3YD0C7Q358NkaGWNQY9taqpZAseqP3",
+			  "name": "Condition Branch",
+			  "title": "IP Address",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$workflow.definition_workflow_01RNU07GZQBFG0QZK5dNiKJDKilpBlvEZSj.input.variable_workflow_01RQG3N8TXBTU3VczTe50IVfAwk1xsVaMtK$",
+				  "operator": "ne",
+				  "right_operand": ""
+				},
+				"continue_on_failure": false,
+				"display_name": "IP Address",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01RVGR5KEC9FZ5bhYLadCFbwdBGI7UYQ2BZ",
+				  "name": "HTTP Request",
+				  "title": "Shodan - Host Search",
+				  "type": "web-service.http_request",
+				  "base_type": "activity",
+				  "properties": {
+					"accept": "application/json",
+					"action_timeout": 180,
+					"allow_auto_redirect": true,
+					"continue_on_error_status_code": true,
+					"continue_on_failure": false,
+					"display_name": "Shodan - Host Search",
+					"method": "GET",
+					"relative_url": "/shodan/host/$workflow.definition_workflow_01RNU07GZQBFG0QZK5dNiKJDKilpBlvEZSj.input.variable_workflow_01RQG3N8TXBTU3VczTe50IVfAwk1xsVaMtK$?key=$workflow.definition_workflow_01RNU07GZQBFG0QZK5dNiKJDKilpBlvEZSj.local.variable_workflow_01RNU07H723D32E4oM3qlD48K3oaa8ieahl$",
+					"runtime_user": {
+					  "target_default": true
+					},
+					"skip_execution": false,
+					"target": {
+					  "use_workflow_target": true
+					}
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01RVFG8OWIHP764vn04wG5wCbRJO4JC9Dt2",
+				  "name": "Condition Block",
+				  "title": "Was the request successful?",
+				  "type": "logic.if_else",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Was the request successful?",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "blocks": [
+					{
+					  "unique_name": "definition_activity_01RVFG8P2TYX83JFF3v9krb76NbJPhst38G",
+					  "name": "Condition Branch",
+					  "title": "200/Success",
+					  "type": "logic.condition_block",
+					  "base_type": "activity",
+					  "properties": {
+						"condition": {
+						  "left_operand": "$activity.definition_activity_01RVGR5KEC9FZ5bhYLadCFbwdBGI7UYQ2BZ.output.status_code$",
+						  "operator": "eq",
+						  "right_operand": 200
+						},
+						"continue_on_failure": false,
+						"display_name": "200/Success",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "actions": [
+						{
+						  "unique_name": "definition_activity_01RNU07NXUV7E5J2IxRKA0DRweDxyLrqdSF",
+						  "name": "Set Variables",
+						  "title": "Set output variable",
+						  "type": "core.set_multiple_variables",
+						  "base_type": "activity",
+						  "properties": {
+							"continue_on_failure": false,
+							"display_name": "Set output variable",
+							"skip_execution": false,
+							"variables_to_update": [
+							  {
+								"variable_to_update": "$workflow.definition_workflow_01RNU07GZQBFG0QZK5dNiKJDKilpBlvEZSj.output.variable_workflow_01RPHS64BOLRE3JYX7XUELQWhd8v2kwwPeQ$",
+								"variable_value_new": "$activity.definition_activity_01RVGR5KEC9FZ5bhYLadCFbwdBGI7UYQ2BZ.output.response_body$"
+							  }
+							]
+						  },
+						  "object_type": "definition_activity"
+						}
+					  ]
+					},
+					{
+					  "unique_name": "definition_activity_01RVFG8P8XQ8569ByR1Fcjc0TPePXzrdDak",
+					  "name": "Condition Branch",
+					  "title": "Anything else",
+					  "type": "logic.condition_block",
+					  "base_type": "activity",
+					  "properties": {
+						"condition": {
+						  "left_operand": "$activity.definition_activity_01RVGR5KEC9FZ5bhYLadCFbwdBGI7UYQ2BZ.output.status_code$",
+						  "operator": "ne",
+						  "right_operand": 200
+						},
+						"continue_on_failure": false,
+						"display_name": "Anything else",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "actions": [
+						{
+						  "unique_name": "definition_activity_01RVFJVL7LB6O1J0Ibk1Foa6ZD32J1HkHAB",
+						  "name": "Completed",
+						  "title": "Failed",
+						  "type": "logic.completed",
+						  "base_type": "activity",
+						  "properties": {
+							"completion_type": "failed-completed",
+							"continue_on_failure": false,
+							"display_name": "Failed",
+							"result_message": "Failed to search for IP address\n\nStatus code: $activity.definition_activity_01RVGR5KEC9FZ5bhYLadCFbwdBGI7UYQ2BZ.output.status_code$\nResponse body: $activity.definition_activity_01RVGR5KEC9FZ5bhYLadCFbwdBGI7UYQ2BZ.output.response_body$",
+							"skip_execution": false
+						  },
+						  "object_type": "definition_activity"
+						}
+					  ]
+					}
+				  ]
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01RQG3YD6DDVJ08bziDBaVirft5CyE3S0tY",
+			  "name": "Condition Branch",
+			  "title": "Generic query",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$workflow.definition_workflow_01RNU07GZQBFG0QZK5dNiKJDKilpBlvEZSj.input.variable_workflow_01RNU07H72EFH17Ej3X974EBiNYrZLuaZnH$",
+				  "operator": "ne",
+				  "right_operand": ""
+				},
+				"continue_on_failure": false,
+				"display_name": "Generic query",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01RPGY7FMM2MH1gsCvHPPpGHkLS1G6TiaOW",
+				  "name": "HTTP Request",
+				  "title": "Shodan - Search",
+				  "type": "web-service.http_request",
+				  "base_type": "activity",
+				  "properties": {
+					"accept": "application/json",
+					"action_timeout": 180,
+					"allow_auto_redirect": true,
+					"continue_on_error_status_code": true,
+					"continue_on_failure": false,
+					"display_name": "Shodan - Search",
+					"method": "GET",
+					"relative_url": "/shodan/host/search?key=$workflow.definition_workflow_01RNU07GZQBFG0QZK5dNiKJDKilpBlvEZSj.local.variable_workflow_01RNU07H723D32E4oM3qlD48K3oaa8ieahl$&query={$workflow.definition_workflow_01RNU07GZQBFG0QZK5dNiKJDKilpBlvEZSj.input.variable_workflow_01RNU07H72EFH17Ej3X974EBiNYrZLuaZnH$}",
+					"runtime_user": {
+					  "target_default": true
+					},
+					"skip_execution": false,
+					"target": {
+					  "use_workflow_target": true
+					}
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01RVFSPU5XN7B1Y7GlH0sZ0xFy7Ir4GOG2o",
+				  "name": "Condition Block",
+				  "title": "Was the request successful?",
+				  "type": "logic.if_else",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Was the request successful?",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "blocks": [
+					{
+					  "unique_name": "definition_activity_01RVFSPU5Y6T51M6Tqbzq8iZsDAxNBFQVbQ",
+					  "name": "Condition Branch",
+					  "title": "200/Success",
+					  "type": "logic.condition_block",
+					  "base_type": "activity",
+					  "properties": {
+						"condition": {
+						  "left_operand": "$activity.definition_activity_01RPGY7FMM2MH1gsCvHPPpGHkLS1G6TiaOW.output.status_code$",
+						  "operator": "eq",
+						  "right_operand": 200
+						},
+						"continue_on_failure": false,
+						"display_name": "200/Success",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "actions": [
+						{
+						  "unique_name": "definition_activity_01RPPVBF7G1KV66TpzOCwocjZqPblaofMXW",
+						  "name": "Set Variables",
+						  "title": "Set output variable",
+						  "type": "core.set_multiple_variables",
+						  "base_type": "activity",
+						  "properties": {
+							"continue_on_failure": false,
+							"display_name": "Set output variable",
+							"skip_execution": false,
+							"variables_to_update": [
+							  {
+								"variable_to_update": "$workflow.definition_workflow_01RNU07GZQBFG0QZK5dNiKJDKilpBlvEZSj.output.variable_workflow_01RPHS64BOLRE3JYX7XUELQWhd8v2kwwPeQ$",
+								"variable_value_new": "$activity.definition_activity_01RPGY7FMM2MH1gsCvHPPpGHkLS1G6TiaOW.output.response_body$"
+							  }
+							]
+						  },
+						  "object_type": "definition_activity"
+						}
+					  ]
+					},
+					{
+					  "unique_name": "definition_activity_01RVFSPU62Q2B6L13bD4IOAlJpgif18XpYk",
+					  "name": "Condition Branch",
+					  "title": "Anything else",
+					  "type": "logic.condition_block",
+					  "base_type": "activity",
+					  "properties": {
+						"condition": {
+						  "left_operand": "$activity.definition_activity_01RPGY7FMM2MH1gsCvHPPpGHkLS1G6TiaOW.output.status_code$",
+						  "operator": "ne",
+						  "right_operand": 200
+						},
+						"continue_on_failure": false,
+						"display_name": "Anything else",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "actions": [
+						{
+						  "unique_name": "definition_activity_01RVFSPU63AOS4poiORed92pQE9OBymQLcv",
+						  "name": "Completed",
+						  "title": "Failed",
+						  "type": "logic.completed",
+						  "base_type": "activity",
+						  "properties": {
+							"completion_type": "failed-completed",
+							"continue_on_failure": false,
+							"display_name": "Failed",
+							"result_message": "Failed to execute the generic query search\n\nStatus code: $activity.definition_activity_01RPGY7FMM2MH1gsCvHPPpGHkLS1G6TiaOW.output.status_code$\nResponse body: $activity.definition_activity_01RPGY7FMM2MH1gsCvHPPpGHkLS1G6TiaOW.output.response_body$",
+							"skip_execution": false
+						  },
+						  "object_type": "definition_activity"
+						}
+					  ]
+					}
+				  ]
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01RTXMNP0ZWTS5aTLchdy1G7PYrU9B1yYWQ",
+			  "name": "Condition Branch",
+			  "title": "Hostname/URL",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$workflow.definition_workflow_01RNU07GZQBFG0QZK5dNiKJDKilpBlvEZSj.input.variable_workflow_01RTXIEO1ACXF4liAJf8tUrOcSRomCCSCOq$",
+				  "operator": "ne",
+				  "right_operand": ""
+				},
+				"continue_on_failure": false,
+				"display_name": "Hostname/URL",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01RQGE492ARNL02crku6cbzymCNVsLGZsZh",
+				  "name": "HTTP Request",
+				  "title": "Shodan - Host Look Up",
+				  "type": "web-service.http_request",
+				  "base_type": "activity",
+				  "properties": {
+					"accept": "application/json",
+					"action_timeout": 180,
+					"allow_auto_redirect": true,
+					"continue_on_error_status_code": true,
+					"continue_on_failure": false,
+					"display_name": "Shodan - Host Look Up",
+					"method": "GET",
+					"relative_url": "/dns/resolve?hostnames=$workflow.definition_workflow_01RNU07GZQBFG0QZK5dNiKJDKilpBlvEZSj.input.variable_workflow_01RTXIEO1ACXF4liAJf8tUrOcSRomCCSCOq$&key=$workflow.definition_workflow_01RNU07GZQBFG0QZK5dNiKJDKilpBlvEZSj.local.variable_workflow_01RNU07H723D32E4oM3qlD48K3oaa8ieahl$",
+					"runtime_user": {
+					  "target_default": true
+					},
+					"skip_execution": false,
+					"target": {
+					  "use_workflow_target": true
+					}
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01RVGAMJ6T8PZ1XVL3lyknsSV612dwvZ8W5",
+				  "name": "Condition Block",
+				  "title": "Was the request successful?",
+				  "type": "logic.if_else",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Was the request successful?",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "blocks": [
+					{
+					  "unique_name": "definition_activity_01RVGAMJ6TUH96U2U1QT6xvxKdezxBY8qQj",
+					  "name": "Condition Branch",
+					  "title": "200/Success",
+					  "type": "logic.condition_block",
+					  "base_type": "activity",
+					  "properties": {
+						"condition": {
+						  "left_operand": "$activity.definition_activity_01RQGE492ARNL02crku6cbzymCNVsLGZsZh.output.status_code$",
+						  "operator": "eq",
+						  "right_operand": 200
+						},
+						"continue_on_failure": false,
+						"display_name": "200/Success",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "actions": [
+						{
+						  "unique_name": "definition_activity_01RTY23DC86B71CfM62MoSt920iSC4tNm4s",
+						  "name": "Split String",
+						  "title": "Split IP from DNS name",
+						  "type": "core.splitstring",
+						  "base_type": "activity",
+						  "properties": {
+							"boundaries": [
+							  {
+								"boundary": ":"
+							  }
+							],
+							"continue_on_failure": false,
+							"display_name": "Split IP from DNS name",
+							"input_string": "$activity.definition_activity_01RQGE492ARNL02crku6cbzymCNVsLGZsZh.output.response_body$",
+							"remove_empty": true,
+							"skip_execution": false,
+							"use_regexp": true
+						  },
+						  "object_type": "definition_activity"
+						},
+						{
+						  "unique_name": "definition_activity_01RTYEIERL7VW0j91Bffkdq8KSoGxxXcDlm",
+						  "name": "Execute Python Script",
+						  "title": "Remove unwanted characters",
+						  "type": "python3.script",
+						  "base_type": "activity",
+						  "properties": {
+							"action_timeout": 180,
+							"continue_on_failure": false,
+							"display_name": "Remove unwanted characters",
+							"script": "import sys\nnoSpace = sys.argv[1]\nnoSpace = sys.argv[1].replace('\"', '').replace('[', '').replace(']', '').replace('{', '').replace('}', '').replace(' ', '')",
+							"script_arguments": [
+							  "$activity.definition_activity_01RTY23DC86B71CfM62MoSt920iSC4tNm4s.output.parts[-1]$"
+							],
+							"script_queries": [
+							  {
+								"script_query": "noSpace",
+								"script_query_name": "noSpace",
+								"script_query_type": "string"
+							  }
+							],
+							"skip_execution": false
+						  },
+						  "object_type": "definition_activity"
+						},
+						{
+						  "unique_name": "definition_activity_01RTY7OKMWN0R0NOVBhnlL21Jv4c3qgjUxZ",
+						  "name": "HTTP Request",
+						  "title": "Shodan - Host Look Up",
+						  "type": "web-service.http_request",
+						  "base_type": "activity",
+						  "properties": {
+							"accept": "application/json",
+							"action_timeout": 180,
+							"allow_auto_redirect": true,
+							"continue_on_error_status_code": true,
+							"continue_on_failure": false,
+							"display_name": "Shodan - Host Look Up",
+							"method": "GET",
+							"relative_url": "/shodan/host/$activity.definition_activity_01RTYEIERL7VW0j91Bffkdq8KSoGxxXcDlm.output.script_queries.noSpace$?key=$workflow.definition_workflow_01RNU07GZQBFG0QZK5dNiKJDKilpBlvEZSj.local.variable_workflow_01RNU07H723D32E4oM3qlD48K3oaa8ieahl$",
+							"runtime_user": {
+							  "target_default": true
+							},
+							"skip_execution": false,
+							"target": {
+							  "use_workflow_target": true
+							}
+						  },
+						  "object_type": "definition_activity"
+						},
+						{
+						  "unique_name": "definition_activity_01RVRPJ2TO8HX7ht94hDHOEYGjDgdBflbUt",
+						  "name": "Condition Block",
+						  "title": "Was the request successful?",
+						  "type": "logic.if_else",
+						  "base_type": "activity",
+						  "properties": {
+							"continue_on_failure": false,
+							"display_name": "Was the request successful?",
+							"skip_execution": false
+						  },
+						  "object_type": "definition_activity",
+						  "blocks": [
+							{
+							  "unique_name": "definition_activity_01RVRPJ306HDA25i45UJYj8n9K4OYXcejNd",
+							  "name": "Condition Branch",
+							  "title": "200/Success",
+							  "type": "logic.condition_block",
+							  "base_type": "activity",
+							  "properties": {
+								"condition": {
+								  "left_operand": "$activity.definition_activity_01RTY7OKMWN0R0NOVBhnlL21Jv4c3qgjUxZ.output.status_code$",
+								  "operator": "eq",
+								  "right_operand": 200
+								},
+								"continue_on_failure": false,
+								"display_name": "200/Success",
+								"skip_execution": false
+							  },
+							  "object_type": "definition_activity",
+							  "actions": [
+								{
+								  "unique_name": "definition_activity_01RTY7UGM8F1C0P8RyTdvQ6XCn20ugx9jC7",
+								  "name": "Set Variables",
+								  "title": "Set output variable",
+								  "type": "core.set_multiple_variables",
+								  "base_type": "activity",
+								  "properties": {
+									"continue_on_failure": false,
+									"display_name": "Set output variable",
+									"skip_execution": false,
+									"variables_to_update": [
+									  {
+										"variable_to_update": "$workflow.definition_workflow_01RNU07GZQBFG0QZK5dNiKJDKilpBlvEZSj.output.variable_workflow_01RPHS64BOLRE3JYX7XUELQWhd8v2kwwPeQ$",
+										"variable_value_new": "$activity.definition_activity_01RTY7OKMWN0R0NOVBhnlL21Jv4c3qgjUxZ.output.response_body$"
+									  }
+									]
+								  },
+								  "object_type": "definition_activity"
+								}
+							  ]
+							},
+							{
+							  "unique_name": "definition_activity_01RVRPJ390IMQ0wGa0RWiYdUPaFl1KcnzUp",
+							  "name": "Condition Branch",
+							  "title": "Anything else",
+							  "type": "logic.condition_block",
+							  "base_type": "activity",
+							  "properties": {
+								"condition": {
+								  "left_operand": "$activity.definition_activity_01RTY7OKMWN0R0NOVBhnlL21Jv4c3qgjUxZ.output.status_code$",
+								  "operator": "ne",
+								  "right_operand": 200
+								},
+								"continue_on_failure": false,
+								"display_name": "Anything else",
+								"skip_execution": false
+							  },
+							  "object_type": "definition_activity",
+							  "actions": [
+								{
+								  "unique_name": "definition_activity_01RVRQ23T9UB82aTu8MQNLRcKUMGrMHUFjr",
+								  "name": "Completed",
+								  "title": "Failed",
+								  "type": "logic.completed",
+								  "base_type": "activity",
+								  "properties": {
+									"completion_type": "failed-completed",
+									"continue_on_failure": false,
+									"display_name": "Failed",
+									"result_message": "Failed to perform host lookup (after resolving hostname)\n\nStatus code: $activity.definition_activity_01RTY7OKMWN0R0NOVBhnlL21Jv4c3qgjUxZ.output.status_code$\nResponse body: $activity.definition_activity_01RTY7OKMWN0R0NOVBhnlL21Jv4c3qgjUxZ.output.response_body$",
+									"skip_execution": false
+								  },
+								  "object_type": "definition_activity"
+								}
+							  ]
+							}
+						  ]
+						}
+					  ]
+					},
+					{
+					  "unique_name": "definition_activity_01RVGAMJ6ZDDN5Un9g2HbMgPR8SkzHKbP84",
+					  "name": "Condition Branch",
+					  "title": "Anything else",
+					  "type": "logic.condition_block",
+					  "base_type": "activity",
+					  "properties": {
+						"condition": {
+						  "left_operand": "$activity.definition_activity_01RQGE492ARNL02crku6cbzymCNVsLGZsZh.output.status_code$",
+						  "operator": "ne",
+						  "right_operand": 200
+						},
+						"continue_on_failure": false,
+						"display_name": "Anything else",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "actions": [
+						{
+						  "unique_name": "definition_activity_01RVGAMJ6ZYMU4EjqPpsW6ZjatsK7lyJZIb",
+						  "name": "Completed",
+						  "title": "Failed",
+						  "type": "logic.completed",
+						  "base_type": "activity",
+						  "properties": {
+							"completion_type": "failed-completed",
+							"continue_on_failure": false,
+							"display_name": "Failed",
+							"result_message": "Failed to search for hostname/URL\n\nStatus code: $activity.definition_activity_01RQGE492ARNL02crku6cbzymCNVsLGZsZh.output.status_code$\nResponse body: $activity.definition_activity_01RQGE492ARNL02crku6cbzymCNVsLGZsZh.output.response_body$",
+							"skip_execution": false
+						  },
+						  "object_type": "definition_activity"
+						}
+					  ]
+					}
+				  ]
+				}
+			  ]
+			}
+		  ]
+		}
+	  ],
+	  "categories": [
+		"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+	  ]
+	}
+  }
