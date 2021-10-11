@@ -1,0 +1,177 @@
+{
+	"workflow": {
+		"unique_name": "definition_workflow_01RXAAAT36EEF6PLp0TO27qXKykdod3pu1b",
+		"name": "Jamf Pro - Mobile Device - Execute Command",
+		"title": "Jamf Pro - Mobile Device - Execute Command",
+		"type": "generic.workflow",
+		"base_type": "workflow",
+		"variables": [
+			{
+				"schema_id": "datatype.string",
+				"properties": {
+					"value": "",
+					"scope": "input",
+					"name": "Command Parameters",
+					"type": "datatype.string",
+					"description": "If the command you're executing supports (or requires) parameters, you can include them here as an XML-formatted payload. For example:\n\u003clost_mode_message\u003eThis device has been reported as lost!\u003c/lost_mode_message\u003e\n\u003clost_mode_phone\u003e555-555-5555\u003c/lost_mode_phone\u003e",
+					"is_required": false,
+					"is_invisible": false
+				},
+				"unique_name": "variable_workflow_01RXAAAT8A9E40OL6rqyNc4oP1JXcMGgxhk",
+				"object_type": "variable_workflow"
+			},
+			{
+				"schema_id": "datatype.string",
+				"properties": {
+					"value": "",
+					"scope": "input",
+					"name": "Device ID(s)",
+					"type": "datatype.string",
+					"description": "The IDs of the mobile devices to execute the command on. This can be a single ID or a comma-separated list of IDs",
+					"is_required": true,
+					"is_invisible": false
+				},
+				"unique_name": "variable_workflow_01RXAAAT8AJR34HjLJItI3nu9rzHRtFriJI",
+				"object_type": "variable_workflow"
+			},
+			{
+				"schema_id": "datatype.string",
+				"properties": {
+					"value": "",
+					"scope": "input",
+					"name": "Command Name",
+					"type": "datatype.string",
+					"description": "The name of the command to send. A list of valid commands can be found here: https://developer.jamf.com/jamf-pro/reference/mobiledevicecommands#createmobiledevicecommand",
+					"is_required": true,
+					"is_invisible": false
+				},
+				"unique_name": "variable_workflow_01RXAAAT8ARVE74O9mm3oHMCbZUk725ahHs",
+				"object_type": "variable_workflow"
+			}
+		],
+		"properties": {
+			"atomic": {
+				"atomic_group": "Jamf Pro",
+				"is_atomic": true
+			},
+			"delete_workflow_instance": false,
+			"description": "Executes a command on a Jamf-managed mobile device.\n\nTarget: HTTP Endpoint for your Jamf tenant\n\nAccount Key: HTTP Basic Credential with a Jamf username and password\n\nSteps:\n[] Generate the request XML\n[] Execute the command\n[] Check if the command was successful and, if not, return an error\n\nMore information about this API: https://developer.jamf.com/jamf-pro/reference/mobiledevicecommands",
+			"display_name": "Jamf Pro - Mobile Device - Execute Command",
+			"runtime_user": {
+				"target_default": true
+			},
+			"target": {
+				"target_type": "web-service.endpoint",
+				"specify_on_workflow_start": true
+			}
+		},
+		"object_type": "definition_workflow",
+		"actions": [
+			{
+				"unique_name": "definition_activity_01RXAAAVBC3VL3anIe3IFbw61gmDWNf9lkv",
+				"name": "Execute Python Script",
+				"title": "Generate request XML",
+				"type": "python3.script",
+				"base_type": "activity",
+				"properties": {
+					"action_timeout": 180,
+					"continue_on_failure": false,
+					"display_name": "Generate request XML",
+					"script": "import sys\ndevices = sys.argv[1]\nxmlOut = \"\"\nfor device in devices.split(\",\"):\n\txmlOut += \"\u003cmobile_device\u003e\u003cid\u003e\" + str(device).strip() + \"\u003c/id\u003e\u003c/mobile_device\u003e\"",
+					"script_arguments": [
+						"$workflow.definition_workflow_01RXAAAT36EEF6PLp0TO27qXKykdod3pu1b.input.variable_workflow_01RXAAAT8AJR34HjLJItI3nu9rzHRtFriJI$"
+					],
+					"script_queries": [
+						{
+							"script_query": "xmlOut",
+							"script_query_name": "xmlOut",
+							"script_query_type": "string"
+						}
+					],
+					"skip_execution": false
+				},
+				"object_type": "definition_activity"
+			},
+			{
+				"unique_name": "definition_activity_01RXAAAW6CDF04g5WgeSvGQ2Pv95jcdBLST",
+				"name": "HTTP Request",
+				"title": "Execute command",
+				"type": "web-service.http_request",
+				"base_type": "activity",
+				"properties": {
+					"accept": "application/json",
+					"action_timeout": 180,
+					"allow_auto_redirect": true,
+					"body": "\u003cmobile_device_command\u003e\n  \u003cgeneral\u003e\n    \u003ccommand\u003e$workflow.definition_workflow_01RXAAAT36EEF6PLp0TO27qXKykdod3pu1b.input.variable_workflow_01RXAAAT8ARVE74O9mm3oHMCbZUk725ahHs$\u003c/command\u003e\n    $workflow.definition_workflow_01RXAAAT36EEF6PLp0TO27qXKykdod3pu1b.input.variable_workflow_01RXAAAT8A9E40OL6rqyNc4oP1JXcMGgxhk$\n  \u003c/general\u003e\n  \u003cmobile_devices\u003e\n    $activity.definition_activity_01RXAAAVBC3VL3anIe3IFbw61gmDWNf9lkv.output.script_queries.xmlOut$\n  \u003c/mobile_devices\u003e\n\u003c/mobile_device_command\u003e",
+					"content_type": "application/xml",
+					"continue_on_error_status_code": true,
+					"continue_on_failure": false,
+					"display_name": "Execute command",
+					"method": "POST",
+					"relative_url": "JSSResource/mobiledevicecommands/command",
+					"runtime_user": {
+						"target_default": true
+					},
+					"skip_execution": false,
+					"target": {
+						"use_workflow_target": true
+					}
+				},
+				"object_type": "definition_activity"
+			},
+			{
+				"unique_name": "definition_activity_01RXAAAWXMWPT3VFGBhLrqSY4iovCWYFbtq",
+				"name": "Condition Block",
+				"title": "Was the request successful?",
+				"type": "logic.if_else",
+				"base_type": "activity",
+				"properties": {
+					"continue_on_failure": false,
+					"display_name": "Was the request successful?",
+					"skip_execution": false
+				},
+				"object_type": "definition_activity",
+				"blocks": [
+					{
+						"unique_name": "definition_activity_01RXAAAXL6OJD62rFsFdOoHpsdrR2tlg048",
+						"name": "Condition Branch",
+						"title": "No",
+						"type": "logic.condition_block",
+						"base_type": "activity",
+						"properties": {
+							"condition": {
+								"left_operand": "$activity.definition_activity_01RXAAAW6CDF04g5WgeSvGQ2Pv95jcdBLST.output.status_code$",
+								"operator": "ne",
+								"right_operand": 201
+							},
+							"continue_on_failure": false,
+							"display_name": "No",
+							"skip_execution": false
+						},
+						"object_type": "definition_activity",
+						"actions": [
+							{
+								"unique_name": "definition_activity_01RXAAAYEFW8218FLqZCfxF4XUNFSKWTONV",
+								"name": "Completed",
+								"title": "Failed",
+								"type": "logic.completed",
+								"base_type": "activity",
+								"properties": {
+									"completion_type": "failed-completed",
+									"continue_on_failure": false,
+									"display_name": "Failed",
+									"result_message": "Failed to execute command\n\nStatus code: $activity.definition_activity_01RXAAAW6CDF04g5WgeSvGQ2Pv95jcdBLST.output.status_code$\nResponse body: $activity.definition_activity_01RXAAAW6CDF04g5WgeSvGQ2Pv95jcdBLST.output.response_body$",
+									"skip_execution": false
+								},
+								"object_type": "definition_activity"
+							}
+						]
+					}
+				]
+			}
+		],
+		"categories": [
+			"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+		]
+	}
+}

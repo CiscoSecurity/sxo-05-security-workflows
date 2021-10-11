@@ -12,7 +12,7 @@ Triggers cause a workflow to execute when an [event]({{ site.baseurl }}/events) 
 ---
 
 ## Workflow Properties
-When viewing a workflow's properties, you'll see a **Triggers** section that shows any triggers the workflow has and their status. Here's a sample of what this looks like for an [Email Event]({{ site.baseufl }}/events/email):
+When viewing a workflow's properties, you'll see a **Triggers** section that shows any triggers the workflow has and their status. Here's a sample of what this looks like for an [Email Event]({{ site.baseurl }}/events/email):
 
 ![]({{ site.baseurl }}/assets/images/workflows/triggers/properties.png)
 
@@ -30,6 +30,6 @@ To configure a trigger, you first need to make sure you have an [event]({{ site.
 1. If you want to create the trigger but prevent it from executing your workflow, you can check the **Disable Trigger** box. If you leave this unchecked, the workflow will be executed by the trigger
 1. Click the **Save** button
 
-Here's a sample of what an [Email Event]({{ site.baseufl }}/events/email) trigger looks like:
+Here's a sample of what an [Email Event]({{ site.baseurl }}/events/email) trigger looks like:
 
 ![]({{ site.baseurl }}/assets/images/workflows/triggers/edit-trigger.png)
