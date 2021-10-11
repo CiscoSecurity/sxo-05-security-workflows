@@ -1,0 +1,184 @@
+{
+	"workflow": {
+		"unique_name": "definition_workflow_01RXB4WMZ8SHS7fJcXtiOscm7ZnH36SSA7m",
+		"name": "Jamf Pro - Mobile Device - Add to Static Group",
+		"title": "Jamf Pro - Mobile Device - Add to Static Group",
+		"type": "generic.workflow",
+		"base_type": "workflow",
+		"variables": [
+			{
+				"schema_id": "datatype.string",
+				"properties": {
+					"value": "",
+					"scope": "input",
+					"name": "Group Name",
+					"type": "datatype.string",
+					"description": "The name of the mobile device group to add the devices to. You must provide either a group name or a group ID",
+					"is_required": false,
+					"is_invisible": false
+				},
+				"unique_name": "variable_workflow_01RZNYQL2WQBO5ydGaRWPuPFQXs8EPGhF1w",
+				"object_type": "variable_workflow"
+			},
+			{
+				"schema_id": "datatype.string",
+				"properties": {
+					"value": "",
+					"scope": "input",
+					"name": "Group ID",
+					"type": "datatype.string",
+					"description": "The ID of the mobile device group to add the devices to. You must provide either a group name or a group ID",
+					"is_required": false,
+					"is_invisible": false
+				},
+				"unique_name": "variable_workflow_01RXB69KN4DKQ3a0DiuDELBwsKwIIl4tRti",
+				"object_type": "variable_workflow"
+			},
+			{
+				"schema_id": "datatype.string",
+				"properties": {
+					"value": "",
+					"scope": "input",
+					"name": "Device IDs",
+					"type": "datatype.string",
+					"description": "The IDs of the devices to add to the device group. This can either be a single ID or a comma-separated list of IDs",
+					"is_required": true,
+					"is_invisible": false
+				},
+				"unique_name": "variable_workflow_01RXB4WN622K10z49cntABc5cZUn3Xn6NXJ",
+				"object_type": "variable_workflow"
+			}
+		],
+		"properties": {
+			"atomic": {
+				"atomic_group": "Jamf Pro",
+				"is_atomic": true
+			},
+			"delete_workflow_instance": false,
+			"description": "Adds one or more mobile devices to the group specified. This atomic is meant to be used with static groups, not smart groups. You must provide either a group name or group ID\n\nTarget: HTTP Endpoint for your Jamf tenant\n\nAccount Key: HTTP Basic Credential with a Jamf username and password\n\nSteps:\n[] Request the group membership be updated\n[] Check if the update was successful (if not, output an error)\n\nMore information about this API: https://developer.jamf.com/jamf-pro/reference/mobiledevicegroups",
+			"display_name": "Jamf Pro - Mobile Device - Add to Static Group",
+			"runtime_user": {
+				"target_default": true
+			},
+			"target": {
+				"target_type": "web-service.endpoint",
+				"specify_on_workflow_start": true
+			}
+		},
+		"object_type": "definition_workflow",
+		"actions": [
+			{
+				"unique_name": "definition_activity_01RZOO5RK0G186J3Wzsf0QWJco0CgfO6ldb",
+				"name": "Execute Python Script",
+				"title": "Assemble device list and query string",
+				"type": "python3.script",
+				"base_type": "activity",
+				"properties": {
+					"action_timeout": 180,
+					"continue_on_failure": false,
+					"display_name": "Assemble device list and query string",
+					"script": "import sys\n\ndevices = sys.argv[1]\ndeviceList = \"\"\n\nfor device in devices.split(','):\n\tdeviceList = deviceList + '\u003cmobile_device\u003e\u003cid\u003e' + str(device).strip() + '\u003c/id\u003e\u003c/mobile_device\u003e'\n\nqueryString = ('id/' + sys.argv[2] if len(sys.argv[2]) \u003e 0 else 'name/' + sys.argv[3])",
+					"script_arguments": [
+						"$workflow.definition_workflow_01RXB4WMZ8SHS7fJcXtiOscm7ZnH36SSA7m.input.variable_workflow_01RXB4WN622K10z49cntABc5cZUn3Xn6NXJ$",
+						"$workflow.definition_workflow_01RXB4WMZ8SHS7fJcXtiOscm7ZnH36SSA7m.input.variable_workflow_01RXB69KN4DKQ3a0DiuDELBwsKwIIl4tRti$",
+						"$workflow.definition_workflow_01RXB4WMZ8SHS7fJcXtiOscm7ZnH36SSA7m.input.variable_workflow_01RZNYQL2WQBO5ydGaRWPuPFQXs8EPGhF1w$"
+					],
+					"script_queries": [
+						{
+							"script_query": "deviceList",
+							"script_query_name": "deviceList",
+							"script_query_type": "string"
+						},
+						{
+							"script_query": "queryString",
+							"script_query_name": "queryString",
+							"script_query_type": "string"
+						}
+					],
+					"skip_execution": false
+				},
+				"object_type": "definition_activity"
+			},
+			{
+				"unique_name": "definition_activity_01RXB4WT5030J10nZFWEeM9iwilgfq7FjR4",
+				"name": "HTTP Request",
+				"title": "Update group membership",
+				"type": "web-service.http_request",
+				"base_type": "activity",
+				"properties": {
+					"accept": "application/json",
+					"action_timeout": 180,
+					"allow_auto_redirect": true,
+					"body": "\u003cmobile_device_group\u003e\n  \u003cmobile_device_additions\u003e\n    $activity.definition_activity_01RZOO5RK0G186J3Wzsf0QWJco0CgfO6ldb.output.script_queries.deviceList$\n  \u003c/mobile_device_additions\u003e\n\u003c/mobile_device_group\u003e",
+					"content_type": "application/xml",
+					"continue_on_error_status_code": true,
+					"continue_on_failure": false,
+					"display_name": "Update group membership",
+					"method": "PUT",
+					"relative_url": "JSSResource/mobiledevicegroups/$activity.definition_activity_01RZOO5RK0G186J3Wzsf0QWJco0CgfO6ldb.output.script_queries.queryString$",
+					"runtime_user": {
+						"target_default": true
+					},
+					"skip_execution": false,
+					"target": {
+						"use_workflow_target": true
+					}
+				},
+				"object_type": "definition_activity"
+			},
+			{
+				"unique_name": "definition_activity_01RXB4WV4RD334Jgl8eQDQ3UAT3LkxnFpGM",
+				"name": "Condition Block",
+				"title": "Was the request successful?",
+				"type": "logic.if_else",
+				"base_type": "activity",
+				"properties": {
+					"continue_on_failure": false,
+					"display_name": "Was the request successful?",
+					"skip_execution": false
+				},
+				"object_type": "definition_activity",
+				"blocks": [
+					{
+						"unique_name": "definition_activity_01RXB4WX6FO4J2E3GAjMpR06YLOdL8n6eZ6",
+						"name": "Condition Branch",
+						"title": "No",
+						"type": "logic.condition_block",
+						"base_type": "activity",
+						"properties": {
+							"condition": {
+								"left_operand": "$activity.definition_activity_01RXB4WT5030J10nZFWEeM9iwilgfq7FjR4.output.status_code$",
+								"operator": "ne",
+								"right_operand": 201
+							},
+							"continue_on_failure": false,
+							"display_name": "No",
+							"skip_execution": false
+						},
+						"object_type": "definition_activity",
+						"actions": [
+							{
+								"unique_name": "definition_activity_01RXB4WZ3IIYP1rC3EDgo43htEuGCcMDxsB",
+								"name": "Completed",
+								"title": "Failed",
+								"type": "logic.completed",
+								"base_type": "activity",
+								"properties": {
+									"completion_type": "failed-completed",
+									"continue_on_failure": false,
+									"display_name": "Failed",
+									"result_message": "Failed to update group membership\n\nStatus code: $activity.definition_activity_01RXB4WT5030J10nZFWEeM9iwilgfq7FjR4.output.status_code$\nResponse body: $activity.definition_activity_01RXB4WT5030J10nZFWEeM9iwilgfq7FjR4.output.response_body$",
+									"skip_execution": false
+								},
+								"object_type": "definition_activity"
+							}
+						]
+					}
+				]
+			}
+		],
+		"categories": [
+			"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+		]
+	}
+}

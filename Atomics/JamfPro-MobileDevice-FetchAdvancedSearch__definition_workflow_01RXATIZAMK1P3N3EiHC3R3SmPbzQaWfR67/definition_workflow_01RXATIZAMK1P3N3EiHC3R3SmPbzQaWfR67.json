@@ -1,0 +1,174 @@
+{
+	"workflow": {
+		"unique_name": "definition_workflow_01RXATIZAMK1P3N3EiHC3R3SmPbzQaWfR67",
+		"name": "Jamf Pro - Mobile Device - Fetch Advanced Search",
+		"title": "Jamf Pro - Mobile Device - Fetch Advanced Search",
+		"type": "generic.workflow",
+		"base_type": "workflow",
+		"variables": [
+			{
+				"schema_id": "datatype.string",
+				"properties": {
+					"value": "",
+					"scope": "input",
+					"name": "Search ID",
+					"type": "datatype.string",
+					"description": "The ID of the advanced mobile device search to fetch",
+					"is_required": true,
+					"is_invisible": false
+				},
+				"unique_name": "variable_workflow_01RXATIZHEJYF1E7Iw3HJ9Ai0AMCb3t0MyH",
+				"object_type": "variable_workflow"
+			},
+			{
+				"schema_id": "datatype.string",
+				"properties": {
+					"value": "",
+					"scope": "output",
+					"name": "Search Results",
+					"type": "datatype.string",
+					"is_required": true,
+					"is_invisible": false
+				},
+				"unique_name": "variable_workflow_01RXATIZHEWME7eyEJjhJHo1notZTvMR7xU",
+				"object_type": "variable_workflow"
+			}
+		],
+		"properties": {
+			"atomic": {
+				"atomic_group": "Jamf Pro",
+				"is_atomic": true
+			},
+			"delete_workflow_instance": false,
+			"description": "Gets the results from an advanced mobile device search.\n\nTarget: HTTP Endpoint for your Jamf tenant\n\nAccount Key: HTTP Basic Credential with a Jamf username and password\n\nSteps:\n[] Fetch the advanced mobile device search by ID\n[] Check if the request was successful and, if not, return an error\n\nMore information about this API: https://developer.jamf.com/jamf-pro/reference/advancedmobiledevicesearches#findadvancedmobiledevicesearchesbyid",
+			"display_name": "Jamf Pro - Mobile Device - Fetch Advanced Search",
+			"runtime_user": {
+				"target_default": true
+			},
+			"target": {
+				"target_type": "web-service.endpoint",
+				"specify_on_workflow_start": true
+			}
+		},
+		"object_type": "definition_workflow",
+		"actions": [
+			{
+				"unique_name": "definition_activity_01RXATJ1J3ISS4HXvybRKxwlWOMKEHFdZRC",
+				"name": "HTTP Request",
+				"title": "Fetch search results",
+				"type": "web-service.http_request",
+				"base_type": "activity",
+				"properties": {
+					"accept": "application/json",
+					"action_timeout": 180,
+					"allow_auto_redirect": true,
+					"continue_on_error_status_code": true,
+					"continue_on_failure": false,
+					"display_name": "Fetch search results",
+					"method": "GET",
+					"relative_url": "JSSResource/advancedmobiledevicesearches/id/$workflow.definition_workflow_01RXATIZAMK1P3N3EiHC3R3SmPbzQaWfR67.input.variable_workflow_01RXATIZHEJYF1E7Iw3HJ9Ai0AMCb3t0MyH$",
+					"runtime_user": {
+						"target_default": true
+					},
+					"skip_execution": false,
+					"target": {
+						"use_workflow_target": true
+					}
+				},
+				"object_type": "definition_activity"
+			},
+			{
+				"unique_name": "definition_activity_01RXATJ29NKIT5LecAcULZF5rxf8jDyqP7P",
+				"name": "Condition Block",
+				"title": "Was the request successful?",
+				"type": "logic.if_else",
+				"base_type": "activity",
+				"properties": {
+					"continue_on_failure": false,
+					"display_name": "Was the request successful?",
+					"skip_execution": false
+				},
+				"object_type": "definition_activity",
+				"blocks": [
+					{
+						"unique_name": "definition_activity_01RXATJ32I3C84KFMzyzRdQlh5r3aZJ2CbQ",
+						"name": "Condition Branch",
+						"title": "200/Success",
+						"type": "logic.condition_block",
+						"base_type": "activity",
+						"properties": {
+							"condition": {
+								"left_operand": "$activity.definition_activity_01RXATJ1J3ISS4HXvybRKxwlWOMKEHFdZRC.output.status_code$",
+								"operator": "eq",
+								"right_operand": 200
+							},
+							"continue_on_failure": false,
+							"display_name": "200/Success",
+							"skip_execution": false
+						},
+						"object_type": "definition_activity",
+						"actions": [
+							{
+								"unique_name": "definition_activity_01RXATJ3W2LB03p8k27vIQmWOLjb9VAwejw",
+								"name": "Set Variables",
+								"title": "Set output variable",
+								"type": "core.set_multiple_variables",
+								"base_type": "activity",
+								"properties": {
+									"continue_on_failure": false,
+									"display_name": "Set output variable",
+									"skip_execution": false,
+									"variables_to_update": [
+										{
+											"variable_to_update": "$workflow.definition_workflow_01RXATIZAMK1P3N3EiHC3R3SmPbzQaWfR67.output.variable_workflow_01RXATIZHEWME7eyEJjhJHo1notZTvMR7xU$",
+											"variable_value_new": "$activity.definition_activity_01RXATJ1J3ISS4HXvybRKxwlWOMKEHFdZRC.output.response_body$"
+										}
+									]
+								},
+								"object_type": "definition_activity"
+							}
+						]
+					},
+					{
+						"unique_name": "definition_activity_01RXATJ4OGA7M6pby8y9yMwcmEOGkd99y17",
+						"name": "Condition Branch",
+						"title": "Anything else",
+						"type": "logic.condition_block",
+						"base_type": "activity",
+						"properties": {
+							"condition": {
+								"left_operand": "$activity.definition_activity_01RXATJ1J3ISS4HXvybRKxwlWOMKEHFdZRC.output.status_code$",
+								"operator": "ne",
+								"right_operand": 200
+							},
+							"continue_on_failure": false,
+							"display_name": "Anything else",
+							"skip_execution": false
+						},
+						"object_type": "definition_activity",
+						"actions": [
+							{
+								"unique_name": "definition_activity_01RXATJ5IC7W92w8zrhCbCtHDS9p2e4KfS6",
+								"name": "Completed",
+								"title": "Failed",
+								"type": "logic.completed",
+								"base_type": "activity",
+								"properties": {
+									"completion_type": "failed-completed",
+									"continue_on_failure": false,
+									"display_name": "Failed",
+									"result_message": "Failed to fetch advanced mobile device search\n\nStatus code: $activity.definition_activity_01RXATJ1J3ISS4HXvybRKxwlWOMKEHFdZRC.output.status_code$\nResponse body: $activity.definition_activity_01RXATJ1J3ISS4HXvybRKxwlWOMKEHFdZRC.output.response_body$",
+									"skip_execution": false
+								},
+								"object_type": "definition_activity"
+							}
+						]
+					}
+				]
+			}
+		],
+		"categories": [
+			"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+		]
+	}
+}

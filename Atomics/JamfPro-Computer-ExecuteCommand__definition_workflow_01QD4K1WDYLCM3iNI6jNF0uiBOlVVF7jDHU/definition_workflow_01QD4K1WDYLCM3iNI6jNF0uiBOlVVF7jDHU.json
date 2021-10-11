@@ -1,0 +1,177 @@
+{
+	"workflow": {
+		"unique_name": "definition_workflow_01QD4K1WDYLCM3iNI6jNF0uiBOlVVF7jDHU",
+		"name": "Jamf Pro - Computer - Execute Command",
+		"title": "Jamf Pro - Computer - Execute Command",
+		"type": "generic.workflow",
+		"base_type": "workflow",
+		"variables": [
+			{
+				"schema_id": "datatype.string",
+				"properties": {
+					"value": "",
+					"scope": "input",
+					"name": "Command Name",
+					"type": "datatype.string",
+					"description": "The name of the command to send. A list of valid commands can be found here: https://developer.jamf.com/jamf-pro/reference/computercommands",
+					"is_required": true,
+					"is_invisible": false
+				},
+				"unique_name": "variable_workflow_01QD4L3NSP7EW3lKPsLNaZCg8boatTZc5Nl",
+				"object_type": "variable_workflow"
+			},
+			{
+				"schema_id": "datatype.string",
+				"properties": {
+					"value": "",
+					"scope": "input",
+					"name": "Command Parameters",
+					"type": "datatype.string",
+					"description": "If the command you're executing supports (or requires) parameters, you can include them here as an XML-formatted payload. For example:\n\u003cpasscode\u003e123456\u003c/passcode\u003e\n\u003ccomment\u003eDevice locked due to compromise event\u003c/command\u003e",
+					"is_required": false,
+					"is_invisible": false
+				},
+				"unique_name": "variable_workflow_01QD4P3BJF7Y81NAEXTEgmtGZKfe865NpAd",
+				"object_type": "variable_workflow"
+			},
+			{
+				"schema_id": "datatype.string",
+				"properties": {
+					"value": "",
+					"scope": "input",
+					"name": "Computer ID(s)",
+					"type": "datatype.string",
+					"description": "The IDs of the computers to execute the command on. This can be a single ID or a comma-separated list of IDs",
+					"is_required": true,
+					"is_invisible": false
+				},
+				"unique_name": "variable_workflow_01QD4M0MW3MC150aZ2utAE3juFoe7PIZUsN",
+				"object_type": "variable_workflow"
+			}
+		],
+		"properties": {
+			"atomic": {
+				"atomic_group": "Jamf Pro",
+				"is_atomic": true
+			},
+			"delete_workflow_instance": false,
+			"description": "Executes a command on a Jamf-managed computer.\n\nTarget: HTTP Endpoint for your Jamf tenant\n\nAccount Key: HTTP Basic Credential with a Jamf username and password\n\nSteps:\n[] Generate the request XML\n[] Execute the command\n[] Check if the command was successful and, if not, return an error\n\nMore information about this API: https://developer.jamf.com/jamf-pro/reference/computercommands",
+			"display_name": "Jamf Pro - Computer - Execute Command",
+			"runtime_user": {
+				"target_default": true
+			},
+			"target": {
+				"target_type": "web-service.endpoint",
+				"specify_on_workflow_start": true
+			}
+		},
+		"object_type": "definition_workflow",
+		"actions": [
+			{
+				"unique_name": "definition_activity_01QD4PZUV12KQ1gHR1rlYm89TcssqHRekNb",
+				"name": "Execute Python Script",
+				"title": "Generate request XML",
+				"type": "python3.script",
+				"base_type": "activity",
+				"properties": {
+					"action_timeout": 180,
+					"continue_on_failure": false,
+					"display_name": "Generate request XML",
+					"script": "import sys\ncomputers = sys.argv[1]\nxmlOut = \"\"\nfor computer in computers.split(\",\"):\n\txmlOut += \"\u003ccomputer\u003e\u003cid\u003e\" + str(computer).strip() + \"\u003c/id\u003e\u003c/computer\u003e\"",
+					"script_arguments": [
+						"$workflow.definition_workflow_01QD4K1WDYLCM3iNI6jNF0uiBOlVVF7jDHU.input.variable_workflow_01QD4M0MW3MC150aZ2utAE3juFoe7PIZUsN$"
+					],
+					"script_queries": [
+						{
+							"script_query": "xmlOut",
+							"script_query_name": "xmlOut",
+							"script_query_type": "string"
+						}
+					],
+					"skip_execution": false
+				},
+				"object_type": "definition_activity"
+			},
+			{
+				"unique_name": "definition_activity_01QD4P75RTEYP6AOAvkiaHm12Xm7JOrnMIn",
+				"name": "HTTP Request",
+				"title": "Execute command",
+				"type": "web-service.http_request",
+				"base_type": "activity",
+				"properties": {
+					"accept": "application/json",
+					"action_timeout": 180,
+					"allow_auto_redirect": true,
+					"body": "\u003ccomputer_command\u003e\n  \u003cgeneral\u003e\n    \u003ccommand\u003e$workflow.definition_workflow_01QD4K1WDYLCM3iNI6jNF0uiBOlVVF7jDHU.input.variable_workflow_01QD4L3NSP7EW3lKPsLNaZCg8boatTZc5Nl$\u003c/command\u003e\n    $workflow.definition_workflow_01QD4K1WDYLCM3iNI6jNF0uiBOlVVF7jDHU.input.variable_workflow_01QD4P3BJF7Y81NAEXTEgmtGZKfe865NpAd$\n  \u003c/general\u003e\n  \u003ccomputers\u003e\n    $activity.definition_activity_01QD4PZUV12KQ1gHR1rlYm89TcssqHRekNb.output.script_queries.xmlOut$\n  \u003c/computers\u003e\n\u003c/computer_command\u003e",
+					"content_type": "application/xml",
+					"continue_on_error_status_code": true,
+					"continue_on_failure": false,
+					"display_name": "Execute command",
+					"method": "POST",
+					"relative_url": "JSSResource/computercommands/command/$workflow.definition_workflow_01QD4K1WDYLCM3iNI6jNF0uiBOlVVF7jDHU.input.variable_workflow_01QD4L3NSP7EW3lKPsLNaZCg8boatTZc5Nl$",
+					"runtime_user": {
+						"target_default": true
+					},
+					"skip_execution": false,
+					"target": {
+						"use_workflow_target": true
+					}
+				},
+				"object_type": "definition_activity"
+			},
+			{
+				"unique_name": "definition_activity_01QD4THIKMKJY2JsTzSt0g8LicaXl8tVGHK",
+				"name": "Condition Block",
+				"title": "Was the request successful?",
+				"type": "logic.if_else",
+				"base_type": "activity",
+				"properties": {
+					"continue_on_failure": false,
+					"display_name": "Was the request successful?",
+					"skip_execution": false
+				},
+				"object_type": "definition_activity",
+				"blocks": [
+					{
+						"unique_name": "definition_activity_01QD4THNYFX5B5iyZYvFQru2xWFLnayrGqs",
+						"name": "Condition Branch",
+						"title": "No",
+						"type": "logic.condition_block",
+						"base_type": "activity",
+						"properties": {
+							"condition": {
+								"left_operand": "$activity.definition_activity_01QD4P75RTEYP6AOAvkiaHm12Xm7JOrnMIn.output.status_code$",
+								"operator": "ne",
+								"right_operand": 201
+							},
+							"continue_on_failure": false,
+							"display_name": "No",
+							"skip_execution": false
+						},
+						"object_type": "definition_activity",
+						"actions": [
+							{
+								"unique_name": "definition_activity_01QD4TIE2UB1R5h2NZBpj4MrcToL82FFY4A",
+								"name": "Completed",
+								"title": "Failed",
+								"type": "logic.completed",
+								"base_type": "activity",
+								"properties": {
+									"completion_type": "failed-completed",
+									"continue_on_failure": false,
+									"display_name": "Failed",
+									"result_message": "Failed to execute command\n\nStatus code: $activity.definition_activity_01QD4P75RTEYP6AOAvkiaHm12Xm7JOrnMIn.output.status_code$\nResponse body: $activity.definition_activity_01QD4P75RTEYP6AOAvkiaHm12Xm7JOrnMIn.output.response_body$",
+									"skip_execution": false
+								},
+								"object_type": "definition_activity"
+							}
+						]
+					}
+				]
+			}
+		],
+		"categories": [
+			"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+		]
+	}
+}

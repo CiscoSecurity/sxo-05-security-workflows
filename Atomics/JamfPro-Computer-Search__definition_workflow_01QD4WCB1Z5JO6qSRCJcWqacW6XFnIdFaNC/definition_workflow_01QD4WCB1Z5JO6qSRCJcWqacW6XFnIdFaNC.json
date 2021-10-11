@@ -1,0 +1,514 @@
+{
+	"workflow": {
+		"unique_name": "definition_workflow_01QD4WCB1Z5JO6qSRCJcWqacW6XFnIdFaNC",
+		"name": "Jamf Pro - Computer - Search",
+		"title": "Jamf Pro - Computer - Search",
+		"type": "generic.workflow",
+		"base_type": "workflow",
+		"variables": [
+			{
+				"schema_id": "datatype.string",
+				"properties": {
+					"value": "",
+					"scope": "local",
+					"name": "URL Suffix",
+					"type": "datatype.string",
+					"description": "Placeholder used to build the Jamf API URL. This will be populated automatically",
+					"is_required": false,
+					"is_invisible": false
+				},
+				"unique_name": "variable_workflow_01QD5EUOAGD0Z5arlXyRtlg3icDb8GWCFRq",
+				"object_type": "variable_workflow"
+			},
+			{
+				"schema_id": "datatype.string",
+				"properties": {
+					"value": "",
+					"scope": "output",
+					"name": "Search Results",
+					"type": "datatype.string",
+					"is_required": false,
+					"is_invisible": false
+				},
+				"unique_name": "variable_workflow_01QD5GCV6W59674ZhCrEiFGIlzlGF0cnjGA",
+				"object_type": "variable_workflow"
+			},
+			{
+				"schema_id": "datatype.string",
+				"properties": {
+					"value": "",
+					"scope": "input",
+					"name": "Name",
+					"type": "datatype.string",
+					"description": "Computer name to search for. Only one search input should be provided",
+					"is_required": false,
+					"is_invisible": false
+				},
+				"unique_name": "variable_workflow_01QD5E9V4L46U4qG6SZHAchSiBxtgXWTiFY",
+				"object_type": "variable_workflow"
+			},
+			{
+				"schema_id": "datatype.string",
+				"properties": {
+					"value": "",
+					"scope": "input",
+					"name": "UDID",
+					"type": "datatype.string",
+					"description": "UDID to search for. Only one search input should be provided",
+					"is_required": false,
+					"is_invisible": false
+				},
+				"unique_name": "variable_workflow_01QD5EDZP27LK0keyaDX6JEKPwXH5yAQoIp",
+				"object_type": "variable_workflow"
+			},
+			{
+				"schema_id": "datatype.string",
+				"properties": {
+					"value": "",
+					"scope": "input",
+					"name": "Match",
+					"type": "datatype.string",
+					"description": "Match uses the same format as the general search in Jamf. For instance, admin* can be used to match computer names that begin with admin",
+					"is_required": false,
+					"is_invisible": false
+				},
+				"unique_name": "variable_workflow_01QJ77L2OBF6409X7ZrlSmHQA1mVj4tJPyV",
+				"object_type": "variable_workflow"
+			},
+			{
+				"schema_id": "datatype.string",
+				"properties": {
+					"value": "",
+					"scope": "input",
+					"name": "Serial Number",
+					"type": "datatype.string",
+					"description": "Serial number to search for. Only one search input should be provided",
+					"is_required": false,
+					"is_invisible": false
+				},
+				"unique_name": "variable_workflow_01QD5E4NQQ1LW6AQIiYMML0Jqki0qpEsFO7",
+				"object_type": "variable_workflow"
+			},
+			{
+				"schema_id": "datatype.string",
+				"properties": {
+					"value": "",
+					"scope": "input",
+					"name": "MAC Address",
+					"type": "datatype.string",
+					"description": "MAC address to search for. Only one search input should be provided",
+					"is_required": false,
+					"is_invisible": false
+				},
+				"unique_name": "variable_workflow_01QD5DVJWYHAJ19TLsNxBxKGhdRebuVVK6k",
+				"object_type": "variable_workflow"
+			}
+		],
+		"properties": {
+			"atomic": {
+				"atomic_group": "Jamf Pro",
+				"is_atomic": true
+			},
+			"delete_workflow_instance": false,
+			"description": "Searches for a computer in Jamf Pro based on MAC address, serial number, name, or UDID.\n\nTarget: HTTP Endpoint for your Jamf tenant\n\nAccount Key: HTTP Basic Credential with a Jamf username and password\n\nSteps:\n[] Build the request URL\n[] Execute the search\n[] Check if the search was successful:\n[]\u003e If it was, standardize the output and set the output variable\n[]\u003e If it wasn't, output an error\n\nMore information about this API: https://developer.jamf.com/jamf-pro/reference/computers#findcomputers",
+			"display_name": "Jamf Pro - Computer - Search",
+			"runtime_user": {
+				"target_default": true
+			},
+			"target": {
+				"target_type": "web-service.endpoint",
+				"specify_on_workflow_start": true
+			}
+		},
+		"object_type": "definition_workflow",
+		"actions": [
+			{
+				"unique_name": "definition_activity_01QD5DB6ONL5N6AokQrK241RXzVZqizWYvj",
+				"name": "Condition Block",
+				"title": "Which field are we searching by?",
+				"type": "logic.if_else",
+				"base_type": "activity",
+				"properties": {
+					"continue_on_failure": false,
+					"display_name": "Which field are we searching by?",
+					"skip_execution": false
+				},
+				"object_type": "definition_activity",
+				"blocks": [
+					{
+						"unique_name": "definition_activity_01QD5DBD4AAN52DObxdzqueqqgWR6Tm5DZ9",
+						"name": "Condition Branch",
+						"title": "MAC Address",
+						"type": "logic.condition_block",
+						"base_type": "activity",
+						"properties": {
+							"condition": {
+								"left_operand": "$workflow.definition_workflow_01QD4WCB1Z5JO6qSRCJcWqacW6XFnIdFaNC.input.variable_workflow_01QD5DVJWYHAJ19TLsNxBxKGhdRebuVVK6k$",
+								"operator": "ne",
+								"right_operand": ""
+							},
+							"continue_on_failure": false,
+							"display_name": "MAC Address",
+							"skip_execution": false
+						},
+						"object_type": "definition_activity",
+						"actions": [
+							{
+								"unique_name": "definition_activity_01QD5EKOQZR2K2zoAkMlh0WptYgLLesUtye",
+								"name": "Set Variables",
+								"title": "Set URL",
+								"type": "core.set_multiple_variables",
+								"base_type": "activity",
+								"properties": {
+									"continue_on_failure": false,
+									"display_name": "Set URL",
+									"skip_execution": false,
+									"variables_to_update": [
+										{
+											"variable_to_update": "$workflow.definition_workflow_01QD4WCB1Z5JO6qSRCJcWqacW6XFnIdFaNC.local.variable_workflow_01QD5EUOAGD0Z5arlXyRtlg3icDb8GWCFRq$",
+											"variable_value_new": "/macaddress/$workflow.definition_workflow_01QD4WCB1Z5JO6qSRCJcWqacW6XFnIdFaNC.input.variable_workflow_01QD5DVJWYHAJ19TLsNxBxKGhdRebuVVK6k$"
+										}
+									]
+								},
+								"object_type": "definition_activity"
+							}
+						]
+					},
+					{
+						"unique_name": "definition_activity_01QD5F593MEZR6kYjlaNJJJjtL7g8lT0DMN",
+						"name": "Condition Branch",
+						"title": "Name",
+						"type": "logic.condition_block",
+						"base_type": "activity",
+						"properties": {
+							"condition": {
+								"left_operand": "$workflow.definition_workflow_01QD4WCB1Z5JO6qSRCJcWqacW6XFnIdFaNC.input.variable_workflow_01QD5E9V4L46U4qG6SZHAchSiBxtgXWTiFY$",
+								"operator": "ne",
+								"right_operand": ""
+							},
+							"continue_on_failure": false,
+							"display_name": "Name",
+							"skip_execution": false
+						},
+						"object_type": "definition_activity",
+						"actions": [
+							{
+								"unique_name": "definition_activity_01QD5F5A4OH3C6u2LiKdidhVa9Tec7lzcJV",
+								"name": "Set Variables",
+								"title": "Set URL",
+								"type": "core.set_multiple_variables",
+								"base_type": "activity",
+								"properties": {
+									"continue_on_failure": false,
+									"display_name": "Set URL",
+									"skip_execution": false,
+									"variables_to_update": [
+										{
+											"variable_to_update": "$workflow.definition_workflow_01QD4WCB1Z5JO6qSRCJcWqacW6XFnIdFaNC.local.variable_workflow_01QD5EUOAGD0Z5arlXyRtlg3icDb8GWCFRq$",
+											"variable_value_new": "/name/$workflow.definition_workflow_01QD4WCB1Z5JO6qSRCJcWqacW6XFnIdFaNC.input.variable_workflow_01QD5E9V4L46U4qG6SZHAchSiBxtgXWTiFY$"
+										}
+									]
+								},
+								"object_type": "definition_activity"
+							}
+						]
+					},
+					{
+						"unique_name": "definition_activity_01QD5FCTDLOEN0A5eiB9ZJ7ZVHtnGF0J6wz",
+						"name": "Condition Branch",
+						"title": "Serial Number",
+						"type": "logic.condition_block",
+						"base_type": "activity",
+						"properties": {
+							"condition": {
+								"left_operand": "$workflow.definition_workflow_01QD4WCB1Z5JO6qSRCJcWqacW6XFnIdFaNC.input.variable_workflow_01QD5E4NQQ1LW6AQIiYMML0Jqki0qpEsFO7$",
+								"operator": "ne",
+								"right_operand": ""
+							},
+							"continue_on_failure": false,
+							"display_name": "Serial Number",
+							"skip_execution": false
+						},
+						"object_type": "definition_activity",
+						"actions": [
+							{
+								"unique_name": "definition_activity_01QD5FCUB4GPS45cmzRwytThqvamy08fQT3",
+								"name": "Set Variables",
+								"title": "Set URL",
+								"type": "core.set_multiple_variables",
+								"base_type": "activity",
+								"properties": {
+									"continue_on_failure": false,
+									"display_name": "Set URL",
+									"skip_execution": false,
+									"variables_to_update": [
+										{
+											"variable_to_update": "$workflow.definition_workflow_01QD4WCB1Z5JO6qSRCJcWqacW6XFnIdFaNC.local.variable_workflow_01QD5EUOAGD0Z5arlXyRtlg3icDb8GWCFRq$",
+											"variable_value_new": "/serialnumber/$workflow.definition_workflow_01QD4WCB1Z5JO6qSRCJcWqacW6XFnIdFaNC.input.variable_workflow_01QD5E4NQQ1LW6AQIiYMML0Jqki0qpEsFO7$"
+										}
+									]
+								},
+								"object_type": "definition_activity"
+							}
+						]
+					},
+					{
+						"unique_name": "definition_activity_01QJ77MQRAF141S7BKHNGAOIVqJ3vyPwvIL",
+						"name": "Condition Branch",
+						"title": "Match",
+						"type": "logic.condition_block",
+						"base_type": "activity",
+						"properties": {
+							"condition": {
+								"left_operand": "$workflow.definition_workflow_01QD4WCB1Z5JO6qSRCJcWqacW6XFnIdFaNC.input.variable_workflow_01QJ77L2OBF6409X7ZrlSmHQA1mVj4tJPyV$",
+								"operator": "ne",
+								"right_operand": ""
+							},
+							"continue_on_failure": false,
+							"display_name": "Match",
+							"skip_execution": false
+						},
+						"object_type": "definition_activity",
+						"actions": [
+							{
+								"unique_name": "definition_activity_01QJ77MRSIUDC6yfI2db98QObS9fp9u2Ool",
+								"name": "Set Variables",
+								"title": "Set URL",
+								"type": "core.set_multiple_variables",
+								"base_type": "activity",
+								"properties": {
+									"continue_on_failure": false,
+									"display_name": "Set URL",
+									"skip_execution": false,
+									"variables_to_update": [
+										{
+											"variable_to_update": "$workflow.definition_workflow_01QD4WCB1Z5JO6qSRCJcWqacW6XFnIdFaNC.local.variable_workflow_01QD5EUOAGD0Z5arlXyRtlg3icDb8GWCFRq$",
+											"variable_value_new": "/match/$workflow.definition_workflow_01QD4WCB1Z5JO6qSRCJcWqacW6XFnIdFaNC.input.variable_workflow_01QJ77L2OBF6409X7ZrlSmHQA1mVj4tJPyV$"
+										}
+									]
+								},
+								"object_type": "definition_activity"
+							}
+						]
+					},
+					{
+						"unique_name": "definition_activity_01QD5FLPDFGE35c5bpsMr6RbhdgA63JAoQm",
+						"name": "Condition Branch",
+						"title": "UDID",
+						"type": "logic.condition_block",
+						"base_type": "activity",
+						"properties": {
+							"condition": {
+								"left_operand": "$workflow.definition_workflow_01QD4WCB1Z5JO6qSRCJcWqacW6XFnIdFaNC.input.variable_workflow_01QD5EDZP27LK0keyaDX6JEKPwXH5yAQoIp$",
+								"operator": "ne",
+								"right_operand": ""
+							},
+							"continue_on_failure": false,
+							"display_name": "UDID",
+							"skip_execution": false
+						},
+						"object_type": "definition_activity",
+						"actions": [
+							{
+								"unique_name": "definition_activity_01QD5FLQFA58M2RXcArnBf7wH7GB1JSyObP",
+								"name": "Set Variables",
+								"title": "Set URL",
+								"type": "core.set_multiple_variables",
+								"base_type": "activity",
+								"properties": {
+									"continue_on_failure": false,
+									"display_name": "Set URL",
+									"skip_execution": false,
+									"variables_to_update": [
+										{
+											"variable_to_update": "$workflow.definition_workflow_01QD4WCB1Z5JO6qSRCJcWqacW6XFnIdFaNC.local.variable_workflow_01QD5EUOAGD0Z5arlXyRtlg3icDb8GWCFRq$",
+											"variable_value_new": "/udid/$workflow.definition_workflow_01QD4WCB1Z5JO6qSRCJcWqacW6XFnIdFaNC.input.variable_workflow_01QD5EDZP27LK0keyaDX6JEKPwXH5yAQoIp$"
+										}
+									]
+								},
+								"object_type": "definition_activity"
+							}
+						]
+					},
+					{
+						"unique_name": "definition_activity_01QD5H2E85CHL7HCU64koNMeZzHHvlprjPj",
+						"name": "Condition Branch",
+						"title": "No input",
+						"type": "logic.condition_block",
+						"base_type": "activity",
+						"properties": {
+							"condition": {
+								"left_operand": "$workflow.definition_workflow_01QD4WCB1Z5JO6qSRCJcWqacW6XFnIdFaNC.output.instance_id$",
+								"operator": "eq",
+								"right_operand": "$workflow.definition_workflow_01QD4WCB1Z5JO6qSRCJcWqacW6XFnIdFaNC.output.instance_id$"
+							},
+							"continue_on_failure": false,
+							"display_name": "No input",
+							"skip_execution": false
+						},
+						"object_type": "definition_activity",
+						"actions": [
+							{
+								"unique_name": "definition_activity_01QD5HAO46WKQ7b6MORTBmPogkou8zbjk5F",
+								"name": "Completed",
+								"title": "Failed",
+								"type": "logic.completed",
+								"base_type": "activity",
+								"properties": {
+									"completion_type": "failed-completed",
+									"continue_on_failure": false,
+									"display_name": "Failed",
+									"result_message": "At least one of the following must be provided: MAC address, name, serial number, match string, or UDID",
+									"skip_execution": false
+								},
+								"object_type": "definition_activity"
+							}
+						]
+					}
+				]
+			},
+			{
+				"unique_name": "definition_activity_01QD4WCPQWEW301rSNGUwo9InxUsrJFYpz4",
+				"name": "HTTP Request",
+				"title": "Execute search",
+				"type": "web-service.http_request",
+				"base_type": "activity",
+				"properties": {
+					"accept": "application/json",
+					"action_timeout": 180,
+					"allow_auto_redirect": true,
+					"continue_on_error_status_code": true,
+					"continue_on_failure": false,
+					"display_name": "Execute search",
+					"method": "GET",
+					"relative_url": "JSSResource/computers/$workflow.definition_workflow_01QD4WCB1Z5JO6qSRCJcWqacW6XFnIdFaNC.local.variable_workflow_01QD5EUOAGD0Z5arlXyRtlg3icDb8GWCFRq$",
+					"runtime_user": {
+						"target_default": true
+					},
+					"skip_execution": false,
+					"target": {
+						"use_workflow_target": true
+					}
+				},
+				"object_type": "definition_activity"
+			},
+			{
+				"unique_name": "definition_activity_01QD4WCUZJGVW5ilofspQ4ulVhl7IKM3xfx",
+				"name": "Condition Block",
+				"title": "Was the request successful?",
+				"type": "logic.if_else",
+				"base_type": "activity",
+				"properties": {
+					"continue_on_failure": false,
+					"display_name": "Was the request successful?",
+					"skip_execution": false
+				},
+				"object_type": "definition_activity",
+				"blocks": [
+					{
+						"unique_name": "definition_activity_01QD4WCZU980U1iJG1MqRqiokg5V1zwYq0L",
+						"name": "Condition Branch",
+						"title": "200/Success",
+						"type": "logic.condition_block",
+						"base_type": "activity",
+						"properties": {
+							"condition": {
+								"left_operand": "$activity.definition_activity_01QD4WCPQWEW301rSNGUwo9InxUsrJFYpz4.output.status_code$",
+								"operator": "eq",
+								"right_operand": 200
+							},
+							"continue_on_failure": false,
+							"display_name": "200/Success",
+							"skip_execution": false
+						},
+						"object_type": "definition_activity",
+						"actions": [
+							{
+								"unique_name": "definition_activity_01QJ7BM57F4IY0BnU4cXKvjWuhtYCywQPur",
+								"name": "Execute Python Script",
+								"title": "Standardize the output",
+								"type": "python3.script",
+								"base_type": "activity",
+								"properties": {
+									"action_timeout": 180,
+									"continue_on_failure": false,
+									"display_name": "Standardize the output",
+									"script": "import sys, json\nsearchResult = json.loads(sys.argv[1])\nsearchOut = {}\nif \"computer\" in searchResult:\n  searchOut = { \"computers\": [ searchResult[\"computer\"] ] }\n  searchOut[\"computers\"][0][\"id\"] = searchResult[\"computer\"][\"general\"][\"id\"]\nelse:\n  searchOut = searchResult\nsearchOut = json.dumps(searchOut)",
+									"script_arguments": [
+										"$activity.definition_activity_01QD4WCPQWEW301rSNGUwo9InxUsrJFYpz4.output.response_body$"
+									],
+									"script_queries": [
+										{
+											"script_query": "searchOut",
+											"script_query_name": "searchOut",
+											"script_query_type": "string"
+										}
+									],
+									"skip_execution": false
+								},
+								"object_type": "definition_activity"
+							},
+							{
+								"unique_name": "definition_activity_01QD5GHQH8Y6B5qIejQtxYGI2mtFMEitpDf",
+								"name": "Set Variables",
+								"title": "Set output variable",
+								"type": "core.set_multiple_variables",
+								"base_type": "activity",
+								"properties": {
+									"continue_on_failure": false,
+									"display_name": "Set output variable",
+									"skip_execution": false,
+									"variables_to_update": [
+										{
+											"variable_to_update": "$workflow.definition_workflow_01QD4WCB1Z5JO6qSRCJcWqacW6XFnIdFaNC.output.variable_workflow_01QD5GCV6W59674ZhCrEiFGIlzlGF0cnjGA$",
+											"variable_value_new": "$activity.definition_activity_01QJ7BM57F4IY0BnU4cXKvjWuhtYCywQPur.output.script_queries.searchOut$"
+										}
+									]
+								},
+								"object_type": "definition_activity"
+							}
+						]
+					},
+					{
+						"unique_name": "definition_activity_01QD5GF1LLUMH10lsWury4fufpa2ZFdwFpW",
+						"name": "Condition Branch",
+						"title": "Anything else",
+						"type": "logic.condition_block",
+						"base_type": "activity",
+						"properties": {
+							"condition": {
+								"left_operand": "$activity.definition_activity_01QD4WCPQWEW301rSNGUwo9InxUsrJFYpz4.output.status_code$",
+								"operator": "ne",
+								"right_operand": 200
+							},
+							"continue_on_failure": false,
+							"display_name": "Anything else",
+							"skip_execution": false
+						},
+						"object_type": "definition_activity",
+						"actions": [
+							{
+								"unique_name": "definition_activity_01QD5GF2NSZFK076FeniPEoaGuixDy4aGiJ",
+								"name": "Completed",
+								"title": "Failed",
+								"type": "logic.completed",
+								"base_type": "activity",
+								"properties": {
+									"completion_type": "failed-completed",
+									"continue_on_failure": false,
+									"display_name": "Failed",
+									"result_message": "Failed to search for computers\n\nStatus code: $activity.definition_activity_01QD4WCPQWEW301rSNGUwo9InxUsrJFYpz4.output.status_code$\nResponse body: $activity.definition_activity_01QD4WCPQWEW301rSNGUwo9InxUsrJFYpz4.output.response_body$",
+									"skip_execution": false
+								},
+								"object_type": "definition_activity"
+							}
+						]
+					}
+				]
+			}
+		],
+		"categories": [
+			"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+		]
+	}
+}
