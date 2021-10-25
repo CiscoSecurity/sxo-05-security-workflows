@@ -1,11 +1,52 @@
 {
 	"workflow": {
-	  "unique_name": "definition_workflow_01PV8LAX358GK0DDuEOuvTBFBFkZTyKXUiw",
-	  "name": "Palo Alto - Panorama - Get Address Groups",
-	  "title": "Palo Alto - Panorama - Get Address Groups",
+	  "unique_name": "definition_workflow_01QLI0UV3XVZP6jXvzVeWgCBjNQqrNzlxsP",
+	  "name": "Palo Alto - Panorama - Get Service Groups",
+	  "title": "Palo Alto - Panorama - Get Service Groups",
 	  "type": "generic.workflow",
 	  "base_type": "workflow",
 	  "variables": [
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Service Group Name",
+			"type": "datatype.string",
+			"description": "Name of the service group to fetch. If this is left blank, all groups will be fetched",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QLJ1T8DJOJA1zVtdAqzo6dstey4PdK2pW",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "shared",
+			"scope": "input",
+			"name": "Location",
+			"type": "datatype.string",
+			"description": "The availability of the service group. Valid values include: shared, device-group. If you use a device-group, you must provide a Device Group Name",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QLJBR2YAU9K4lGKu0iU9MVsp04KzTqQWP",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "output",
+			"name": "Service Groups",
+			"type": "datatype.string",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QLJ27TDD47Z1vzvjpppgkdjdNAkhUJKEw",
+		  "object_type": "variable_workflow"
+		},
 		{
 		  "schema_id": "datatype.secure_string",
 		  "properties": {
@@ -17,35 +58,7 @@
 			"is_required": true,
 			"is_invisible": false
 		  },
-		  "unique_name": "variable_workflow_01PV8N4YDQY0Q4cuNOawBiM9IadMyUhLo5c",
-		  "object_type": "variable_workflow"
-		},
-		{
-		  "schema_id": "datatype.string",
-		  "properties": {
-			"value": "",
-			"scope": "input",
-			"name": "Address Group Name",
-			"type": "datatype.string",
-			"description": "Name of the address group to fetch. If this is left blank, all groups will be fetched",
-			"is_required": false,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01PVBNHZRLZN34lQdm9D9q0p7ZuHOYtSHEZ",
-		  "object_type": "variable_workflow"
-		},
-		{
-		  "schema_id": "datatype.string",
-		  "properties": {
-			"value": "shared",
-			"scope": "input",
-			"name": "Location",
-			"type": "datatype.string",
-			"description": "The availability of the address group. Valid values include: shared, device-group. If you use device-group, you must provide a Device Group Name",
-			"is_required": true,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01PV8PXH2WFLZ5ryS757D0DRUHYL3Fl71oH",
+		  "unique_name": "variable_workflow_01QLJAU5UZ25N2xCR2OdbAvfe17LiorWfA4",
 		  "object_type": "variable_workflow"
 		},
 		{
@@ -55,24 +68,11 @@
 			"scope": "input",
 			"name": "Device Group Name",
 			"type": "datatype.string",
-			"description": "The name of the device group to get address groups for. This is only required when Location is set to device-group",
+			"description": "The name of the device group to get service groups for. This is only required when Location is set to device-group",
 			"is_required": false,
 			"is_invisible": false
 		  },
-		  "unique_name": "variable_workflow_01PV8U64YJOZ62e2ovyN97ssO7VeT0onrKH",
-		  "object_type": "variable_workflow"
-		},
-		{
-		  "schema_id": "datatype.string",
-		  "properties": {
-			"value": "",
-			"scope": "output",
-			"name": "Address Groups",
-			"type": "datatype.string",
-			"is_required": false,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01QTZMAGQIC551NZjHDa7dqFCkMCZTZ4SjJ",
+		  "unique_name": "variable_workflow_01QLJB94A3DY01YDKa7BqqVk5TYGQUTIDID",
 		  "object_type": "variable_workflow"
 		}
 	  ],
@@ -82,8 +82,8 @@
 		  "is_atomic": true
 		},
 		"delete_workflow_instance": false,
-		"description": "Gets a list of address groups from Palo Alto Panorama. If a group name is provided, the first matching group will be returned.\n\nNote: You may need to use a SecureX Orchestration Remote to communicate with Panorama if it's on-premise. See: https://cs.co/SXO_remote\n\nTarget: HTTP Endpoint for your Panorama instance with a path of \"/restapi/\"\n\nAccount Key: None (uses an API key)\n\nSteps:\n[] Request a list of address groups\n[] Check if the request was successful:\n[]> If it was, extract the groups and set the output variable\n[]> If it wasn't, output an error\n\nMore information about this API: https://<your Panorama>/restapi-doc/#tag/objects-address-groups/paths/~1restapi~1v10.0~1Objects~1AddressGroups/get",
-		"display_name": "Palo Alto - Panorama - Get Address Groups",
+		"description": "Gets a list of service groups from Palo Alto Panorama.\n\nNote: You may need to use a SecureX Orchestration Remote to communicate with Panorama if it's on-premise. See: https://cs.co/SXO_remote\n\nTarget: HTTP Endpoint for your Panorama instance with a path of \"/restapi/\"\n\nAccount Key: None (uses an API key)\n\nSteps:\n[] Request a list of service groups\n[] Check if the request was successful:\n[]> If it was, set the output variable\n[]> If it wasn't, return an error\n\nMore information about this API: https://<your Panorama>/restapi-doc/#tag/objects-address-groups/paths/~1restapi~1v10.0~1Objects~1ServiceGroups/get",
+		"display_name": "Palo Alto - Panorama - Get Service Groups",
 		"runtime_user": {
 		  "target_default": true
 		},
@@ -95,9 +95,9 @@
 	  "object_type": "definition_workflow",
 	  "actions": [
 		{
-		  "unique_name": "definition_activity_01PV8M4MGE98E6gR6wJ4ho4s2nEb6GCeEDw",
+		  "unique_name": "definition_activity_01QLJEK6E3YYH0QaQ97mWdcKlSSp2d32IzX",
 		  "name": "HTTP Request",
-		  "title": "Get address groups",
+		  "title": "Get service groups",
 		  "type": "web-service.http_request",
 		  "base_type": "activity",
 		  "properties": {
@@ -110,12 +110,12 @@
 			"custom_headers": [
 			  {
 				"name": "X-PAN-KEY",
-				"value": "$workflow.definition_workflow_01PV8LAX358GK0DDuEOuvTBFBFkZTyKXUiw.input.variable_workflow_01PV8N4YDQY0Q4cuNOawBiM9IadMyUhLo5c$"
+				"value": "$workflow.definition_workflow_01QLI0UV3XVZP6jXvzVeWgCBjNQqrNzlxsP.input.variable_workflow_01QLJAU5UZ25N2xCR2OdbAvfe17LiorWfA4$"
 			  }
 			],
-			"display_name": "Get address groups",
+			"display_name": "Get service groups",
 			"method": "GET",
-			"relative_url": "v10.0/Objects/AddressGroups?location=$workflow.definition_workflow_01PV8LAX358GK0DDuEOuvTBFBFkZTyKXUiw.input.variable_workflow_01PV8PXH2WFLZ5ryS757D0DRUHYL3Fl71oH$&device-group=$workflow.definition_workflow_01PV8LAX358GK0DDuEOuvTBFBFkZTyKXUiw.input.variable_workflow_01PV8U64YJOZ62e2ovyN97ssO7VeT0onrKH$&name=$workflow.definition_workflow_01PV8LAX358GK0DDuEOuvTBFBFkZTyKXUiw.input.variable_workflow_01PVBNHZRLZN34lQdm9D9q0p7ZuHOYtSHEZ$",
+			"relative_url": "v10.0/Objects/ServiceGroups?location=$workflow.definition_workflow_01QLI0UV3XVZP6jXvzVeWgCBjNQqrNzlxsP.input.variable_workflow_01QLJBR2YAU9K4lGKu0iU9MVsp04KzTqQWP$&device-group=$workflow.definition_workflow_01QLI0UV3XVZP6jXvzVeWgCBjNQqrNzlxsP.input.variable_workflow_01QLJB94A3DY01YDKa7BqqVk5TYGQUTIDID$&name=$workflow.definition_workflow_01QLI0UV3XVZP6jXvzVeWgCBjNQqrNzlxsP.input.variable_workflow_01QLJ1T8DJOJA1zVtdAqzo6dstey4PdK2pW$",
 			"runtime_user": {
 			  "target_default": true
 			},
@@ -127,7 +127,7 @@
 		  "object_type": "definition_activity"
 		},
 		{
-		  "unique_name": "definition_activity_01PV8QXCL1QMB6x9US9osi8sMq4XheNw3kh",
+		  "unique_name": "definition_activity_01QLJJ603DJCI6VQUvseVpdOXnLRHDeIplb",
 		  "name": "Condition Block",
 		  "title": "Was the request successful?",
 		  "type": "logic.if_else",
@@ -140,14 +140,14 @@
 		  "object_type": "definition_activity",
 		  "blocks": [
 			{
-			  "unique_name": "definition_activity_01PV8QXG85XJR12NNyogk4xIom9y20CWGn5",
+			  "unique_name": "definition_activity_01QLJJ61UMZO754ZXA5HcGwRg89A1FjnkHG",
 			  "name": "Condition Branch",
 			  "title": "200/Success",
 			  "type": "logic.condition_block",
 			  "base_type": "activity",
 			  "properties": {
 				"condition": {
-				  "left_operand": "$activity.definition_activity_01PV8M4MGE98E6gR6wJ4ho4s2nEb6GCeEDw.output.status_code$",
+				  "left_operand": "$activity.definition_activity_01QLJEK6E3YYH0QaQ97mWdcKlSSp2d32IzX.output.status_code$",
 				  "operator": "eq",
 				  "right_operand": 200
 				},
@@ -158,19 +158,19 @@
 			  "object_type": "definition_activity",
 			  "actions": [
 				{
-				  "unique_name": "definition_activity_01QTZ6B0V9KQA34nkSjvlU0ICa8TGpYd8qg",
+				  "unique_name": "definition_activity_01QVP36H9JO6C6a1DdWau3R1SoJuxzHVtsx",
 				  "name": "Execute Python Script",
-				  "title": "Extract address groups",
+				  "title": "Extract service groups",
 				  "type": "python3.script",
 				  "base_type": "activity",
 				  "properties": {
 					"action_timeout": 180,
 					"continue_on_failure": true,
-					"display_name": "Extract address groups",
+					"display_name": "Extract service groups",
 					"script": "import sys\nimport json\ngroup_name = sys.argv[1]\nresponse = json.loads(sys.argv[2])\ngroups = response['result']['entry']\noutput = json.dumps(\n  groups[0] if group_name else groups\n)",
 					"script_arguments": [
-					  "$workflow.definition_workflow_01PV8LAX358GK0DDuEOuvTBFBFkZTyKXUiw.input.variable_workflow_01PVBNHZRLZN34lQdm9D9q0p7ZuHOYtSHEZ$",
-					  "$activity.definition_activity_01PV8M4MGE98E6gR6wJ4ho4s2nEb6GCeEDw.output.response_body$"
+					  "$workflow.definition_workflow_01QLI0UV3XVZP6jXvzVeWgCBjNQqrNzlxsP.input.variable_workflow_01QLJ1T8DJOJA1zVtdAqzo6dstey4PdK2pW$",
+					  "$activity.definition_activity_01QLJEK6E3YYH0QaQ97mWdcKlSSp2d32IzX.output.response_body$"
 					],
 					"script_queries": [
 					  {
@@ -184,7 +184,7 @@
 				  "object_type": "definition_activity"
 				},
 				{
-				  "unique_name": "definition_activity_01QTZ8HAB9YWY0ikF6CetZz9EHyxsgDjNmv",
+				  "unique_name": "definition_activity_01QVP761HMXRW0PQyMG0ErNzSLYVldCBIIV",
 				  "name": "Condition Block",
 				  "title": "Extraction successful?",
 				  "type": "logic.if_else",
@@ -197,16 +197,16 @@
 				  "object_type": "definition_activity",
 				  "blocks": [
 					{
-					  "unique_name": "definition_activity_01QTZ8HCZKSGC5XUXk7bSxMccDWy3WVxFM1",
+					  "unique_name": "definition_activity_01QVP764SN3885vxuOyjzbkrLBLnPDCGfMR",
 					  "name": "Condition Branch",
 					  "title": "No",
 					  "type": "logic.condition_block",
 					  "base_type": "activity",
 					  "properties": {
 						"condition": {
-						  "left_operand": "$activity.definition_activity_01QTZ6B0V9KQA34nkSjvlU0ICa8TGpYd8qg.output.succeeded$",
+						  "left_operand": "$activity.definition_activity_01QLJEK6E3YYH0QaQ97mWdcKlSSp2d32IzX.output.succeeded$",
 						  "operator": "eq",
-						  "right_operand": false
+						  "right_operand": "false"
 						},
 						"continue_on_failure": false,
 						"display_name": "No",
@@ -215,7 +215,7 @@
 					  "object_type": "definition_activity",
 					  "actions": [
 						{
-						  "unique_name": "definition_activity_01QTZ8Z883R053w5sWn8FRzkoY7rBqwyYiW",
+						  "unique_name": "definition_activity_01QVP82DUY4KD3HZMpGV27NfxuYjLPtljbv",
 						  "name": "Completed",
 						  "title": "Failed",
 						  "type": "logic.completed",
@@ -224,7 +224,7 @@
 							"completion_type": "failed-completed",
 							"continue_on_failure": false,
 							"display_name": "Failed",
-							"result_message": "Failed to extract address groups",
+							"result_message": "Failed to extract service groups",
 							"skip_execution": false
 						  },
 						  "object_type": "definition_activity"
@@ -234,7 +234,7 @@
 				  ]
 				},
 				{
-				  "unique_name": "definition_activity_01QTZOUPN1QG449qideNzcb1O3XX057QdjI",
+				  "unique_name": "definition_activity_01QLJLFYZNDSM6C6H01cLCutsHt327O0I9k",
 				  "name": "Set Variables",
 				  "title": "Set output variable",
 				  "type": "core.set_multiple_variables",
@@ -245,8 +245,8 @@
 					"skip_execution": false,
 					"variables_to_update": [
 					  {
-						"variable_to_update": "$workflow.definition_workflow_01PV8LAX358GK0DDuEOuvTBFBFkZTyKXUiw.output.variable_workflow_01QTZMAGQIC551NZjHDa7dqFCkMCZTZ4SjJ$",
-						"variable_value_new": "$activity.definition_activity_01QTZ6B0V9KQA34nkSjvlU0ICa8TGpYd8qg.output.script_queries.Output$"
+						"variable_to_update": "$workflow.definition_workflow_01QLI0UV3XVZP6jXvzVeWgCBjNQqrNzlxsP.output.variable_workflow_01QLJ27TDD47Z1vzvjpppgkdjdNAkhUJKEw$",
+						"variable_value_new": "$activity.definition_activity_01QVP36H9JO6C6a1DdWau3R1SoJuxzHVtsx.output.script_queries.Output$"
 					  }
 					]
 				  },
@@ -255,14 +255,14 @@
 			  ]
 			},
 			{
-			  "unique_name": "definition_activity_01PV8QXGXY73S4jLKg3GgjhLlphkl9EaDKq",
+			  "unique_name": "definition_activity_01QLJJ62FOTMC7JmgvXdKXPYUp8SIXsutS0",
 			  "name": "Condition Branch",
 			  "title": "Anything else",
 			  "type": "logic.condition_block",
 			  "base_type": "activity",
 			  "properties": {
 				"condition": {
-				  "left_operand": "$activity.definition_activity_01PV8M4MGE98E6gR6wJ4ho4s2nEb6GCeEDw.output.status_code$",
+				  "left_operand": "$activity.definition_activity_01QLJEK6E3YYH0QaQ97mWdcKlSSp2d32IzX.output.status_code$",
 				  "operator": "ne",
 				  "right_operand": 200
 				},
@@ -273,7 +273,7 @@
 			  "object_type": "definition_activity",
 			  "actions": [
 				{
-				  "unique_name": "definition_activity_01PV8QYCRADLS0GnxIAWhAGRkwGHG7xvxBD",
+				  "unique_name": "definition_activity_01QLJKB25M9QD7IKDkRJ8QoZ0kI5TzBC05b",
 				  "name": "Completed",
 				  "title": "Failed",
 				  "type": "logic.completed",
@@ -282,7 +282,7 @@
 					"completion_type": "failed-completed",
 					"continue_on_failure": false,
 					"display_name": "Failed",
-					"result_message": "Failed to fetch address groups\n\nStatus code: $activity.definition_activity_01PV8M4MGE98E6gR6wJ4ho4s2nEb6GCeEDw.output.status_code$\nResponse body: $activity.definition_activity_01PV8M4MGE98E6gR6wJ4ho4s2nEb6GCeEDw.output.response_body$",
+					"result_message": "Failed to get service groups\n\nStatus code: $activity.definition_activity_01QLJEK6E3YYH0QaQ97mWdcKlSSp2d32IzX.output.status_code$\nResponse body: $activity.definition_activity_01QLJEK6E3YYH0QaQ97mWdcKlSSp2d32IzX.output.response_body$",
 					"skip_execution": false
 				  },
 				  "object_type": "definition_activity"

@@ -1,0 +1,267 @@
+{
+	"workflow": {
+	  "unique_name": "definition_workflow_01QJRAZB70NRE09j6rO6Zc8KhACuSoopRcq",
+	  "name": "Palo Alto - Panorama - Create Service Group",
+	  "title": "Palo Alto - Panorama - Create Service Group",
+	  "type": "generic.workflow",
+	  "base_type": "workflow",
+	  "variables": [
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "[]",
+			"scope": "input",
+			"name": "Services",
+			"type": "datatype.string",
+			"description": "A JSON-formatted list of service objects to include in the service group. For example:\n[\"name1\", \"name2\", ...]",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QKGT8W15WNW4OWQqrrQKFw6RfYegspg9E",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.secure_string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "API Key",
+			"type": "datatype.secure_string",
+			"description": "Your API key for the Panorama REST API. See: https://docs.paloaltonetworks.com/pan-os/10-0/pan-os-panorama-api/get-started-with-the-pan-os-xml-api/get-your-api-key.html",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QLIFP349DGS5xrGc0YKhZyFMHXdZMpe2t",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Group Name",
+			"type": "datatype.string",
+			"description": "A name for the new service group",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QKGJZR5EI8N5DEDhZoosSeWTGGIdy7tqo",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Device Group Name",
+			"type": "datatype.string",
+			"description": "The name of the device group to create service groups for. This is only required when Location is set to device-group",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QKGBIH56FSJ5qwCwaFHrYPC7HgDyCZEdM",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Location",
+			"type": "datatype.string",
+			"description": "The availability of the service group. Valid values include: shared, device-group. If using device-group, you must provide a Device Group Name",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QKGIH0U7W552hZ0SHK3IJPmo6sEmCiTrA",
+		  "object_type": "variable_workflow"
+		}
+	  ],
+	  "properties": {
+		"atomic": {
+		  "atomic_group": "Palo Alto Panorama",
+		  "is_atomic": true
+		},
+		"delete_workflow_instance": false,
+		"description": "Creates a service group in Palo Alto Panorama.\n\nNote: You may need to use a SecureX Orchestration Remote to communicate with Panorama if it's on-premise. See: https://cs.co/SXO_remote\n\nTarget: HTTP Endpoint for your Panorama instance with a path of \"/restapi/\"\n\nAccount Key: None (uses an API key)\n\nSteps:\n[] Build the service group JSON\n[] Check if the JSON was built correctly:\n[]> If not, output an error\n[] Request the group be created\n[] Check if the request was successful:\n[]> If it wasn't, output an error\n\nMore information about this API: https://<your Panorama>/restapi-doc/#tag/objects-address-groups/paths/~1restapi~1v10.0~1Objects~1ServiceGroups/post",
+		"display_name": "Palo Alto - Panorama - Create Service Group",
+		"runtime_user": {
+		  "target_default": true
+		},
+		"target": {
+		  "target_type": "web-service.endpoint",
+		  "specify_on_workflow_start": true
+		}
+	  },
+	  "object_type": "definition_workflow",
+	  "actions": [
+		{
+		  "unique_name": "definition_activity_01QKH5SMIPD1Z0UTA4uCehLX8ecwdafFpkO",
+		  "name": "Execute Python Script",
+		  "title": "Build the service group",
+		  "type": "python3.script",
+		  "base_type": "activity",
+		  "properties": {
+			"action_timeout": 180,
+			"continue_on_failure": false,
+			"display_name": "Build the service group",
+			"script": "import sys, json\nerror, services = None, None\ntry:\n    services = json.loads(sys.argv[2])\nexcept json.decoder.JSONDecodeError:\n    error = \"Invalid input data: services is required  in JSON-formatted list.\"\nserviceGroup = {\n    '@name': sys.argv[1],\n    \"members\": {\n      \"member\":\n        services\n    }\n}\nserviceGroup = json.dumps({'entry': serviceGroup})",
+			"script_arguments": [
+			  "$workflow.definition_workflow_01QJRAZB70NRE09j6rO6Zc8KhACuSoopRcq.input.variable_workflow_01QKGJZR5EI8N5DEDhZoosSeWTGGIdy7tqo$",
+			  "$workflow.definition_workflow_01QJRAZB70NRE09j6rO6Zc8KhACuSoopRcq.input.variable_workflow_01QKGT8W15WNW4OWQqrrQKFw6RfYegspg9E$"
+			],
+			"script_queries": [
+			  {
+				"script_query": "serviceGroup",
+				"script_query_name": "ServiceGroup",
+				"script_query_type": "string"
+			  },
+			  {
+				"script_query": "error",
+				"script_query_name": "Error",
+				"script_query_type": "string"
+			  }
+			],
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01QLEZDOMN6MD1bCzHzlxNXlVn36gzU4bCJ",
+		  "name": "Condition Block",
+		  "title": "Input data correct?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Input data correct?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01QLEZDRDNCEO70tu73HeU2kuZWaFaGXizO",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01QKH5SMIPD1Z0UTA4uCehLX8ecwdafFpkO.output.script_queries.Error$",
+				  "operator": "ne",
+				  "right_operand": "None"
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01QLF1UMHL1QJ5kpIeGSvmUOz5j7LV7HxAY",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "Failed to generate the service group object JSON",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01QKHEKG7GZ420P36fXzbWQLqGdo9gcRBW0",
+		  "name": "HTTP Request",
+		  "title": "Create service group",
+		  "type": "web-service.http_request",
+		  "base_type": "activity",
+		  "properties": {
+			"accept": "application/json",
+			"action_timeout": 180,
+			"allow_auto_redirect": true,
+			"body": "$activity.definition_activity_01QKH5SMIPD1Z0UTA4uCehLX8ecwdafFpkO.output.script_queries.ServiceGroup$",
+			"content_type": "application/json",
+			"continue_on_error_status_code": true,
+			"continue_on_failure": false,
+			"custom_headers": [
+			  {
+				"name": "X-PAN-KEY",
+				"value": "$workflow.definition_workflow_01QJRAZB70NRE09j6rO6Zc8KhACuSoopRcq.input.variable_workflow_01QLIFP349DGS5xrGc0YKhZyFMHXdZMpe2t$"
+			  }
+			],
+			"display_name": "Create service group",
+			"method": "POST",
+			"relative_url": "v10.0/Objects/ServiceGroups?location=$workflow.definition_workflow_01QJRAZB70NRE09j6rO6Zc8KhACuSoopRcq.input.variable_workflow_01QKGIH0U7W552hZ0SHK3IJPmo6sEmCiTrA$&device-group=$workflow.definition_workflow_01QJRAZB70NRE09j6rO6Zc8KhACuSoopRcq.input.variable_workflow_01QKGBIH56FSJ5qwCwaFHrYPC7HgDyCZEdM$&name=$workflow.definition_workflow_01QJRAZB70NRE09j6rO6Zc8KhACuSoopRcq.input.variable_workflow_01QKGJZR5EI8N5DEDhZoosSeWTGGIdy7tqo$",
+			"runtime_user": {
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "use_workflow_target": true
+			}
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01QKKS9VSY7UI1wrKYgXgmxEH7QRA7K7kqp",
+		  "name": "Condition Block",
+		  "title": "Was the request successful?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Was the request successful?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01QKKS9XIU9EK4ggFgo4apYaq8PnMOvtraC",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01QKHEKG7GZ420P36fXzbWQLqGdo9gcRBW0.output.status_code$",
+				  "operator": "ne",
+				  "right_operand": 200
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01QKKYBP71C2J4BxVzi4QH2ExCgju4RX8m8",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "Failed to create the service group\n\nStatus code: $activity.definition_activity_01QKHEKG7GZ420P36fXzbWQLqGdo9gcRBW0.output.status_code$\nResponse body: $activity.definition_activity_01QKHEKG7GZ420P36fXzbWQLqGdo9gcRBW0.output.response_body$",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		}
+	  ],
+	  "categories": [
+		"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+	  ]
+	}
+  }

@@ -279,7 +279,7 @@
                       "action_timeout": 180,
                       "continue_on_failure": false,
                       "display_name": "Convert vulnerability list to text",
-                      "script": "import json,sys\n\nvulnerabilities = json.loads(sys.argv[1])\nscoreThreshold = float(sys.argv[2])\nthresholdMet = False\noutString = \"| CVE | Score |\\n|:-----|:-----|\\n\"\n\nfor vulnerability in vulnerabilities:\n  if float(vulnerability['score']) >= scoreThreshold:\n    thresholdMet = True\n  \n  outString = outString + '| [' + vulnerability['cve'] + '](' + vulnerability['url'] + ') | ' + vulnerability['score'] + \" |\\n\"",
+                      "script": "import json,sys\n\nvulnerabilities = json.loads(sys.argv[1])\nscoreThreshold = float(sys.argv[2])\nthresholdMet = False\noutString = \"| CVE | Score |\\n|:-----|:-----|\\n\"\n\nfor vulnerability in vulnerabilities:\n  if float(vulnerability['score']) >= scoreThreshold:\n    thresholdMet = True\n\n  outString = outString + '| [' + vulnerability['cve'] + '](' + vulnerability['url'] + ') | ' + vulnerability['score'] + \" |\\n\"",
                       "script_arguments": [
                         "$activity.definition_activity_01NP170T8HDWT3YOaOkOOes9QYhzmfVXOC5.input.source_array[@].vulnerabilities$",
                         "$workflow.definition_workflow_01NP16X4BXPWI7iEePm6Ig3AR5PNGuJw2hl.local.variable_workflow_01NP16X45YQ0N1MPSAUSt3kmaVgPVpB43A0$"

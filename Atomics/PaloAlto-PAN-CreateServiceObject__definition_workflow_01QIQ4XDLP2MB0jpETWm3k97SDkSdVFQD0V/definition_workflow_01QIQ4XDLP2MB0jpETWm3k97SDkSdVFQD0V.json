@@ -1,0 +1,257 @@
+{
+	"workflow": {
+	  "unique_name": "definition_workflow_01QIQ4XDLP2MB0jpETWm3k97SDkSdVFQD0V",
+	  "name": "Palo Alto - Panorama - Create Service Object",
+	  "title": "Palo Alto - Panorama - Create Service Object",
+	  "type": "generic.workflow",
+	  "base_type": "workflow",
+	  "variables": [
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Device Group Name",
+			"type": "datatype.string",
+			"description": "The name of the device group to create service objects for. This is only required when Location is set to device-group",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QIX4KB9NJOU44cPUqSiTBwakt4PEs32Gj",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Location",
+			"type": "datatype.string",
+			"description": "The availability of the service object. Valid values include: shared, device-group. If using device-group, you must provide a Device Group Name",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QIWWITOV11Z2qVJpjp7JAYHTpojGWiH2B",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Object Name",
+			"type": "datatype.string",
+			"description": "A name for the new service object",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QIWOOQZSUEN5f0cgjR8FvyjrBjLZCXL8b",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Source Port",
+			"type": "datatype.string",
+			"description": "Source port for the service. This is optional",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QIWSCV00O7Q3PUgCfAXKVf0wnZSwXHyEW",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Service Protocol",
+			"type": "datatype.string",
+			"description": "The protocol for the service. Valid values include: tcp, udp",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QIWNCBML6MX38U5B6GypOEvw7vnX9GgtD",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Object Description",
+			"type": "datatype.string",
+			"description": "A description for the new service object",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QIWQL2Q7TO4403qsUM07WM3nNQ44d53XZ",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.secure_string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "API Key",
+			"type": "datatype.secure_string",
+			"description": "Your API key for the Panorama REST API. See: https://docs.paloaltonetworks.com/pan-os/10-0/pan-os-panorama-api/get-started-with-the-pan-os-xml-api/get-your-api-key.html",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QNTZTDPJ0PX70eNeCccu2TADhS2dH7vCl",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Destination Port",
+			"type": "datatype.string",
+			"description": "Destination port for the service",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QIWRPHGOGSE0HZa5EwaC5nfiEtLk8VvB3",
+		  "object_type": "variable_workflow"
+		}
+	  ],
+	  "properties": {
+		"atomic": {
+		  "atomic_group": "Palo Alto Panorama",
+		  "is_atomic": true
+		},
+		"delete_workflow_instance": false,
+		"description": "Creates a service object in Palo Alto Panorama.\n\nNote: You may need to use a SecureX Orchestration Remote to communicate with Panorama if it's on-premise. See: https://cs.co/SXO_remote\n\nTarget: HTTP Endpoint for your Panorama instance with a path of \"/restapi/\"\n\nAccount Key: None (uses an API key)\n\nSteps:\n[] Build the service object JSON\n[] Request the object be created\n[] Check if the request was successful:\n[]> If it wasn't, output an error\n\nMore information about this API: https://<your Panorama>/restapi-doc/#tag/objects-addresses/paths/~1restapi~1v10.0~1Objects~1Services/post",
+		"display_name": "Palo Alto - Panorama - Create Service Object",
+		"runtime_user": {
+		  "target_default": true
+		},
+		"target": {
+		  "target_type": "web-service.endpoint",
+		  "specify_on_workflow_start": true
+		}
+	  },
+	  "object_type": "definition_workflow",
+	  "actions": [
+		{
+		  "unique_name": "definition_activity_01QIX6MNLY6IJ1lFPqXI4v3C55bMAwOTwdK",
+		  "name": "Execute Python Script",
+		  "title": "Build the service object",
+		  "type": "python3.script",
+		  "base_type": "activity",
+		  "properties": {
+			"action_timeout": 180,
+			"continue_on_failure": false,
+			"display_name": "Build the service object",
+			"script": "import sys, json\nserviceObject = {\n    '@name': sys.argv[1],\n    'protocol': {\n        sys.argv[2]: {\n            'port': sys.argv[3]\n        }\n    }\n}\nif len(sys.argv[5]) > 0:\n    serviceObject['description'] = sys.argv[5]\nif len(sys.argv[4]) > 0:\n    serviceObject['protocol'][sys.argv[2]].update({'source-port': sys.argv[4]})\nserviceObject = json.dumps({'entry': serviceObject})",
+			"script_arguments": [
+			  "$workflow.definition_workflow_01QIQ4XDLP2MB0jpETWm3k97SDkSdVFQD0V.input.variable_workflow_01QIWOOQZSUEN5f0cgjR8FvyjrBjLZCXL8b$",
+			  "$workflow.definition_workflow_01QIQ4XDLP2MB0jpETWm3k97SDkSdVFQD0V.input.variable_workflow_01QIWNCBML6MX38U5B6GypOEvw7vnX9GgtD$",
+			  "$workflow.definition_workflow_01QIQ4XDLP2MB0jpETWm3k97SDkSdVFQD0V.input.variable_workflow_01QIWRPHGOGSE0HZa5EwaC5nfiEtLk8VvB3$",
+			  "$workflow.definition_workflow_01QIQ4XDLP2MB0jpETWm3k97SDkSdVFQD0V.input.variable_workflow_01QIWSCV00O7Q3PUgCfAXKVf0wnZSwXHyEW$",
+			  "$workflow.definition_workflow_01QIQ4XDLP2MB0jpETWm3k97SDkSdVFQD0V.input.variable_workflow_01QIWQL2Q7TO4403qsUM07WM3nNQ44d53XZ$"
+			],
+			"script_queries": [
+			  {
+				"script_query": "serviceObject",
+				"script_query_name": "serviceObject",
+				"script_query_type": "string"
+			  }
+			],
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01QJPRN8JCRHI5ln29n1ovRChxMc9Pq5Mi3",
+		  "name": "HTTP Request",
+		  "title": "Create service object",
+		  "type": "web-service.http_request",
+		  "base_type": "activity",
+		  "properties": {
+			"accept": "application/json",
+			"action_timeout": 180,
+			"allow_auto_redirect": true,
+			"body": "$activity.definition_activity_01QIX6MNLY6IJ1lFPqXI4v3C55bMAwOTwdK.output.script_queries.serviceObject$",
+			"content_type": "application/json",
+			"continue_on_error_status_code": true,
+			"continue_on_failure": false,
+			"custom_headers": [
+			  {
+				"name": "X-PAN-KEY",
+				"value": "$workflow.definition_workflow_01QIQ4XDLP2MB0jpETWm3k97SDkSdVFQD0V.input.variable_workflow_01QNTZTDPJ0PX70eNeCccu2TADhS2dH7vCl$"
+			  }
+			],
+			"display_name": "Create service object",
+			"method": "POST",
+			"relative_url": "v10.0/Objects/Services?location=$workflow.definition_workflow_01QIQ4XDLP2MB0jpETWm3k97SDkSdVFQD0V.input.variable_workflow_01QIWWITOV11Z2qVJpjp7JAYHTpojGWiH2B$&device-group=$workflow.definition_workflow_01QIQ4XDLP2MB0jpETWm3k97SDkSdVFQD0V.input.variable_workflow_01QIX4KB9NJOU44cPUqSiTBwakt4PEs32Gj$&name=$workflow.definition_workflow_01QIQ4XDLP2MB0jpETWm3k97SDkSdVFQD0V.input.variable_workflow_01QIWOOQZSUEN5f0cgjR8FvyjrBjLZCXL8b$",
+			"runtime_user": {
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "use_workflow_target": true
+			}
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01QJR2ZLTDE3462Unr3N4811iMgTv4iOKx4",
+		  "name": "Condition Block",
+		  "title": "Was the request successful?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Was the request successful?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01QJR2ZNPYHJ14amddDrb78eYh2MLzUr01V",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01QJPRN8JCRHI5ln29n1ovRChxMc9Pq5Mi3.output.status_code$",
+				  "operator": "ne",
+				  "right_operand": 200
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01QJR4V7CGLII4B7k4IK1sNzAsPDwFo8cWm",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "Failed to create the service object\n\nStatus code: $activity.definition_activity_01QJPRN8JCRHI5ln29n1ovRChxMc9Pq5Mi3.output.status_code$\nResponse body: $activity.definition_activity_01QJPRN8JCRHI5ln29n1ovRChxMc9Pq5Mi3.output.response_body$",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		}
+	  ],
+	  "categories": [
+		"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+	  ]
+	}
+  }

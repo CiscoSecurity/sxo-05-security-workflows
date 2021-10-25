@@ -274,7 +274,7 @@
                       "action_timeout": 180,
                       "continue_on_failure": false,
                       "display_name": "Convert vulnerability list to text",
-                      "script": "import json,sys\n\nvulnerabilities = json.loads(sys.argv[1])\nscoreThreshold = float(sys.argv[2])\nthresholdMet = False\noutString = '<table border=\"1\"><thead><tr><th>CVE</th><th>Score</th></tr></thead><tbody>'\n\nfor vulnerability in vulnerabilities:\n  if float(vulnerability['score']) >= scoreThreshold:\n    thresholdMet = True\n  \n  outString = outString + '<tr><td><a href=\"' + vulnerability['url'] + '\" target=\"_blank\">' + vulnerability['cve'] + '</a></td><td>' + vulnerability['score'] + '</td></tr>'\n\noutString = outString + '</tbody></table>'",
+                      "script": "import json,sys\n\nvulnerabilities = json.loads(sys.argv[1])\nscoreThreshold = float(sys.argv[2])\nthresholdMet = False\noutString = '<table border=\"1\"><thead><tr><th>CVE</th><th>Score</th></tr></thead><tbody>'\n\nfor vulnerability in vulnerabilities:\n  if float(vulnerability['score']) >= scoreThreshold:\n    thresholdMet = True\n\n  outString = outString + '<tr><td><a href=\"' + vulnerability['url'] + '\" target=\"_blank\">' + vulnerability['cve'] + '</a></td><td>' + vulnerability['score'] + '</td></tr>'\n\noutString = outString + '</tbody></table>'",
                       "script_arguments": [
                         "$activity.definition_activity_01NLOXNNGU8427csq1l19fIl65rEmtYlQHo.input.source_array[@].vulnerabilities$",
                         "$workflow.definition_workflow_01NLOGX5XZWH36I4ILmqUiBywWOAxnScesV.local.variable_workflow_01NLP82MVSO856OvN1Kj9Lxm3wneUkHeMeS$"
