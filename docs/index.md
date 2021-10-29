@@ -13,8 +13,8 @@ SecureX orchestration provides a no-to-low code approach for building automated 
 
 ---
 
-## <i class="far fa-star mr-1"></i> What's New
-SecureX orchestration recently underwent scheduled maintenance. Please see [this page]({{ site.baseurl }}/updates/september-2021) for important information about changes and new features you may see in the product.
+## <i class="far fa-star mr-1"></i> Webhooks are here!
+Want to trigger orchestration workflows from an external system or allow another product to notify orchestration of events? Check out [webhooks]({{ site.baseurl }}/webhooks).
 
 ---
 
