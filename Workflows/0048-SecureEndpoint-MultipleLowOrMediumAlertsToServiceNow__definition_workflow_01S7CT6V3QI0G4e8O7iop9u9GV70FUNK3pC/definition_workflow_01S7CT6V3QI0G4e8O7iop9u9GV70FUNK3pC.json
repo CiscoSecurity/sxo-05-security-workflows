@@ -1,0 +1,789 @@
+{
+	"workflow": {
+	  "unique_name": "definition_workflow_01S7CT6V3QI0G4e8O7iop9u9GV70FUNK3pC",
+	  "name": "0048 - Secure Endpoint - Multiple Low or Medium Alerts",
+	  "title": "0048 - Secure Endpoint - Multiple Low or Medium Alerts",
+	  "type": "generic.workflow",
+	  "base_type": "workflow",
+	  "variables": [
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "securex-orchestration",
+			"scope": "local",
+			"name": "ServiceNow User ID",
+			"type": "datatype.string",
+			"description": "The username of the user you're using to open incident tickets. This can either match the username in your ServiceNow account key or, if the account has the appropriate permissions, can be a different user",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01SBR6I6E7TEB0B2Q6AtfAMllBclGddGVQF",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "amp",
+			"scope": "local",
+			"name": "Secure Endpoint Region",
+			"type": "datatype.string",
+			"description": "The Cisco Secure Endpoint region you use. Valid values include:\n- \"amp\" for North America\n- \"eu.amp\" for Europe\n- \"apjc.amp\" for Asia Pacific",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01SIIWWOY9CR62uxM0UydMb9GgGHHnK3if1",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.integer",
+		  "properties": {
+			"value": 0,
+			"scope": "local",
+			"name": "Current Offset",
+			"type": "datatype.integer",
+			"description": "The current record offset. This will be populated automatically",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01S7CT6VBC7WI6kL8WDVrAkQqiRNDlD3JNB",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "Ticket Text",
+			"type": "datatype.string",
+			"description": "Placeholder used to assemble the ServiceNow ticket text. This will be populated automatically",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01S7CT6VBAX0035Y7eANEB0n6fNdSFBWEq7",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.integer",
+		  "properties": {
+			"value": 7,
+			"scope": "local",
+			"name": "Days to Search",
+			"type": "datatype.integer",
+			"description": "How may days into the past to search for events",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01SBRKED2NNJH237aWQiwOjH9r1KFVTYUfe",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "{\"hosts\":[],\"events\":[]}",
+			"scope": "local",
+			"name": "Event Data",
+			"type": "datatype.string",
+			"description": "Placeholder for event data. This will be populated automatically",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01S7CT6VB9V226TAiYG1wUmKAMPuvFffpNM",
+		  "object_type": "variable_workflow"
+		}
+	  ],
+	  "properties": {
+		"atomic": {
+		  "is_atomic": false
+		},
+		"delete_workflow_instance": false,
+		"description": "This workflow searches alerts in Cisco Secure Endpoint for hosts with multiple low or medium severity events. If any endpoints are found, a ServiceNow incident ticket is opened.\n\nTarget Group: Default TargetGroup\n\nTargets: AMP_Target, ServiceNow\n\nSteps:\n[] Fetch events from Cisco Secure Endpoint\n[] Parse the events and update local variables\n[] Convert the hosts to a table and select all hosts with 2 or more alerts\n[] For each host:\n[]> Fetch its full host record and extract some fields\n[]> Append this host to the ServiceNow ticket text\n[] Check if there are any hosts to report on:\n[]> If there are, create a ServiceNow incident ticket\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0048",
+		"display_name": "0048 - Secure Endpoint - Multiple Low or Medium Alerts",
+		"runtime_user": {
+		  "target_default": true
+		},
+		"target": {
+		  "execute_on_target_group": true,
+		  "target_group": {
+			"target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+			"run_on_all_targets": false,
+			"selected_target_types": [
+			  "web-service.endpoint"
+			],
+			"use_criteria": {
+			  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+			  "conditions": [
+				{
+				  "operator": "eqi",
+				  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+				  "right_operand": "AMP_Target"
+				}
+			  ]
+			}
+		  }
+		}
+	  },
+	  "object_type": "definition_workflow",
+	  "actions": [
+		{
+		  "unique_name": "definition_activity_01S7CT717E14U53ezEpcOZxo0HE7x1i5FeP",
+		  "name": "Set Variables",
+		  "title": "Convert days to search to seconds",
+		  "type": "core.set_multiple_variables",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Convert days to search to seconds",
+			"skip_execution": false,
+			"variables_to_update": [
+			  {
+				"variable_to_update": "$workflow.definition_workflow_01S7CT6V3QI0G4e8O7iop9u9GV70FUNK3pC.local.variable_workflow_01SBRKED2NNJH237aWQiwOjH9r1KFVTYUfe$",
+				"variable_value_new": "$workflow.definition_workflow_01S7CT6V3QI0G4e8O7iop9u9GV70FUNK3pC.local.variable_workflow_01SBRKED2NNJH237aWQiwOjH9r1KFVTYUfe$*86400"
+			  }
+			]
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01S7CT721J7AU1yHVK3qcWN9VxUtOnYvWmX",
+		  "name": "Calculate Date",
+		  "title": "Calculate start date for search",
+		  "type": "core.calculate_date",
+		  "base_type": "activity",
+		  "properties": {
+			"adjustment": "-$workflow.definition_workflow_01S7CT6V3QI0G4e8O7iop9u9GV70FUNK3pC.local.variable_workflow_01SBRKED2NNJH237aWQiwOjH9r1KFVTYUfe$",
+			"continue_on_failure": false,
+			"display_name": "Calculate start date for search",
+			"original_date": "$workflow.definition_workflow_01S7CT6V3QI0G4e8O7iop9u9GV70FUNK3pC.output.start_time$",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01SIHHYH1VW5C5uY3nZiOmlHbIeFb3DdaRw",
+		  "name": "While Loop",
+		  "title": "While there are events to parse",
+		  "type": "logic.while",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "While there are events to parse",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01SIHHYH9PH142VIyoKBuyVWxUFbFZwYcL5",
+			  "name": "Condition Branch",
+			  "title": "True=True",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$workflow.definition_workflow_01S7CT6V3QI0G4e8O7iop9u9GV70FUNK3pC.output.instance_id$",
+				  "operator": "eq",
+				  "right_operand": "$workflow.definition_workflow_01S7CT6V3QI0G4e8O7iop9u9GV70FUNK3pC.output.instance_id$"
+				},
+				"continue_on_failure": false,
+				"display_name": "True=True",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01S7CT73E90LM5Bwsd6hObtIkjxf9ey8wBD",
+				  "name": "Secure Endpoint - Get Events",
+				  "title": "Secure Endpoint - Get Events",
+				  "type": "workflow.atomic_workflow",
+				  "base_type": "subworkflow",
+				  "properties": {
+					"continue_on_failure": true,
+					"description": "\n",
+					"display_name": "Secure Endpoint - Get Events",
+					"input": {
+					  "variable_workflow_01PP76FTIW76B6i8dsARoetEFjDV8PeExbc": "$activity.definition_activity_01S7CT721J7AU1yHVK3qcWN9VxUtOnYvWmX.output.result$",
+					  "variable_workflow_01PP76FTIWBEE1vRRgKYgDMpmua9alDz5oL": "$workflow.definition_workflow_01S7CT6V3QI0G4e8O7iop9u9GV70FUNK3pC.local.variable_workflow_01S7CT6VBC7WI6kL8WDVrAkQqiRNDlD3JNB$",
+					  "variable_workflow_01PP76FTIWCO51PbmnWtoPn7UnPPlCWmcKk": "",
+					  "variable_workflow_01PP76FTIWF081mpPdgdyGqtRJNVgp4aXvk": "",
+					  "variable_workflow_01PP76FTIWGCY73dmexNMVLCN0ZHBBhBW4d": "",
+					  "variable_workflow_01PP76FTIWHIT3p0c53p7gngfiLbXG6T3YX": 20
+					},
+					"runtime_user": {
+					  "target_default": true
+					},
+					"skip_execution": false,
+					"target": {
+					  "use_workflow_target_group": true
+					},
+					"workflow_id": "definition_workflow_01PP76FTQKEYW2dg8RXriNAf2EkkZ4Agqg9"
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01SBTOGA1U0ZE4lAJtVMFiRQyuDfoeoKmhI",
+				  "name": "Condition Block",
+				  "title": "Were events fetched?",
+				  "type": "logic.if_else",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Were events fetched?",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "blocks": [
+					{
+					  "unique_name": "definition_activity_01SBTOGA9M6X05xTn7g9NIo6P3t1IdmFUf6",
+					  "name": "Condition Branch",
+					  "title": "No",
+					  "type": "logic.condition_block",
+					  "base_type": "activity",
+					  "properties": {
+						"condition": {
+						  "left_operand": "$activity.definition_activity_01S7CT73E90LM5Bwsd6hObtIkjxf9ey8wBD.output.succeeded$",
+						  "operator": "eq",
+						  "right_operand": false
+						},
+						"continue_on_failure": false,
+						"display_name": "No",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "actions": [
+						{
+						  "unique_name": "definition_activity_01SBTP7OMCWWU3dRW7VKyIahRV4FVfPRRDu",
+						  "name": "Completed",
+						  "title": "Completed",
+						  "type": "logic.completed",
+						  "base_type": "activity",
+						  "properties": {
+							"completion_type": "failed-completed",
+							"continue_on_failure": false,
+							"display_name": "Completed",
+							"result_message": "Failed to fetch events from Cisco Secure Endpoint\n\nError: $activity.definition_activity_01S7CT73E90LM5Bwsd6hObtIkjxf9ey8wBD.output.error.message$",
+							"skip_execution": false
+						  },
+						  "object_type": "definition_activity"
+						}
+					  ]
+					}
+				  ]
+				},
+				{
+				  "unique_name": "definition_activity_01S7CT75G5TXF0HwxtWltotNG5l0DiDolT4",
+				  "name": "JSONPath Query",
+				  "title": "Extract record counts",
+				  "type": "corejava.jsonpathquery",
+				  "base_type": "activity",
+				  "properties": {
+					"action_timeout": 180,
+					"continue_on_failure": false,
+					"display_name": "Extract record counts",
+					"input_json": "$activity.definition_activity_01S7CT73E90LM5Bwsd6hObtIkjxf9ey8wBD.output.variable_workflow_01PP76FTIWDTO0oCBTx9p4kTyE4bXcQlyDr$",
+					"jsonpath_queries": [
+					  {
+						"jsonpath_query": "$.metadata.results.total",
+						"jsonpath_query_name": "total",
+						"jsonpath_query_type": "integer"
+					  },
+					  {
+						"jsonpath_query": "$.metadata.results.current_item_count",
+						"jsonpath_query_name": "current",
+						"jsonpath_query_type": "integer"
+					  }
+					],
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01SIHLPRPPPL20pBdL6QDrrFISBGN559I5m",
+				  "name": "Execute Python Script",
+				  "title": "Parse events",
+				  "type": "python3.script",
+				  "base_type": "activity",
+				  "properties": {
+					"action_timeout": 180,
+					"continue_on_failure": false,
+					"display_name": "Parse events",
+					"script": "import sys, json\n\n# { \"hosts\": [], \"events\": [] }\n\nexistingAlerts = json.loads(sys.argv[1])\nnewAlerts = json.loads(sys.argv[2])\n\nfor alert in newAlerts['data']:\n\tif 'severity' not in alert: continue\n\tif alert['severity'] not in ['Medium', 'Low']: continue\n\t\n\texistingAlerts['events'].append({\n\t\t'connector_guid': alert['connector_guid'],\n\t\t'event_type': alert['event_type'],\n\t\t'computer': alert['computer'],\n\t\t'severity': alert['severity']\n\t})\n\t\n\texistingHosts = list(filter(lambda a: alert['connector_guid'] == a['guid'], existingAlerts['hosts']))\n\t\n\tif len(existingHosts) == 0:\n\t\texistingAlerts['hosts'].append({ 'guid': alert['connector_guid'], 'totalAlerts': 1, 'sevLow': (1 if alert['severity'] == 'Low' else 0) ,'sevMedium': (1 if alert['severity'] == 'Medium' else 0) })\n\telse:\n\t\texistingAlerts['hosts'].remove(existingHosts[0])\n\t\texistingAlerts['hosts'].append({ 'guid': alert['connector_guid'], 'totalAlerts': (existingHosts[0]['totalAlerts'] + 1), 'sevLow': ((existingHosts[0]['sevLow'] + 1) if alert['severity'] == 'Low' else existingHosts[0]['sevLow']), 'sevMedium': ((existingHosts[0]['sevMedium'] + 1) if alert['severity'] == 'Medium' else existingHosts[0]['sevMedium']) })\n\nupdatedAlerts = json.dumps(existingAlerts)  ",
+					"script_arguments": [
+					  "$workflow.definition_workflow_01S7CT6V3QI0G4e8O7iop9u9GV70FUNK3pC.local.variable_workflow_01S7CT6VB9V226TAiYG1wUmKAMPuvFffpNM$",
+					  "$activity.definition_activity_01S7CT73E90LM5Bwsd6hObtIkjxf9ey8wBD.output.variable_workflow_01PP76FTIWDTO0oCBTx9p4kTyE4bXcQlyDr$"
+					],
+					"script_queries": [
+					  {
+						"script_query": "updatedAlerts",
+						"script_query_name": "updatedAlerts",
+						"script_query_type": "string"
+					  }
+					],
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01SIHJAO51DE340Gez7n09gA2VOxjl5aYQK",
+				  "name": "Set Variables",
+				  "title": "Update local variables",
+				  "type": "core.set_multiple_variables",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Update local variables",
+					"skip_execution": false,
+					"variables_to_update": [
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01S7CT6V3QI0G4e8O7iop9u9GV70FUNK3pC.local.variable_workflow_01S7CT6VBC7WI6kL8WDVrAkQqiRNDlD3JNB$",
+						"variable_value_new": "$workflow.definition_workflow_01S7CT6V3QI0G4e8O7iop9u9GV70FUNK3pC.local.variable_workflow_01S7CT6VBC7WI6kL8WDVrAkQqiRNDlD3JNB$+20"
+					  },
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01S7CT6V3QI0G4e8O7iop9u9GV70FUNK3pC.local.variable_workflow_01S7CT6VB9V226TAiYG1wUmKAMPuvFffpNM$",
+						"variable_value_new": "$activity.definition_activity_01SIHLPRPPPL20pBdL6QDrrFISBGN559I5m.output.script_queries.updatedAlerts$"
+					  }
+					]
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01SIHKBRLTBAF0Tc5dxbByydxR2WyPJBPht",
+				  "name": "Condition Block",
+				  "title": "Is this the last page?",
+				  "type": "logic.if_else",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Is this the last page?",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "blocks": [
+					{
+					  "unique_name": "definition_activity_01SIHKBRW6LZF3YiFFTpw2Z4raIwKbj5zIa",
+					  "name": "Condition Branch",
+					  "title": "Yes",
+					  "type": "logic.condition_block",
+					  "base_type": "activity",
+					  "properties": {
+						"condition": {
+						  "left_operand": "$workflow.definition_workflow_01S7CT6V3QI0G4e8O7iop9u9GV70FUNK3pC.local.variable_workflow_01S7CT6VBC7WI6kL8WDVrAkQqiRNDlD3JNB$",
+						  "operator": "gte",
+						  "right_operand": "$activity.definition_activity_01S7CT75G5TXF0HwxtWltotNG5l0DiDolT4.output.jsonpath_queries.total$"
+						},
+						"continue_on_failure": false,
+						"display_name": "Yes",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "actions": [
+						{
+						  "unique_name": "definition_activity_01SIHKIN8BK2S6ASEne7408CCnUfOHHCLLc",
+						  "name": "Break",
+						  "title": "End the loop",
+						  "type": "logic.break",
+						  "base_type": "activity",
+						  "properties": {
+							"continue_on_failure": false,
+							"display_name": "End the loop",
+							"skip_execution": false
+						  },
+						  "object_type": "definition_activity"
+						}
+					  ]
+					}
+				  ]
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01SIHSFDWRB4P5Nvejfidp7SimxO6xlmDfC",
+		  "name": "Read Table from JSON",
+		  "title": "Convert host data to table",
+		  "type": "corejava.read_table_from_json",
+		  "base_type": "activity",
+		  "properties": {
+			"action_timeout": 180,
+			"continue_on_failure": false,
+			"display_name": "Convert host data to table",
+			"input_json": "$workflow.definition_workflow_01S7CT6V3QI0G4e8O7iop9u9GV70FUNK3pC.local.variable_workflow_01S7CT6VB9V226TAiYG1wUmKAMPuvFffpNM$",
+			"jsonpath_query": "$.hosts",
+			"persist_output": true,
+			"populate_columns": false,
+			"skip_execution": false,
+			"table_columns": [
+			  {
+				"column_name": "guid",
+				"column_type": "string"
+			  },
+			  {
+				"column_name": "totalAlerts",
+				"column_type": "integer"
+			  },
+			  {
+				"column_name": "sevLow",
+				"column_type": "integer"
+			  },
+			  {
+				"column_name": "sevMedium",
+				"column_type": "integer"
+			  }
+			]
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01SII63DL2PXU5RumimCl9MxGyq2ZDYuM8i",
+		  "name": "Select from Table",
+		  "title": "Select hosts with 2 or more alerts",
+		  "type": "core.selectfromtable",
+		  "base_type": "activity",
+		  "properties": {
+			"action_timeout": 180,
+			"columns": [
+			  {
+				"column_name": "guid",
+				"column_type": "string"
+			  },
+			  {
+				"column_name": "totalAlerts",
+				"column_type": "integer"
+			  },
+			  {
+				"column_name": "sevLow",
+				"column_type": "integer"
+			  },
+			  {
+				"column_name": "sevMedium",
+				"column_type": "integer"
+			  }
+			],
+			"continue_on_failure": false,
+			"display_name": "Select hosts with 2 or more alerts",
+			"input_table": "$activity.definition_activity_01SIHSFDWRB4P5Nvejfidp7SimxO6xlmDfC.output.read_table_from_json$",
+			"number_of_rows": {
+			  "all_rows": true
+			},
+			"persist_output": false,
+			"skip_execution": false,
+			"sorting": {
+			  "no_sort": true
+			},
+			"where_clause": "totalAlerts > 1"
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01SII6K6CISAF3ny5jCg78stefrzXEQZNVZ",
+		  "name": "For Each",
+		  "title": "For each host",
+		  "type": "logic.for_each",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "For each host",
+			"skip_execution": false,
+			"source_array": "$activity.definition_activity_01SII63DL2PXU5RumimCl9MxGyq2ZDYuM8i.output.output_table$"
+		  },
+		  "object_type": "definition_activity",
+		  "actions": [
+			{
+			  "unique_name": "definition_activity_01S7CT862G7396qwEKEQ80B6J2VQq3BKMb6",
+			  "name": "Secure Endpoint - Get Computer by GUID",
+			  "title": "Secure Endpoint - Get Computer by GUID",
+			  "type": "workflow.atomic_workflow",
+			  "base_type": "subworkflow",
+			  "properties": {
+				"continue_on_failure": true,
+				"display_name": "Secure Endpoint - Get Computer by GUID",
+				"input": {
+				  "variable_workflow_01PP74IOK1F8X1nh8wxcA1PbxvHFYsYvjdN": "$activity.definition_activity_01SII6K6CISAF3ny5jCg78stefrzXEQZNVZ.input.source_array[@].guid$"
+				},
+				"runtime_user": {
+				  "target_default": true
+				},
+				"skip_execution": false,
+				"target": {
+				  "use_workflow_target_group": true
+				},
+				"workflow_id": "definition_workflow_01PP74IORHVRJ71OWWlueKVb5v2LMDNBZw1"
+			  },
+			  "object_type": "definition_activity"
+			},
+			{
+			  "unique_name": "definition_activity_01SBTSGJBQ99I2ogiGeNMrT1fyrgwtfUNKz",
+			  "name": "Condition Block",
+			  "title": "Did we get a computer?",
+			  "type": "logic.if_else",
+			  "base_type": "activity",
+			  "properties": {
+				"continue_on_failure": false,
+				"display_name": "Did we get a computer?",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "blocks": [
+				{
+				  "unique_name": "definition_activity_01SBTSGJBQU0E3qYvXfvRgsCEmcYCumqgSw",
+				  "name": "Condition Branch",
+				  "title": "No",
+				  "type": "logic.condition_block",
+				  "base_type": "activity",
+				  "properties": {
+					"condition": {
+					  "left_operand": "$activity.definition_activity_01S7CT862G7396qwEKEQ80B6J2VQq3BKMb6.output.succeeded$",
+					  "operator": "eq",
+					  "right_operand": false
+					},
+					"continue_on_failure": false,
+					"display_name": "No",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "actions": [
+					{
+					  "unique_name": "definition_activity_01SILUZNYD4I01g19cWTe6TIsOzIykmHDcg",
+					  "name": "Continue",
+					  "title": "Skip this host",
+					  "type": "logic.continue",
+					  "base_type": "activity",
+					  "properties": {
+						"continue_on_failure": false,
+						"display_name": "Skip this host",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity"
+					}
+				  ]
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01S7CT884VLCA5P0P1adxEjvewDTqUiiRfo",
+			  "name": "JSONPath Query",
+			  "title": "Parse host information",
+			  "type": "corejava.jsonpathquery",
+			  "base_type": "activity",
+			  "properties": {
+				"action_timeout": 180,
+				"continue_on_failure": false,
+				"display_name": "Parse host information",
+				"input_json": "$activity.definition_activity_01S7CT862G7396qwEKEQ80B6J2VQq3BKMb6.output.variable_workflow_01PP74IOK1ATU2Mr7s3J9OqyBQ8Zo5EGLZQ$",
+				"jsonpath_queries": [
+				  {
+					"jsonpath_query": "$.hostname",
+					"jsonpath_query_name": "hostname",
+					"jsonpath_query_type": "string"
+				  },
+				  {
+					"jsonpath_query": "$..operating_system",
+					"jsonpath_query_name": "os",
+					"jsonpath_query_type": "string"
+				  },
+				  {
+					"jsonpath_query": "$.internal_ips",
+					"jsonpath_query_name": "internal",
+					"jsonpath_query_type": "string"
+				  },
+				  {
+					"jsonpath_query": "$.network_addresses",
+					"jsonpath_query_name": "mac",
+					"jsonpath_query_type": "string"
+				  },
+				  {
+					"jsonpath_query": "$.external_ip",
+					"jsonpath_query_name": "external_ip",
+					"jsonpath_query_type": "string"
+				  },
+				  {
+					"jsonpath_query": "$.policy.name",
+					"jsonpath_query_name": "policy_name",
+					"jsonpath_query_type": "string"
+				  }
+				],
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity"
+			},
+			{
+			  "unique_name": "definition_activity_01S7CT8C55B7Q0CvZDosAcLAAA1EhbmG4Vn",
+			  "name": "Set Variables",
+			  "title": "Update ticket text",
+			  "type": "core.set_multiple_variables",
+			  "base_type": "activity",
+			  "properties": {
+				"continue_on_failure": false,
+				"display_name": "Update ticket text",
+				"skip_execution": false,
+				"variables_to_update": [
+				  {
+					"variable_to_update": "$workflow.definition_workflow_01S7CT6V3QI0G4e8O7iop9u9GV70FUNK3pC.local.variable_workflow_01S7CT6VBAX0035Y7eANEB0n6fNdSFBWEq7$",
+					"variable_value_new": "$workflow.definition_workflow_01S7CT6V3QI0G4e8O7iop9u9GV70FUNK3pC.local.variable_workflow_01S7CT6VBAX0035Y7eANEB0n6fNdSFBWEq7$\n<br />\n<strong>$activity.definition_activity_01S7CT884VLCA5P0P1adxEjvewDTqUiiRfo.output.jsonpath_queries.hostname$</strong>\n<ul><li>Low alert count: $activity.definition_activity_01SII6K6CISAF3ny5jCg78stefrzXEQZNVZ.input.source_array[@].sevLow$</li>\n<li>Medium alert count: $activity.definition_activity_01SII6K6CISAF3ny5jCg78stefrzXEQZNVZ.input.source_array[@].sevMedium$</li>\n<li>Operating System: $activity.definition_activity_01S7CT884VLCA5P0P1adxEjvewDTqUiiRfo.output.jsonpath_queries.os$</li>\n<li>Internal Networking: $activity.definition_activity_01S7CT884VLCA5P0P1adxEjvewDTqUiiRfo.output.jsonpath_queries.internal$</li>\n<li>External Networking: $activity.definition_activity_01S7CT884VLCA5P0P1adxEjvewDTqUiiRfo.output.jsonpath_queries.external_ip$</li>\n<li>Policy: $activity.definition_activity_01S7CT884VLCA5P0P1adxEjvewDTqUiiRfo.output.jsonpath_queries.policy_name$</li>\n<li>Host GUID: $activity.definition_activity_01SII6K6CISAF3ny5jCg78stefrzXEQZNVZ.input.source_array[@].guid$</li>\n<li><a href=\"https://console.$workflow.definition_workflow_01S7CT6V3QI0G4e8O7iop9u9GV70FUNK3pC.local.variable_workflow_01SIIWWOY9CR62uxM0UydMb9GgGHHnK3if1$.cisco.com/dashboard/events#/events/show/{%22filters%22:{%22ag%22:[%22$activity.definition_activity_01SII6K6CISAF3ny5jCg78stefrzXEQZNVZ.input.source_array[@].guid$%22],%22time%22:[%22week%22]},%22sort_by%22:%22ts%22,%22sort_order%22:%22desc%22}\" target=\"_blank\">View Host Events</a></li>\n<li><a href=\"https://console.$workflow.definition_workflow_01S7CT6V3QI0G4e8O7iop9u9GV70FUNK3pC.local.variable_workflow_01SIIWWOY9CR62uxM0UydMb9GgGHHnK3if1$.cisco.com/computers/$activity.definition_activity_01SII6K6CISAF3ny5jCg78stefrzXEQZNVZ.input.source_array[@].guid$/trajectory2\" target=\"_blank\">View Device Trajectory</a></li></ul>"
+				  }
+				]
+			  },
+			  "object_type": "definition_activity"
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01S7CT8DB7O9X2ZULMMVxvduNyoQvfNP4zM",
+		  "name": "Condition Block",
+		  "title": "Are there any hosts to report on?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Are there any hosts to report on?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01S7CT8E4YO9F3RkHTRGg5Rn2CxwJyqaxdB",
+			  "name": "Condition Branch",
+			  "title": "Yes",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$workflow.definition_workflow_01S7CT6V3QI0G4e8O7iop9u9GV70FUNK3pC.local.variable_workflow_01S7CT6VBAX0035Y7eANEB0n6fNdSFBWEq7$",
+				  "operator": "ne",
+				  "right_operand": ""
+				},
+				"continue_on_failure": false,
+				"display_name": "Yes",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01S7CT8FK7PP57g5UXOxU4ZPnDB3JGbFyOP",
+				  "name": "Service Now - Create Incident",
+				  "title": "Service Now - Create Incident",
+				  "type": "workflow.atomic_workflow",
+				  "base_type": "subworkflow",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Service Now - Create Incident",
+					"input": {
+					  "variable_workflow_01C0CK2MY2SLG1FXph6ZHp7iHmRw1KvUFlN": "Secure Endpoint: Hosts with Multiple Medium or Low Alerts",
+					  "variable_workflow_01FGYF0DUR8HV2TMpEKctsYjQR4mzjD5OTu": "A SecureX orchestration workflow identified endpoints with multiple low and/or medium alerts in Cisco Secure Endpoint. These hosts should be investigated as mutliple alerts could indicate that the host is compromised.",
+					  "variable_workflow_01FGYGCZL5M2E1m1O5tvVVn0DVzVTLwytei": 2,
+					  "variable_workflow_01FGYGPFJYM4L5aVpzNOhRwMmzKJDofqufe": 2,
+					  "variable_workflow_01FGYGZ0OYYNM5pWjyyreMjNHDjusjNe8jx": "[code]$workflow.definition_workflow_01S7CT6V3QI0G4e8O7iop9u9GV70FUNK3pC.local.variable_workflow_01S7CT6VBAX0035Y7eANEB0n6fNdSFBWEq7$[/code]",
+					  "variable_workflow_01FGYI8HES41K63G3UzMinBH3iApm37fBGt": "$workflow.definition_workflow_01S7CT6V3QI0G4e8O7iop9u9GV70FUNK3pC.local.variable_workflow_01SBR6I6E7TEB0B2Q6AtfAMllBclGddGVQF$",
+					  "variable_workflow_01FMQD0HIJIDU5kce0VNx4HQiMYjMfUvBlj": "v2"
+					},
+					"runtime_user": {
+					  "target_default": true
+					},
+					"skip_execution": false,
+					"target": {
+					  "override_workflow_target_group_criteria": true,
+					  "target_group": {
+						"run_on_all_targets": false,
+						"use_criteria": {
+						  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+						  "conditions": [
+							{
+							  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+							  "operator": "eqi",
+							  "right_operand": "ServiceNow"
+							}
+						  ]
+						}
+					  }
+					},
+					"workflow_id": "definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW"
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01SBS095OQKT73QjqBnXNNKVcWFEIF9W5qV",
+				  "name": "Condition Block",
+				  "title": "Was Ticket Created?",
+				  "type": "logic.if_else",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Was Ticket Created?",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "blocks": [
+					{
+					  "unique_name": "definition_activity_01SBS095XLNRL4uWzSEIW3QP2h1om5N91NG",
+					  "name": "Condition Branch",
+					  "title": "No",
+					  "type": "logic.condition_block",
+					  "base_type": "activity",
+					  "properties": {
+						"condition": {
+						  "left_operand": "$activity.definition_activity_01S7CT8FK7PP57g5UXOxU4ZPnDB3JGbFyOP.output.succeeded$",
+						  "operator": "eq",
+						  "right_operand": false
+						},
+						"continue_on_failure": false,
+						"display_name": "No",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "actions": [
+						{
+						  "unique_name": "definition_activity_01SBS13EWC94K4St3plJekhOTmaPh5vyhF1",
+						  "name": "Completed",
+						  "title": "Completed",
+						  "type": "logic.completed",
+						  "base_type": "activity",
+						  "properties": {
+							"completion_type": "failed-completed",
+							"continue_on_failure": false,
+							"display_name": "Completed",
+							"result_message": "Service Now failed to create a ticket.\nError code:$activity.definition_activity_01S7CT8FK7PP57g5UXOxU4ZPnDB3JGbFyOP.output.error.code$\nError message: $activity.definition_activity_01S7CT8FK7PP57g5UXOxU4ZPnDB3JGbFyOP.output.error.message$",
+							"skip_execution": false
+						  },
+						  "object_type": "definition_activity"
+						}
+					  ]
+					}
+				  ]
+				}
+			  ]
+			}
+		  ]
+		}
+	  ],
+	  "categories": [
+		"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+	  ]
+	},
+	"target_groups": {
+	  "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+		"unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+		"name": "Default TargetGroup",
+		"title": "Default TargetGroup",
+		"type": "generic.target_group",
+		"base_type": "target_group",
+		"version": "1.0.0",
+		"targets": [
+		  {
+			"data_target_type": "web-service.endpoint",
+			"view_target_type": "web-service.endpoint",
+			"include_all_targets": true
+		  },
+		  {
+			"data_target_type": "email.smtp_endpoint",
+			"view_target_type": "email.smtp_endpoint",
+			"include_all_targets": true
+		  }
+		],
+		"object_type": "target_group"
+	  }
+	},
+	"atomic_workflows": [
+	  "definition_workflow_01PP76FTQKEYW2dg8RXriNAf2EkkZ4Agqg9",
+	  "definition_workflow_01PP74IORHVRJ71OWWlueKVb5v2LMDNBZw1",
+	  "definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW"
+	]
+  }
