@@ -1,0 +1,1375 @@
+{
+	"workflow": {
+	  "unique_name": "definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R",
+	  "name": "0049 - Palo Alto - Panorama - Block URL, IP, or Domain",
+	  "title": "0049 - Palo Alto - Panorama - Block URL, IP, or Domain",
+	  "type": "generic.workflow",
+	  "base_type": "workflow",
+	  "variables": [
+		{
+		  "schema_id": "datatype.secure_string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "API Key",
+			"type": "datatype.secure_string",
+			"description": "Your API key for the Panorama REST API. See: https://docs.paloaltonetworks.com/pan-os/10-0/pan-os-panorama-api/get-started-with-the-pan-os-xml-api/get-your-api-key.html",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QQH3AB2DO1R4zP3uv2A1l0ovILurCkNA7",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "Custom URL Category Name",
+			"type": "datatype.string",
+			"description": "Name of the custom URL category to add URLs and domains to",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QQH0LBYOZAD6dPvOmBoWB2pPA7rjWIyZp",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "Address Object Name",
+			"type": "datatype.string",
+			"description": "Placeholder for the name of the address object to add to the address group. This will be populated automatically",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01R0O6Z5QB0656o5VbatRgMi5ioUlOaEJI4",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "Error Messages",
+			"type": "datatype.string",
+			"description": "Error messages from workflow execution. This will be populated automatically",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QQGOS6GF5377VKW2JID1Q8vbc47NFRBxK",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "observable_value",
+			"type": "datatype.string",
+			"description": "The value of the observable pivoted on",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QQGAMODJEPJ3M6IMXXJ0vq1wGcbFbn08r",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "shared",
+			"scope": "local",
+			"name": "Location",
+			"type": "datatype.string",
+			"description": "The availability of the objects. Valid values include: shared, device-group. If you use device-group, you must provide a Device Group Name",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QQH4BBH1NDJ2MwyBS90kAilrZzLbeotgU",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "Address Group Name",
+			"type": "datatype.string",
+			"description": "Name of the address group to add IP addresses and domains to",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01R1FNMHKJBYQ4uLMJEbx9kkuYYPLcEJyqC",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "observable_type",
+			"type": "datatype.string",
+			"description": "The type of observable pivoted on. Supported observables: url, ip, ipv6, domain",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QQGAHCXXV9X2JbcyMWXpQfpK3mD6TcBie",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "Security Policy Pre Rule Name",
+			"type": "datatype.string",
+			"description": "Name of the security policy pre rule to add the URL category or address group to",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01R1HZRTVTQDI1CTwc3UT3OtexL3m5mVWnk",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "Device Group Name",
+			"type": "datatype.string",
+			"description": "The name of the device group to manage objects for. This is only required when Location is set to device-group",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QQH3SOUBCT06b6iLrcfh6pNDU5c5Z4WOW",
+		  "object_type": "variable_workflow"
+		}
+	  ],
+	  "properties": {
+		"atomic": {
+		  "is_atomic": false
+		},
+		"delete_workflow_instance": true,
+		"description": "This workflow blocks a URL, IP, or domain name in Palo Alto Panorama by adding them to a URL category or address group and then updating a security policy pre rule. Supported observables: ip, ipv6, url, domain\n\nNote: You may need to use a SecureX Orchestration Remote to communicate with Panorama if it's on-premise. See: https://cs.co/SXO_remote\n\nTarget Group: Default TargetGroup\n\nTargets: Microsoft Teams Webhook, Palo Alto Panorama\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0049",
+		"display_name": "0049 - Palo Alto - Panorama - Block URL, IP, or Domain",
+		"runtime_user": {
+		  "target_default": true
+		},
+		"target": {
+		  "execute_on_target_group": true,
+		  "target_group": {
+			"target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+			"run_on_all_targets": false,
+			"selected_target_types": [
+			  "web-service.endpoint"
+			],
+			"use_criteria": {
+			  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+			  "conditions": [
+				{
+				  "operator": "eqi",
+				  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+				  "right_operand": "Palo Alto Panorama"
+				}
+			  ]
+			}
+		  }
+		}
+	  },
+	  "object_type": "definition_workflow",
+	  "actions": [
+		{
+		  "unique_name": "definition_activity_01QQGAQQWZUBG25y0r8AJOM089Msn22rU3C",
+		  "name": "Execute Python Script",
+		  "title": "Validate the input",
+		  "type": "python3.script",
+		  "base_type": "activity",
+		  "properties": {
+			"action_timeout": 180,
+			"continue_on_failure": true,
+			"display_name": "Validate the input",
+			"script": "import sys\ninput_type = sys.argv[1]\nvalid_type = None\nerror = None\ntype_mapping = {\n  'url': 'URL', 'ip': 'IP', 'ipv6': 'IP', 'domain': 'Domain'\n}\ntry:\n    valid_type = type_mapping[input_type]\nexcept KeyError:\n    error = ('Unsupported observable provided. The following observables are supported: '\n            f'{\", \".join(tuple(type_mapping))}')",
+			"script_arguments": [
+			  "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.input.variable_workflow_01QQGAHCXXV9X2JbcyMWXpQfpK3mD6TcBie$"
+			],
+			"script_queries": [
+			  {
+				"script_query": "valid_type",
+				"script_query_name": "Valid Type",
+				"script_query_type": "string"
+			  },
+			  {
+				"script_query": "error",
+				"script_query_name": "Error",
+				"script_query_type": "string"
+			  }
+			],
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01QQGHSE2QHW21o0Nr6bovamemmznA1IVwW",
+		  "name": "Condition Block",
+		  "title": "Is the observable type supported?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Is the observable type supported?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01QQGHSFQYVHU6Qtr2pHLY1nJRkJnt5za05",
+			  "name": "Condition Branch",
+			  "title": "Yes",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01QQGAQQWZUBG25y0r8AJOM089Msn22rU3C.output.script_queries.Error$",
+				  "operator": "eq",
+				  "right_operand": "None"
+				},
+				"continue_on_failure": false,
+				"display_name": "Yes",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01QQGK3QCH2YP2qE3oec0A3o30c1GBSieVw",
+				  "name": "Set Variables",
+				  "title": "Update the observable type",
+				  "type": "core.set_multiple_variables",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Update the observable type",
+					"skip_execution": false,
+					"variables_to_update": [
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.input.variable_workflow_01QQGAHCXXV9X2JbcyMWXpQfpK3mD6TcBie$",
+						"variable_value_new": "$activity.definition_activity_01QQGAQQWZUBG25y0r8AJOM089Msn22rU3C.output.script_queries.Valid Type$"
+					  }
+					]
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01QQGHSG91K892WHUI9G2hRDBHoC918JrQK",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01QQGAQQWZUBG25y0r8AJOM089Msn22rU3C.output.script_queries.Error$",
+				  "operator": "ne",
+				  "right_operand": "None"
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01S8ZIBJ56AOE64smFiov8bafE5xGOLvbfZ",
+				  "name": "Completed",
+				  "title": "Unsupported observable",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Unsupported observable",
+					"result_message": "The observable type \"$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.input.variable_workflow_01QQGAHCXXV9X2JbcyMWXpQfpK3mD6TcBie$\" is not supported by this workflow",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01QQGUO5NI8PT3qeCg4OwLXV3nWd7y90jlB",
+		  "name": "Condition Block",
+		  "title": "What are we blocking?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "What are we blocking?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01QQGUO79MZ4N5ER9EgKhmwVHuYwHMAIA2f",
+			  "name": "Condition Branch",
+			  "title": "URL",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.input.variable_workflow_01QQGAHCXXV9X2JbcyMWXpQfpK3mD6TcBie$",
+				  "operator": "eqi",
+				  "right_operand": "URL"
+				},
+				"continue_on_failure": false,
+				"display_name": "URL",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01QQHP6DW0OLJ39grDnIamrsVyI5Cn8JpYN",
+				  "name": "Condition Block",
+				  "title": "Was a URL category given?",
+				  "type": "logic.if_else",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Was a URL category given?",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "blocks": [
+					{
+					  "unique_name": "definition_activity_01QQHP6FMEZ313jG5BDodQUEe0XfNrIlCnY",
+					  "name": "Condition Branch",
+					  "title": "Yes",
+					  "type": "logic.condition_block",
+					  "base_type": "activity",
+					  "properties": {
+						"condition": {
+						  "left_operand": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQH0LBYOZAD6dPvOmBoWB2pPA7rjWIyZp$",
+						  "operator": "ne",
+						  "right_operand": ""
+						},
+						"continue_on_failure": false,
+						"display_name": "Yes",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "actions": [
+						{
+						  "unique_name": "definition_activity_01QQHT5F40NRT6YegbZhAZ6Q95uudkzBzHF",
+						  "name": "Palo Alto - Panorama - Add URL to Custom URL Category",
+						  "title": "Palo Alto - Panorama - Add URL to Custom URL Category",
+						  "type": "workflow.atomic_workflow",
+						  "base_type": "subworkflow",
+						  "properties": {
+							"continue_on_failure": true,
+							"display_name": "Palo Alto - Panorama - Add URL to Custom URL Category",
+							"input": {
+							  "variable_workflow_01QPPF9XY1G365mc10xqWXUtvF5tpALfWT2": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQH4BBH1NDJ2MwyBS90kAilrZzLbeotgU$",
+							  "variable_workflow_01QPPF9XY1LMX4tLygVRS60WYShuJ8RMUb5": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQH3AB2DO1R4zP3uv2A1l0ovILurCkNA7$",
+							  "variable_workflow_01QPPF9XY1MVV5aNdMfhqDaD4vf5hxMN2Xb": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQH0LBYOZAD6dPvOmBoWB2pPA7rjWIyZp$",
+							  "variable_workflow_01QPPF9XY1P7N1VMgdwfXXrHQqpgHqbyB5B": "",
+							  "variable_workflow_01QPPF9XY1QEO1pIzAfd0YfScLd2zSLFCTJ": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQH3SOUBCT06b6iLrcfh6pNDU5c5Z4WOW$",
+							  "variable_workflow_01QPPNTZTYWL27CvqczHbxfaNZGjkJaqfP6": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.input.variable_workflow_01QQGAMODJEPJ3M6IMXXJ0vq1wGcbFbn08r$"
+							},
+							"runtime_user": {
+							  "target_default": true
+							},
+							"skip_execution": false,
+							"target": {
+							  "use_workflow_target_group": true
+							},
+							"workflow_id": "definition_workflow_01QPPF9Y5NHFF0aEXWmeVISU61ocdu6EJ87"
+						  },
+						  "object_type": "definition_activity"
+						},
+						{
+						  "unique_name": "definition_activity_01QQHV89KMYUR3bos2wdYw3jpfixCWnxlEn",
+						  "name": "Condition Block",
+						  "title": "Was the URL added successfully?",
+						  "type": "logic.if_else",
+						  "base_type": "activity",
+						  "properties": {
+							"continue_on_failure": false,
+							"display_name": "Was the URL added successfully?",
+							"skip_execution": false
+						  },
+						  "object_type": "definition_activity",
+						  "blocks": [
+							{
+							  "unique_name": "definition_activity_01QQHV8CZYX8R35w7dEQOaq6CW59qvT3Gc8",
+							  "name": "Condition Branch",
+							  "title": "Yes",
+							  "type": "logic.condition_block",
+							  "base_type": "activity",
+							  "properties": {
+								"condition": {
+								  "left_operand": "$activity.definition_activity_01QQHT5F40NRT6YegbZhAZ6Q95uudkzBzHF.output.succeeded$",
+								  "operator": "eq",
+								  "right_operand": true
+								},
+								"continue_on_failure": false,
+								"display_name": "Yes",
+								"skip_execution": false
+							  },
+							  "object_type": "definition_activity",
+							  "actions": [
+								{
+								  "unique_name": "definition_activity_01S90UTPPSF8H3IRqpR90i5TQdN814b2C1a",
+								  "name": "Condition Block",
+								  "title": "Was a pre rule provided?",
+								  "type": "logic.if_else",
+								  "base_type": "activity",
+								  "properties": {
+									"continue_on_failure": false,
+									"display_name": "Was a pre rule provided?",
+									"skip_execution": false
+								  },
+								  "object_type": "definition_activity",
+								  "blocks": [
+									{
+									  "unique_name": "definition_activity_01S90UTPY9CKJ2NYYJijretaSZaO8SRBIp2",
+									  "name": "Condition Branch",
+									  "title": "Yes",
+									  "type": "logic.condition_block",
+									  "base_type": "activity",
+									  "properties": {
+										"condition": {
+										  "left_operand": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01R1HZRTVTQDI1CTwc3UT3OtexL3m5mVWnk$",
+										  "operator": "ne",
+										  "right_operand": ""
+										},
+										"continue_on_failure": false,
+										"display_name": "Yes",
+										"skip_execution": false
+									  },
+									  "object_type": "definition_activity",
+									  "actions": [
+										{
+										  "unique_name": "definition_activity_01R1IAJD282FE1jPxLQeUz81VtvqFJjq95h",
+										  "name": "Palo Alto - Panorama - Update Security Policy Pre Rule",
+										  "title": "Palo Alto - Panorama - Update Security Policy Pre Rule",
+										  "type": "workflow.atomic_workflow",
+										  "base_type": "subworkflow",
+										  "properties": {
+											"continue_on_failure": true,
+											"display_name": "Palo Alto - Panorama - Update Security Policy Pre Rule",
+											"input": {
+											  "variable_workflow_01QORDBZK6YF64HcaH4ephX41pXR32BulYH": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQH3AB2DO1R4zP3uv2A1l0ovILurCkNA7$",
+											  "variable_workflow_01QORE7C3W1GS0C06sZWCHoOPy2KTc7ZIEJ": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQH4BBH1NDJ2MwyBS90kAilrZzLbeotgU$",
+											  "variable_workflow_01QORLXE4CFPO3GESHrSxqVZjMffKJYH7eW": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQH3SOUBCT06b6iLrcfh6pNDU5c5Z4WOW$",
+											  "variable_workflow_01QORNV7L6VFC2GEJQjV9aYccoU9l1XhNpE": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01R1HZRTVTQDI1CTwc3UT3OtexL3m5mVWnk$",
+											  "variable_workflow_01QOROBKETGTA5uK2Sso1LLGUJBfbmHaCap": "",
+											  "variable_workflow_01QORT3NX7VTY0FhfmHt2FM59GfYYrPC7hf": "deny",
+											  "variable_workflow_01QORU1IFYXEO5s5MH67x18Ys5PWVzj1V0L": "",
+											  "variable_workflow_01QORV740TZ3Y7l3CMEzFHjqCl8Nxhuhmi7": "",
+											  "variable_workflow_01QORVO26588W59DhdqGmAZYtzfc1q4kZZb": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQH0LBYOZAD6dPvOmBoWB2pPA7rjWIyZp$",
+											  "variable_workflow_01QOTXQJBHQ1U23Nlcz8ZM6S92fmdwsOGxx": ""
+											},
+											"runtime_user": {
+											  "target_default": true
+											},
+											"skip_execution": false,
+											"target": {
+											  "use_workflow_target_group": true
+											},
+											"workflow_id": "definition_workflow_01QNWS0U2T5QY6MfHyMZT0BUd9sNyLnQyTk"
+										  },
+										  "object_type": "definition_activity"
+										},
+										{
+										  "unique_name": "definition_activity_01R1I61ACF5JH0oPYHauYo06UAF2KVLG8XO",
+										  "name": "Condition Block",
+										  "title": "Pre rule udated successfully?",
+										  "type": "logic.if_else",
+										  "base_type": "activity",
+										  "properties": {
+											"continue_on_failure": false,
+											"display_name": "Pre rule udated successfully?",
+											"skip_execution": false
+										  },
+										  "object_type": "definition_activity",
+										  "blocks": [
+											{
+											  "unique_name": "definition_activity_01R1I61CKIG8O2kwSGSAhaFGrs5GGaRPknu",
+											  "name": "Condition Branch",
+											  "title": "No",
+											  "type": "logic.condition_block",
+											  "base_type": "activity",
+											  "properties": {
+												"condition": {
+												  "left_operand": "$activity.definition_activity_01R1IAJD282FE1jPxLQeUz81VtvqFJjq95h.output.succeeded$",
+												  "operator": "eq",
+												  "right_operand": false
+												},
+												"continue_on_failure": false,
+												"display_name": "No",
+												"skip_execution": false
+											  },
+											  "object_type": "definition_activity",
+											  "actions": [
+												{
+												  "unique_name": "definition_activity_01S90VMI08HPX17CHnGj218nOX2ceveoxAQ",
+												  "name": "Set Variables",
+												  "title": "Add error to local variable",
+												  "type": "core.set_multiple_variables",
+												  "base_type": "activity",
+												  "properties": {
+													"continue_on_failure": false,
+													"display_name": "Add error to local variable",
+													"skip_execution": false,
+													"variables_to_update": [
+													  {
+														"variable_to_update": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQGOS6GF5377VKW2JID1Q8vbc47NFRBxK$",
+														"variable_value_new": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQGOS6GF5377VKW2JID1Q8vbc47NFRBxK$\n- Failed to update the security policy pre rule"
+													  }
+													]
+												  },
+												  "object_type": "definition_activity"
+												}
+											  ]
+											}
+										  ]
+										}
+									  ]
+									},
+									{
+									  "unique_name": "definition_activity_01SJDTZC50AVH61NNQz9BILxDFajvhWEnst",
+									  "name": "Condition Branch",
+									  "title": "No",
+									  "type": "logic.condition_block",
+									  "base_type": "activity",
+									  "properties": {
+										"condition": {
+										  "left_operand": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01R1HZRTVTQDI1CTwc3UT3OtexL3m5mVWnk$",
+										  "operator": "eq",
+										  "right_operand": ""
+										},
+										"continue_on_failure": false,
+										"display_name": "No",
+										"skip_execution": false
+									  },
+									  "object_type": "definition_activity",
+									  "actions": [
+										{
+										  "unique_name": "definition_activity_01SJDU8VAAKX44uAdpy4iqWpFQYUbD5Uowg",
+										  "name": "Set Variables",
+										  "title": "Add error to local variable",
+										  "type": "core.set_multiple_variables",
+										  "base_type": "activity",
+										  "properties": {
+											"continue_on_failure": false,
+											"display_name": "Add error to local variable",
+											"skip_execution": false,
+											"variables_to_update": [
+											  {
+												"variable_to_update": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQGOS6GF5377VKW2JID1Q8vbc47NFRBxK$",
+												"variable_value_new": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQGOS6GF5377VKW2JID1Q8vbc47NFRBxK$\n- The URL was added to the URL category but no security policy pre rule was provided to add the URL category to"
+											  }
+											]
+										  },
+										  "object_type": "definition_activity"
+										}
+									  ]
+									}
+								  ]
+								}
+							  ]
+							},
+							{
+							  "unique_name": "definition_activity_01S91W62XTGSM18KBBPwZeYylxZqs6UDit9",
+							  "name": "Condition Branch",
+							  "title": "No",
+							  "type": "logic.condition_block",
+							  "base_type": "activity",
+							  "properties": {
+								"condition": {
+								  "left_operand": "$activity.definition_activity_01QQHT5F40NRT6YegbZhAZ6Q95uudkzBzHF.output.succeeded$",
+								  "operator": "eq",
+								  "right_operand": false
+								},
+								"continue_on_failure": false,
+								"display_name": "No",
+								"skip_execution": false
+							  },
+							  "object_type": "definition_activity",
+							  "actions": [
+								{
+								  "unique_name": "definition_activity_01S91W62XU32U3X5UPYiZxVkoPsHxov8Edw",
+								  "name": "Set Variables",
+								  "title": "Add error to local variable",
+								  "type": "core.set_multiple_variables",
+								  "base_type": "activity",
+								  "properties": {
+									"continue_on_failure": false,
+									"display_name": "Add error to local variable",
+									"skip_execution": false,
+									"variables_to_update": [
+									  {
+										"variable_to_update": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQGOS6GF5377VKW2JID1Q8vbc47NFRBxK$",
+										"variable_value_new": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQGOS6GF5377VKW2JID1Q8vbc47NFRBxK$\n- Failed to add the URL to the URL category"
+									  }
+									]
+								  },
+								  "object_type": "definition_activity"
+								}
+							  ]
+							}
+						  ]
+						}
+					  ]
+					},
+					{
+					  "unique_name": "definition_activity_01S8ZME92USSL72MTa6tfIvTmNZrLakedZd",
+					  "name": "Condition Branch",
+					  "title": "No",
+					  "type": "logic.condition_block",
+					  "base_type": "activity",
+					  "properties": {
+						"condition": {
+						  "left_operand": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQH0LBYOZAD6dPvOmBoWB2pPA7rjWIyZp$",
+						  "operator": "eq",
+						  "right_operand": ""
+						},
+						"continue_on_failure": false,
+						"display_name": "No",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "actions": [
+						{
+						  "unique_name": "definition_activity_01S8ZPGTSHUM50dWoyye94uuFRteVf5JdnZ",
+						  "name": "Set Variables",
+						  "title": "Add error to local variable",
+						  "type": "core.set_multiple_variables",
+						  "base_type": "activity",
+						  "properties": {
+							"continue_on_failure": false,
+							"display_name": "Add error to local variable",
+							"skip_execution": false,
+							"variables_to_update": [
+							  {
+								"variable_to_update": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQGOS6GF5377VKW2JID1Q8vbc47NFRBxK$",
+								"variable_value_new": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQGOS6GF5377VKW2JID1Q8vbc47NFRBxK$\n- A custom URL category to add the URL to was not provided. You must configure the workflow with the name of a URL category"
+							  }
+							]
+						  },
+						  "object_type": "definition_activity"
+						}
+					  ]
+					}
+				  ]
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01QQGUO7S0R1Q3NLeDPfGg7Djo4XJQmSXZN",
+			  "name": "Condition Branch",
+			  "title": "IP Address or Domain",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": {
+					"left_operand": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.input.variable_workflow_01QQGAHCXXV9X2JbcyMWXpQfpK3mD6TcBie$",
+					"operator": "eqi",
+					"right_operand": "IP"
+				  },
+				  "operator": "or",
+				  "right_operand": {
+					"left_operand": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.input.variable_workflow_01QQGAHCXXV9X2JbcyMWXpQfpK3mD6TcBie$",
+					"operator": "eqi",
+					"right_operand": "Domain"
+				  }
+				},
+				"continue_on_failure": false,
+				"display_name": "IP Address or Domain",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01S90JQLIFO5R1k772tx3aacmP2BVWNIrAu",
+				  "name": "Condition Block",
+				  "title": "Was an address object group given?",
+				  "type": "logic.if_else",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Was an address object group given?",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "blocks": [
+					{
+					  "unique_name": "definition_activity_01S90JQLPKI3J1kPnKbvegc5wcyNTXq6uds",
+					  "name": "Condition Branch",
+					  "title": "Yes",
+					  "type": "logic.condition_block",
+					  "base_type": "activity",
+					  "properties": {
+						"condition": {
+						  "left_operand": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01R1FNMHKJBYQ4uLMJEbx9kkuYYPLcEJyqC$",
+						  "operator": "ne",
+						  "right_operand": ""
+						},
+						"continue_on_failure": false,
+						"display_name": "Yes",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "actions": [
+						{
+						  "unique_name": "definition_activity_01S977GRSMT3N6WW0o7dHEzQmNl07eaZGUg",
+						  "name": "Palo Alto - Panorama - Search Address Object by Value",
+						  "title": "Palo Alto - Panorama - Search Address Object by Value",
+						  "type": "workflow.atomic_workflow",
+						  "base_type": "subworkflow",
+						  "properties": {
+							"continue_on_failure": false,
+							"display_name": "Palo Alto - Panorama - Search Address Object by Value",
+							"input": {
+							  "variable_workflow_01QQJ3ORB4TTJ3j3iwK0HjnEit3E4lAFjQh": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQH3AB2DO1R4zP3uv2A1l0ovILurCkNA7$",
+							  "variable_workflow_01QQJ6D2CD5JW7ldEaoy5fnpGTDq8LJIl5b": "shared",
+							  "variable_workflow_01QQJ730X162E19IFiajCJampLGGo0ZaE4h": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQH3SOUBCT06b6iLrcfh6pNDU5c5Z4WOW$",
+							  "variable_workflow_01QQJ8548OJSE4eJAV87mzk5VeExR1rC68j": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.input.variable_workflow_01QQGAMODJEPJ3M6IMXXJ0vq1wGcbFbn08r$"
+							},
+							"runtime_user": {
+							  "target_default": true
+							},
+							"skip_execution": false,
+							"target": {
+							  "use_workflow_target_group": true
+							},
+							"workflow_id": "definition_workflow_01QQJ2AU0DAS47HJHH5JuZ92pnPzGAMyQUf"
+						  },
+						  "object_type": "definition_activity"
+						},
+						{
+						  "unique_name": "definition_activity_01R0O4G5L1QJH35TOzpGkQYDI39mnkNUacN",
+						  "name": "Condition Block",
+						  "title": "Was an address object found?",
+						  "type": "logic.if_else",
+						  "base_type": "activity",
+						  "properties": {
+							"continue_on_failure": false,
+							"display_name": "Was an address object found?",
+							"skip_execution": false
+						  },
+						  "object_type": "definition_activity",
+						  "blocks": [
+							{
+							  "unique_name": "definition_activity_01S917NQHE0RU4uY3q5mVFyW4PE6ljAOX6I",
+							  "name": "Condition Branch",
+							  "title": "Yes",
+							  "type": "logic.condition_block",
+							  "base_type": "activity",
+							  "properties": {
+								"condition": {
+								  "left_operand": "$activity.definition_activity_01S977GRSMT3N6WW0o7dHEzQmNl07eaZGUg.output.succeeded$",
+								  "operator": "eq",
+								  "right_operand": true
+								},
+								"continue_on_failure": false,
+								"display_name": "Yes",
+								"skip_execution": false
+							  },
+							  "object_type": "definition_activity",
+							  "actions": [
+								{
+								  "unique_name": "definition_activity_01S919I3B7SWM0RkiIbbFWORYKSZRmfCTcH",
+								  "name": "Set Variables",
+								  "title": "Update the address object name",
+								  "type": "core.set_multiple_variables",
+								  "base_type": "activity",
+								  "properties": {
+									"continue_on_failure": false,
+									"display_name": "Update the address object name",
+									"skip_execution": false,
+									"variables_to_update": [
+									  {
+										"variable_to_update": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01R0O6Z5QB0656o5VbatRgMi5ioUlOaEJI4$",
+										"variable_value_new": "$activity.definition_activity_01S977GRSMT3N6WW0o7dHEzQmNl07eaZGUg.output.variable_workflow_01QR8AJP967JD4PRplkAHusJHE7hX1EhPbV$"
+									  }
+									]
+								  },
+								  "object_type": "definition_activity"
+								}
+							  ]
+							},
+							{
+							  "unique_name": "definition_activity_01R0O4G7999Y02oG6C6wQzzRHRiWs0UkL98",
+							  "name": "Condition Branch",
+							  "title": "No",
+							  "type": "logic.condition_block",
+							  "base_type": "activity",
+							  "properties": {
+								"condition": {
+								  "left_operand": "$activity.definition_activity_01S977GRSMT3N6WW0o7dHEzQmNl07eaZGUg.output.succeeded$",
+								  "operator": "eq",
+								  "right_operand": false
+								},
+								"continue_on_failure": false,
+								"display_name": "No",
+								"skip_execution": false
+							  },
+							  "object_type": "definition_activity",
+							  "actions": [
+								{
+								  "unique_name": "definition_activity_01R0OLTZB7N8O00XP7ySBkjyZflltTvVwGb",
+								  "name": "Palo Alto - Panorama - Create Address Object",
+								  "title": "Palo Alto - Panorama - Create Address Object",
+								  "type": "workflow.atomic_workflow",
+								  "base_type": "subworkflow",
+								  "properties": {
+									"continue_on_failure": true,
+									"display_name": "Palo Alto - Panorama - Create Address Object",
+									"input": {
+									  "variable_workflow_01PV9FLWQOR11432sTk3DBOlEBnMhEtAvGR": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQH4BBH1NDJ2MwyBS90kAilrZzLbeotgU$",
+									  "variable_workflow_01PV9FLWQOSET23iwr0r3CksorFepGCrNbv": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQH3AB2DO1R4zP3uv2A1l0ovILurCkNA7$",
+									  "variable_workflow_01PV9FLWQOTLD2TLTPNcMq53rjqjLf4fxFv": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQH3SOUBCT06b6iLrcfh6pNDU5c5Z4WOW$",
+									  "variable_workflow_01PV9JRMU3WNX3r9x8rH6CMEVXNWPU0rbjt": "ip-netmask",
+									  "variable_workflow_01PV9K80OYC8T52l4kVd0xqRnClAMPZMaGS": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.input.variable_workflow_01QQGAMODJEPJ3M6IMXXJ0vq1wGcbFbn08r$",
+									  "variable_workflow_01PV9LJ5MXCJE2koNt6iSROrJPCwxVywbac": "SecureX_$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.input.variable_workflow_01QQGAMODJEPJ3M6IMXXJ0vq1wGcbFbn08r$",
+									  "variable_workflow_01PV9NW72DRO54OJsK9YTOORvkgEMijwghN": ""
+									},
+									"runtime_user": {
+									  "target_default": true
+									},
+									"skip_execution": false,
+									"target": {
+									  "use_workflow_target_group": true
+									},
+									"workflow_id": "definition_workflow_01PV9FLWXZHNA1gKq6UBTXF0OtZq0fX3vOA"
+								  },
+								  "object_type": "definition_activity"
+								},
+								{
+								  "unique_name": "definition_activity_01R0ONDLI2F201UPniURfkZlb1Rf8KRVd3e",
+								  "name": "Condition Block",
+								  "title": "Address object created successfully?",
+								  "type": "logic.if_else",
+								  "base_type": "activity",
+								  "properties": {
+									"continue_on_failure": false,
+									"display_name": "Address object created successfully?",
+									"skip_execution": false
+								  },
+								  "object_type": "definition_activity",
+								  "blocks": [
+									{
+									  "unique_name": "definition_activity_01R0ONDNPPT9A2vmCwrLYbYSM8gZ6wzbmw1",
+									  "name": "Condition Branch",
+									  "title": "Yes",
+									  "type": "logic.condition_block",
+									  "base_type": "activity",
+									  "properties": {
+										"condition": {
+										  "left_operand": "$activity.definition_activity_01R0OLTZB7N8O00XP7ySBkjyZflltTvVwGb.output.succeeded$",
+										  "operator": "eq",
+										  "right_operand": true
+										},
+										"continue_on_failure": false,
+										"display_name": "Yes",
+										"skip_execution": false
+									  },
+									  "object_type": "definition_activity",
+									  "actions": [
+										{
+										  "unique_name": "definition_activity_01S91CAF8G3OV0XZzmAjfeFN44ACkrnzxpO",
+										  "name": "Set Variables",
+										  "title": "Update the address object name",
+										  "type": "core.set_multiple_variables",
+										  "base_type": "activity",
+										  "properties": {
+											"continue_on_failure": false,
+											"display_name": "Update the address object name",
+											"skip_execution": false,
+											"variables_to_update": [
+											  {
+												"variable_to_update": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01R0O6Z5QB0656o5VbatRgMi5ioUlOaEJI4$",
+												"variable_value_new": "SecureX_$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.input.variable_workflow_01QQGAMODJEPJ3M6IMXXJ0vq1wGcbFbn08r$_$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.output.instance_id$"
+											  }
+											]
+										  },
+										  "object_type": "definition_activity"
+										}
+									  ]
+									},
+									{
+									  "unique_name": "definition_activity_01S90O63L9PHG1dJDwJehgfH8Kc8Zhu5tA0",
+									  "name": "Condition Branch",
+									  "title": "No",
+									  "type": "logic.condition_block",
+									  "base_type": "activity",
+									  "properties": {
+										"condition": {
+										  "left_operand": "$activity.definition_activity_01R0OLTZB7N8O00XP7ySBkjyZflltTvVwGb.output.succeeded$",
+										  "operator": "eq",
+										  "right_operand": false
+										},
+										"continue_on_failure": false,
+										"display_name": "No",
+										"skip_execution": false
+									  },
+									  "object_type": "definition_activity",
+									  "actions": [
+										{
+										  "unique_name": "definition_activity_01S90HQA7IN3C1EvcwQoRl6qROAA2WYgH7U",
+										  "name": "Set Variables",
+										  "title": "Add error to local variable",
+										  "type": "core.set_multiple_variables",
+										  "base_type": "activity",
+										  "properties": {
+											"continue_on_failure": false,
+											"display_name": "Add error to local variable",
+											"skip_execution": false,
+											"variables_to_update": [
+											  {
+												"variable_to_update": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQGOS6GF5377VKW2JID1Q8vbc47NFRBxK$",
+												"variable_value_new": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQGOS6GF5377VKW2JID1Q8vbc47NFRBxK$\n- Failed to create an address object for the observable provided"
+											  }
+											]
+										  },
+										  "object_type": "definition_activity"
+										}
+									  ]
+									}
+								  ]
+								}
+							  ]
+							}
+						  ]
+						},
+						{
+						  "unique_name": "definition_activity_01R1G1FEBZ96F1WYD2NoOUpI6IkddIu67AI",
+						  "name": "Palo Alto - Panorama - Add Address Object to Address Group",
+						  "title": "Palo Alto - Panorama - Add Address Object to Address Group",
+						  "type": "workflow.atomic_workflow",
+						  "base_type": "subworkflow",
+						  "properties": {
+							"continue_on_failure": true,
+							"display_name": "Palo Alto - Panorama - Add Address Object to Address Group",
+							"input": {
+							  "variable_workflow_01PV9RDPDTENI51oOx5vBz5oy14bE3pwoAZ": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01R1FNMHKJBYQ4uLMJEbx9kkuYYPLcEJyqC$",
+							  "variable_workflow_01PV9RDPDTG0P2BPK62JcE5D4NSHNU9HTto": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQH3AB2DO1R4zP3uv2A1l0ovILurCkNA7$",
+							  "variable_workflow_01PV9RDPDTH753VOpyRu9Dx937NwGWoQUZO": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQH3SOUBCT06b6iLrcfh6pNDU5c5Z4WOW$",
+							  "variable_workflow_01PV9RDPDTJOB3ptLHKXrm2lo6yZUUWhOAY": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQH4BBH1NDJ2MwyBS90kAilrZzLbeotgU$",
+							  "variable_workflow_01PV9RDPDTKUN1dwCAfKozKpduWMhJr8Szc": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01R0O6Z5QB0656o5VbatRgMi5ioUlOaEJI4$",
+							  "variable_workflow_01QVLOWWRPASL7D5NwKoEw7vYg80HhNNwW1": ""
+							},
+							"runtime_user": {
+							  "target_default": true
+							},
+							"skip_execution": false,
+							"target": {
+							  "use_workflow_target_group": true
+							},
+							"workflow_id": "definition_workflow_01PV9RDPLW6E81fynAgROTU8SaPMbElspCS"
+						  },
+						  "object_type": "definition_activity"
+						},
+						{
+						  "unique_name": "definition_activity_01R1G2XCMQP3R2k14KK5QDZ7IAFRWU8HRNf",
+						  "name": "Condition Block",
+						  "title": "Was the address group update successful?",
+						  "type": "logic.if_else",
+						  "base_type": "activity",
+						  "properties": {
+							"continue_on_failure": false,
+							"display_name": "Was the address group update successful?",
+							"skip_execution": false
+						  },
+						  "object_type": "definition_activity",
+						  "blocks": [
+							{
+							  "unique_name": "definition_activity_01R1G2XECXE3X5U1LYxw5mfdf83m23wlVSV",
+							  "name": "Condition Branch",
+							  "title": "Yes",
+							  "type": "logic.condition_block",
+							  "base_type": "activity",
+							  "properties": {
+								"condition": {
+								  "left_operand": "$activity.definition_activity_01R1G1FEBZ96F1WYD2NoOUpI6IkddIu67AI.output.succeeded$",
+								  "operator": "eq",
+								  "right_operand": true
+								},
+								"continue_on_failure": false,
+								"display_name": "Yes",
+								"skip_execution": false
+							  },
+							  "object_type": "definition_activity",
+							  "actions": [
+								{
+								  "unique_name": "definition_activity_01S90VTAD54C73Au6lnK3Ievi6BBaWjwJvH",
+								  "name": "Condition Block",
+								  "title": "Was a pre rule provided?",
+								  "type": "logic.if_else",
+								  "base_type": "activity",
+								  "properties": {
+									"continue_on_failure": false,
+									"display_name": "Was a pre rule provided?",
+									"skip_execution": false
+								  },
+								  "object_type": "definition_activity",
+								  "blocks": [
+									{
+									  "unique_name": "definition_activity_01S90VTAD5OGQ6aEnOJ9r51ZDouGRLE3DPt",
+									  "name": "Condition Branch",
+									  "title": "Yes",
+									  "type": "logic.condition_block",
+									  "base_type": "activity",
+									  "properties": {
+										"condition": {
+										  "left_operand": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01R1HZRTVTQDI1CTwc3UT3OtexL3m5mVWnk$",
+										  "operator": "ne",
+										  "right_operand": ""
+										},
+										"continue_on_failure": false,
+										"display_name": "Yes",
+										"skip_execution": false
+									  },
+									  "object_type": "definition_activity",
+									  "actions": [
+										{
+										  "unique_name": "definition_activity_01S90VTAD8E7911iYCNGOUZhLGuuGIF770Q",
+										  "name": "Palo Alto - Panorama - Update Security Policy Pre Rule",
+										  "title": "Palo Alto - Panorama - Update Security Policy Pre Rule",
+										  "type": "workflow.atomic_workflow",
+										  "base_type": "subworkflow",
+										  "properties": {
+											"continue_on_failure": true,
+											"display_name": "Palo Alto - Panorama - Update Security Policy Pre Rule",
+											"input": {
+											  "variable_workflow_01QORDBZK6YF64HcaH4ephX41pXR32BulYH": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQH3AB2DO1R4zP3uv2A1l0ovILurCkNA7$",
+											  "variable_workflow_01QORE7C3W1GS0C06sZWCHoOPy2KTc7ZIEJ": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQH4BBH1NDJ2MwyBS90kAilrZzLbeotgU$",
+											  "variable_workflow_01QORLXE4CFPO3GESHrSxqVZjMffKJYH7eW": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQH3SOUBCT06b6iLrcfh6pNDU5c5Z4WOW$",
+											  "variable_workflow_01QORNV7L6VFC2GEJQjV9aYccoU9l1XhNpE": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01R1HZRTVTQDI1CTwc3UT3OtexL3m5mVWnk$",
+											  "variable_workflow_01QOROBKETGTA5uK2Sso1LLGUJBfbmHaCap": "",
+											  "variable_workflow_01QORT3NX7VTY0FhfmHt2FM59GfYYrPC7hf": "deny",
+											  "variable_workflow_01QORU1IFYXEO5s5MH67x18Ys5PWVzj1V0L": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01R1FNMHKJBYQ4uLMJEbx9kkuYYPLcEJyqC$",
+											  "variable_workflow_01QORV740TZ3Y7l3CMEzFHjqCl8Nxhuhmi7": "",
+											  "variable_workflow_01QORVO26588W59DhdqGmAZYtzfc1q4kZZb": "",
+											  "variable_workflow_01QOTXQJBHQ1U23Nlcz8ZM6S92fmdwsOGxx": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01R1FNMHKJBYQ4uLMJEbx9kkuYYPLcEJyqC$"
+											},
+											"runtime_user": {
+											  "target_default": true
+											},
+											"skip_execution": false,
+											"target": {
+											  "use_workflow_target_group": true
+											},
+											"workflow_id": "definition_workflow_01QNWS0U2T5QY6MfHyMZT0BUd9sNyLnQyTk"
+										  },
+										  "object_type": "definition_activity"
+										},
+										{
+										  "unique_name": "definition_activity_01S90VTADB2GN02AFyl42PCTpMk5Sj80hzg",
+										  "name": "Condition Block",
+										  "title": "Pre rule udated successfully?",
+										  "type": "logic.if_else",
+										  "base_type": "activity",
+										  "properties": {
+											"continue_on_failure": false,
+											"display_name": "Pre rule udated successfully?",
+											"skip_execution": false
+										  },
+										  "object_type": "definition_activity",
+										  "blocks": [
+											{
+											  "unique_name": "definition_activity_01S90VTADBI1K5Hv4mdQjcFEoO8VkkJ3j8O",
+											  "name": "Condition Branch",
+											  "title": "No",
+											  "type": "logic.condition_block",
+											  "base_type": "activity",
+											  "properties": {
+												"condition": {
+												  "left_operand": "$activity.definition_activity_01S90VTAD8E7911iYCNGOUZhLGuuGIF770Q.output.succeeded$",
+												  "operator": "eq",
+												  "right_operand": false
+												},
+												"continue_on_failure": false,
+												"display_name": "No",
+												"skip_execution": false
+											  },
+											  "object_type": "definition_activity",
+											  "actions": [
+												{
+												  "unique_name": "definition_activity_01S90VTADDZCJ1LCwhZFeUfbZyoAIIDc0tA",
+												  "name": "Set Variables",
+												  "title": "Add error to local variable",
+												  "type": "core.set_multiple_variables",
+												  "base_type": "activity",
+												  "properties": {
+													"continue_on_failure": false,
+													"display_name": "Add error to local variable",
+													"skip_execution": false,
+													"variables_to_update": [
+													  {
+														"variable_to_update": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQGOS6GF5377VKW2JID1Q8vbc47NFRBxK$",
+														"variable_value_new": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQGOS6GF5377VKW2JID1Q8vbc47NFRBxK$\n- Failed to update the security policy pre rule"
+													  }
+													]
+												  },
+												  "object_type": "definition_activity"
+												}
+											  ]
+											}
+										  ]
+										}
+									  ]
+									},
+									{
+									  "unique_name": "definition_activity_01SJDYA4SOVL75MZH97xO22XgWUXj8o4U5S",
+									  "name": "Condition Branch",
+									  "title": "No",
+									  "type": "logic.condition_block",
+									  "base_type": "activity",
+									  "properties": {
+										"condition": {
+										  "left_operand": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01R1HZRTVTQDI1CTwc3UT3OtexL3m5mVWnk$",
+										  "operator": "eq",
+										  "right_operand": ""
+										},
+										"continue_on_failure": false,
+										"display_name": "No",
+										"skip_execution": false
+									  },
+									  "object_type": "definition_activity",
+									  "actions": [
+										{
+										  "unique_name": "definition_activity_01SJDYA4SUTMD6knZWOqYNCib6w0q8ALsle",
+										  "name": "Set Variables",
+										  "title": "Add error to local variable",
+										  "type": "core.set_multiple_variables",
+										  "base_type": "activity",
+										  "properties": {
+											"continue_on_failure": false,
+											"display_name": "Add error to local variable",
+											"skip_execution": false,
+											"variables_to_update": [
+											  {
+												"variable_to_update": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQGOS6GF5377VKW2JID1Q8vbc47NFRBxK$",
+												"variable_value_new": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQGOS6GF5377VKW2JID1Q8vbc47NFRBxK$\n- The observable was added to the address group but no security policy pre rule was provided to add the address group to"
+											  }
+											]
+										  },
+										  "object_type": "definition_activity"
+										}
+									  ]
+									}
+								  ]
+								}
+							  ]
+							},
+							{
+							  "unique_name": "definition_activity_01S90W4C9TPI717TIlOO1sp45j4plarqMIY",
+							  "name": "Condition Branch",
+							  "title": "No",
+							  "type": "logic.condition_block",
+							  "base_type": "activity",
+							  "properties": {
+								"condition": {
+								  "left_operand": "$activity.definition_activity_01R1G1FEBZ96F1WYD2NoOUpI6IkddIu67AI.output.succeeded$",
+								  "operator": "eq",
+								  "right_operand": false
+								},
+								"continue_on_failure": false,
+								"display_name": "No",
+								"skip_execution": false
+							  },
+							  "object_type": "definition_activity",
+							  "actions": [
+								{
+								  "unique_name": "definition_activity_01S90W4C9UKL61fCl749grTyXjcvhpGM3s7",
+								  "name": "Set Variables",
+								  "title": "Add error to local variable",
+								  "type": "core.set_multiple_variables",
+								  "base_type": "activity",
+								  "properties": {
+									"continue_on_failure": false,
+									"display_name": "Add error to local variable",
+									"skip_execution": false,
+									"variables_to_update": [
+									  {
+										"variable_to_update": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQGOS6GF5377VKW2JID1Q8vbc47NFRBxK$",
+										"variable_value_new": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQGOS6GF5377VKW2JID1Q8vbc47NFRBxK$\n- Failed to add address object \"$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01R0O6Z5QB0656o5VbatRgMi5ioUlOaEJI4$\" to address group"
+									  }
+									]
+								  },
+								  "object_type": "definition_activity"
+								}
+							  ]
+							}
+						  ]
+						}
+					  ]
+					},
+					{
+					  "unique_name": "definition_activity_01S90KCN015NH6MsyLKB3Pp7EdOkrpYscsG",
+					  "name": "Condition Branch",
+					  "title": "No",
+					  "type": "logic.condition_block",
+					  "base_type": "activity",
+					  "properties": {
+						"condition": {
+						  "left_operand": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01R1FNMHKJBYQ4uLMJEbx9kkuYYPLcEJyqC$",
+						  "operator": "eq",
+						  "right_operand": ""
+						},
+						"continue_on_failure": false,
+						"display_name": "No",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "actions": [
+						{
+						  "unique_name": "definition_activity_01S90MLJOG25Q490uywBnR3PatBtFOmZMQx",
+						  "name": "Set Variables",
+						  "title": "Add error to local variable",
+						  "type": "core.set_multiple_variables",
+						  "base_type": "activity",
+						  "properties": {
+							"continue_on_failure": false,
+							"display_name": "Add error to local variable",
+							"skip_execution": false,
+							"variables_to_update": [
+							  {
+								"variable_to_update": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQGOS6GF5377VKW2JID1Q8vbc47NFRBxK$",
+								"variable_value_new": "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQGOS6GF5377VKW2JID1Q8vbc47NFRBxK$\n- An address group to add addresses to was not provided. You must configure the workflow with the name of an address group"
+							  }
+							]
+						  },
+						  "object_type": "definition_activity"
+						}
+					  ]
+					}
+				  ]
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01R1JI9E1SYEY0sMR1npOHesDMJVn4Kc0KF",
+		  "name": "Execute Python Script",
+		  "title": "Prepare summary message",
+		  "type": "python3.script",
+		  "base_type": "activity",
+		  "properties": {
+			"action_timeout": 180,
+			"continue_on_failure": false,
+			"display_name": "Prepare summary message",
+			"script": "import sys\n\nobservable_type = sys.argv[1]\nobservable_value = sys.argv[2].replace(\".\", \"[.]\")\ncustomURLCategory = sys.argv[3]\naddressObject = sys.argv[4]\naddressGroup = sys.argv[5]\nsecurityPolicy = sys.argv[6]\nerrors = sys.argv[7]\n\ndelimeter = ('-' * 20)\n\nresult = 'successfully' if len(errors) == 0 else 'unsuccessfully'\nmessageBody = [ f'## {observable_type} \"{observable_value}\" blocked in Panorama {result}' ]\n\nif observable_type == 'URL':\n    messageBody += [ f\"**Custom URL Category**: {customURLCategory}\" ]\nelif observable_type == 'IP' or observable_type == 'Domain':\n    messageBody += [ f\"**Address Object**: {addressObject}\" ]\n    messageBody += [ f\"**Address Group**: {addressGroup}\" ]\n\nmessageBody += [ f\"**Security Policy Pre Rule**: {securityPolicy}\" ]\n\nif len(errors) > 0:\n    messageBody += [ delimeter, '**There were errors during workflow execution:**' ] + errors.split('\\n')\n\nteamsMessage = '\\n'.join(messageBody)",
+			"script_arguments": [
+			  "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.input.variable_workflow_01QQGAHCXXV9X2JbcyMWXpQfpK3mD6TcBie$",
+			  "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.input.variable_workflow_01QQGAMODJEPJ3M6IMXXJ0vq1wGcbFbn08r$",
+			  "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQH0LBYOZAD6dPvOmBoWB2pPA7rjWIyZp$",
+			  "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01R0O6Z5QB0656o5VbatRgMi5ioUlOaEJI4$",
+			  "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01R1FNMHKJBYQ4uLMJEbx9kkuYYPLcEJyqC$",
+			  "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01R1HZRTVTQDI1CTwc3UT3OtexL3m5mVWnk$",
+			  "$workflow.definition_workflow_01QQG9NUCO14V5y0h39Wlzt3DezSqNWSU7R.local.variable_workflow_01QQGOS6GF5377VKW2JID1Q8vbc47NFRBxK$"
+			],
+			"script_queries": [
+			  {
+				"script_query": "teamsMessage",
+				"script_query_name": "teamsMessage",
+				"script_query_type": "string"
+			  }
+			],
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01R1K0R4VOYXO1eqfj671OlCIfIXqeivrWW",
+		  "name": "Microsoft Teams - Post Message via Webhook",
+		  "title": "Microsoft Teams - Post Message via Webhook",
+		  "type": "workflow.atomic_workflow",
+		  "base_type": "subworkflow",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Microsoft Teams - Post Message via Webhook",
+			"input": {
+			  "variable_workflow_01MRIK9PFIH9457K2ZY1x7rEJvOPzYOE6eO": "Message from Palo Alto - Panorama - Block URL, IP, or Domain",
+			  "variable_workflow_01MRIKICJKVS16L5nynmibtyxbFIqwxBhOV": "$activity.definition_activity_01R1JI9E1SYEY0sMR1npOHesDMJVn4Kc0KF.output.script_queries.teamsMessage$",
+			  "variable_workflow_01MRIL2TKZ8FM1EvIZeO4VFV9ITFhG3vSlI": ""
+			},
+			"runtime_user": {
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "override_workflow_target_group_criteria": true,
+			  "target_group": {
+				"run_on_all_targets": false,
+				"use_criteria": {
+				  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+				  "conditions": [
+					{
+					  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+					  "operator": "eqi",
+					  "right_operand": "Microsoft Teams Webhook"
+					}
+				  ]
+				}
+			  }
+			},
+			"workflow_id": "definition_workflow_01MRIE3B3DNNQ3cdFSoyGkg1RnVsYA9VdZr"
+		  },
+		  "object_type": "definition_activity"
+		}
+	  ],
+	  "categories": [
+		"category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m"
+	  ]
+	},
+	"categories": {
+	  "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m": {
+		"unique_name": "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m",
+		"name": "response",
+		"title": "response",
+		"type": "basic.category",
+		"base_type": "category",
+		"category_type": "custom",
+		"object_type": "category"
+	  }
+	},
+	"target_groups": {
+	  "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+		"unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+		"name": "Default TargetGroup",
+		"title": "Default TargetGroup",
+		"type": "generic.target_group",
+		"base_type": "target_group",
+		"version": "1.0.0",
+		"targets": [
+		  {
+			"data_target_type": "web-service.endpoint",
+			"view_target_type": "web-service.endpoint",
+			"include_all_targets": true
+		  },
+		  {
+			"data_target_type": "email.smtp_endpoint",
+			"view_target_type": "email.smtp_endpoint",
+			"include_all_targets": true
+		  }
+		],
+		"object_type": "target_group"
+	  }
+	},
+	"atomic_workflows": [
+	  "definition_workflow_01QNWS0U2T5QY6MfHyMZT0BUd9sNyLnQyTk",
+	  "definition_workflow_01QQJ2AU0DAS47HJHH5JuZ92pnPzGAMyQUf",
+	  "definition_workflow_01PV9RDPLW6E81fynAgROTU8SaPMbElspCS",
+	  "definition_workflow_01PV9FLWXZHNA1gKq6UBTXF0OtZq0fX3vOA",
+	  "definition_workflow_01MRIE3B3DNNQ3cdFSoyGkg1RnVsYA9VdZr",
+	  "definition_workflow_01QPPF9Y5NHFF0aEXWmeVISU61ocdu6EJ87"
+	]
+  }
