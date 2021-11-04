@@ -69,6 +69,8 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 * Set the `Address Group Name` local variable to the name of the address group to add address objects to
 * Set the `API Key` local variable to your Palo Alto Panorama API key
 * Set the `Custom URL Category Name` local variable to the name of the URL category to add URLs and domains to
+* Set the `Device Group Name` local variable to the name of the device group to manage objects for. This is only required when Location is set to device-group
+* Set the `Location` local variable to the availability zone of the objects. Valid values include: shared, device-group. If you use device-group, you must provide a Device Group Name
 * Set the `Security Policy Pre Rule Name` local variable to the name of the security policy pre rule to make changes to
 * If you want to change the name of this workflow in the pivot menu, change its display name
 
