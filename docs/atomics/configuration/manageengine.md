@@ -9,7 +9,7 @@ grand_parent: Atomic Actions
 ---
 
 # ManageEngine
-ManageEngine offers a variety of cloud-based and on-premise products for managing different aspects of your technology.
+ManageEngine offers a variety of cloud-based and on-premises products for managing different aspects of your technology.
 
 | Product | Atomic Name | Purpose |
 |:--------|:------------|:--------|
