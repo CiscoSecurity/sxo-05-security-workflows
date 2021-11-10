@@ -30,7 +30,7 @@ When using SecureX orchestration, it's important to be aware of the items listed
 ---
 
 ## Targets
-* Targets must be accessible from the internet since SecureX orchestration resides within a public cloud. In the future, an on-premise connector will be available to enable integration with on-premise devices.
+* Targets must be accessible from the internet since SecureX orchestration resides within a public cloud. If you want to integrate an on-premises product into a workflow, check out the [orchestration remote]({{ site.baseurl }}/remote).
 
 ---
 

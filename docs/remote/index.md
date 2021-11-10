@@ -8,7 +8,7 @@ has_toc: false
 ---
 
 # Remote
-SecureX orchestration remote is an on-premise virtual appliance that allows your workflows to communicate with resources inside your network behind a firewall. Since many on-premise devices aren't exposed to the internet, SXo remote bridges the gap between those devices and the cloud so they can be incorporated into your workflows.
+SecureX orchestration remote is an on-premises virtual appliance that allows your workflows to communicate with resources inside your network behind a firewall. Since many on-premises devices aren't exposed to the internet, SXo remote bridges the gap between those devices and the cloud so they can be incorporated into your workflows.
 
 [<i class="fa fa-video mr-1"></i> Remote Overview](https://www.youtube.com/watch?v=EC2nCiAn1HM&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo){: .btn-cisco-outline }
 
