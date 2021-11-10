@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Block URL, IP, or Domain
-permalink: /workflows/panorama/0051-block-url-ip-domain
+permalink: /workflows/fortigate/0051-block-url-ip-domain
 redirect_from:
   - /workflows/0051
 parent: Fortinet FortiGate
