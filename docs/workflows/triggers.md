@@ -33,3 +33,18 @@ To configure a trigger, you first need to make sure you have an [event]({{ site.
 Here's a sample of what an [Email Event]({{ site.baseurl }}/events/email) trigger looks like:
 
 ![]({{ site.baseurl }}/assets/images/workflows/triggers/edit-trigger.png)
+
+---
+
+## States
+The table below shows you the possible states for triggers and what they mean.
+
+| State | Description |
+|:------|:------------|
+| created | The trigger was created but has not started listening for events yet |
+| started-polling | The trigger is running normally and waiting for events |
+| stopped-polling | The trigger is disabled |
+| paused-polling | The trigger is paused due to rate-limiting |
+| errored | The trigger encountered an error and is not running. This could be due a configuration issue with the trigger or related targets. Verify the configuration and try disabling/re-enabling the trigger |
+| update-in-progress | A change has been made to the trigger and is currently being saved |
+| disabled | The trigger is disabled |
