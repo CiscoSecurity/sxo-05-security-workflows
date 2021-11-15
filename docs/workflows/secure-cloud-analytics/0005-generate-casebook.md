@@ -29,7 +29,7 @@ This workflow generates a Cisco SecureX casebook with links to investigate the I
 | Date | Notes |
 |:-----|:------|
 | Nov 20, 2020 | - Initial release |
-| September 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+| Sep 10, 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 

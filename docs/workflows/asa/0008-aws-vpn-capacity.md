@@ -26,7 +26,7 @@ This workflow demonstrates the ability to dynamically expand Cisco Adaptive Secu
 | Date | Notes |
 |:-----|:------|
 | Nov 24, 2020 | - Initial release |
-| September 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+| Sep 10, 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 

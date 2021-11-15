@@ -33,7 +33,7 @@ This workflow has two components: a parent workflow and a sub-workflow. Importin
 | Nov 24, 2020 | - Initial release |
 | Feb 20, 2021 | - Updated to use new sub-workflow based on updated workflow [0002]({{ site.baseurl }}/workflows/talos/0002-single-post-casebook)<br />- Updated to use new Threat Response atomics<br />- Fixed an issue where the Threat Response token could expire during investigation ([Issue #2]({{ site.github.repository_url }}/issues/2))<br />- Added auto-detection for the Threat Response environment URL<br />- Changed how the Webex message and casebook summary are generated to be more reliable and useful |
 | Jun 24, 2021 | - Updated the user agent header being used to fetch blog posts from Talos |
-| September 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+| Sep 10, 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
 | Nov 12, 2021 | - Updated the workflow based on a change to the Talos blog XML (The `origLink` field is now called `link`) |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_

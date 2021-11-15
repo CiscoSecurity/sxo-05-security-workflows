@@ -26,7 +26,7 @@ This workflow requests approval to isolate an endpoint using Cisco Secure Endpoi
 | Date | Notes |
 |:-----|:------|
 | Jun 23, 2020 | - Initial release |
-| September 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+| Sep 10, 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 

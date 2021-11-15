@@ -33,7 +33,7 @@ This workflow is an adaptation of the sub-workflow used by the [Talos - Get New 
 | Nov 24, 2020 | - Initial release |
 | Feb 5, 2021 | - Updated to use new Threat Response atomics<br />- Fixed an issue where the Threat Response token could expire during investigation ([Issue #2]({{ site.github.repository_url }}/issues/2))<br />- Added auto-detection for the Threat Response environment URL<br />- Changed how the Webex message and casebook summary are generated to be more reliable and useful |
 | Jun 24, 2021 | - Updated the user agent header being used to fetch blog posts from Talos |
-| September 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+| Sep 10, 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 
