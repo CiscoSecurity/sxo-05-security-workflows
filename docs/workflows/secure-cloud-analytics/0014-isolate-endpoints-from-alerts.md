@@ -25,7 +25,7 @@ This workflow fetches alerts from Cisco Secure Cloud Analytics (SCA) for the pas
 | Date | Notes |
 |:-----|:------|
 | Feb 25, 2021 | - Initial release |
-| September 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+| Sep 10, 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 

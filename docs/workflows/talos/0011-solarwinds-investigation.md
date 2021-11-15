@@ -27,7 +27,7 @@ This workflow uses a Talos blog post about the SolarWinds supply chain attack as
 |:-----|:------|
 | Jan 22, 2021 | - Initial release |
 | Jun 24, 2021 | - Updated the user agent header being used to fetch blog posts from Talos |
-| September 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+| Sep 10, 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 

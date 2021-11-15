@@ -25,7 +25,7 @@ This workflow monitors a mailbox for retrospective detection alerts from Cisco S
 | Date | Notes |
 |:-----|:------|
 | Apr 16, 2021 | - Initial release |
-| September 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+| Sep 10, 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 

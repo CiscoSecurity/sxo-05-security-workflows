@@ -28,7 +28,7 @@ This workflow monitors a mailbox for incoming phishing reports. When an email is
 | Jan 21, 2021 | - Initial release |
 | Jan 29, 2021 | - Changed Secure Malware Analytics disposition for scores less than 70 to Unknown instead of Clean<br />- Removed the email notification to the reporting user when everything is clean/unknown. The SOC should take over the investigation from this point and make the final determination<br />- Fixed Secure Malware Analytics submission count not being incremented for URL submissions<br />- Added an environment variable for the Secure Malware Analytics instance URL |
 | Feb 25, 2021 | - Added the subject and sender of the reported email as observables ([Issue #10]({{ site.github.repository_url }}/issues/10))<br />- Updated the Python script that generates casebook text to handle truncation more reliably ([Issue #12]({{ site.github.repository_url }}/issues/12))<br />- Updated the incident and casebook text with the reported email's actual subject ([Issue #8]({{ site.github.repository_url }}/issues/8)) |
-| September 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+| Sep 10, 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
 
 _See the [Important Notes]({{ site.baseurl }}/notes#workflows) page for more information about updating workflows_
 
