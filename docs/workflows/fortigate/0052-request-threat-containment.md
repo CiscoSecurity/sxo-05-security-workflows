@@ -23,7 +23,7 @@ This workflow is designed to be triggered by ServiceNow in response to a new Fir
 
 <div class="cisco-alert cisco-alert-info"><i class="fa fa-info-circle mr-1 cisco-icon-info"></i> While this workflow is listed as a response workflow, it won't work if triggered from a SecureX pivot menu. This workflow expects a JSON payload from ServiceNow and is only marked as a response workflow so it can be triggered using the SecureX <a href="{{ site.baseurl }}/workflows/response/tr-api">response API</a></div>
 
-[<i class="fab fa-github mr-1"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0052-FortiGate-RequestThreatContainment__XX){: .btn-cisco-outline }
+[<i class="fab fa-github mr-1"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0052-FortiGate-RequestThreatContainment__definition_workflow_01S6AUJDD8LRG7MkYXhdf7irBMC3rSAJF1J){: .btn-cisco-outline }
 
 ---
 
