@@ -1,15 +1,14 @@
 ---
 layout: page
-title: Triggering via the Threat Response API
+title: Triggering via Threat Response API
 permalink: /workflows/response/tr-api
 redirect_from:
   - /workflows/response/ctr-api
 parent: Response Workflows
 grand_parent: Workflows
-nav_order: 5
 ---
 
-# Triggering via the Threat Response API
+# Triggering via Threat Response API
 {: .no_toc}
 If you want to trigger a workflow from outside of SecureX, you can trigger response workflows via the Threat Response API.
 
