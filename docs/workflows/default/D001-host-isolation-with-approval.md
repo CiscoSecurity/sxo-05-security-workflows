@@ -1,10 +1,11 @@
 ---
 layout: page
 title: Host Isolation with Tier 2 Approval
-permalink: /workflows/response/host-isolation-with-approval
+permalink: /workflows/default/D001-host-isolation-with-approval
 redirect_from:
   - /workflows/D001
-parent: Response Workflows
+  - /workflows/response/host-isolation-with-approval
+parent: Out of the Box Workflows
 grand_parent: Workflows
 ---
 

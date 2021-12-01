@@ -1,10 +1,11 @@
 ---
 layout: page
 title: Move Computer to Triage Group
-permalink: /workflows/response/move-computer-triage
+permalink: /workflows/default/D004-move-computer-triage
 redirect_from:
   - /workflows/D004
-parent: Response Workflows
+  - /workflows/response/move-computer-triage
+parent: Out of the Box Workflows
 grand_parent: Workflows
 ---
 
