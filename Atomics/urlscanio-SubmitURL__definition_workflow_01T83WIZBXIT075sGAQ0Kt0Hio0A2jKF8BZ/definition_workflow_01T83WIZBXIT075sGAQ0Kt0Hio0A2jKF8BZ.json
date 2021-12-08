@@ -1,0 +1,464 @@
+{
+	"workflow": {
+	  "unique_name": "definition_workflow_01T83WIZBXIT075sGAQ0Kt0Hio0A2jKF8BZ",
+	  "name": "urlscan.io - Submit URL",
+	  "title": "urlscan.io - Submit URL",
+	  "type": "generic.workflow",
+	  "base_type": "workflow",
+	  "variables": [
+		{
+		  "schema_id": "datatype.secure_string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "API Key",
+			"type": "datatype.secure_string",
+			"description": "Your API key for urlscan.io",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01T83WIZHGV7I3nKOZrFKNinukoobiD4N3j",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "URL to Submit",
+			"type": "datatype.string",
+			"description": "The URL to submit to urlscan.io",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01T83WIZHGB1X5lWd2wjCvRBN2Q6Fo8cw2s",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Additional Fields",
+			"type": "datatype.string",
+			"description": "JSON-formatted object containing additional fields to include in the URL submission. For example:\n{ \"tags\": [ \"tag1\", \"tag2\" ], \"visibility\": \"private\" ]",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01TD0W4E9GKVT1XjLNUa9p1AjpdfIOonZWF",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.integer",
+		  "properties": {
+			"value": 0,
+			"scope": "local",
+			"name": "Loop Counter",
+			"type": "datatype.integer",
+			"description": "Variable used to make sure the loop runs a maximum of 6 times. This will be set automatically",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01T83WIZHH3EB3kSM3TPXIqY9JjaXKL4BXU",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "output",
+			"name": "Scan Results",
+			"type": "datatype.string",
+			"description": "The results of the submission",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01T83WIZHHCCW4DsFOzaikRJXXoQSjWEOcM",
+		  "object_type": "variable_workflow"
+		}
+	  ],
+	  "properties": {
+		"atomic": {
+		  "atomic_group": "urlscan.io",
+		  "is_atomic": true
+		},
+		"delete_workflow_instance": false,
+		"description": "Submits a URL to urlscan.io for analysis and retrieves the results.\n\nTargets: HTTP Endpoint for \"urlscan.io\" with a path of \"/api/v1/\"\n\nAccount Key: None (uses an API key)\n\nSteps:\n[] Build the request payload and submit the URL\n[] Check if the request was successful:\n[]> If it wasn't, return an error\n[] Extract the UUID of the submission\n[] Loop until a result is available (or 10 loops have occurred)\n[]> Attempt to fetch a submission result\n[]> Check if a result is available:\n[]>> If it is, set the output variable and end the loop\n[]>> If it isn't, increase the loop counter\n[]>> If an error occured, return an error\n\nMore information about this API: https://urlscan.io/docs/api/",
+		"display_name": "urlscan.io - Submit URL",
+		"runtime_user": {
+		  "target_default": true
+		},
+		"target": {
+		  "target_type": "web-service.endpoint",
+		  "specify_on_workflow_start": true
+		}
+	  },
+	  "object_type": "definition_workflow",
+	  "actions": [
+		{
+		  "unique_name": "definition_activity_01TC75SXYEA0R2wAnuLvTO26cNsU4FGGTTX",
+		  "name": "Execute Python Script",
+		  "title": "Build the request payload",
+		  "type": "python3.script",
+		  "base_type": "activity",
+		  "properties": {
+			"action_timeout": 180,
+			"continue_on_failure": false,
+			"display_name": "Build the request payload",
+			"script": "import sys,json\n\npayload = {\n\"url\": sys.argv[1]\n}\n\nif len(sys.argv[2]) > 0:\n  additionalFields = json.loads(sys.argv[2])\n  payload.update(additionalFields)\n\npayload = json.dumps(payload)",
+			"script_arguments": [
+			  "$workflow.definition_workflow_01T83WIZBXIT075sGAQ0Kt0Hio0A2jKF8BZ.input.variable_workflow_01T83WIZHGB1X5lWd2wjCvRBN2Q6Fo8cw2s$",
+			  "$workflow.definition_workflow_01T83WIZBXIT075sGAQ0Kt0Hio0A2jKF8BZ.input.variable_workflow_01TD0W4E9GKVT1XjLNUa9p1AjpdfIOonZWF$"
+			],
+			"script_queries": [
+			  {
+				"script_query": "payload",
+				"script_query_name": "payload",
+				"script_query_type": "string"
+			  }
+			],
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01T83WJ24WNJS6NE1qbiTf5vRfi3HvlMfsu",
+		  "name": "HTTP Request",
+		  "title": "Submit URL to urlscan.io",
+		  "type": "web-service.http_request",
+		  "base_type": "activity",
+		  "properties": {
+			"accept": "application/json",
+			"action_timeout": 180,
+			"allow_auto_redirect": true,
+			"body": "$activity.definition_activity_01TC75SXYEA0R2wAnuLvTO26cNsU4FGGTTX.output.script_queries.payload$",
+			"content_type": "application/json",
+			"continue_on_error_status_code": true,
+			"continue_on_failure": false,
+			"custom_headers": [
+			  {
+				"name": "API-Key",
+				"value": "$workflow.definition_workflow_01T83WIZBXIT075sGAQ0Kt0Hio0A2jKF8BZ.input.variable_workflow_01T83WIZHGV7I3nKOZrFKNinukoobiD4N3j$"
+			  }
+			],
+			"display_name": "Submit URL to urlscan.io",
+			"method": "POST",
+			"relative_url": "/scan/",
+			"runtime_user": {
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "use_workflow_target": true
+			}
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01T83WJ2SDBXI4Xv6Tk06Ewdj03S1n6fzwt",
+		  "name": "Condition Block",
+		  "title": "Was the URL submitted?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Was the URL submitted?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01T83WJ4AM3J30HCeKCkKlwXsh463Ws82CW",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01T83WJ24WNJS6NE1qbiTf5vRfi3HvlMfsu.output.status_code$",
+				  "operator": "ne",
+				  "right_operand": 200
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01T83WJ5253TI12lMD8XdH8pAKmbs1Vde4N",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "Failed to submit the URL to urlscan.io\n\nStatus code: $activity.definition_activity_01T83WJ24WNJS6NE1qbiTf5vRfi3HvlMfsu.output.status_code$\nResponse body: $activity.definition_activity_01T83WJ24WNJS6NE1qbiTf5vRfi3HvlMfsu.output.response_body$",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01T83WJ5OFGXO76aErrRpPWd6hCrclcc3Bj",
+		  "name": "JSONPath Query",
+		  "title": "Extract submissions UUID",
+		  "type": "corejava.jsonpathquery",
+		  "base_type": "activity",
+		  "properties": {
+			"action_timeout": 180,
+			"continue_on_failure": false,
+			"display_name": "Extract submissions UUID",
+			"input_json": "$activity.definition_activity_01T83WJ24WNJS6NE1qbiTf5vRfi3HvlMfsu.output.response_body$",
+			"jsonpath_queries": [
+			  {
+				"jsonpath_query": "$.uuid",
+				"jsonpath_query_name": "uuid",
+				"jsonpath_query_type": "string"
+			  }
+			],
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01T83WJ6K4OBW4iTVSiyyiB6yTIzsonVJk4",
+		  "name": "While Loop",
+		  "title": "Loop until results available",
+		  "type": "logic.while",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Loop until results available",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01T83WJ77FSQ26s2mRqUgQfAPfZhOwVQX8O",
+			  "name": "Condition Branch",
+			  "title": "While Counter < 6",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$workflow.definition_workflow_01T83WIZBXIT075sGAQ0Kt0Hio0A2jKF8BZ.local.variable_workflow_01T83WIZHH3EB3kSM3TPXIqY9JjaXKL4BXU$",
+				  "operator": "lt",
+				  "right_operand": 6
+				},
+				"continue_on_failure": false,
+				"display_name": "While Counter < 6",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01T83WJ7YN6RY74mkPRQtjQwsnLpIdrQxI0",
+				  "name": "Sleep",
+				  "title": "Wait for 10 seconds",
+				  "type": "core.sleep",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Wait for 10 seconds",
+					"skip_execution": false,
+					"sleep_interval": 10
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01T83WJ8MYCY22Ddiq1AHoWS3jHNVpshn6U",
+				  "name": "HTTP Request",
+				  "title": "Fetch results from urlscan.io",
+				  "type": "web-service.http_request",
+				  "base_type": "activity",
+				  "properties": {
+					"accept": "application/json",
+					"action_timeout": 180,
+					"allow_auto_redirect": true,
+					"content_type": "application/json",
+					"continue_on_error_status_code": true,
+					"continue_on_failure": false,
+					"custom_headers": [
+					  {
+						"name": "API-Key",
+						"value": "$workflow.definition_workflow_01T83WIZBXIT075sGAQ0Kt0Hio0A2jKF8BZ.input.variable_workflow_01T83WIZHGV7I3nKOZrFKNinukoobiD4N3j$"
+					  }
+					],
+					"display_name": "Fetch results from urlscan.io",
+					"method": "GET",
+					"relative_url": "/result/$activity.definition_activity_01T83WJ5OFGXO76aErrRpPWd6hCrclcc3Bj.output.jsonpath_queries.uuid$/",
+					"runtime_user": {
+					  "target_default": true
+					},
+					"skip_execution": false,
+					"target": {
+					  "use_workflow_target": true
+					}
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01T83WJA7JPPZ50rhyOjtzXqT19ySnElG8k",
+				  "name": "Condition Block",
+				  "title": "Was a result available?",
+				  "type": "logic.if_else",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Was a result available?",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "blocks": [
+					{
+					  "unique_name": "definition_activity_01T83WJAWVIK12NvmFWDzAAB0VXlQfOYr4c",
+					  "name": "Condition Branch",
+					  "title": "200/Success",
+					  "type": "logic.condition_block",
+					  "base_type": "activity",
+					  "properties": {
+						"condition": {
+						  "left_operand": "$activity.definition_activity_01T83WJ8MYCY22Ddiq1AHoWS3jHNVpshn6U.output.status_code$",
+						  "operator": "eq",
+						  "right_operand": 200
+						},
+						"continue_on_failure": true,
+						"display_name": "200/Success",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "actions": [
+						{
+						  "unique_name": "definition_activity_01T83WJBRWRYP5TN5eMxebLLamkeOmtRTqm",
+						  "name": "Set Variables",
+						  "title": "Set the output variable",
+						  "type": "core.set_multiple_variables",
+						  "base_type": "activity",
+						  "properties": {
+							"continue_on_failure": false,
+							"display_name": "Set the output variable",
+							"skip_execution": false,
+							"variables_to_update": [
+							  {
+								"variable_to_update": "$workflow.definition_workflow_01T83WIZBXIT075sGAQ0Kt0Hio0A2jKF8BZ.output.variable_workflow_01T83WIZHHCCW4DsFOzaikRJXXoQSjWEOcM$",
+								"variable_value_new": "$activity.definition_activity_01T83WJ8MYCY22Ddiq1AHoWS3jHNVpshn6U.output.response_body$"
+							  }
+							]
+						  },
+						  "object_type": "definition_activity"
+						},
+						{
+						  "unique_name": "definition_activity_01TC8LAOOTXNY6Eiz32r3vCzZ0gvFUPFgQ7",
+						  "name": "Break",
+						  "title": "End the loop",
+						  "type": "logic.break",
+						  "base_type": "activity",
+						  "properties": {
+							"continue_on_failure": false,
+							"display_name": "End the loop",
+							"skip_execution": false
+						  },
+						  "object_type": "definition_activity"
+						}
+					  ]
+					},
+					{
+					  "unique_name": "definition_activity_01TC8LG471Q586ZxnyM2ZquustrI3jky4h5",
+					  "name": "Condition Branch",
+					  "title": "404/Not Found",
+					  "type": "logic.condition_block",
+					  "base_type": "activity",
+					  "properties": {
+						"condition": {
+						  "left_operand": "$activity.definition_activity_01T83WJ8MYCY22Ddiq1AHoWS3jHNVpshn6U.output.status_code$",
+						  "operator": "eq",
+						  "right_operand": 404
+						},
+						"continue_on_failure": true,
+						"display_name": "404/Not Found",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "actions": [
+						{
+						  "unique_name": "definition_activity_01T83WJ9IUXTD2kwVBZYUpAAaxaCc0adJfL",
+						  "name": "Set Variables",
+						  "title": "Increase the loop counter",
+						  "type": "core.set_multiple_variables",
+						  "base_type": "activity",
+						  "properties": {
+							"continue_on_failure": false,
+							"display_name": "Increase the loop counter",
+							"skip_execution": false,
+							"variables_to_update": [
+							  {
+								"variable_to_update": "$workflow.definition_workflow_01T83WIZBXIT075sGAQ0Kt0Hio0A2jKF8BZ.local.variable_workflow_01T83WIZHH3EB3kSM3TPXIqY9JjaXKL4BXU$",
+								"variable_value_new": "$workflow.definition_workflow_01T83WIZBXIT075sGAQ0Kt0Hio0A2jKF8BZ.local.variable_workflow_01T83WIZHH3EB3kSM3TPXIqY9JjaXKL4BXU$+1"
+							  }
+							]
+						  },
+						  "object_type": "definition_activity"
+						}
+					  ]
+					},
+					{
+					  "unique_name": "definition_activity_01T83WJECJBW21cnJPIYS77CQDDbtIjInGO",
+					  "name": "Condition Branch",
+					  "title": "Anything else",
+					  "type": "logic.condition_block",
+					  "base_type": "activity",
+					  "properties": {
+						"condition": {
+						  "left_operand": {
+							"left_operand": "$activity.definition_activity_01T83WJ8MYCY22Ddiq1AHoWS3jHNVpshn6U.output.status_code$",
+							"operator": "ne",
+							"right_operand": 200
+						  },
+						  "operator": "and",
+						  "right_operand": {
+							"left_operand": "$activity.definition_activity_01T83WJ8MYCY22Ddiq1AHoWS3jHNVpshn6U.output.status_code$",
+							"operator": "ne",
+							"right_operand": 404
+						  }
+						},
+						"continue_on_failure": false,
+						"display_name": "Anything else",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "actions": [
+						{
+						  "unique_name": "definition_activity_01T83WJF8T5E75Pp6b5n1Tt2Bhe9osdK6pi",
+						  "name": "Completed",
+						  "title": "Failed",
+						  "type": "logic.completed",
+						  "base_type": "activity",
+						  "properties": {
+							"completion_type": "failed-completed",
+							"continue_on_failure": false,
+							"display_name": "Failed",
+							"result_message": "Failed to fetch submissions results from urlscan.io\n\nStatus code: $activity.definition_activity_01T83WJ8MYCY22Ddiq1AHoWS3jHNVpshn6U.output.status_code$\nResponse body: $activity.definition_activity_01T83WJ8MYCY22Ddiq1AHoWS3jHNVpshn6U.output.response_body$",
+							"skip_execution": false
+						  },
+						  "object_type": "definition_activity"
+						}
+					  ]
+					}
+				  ]
+				}
+			  ]
+			}
+		  ]
+		}
+	  ],
+	  "categories": [
+		"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+	  ]
+	}
+  }
