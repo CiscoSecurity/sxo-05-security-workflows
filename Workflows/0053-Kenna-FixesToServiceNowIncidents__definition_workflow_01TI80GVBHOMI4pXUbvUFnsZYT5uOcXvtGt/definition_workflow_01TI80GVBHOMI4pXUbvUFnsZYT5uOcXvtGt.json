@@ -1,0 +1,1061 @@
+{
+	"workflow": {
+	  "unique_name": "definition_workflow_01TI80GVBHOMI4pXUbvUFnsZYT5uOcXvtGt",
+	  "name": "0053 - Kenna - Fixes to ServiceNow Incidents",
+	  "title": "0053 - Kenna - Fixes to ServiceNow Incidents",
+	  "type": "generic.workflow",
+	  "base_type": "workflow",
+	  "variables": [
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "output",
+			"name": "Ticket List",
+			"type": "datatype.string",
+			"description": "List of tickets created",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01TI80GVLCAB96Ukp404SjnouKS3YXCDisl",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "Risk Meter Group ID",
+			"type": "datatype.string",
+			"description": "ID of the risk meter group to fetch information for. Only a single risk meter group is supported",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01TI80GVLD2H73L9ZhPBtZZCeZeGsgm7ys6",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "Kenna Instance URL",
+			"type": "datatype.string",
+			"description": "The URL for your Kenna instance's portal. For example: customer.kennasecurity.com",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01TI80GVLCJ0R23oBlLKahla7BHxEytaOv4",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "ServiceNow User ID",
+			"type": "datatype.string",
+			"description": "ServiceNow user ID to use when submitting incident tickets",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01TI80GVLC2AS0nJ0dW9aTEBLqZcEIiD2rq",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "output",
+			"name": "Error List",
+			"type": "datatype.string",
+			"description": "List of vulnerabilities which failed to update in the Kenna API. This list should be blank. Any items in this list should be manually processed. This will be populated automatically",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01TI80GVLB7L33bKmzvkhqJuT1ZLm2omnbr",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.integer",
+		  "properties": {
+			"value": 1,
+			"scope": "local",
+			"name": "Ticket Limit",
+			"type": "datatype.integer",
+			"description": "The maximum number of tickets this workflow will create during one execution. Note that this workflow will attempt to create one ticket per asset. If the ticket limit is less than the number of impacted assets, some assets will not have tickets generated. This should be a number from 1 to 500",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01TI80GVLBKB20jzHPQFcXBUEc9Hp6onpge",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "0",
+			"scope": "local",
+			"name": "Risk Score Threshold",
+			"type": "datatype.string",
+			"description": "The minimum risk score a vulnerability must have to be processed. If a vulnerability's risk score is less than this value, it will be ignored. This should be a number from 0 to 100",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01TI80GVLBTR74x1RlLMfzVRqHdsmaD7YQ1",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.secure_string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "API Token",
+			"type": "datatype.secure_string",
+			"description": "API token for Kenna. More information: https://apidocs.kennasecurity.com/reference#authentication",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01TI80GVLDAZH5vPrng26MJXxl9T6ymWf7c",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "Vulnerabilities List",
+			"type": "datatype.string",
+			"description": "Local list of vulnerabilities updated in Kenna",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01TI80GVLCSOH5aTPRd6skMT30xLupHYEXN",
+		  "object_type": "variable_workflow"
+		}
+	  ],
+	  "properties": {
+		"atomic": {
+		  "is_atomic": false
+		},
+		"delete_workflow_instance": false,
+		"description": "This workflow fetches all Kenna vulnerabilities for a given asset group and creates a ServiceNow ticket for each unique asset with vulnerabilities and fixes available.\n\nTarget Group: Default TargetGroup\n\nTargets: Kenna_Target, ServiceNow\n\nSteps:\n[] Make sure the required inputs were provided\n[] Fetch global variables\n[] Get a list of assets for the risk meter group and read them to a table\n[] Check if assets were found:\n[]> If not, end the workflow\n[]> If so, loop through each asset:\n[]>> If the ticket limit has been reached, end the workflow\n[]>> Get fixes for the asset\n[]>> Get vulnerabilities for the asset (where a fix is available, a due date is set, and there's no ServiceNow ticket association)\n[]>> Parse vulnerabilities and fixes into text for ServiceNow\n[]>> Create a ServiceNow incident\n[]>> Update the vulnerabilities in Kenna with the ServiceNow ticket\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0053",
+		"display_name": "0053 - Kenna - Fixes to ServiceNow Incidents",
+		"runtime_user": {
+		  "target_default": true
+		},
+		"target": {
+		  "execute_on_target_group": true,
+		  "target_group": {
+			"target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+			"run_on_all_targets": false,
+			"selected_target_types": [
+			  "web-service.endpoint"
+			],
+			"use_criteria": {
+			  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+			  "conditions": [
+				{
+				  "operator": "eqi",
+				  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+				  "right_operand": "Kenna_Target"
+				}
+			  ]
+			}
+		  }
+		}
+	  },
+	  "object_type": "definition_workflow",
+	  "actions": [
+		{
+		  "unique_name": "definition_activity_01TIAQ3BP411P0dv8UHh9wCS2gqeaDL0oAE",
+		  "name": "Condition Block",
+		  "title": "Were all required values provided?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Were all required values provided?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01TIAQ3BP4J4D00rv33s6duQ7jXUOCg6H7U",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": {
+					"left_operand": {
+					  "left_operand": "$workflow.definition_workflow_01TI80GVBHOMI4pXUbvUFnsZYT5uOcXvtGt.local.variable_workflow_01TI80GVLC2AS0nJ0dW9aTEBLqZcEIiD2rq$",
+					  "operator": "eq",
+					  "right_operand": ""
+					},
+					"operator": "or",
+					"right_operand": {
+					  "left_operand": "$workflow.definition_workflow_01TI80GVBHOMI4pXUbvUFnsZYT5uOcXvtGt.local.variable_workflow_01TI80GVLD2H73L9ZhPBtZZCeZeGsgm7ys6$",
+					  "operator": "eq",
+					  "right_operand": ""
+					}
+				  },
+				  "operator": "or",
+				  "right_operand": {
+					"left_operand": "$workflow.definition_workflow_01TI80GVBHOMI4pXUbvUFnsZYT5uOcXvtGt.local.variable_workflow_01TI80GVLCJ0R23oBlLKahla7BHxEytaOv4$",
+					"operator": "eq",
+					"right_operand": ""
+				  }
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01TIAQ3BP60XK1DcuS9MR5t0SRuXJnFFsHl",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "A required local variable was left blank. A risk meter group ID, Kenna instance URL, and ServiceNow username are required",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01TJVB70CPJUV7IzItkxjE4zMWgntHwupxm",
+		  "name": "Group",
+		  "title": "Fetch global variables",
+		  "type": "logic.group",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Fetch global variables",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "actions": [
+			{
+			  "unique_name": "definition_activity_01TI9EAV1DUA85rtQzayvyxLm69ltQa5dch",
+			  "name": "Set Variables",
+			  "title": "Fetch global variables",
+			  "type": "core.set_multiple_variables",
+			  "base_type": "activity",
+			  "properties": {
+				"continue_on_failure": false,
+				"display_name": "Fetch global variables",
+				"skip_execution": false,
+				"variables_to_update": [
+				  {
+					"variable_to_update": "$workflow.definition_workflow_01TI80GVBHOMI4pXUbvUFnsZYT5uOcXvtGt.local.variable_workflow_01TI80GVLDAZH5vPrng26MJXxl9T6ymWf7c$",
+					"variable_value_new": ""
+				  }
+				]
+			  },
+			  "object_type": "definition_activity"
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01TJVC0MCT2US7WYiTNpuWjq3p0bw45QbG5",
+		  "name": "Kenna - Search Assets",
+		  "title": "Kenna - Search Assets",
+		  "type": "workflow.atomic_workflow",
+		  "base_type": "subworkflow",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Kenna - Search Assets",
+			"input": {
+			  "variable_workflow_01S7JOAIS05SC5pegVdnxdq91ysEt4Nn2s1": "search_id=$workflow.definition_workflow_01TI80GVBHOMI4pXUbvUFnsZYT5uOcXvtGt.local.variable_workflow_01TI80GVLD2H73L9ZhPBtZZCeZeGsgm7ys6$&per_page=5000",
+			  "variable_workflow_01S7JOAIS0EDY3NIGywOswFTEtoeqPiIw2Q": "$workflow.definition_workflow_01TI80GVBHOMI4pXUbvUFnsZYT5uOcXvtGt.local.variable_workflow_01TI80GVLDAZH5vPrng26MJXxl9T6ymWf7c$"
+			},
+			"runtime_user": {
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "use_workflow_target_group": true
+			},
+			"workflow_id": "definition_workflow_01S7JOAIGZ7KW0aSfFz3oERsFZkCcUbE7TZ"
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01TJW2S3XCIYK368cxbQoE0irONZR8iThQv",
+		  "name": "Read Table from JSON",
+		  "title": "Extract asset details",
+		  "type": "corejava.read_table_from_json",
+		  "base_type": "activity",
+		  "properties": {
+			"action_timeout": 180,
+			"continue_on_failure": true,
+			"display_name": "Extract asset details",
+			"input_json": "$activity.definition_activity_01TJVC0MCT2US7WYiTNpuWjq3p0bw45QbG5.output.variable_workflow_01S7JOAIRZUF61qoCQMtmq903gZnLk2E1si$",
+			"jsonpath_query": "$.assets",
+			"persist_output": false,
+			"populate_columns": false,
+			"skip_execution": false,
+			"table_columns": [
+			  {
+				"column_name": "id",
+				"column_type": "string"
+			  }
+			]
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01TI80H6AXTHV7glDrcj2hS9wOsSaoNpPlj",
+		  "name": "Condition Block",
+		  "title": "Were asset IDs found?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Were asset IDs found?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01TI80H75Q9F04L9okehofFg3o9DMJ6eKeE",
+			  "name": "Condition Branch",
+			  "title": "Yes",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01TJW2S3XCIYK368cxbQoE0irONZR8iThQv.output.succeeded$",
+				  "operator": "eq",
+				  "right_operand": true
+				},
+				"continue_on_failure": false,
+				"display_name": "Yes",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01TI80H9LEZUG5dsO56BBCM5Ii2rPI6wZzY",
+				  "name": "For Each",
+				  "title": "For each asset",
+				  "type": "logic.for_each",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "For each asset",
+					"skip_execution": false,
+					"source_array": "$activity.definition_activity_01TJW2S3XCIYK368cxbQoE0irONZR8iThQv.output.read_table_from_json$"
+				  },
+				  "object_type": "definition_activity",
+				  "actions": [
+					{
+					  "unique_name": "definition_activity_01TJW6I7PQSO808U5Cx1GR1jX6OmsqSyIbj",
+					  "name": "Condition Block",
+					  "title": "Was the ticket limit reached?",
+					  "type": "logic.if_else",
+					  "base_type": "activity",
+					  "properties": {
+						"continue_on_failure": false,
+						"display_name": "Was the ticket limit reached?",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "blocks": [
+						{
+						  "unique_name": "definition_activity_01TJW6I8IA49E04poDmxawgiHFg5lOhfu3Q",
+						  "name": "Condition Branch",
+						  "title": "Yes",
+						  "type": "logic.condition_block",
+						  "base_type": "activity",
+						  "properties": {
+							"condition": {
+							  "left_operand": "$workflow.definition_workflow_01TI80GVBHOMI4pXUbvUFnsZYT5uOcXvtGt.local.variable_workflow_01TI80GVLBKB20jzHPQFcXBUEc9Hp6onpge$",
+							  "operator": "lte",
+							  "right_operand": 0
+							},
+							"continue_on_failure": false,
+							"display_name": "Yes",
+							"skip_execution": false
+						  },
+						  "object_type": "definition_activity",
+						  "actions": [
+							{
+							  "unique_name": "definition_activity_01TI80IEB9HFX4FLw1r6PH1ivLN9bBTevP3",
+							  "name": "Completed",
+							  "title": "Failed",
+							  "type": "logic.completed",
+							  "base_type": "activity",
+							  "properties": {
+								"completion_type": "failed-completed",
+								"continue_on_failure": false,
+								"display_name": "Failed",
+								"result_message": "The ticket limit has been reached and the workflow will now end. Additional assets exist in Kenna with vulnerabilities",
+								"skip_execution": false
+							  },
+							  "object_type": "definition_activity"
+							}
+						  ]
+						}
+					  ]
+					},
+					{
+					  "unique_name": "definition_activity_01TI80HE86EXF7KICtJRotF3lZquZqMaH72",
+					  "name": "Kenna - Get Fix by ID",
+					  "title": "Kenna - Get Fix by ID",
+					  "type": "workflow.atomic_workflow",
+					  "base_type": "subworkflow",
+					  "properties": {
+						"continue_on_failure": false,
+						"display_name": "Kenna - Get Fix by ID",
+						"input": {
+						  "variable_workflow_01S7J1ICTUASD3mkflz7nsNhHys8fjFhblm": "search?asset[id][]=$activity.definition_activity_01TI80H9LEZUG5dsO56BBCM5Ii2rPI6wZzY.input.source_array[@].id$&per_page=5000",
+						  "variable_workflow_01S7J1ICTUJC15dlQShp2oHMxlse78KXSwS": "$workflow.definition_workflow_01TI80GVBHOMI4pXUbvUFnsZYT5uOcXvtGt.local.variable_workflow_01TI80GVLDAZH5vPrng26MJXxl9T6ymWf7c$"
+						},
+						"runtime_user": {
+						  "target_default": true
+						},
+						"skip_execution": false,
+						"target": {
+						  "use_workflow_target_group": true
+						},
+						"workflow_id": "definition_workflow_01S7J1ICK1TG33BPPTPJYHKYUwqsDHGn6hK"
+					  },
+					  "object_type": "definition_activity"
+					},
+					{
+					  "unique_name": "definition_activity_01TI80HH2CAD60DG3J1bGzMYxuDJ5FosFUz",
+					  "name": "JSONPath Query",
+					  "title": "Get fix count",
+					  "type": "corejava.jsonpathquery",
+					  "base_type": "activity",
+					  "properties": {
+						"action_timeout": 180,
+						"continue_on_failure": false,
+						"display_name": "Get fix count",
+						"input_json": "$activity.definition_activity_01TI80HE86EXF7KICtJRotF3lZquZqMaH72.output.variable_workflow_01S7J1ICTUU8B3lSIq5HAf88KtJY4CbfZ2V$",
+						"jsonpath_queries": [
+						  {
+							"jsonpath_query": "$.meta.total_count",
+							"jsonpath_query_name": "total_count",
+							"jsonpath_query_type": "integer"
+						  }
+						],
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity"
+					},
+					{
+					  "unique_name": "definition_activity_01TI80HI6SCVZ4wFdNI5pUvxPCiqIEuHS1x",
+					  "name": "Condition Block",
+					  "title": "Are there any fixes?",
+					  "type": "logic.if_else",
+					  "base_type": "activity",
+					  "properties": {
+						"continue_on_failure": false,
+						"display_name": "Are there any fixes?",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "blocks": [
+						{
+						  "unique_name": "definition_activity_01TI80HJ23BWD1Psux1jCfPqvGnEJSOgIeK",
+						  "name": "Condition Branch",
+						  "title": "Yes",
+						  "type": "logic.condition_block",
+						  "base_type": "activity",
+						  "properties": {
+							"condition": {
+							  "left_operand": "$activity.definition_activity_01TI80HH2CAD60DG3J1bGzMYxuDJ5FosFUz.output.jsonpath_queries.total_count$",
+							  "operator": "gte",
+							  "right_operand": 1
+							},
+							"continue_on_failure": false,
+							"display_name": "Yes",
+							"skip_execution": false
+						  },
+						  "object_type": "definition_activity",
+						  "actions": [
+							{
+							  "unique_name": "definition_activity_01TI80HKIMH7Y0NmPjipkQ6CKnmCqZbu2En",
+							  "name": "Kenna - Search Vulnerabilities",
+							  "title": "Kenna - Search Vulnerabilities",
+							  "type": "workflow.atomic_workflow",
+							  "base_type": "subworkflow",
+							  "properties": {
+								"continue_on_failure": false,
+								"display_name": "Kenna - Search Vulnerabilities",
+								"input": {
+								  "variable_workflow_01S7JVYHVLZX64HEYxempxAPtR7bSNaDGp7": "asset[id][]=$activity.definition_activity_01TI80H9LEZUG5dsO56BBCM5Ii2rPI6wZzY.input.source_array[@].id$&min_risk_meter_score=$workflow.definition_workflow_01TI80GVBHOMI4pXUbvUFnsZYT5uOcXvtGt.local.variable_workflow_01TI80GVLBTR74x1RlLMfzVRqHdsmaD7YQ1$&service_ticket_status[]=none&q=_exists_:fix AND _exists_:due_date&fields=id,asset_id,fix_id,due_date,risk_meter_score,due_date,service_ticket,cve_id,notes&per_page=5000",
+								  "variable_workflow_01S7JVYHVMJ8M2mgJn8nSGP1YTQypeFrRGm": "$workflow.definition_workflow_01TI80GVBHOMI4pXUbvUFnsZYT5uOcXvtGt.local.variable_workflow_01TI80GVLDAZH5vPrng26MJXxl9T6ymWf7c$"
+								},
+								"runtime_user": {
+								  "target_default": true
+								},
+								"skip_execution": false,
+								"target": {
+								  "use_workflow_target_group": true
+								},
+								"workflow_id": "definition_workflow_01S7JVYHLL5V933SyXcFbwBNclrRydKd3rx"
+							  },
+							  "object_type": "definition_activity"
+							},
+							{
+							  "unique_name": "definition_activity_01TI80HNQIYTR726PLcOzP8Bt91K1q6FePE",
+							  "name": "JSONPath Query",
+							  "title": "Extract asset details",
+							  "type": "corejava.jsonpathquery",
+							  "base_type": "activity",
+							  "properties": {
+								"action_timeout": 180,
+								"continue_on_failure": true,
+								"display_name": "Extract asset details",
+								"input_json": "$activity.definition_activity_01TJVC0MCT2US7WYiTNpuWjq3p0bw45QbG5.output.variable_workflow_01S7JOAIRZUF61qoCQMtmq903gZnLk2E1si$",
+								"jsonpath_queries": [
+								  {
+									"jsonpath_query": "$.assets[?(@.id == $activity.definition_activity_01TI80H9LEZUG5dsO56BBCM5Ii2rPI6wZzY.input.source_array[@].id$)]",
+									"jsonpath_query_name": "assetData",
+									"jsonpath_query_type": "string"
+								  }
+								],
+								"skip_execution": false
+							  },
+							  "object_type": "definition_activity"
+							},
+							{
+							  "unique_name": "definition_activity_01TJWANG95L626GXFXiXduyQxmRPj5L6GAI",
+							  "name": "Condition Block",
+							  "title": "Were asset details found?",
+							  "type": "logic.if_else",
+							  "base_type": "activity",
+							  "properties": {
+								"continue_on_failure": false,
+								"display_name": "Were asset details found?",
+								"skip_execution": false
+							  },
+							  "object_type": "definition_activity",
+							  "blocks": [
+								{
+								  "unique_name": "definition_activity_01TJWANGR69U81OTZFJr4q2y6SPqGcJmF4p",
+								  "name": "Condition Branch",
+								  "title": "Yes",
+								  "type": "logic.condition_block",
+								  "base_type": "activity",
+								  "properties": {
+									"condition": {
+									  "left_operand": "$activity.definition_activity_01TI80HNQIYTR726PLcOzP8Bt91K1q6FePE.output.succeeded$",
+									  "operator": "eq",
+									  "right_operand": true
+									},
+									"continue_on_failure": false,
+									"display_name": "Yes",
+									"skip_execution": false
+								  },
+								  "object_type": "definition_activity",
+								  "actions": [
+									{
+									  "unique_name": "definition_activity_01TI80HOY11QB0vnMNNqVucCT4aV33pK2Er",
+									  "name": "Execute Python Script",
+									  "title": "Parse fix and vulnerability data",
+									  "type": "python3.script",
+									  "base_type": "activity",
+									  "properties": {
+										"action_timeout": 180,
+										"continue_on_failure": false,
+										"display_name": "Parse fix and vulnerability data",
+										"script": "import sys,json\n\nvulnData = json.loads(sys.argv[1])\nfixData =json.loads(sys.argv[2])\nassetData = json.loads(sys.argv[3])\n\n# set variables\nvulnList = vulnData['vulnerabilities']\nvulnMeta = vulnData['meta']\nfixList = fixData['fixes']\nfixMeta = fixData['meta']\n\n# set containers\nvulnCount = 0\nfixCount = 0\nvuln_list = []\nwork_notes = ''\n\n# parse asset info\nassetID = assetData['id']\nassetIP = assetData['ip_address']\nassetOS = assetData['operating_system']\nassetScore = assetData['risk_meter_score']\nassetName = assetData['locator']\nassetHostname = assetData['hostname']\nif assetHostname and assetHostname != assetName:\n   assetName = f\"{assetHostname} - {assetName}\"\n   \nassetURL = f'https://$workflow.definition_workflow_01TI80GVBHOMI4pXUbvUFnsZYT5uOcXvtGt.local.variable_workflow_01TI80GVLCJ0R23oBlLKahla7BHxEytaOv4$/assets/{assetID}'\n\n# parse fix details\nfor fix in fixData['fixes']:\n   # increase fix count\n   fixCount += 1\n   \n   # set fix variables\n   fixID = fix['id']\n   name = fix['title']\n   diagnosis = fix['diagnosis']\n   solution = fix['solution']\n   vulns = ''\n   if fix['consequence']:\n      consequence = f'''<h2>Consequence</h2>\n      {fix['consequence']}'''\n   else:\n      consequence = ''\n\n   # parse vuln data\n   for vuln in vulnList:\n      if vuln['fix_id'] == fixID:\n         # increase vuln count\n         vulnCount += 1 \n         \n         # set vulnerability variables\n         vulnID = vuln['id']\n         cveId = vuln['cve_id']\n         vulnScore = vuln['risk_meter_score']\n         url = f'<a href=\"https://$workflow.definition_workflow_01TI80GVBHOMI4pXUbvUFnsZYT5uOcXvtGt.local.variable_workflow_01TI80GVLCJ0R23oBlLKahla7BHxEytaOv4$/vulnerabilities/{vulnID}\">{cveId}</a>'\n\n         # update vuln_list\n         vuln_list.append(vulnID)\n\n         # setup variable for work_notes\n         vulns += f'<li>{vulnScore} - {url}</li>'\n \n   # update work_notes\n   work_notes += f'''<h3>{name}</h2>\n   <h3>Diagnosis</h3>\n   {diagnosis}\n   <h3>Solution</h3>\n   {solution}\n   {consequence}\n   <h3>Risk Score | Vulnerability</h3>\n   <ul>{vulns}</ul>\n   <br><hr>\n   '''\n\n# Create ticket description\nticket_description = f'''SecureX Orchestration has queried your Kenna instance for Risk Meter Group $workflow.definition_workflow_01TI80GVBHOMI4pXUbvUFnsZYT5uOcXvtGt.local.variable_workflow_01TI80GVLD2H73L9ZhPBtZZCeZeGsgm7ys6$ and retrieved the following:\n\nAsset: {assetName}\nOperating System: {assetOS}\nIP: {assetIP}\nVulnerability count: {vulnCount}\nFix count: {fixCount}\nRisk Score: {assetScore}\n{assetURL}\n'''\n\n# update work_notes with ticket_description and add ServiceNow code block\nwork_notes = f\"{ticket_description}[code]<a href='{assetURL}'>Click here to view this asset in the Kenna Portal</a> <br><hr>{work_notes}[/code]\"",
+										"script_arguments": [
+										  "$activity.definition_activity_01TI80HKIMH7Y0NmPjipkQ6CKnmCqZbu2En.output.variable_workflow_01S7JVYHVMB284f4u9xHMurLRuLIlOf43nB$",
+										  "$activity.definition_activity_01TI80HE86EXF7KICtJRotF3lZquZqMaH72.output.variable_workflow_01S7J1ICTUU8B3lSIq5HAf88KtJY4CbfZ2V$",
+										  "$activity.definition_activity_01TI80HNQIYTR726PLcOzP8Bt91K1q6FePE.output.jsonpath_queries.assetData$"
+										],
+										"script_queries": [
+										  {
+											"script_query": "ticket_description",
+											"script_query_name": "ticket_description",
+											"script_query_type": "string"
+										  },
+										  {
+											"script_query": "vuln_list",
+											"script_query_name": "vuln_list",
+											"script_query_type": "string"
+										  },
+										  {
+											"script_query": "assetName",
+											"script_query_name": "assetName",
+											"script_query_type": "string"
+										  },
+										  {
+											"script_query": "vulnCount",
+											"script_query_name": "vulnCount",
+											"script_query_type": "integer"
+										  },
+										  {
+											"script_query": "work_notes",
+											"script_query_name": "work_notes",
+											"script_query_type": "string"
+										  }
+										],
+										"skip_execution": false
+									  },
+									  "object_type": "definition_activity"
+									},
+									{
+									  "unique_name": "definition_activity_01TI80HSMCEWD3fY2wZm2XaIRlHbk5uAMYK",
+									  "name": "ServiceNow - Create Incident",
+									  "title": "ServiceNow - Create Incident",
+									  "type": "workflow.atomic_workflow",
+									  "base_type": "subworkflow",
+									  "properties": {
+										"continue_on_failure": true,
+										"display_name": "ServiceNow - Create Incident",
+										"input": {
+										  "variable_workflow_01C0CK2MY2SLG1FXph6ZHp7iHmRw1KvUFlN": "SecureX orchestration - Kenna asset $activity.definition_activity_01TI80HOY11QB0vnMNNqVucCT4aV33pK2Er.output.script_queries.assetName$ discovered with one or more vulnerabilities",
+										  "variable_workflow_01FGYF0DUR8HV2TMpEKctsYjQR4mzjD5OTu": "$activity.definition_activity_01TI80HOY11QB0vnMNNqVucCT4aV33pK2Er.output.script_queries.ticket_description$",
+										  "variable_workflow_01FGYGCZL5M2E1m1O5tvVVn0DVzVTLwytei": 3,
+										  "variable_workflow_01FGYGPFJYM4L5aVpzNOhRwMmzKJDofqufe": 3,
+										  "variable_workflow_01FGYGZ0OYYNM5pWjyyreMjNHDjusjNe8jx": "$activity.definition_activity_01TI80HOY11QB0vnMNNqVucCT4aV33pK2Er.output.script_queries.work_notes$",
+										  "variable_workflow_01FGYI8HES41K63G3UzMinBH3iApm37fBGt": "$workflow.definition_workflow_01TI80GVBHOMI4pXUbvUFnsZYT5uOcXvtGt.local.variable_workflow_01TI80GVLC2AS0nJ0dW9aTEBLqZcEIiD2rq$",
+										  "variable_workflow_01FMQD0HIJIDU5kce0VNx4HQiMYjMfUvBlj": "v2"
+										},
+										"runtime_user": {
+										  "target_default": true
+										},
+										"skip_execution": false,
+										"target": {
+										  "override_workflow_target_group_criteria": true,
+										  "target_group": {
+											"run_on_all_targets": false,
+											"use_criteria": {
+											  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+											  "conditions": [
+												{
+												  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+												  "operator": "eqi",
+												  "right_operand": "ServiceNow"
+												}
+											  ]
+											}
+										  }
+										},
+										"workflow_id": "definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW"
+									  },
+									  "object_type": "definition_activity"
+									},
+									{
+									  "unique_name": "definition_activity_01TI80HTRBKJZ4iGxhijJfSXVYOWnQ6JG9t",
+									  "name": "Condition Block",
+									  "title": "Was the ticket created successfully?",
+									  "type": "logic.if_else",
+									  "base_type": "activity",
+									  "properties": {
+										"continue_on_failure": false,
+										"display_name": "Was the ticket created successfully?",
+										"skip_execution": false
+									  },
+									  "object_type": "definition_activity",
+									  "blocks": [
+										{
+										  "unique_name": "definition_activity_01TI80HUS1JYJ4rC5coR6NmCAIjgshFqnHh",
+										  "name": "Condition Branch",
+										  "title": "Yes",
+										  "type": "logic.condition_block",
+										  "base_type": "activity",
+										  "properties": {
+											"condition": {
+											  "left_operand": "$activity.definition_activity_01TI80HSMCEWD3fY2wZm2XaIRlHbk5uAMYK.output.succeeded$",
+											  "operator": "eq",
+											  "right_operand": true
+											},
+											"continue_on_failure": false,
+											"display_name": "Yes",
+											"skip_execution": false
+										  },
+										  "object_type": "definition_activity",
+										  "actions": [
+											{
+											  "unique_name": "definition_activity_01TI80HVWOWD03HlMbvXYIFMY8HFrlzYBCL",
+											  "name": "Set Variables",
+											  "title": "Update ticket list",
+											  "type": "core.set_multiple_variables",
+											  "base_type": "activity",
+											  "properties": {
+												"continue_on_failure": false,
+												"display_name": "Update ticket list",
+												"skip_execution": false,
+												"variables_to_update": [
+												  {
+													"variable_to_update": "$workflow.definition_workflow_01TI80GVBHOMI4pXUbvUFnsZYT5uOcXvtGt.output.variable_workflow_01TI80GVLCAB96Ukp404SjnouKS3YXCDisl$",
+													"variable_value_new": "$workflow.definition_workflow_01TI80GVBHOMI4pXUbvUFnsZYT5uOcXvtGt.output.variable_workflow_01TI80GVLCAB96Ukp404SjnouKS3YXCDisl$\n- $activity.definition_activity_01TI80HSMCEWD3fY2wZm2XaIRlHbk5uAMYK.output.variable_workflow_01C0EMLG2EEYD14wKqkFjhK8dTwJa20Jihp$"
+												  }
+												]
+											  },
+											  "object_type": "definition_activity"
+											},
+											{
+											  "unique_name": "definition_activity_01TI80HWYM4ZQ0D5VOkhngXHg8hwsSKQrm6",
+											  "name": "Set Variables",
+											  "title": "Reduce the number of tickets left",
+											  "type": "core.set_multiple_variables",
+											  "base_type": "activity",
+											  "properties": {
+												"continue_on_failure": false,
+												"display_name": "Reduce the number of tickets left",
+												"skip_execution": false,
+												"variables_to_update": [
+												  {
+													"variable_to_update": "$workflow.definition_workflow_01TI80GVBHOMI4pXUbvUFnsZYT5uOcXvtGt.local.variable_workflow_01TI80GVLBKB20jzHPQFcXBUEc9Hp6onpge$",
+													"variable_value_new": "$workflow.definition_workflow_01TI80GVBHOMI4pXUbvUFnsZYT5uOcXvtGt.local.variable_workflow_01TI80GVLBKB20jzHPQFcXBUEc9Hp6onpge$-1"
+												  }
+												]
+											  },
+											  "object_type": "definition_activity"
+											},
+											{
+											  "unique_name": "definition_activity_01TI80HXX1C9N4DUYtpZZBNcQ332qFQhBEJ",
+											  "name": "HTTP Request",
+											  "title": "Kenna - Bulk Update Vulnerabilities",
+											  "type": "web-service.http_request",
+											  "base_type": "activity",
+											  "properties": {
+												"accept": "application/json",
+												"action_timeout": 300,
+												"allow_auto_redirect": true,
+												"body": "{\n      \"vulnerability_ids\": $activity.definition_activity_01TI80HOY11QB0vnMNNqVucCT4aV33pK2Er.output.script_queries.vuln_list$,\n      \"vulnerability\": {\n      \"notes\": \"Cisco SecureX has linked this vulnerability to an incident in ServiceNow\",\n      \"service_ticket\": {\n      \"status\": \"New\",\n      \"ticket_type\": \"service_now\",\n      \"system_id\": \"$activity.definition_activity_01TI80HSMCEWD3fY2wZm2XaIRlHbk5uAMYK.output.variable_workflow_01C0F7F9L7IYM3YXHCizJhunwKtPlSJWEWM$\"\n    }\n  }\n}",
+												"content_type": "application/json",
+												"continue_on_error_status_code": true,
+												"continue_on_failure": false,
+												"custom_headers": [
+												  {
+													"name": "X-Risk-Token",
+													"value": "$workflow.definition_workflow_01TI80GVBHOMI4pXUbvUFnsZYT5uOcXvtGt.local.variable_workflow_01TI80GVLDAZH5vPrng26MJXxl9T6ymWf7c$"
+												  }
+												],
+												"display_name": "Kenna - Bulk Update Vulnerabilities",
+												"method": "PUT",
+												"relative_url": "/vulnerabilities/bulk",
+												"runtime_user": {
+												  "target_default": true
+												},
+												"skip_execution": false,
+												"target": {
+												  "use_workflow_target_group": true
+												}
+											  },
+											  "object_type": "definition_activity"
+											},
+											{
+											  "unique_name": "definition_activity_01TI80HYZLVSC0kCsVNZHOVEvL8TGJEx94H",
+											  "name": "Condition Block",
+											  "title": "Was the bulk update successful?",
+											  "type": "logic.if_else",
+											  "base_type": "activity",
+											  "properties": {
+												"continue_on_failure": false,
+												"display_name": "Was the bulk update successful?",
+												"skip_execution": false
+											  },
+											  "object_type": "definition_activity",
+											  "blocks": [
+												{
+												  "unique_name": "definition_activity_01TI80HZWB4CS4zlW46BF6QZ9tyet69MbDW",
+												  "name": "Condition Branch",
+												  "title": "No",
+												  "type": "logic.condition_block",
+												  "base_type": "activity",
+												  "properties": {
+													"condition": {
+													  "left_operand": "$activity.definition_activity_01TI80HXX1C9N4DUYtpZZBNcQ332qFQhBEJ.output.status_code$",
+													  "operator": "ne",
+													  "right_operand": 200
+													},
+													"continue_on_failure": false,
+													"display_name": "No",
+													"skip_execution": false
+												  },
+												  "object_type": "definition_activity",
+												  "actions": [
+													{
+													  "unique_name": "definition_activity_01TJWQYQ8CRL35MMKO7Ho8kvYpYnY8tmMvh",
+													  "name": "Completed",
+													  "title": "Failed",
+													  "type": "logic.completed",
+													  "base_type": "activity",
+													  "properties": {
+														"completion_type": "failed-completed",
+														"continue_on_failure": false,
+														"display_name": "Failed",
+														"result_message": "Failed to update vulnerabilities for asset $activity.definition_activity_01TI80H9LEZUG5dsO56BBCM5Ii2rPI6wZzY.input.source_array[@].id$\n\nStatus code: $activity.definition_activity_01TI80HXX1C9N4DUYtpZZBNcQ332qFQhBEJ.output.status_code$\nResponse body: $activity.definition_activity_01TI80HXX1C9N4DUYtpZZBNcQ332qFQhBEJ.output.response_body$\n\nAdditional errors:\n$workflow.definition_workflow_01TI80GVBHOMI4pXUbvUFnsZYT5uOcXvtGt.output.variable_workflow_01TI80GVLB7L33bKmzvkhqJuT1ZLm2omnbr$",
+														"skip_execution": false
+													  },
+													  "object_type": "definition_activity"
+													}
+												  ]
+												}
+											  ]
+											}
+										  ]
+										},
+										{
+										  "unique_name": "definition_activity_01TI80I2DELGH0g3VYptW9XzbrdTfLM4ap1",
+										  "name": "Condition Branch",
+										  "title": "No",
+										  "type": "logic.condition_block",
+										  "base_type": "activity",
+										  "properties": {
+											"condition": {
+											  "left_operand": "$activity.definition_activity_01TI80HSMCEWD3fY2wZm2XaIRlHbk5uAMYK.output.succeeded$",
+											  "operator": "eq",
+											  "right_operand": false
+											},
+											"continue_on_failure": false,
+											"display_name": "No",
+											"skip_execution": false
+										  },
+										  "object_type": "definition_activity",
+										  "actions": [
+											{
+											  "unique_name": "definition_activity_01TJWL2WHEEB22BSp1lwKhgcnuWw2eaotki",
+											  "name": "Set Variables",
+											  "title": "Log error",
+											  "type": "core.set_multiple_variables",
+											  "base_type": "activity",
+											  "properties": {
+												"continue_on_failure": false,
+												"display_name": "Log error",
+												"skip_execution": false,
+												"variables_to_update": [
+												  {
+													"variable_to_update": "$workflow.definition_workflow_01TI80GVBHOMI4pXUbvUFnsZYT5uOcXvtGt.output.variable_workflow_01TI80GVLB7L33bKmzvkhqJuT1ZLm2omnbr$",
+													"variable_value_new": "$workflow.definition_workflow_01TI80GVBHOMI4pXUbvUFnsZYT5uOcXvtGt.output.variable_workflow_01TI80GVLB7L33bKmzvkhqJuT1ZLm2omnbr$\n- Asset $activity.definition_activity_01TI80H9LEZUG5dsO56BBCM5Ii2rPI6wZzY.input.source_array[@].id$: Failed to open ServiceNow incident"
+												  }
+												]
+											  },
+											  "object_type": "definition_activity"
+											}
+										  ]
+										}
+									  ]
+									}
+								  ]
+								},
+								{
+								  "unique_name": "definition_activity_01TJWANH8UBF67WPBsjxOPy6Hm6nWSVXmo9",
+								  "name": "Condition Branch",
+								  "title": "No",
+								  "type": "logic.condition_block",
+								  "base_type": "activity",
+								  "properties": {
+									"condition": {
+									  "left_operand": "$activity.definition_activity_01TI80HNQIYTR726PLcOzP8Bt91K1q6FePE.output.succeeded$",
+									  "operator": "eq",
+									  "right_operand": false
+									},
+									"continue_on_failure": false,
+									"display_name": "No",
+									"skip_execution": false
+								  },
+								  "object_type": "definition_activity",
+								  "actions": [
+									{
+									  "unique_name": "definition_activity_01TJWKTL1RMC71FaRYzVhk7gLGBqr5id68k",
+									  "name": "Set Variables",
+									  "title": "Log error",
+									  "type": "core.set_multiple_variables",
+									  "base_type": "activity",
+									  "properties": {
+										"continue_on_failure": false,
+										"display_name": "Log error",
+										"skip_execution": false,
+										"variables_to_update": [
+										  {
+											"variable_to_update": "$workflow.definition_workflow_01TI80GVBHOMI4pXUbvUFnsZYT5uOcXvtGt.output.variable_workflow_01TI80GVLB7L33bKmzvkhqJuT1ZLm2omnbr$",
+											"variable_value_new": "$workflow.definition_workflow_01TI80GVBHOMI4pXUbvUFnsZYT5uOcXvtGt.output.variable_workflow_01TI80GVLB7L33bKmzvkhqJuT1ZLm2omnbr$\n- Asset $activity.definition_activity_01TI80H9LEZUG5dsO56BBCM5Ii2rPI6wZzY.input.source_array[@].id$: No asset details found"
+										  }
+										]
+									  },
+									  "object_type": "definition_activity"
+									}
+								  ]
+								}
+							  ]
+							}
+						  ]
+						},
+						{
+						  "unique_name": "definition_activity_01TI80I8ONQW87IgtBUUZLKeFIZfmT7gkmo",
+						  "name": "Condition Branch",
+						  "title": "No",
+						  "type": "logic.condition_block",
+						  "base_type": "activity",
+						  "properties": {
+							"condition": {
+							  "left_operand": "$activity.definition_activity_01TI80HH2CAD60DG3J1bGzMYxuDJ5FosFUz.output.jsonpath_queries.total_count$",
+							  "operator": "eq",
+							  "right_operand": 0
+							},
+							"continue_on_failure": false,
+							"display_name": "No",
+							"skip_execution": false
+						  },
+						  "object_type": "definition_activity",
+						  "actions": [
+							{
+							  "unique_name": "definition_activity_01TJWL5990II32ByLQanvuQwd00rD0cjYSZ",
+							  "name": "Set Variables",
+							  "title": "Log error",
+							  "type": "core.set_multiple_variables",
+							  "base_type": "activity",
+							  "properties": {
+								"continue_on_failure": false,
+								"display_name": "Log error",
+								"skip_execution": false,
+								"variables_to_update": [
+								  {
+									"variable_to_update": "$workflow.definition_workflow_01TI80GVBHOMI4pXUbvUFnsZYT5uOcXvtGt.output.variable_workflow_01TI80GVLB7L33bKmzvkhqJuT1ZLm2omnbr$",
+									"variable_value_new": "$workflow.definition_workflow_01TI80GVBHOMI4pXUbvUFnsZYT5uOcXvtGt.output.variable_workflow_01TI80GVLB7L33bKmzvkhqJuT1ZLm2omnbr$\n- Asset $activity.definition_activity_01TI80H9LEZUG5dsO56BBCM5Ii2rPI6wZzY.input.source_array[@].id$: No fixes found"
+								  }
+								]
+							  },
+							  "object_type": "definition_activity"
+							}
+						  ]
+						}
+					  ]
+					}
+				  ]
+				},
+				{
+				  "unique_name": "definition_activity_01TJWRRYKEVJ90fQ9TZFz0zJCY6fCy6jWzz",
+				  "name": "Condition Block",
+				  "title": "Were any errors logged?",
+				  "type": "logic.if_else",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Were any errors logged?",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "blocks": [
+					{
+					  "unique_name": "definition_activity_01TJWRRYY0WF6266KmtdrKd7wA94phEATo4",
+					  "name": "Condition Branch",
+					  "title": "Yes",
+					  "type": "logic.condition_block",
+					  "base_type": "activity",
+					  "properties": {
+						"condition": {
+						  "left_operand": "$workflow.definition_workflow_01TI80GVBHOMI4pXUbvUFnsZYT5uOcXvtGt.output.variable_workflow_01TI80GVLB7L33bKmzvkhqJuT1ZLm2omnbr$",
+						  "operator": "ne",
+						  "right_operand": ""
+						},
+						"continue_on_failure": false,
+						"display_name": "Yes",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "actions": [
+						{
+						  "unique_name": "definition_activity_01TJWS6PR7P3Q6vbC4N8kbHZSg9AE4TpM4t",
+						  "name": "Completed",
+						  "title": "Failed",
+						  "type": "logic.completed",
+						  "base_type": "activity",
+						  "properties": {
+							"completion_type": "failed-completed",
+							"continue_on_failure": false,
+							"display_name": "Failed",
+							"result_message": "The workflow completed but errors were logged during execution:\n$workflow.definition_workflow_01TI80GVBHOMI4pXUbvUFnsZYT5uOcXvtGt.output.variable_workflow_01TI80GVLB7L33bKmzvkhqJuT1ZLm2omnbr$",
+							"skip_execution": false
+						  },
+						  "object_type": "definition_activity"
+						}
+					  ]
+					}
+				  ]
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01TI80IF4IZWJ4HWFpzxO5wVQoZwbqfrjHR",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01TJW2S3XCIYK368cxbQoE0irONZR8iThQv.output.succeeded$",
+				  "operator": "eq",
+				  "right_operand": false
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01TI80IG52U9G0K8q70NLpfoaNfX6W8zxU2",
+				  "name": "Completed",
+				  "title": "Completed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "succeeded",
+					"continue_on_failure": false,
+					"display_name": "Completed",
+					"result_message": "No assets were found matching the criteria for the risk meter group provided",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		}
+	  ],
+	  "categories": [
+		"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+	  ]
+	},
+	"target_groups": {
+	  "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+		"unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+		"name": "Default TargetGroup",
+		"title": "Default TargetGroup",
+		"type": "generic.target_group",
+		"base_type": "target_group",
+		"version": "1.0.0",
+		"targets": [
+		  {
+			"data_target_type": "web-service.endpoint",
+			"view_target_type": "web-service.endpoint",
+			"include_all_targets": true
+		  },
+		  {
+			"data_target_type": "email.smtp_endpoint",
+			"view_target_type": "email.smtp_endpoint",
+			"include_all_targets": true
+		  }
+		],
+		"object_type": "target_group"
+	  }
+	},
+	"atomic_workflows": [
+	  "definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW",
+	  "definition_workflow_01S7JOAIGZ7KW0aSfFz3oERsFZkCcUbE7TZ",
+	  "definition_workflow_01S7J1ICK1TG33BPPTPJYHKYUwqsDHGn6hK",
+	  "definition_workflow_01S7JVYHLL5V933SyXcFbwBNclrRydKd3rx"
+	]
+  }
