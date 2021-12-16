@@ -34,7 +34,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 * The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
 	* None
 * The following atomic actions must be imported before you can import this workflow:
-	* ServiceNow - Add Work Note to Firewall Rule Task ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
+	* ServiceNow - Create Incident ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
 * The [targets](#targets) and [account keys](#account-keys) listed below
 * Kenna Security
 * ServiceNow
