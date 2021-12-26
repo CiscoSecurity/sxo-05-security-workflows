@@ -1,0 +1,322 @@
+{
+	"workflow": {
+	  "unique_name": "definition_workflow_01P1MY7MD60AL4vIzyvXV3015ROE92Dh4AA",
+	  "name": "GreyNoise - Community IP Lookup",
+	  "title": "GreyNoise - Community IP Lookup",
+	  "type": "generic.workflow",
+	  "base_type": "workflow",
+	  "variables": [
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "output",
+			"name": "GreyNoise Link",
+			"type": "datatype.string",
+			"description": "Link to view the record in GreyNoise",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QWUVZTE7ADV5RCtCcJk5DawkAUPH8loZ5",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "output",
+			"name": "IP Address Owner",
+			"type": "datatype.string",
+			"description": "The name of the organization that owns the IP address",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01QWN3TDEL8S67941rLDFwx7GYOszubV7Je",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "output",
+			"name": "Classification",
+			"type": "datatype.string",
+			"description": "The GreyNoise classification for the IP address",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01P46VTA81IKJ7OesdS4v0JQLpPoY8uX5o6",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "output",
+			"name": "GreyNoise Results",
+			"type": "datatype.string",
+			"description": "Raw results of the GreyNoise lookup",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01P357KWR3XFP2XoASr6xdukFiGh3G00p35",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "IP Address",
+			"type": "datatype.string",
+			"description": "IP address to search for",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01P1MYLWJSYPX7SFnXbvhFwPZvxgfZnspbu",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.boolean",
+		  "properties": {
+			"value": "",
+			"scope": "output",
+			"name": "On the Noise List?",
+			"type": "datatype.boolean",
+			"description": "Whether or not the IP address has been observed scanning the internet within the past 90 days",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01P463PZXMRJ23bhDG06W1mjn8yQN4RJyri",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.boolean",
+		  "properties": {
+			"value": "",
+			"scope": "output",
+			"name": "On the RIOT List?",
+			"type": "datatype.boolean",
+			"description": "Whether or not the IP address was found in the RIOT project dataset",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01P460RJY1C731oJZvrvbPr8rxaXBZIGD3V",
+		  "object_type": "variable_workflow"
+		}
+	  ],
+	  "properties": {
+		"atomic": {
+		  "atomic_group": "GreyNoise",
+		  "is_atomic": true
+		},
+		"delete_workflow_instance": false,
+		"description": "This atomic searches for an IP address using the GreyNoise Community API.\n\nTarget: HTTP endpoint for \"api.greynoise.io\"\n\nSteps:\n[] Search for the IP address\n[] Check if the request was successful:\n[]> If it was, extract the search results and set the output variables\n[]> If it wasn't, output an error\n\nMore information about this API: https://docs.greynoise.io/reference/get_v3-community-ip",
+		"display_name": "GreyNoise - Community IP Lookup",
+		"runtime_user": {
+		  "target_default": true
+		},
+		"target": {
+		  "target_type": "web-service.endpoint",
+		  "specify_on_workflow_start": true
+		}
+	  },
+	  "object_type": "definition_workflow",
+	  "actions": [
+		{
+		  "unique_name": "definition_activity_01P28XO0NSIAF4QCaF11Ev2PliWrZXFIYSK",
+		  "name": "HTTP Request",
+		  "title": "Submit IP to GreyNoise",
+		  "type": "web-service.http_request",
+		  "base_type": "activity",
+		  "properties": {
+			"accept": "application/json",
+			"action_timeout": 180,
+			"allow_auto_redirect": true,
+			"content_type": "application/json",
+			"continue_on_error_status_code": true,
+			"continue_on_failure": false,
+			"display_name": "Submit IP to GreyNoise",
+			"method": "GET",
+			"relative_url": "/v3/community/$workflow.definition_workflow_01P1MY7MD60AL4vIzyvXV3015ROE92Dh4AA.input.variable_workflow_01P1MYLWJSYPX7SFnXbvhFwPZvxgfZnspbu$",
+			"runtime_user": {
+			  "override_target_runtime_user": false,
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "use_workflow_target": true
+			}
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01P28XNVNBGH41gUumZM7ClnWOQe32JrF1W",
+		  "name": "Condition Block",
+		  "title": "Was the request successful?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Was the request successful?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01QID3RBEPNH65bwyX7tXb2pwTFjIg80MyL",
+			  "name": "Condition Branch",
+			  "title": "200/Success",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01P28XO0NSIAF4QCaF11Ev2PliWrZXFIYSK.output.status_code$",
+				  "operator": "eq",
+				  "right_operand": 200
+				},
+				"continue_on_failure": false,
+				"display_name": "200/Success",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01QVVDPFMI24214ZhNznP34VwkrbBPS51f1",
+				  "name": "JSONPath Query",
+				  "title": "Extract results",
+				  "type": "corejava.jsonpathquery",
+				  "base_type": "activity",
+				  "properties": {
+					"action_timeout": 180,
+					"continue_on_failure": false,
+					"display_name": "Extract results",
+					"input_json": "$activity.definition_activity_01P28XO0NSIAF4QCaF11Ev2PliWrZXFIYSK.output.response_body$",
+					"jsonpath_queries": [
+					  {
+						"jsonpath_query": ".noise",
+						"jsonpath_query_name": "noise",
+						"jsonpath_query_type": "boolean"
+					  },
+					  {
+						"jsonpath_query": ".riot",
+						"jsonpath_query_name": "riot",
+						"jsonpath_query_type": "boolean"
+					  },
+					  {
+						"jsonpath_query": ".classification",
+						"jsonpath_query_name": "classification",
+						"jsonpath_query_type": "string"
+					  },
+					  {
+						"jsonpath_query": ".name",
+						"jsonpath_query_name": "name",
+						"jsonpath_query_type": "string"
+					  },
+					  {
+						"jsonpath_query": ".link",
+						"jsonpath_query_name": "link_to_ui",
+						"jsonpath_query_type": "string"
+					  },
+					  {
+						"jsonpath_query": ".last_seen",
+						"jsonpath_query_name": "last_seen",
+						"jsonpath_query_type": "string"
+					  }
+					],
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01P4612341A3Y6I3TGpTZpyiOo0M6bCom7r",
+				  "name": "Set Variables",
+				  "title": "Set output variables",
+				  "type": "core.set_multiple_variables",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Set output variables",
+					"skip_execution": false,
+					"variables_to_update": [
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01P1MY7MD60AL4vIzyvXV3015ROE92Dh4AA.output.variable_workflow_01P460RJY1C731oJZvrvbPr8rxaXBZIGD3V$",
+						"variable_value_new": "$activity.definition_activity_01QVVDPFMI24214ZhNznP34VwkrbBPS51f1.output.jsonpath_queries.riot$"
+					  },
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01P1MY7MD60AL4vIzyvXV3015ROE92Dh4AA.output.variable_workflow_01P463PZXMRJ23bhDG06W1mjn8yQN4RJyri$",
+						"variable_value_new": "$activity.definition_activity_01QVVDPFMI24214ZhNznP34VwkrbBPS51f1.output.jsonpath_queries.noise$"
+					  },
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01P1MY7MD60AL4vIzyvXV3015ROE92Dh4AA.output.variable_workflow_01P46VTA81IKJ7OesdS4v0JQLpPoY8uX5o6$",
+						"variable_value_new": "$activity.definition_activity_01QVVDPFMI24214ZhNznP34VwkrbBPS51f1.output.jsonpath_queries.classification$"
+					  },
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01P1MY7MD60AL4vIzyvXV3015ROE92Dh4AA.output.variable_workflow_01P357KWR3XFP2XoASr6xdukFiGh3G00p35$",
+						"variable_value_new": "$activity.definition_activity_01P28XO0NSIAF4QCaF11Ev2PliWrZXFIYSK.output.response_body$"
+					  },
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01P1MY7MD60AL4vIzyvXV3015ROE92Dh4AA.output.variable_workflow_01QWN3TDEL8S67941rLDFwx7GYOszubV7Je$",
+						"variable_value_new": "$activity.definition_activity_01QVVDPFMI24214ZhNznP34VwkrbBPS51f1.output.jsonpath_queries.name$"
+					  },
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01P1MY7MD60AL4vIzyvXV3015ROE92Dh4AA.output.variable_workflow_01QWUVZTE7ADV5RCtCcJk5DawkAUPH8loZ5$",
+						"variable_value_new": "$activity.definition_activity_01QVVDPFMI24214ZhNznP34VwkrbBPS51f1.output.jsonpath_queries.link_to_ui$"
+					  }
+					]
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01P350XDIVOR96Z0AyCo0m9G2jJ7hhm2Uq0",
+			  "name": "Condition Branch",
+			  "title": "Anything else",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": {
+					"left_operand": "$activity.definition_activity_01P28XO0NSIAF4QCaF11Ev2PliWrZXFIYSK.output.status_code$",
+					"operator": "ne",
+					"right_operand": 200
+				  },
+				  "operator": "and",
+				  "right_operand": {
+					"left_operand": "$activity.definition_activity_01P28XO0NSIAF4QCaF11Ev2PliWrZXFIYSK.output.status_code$",
+					"operator": "ne",
+					"right_operand": 404
+				  }
+				},
+				"continue_on_failure": false,
+				"display_name": "Anything else",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01P350XFFFTNP4rhZWfFdUU6YUEfFLF86OD",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "Failed to look up the IP address provided\n\nStatus code: $activity.definition_activity_01P28XO0NSIAF4QCaF11Ev2PliWrZXFIYSK.output.status_code$\nResponse body: $activity.definition_activity_01P28XO0NSIAF4QCaF11Ev2PliWrZXFIYSK.output.response_body$",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		}
+	  ],
+	  "categories": [
+		"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+	  ]
+	}
+  }
