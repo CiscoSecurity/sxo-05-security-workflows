@@ -26,6 +26,7 @@ This workflow searches and returns Cisco Umbrella DNS activity for the last 7 da
 |:-----|:------|
 | Jul 26, 2021 | - Initial release |
 | Sep 10, 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+| Jan 13, 2022 | - Updated to end gracefully if Umbrella doesn't return any results |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 

@@ -49,19 +49,19 @@
 		  "object_type": "variable_workflow"
 		},
 		{
-		  "schema_id": "datatype.integer",
-		  "properties": {
-			"value": 50,
-			"scope": "local",
-			"name": "Maximum Records",
-			"type": "datatype.integer",
-			"description": "The maximum number of search results to fetch",
-			"is_required": false,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01PUH6CUOM3R65IpQy7HDFSvXCUhH2k6RZR",
-		  "object_type": "variable_workflow"
-		}
+			"schema_id": "datatype.integer",
+			"properties": {
+			  "value": 50,
+			  "scope": "local",
+			  "name": "Maximum Records",
+			  "type": "datatype.integer",
+			  "description": "The maximum number of search results to fetch",
+			  "is_required": false,
+			  "is_invisible": false
+			},
+			"unique_name": "variable_workflow_01PUH6CUOM3R65IpQy7HDFSvXCUhH2k6RZR",
+			"object_type": "variable_workflow"
+		  }
 	  ],
 	  "properties": {
 		"atomic": {
@@ -254,6 +254,56 @@
 			"workflow_id": "definition_workflow_01PP78365JEEM2gdXOowzJ3HK8aoZatY0jf"
 		  },
 		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01U7OB25UNTPB08OInyDlkAK1JoEMzQl9gt",
+		  "name": "Condition Block",
+		  "title": "Did we get results?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Did we get results?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01U7OB26J27A52UgMqAM9iRP1VxTBzFzcGD",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01PL0MU7LUSNV4sXIQIOaLHVCC6V8hOK7Yh.output.variable_workflow_01PP7835ZY4W21OYm9BYmpvX1Ai2H3lfFa9$",
+				  "operator": "eq",
+				  "right_operand": 0
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01U7OBDAHBO3R03tVgzLzv8grjCOyv0tIv7",
+				  "name": "Completed",
+				  "title": "Completed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "succeeded",
+					"continue_on_failure": false,
+					"display_name": "Completed",
+					"result_message": "No matching DNS activity was returned by Umbrella",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
 		},
 		{
 		  "unique_name": "definition_activity_01PWXKD40ZID170pWSNgcRFcUBz9cq51Z2T",
