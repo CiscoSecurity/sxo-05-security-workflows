@@ -7,14 +7,14 @@ nav_order: 45
 has_toc: false
 ---
 
+<div class="cisco-alert cisco-alert-danger">
+	<i class="fa fa-exclamation-triangle mr-1 cisco-icon-danger"></i> Due to back end changes being made as part of orchestration's 5.7 release on January 20th, existing orchestration remotes will need to be replaced (even if they still show as connected). Please follow the steps in this section to generate a new remote configuration and deploy the remote appliance.
+</div>
+
 # Remote
 SecureX orchestration remote is an on-premises virtual appliance that allows your workflows to communicate with resources inside your network behind a firewall. Since many on-premises devices aren't exposed to the internet, SXo remote bridges the gap between those devices and the cloud so they can be incorporated into your workflows.
 
 [<i class="fa fa-video mr-1"></i> Remote Overview](https://www.youtube.com/watch?v=EC2nCiAn1HM&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo){: .btn-cisco-outline }
-
-<div class="cisco-alert cisco-alert-info">
-	<i class="fa fa-info-circle mr-1 cisco-icon-info"></i> Has your remote stopped working after your region's <a href="../updates/september-2021">September maintenance window</a>? You'll need to deploy a new remote, even if your existing remote shows as connected. Be sure to download the latest remote image and generate a new configuration using the steps on this page
-</div>
 
 To get an orchestration remote up and running, you need to do three things:
 1. [Create a new remote in SecureX orchestration]({{ site.baseurl }}/remote/create)
