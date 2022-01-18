@@ -7,7 +7,7 @@ nav_order: 1
 ![]({{ site.baseurl }}/assets/images/header-graphic.png)
 
 <div class="cisco-alert cisco-alert-danger">
-	<i class="fa fa-exclamation-triangle mr-1 cisco-icon-danger"></i> Due to back end changes being made as part of SecureX orchestration's 5.7 release on January 20th, orchestration remotes and webhooks may need to be replaced/updated. For more information, see the <a href="../remote/">remotes</a> and <a href="../webhooks/">webhooks</a> sections.
+	<i class="fa fa-exclamation-triangle mr-1 cisco-icon-danger"></i> Due to back end changes being made as part of SecureX orchestration's 5.7 release on January 20th, orchestration remotes and webhooks may need to be replaced/updated. For more information, see the <a href="{{ site.baseurl }}/remote/">remotes</a> and <a href="{{ site.baseurl }}/webhooks/">webhooks</a> sections.
 </div>
 
 # SecureX orchestration
