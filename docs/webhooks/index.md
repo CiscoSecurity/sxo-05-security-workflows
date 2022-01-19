@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Webhooks
-permalink: /webhooks/
+permalink: /webhooks
 nav_order: 68
 ---
 
@@ -10,7 +10,7 @@ nav_order: 68
 </div>
 
 # Webhooks
-Webhooks allow you to push information from external platforms to orchestration workflows. Instead of your workflow having to reach out to an API to check for events, a webhook can be used to listen for incoming data and then [trigger]({{ site.baseurl }}/workflows/triggers) a workflow through an [event]({{ site.baseurl }}/events) when data is received.
+Webhooks allow you to push information from external platforms to orchestration workflows. Instead of your workflow having to reach out to an API to check for events, a webhook can be used to listen for incoming data and then [trigger]({{ site.baseurl }}/workflows/triggers) a workflow through an [event]({{ site.baseurl }}/events/) when data is received.
 
 ![]({{ site.baseurl }}/assets/images/webhooks/flow.png)
 
@@ -51,7 +51,7 @@ When you create a webhook, you'll be given an HTTP endpoint you can push events 
 
 ## Adding a Webhook to a Workflow
 Once you've created a webhook using the steps above, you need to do two things:
-1. Create an [event]({{ site.baseurl }}/events) that will be triggered when the webhook receives data
+1. Create an [event]({{ site.baseurl }}/events/) that will be triggered when the webhook receives data
 1. Add the event to your workflow as a [trigger]({{ site.baseurl }}/workflows/triggers)
 
 Once the workflow is configured with a trigger, you can use the trigger's output variables in your workflow:
@@ -107,5 +107,5 @@ If your request was accepted by SecureX orchestration, you will get an HTTP `202
     1. The HTTP request type you're using is a `POST`
     1. The `Accept` header is set to `application/json`
     1. The `Content-Type` header is set to an acceptable value (see [above](#a-note-on-webhook-content-type-headers))
-    1. The webhook is used by an [event]({{ site.baseurl }}/events) and you've added the event as a [trigger]({{ site.baseurl }}/workflows/triggers) to a workflow
+    1. The webhook is used by an [event]({{ site.baseurl }}/events/) and you've added the event as a [trigger]({{ site.baseurl }}/workflows/triggers) to a workflow
     1. The workflow being triggered is in a valid state (the validation button should say **Validated** in the workflow editor's blue bar)

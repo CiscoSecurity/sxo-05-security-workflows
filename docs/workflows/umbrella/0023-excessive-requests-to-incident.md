@@ -62,7 +62,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 * Set the `Umbrella Organization ID` local variable to your Umbrella organization's ID (found in your Umbrella dashboard's URL)
 * Set the `Categories to Alert On` local variable to the list of categories you want to alert on (ex: Cryptomining,Illegal Downloads,Illegal Activity,Phishing)
 * Set the `Request Threshold` local variable to the threshold of requests per hour you want to alert on. This is 1,000 by default
-* By default, the workflow is configured to run once an hour using the **0023 - Umbrella - Excessive Requests to Incidents** [schedule]({{ site.baseurl }}/schedules). When you import the workflow, the schedule trigger will be disabled. To enable the schedule:
+* By default, the workflow is configured to run once an hour using the **0023 - Umbrella - Excessive Requests to Incidents** [schedule]({{ site.baseurl }}/schedules/). When you import the workflow, the schedule trigger will be disabled. To enable the schedule:
 	* Open the workflow in the workflow editor
 	* Scroll down to the **Triggers** section of the workflow's properties and click **Umbrella Report Polling**
 	* Uncheck the **Disable Trigger** box and click **Save**

@@ -26,7 +26,7 @@ This page contains a list of all of the workflows published in the repository fi
 					<a href="{{ site.baseurl }}/workflows/response">Response</a>
 				</th>
 				<th style="text-align: left">
-					<a href="{{ site.baseurl }}/remote">Remote</a>
+					<a href="{{ site.baseurl }}/remote/">Remote</a>
 				</th>
 			</tr>
 		</thead>

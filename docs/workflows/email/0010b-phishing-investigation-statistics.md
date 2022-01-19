@@ -42,7 +42,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes#workflows) page for more inf
 ---
 
 ## Workflow Steps
-This email is designed to be triggered by a [schedule]({{ site.baseurl }}/schedules).
+This email is designed to be triggered by a [schedule]({{ site.baseurl }}/schedules/).
 
 1. Calculate and format the dates needed to generate the report
 1. Fetch rows from the global statistics table for this reporting period

@@ -64,7 +64,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 ---
 
 ## Configuration
-* By default, the workflow is configured to run every hour using the **0024 - Secure Firewall - Incident Endpoint Enrichment** [schedule]({{ site.baseurl }}/schedules). When you import the workflow, the schedule trigger will be disabled. To enable the schedule:
+* By default, the workflow is configured to run every hour using the **0024 - Secure Firewall - Incident Endpoint Enrichment** [schedule]({{ site.baseurl }}/schedules/). When you import the workflow, the schedule trigger will be disabled. To enable the schedule:
 	* Open the workflow in the workflow editor
 	* Scroll down to the **Triggers** section of the workflow's properties and click **Firewall Incident Polling**
 	* Uncheck the **Disable Trigger** box and click **Save**

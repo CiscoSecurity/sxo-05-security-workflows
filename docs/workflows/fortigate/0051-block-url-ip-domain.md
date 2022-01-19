@@ -86,7 +86,7 @@ Note: Errors are accumulated during workflow execution using `Add error to local
 ---
 
 ## Targets
-**Note:** If your FortiGate instance is on-premises and not accessible from the internet, you will need a [SecureX orchestration remote]({{ site.baseurl }}/remote) to use it with orchestration.
+**Note:** If your FortiGate instance is on-premises and not accessible from the internet, you will need a [SecureX orchestration remote]({{ site.baseurl }}/remote/) to use it with orchestration.
 
 Target Group: `Default TargetGroup`
 

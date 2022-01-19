@@ -115,7 +115,7 @@ This workflow is designed to be triggered by an email arriving in a phishing inv
 ## Configuration
 
 ### Account Keys/Targets
-* You must create an [account key]({{ site.baseurl }}/account-keys) with your mailbox's credentials and then update the `Phishing Investigation Mailbox` [target]({{ site.baseurl }}/targets) with that account key. While you're editing the target, be sure to add your email server's information
+* You must create an [account key]({{ site.baseurl }}/account-keys/) with your mailbox's credentials and then update the `Phishing Investigation Mailbox` [target]({{ site.baseurl }}/targets/) with that account key. While you're editing the target, be sure to add your email server's information
 * A list of required targets and account keys can be found [below](#targets). Make sure they all exist and are configured properly
 
 ### Local Variables

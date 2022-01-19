@@ -28,7 +28,7 @@ This page contains a list of frequently asked questions about SecureX orchestrat
 | North America (NAM) | 54.166.136.151<br />18.213.248.192<br />54.211.175.37 |
 
 ### Q: How do I connect to on-premises devices?
-**A**: You can use the SecureX orchestration remote to integrate on-premises resources into your workflows. Check out [this page]({{ site.baseurl }}/remote) for more information.
+**A**: You can use the SecureX orchestration remote to integrate on-premises resources into your workflows. Check out [this page]({{ site.baseurl }}/remote/) for more information.
 
 ### Q: What Python modules are available?
 **A**: See the [Python Modules]({{ site.baseurl }}/activities/python/modules) page.

@@ -61,7 +61,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 * Set the `Category to Filter On` local variable to the name of the category you want to report on
 * Set the `Maximum Records` local variable to the maximum number of activity records to request from Umbrella. This is 1,000 by default
 * Update the `ServiceNow User ID` local variable with the username you want incidents opened as. This can either match the username in your ServiceNow **Account Key** or, if the account has the appropriate permissions, can be a different user
-* By default, this workflow is configured to run on demand. You can create a [schedule]({{ site.baseurl }}/schedules) if you want it to run at a set interval
+* By default, this workflow is configured to run on demand. You can create a [schedule]({{ site.baseurl }}/schedules/) if you want it to run at a set interval
 
 ---
 

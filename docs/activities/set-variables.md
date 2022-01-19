@@ -12,7 +12,7 @@ If you want to modify a variable's value, you can use the `Set Variables` activi
 
 ![]({{ site.baseurl }}/assets/images/activities/set-variables/set-variables.png)
 
-More information about variables can be found [here]({{ site.baseurl }}/variables).
+More information about variables can be found [here]({{ site.baseurl }}/variables/).
 
 ---
 

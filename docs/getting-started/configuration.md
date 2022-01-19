@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Using Our GitHub Repositories
-permalink: /configuration
+permalink: /configuration/
 parent: Getting Started
 has_children: true
 has_toc: false
@@ -16,7 +16,7 @@ To use the content in our GitHub repositories, you must have them configured in 
 ---
 
 ## 403 - Rate Limit Exceeded
-Are you seeing a 403 error when you try to import content from GitHub? Some of the repositories we configure for you are created without credentials. Unauthenticated API requests to GitHub are rate-limited so, if you want to avoid this, you can update the repository configurations with an [account key]({{ site.baseurl }}/account-keys) using the [steps below](#adding-an-account-key).
+Are you seeing a 403 error when you try to import content from GitHub? Some of the repositories we configure for you are created without credentials. Unauthenticated API requests to GitHub are rate-limited so, if you want to avoid this, you can update the repository configurations with an [account key]({{ site.baseurl }}/account-keys/) using the [steps below](#adding-an-account-key).
 
 ---
 
