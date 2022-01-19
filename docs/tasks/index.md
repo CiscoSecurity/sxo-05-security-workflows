@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Tasks
-permalink: /tasks/
+permalink: /tasks
 nav_order: 53
 ---
 

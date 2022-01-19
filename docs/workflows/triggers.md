@@ -7,7 +7,7 @@ nav_order: 25
 ---
 
 # Triggers
-Triggers cause a workflow to execute when an [event]({{ site.baseurl }}/events) happens or based on a [schedule]({{ site.baseurl }}/schedules).
+Triggers cause a workflow to execute when an [event]({{ site.baseurl }}/events/) happens or based on a [schedule]({{ site.baseurl }}/schedules/).
 
 ---
 
@@ -19,7 +19,7 @@ When viewing a workflow's properties, you'll see a **Triggers** section that sho
 ---
 
 ## Configuration
-To configure a trigger, you first need to make sure you have an [event]({{ site.baseurl }}/events) or [schedule]({{ site.baseurl }}/schedules) configured. Once you have one of those, you can add a trigger to your workflow.
+To configure a trigger, you first need to make sure you have an [event]({{ site.baseurl }}/events/) or [schedule]({{ site.baseurl }}/schedules/) configured. Once you have one of those, you can add a trigger to your workflow.
 
 1. Open the workflow you want to trigger in the workflow editor and scroll down to the **Triggers** section in its properties
 1. Click the **Add Trigger** button

@@ -1,10 +1,9 @@
 ---
 layout: page
 title: Workflow Analyzer
-permalink: /analyzer/
+permalink: /analyzer
 use_jquery: true
 is_analyzer: true
-has_children: false
 nav_order: 69
 ---
 

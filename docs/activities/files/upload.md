@@ -9,7 +9,7 @@ grand_parent: Activities
 # Upload File
 _Category: File Operations_
 
-This activity allows you to upload a file to an HTTP-based [target]({{ site.baseurl }}/targets). The file must be from a file operations activity that returns a `File` variable. For example, you could download a file from one server using [`Download File`]({{ site.baseurl }}/activities/files/download) and upload it to a different one using this activity. Usage of this activity is almost the same as the [HTTP Request]({{ site.baseurl }}/activities/http-request/) activity.
+This activity allows you to upload a file to an HTTP-based [target]({{ site.baseurl }}/targets/). The file must be from a file operations activity that returns a `File` variable. For example, you could download a file from one server using [`Download File`]({{ site.baseurl }}/activities/files/download) and upload it to a different one using this activity. Usage of this activity is almost the same as the [HTTP Request]({{ site.baseurl }}/activities/http-request/) activity.
 
 ---
 

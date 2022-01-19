@@ -9,7 +9,7 @@ grand_parent: Activities
 # Write File
 _Category: Unix/Linux System_
 
-This activity allows you to write a file to a remote Unix/Linux [target]({{ site.baseurl }}/targets). The output of this activity includes the contents of the file written, the file's name, and it's path.
+This activity allows you to write a file to a remote Unix/Linux [target]({{ site.baseurl }}/targets/). The output of this activity includes the contents of the file written, the file's name, and it's path.
 
 ---
 

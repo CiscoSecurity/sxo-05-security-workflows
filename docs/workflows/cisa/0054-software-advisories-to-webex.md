@@ -54,7 +54,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 ---
 
 ## Configuration
-* If you want the workflow to run on a schedule, you need to create a [schedule]({{ site.baseurl }}/schedules) and then add it as a [trigger]({{ site.baseurl }}/workflows/triggers) within the workflow
+* If you want the workflow to run on a schedule, you need to create a [schedule]({{ site.baseurl }}/schedules/) and then add it as a [trigger]({{ site.baseurl }}/workflows/triggers) within the workflow
 * See [this page]({{ site.baseurl }}/atomics/configuration/webex#configuring-our-workflows) for information on configuring the workflow for Webex Teams
 * If you want to modify the package managers and/or programming languages the workflow looks for, you can edit the regular expressions in the `Look for package managers` and `Look for programming languages` activities
 

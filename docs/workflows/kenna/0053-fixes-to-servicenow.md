@@ -63,7 +63,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 * Set the `Risk Meter Group ID` local variable to the ID of the risk meter group you want the workflow to process
 * Set the `Risk Score Threshold` local variable to the minimum risk score you want the workflow to process. Anything with a risk score less than this value will be ignored
 * Set the `ServiceNow User ID` local variable to the username you want incidents opened as. This can either match the username in your ServiceNow **Account Key** or, if the account has the appropriate permissions, can be a different user
-* By default, this workflow will not run automatically. [Click here]({{ site.baseurl }}/schedules) to learn about scheduling it to run on its own
+* By default, this workflow will not run automatically. [Click here]({{ site.baseurl }}/schedules/) to learn about scheduling it to run on its own
 
 ---
 

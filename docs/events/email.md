@@ -11,7 +11,7 @@ The email event allows you to monitor an inbox for new emails. When a new email 
 ---
 
 ## Targets
-To use the email event, you need a [target]({{ site.baseurl }}/targets) for the mailbox you want to monitor. This can be either an `IMAP Endpoint` or a `POP3 Endpoint` target. The target should be configured according to your email provider's specifications.
+To use the email event, you need a [target]({{ site.baseurl }}/targets/) for the mailbox you want to monitor. This can be either an `IMAP Endpoint` or a `POP3 Endpoint` target. The target should be configured according to your email provider's specifications.
 
 ---
 

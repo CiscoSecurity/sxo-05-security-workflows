@@ -61,7 +61,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 
 ## Configuration
 * Set the `CVE Score Threshold` local variable to the minimum CVE score you want to generate incidents for. This is 6.5 by default
-* By default, the workflow is configured to run once a day using the **0021 - Secure Endpoint - Vulnerabilities to ServiceNow Incidents** [schedule]({{ site.baseurl }}/schedules). When you import the workflow, the schedule trigger will be disabled. To enable the schedule:
+* By default, the workflow is configured to run once a day using the **0021 - Secure Endpoint - Vulnerabilities to ServiceNow Incidents** [schedule]({{ site.baseurl }}/schedules/). When you import the workflow, the schedule trigger will be disabled. To enable the schedule:
 	* Open the workflow in the workflow editor
 	* Scroll down to the **Triggers** section of the workflow's properties and click **Secure Endpoint Event Polling**
 	* Uncheck the **Disable Trigger** box and click **Save**

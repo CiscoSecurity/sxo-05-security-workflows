@@ -61,7 +61,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 
 ## Configuration
 * Set the `Secure Endpoint Module Name` local variable to the name of your Secure Endpoint module in SecureX (this is often `AMP for Endpoints`)
-* You must create an [account key]({{ site.baseurl }}/account-keys) with your mailbox's credentials and then update the `0025 - Retrospective Alert Mailbox` [target]({{ site.baseurl }}/targets) with that account key. While you're editing the target, be sure to add your email server's information
+* You must create an [account key]({{ site.baseurl }}/account-keys/) with your mailbox's credentials and then update the `0025 - Retrospective Alert Mailbox` [target]({{ site.baseurl }}/targets/) with that account key. While you're editing the target, be sure to add your email server's information
 * When the workflow imports, the trigger will show in an errored state because the account key and target needed to be updated. After configuring your account key and target, go into the workflow, click on the trigger in the workflow's properties, uncheck the **Disable Trigger** box, and click **Save**
 * See [this page]({{ site.baseurl }}/atomics/configuration/webex#configuring-our-workflows) for information on configuring the workflow for Webex Teams
 

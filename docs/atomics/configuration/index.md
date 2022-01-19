@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Configuration
-permalink: /atomics/configuration
+permalink: /atomics/configuration/
 has_children: true
 parent: Atomic Actions
 ---

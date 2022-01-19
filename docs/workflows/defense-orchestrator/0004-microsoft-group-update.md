@@ -55,7 +55,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 ---
 
 ## Configuration
-* If you want the workflow to run on a schedule, you need to create a [schedule]({{ site.baseurl }}/schedules) and then add it as a [trigger]({{ site.baseurl }}/workflows/triggers) within the workflow
+* If you want the workflow to run on a schedule, you need to create a [schedule]({{ site.baseurl }}/schedules/) and then add it as a [trigger]({{ site.baseurl }}/workflows/triggers) within the workflow
 * Provide the workflow your Defense Orchestrator API token by either:
 	* Storing your token in a [global variable]({{ site.baseurl }}/variables/global) and using the `Fetch Global Variables` group at the beginning of the workflow to update the `CDO Bearer Token` local variable; or
 	* Leave the `Fetch Global Variables` group disabled and add your token directly to the `CDO Bearer Token` local variable

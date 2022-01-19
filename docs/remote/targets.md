@@ -18,4 +18,4 @@ To use a remote to communicate with a specific target:
 
 1. Click **Submit**
 
-If you haven't already configured your remote, see [this page]({{ site.baseurl }}/remote) for more information
+If you haven't already configured your remote, see [this page]({{ site.baseurl }}/remote/) for more information

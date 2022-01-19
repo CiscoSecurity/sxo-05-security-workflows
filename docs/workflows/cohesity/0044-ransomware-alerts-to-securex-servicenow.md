@@ -57,7 +57,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 * Set the `SecureX API Client ID` and `SecureX API Secret` local variables to your API client's ID and secret ([more information]({{ site.baseurl }}/workflows/response/tr-api#generating-an-api-client))
 * Set the `Number of Hours` local variable to the number of hours ago you want to start fetching alerts from
 * Set the `ServiceNow User ID` local variable to the username you want incidents opened as. This can either match the username in your ServiceNow **Account Key** or, if the account has the appropriate permissions, can be a different user
-* If you want the workflow to run automatically, enable the `Cohesity Ransomware Alerts` [trigger]({{ site.baseurl }}/workflows/triggers) in the workflow's property to enable it to run on a [schedule]({{ site.baseurl }}/schedules)
+* If you want the workflow to run automatically, enable the `Cohesity Ransomware Alerts` [trigger]({{ site.baseurl }}/workflows/triggers) in the workflow's property to enable it to run on a [schedule]({{ site.baseurl }}/schedules/)
 
 ---
 

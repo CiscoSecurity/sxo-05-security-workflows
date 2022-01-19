@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Recurring
-permalink: /calendars/recurring
+permalink: /calendars/recurring/
 parent: Calendars
 has_children: true
 has_toc: false

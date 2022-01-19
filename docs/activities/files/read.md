@@ -9,7 +9,7 @@ grand_parent: Activities
 # Read File
 _Category: Unix/Linux System_
 
-This activity allows you to read a file from a remote Unix/Linux [target]({{ site.baseurl }}/targets). The contents of the file will be made available as a string, as well as the file's name and path.
+This activity allows you to read a file from a remote Unix/Linux [target]({{ site.baseurl }}/targets/). The contents of the file will be made available as a string, as well as the file's name and path.
 
 ---
 

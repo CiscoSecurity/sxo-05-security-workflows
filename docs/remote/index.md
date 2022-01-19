@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Remote
-permalink: /remote
+permalink: /remote/
 has_children: true
 nav_order: 45
 has_toc: false

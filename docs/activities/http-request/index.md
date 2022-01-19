@@ -1,7 +1,7 @@
 ---
 layout: page
 title: HTTP Request
-permalink: /activities/http-request
+permalink: /activities/http-request/
 parent: Activities
 has_children: true
 has_toc: false

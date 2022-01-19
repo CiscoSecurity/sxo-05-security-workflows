@@ -44,7 +44,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 * The following atomic actions must be imported before you can import this workflow:
 	* None
 * The [targets](#targets) and [account keys](#account-keys) listed below
-* A [SecureX orchestration remote]({{ site.baseurl }}/remote) with connectivity to your Secure Network Analytics instance
+* A [SecureX orchestration remote]({{ site.baseurl }}/remote/) with connectivity to your Secure Network Analytics instance
 * (Optional) A Webex Teams access token and room name to post messages to
 * Cisco Secure Network Analytics (SNA)
 * Cisco Umbrella
@@ -77,7 +77,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 ---
 
 ## Targets
-**Note:** If your Secure Network Analytics deployment is on-premises and not accessible from the internet, you will need a [SecureX orchestration remote]({{ site.baseurl }}/remote) to use it with orchestration.
+**Note:** If your Secure Network Analytics deployment is on-premises and not accessible from the internet, you will need a [SecureX orchestration remote]({{ site.baseurl }}/remote/) to use it with orchestration.
 
 Target Group: `Default TargetGroup`
 

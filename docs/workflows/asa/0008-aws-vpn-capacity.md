@@ -61,7 +61,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 ---
 
 ## Configuration
-* If you want the workflow to run on a schedule, you need to create a [schedule]({{ site.baseurl }}/schedules) and then add it as a [trigger]({{ site.baseurl }}/workflows/triggers) within the workflow
+* If you want the workflow to run on a schedule, you need to create a [schedule]({{ site.baseurl }}/schedules/) and then add it as a [trigger]({{ site.baseurl }}/workflows/triggers) within the workflow
 * Set the `Task Approver` local variable to the email address of the person who should approve requests from this workflow
 * Update the `Create deployment approval request` activity with a `Task Requestor` and `Task Owner` (the approver is defined in the local variable). You can also change the due date time (default: 1 hour) and expiration time (default: 1 hour) if you want
 * Update the `Create ASA instance in EC2` activity with:

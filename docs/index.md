@@ -7,13 +7,13 @@ nav_order: 1
 ![]({{ site.baseurl }}/assets/images/header-graphic.png)
 
 <div class="cisco-alert cisco-alert-danger">
-	<i class="fa fa-exclamation-triangle mr-1 cisco-icon-danger"></i> Due to back end changes being made as part of SecureX orchestration's 5.7 release on January 20th, orchestration remotes and webhooks may need to be replaced/updated. For more information, see the <a href="{{ site.baseurl }}/remote/">remotes</a> and <a href="{{ site.baseurl }}/webhooks/">webhooks</a> sections.
+	<i class="fa fa-exclamation-triangle mr-1 cisco-icon-danger"></i> Due to back end changes being made as part of SecureX orchestration's 5.7 release on January 20th, orchestration remotes and webhooks may need to be replaced/updated. For more information, see the <a href="{{ site.baseurl }}/remote/">remotes</a> and <a href="{{ site.baseurl }}/webhooks">webhooks</a> sections.
 </div>
 
 # SecureX orchestration
 SecureX orchestration provides a no-to-low code approach for building automated workflows. These workflows can interact with various types of resources and systems, whether they're from Cisco or a third-party. Our GitHub repositories contain a wide variety of [atomic actions](#atomic-actions) and [workflows](#workflows) that can be imported into SecureX orchestration.
 
-[Get Started <i class="fa fa-arrow-right ml-1"></i>]({{ site.baseurl }}/getting-started){: .btn-cisco-sky-blue }
+[Get Started <i class="fa fa-arrow-right ml-1"></i>]({{ site.baseurl }}/getting-started/){: .btn-cisco-sky-blue }
 
 ---
 

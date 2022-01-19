@@ -44,7 +44,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 * The following atomic actions must be imported before you can import this workflow:
 	* None
 * The [targets](#targets) and [account keys](#account-keys) listed below
-* A [SecureX orchestration remote]({{ site.baseurl }}/remote) with connectivity to your Secure Network Analytics instance
+* A [SecureX orchestration remote]({{ site.baseurl }}/remote/) with connectivity to your Secure Network Analytics instance
 * (Optional) A Webex Teams access token and room name to post messages to
 * Cisco Secure Endpoint
 * Cisco Secure Network Analytics (SNA)
@@ -74,7 +74,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 * Add your Secure Network Analytics API username and password to `SNA Username` and `SNA Password` (or, if you have them stored in global variables, use the `Fetch Global Variables` group at the beginning of the workflow to update the local variables)
 * Set the `SNA Tenant Name` to the name of the tenant you want to work in
 * See [this page]({{ site.baseurl }}/atomics/configuration/webex#configuring-our-workflows) for information on configuring the workflow for Webex Teams
-* By default, the workflow is configured to run every 24 hours using the **0032 - SNA - Isolate Endpoints and Block Hashes from Alarms** [schedule]({{ site.baseurl }}/schedules). When you import the workflow, the schedule trigger will be disabled. To enable the schedule:
+* By default, the workflow is configured to run every 24 hours using the **0032 - SNA - Isolate Endpoints and Block Hashes from Alarms** [schedule]({{ site.baseurl }}/schedules/). When you import the workflow, the schedule trigger will be disabled. To enable the schedule:
 	* Open the workflow in the workflow editor
 	* Scroll down to the **Triggers** section of the workflow's properties and click **Alarm Event Polling**
 	* Uncheck the **Disable Trigger** box and click **Save**
@@ -82,7 +82,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 ---
 
 ## Targets
-**Note:** If your Secure Network Analytics deployment is on-premises and not accessible from the internet, you will need a [SecureX orchestration remote]({{ site.baseurl }}/remote) to use it with orchestration.
+**Note:** If your Secure Network Analytics deployment is on-premises and not accessible from the internet, you will need a [SecureX orchestration remote]({{ site.baseurl }}/remote/) to use it with orchestration.
 
 Target Group: `Default TargetGroup`
 
