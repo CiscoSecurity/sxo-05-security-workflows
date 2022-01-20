@@ -1,1 +1,447 @@
-{"workflow":{"unique_name":"definition_workflow_01RXAYFX4Z7BN7E8IKRxdULoQvhWAuAhIH9","name":"0047 - Jamf Pro - Lock Mobile Device","title":"0047 - Jamf Pro - Lock Mobile Device","type":"generic.workflow","base_type":"workflow","variables":[{"schema_id":"datatype.string","properties":{"value":"","scope":"input","name":"observable_type","type":"datatype.string","description":"The type of observable pivoted on","is_required":true,"is_invisible":false},"unique_name":"variable_workflow_01RXAYFXBWVM51SSsVAhms0aSeU7lC84cRQ","object_type":"variable_workflow"},{"schema_id":"datatype.string","properties":{"value":"","scope":"local","name":"match","type":"datatype.string","description":"Placeholder for a match query. This will be populated automatically","is_required":false,"is_invisible":false},"unique_name":"variable_workflow_01RXAYFXBWNDS5EmcrOU7STScjSDKpGbKfZ","object_type":"variable_workflow"},{"schema_id":"datatype.string","properties":{"value":"","scope":"local","name":"mac_address","type":"datatype.string","description":"Placeholder for the hostname to search for. This will be populated automatically","is_required":false,"is_invisible":false},"unique_name":"variable_workflow_01RXAYFXBWB3923TN8uQ7wFuDzUJdM8Omgt","object_type":"variable_workflow"},{"schema_id":"datatype.string","properties":{"value":"","scope":"input","name":"observable_value","type":"datatype.string","description":"The value of the observable pivoted on","is_required":true,"is_invisible":false},"unique_name":"variable_workflow_01RXAYFXBXDXN1nCFf4NLacx8VDfm32fuxu","object_type":"variable_workflow"},{"schema_id":"datatype.string","properties":{"value":"Please contact the IT Help Desk for assistance","scope":"local","name":"Lock Message","type":"datatype.string","description":"The lock message to display on the device","is_required":false,"is_invisible":false},"unique_name":"variable_workflow_01RXB1SQ8JAWH3pxYkFLUEzgzS540DP5Y7P","object_type":"variable_workflow"},{"schema_id":"datatype.string","properties":{"value":"","scope":"local","name":"hostname","type":"datatype.string","description":"Placeholder for the hostname to search for. This will be populated automatically","is_required":false,"is_invisible":false},"unique_name":"variable_workflow_01RXAYFXBXQIP7kj89ylME0UsE9sQQqPk4w","object_type":"variable_workflow"}],"properties":{"atomic":{"is_atomic":false},"delete_workflow_instance":false,"description":"This workflow locks a Jamf-managed mobile device. Supported observables: mac_address, hostname, ip\n\nTarget Group: Default TargetGroup\n\nTargets: Jamf Pro\n\nSteps:\n[] Make sure the observable is supported\n[] Search for a matching mobile device in Jamf\n[] Extract the mobile device's ID\n[] If extraction was successful, execute the command on the device\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0047","display_name":"0047 - Jamf Pro - Lock Mobile Device","runtime_user":{"target_default":true},"target":{"execute_on_target_group":true,"target_group":{"target_group_id":"target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH","run_on_all_targets":false,"selected_target_types":["web-service.endpoint"],"use_criteria":{"choose_target_using_algorithm":"choose_first_with_matching_criteria","conditions":[{"operator":"eqi","left_operand":"$targetgroup.web-service endpoint.input.display_name$","right_operand":"Jamf Pro"}]}}}},"object_type":"definition_workflow","actions":[{"unique_name":"definition_activity_01RXAYG4S2RUC69e1v4A9lCEDVQPiANNzHC","name":"Condition Block","title":"What type of observable was provided?","type":"logic.if_else","base_type":"activity","properties":{"continue_on_failure":false,"display_name":"What type of observable was provided?","skip_execution":false},"object_type":"definition_activity","blocks":[{"unique_name":"definition_activity_01RXAYG5M6Z2H1aURhlodG9coNKWEYUNIQS","name":"Condition Branch","title":"MAC Address","type":"logic.condition_block","base_type":"activity","properties":{"condition":{"left_operand":"$workflow.definition_workflow_01RXAYFX4Z7BN7E8IKRxdULoQvhWAuAhIH9.input.variable_workflow_01RXAYFXBWVM51SSsVAhms0aSeU7lC84cRQ$","operator":"eqi","right_operand":"mac_address"},"continue_on_failure":false,"display_name":"MAC Address","skip_execution":false},"object_type":"definition_activity","actions":[{"unique_name":"definition_activity_01RXAYG6G34SI0bfD8boLFeleKPHDED0YwO","name":"Set Variables","title":"Set local variable","type":"core.set_multiple_variables","base_type":"activity","properties":{"continue_on_failure":false,"display_name":"Set local variable","skip_execution":false,"variables_to_update":[{"variable_to_update":"$workflow.definition_workflow_01RXAYFX4Z7BN7E8IKRxdULoQvhWAuAhIH9.local.variable_workflow_01RXAYFXBWB3923TN8uQ7wFuDzUJdM8Omgt$","variable_value_new":"$workflow.definition_workflow_01RXAYFX4Z7BN7E8IKRxdULoQvhWAuAhIH9.input.variable_workflow_01RXAYFXBXDXN1nCFf4NLacx8VDfm32fuxu$"}]},"object_type":"definition_activity"}]},{"unique_name":"definition_activity_01RXAYG791U3S4SSHGSPq0R0NBcoEW3MJK4","name":"Condition Branch","title":"Hostname","type":"logic.condition_block","base_type":"activity","properties":{"condition":{"left_operand":"$workflow.definition_workflow_01RXAYFX4Z7BN7E8IKRxdULoQvhWAuAhIH9.input.variable_workflow_01RXAYFXBWVM51SSsVAhms0aSeU7lC84cRQ$","operator":"eqi","right_operand":"hostname"},"continue_on_failure":false,"display_name":"Hostname","skip_execution":false},"object_type":"definition_activity","actions":[{"unique_name":"definition_activity_01RXAYG85NHQ22Ez61mj8IUpLzvKwC6Z9uw","name":"Set Variables","title":"Set local variable","type":"core.set_multiple_variables","base_type":"activity","properties":{"continue_on_failure":false,"display_name":"Set local variable","skip_execution":false,"variables_to_update":[{"variable_to_update":"$workflow.definition_workflow_01RXAYFX4Z7BN7E8IKRxdULoQvhWAuAhIH9.local.variable_workflow_01RXAYFXBXQIP7kj89ylME0UsE9sQQqPk4w$","variable_value_new":"$workflow.definition_workflow_01RXAYFX4Z7BN7E8IKRxdULoQvhWAuAhIH9.input.variable_workflow_01RXAYFXBXDXN1nCFf4NLacx8VDfm32fuxu$"}]},"object_type":"definition_activity"}]},{"unique_name":"definition_activity_01RXAYG8ZO8QL336H2EtRmyAgEmqK982gC1","name":"Condition Branch","title":"IP Address","type":"logic.condition_block","base_type":"activity","properties":{"condition":{"left_operand":"$workflow.definition_workflow_01RXAYFX4Z7BN7E8IKRxdULoQvhWAuAhIH9.input.variable_workflow_01RXAYFXBWVM51SSsVAhms0aSeU7lC84cRQ$","operator":"eqi","right_operand":"ip"},"continue_on_failure":false,"display_name":"IP Address","skip_execution":false},"object_type":"definition_activity","actions":[{"unique_name":"definition_activity_01RXAYG9ZBKQN3s6yd0nvQMO3vixomLnBeD","name":"Set Variables","title":"Set local variable","type":"core.set_multiple_variables","base_type":"activity","properties":{"continue_on_failure":false,"display_name":"Set local variable","skip_execution":false,"variables_to_update":[{"variable_to_update":"$workflow.definition_workflow_01RXAYFX4Z7BN7E8IKRxdULoQvhWAuAhIH9.local.variable_workflow_01RXAYFXBWNDS5EmcrOU7STScjSDKpGbKfZ$","variable_value_new":"$workflow.definition_workflow_01RXAYFX4Z7BN7E8IKRxdULoQvhWAuAhIH9.input.variable_workflow_01RXAYFXBXDXN1nCFf4NLacx8VDfm32fuxu$"}]},"object_type":"definition_activity"}]},{"unique_name":"definition_activity_01RXAYGAUNHIC5hisFGEi0D6xUJ9qctVRIC","name":"Condition Branch","title":"Anything else","type":"logic.condition_block","base_type":"activity","properties":{"condition":{"left_operand":"$workflow.definition_workflow_01RXAYFX4Z7BN7E8IKRxdULoQvhWAuAhIH9.output.instance_id$","operator":"eq","right_operand":"$workflow.definition_workflow_01RXAYFX4Z7BN7E8IKRxdULoQvhWAuAhIH9.output.instance_id$"},"continue_on_failure":false,"display_name":"Anything else","skip_execution":false},"object_type":"definition_activity","actions":[{"unique_name":"definition_activity_01RXAYGBNPVP831iJ0Jiz2UNIoySHXbEjgV","name":"Completed","title":"Unsupported observable","type":"logic.completed","base_type":"activity","properties":{"completion_type":"failed-completed","continue_on_failure":false,"display_name":"Unsupported observable","result_message":"The observable type \"$workflow.definition_workflow_01RXAYFX4Z7BN7E8IKRxdULoQvhWAuAhIH9.input.variable_workflow_01RXAYFXBWVM51SSsVAhms0aSeU7lC84cRQ$\" is not supported by this workflow","skip_execution":false},"object_type":"definition_activity"}]}]},{"unique_name":"definition_activity_01RXAZCA2UIWG1utyGudrUT11Ycg3wpUf6a","name":"Jamf Pro - Mobile Device - Search","title":"Jamf Pro - Mobile Device - Search","type":"workflow.atomic_workflow","base_type":"subworkflow","properties":{"continue_on_failure":false,"display_name":"Jamf Pro - Mobile Device - Search","input":{"variable_workflow_01RXAA0XM2B1G1YmVd8tyNkvOeKSIc8an9J":"","variable_workflow_01RXAA0XM2NML2mQB5DMepdOpNeuPG8cRKA":"$workflow.definition_workflow_01RXAYFX4Z7BN7E8IKRxdULoQvhWAuAhIH9.local.variable_workflow_01RXAYFXBXQIP7kj89ylME0UsE9sQQqPk4w$","variable_workflow_01RXAA0XM33LC0lee67rq9BD9tfgkXocTHY":"","variable_workflow_01RXAA0XM3IDC69DSo9FuH9lwH7V19BDtGR":"$workflow.definition_workflow_01RXAYFX4Z7BN7E8IKRxdULoQvhWAuAhIH9.local.variable_workflow_01RXAYFXBWB3923TN8uQ7wFuDzUJdM8Omgt$","variable_workflow_01RXAA0XM3Q4N7kXRPE8SDG67vZOU4Iz7pM":"$workflow.definition_workflow_01RXAYFX4Z7BN7E8IKRxdULoQvhWAuAhIH9.local.variable_workflow_01RXAYFXBWNDS5EmcrOU7STScjSDKpGbKfZ$"},"runtime_user":{"target_default":true},"skip_execution":false,"target":{"use_workflow_target_group":true},"workflow_id":"definition_workflow_01RXAA0XF1P435M5v8Aj0GtlEEvPcNtFJQa"},"object_type":"definition_activity"},{"unique_name":"definition_activity_01RXAYGGBWORI3yaNffK8PNGMZoPIEM5mBi","name":"JSONPath Query","title":"Extract the first device ID","type":"corejava.jsonpathquery","base_type":"activity","properties":{"action_timeout":180,"continue_on_failure":true,"display_name":"Extract the first device ID","input_json":"$activity.definition_activity_01RXAZCA2UIWG1utyGudrUT11Ycg3wpUf6a.output.variable_workflow_01RXAA0XM3B7I50AB6dzrTorqvBlCpv4onu$","jsonpath_queries":[{"jsonpath_query":"$.mobile_devices[0].id","jsonpath_query_name":"deviceId","jsonpath_query_type":"string"}],"skip_execution":false},"object_type":"definition_activity"},{"unique_name":"definition_activity_01RXAYGH9OH7E7eFJfYpXJcmHfBONJ6O0XZ","name":"Condition Block","title":"Was a device found?","type":"logic.if_else","base_type":"activity","properties":{"continue_on_failure":false,"display_name":"Was a device found?","skip_execution":false},"object_type":"definition_activity","blocks":[{"unique_name":"definition_activity_01RXAYGI3PA704CBq2l7wjiFHBD6u0Cjglr","name":"Condition Branch","title":"Yes","type":"logic.condition_block","base_type":"activity","properties":{"condition":{"left_operand":"$activity.definition_activity_01RXAYGGBWORI3yaNffK8PNGMZoPIEM5mBi.output.succeeded$","operator":"eq","right_operand":true},"continue_on_failure":false,"display_name":"Yes","skip_execution":false},"object_type":"definition_activity","actions":[{"unique_name":"definition_activity_01RXB06T9OXF47aRfPnu5GY5vnSmVC1QA7a","name":"Jamf Pro - Mobile Device - Execute Command","title":"Jamf Pro - Mobile Device - Execute Command","type":"workflow.atomic_workflow","base_type":"subworkflow","properties":{"continue_on_failure":false,"display_name":"Jamf Pro - Mobile Device - Execute Command","input":{"variable_workflow_01RXAAAT8A9E40OL6rqyNc4oP1JXcMGgxhk":"\u003clock_message\u003e$workflow.definition_workflow_01RXAYFX4Z7BN7E8IKRxdULoQvhWAuAhIH9.local.variable_workflow_01RXB1SQ8JAWH3pxYkFLUEzgzS540DP5Y7P$\u003c/lock_message\u003e","variable_workflow_01RXAAAT8AJR34HjLJItI3nu9rzHRtFriJI":"$activity.definition_activity_01RXAYGGBWORI3yaNffK8PNGMZoPIEM5mBi.output.jsonpath_queries.deviceId$","variable_workflow_01RXAAAT8ARVE74O9mm3oHMCbZUk725ahHs":"DeviceLock"},"runtime_user":{"target_default":true},"skip_execution":false,"target":{"use_workflow_target_group":true},"workflow_id":"definition_workflow_01RXAAAT36EEF6PLp0TO27qXKykdod3pu1b"},"object_type":"definition_activity"}]}]}],"categories":["category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf","category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m"]},"categories":{"category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m":{"unique_name":"category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m","name":"response","title":"response","type":"basic.category","base_type":"category","category_type":"custom","object_type":"category"}},"target_groups":{"target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH":{"unique_name":"target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH","name":"Default TargetGroup","title":"Default TargetGroup","type":"generic.target_group","base_type":"target_group","version":"1.0.0","targets":[{"data_target_type":"web-service.endpoint","view_target_type":"web-service.endpoint","include_all_targets":true},{"data_target_type":"email.smtp_endpoint","view_target_type":"email.smtp_endpoint","include_all_targets":true},{"data_target_type":"terminal.endpoint","view_target_type":"terminal.endpoint","include_all_targets":true},{"data_target_type":"aws.endpoint","view_target_type":"aws.endpoint","include_all_targets":true}],"object_type":"target_group"}},"atomic_workflows":["definition_workflow_01RXAA0XF1P435M5v8Aj0GtlEEvPcNtFJQa","definition_workflow_01RXAAAT36EEF6PLp0TO27qXKykdod3pu1b"]}
+{
+	"workflow": {
+	  "unique_name": "definition_workflow_01RXAYFX4Z7BN7E8IKRxdULoQvhWAuAhIH9",
+	  "name": "0047 - Jamf Pro - Lock Mobile Device",
+	  "title": "0047 - Jamf Pro - Lock Mobile Device",
+	  "type": "generic.workflow",
+	  "base_type": "workflow",
+	  "variables": [
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "observable_type",
+			"type": "datatype.string",
+			"description": "The type of observable pivoted on",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01RXAYFXBWVM51SSsVAhms0aSeU7lC84cRQ",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "match",
+			"type": "datatype.string",
+			"description": "Placeholder for a match query. This will be populated automatically",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01RXAYFXBWNDS5EmcrOU7STScjSDKpGbKfZ",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "mac_address",
+			"type": "datatype.string",
+			"description": "Placeholder for the hostname to search for. This will be populated automatically",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01RXAYFXBWB3923TN8uQ7wFuDzUJdM8Omgt",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "observable_value",
+			"type": "datatype.string",
+			"description": "The value of the observable pivoted on",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01RXAYFXBXDXN1nCFf4NLacx8VDfm32fuxu",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "Please contact the IT Help Desk for assistance",
+			"scope": "local",
+			"name": "Lock Message",
+			"type": "datatype.string",
+			"description": "The lock message to display on the device",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01RXB1SQ8JAWH3pxYkFLUEzgzS540DP5Y7P",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "hostname",
+			"type": "datatype.string",
+			"description": "Placeholder for the hostname to search for. This will be populated automatically",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01RXAYFXBXQIP7kj89ylME0UsE9sQQqPk4w",
+		  "object_type": "variable_workflow"
+		}
+	  ],
+	  "properties": {
+		"atomic": {
+		  "is_atomic": false
+		},
+		"delete_workflow_instance": false,
+		"description": "This workflow locks a Jamf-managed mobile device. Supported observables: mac_address, hostname, ip\n\nTarget Group: Default TargetGroup\n\nTargets: Jamf Pro\n\nSteps:\n[] Make sure the observable is supported\n[] Search for a matching mobile device in Jamf\n[] Extract the mobile device's ID\n[] If extraction was successful, execute the command on the device\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0047",
+		"display_name": "0047 - Jamf Pro - Lock Mobile Device",
+		"runtime_user": {
+		  "target_default": true
+		},
+		"target": {
+		  "execute_on_target_group": true,
+		  "target_group": {
+			"target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+			"run_on_all_targets": false,
+			"selected_target_types": [
+			  "web-service.endpoint"
+			],
+			"use_criteria": {
+			  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+			  "conditions": [
+				{
+				  "operator": "eqi",
+				  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+				  "right_operand": "Jamf Pro"
+				}
+			  ]
+			}
+		  }
+		}
+	  },
+	  "object_type": "definition_workflow",
+	  "actions": [
+		{
+		  "unique_name": "definition_activity_01RXAYG4S2RUC69e1v4A9lCEDVQPiANNzHC",
+		  "name": "Condition Block",
+		  "title": "What type of observable was provided?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "What type of observable was provided?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01RXAYG5M6Z2H1aURhlodG9coNKWEYUNIQS",
+			  "name": "Condition Branch",
+			  "title": "MAC Address",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$workflow.definition_workflow_01RXAYFX4Z7BN7E8IKRxdULoQvhWAuAhIH9.input.variable_workflow_01RXAYFXBWVM51SSsVAhms0aSeU7lC84cRQ$",
+				  "operator": "eqi",
+				  "right_operand": "mac_address"
+				},
+				"continue_on_failure": false,
+				"display_name": "MAC Address",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01RXAYG6G34SI0bfD8boLFeleKPHDED0YwO",
+				  "name": "Set Variables",
+				  "title": "Set local variable",
+				  "type": "core.set_multiple_variables",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Set local variable",
+					"skip_execution": false,
+					"variables_to_update": [
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01RXAYFX4Z7BN7E8IKRxdULoQvhWAuAhIH9.local.variable_workflow_01RXAYFXBWB3923TN8uQ7wFuDzUJdM8Omgt$",
+						"variable_value_new": "$workflow.definition_workflow_01RXAYFX4Z7BN7E8IKRxdULoQvhWAuAhIH9.input.variable_workflow_01RXAYFXBXDXN1nCFf4NLacx8VDfm32fuxu$"
+					  }
+					]
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01RXAYG791U3S4SSHGSPq0R0NBcoEW3MJK4",
+			  "name": "Condition Branch",
+			  "title": "Hostname",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$workflow.definition_workflow_01RXAYFX4Z7BN7E8IKRxdULoQvhWAuAhIH9.input.variable_workflow_01RXAYFXBWVM51SSsVAhms0aSeU7lC84cRQ$",
+				  "operator": "eqi",
+				  "right_operand": "hostname"
+				},
+				"continue_on_failure": false,
+				"display_name": "Hostname",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01RXAYG85NHQ22Ez61mj8IUpLzvKwC6Z9uw",
+				  "name": "Set Variables",
+				  "title": "Set local variable",
+				  "type": "core.set_multiple_variables",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Set local variable",
+					"skip_execution": false,
+					"variables_to_update": [
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01RXAYFX4Z7BN7E8IKRxdULoQvhWAuAhIH9.local.variable_workflow_01RXAYFXBXQIP7kj89ylME0UsE9sQQqPk4w$",
+						"variable_value_new": "$workflow.definition_workflow_01RXAYFX4Z7BN7E8IKRxdULoQvhWAuAhIH9.input.variable_workflow_01RXAYFXBXDXN1nCFf4NLacx8VDfm32fuxu$"
+					  }
+					]
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01RXAYG8ZO8QL336H2EtRmyAgEmqK982gC1",
+			  "name": "Condition Branch",
+			  "title": "IP Address",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$workflow.definition_workflow_01RXAYFX4Z7BN7E8IKRxdULoQvhWAuAhIH9.input.variable_workflow_01RXAYFXBWVM51SSsVAhms0aSeU7lC84cRQ$",
+				  "operator": "eqi",
+				  "right_operand": "ip"
+				},
+				"continue_on_failure": false,
+				"display_name": "IP Address",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01RXAYG9ZBKQN3s6yd0nvQMO3vixomLnBeD",
+				  "name": "Set Variables",
+				  "title": "Set local variable",
+				  "type": "core.set_multiple_variables",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Set local variable",
+					"skip_execution": false,
+					"variables_to_update": [
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01RXAYFX4Z7BN7E8IKRxdULoQvhWAuAhIH9.local.variable_workflow_01RXAYFXBWNDS5EmcrOU7STScjSDKpGbKfZ$",
+						"variable_value_new": "$workflow.definition_workflow_01RXAYFX4Z7BN7E8IKRxdULoQvhWAuAhIH9.input.variable_workflow_01RXAYFXBXDXN1nCFf4NLacx8VDfm32fuxu$"
+					  }
+					]
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01RXAYGAUNHIC5hisFGEi0D6xUJ9qctVRIC",
+			  "name": "Condition Branch",
+			  "title": "Anything else",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$workflow.definition_workflow_01RXAYFX4Z7BN7E8IKRxdULoQvhWAuAhIH9.output.instance_id$",
+				  "operator": "eq",
+				  "right_operand": "$workflow.definition_workflow_01RXAYFX4Z7BN7E8IKRxdULoQvhWAuAhIH9.output.instance_id$"
+				},
+				"continue_on_failure": false,
+				"display_name": "Anything else",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01RXAYGBNPVP831iJ0Jiz2UNIoySHXbEjgV",
+				  "name": "Completed",
+				  "title": "Unsupported observable",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Unsupported observable",
+					"result_message": "The observable type \"$workflow.definition_workflow_01RXAYFX4Z7BN7E8IKRxdULoQvhWAuAhIH9.input.variable_workflow_01RXAYFXBWVM51SSsVAhms0aSeU7lC84cRQ$\" is not supported by this workflow",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01RXAZCA2UIWG1utyGudrUT11Ycg3wpUf6a",
+		  "name": "Jamf Pro - Mobile Device - Search",
+		  "title": "Jamf Pro - Mobile Device - Search",
+		  "type": "workflow.atomic_workflow",
+		  "base_type": "subworkflow",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Jamf Pro - Mobile Device - Search",
+			"input": {
+			  "variable_workflow_01RXAA0XM2B1G1YmVd8tyNkvOeKSIc8an9J": "",
+			  "variable_workflow_01RXAA0XM2NML2mQB5DMepdOpNeuPG8cRKA": "$workflow.definition_workflow_01RXAYFX4Z7BN7E8IKRxdULoQvhWAuAhIH9.local.variable_workflow_01RXAYFXBXQIP7kj89ylME0UsE9sQQqPk4w$",
+			  "variable_workflow_01RXAA0XM33LC0lee67rq9BD9tfgkXocTHY": "",
+			  "variable_workflow_01RXAA0XM3IDC69DSo9FuH9lwH7V19BDtGR": "$workflow.definition_workflow_01RXAYFX4Z7BN7E8IKRxdULoQvhWAuAhIH9.local.variable_workflow_01RXAYFXBWB3923TN8uQ7wFuDzUJdM8Omgt$",
+			  "variable_workflow_01RXAA0XM3Q4N7kXRPE8SDG67vZOU4Iz7pM": "$workflow.definition_workflow_01RXAYFX4Z7BN7E8IKRxdULoQvhWAuAhIH9.local.variable_workflow_01RXAYFXBWNDS5EmcrOU7STScjSDKpGbKfZ$"
+			},
+			"runtime_user": {
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "use_workflow_target_group": true
+			},
+			"workflow_id": "definition_workflow_01RXAA0XF1P435M5v8Aj0GtlEEvPcNtFJQa"
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01RXAYGGBWORI3yaNffK8PNGMZoPIEM5mBi",
+		  "name": "JSONPath Query",
+		  "title": "Extract the first device ID",
+		  "type": "corejava.jsonpathquery",
+		  "base_type": "activity",
+		  "properties": {
+			"action_timeout": 180,
+			"continue_on_failure": true,
+			"display_name": "Extract the first device ID",
+			"input_json": "$activity.definition_activity_01RXAZCA2UIWG1utyGudrUT11Ycg3wpUf6a.output.variable_workflow_01RXAA0XM3B7I50AB6dzrTorqvBlCpv4onu$",
+			"jsonpath_queries": [
+			  {
+				"jsonpath_query": "$.mobile_devices[0].id",
+				"jsonpath_query_name": "deviceId",
+				"jsonpath_query_type": "string"
+			  }
+			],
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01RXAYGH9OH7E7eFJfYpXJcmHfBONJ6O0XZ",
+		  "name": "Condition Block",
+		  "title": "Was a device found?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Was a device found?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01RXAYGI3PA704CBq2l7wjiFHBD6u0Cjglr",
+			  "name": "Condition Branch",
+			  "title": "Yes",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01RXAYGGBWORI3yaNffK8PNGMZoPIEM5mBi.output.succeeded$",
+				  "operator": "eq",
+				  "right_operand": true
+				},
+				"continue_on_failure": false,
+				"display_name": "Yes",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01RXB06T9OXF47aRfPnu5GY5vnSmVC1QA7a",
+				  "name": "Jamf Pro - Mobile Device - Execute Command",
+				  "title": "Jamf Pro - Mobile Device - Execute Command",
+				  "type": "workflow.atomic_workflow",
+				  "base_type": "subworkflow",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Jamf Pro - Mobile Device - Execute Command",
+					"input": {
+					  "variable_workflow_01RXAAAT8A9E40OL6rqyNc4oP1JXcMGgxhk": "<lock_message>$workflow.definition_workflow_01RXAYFX4Z7BN7E8IKRxdULoQvhWAuAhIH9.local.variable_workflow_01RXB1SQ8JAWH3pxYkFLUEzgzS540DP5Y7P$</lock_message>",
+					  "variable_workflow_01RXAAAT8AJR34HjLJItI3nu9rzHRtFriJI": "$activity.definition_activity_01RXAYGGBWORI3yaNffK8PNGMZoPIEM5mBi.output.jsonpath_queries.deviceId$",
+					  "variable_workflow_01RXAAAT8ARVE74O9mm3oHMCbZUk725ahHs": "DeviceLock"
+					},
+					"runtime_user": {
+					  "target_default": true
+					},
+					"skip_execution": false,
+					"target": {
+					  "use_workflow_target_group": true
+					},
+					"workflow_id": "definition_workflow_01RXAAAT36EEF6PLp0TO27qXKykdod3pu1b"
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		}
+	  ],
+	  "categories": [
+		"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf",
+		"category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m"
+	  ]
+	},
+	"categories": {
+	  "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m": {
+		"unique_name": "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m",
+		"name": "response",
+		"title": "response",
+		"type": "basic.category",
+		"base_type": "category",
+		"category_type": "custom",
+		"object_type": "category"
+	  }
+	},
+	"target_groups": {
+	  "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+		"unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+		"name": "Default TargetGroup",
+		"title": "Default TargetGroup",
+		"type": "generic.target_group",
+		"base_type": "target_group",
+		"version": "1.0.0",
+		"targets": [
+		  {
+			"data_target_type": "web-service.endpoint",
+			"view_target_type": "web-service.endpoint",
+			"include_all_targets": true
+		  },
+		  {
+			"data_target_type": "email.smtp_endpoint",
+			"view_target_type": "email.smtp_endpoint",
+			"include_all_targets": true
+		  }
+		],
+		"object_type": "target_group"
+	  }
+	},
+	"atomic_workflows": [
+	  "definition_workflow_01RXAA0XF1P435M5v8Aj0GtlEEvPcNtFJQa",
+	  "definition_workflow_01RXAAAT36EEF6PLp0TO27qXKykdod3pu1b"
+	]
+  }
