@@ -4,7 +4,7 @@ title: Top Windows IR Indicators to ServiceNow
 permalink: /workflows/orbital/0055-top-windows-indicators-to-servicenow
 redirect_from:
   - /workflows/0055
-parent: Cisco Oribital
+parent: Cisco Orbital
 grand_parent: Workflows
 ---
 
@@ -35,7 +35,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 
 ## Requirements
 * The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
-	* Orbital - Query All Endpoints
+	* Orbital - Query Endpoint
 	* Threat Response - Generate Access Token
 * The following atomic actions must be imported before you can import this workflow:
 	* ServiceNow - Create Incident ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
