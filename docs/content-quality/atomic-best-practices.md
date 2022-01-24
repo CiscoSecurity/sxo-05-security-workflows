@@ -1,17 +1,18 @@
 ---
 layout: page
-title: Best Practices
-permalink: /atomics/best-practices
-parent: Atomic Actions
-nav_order: 5
+title: Atomic Action Best Practices
+permalink: /content-quality/atomic-best-practices
+redirect_from:
+  - /atomics/best-practices
+parent: Content Quality
 ---
 
-# Best Practices
+# Atomic Action Best Practices
 The following best practices should be followed when building an atomic action.
 
 [<i class="fa fa-video mr-1"></i> Building an Atomic](https://www.youtube.com/watch?v=sNN6SLgeNpQ&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo){: .btn-cisco-outline }
 
-<div class="cisco-alert cisco-alert-info"><i class="fa fa-info-circle mr-1 cisco-icon-info"></i> Want to see how well your atomic action adheres to our standards? Try the new <a href="{{ site.baseurl }}/analyzer/">Workflow Analyzer</a></div>
+<div class="cisco-alert cisco-alert-info"><i class="fa fa-info-circle mr-1 cisco-icon-info"></i> Want to see how well your atomic action adheres to our standards? Try the <a href="{{ site.baseurl }}/analyzer">Workflow Analyzer</a></div>
 
 ---
 
@@ -34,6 +35,7 @@ Steps:
 
 More information about this API: https://docs.umbrella.com/umbrella-api/reference#get_v1-organizations-organizationid-destinationlists
 ```
+* Don't create your own versions of atomic actions already published in this repository. We do not publish redundant atomic actions, so if one of our existing atomics is missing functionality your workflow requires, we recommend getting in touch by opening an [issue]({{ site.github.repository_url }}/issues/new?label=suggestion).
 
 ---
 
@@ -42,8 +44,8 @@ More information about this API: https://docs.umbrella.com/umbrella-api/referenc
 * Make input variables required if the atomic will fail to function if the variables are left blank.
 * For numeric variables, provide an appropriate default value.
 * Use `Secure Strings` for sensitive values such as API keys, passwords, or other credentials that should be hidden from view.
-* When using date/time stamps, try to use the actual `Date Time` variable type where possible, especially for input and output variables. You can always use the `Format Date` and `Parse Date` activities to convert to/from strings.
-* We generally recommend avoiding `Tables` for atomic action input and output. Creating custom table types is messy and tables don't always scale well. It's better to simply return and consume JSON.
+* When using date/time stamps, try to use the actual `Date Time` variable type where possible, especially for input and output variables. You can always use the [`Format Date`]({{ site.baseurl }}/activities/date-time/format-date) and [`Parse Date`]({{ site.baseurl }}/activities/date-time/parse-date) activities to convert to/from strings.
+* We generally recommend avoiding `Tables` for atomic action input and output. Creating custom table types is messy and tables don't always scale well. It's better to consume and return JSON if you can.
 
 **A Note on Global Variables**
 
