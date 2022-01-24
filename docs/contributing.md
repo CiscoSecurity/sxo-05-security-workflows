@@ -39,8 +39,16 @@ Keep in mind that we don't have access to every technology that exists, so if yo
 ---
 
 ## Submitting Your Content
-If you've written a workflow or atomic action that you think we should add to the repository, you can:
-* Open an Issue and attach the JSON of the workflow or atomic; or
-* Fork the repository, add your content, and create a pull request for us to review
+If you've written a workflow or atomic action that you think we should add to the repository, you can open an [Issue]({{ site.github.repository_url }}/issues/new?label=suggestion) and attach the JSON of the workflow or atomic action.
 
-**Note: If your content does not follow our best practices, we will probably deny your request...**
+## Acceptance Criteria
+To be considered for publishing, your content must meet the following requirements. All content is reviewed not just for technical quality, but customer experience and adherance to industry best practices.
+
+*For workflows:*
+1. Follow our [Best Practices]({{ site.baseurl }}/content-quality/workflow-best-practices)
+1. Pass the [Workflow Analyzer]({{ site.baseurl }}/analyzer)
+1. Document the workflow using our [Documentation Template]({{ site.baseurl }}/content-quality/documentation-template)
+
+*For atomic actions:*
+1. Follow our [Best Practices]({{ site.baseurl }}/content-quality/atomic-best-practices)
+1. Pass the [Workflow Analyzer]({{ site.baseurl }}/analyzer)

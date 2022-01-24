@@ -1,17 +1,18 @@
 ---
 layout: page
-title: Best Practices
-permalink: /workflows/best-practices
-parent: Workflows
-nav_order: 10
+title: Workflow Best Practices
+permalink: /content-quality/workflow-best-practices
+redirect_from:
+  - /workflows/best-practices
+parent: Content Quality
 ---
 
-# Best Practices
+# Workflow Best Practices
 The following best practices should be followed when building a workflow.
 
 [<i class="fa fa-video mr-1"></i> Building a Workflow](https://www.youtube.com/watch?v=gs-XWrCXQbE&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo){: .btn-cisco-outline }
 
-<div class="cisco-alert cisco-alert-info"><i class="fa fa-info-circle mr-1 cisco-icon-info"></i> Want to see how well your workflow adheres to our standards? Try the new <a href="{{ site.baseurl }}/analyzer/">Workflow Analyzer</a></div>
+<div class="cisco-alert cisco-alert-info"><i class="fa fa-info-circle mr-1 cisco-icon-info"></i> Want to see how well your workflow adheres to our standards? Try the <a href="{{ site.baseurl }}/analyzer">Workflow Analyzer</a></div>
 
 ---
 
