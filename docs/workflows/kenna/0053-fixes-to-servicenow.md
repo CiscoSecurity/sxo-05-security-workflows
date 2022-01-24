@@ -25,6 +25,7 @@ This workflow fetches all Kenna vulnerabilities for a given asset group and crea
 | Date | Notes |
 |:-----|:------|
 | Dec 16, 2021 | - Initial release |
+| Jan 24, 2022 | - Updated to end successfully if the ticket limit is reached, as opposed to ending and failing |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 
