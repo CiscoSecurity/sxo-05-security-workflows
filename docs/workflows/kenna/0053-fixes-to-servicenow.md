@@ -16,7 +16,9 @@ Workflow #0053
 
 This workflow fetches all Kenna vulnerabilities for a given asset group and creates a ServiceNow ticket for each unique asset with vulnerabilities and fixes available.
 
-[<i class="fab fa-github mr-1"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0053-Kenna-FixesToServiceNowIncidents__definition_workflow_01TI80GVBHOMI4pXUbvUFnsZYT5uOcXvtGt){: .btn-cisco-outline }
+Note: By default, this workflow is configured to create a maximum of 100 ServiceNow incident tickets per execution. You can change this using the `Ticket Limit` local variable.
+
+[<i class="fa fa-video mr-1"></i> Overview](https://www.youtube.com/watch?v=kpWu3q2hA88&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo){: .btn-cisco-outline .mr-2 } [<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0053-Kenna-FixesToServiceNowIncidents__definition_workflow_01TI80GVBHOMI4pXUbvUFnsZYT5uOcXvtGt){: .btn-cisco-outline }
 
 ---
 
@@ -26,6 +28,7 @@ This workflow fetches all Kenna vulnerabilities for a given asset group and crea
 |:-----|:------|
 | Dec 16, 2021 | - Initial release |
 | Jan 24, 2022 | - Updated to end successfully if the ticket limit is reached, as opposed to ending and failing |
+| Feb 10, 2022 | - Updated the default values for the `ServiceNow User ID` and `Ticket Limit` local variables |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 
@@ -64,6 +67,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 * Set the `Risk Meter Group ID` local variable to the ID of the risk meter group you want the workflow to process
 * Set the `Risk Score Threshold` local variable to the minimum risk score you want the workflow to process. Anything with a risk score less than this value will be ignored
 * Set the `ServiceNow User ID` local variable to the username you want incidents opened as. This can either match the username in your ServiceNow **Account Key** or, if the account has the appropriate permissions, can be a different user
+* (Optional) Update the `Ticket Limit` local variable with the maximum number of ServiceNow tickets you want the workflow to create per execution
 * By default, this workflow will not run automatically. [Click here]({{ site.baseurl }}/schedules/) to learn about scheduling it to run on its own
 
 ---
