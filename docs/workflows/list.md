@@ -20,13 +20,15 @@ This page contains a list of all of the workflows published in the repository fi
 		<thead>
 			<tr>
 				<th style="text-align: left">ID</th>
-				<th style="text-align: left">Workflow Name</th>
-				<th style="text-align: left">Products</th>
+				<th style="text-align: left">Workflow</th>
 				<th style="text-align: left">
 					<a href="{{ site.baseurl }}/workflows/response">Response</a>
 				</th>
 				<th style="text-align: left">
 					<a href="{{ site.baseurl }}/remote/">Remote</a>
+				</th>
+				<th style="text-align: left">
+					<a href="{{ site.baseurl }}/webhooks">Webhook</a>
 				</th>
 			</tr>
 		</thead>
@@ -109,14 +111,17 @@ This page contains a list of all of the workflows published in the repository fi
 				var newRow = $('<tr id="w-' + workflow.id + '" class="sx-workflow-row">\
 									<td>' + workflow.id + '</td>\
 									<td>\
-										<a href="{{ site.baseurl }}/workflows/' + workflow.id + '">' + workflow.title + '</a>\
+										<a href="{{ site.baseurl }}/workflows/' + workflow.id + '">' + workflow.title + '</a><br />\
+										' + products.join(', ') + '\
 									</td>\
-									<td>' + products.join(', ') + '</td>\
 									<td>\
 										<i class="fas fa-' + (workflow.response_workflow ? 'check' : 'times') + '"></i>\
 									</td>\
 									<td>\
 										<i class="fas fa-' + (workflow.remote_connector ? 'check' : 'times') + '"></i>\
+									</td>\
+									<td>\
+										<i class="fas fa-' + (workflow.webhook ? 'check' : 'times') + '"></i>\
 									</td>\
 								</tr>');
 				
