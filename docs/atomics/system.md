@@ -8,8 +8,6 @@ parent: Atomic Actions
 # System Objects
 Atomic actions that are system objects are built into the platform. As in, they're available in all SecureX orchestration tenants without needing to be imported. When you see a workflow that uses system atomics, that simply means you don't need to import those atomic actions before importing the workflow. Non-system atomics, such as those in this Github repository, still need to be imported prior to the workflow being imported.
 
-<div class="cisco-alert cisco-alert-info"><i class="fa fa-info-circle mr-1 cisco-icon-info"></i> System objects are new and there are some changes you should be aware of related to how they work. Please see the sections below for more information</div>
-
 ---
 
 ## Things to Know
