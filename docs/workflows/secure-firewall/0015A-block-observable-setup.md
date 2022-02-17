@@ -17,7 +17,7 @@ Workflow #0015A
 
 This workflow creates a series of indicators and feeds for various observable types in Cisco Threat Response. These feeds can then be added to Cisco Secure Firewall (or other compatible platforms) to block observables.
 
-[<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0015A-SecureFirewall-BlockObservableSetup__definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX){: .btn-cisco-outline }
+[<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0015A-SecureFirewall-BlockObservable-Setup__definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX){: .btn-cisco-outline }
 
 ---
 
