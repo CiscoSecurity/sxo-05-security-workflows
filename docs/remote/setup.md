@@ -26,8 +26,7 @@ If you want to verify the file hash of the OVA, please refer to the following ta
 
 | File Name | SHA256 Hash |
 |:----------|:------------|
-| sxo-remote-1.0.ova | b7164d23e22f21c7b820d9ea70d7b22779b577692c55dbc62d1c08d47a3e2903 |
-| sxo-remote-1.1.ova | a3fb8cb3e7c25269bb783c605719821830b28e051923b415a403a67282ff15ab |
+| sxo-remote-1.4.ova | 2e5e883960d733405b9f3056ad477f5ecba691f47b71e0d9e99d801149e8d3f9 |
 
 ---
 
