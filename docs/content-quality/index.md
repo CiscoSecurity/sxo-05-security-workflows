@@ -24,14 +24,12 @@ While adhering to the guidelines in this section is not required for you to be s
 ## Our Process
 Content being developed for publishing to this repository goes through these steps:
 1. The content is created by the author following our best practices and guidelines.
-1. The author submits the content to our SecureX ecosystem manager for review.
-	* Cisco Employees: via Webex, Email, [Aha](https://ciscosecurity.ideas.aha.io/ideas/new?project_id=6771886138183261677&ideas_idea[idea_category_ids]=6896486690965818580), or [GitHub]({{ site.github.repository_url }}/issues/new?label=suggestion)
-	* Everyone Else: via [GitHub]({{ site.github.repository_url }}/issues/new?label=suggestion)
+1. The author submits the content to our SecureX ecosystem manager for review via [GitHub]({{ site.github.repository_url }}/issues/new?label=suggestion)
 1. The content goes through one or more quality control checks to make sure:
 	* Best practices and guidelines are followed.
 	* There is an easily understood outcome.
 	* Documentation is complete and clearly describes the success criteria for the use case (required products, dependencies, configuration steps, and so on). See our [documentation template]({{ site.baseurl }}/content-quality/documentation-template).
-1. If all checks pass, the content is queued for publishing. If the review team finds issues or room for improvement, the content is returned to the author with notes and the cycle continues.
+1. If all checks pass, the content is queued for publishing. If the review team finds issues or room for improvement, the content is returned to the author with notes and the cycle continues. Note that the content author is responsible for correcting any issues uncovered by the review team.
 
 ---
 
