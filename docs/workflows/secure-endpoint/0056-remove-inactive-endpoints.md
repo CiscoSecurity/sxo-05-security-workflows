@@ -27,6 +27,7 @@ Note: This workflow will only remove as many endpoints as your global `AO_LOOP_L
 | Date | Notes |
 |:-----|:------|
 | Jan 24, 2022 | - Initial release |
+| Mar 3, 2022 | - Fixed the condition that checks for the approval result (should have looked for "Approve" instead of "Approved") |
 
 ---
 
