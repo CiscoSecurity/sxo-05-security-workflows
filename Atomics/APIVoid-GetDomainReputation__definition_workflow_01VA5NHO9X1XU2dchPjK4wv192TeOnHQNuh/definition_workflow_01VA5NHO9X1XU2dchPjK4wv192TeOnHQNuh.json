@@ -1,0 +1,298 @@
+{
+	"workflow": {
+	  "unique_name": "definition_workflow_01VA5NHO9X1XU2dchPjK4wv192TeOnHQNuh",
+	  "name": "APIVoid - Get Domain Reputation",
+	  "title": "APIVoid - Get Domain Reputation",
+	  "type": "generic.workflow",
+	  "base_type": "workflow",
+	  "variables": [
+		{
+		  "schema_id": "datatype.secure_string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "APIVoid API Key",
+			"type": "datatype.secure_string",
+			"description": "Your APIVoid API key",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01VA5NHOFJRTL62xv2L52miRnTPjiALUA8f",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.integer",
+		  "properties": {
+			"value": 0,
+			"scope": "output",
+			"name": "Blacklist Detections Count",
+			"type": "datatype.integer",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01VHLDN265LTB6ZtTBInDdtijV24oC7nhM1",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "Domain Name",
+			"type": "datatype.string",
+			"description": "Domain name to get reputation data for",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01VA5NHOFKI8Y4hWk7UM3QmLW5FXMEjyogu",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "output",
+			"name": "Reputation Results",
+			"type": "datatype.string",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01VA5NHOFK4HQ5MIlx9lMHk1g2Luf4HSUBf",
+		  "object_type": "variable_workflow"
+		}
+	  ],
+	  "properties": {
+		"atomic": {
+		  "atomic_group": "APIVoid",
+		  "is_atomic": true
+		},
+		"delete_workflow_instance": false,
+		"description": "Fetches reputation information for a given domain using APIVoid.\n\nTarget: HTTP Endpoint for \"endpoint.apivoid.com\"\n\nAccount Key: None (uses an API key)\n\nSteps:\n[] Execute the API request\n[] Check if the request was successful:\n[]> If it was, parse the results and set the output variables\n[]> If it wasn't, output an error\n\nMore information about this API: https://www.apivoid.com/api/domain-reputation/",
+		"display_name": "APIVoid - Get Domain Reputation",
+		"runtime_user": {
+		  "target_default": true
+		},
+		"target": {
+		  "target_type": "web-service.endpoint",
+		  "specify_on_workflow_start": true
+		}
+	  },
+	  "object_type": "definition_workflow",
+	  "actions": [
+		{
+		  "unique_name": "definition_activity_01VA5NHT264HF20b6LGjaOdzRn74nqWztg7",
+		  "name": "HTTP Request",
+		  "title": "Execute API request",
+		  "type": "web-service.http_request",
+		  "base_type": "activity",
+		  "properties": {
+			"accept": "application/json",
+			"action_timeout": 180,
+			"allow_auto_redirect": true,
+			"content_type": "application/json",
+			"continue_on_error_status_code": true,
+			"continue_on_failure": false,
+			"display_name": "Execute API request",
+			"method": "GET",
+			"relative_url": "/domainbl/v1/pay-as-you-go/?key=$workflow.definition_workflow_01VA5NHO9X1XU2dchPjK4wv192TeOnHQNuh.input.variable_workflow_01VA5NHOFJRTL62xv2L52miRnTPjiALUA8f$&host=$workflow.definition_workflow_01VA5NHO9X1XU2dchPjK4wv192TeOnHQNuh.input.variable_workflow_01VA5NHOFKI8Y4hWk7UM3QmLW5FXMEjyogu$",
+			"runtime_user": {
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "use_workflow_target": true
+			}
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01VA5NHU7DK4C3HRNemDyECacQlubdHiDcH",
+		  "name": "Condition Block",
+		  "title": "Was the request successful?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Was the request successful?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01VA5NHV6MXFD1mKNTv5xLuSDsBrb5xxbbG",
+			  "name": "Condition Branch",
+			  "title": "200/Success",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01VA5NHT264HF20b6LGjaOdzRn74nqWztg7.output.status_code$",
+				  "operator": "eq",
+				  "right_operand": 200
+				},
+				"continue_on_failure": false,
+				"display_name": "200/Success",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01VHL625NVZQZ59zVFQpZyQMRqGdoIihxjh",
+				  "name": "JSONPath Query",
+				  "title": "Extract the blacklist detections",
+				  "type": "corejava.jsonpathquery",
+				  "base_type": "activity",
+				  "properties": {
+					"action_timeout": 180,
+					"continue_on_failure": true,
+					"display_name": "Extract the blacklist detections",
+					"input_json": "$activity.definition_activity_01VA5NHT264HF20b6LGjaOdzRn74nqWztg7.output.response_body$",
+					"jsonpath_queries": [
+					  {
+						"jsonpath_query": "$.data.report.blacklists.detections",
+						"jsonpath_query_name": "detectionCount",
+						"jsonpath_query_type": "integer"
+					  }
+					],
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01VA66PKJE4306YOFutR3V2vqJvvpVCbQmi",
+				  "name": "Condition Block",
+				  "title": "Was extraction successful?",
+				  "type": "logic.if_else",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Was extraction successful?",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "blocks": [
+					{
+					  "unique_name": "definition_activity_01VA66PKVYECY7QFF5lK7YJQDUlpAtcRAHw",
+					  "name": "Condition Branch",
+					  "title": "Yes",
+					  "type": "logic.condition_block",
+					  "base_type": "activity",
+					  "properties": {
+						"condition": {
+						  "left_operand": "$activity.definition_activity_01VHL625NVZQZ59zVFQpZyQMRqGdoIihxjh.output.succeeded$",
+						  "operator": "eq",
+						  "right_operand": true
+						},
+						"continue_on_failure": false,
+						"display_name": "Yes",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "actions": [
+						{
+						  "unique_name": "definition_activity_01VA5NHXKKW3I76PM2NwpMJh7XkoA0MoQsY",
+						  "name": "Set Variables",
+						  "title": "Set output variables",
+						  "type": "core.set_multiple_variables",
+						  "base_type": "activity",
+						  "properties": {
+							"continue_on_failure": false,
+							"display_name": "Set output variables",
+							"skip_execution": false,
+							"variables_to_update": [
+							  {
+								"variable_to_update": "$workflow.definition_workflow_01VA5NHO9X1XU2dchPjK4wv192TeOnHQNuh.output.variable_workflow_01VHLDN265LTB6ZtTBInDdtijV24oC7nhM1$",
+								"variable_value_new": "$activity.definition_activity_01VHL625NVZQZ59zVFQpZyQMRqGdoIihxjh.output.jsonpath_queries.detectionCount$"
+							  },
+							  {
+								"variable_to_update": "$workflow.definition_workflow_01VA5NHO9X1XU2dchPjK4wv192TeOnHQNuh.output.variable_workflow_01VA5NHOFK4HQ5MIlx9lMHk1g2Luf4HSUBf$",
+								"variable_value_new": "$activity.definition_activity_01VA5NHT264HF20b6LGjaOdzRn74nqWztg7.output.response_body$"
+							  }
+							]
+						  },
+						  "object_type": "definition_activity"
+						}
+					  ]
+					},
+					{
+					  "unique_name": "definition_activity_01VA66PLA2PWG4anYp4lhqe1G1CjqbxT7uG",
+					  "name": "Condition Branch",
+					  "title": "No",
+					  "type": "logic.condition_block",
+					  "base_type": "activity",
+					  "properties": {
+						"condition": {
+						  "left_operand": "$activity.definition_activity_01VHL625NVZQZ59zVFQpZyQMRqGdoIihxjh.output.succeeded$",
+						  "operator": "eq",
+						  "right_operand": false
+						},
+						"continue_on_failure": false,
+						"display_name": "No",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "actions": [
+						{
+						  "unique_name": "definition_activity_01VA69LLBWVV13vCjJum6dEukVx7miR3vt9",
+						  "name": "Completed",
+						  "title": "Failed",
+						  "type": "logic.completed",
+						  "base_type": "activity",
+						  "properties": {
+							"completion_type": "failed-completed",
+							"continue_on_failure": true,
+							"display_name": "Failed",
+							"result_message": "Failed to extract detection data for \"$workflow.definition_workflow_01VA5NHO9X1XU2dchPjK4wv192TeOnHQNuh.input.variable_workflow_01VA5NHOFKI8Y4hWk7UM3QmLW5FXMEjyogu$\"\n\nResponse body: $activity.definition_activity_01VA5NHT264HF20b6LGjaOdzRn74nqWztg7.output.response_body$",
+							"skip_execution": false
+						  },
+						  "object_type": "definition_activity"
+						}
+					  ]
+					}
+				  ]
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01VA5NHYPKLV84UyMsCMRh69JGSHOJGGU3c",
+			  "name": "Condition Branch",
+			  "title": "Anything Else",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01VA5NHT264HF20b6LGjaOdzRn74nqWztg7.output.status_code$",
+				  "operator": "ne",
+				  "right_operand": 200
+				},
+				"continue_on_failure": false,
+				"display_name": "Anything Else",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01VA5NHZOTKSU3Vapp1vqPBq3GdqlZx6m7D",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": true,
+					"display_name": "Failed",
+					"result_message": "Failed to fetch reputation data for \"$workflow.definition_workflow_01VA5NHO9X1XU2dchPjK4wv192TeOnHQNuh.input.variable_workflow_01VA5NHOFKI8Y4hWk7UM3QmLW5FXMEjyogu$\"\n\nStatus code: $activity.definition_activity_01VA5NHT264HF20b6LGjaOdzRn74nqWztg7.output.status_code$\nResponse body: $activity.definition_activity_01VA5NHT264HF20b6LGjaOdzRn74nqWztg7.output.response_body$",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		}
+	  ],
+	  "categories": [
+		"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+	  ]
+	}
+  }

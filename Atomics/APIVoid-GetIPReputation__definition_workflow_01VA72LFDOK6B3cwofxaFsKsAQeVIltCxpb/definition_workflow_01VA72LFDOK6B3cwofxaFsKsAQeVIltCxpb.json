@@ -1,0 +1,298 @@
+{
+	"workflow": {
+	  "unique_name": "definition_workflow_01VA72LFDOK6B3cwofxaFsKsAQeVIltCxpb",
+	  "name": "APIVoid - Get IP Reputation",
+	  "title": "APIVoid - Get IP Reputation",
+	  "type": "generic.workflow",
+	  "base_type": "workflow",
+	  "variables": [
+		{
+		  "schema_id": "datatype.secure_string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "APIVoid API Key",
+			"type": "datatype.secure_string",
+			"description": "Your APIVoid API key",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01VA72LFNTV8Z1aRw0yeNgxfvq2FOvs7Q0w",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "output",
+			"name": "Reputation Results",
+			"type": "datatype.string",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01VA72LFNUINM48ffCGxjyhNdS7u6JGVObu",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.integer",
+		  "properties": {
+			"value": 0,
+			"scope": "output",
+			"name": "Blacklist Detections Count",
+			"type": "datatype.integer",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01VHLJ0YHX5045FAYIW3HrU7JlyaNmMhdN9",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "IP Address",
+			"type": "datatype.string",
+			"description": "IP address to get reputation data for",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01VA72LFNU8ZA5hgXs4EyQTUFvJ75bFNPve",
+		  "object_type": "variable_workflow"
+		}
+	  ],
+	  "properties": {
+		"atomic": {
+		  "atomic_group": "APIVoid",
+		  "is_atomic": true
+		},
+		"delete_workflow_instance": false,
+		"description": "Fetches reputation information for a given IP address using APIVoid.\n\nTarget: HTTP Endpoint for \"endpoint.apivoid.com\"\n\nAccount Key: None (uses an API key)\n\nSteps:\n[] Execute the API request\n[] Check if the request was successful:\n[]> If it was, parse the results and set the output variables\n[]> If it wasn't, output an error\n\nMore information about this API: https://www.apivoid.com/api/ip-reputation/",
+		"display_name": "APIVoid - Get IP Reputation",
+		"runtime_user": {
+		  "target_default": true
+		},
+		"target": {
+		  "target_type": "web-service.endpoint",
+		  "specify_on_workflow_start": true
+		}
+	  },
+	  "object_type": "definition_workflow",
+	  "actions": [
+		{
+		  "unique_name": "definition_activity_01VA72LK3NP231DV1pLteHD8t7gQ6V17e59",
+		  "name": "HTTP Request",
+		  "title": "Execute API request",
+		  "type": "web-service.http_request",
+		  "base_type": "activity",
+		  "properties": {
+			"accept": "application/json",
+			"action_timeout": 180,
+			"allow_auto_redirect": true,
+			"content_type": "application/json",
+			"continue_on_error_status_code": true,
+			"continue_on_failure": false,
+			"display_name": "Execute API request",
+			"method": "GET",
+			"relative_url": "/iprep/v1/pay-as-you-go/?key=$workflow.definition_workflow_01VA72LFDOK6B3cwofxaFsKsAQeVIltCxpb.input.variable_workflow_01VA72LFNTV8Z1aRw0yeNgxfvq2FOvs7Q0w$&ip=$workflow.definition_workflow_01VA72LFDOK6B3cwofxaFsKsAQeVIltCxpb.input.variable_workflow_01VA72LFNU8ZA5hgXs4EyQTUFvJ75bFNPve$",
+			"runtime_user": {
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "use_workflow_target": true
+			}
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01VA72LLQ74X10xzTLiw9vGSjHu9A4LpQKG",
+		  "name": "Condition Block",
+		  "title": "Was the request successful?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Was the request successful?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01VA72LMOLLW02sYJdQLm3XuALdyCNG2czn",
+			  "name": "Condition Branch",
+			  "title": "200/Success",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01VA72LK3NP231DV1pLteHD8t7gQ6V17e59.output.status_code$",
+				  "operator": "eq",
+				  "right_operand": 200
+				},
+				"continue_on_failure": false,
+				"display_name": "200/Success",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01VHLKA98ERL36koCKTHPx4sJe9EeFuhr70",
+				  "name": "JSONPath Query",
+				  "title": "Extract the blacklist detections",
+				  "type": "corejava.jsonpathquery",
+				  "base_type": "activity",
+				  "properties": {
+					"action_timeout": 180,
+					"continue_on_failure": true,
+					"display_name": "Extract the blacklist detections",
+					"input_json": "$activity.definition_activity_01VA72LK3NP231DV1pLteHD8t7gQ6V17e59.output.response_body$",
+					"jsonpath_queries": [
+					  {
+						"jsonpath_query": "$.data.report.blacklists.detections",
+						"jsonpath_query_name": "detectionCount",
+						"jsonpath_query_type": "integer"
+					  }
+					],
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01VA72LOSZ7430aMfsgoEjcGoWq4buaaxl2",
+				  "name": "Condition Block",
+				  "title": "Was extraction successful?",
+				  "type": "logic.if_else",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Was extraction successful?",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "blocks": [
+					{
+					  "unique_name": "definition_activity_01VA72LPQRF5K42IDkG0i0rfOaH9wJaTF0q",
+					  "name": "Condition Branch",
+					  "title": "Yes",
+					  "type": "logic.condition_block",
+					  "base_type": "activity",
+					  "properties": {
+						"condition": {
+						  "left_operand": "$activity.definition_activity_01VHLKA98ERL36koCKTHPx4sJe9EeFuhr70.output.succeeded$",
+						  "operator": "eq",
+						  "right_operand": true
+						},
+						"continue_on_failure": false,
+						"display_name": "Yes",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "actions": [
+						{
+						  "unique_name": "definition_activity_01VA72LQZA1UZ56XTDddInVExDOHokWTus3",
+						  "name": "Set Variables",
+						  "title": "Set output variables",
+						  "type": "core.set_multiple_variables",
+						  "base_type": "activity",
+						  "properties": {
+							"continue_on_failure": false,
+							"display_name": "Set output variables",
+							"skip_execution": false,
+							"variables_to_update": [
+							  {
+								"variable_to_update": "$workflow.definition_workflow_01VA72LFDOK6B3cwofxaFsKsAQeVIltCxpb.output.variable_workflow_01VHLJ0YHX5045FAYIW3HrU7JlyaNmMhdN9$",
+								"variable_value_new": "$activity.definition_activity_01VHLKA98ERL36koCKTHPx4sJe9EeFuhr70.output.jsonpath_queries.detectionCount$"
+							  },
+							  {
+								"variable_to_update": "$workflow.definition_workflow_01VA72LFDOK6B3cwofxaFsKsAQeVIltCxpb.output.variable_workflow_01VA72LFNUINM48ffCGxjyhNdS7u6JGVObu$",
+								"variable_value_new": "$activity.definition_activity_01VA72LK3NP231DV1pLteHD8t7gQ6V17e59.output.response_body$"
+							  }
+							]
+						  },
+						  "object_type": "definition_activity"
+						}
+					  ]
+					},
+					{
+					  "unique_name": "definition_activity_01VA72LS5EYX92z3D5qKEHPpGC3pugJYBaG",
+					  "name": "Condition Branch",
+					  "title": "No",
+					  "type": "logic.condition_block",
+					  "base_type": "activity",
+					  "properties": {
+						"condition": {
+						  "left_operand": "$activity.definition_activity_01VHLKA98ERL36koCKTHPx4sJe9EeFuhr70.output.succeeded$",
+						  "operator": "eq",
+						  "right_operand": false
+						},
+						"continue_on_failure": false,
+						"display_name": "No",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "actions": [
+						{
+						  "unique_name": "definition_activity_01VA72LT8QPCO22mLd4bPwMCGNvH8iClTxU",
+						  "name": "Completed",
+						  "title": "Failed",
+						  "type": "logic.completed",
+						  "base_type": "activity",
+						  "properties": {
+							"completion_type": "failed-completed",
+							"continue_on_failure": true,
+							"display_name": "Failed",
+							"result_message": "Failed to extract detection data for \"$workflow.definition_workflow_01VA72LFDOK6B3cwofxaFsKsAQeVIltCxpb.input.variable_workflow_01VA72LFNU8ZA5hgXs4EyQTUFvJ75bFNPve$\"\n\nResponse body: $activity.definition_activity_01VA72LK3NP231DV1pLteHD8t7gQ6V17e59.output.response_body$",
+							"skip_execution": false
+						  },
+						  "object_type": "definition_activity"
+						}
+					  ]
+					}
+				  ]
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01VA72LU6T1FS3Gjnwb4mpenDDvvqfZ9zij",
+			  "name": "Condition Branch",
+			  "title": "Anything Else",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01VA72LK3NP231DV1pLteHD8t7gQ6V17e59.output.status_code$",
+				  "operator": "ne",
+				  "right_operand": 200
+				},
+				"continue_on_failure": false,
+				"display_name": "Anything Else",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01VA72LVB08DG523Lgd5odSLJIYESIKHq25",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": true,
+					"display_name": "Failed",
+					"result_message": "Failed to fetch results for the IP address \"$workflow.definition_workflow_01VA72LFDOK6B3cwofxaFsKsAQeVIltCxpb.input.variable_workflow_01VA72LFNU8ZA5hgXs4EyQTUFvJ75bFNPve$\"\n\nStatus code: $activity.definition_activity_01VA72LK3NP231DV1pLteHD8t7gQ6V17e59.output.status_code$\nResponse body: $activity.definition_activity_01VA72LK3NP231DV1pLteHD8t7gQ6V17e59.output.response_body$",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		}
+	  ],
+	  "categories": [
+		"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+	  ]
+	}
+  }
