@@ -51,10 +51,10 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 * The [targets](#targets) and [account keys](#account-keys) listed below
 * A ServiceNow instance and API account
 * (Optional) A Webex Teams access token and room name to post messages to
-* Cisco Duo
 * Cisco Secure Endpoint with Orbital
 * Cisco Secure Firewall
 * Cisco Umbrella
+* Duo Security
 
 ---
 

@@ -1,0 +1,760 @@
+{
+	"workflow": {
+	  "unique_name": "definition_workflow_01VIE3DU2MN4Q4BLQJuboNRY71pIPmmPz1r",
+	  "name": "0060 - Duo - Block User",
+	  "title": "0060 - Duo - Block User",
+	  "type": "generic.workflow",
+	  "base_type": "workflow",
+	  "variables": [
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "observable_value",
+			"type": "datatype.string",
+			"description": "The value of the observable pivoted on",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01VIE3DUEKIPR12B2HvwLVJQNPNz8LSrSLA",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.secure_string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "Duo Secret Key",
+			"type": "datatype.secure_string",
+			"description": "The secret key key for your Duo Admin API integration. This can be found in the integration's information inyour Duo admin panel",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01VIE3DUEMQW76ncO8dhJKA7aP93g3zvr7l",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "Duo Username Suffix",
+			"type": "datatype.string",
+			"description": "If your Duo usernames are email addresses, you may want to add a suffix of \"@mycompany.com\" using this variable. This is optional",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01VIE3DUELHOW3YNkjGKfVj3XqVZiFerB9l",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "observable_type",
+			"type": "datatype.string",
+			"description": "The type of observable pivoted on",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01VIE3DUEKXL00jGk4syMw3LmaXpWoGMBO3",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "Duo Deny User Group",
+			"type": "datatype.string",
+			"description": "The ID of the user group you want to add Duo users to when they're being blocked by this workflow. You can get this ID from the URL of the group's page in the Duo admin panel. For example: DGWP6584D8PORPPC9H01",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01VIE3DUEMH5E6ZObsxXljN9EiZzEZ19TW1",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "securex-orchestration",
+			"scope": "local",
+			"name": "ServiceNow User ID",
+			"type": "datatype.string",
+			"description": "The username of the user you're using to open incident tickets. This can either match the username in your ServiceNow account key or, if the account has the appropriate permissions, can be a different user",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01VIE3DUELYD03QnNo6CF6AUvsLwcdiDdm5",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "Duo Hostname",
+			"type": "datatype.string",
+			"description": "The hostname for your Duo Admin API integration. This can be found in the integration's information inyour Duo admin panel",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01VIE3DUEM7QT7Srmsfk1mVsXLTDPeASgMI",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "Duo Integration Key",
+			"type": "datatype.string",
+			"description": "The integration key for your Duo Admin API integration. This can be found in the integration's information inyour Duo admin panel",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01VIE3DUELQ4F7d6NLR4IIbfQcoaOuVUkYW",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "User's Groups",
+			"type": "datatype.string",
+			"description": "Variable to return user's group memberships.",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01VIE3DUEL8RB4RR3bVNeTFqPJrcoCw0SmY",
+		  "object_type": "variable_workflow"
+		}
+	  ],
+	  "properties": {
+		"atomic": {
+		  "is_atomic": false
+		},
+		"delete_workflow_instance": false,
+		"description": "This workflow takes a Duo Security user's username as input and moves the user to a group that will deny access to services. If the user is moved succesfully, a ServiceNow ticket is created to notify the appropriate team to investigate further. Supported observables: username, email\n\nNote: This workflow uses the Duo Admin API which is not enabled by default. Contact Duo support to have it enabled.\n\nTarget Group: Default TargetGroup\n\nTargets: Duo Security, ServiceNow\n\nSteps:\n[] Make sure the observable is supported\n[] Fetch global variables\n[] Verify required input was provided\n[] Get the user from Duo (end workflow if not found)\n[] Extract the user's groups\n[] Check if the user is already in the group:\n[]> If they are, end the workflow\n[]> If they aren't:\n[]>> Move the user to the new group\n[]>> Check if the move was successful:\n[]>>> If it was, create a ServiceNow incident\n[]>>> If it wasn't, end the workflow\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0060",
+		"display_name": "0060 - Duo - Block User",
+		"runtime_user": {
+		  "target_default": true
+		},
+		"target": {
+		  "execute_on_target_group": true,
+		  "target_group": {
+			"target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+			"run_on_all_targets": false,
+			"selected_target_types": [
+			  "web-service.endpoint"
+			],
+			"use_criteria": {
+			  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+			  "conditions": [
+				{
+				  "operator": "eqi",
+				  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+				  "right_operand": "DUO Security"
+				}
+			  ]
+			}
+		  }
+		}
+	  },
+	  "object_type": "definition_workflow",
+	  "actions": [
+		{
+		  "unique_name": "definition_activity_01VIE3E185P8P7QIPyiLA9zNtojIeLsYnbf",
+		  "name": "Condition Block",
+		  "title": "Is the observable supported?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Is the observable supported?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01VIE3E29PTDE2Y8aukRmtjiHylIpYXKQjQ",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": {
+					"left_operand": "$workflow.definition_workflow_01VIE3DU2MN4Q4BLQJuboNRY71pIPmmPz1r.input.variable_workflow_01VIE3DUEKXL00jGk4syMw3LmaXpWoGMBO3$",
+					"operator": "ne",
+					"right_operand": "user"
+				  },
+				  "operator": "and",
+				  "right_operand": {
+					"left_operand": "$workflow.definition_workflow_01VIE3DU2MN4Q4BLQJuboNRY71pIPmmPz1r.input.variable_workflow_01VIE3DUEKXL00jGk4syMw3LmaXpWoGMBO3$",
+					"operator": "ne",
+					"right_operand": "email"
+				  }
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01VIE3E3EB4W77cCVxQlUUB5uVSICTY1KRF",
+				  "name": "Completed",
+				  "title": "Unsupported observable",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Unsupported observable",
+					"result_message": "The observable type \"$workflow.definition_workflow_01VIE3DU2MN4Q4BLQJuboNRY71pIPmmPz1r.input.variable_workflow_01VIE3DUEKXL00jGk4syMw3LmaXpWoGMBO3$\" is not supported by this workflow",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01VIE3E49SPE46n6j6CQ1m528uS9v8SRLe3",
+		  "name": "Group",
+		  "title": "Fetch global variables",
+		  "type": "logic.group",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Fetch global variables",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "actions": [
+			{
+			  "unique_name": "definition_activity_01VIE3E5Q31D96iQMmwX1eppaQBXQrl4jSd",
+			  "name": "Set Variables",
+			  "title": "Fetch global variables",
+			  "type": "core.set_multiple_variables",
+			  "base_type": "activity",
+			  "properties": {
+				"continue_on_failure": false,
+				"display_name": "Fetch global variables",
+				"skip_execution": false,
+				"variables_to_update": [
+				  {
+					"variable_to_update": "$workflow.definition_workflow_01VIE3DU2MN4Q4BLQJuboNRY71pIPmmPz1r.local.variable_workflow_01VIE3DUEM7QT7Srmsfk1mVsXLTDPeASgMI$",
+					"variable_value_new": ""
+				  },
+				  {
+					"variable_to_update": "$workflow.definition_workflow_01VIE3DU2MN4Q4BLQJuboNRY71pIPmmPz1r.local.variable_workflow_01VIE3DUELQ4F7d6NLR4IIbfQcoaOuVUkYW$",
+					"variable_value_new": ""
+				  },
+				  {
+					"variable_to_update": "$workflow.definition_workflow_01VIE3DU2MN4Q4BLQJuboNRY71pIPmmPz1r.local.variable_workflow_01VIE3DUEMQW76ncO8dhJKA7aP93g3zvr7l$",
+					"variable_value_new": ""
+				  }
+				]
+			  },
+			  "object_type": "definition_activity"
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01VIE3E71SB0S2yzfdHtBLhGSbuK8fNlY3O",
+		  "name": "Condition Block",
+		  "title": "Were all required variables provided?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Were all required variables provided?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01VIE3E7Y2E9P6Yekyq1abLEgc4njXHt88m",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": {
+					"left_operand": {
+					  "left_operand": {
+						"left_operand": "$workflow.definition_workflow_01VIE3DU2MN4Q4BLQJuboNRY71pIPmmPz1r.local.variable_workflow_01VIE3DUEMH5E6ZObsxXljN9EiZzEZ19TW1$",
+						"operator": "eq",
+						"right_operand": ""
+					  },
+					  "operator": "or",
+					  "right_operand": {
+						"left_operand": "$workflow.definition_workflow_01VIE3DU2MN4Q4BLQJuboNRY71pIPmmPz1r.local.variable_workflow_01VIE3DUELQ4F7d6NLR4IIbfQcoaOuVUkYW$",
+						"operator": "eq",
+						"right_operand": ""
+					  }
+					},
+					"operator": "or",
+					"right_operand": {
+					  "left_operand": "$workflow.definition_workflow_01VIE3DU2MN4Q4BLQJuboNRY71pIPmmPz1r.local.variable_workflow_01VIE3DUEM7QT7Srmsfk1mVsXLTDPeASgMI$",
+					  "operator": "eq",
+					  "right_operand": ""
+					}
+				  },
+				  "operator": "or",
+				  "right_operand": {
+					"left_operand": "$workflow.definition_workflow_01VIE3DU2MN4Q4BLQJuboNRY71pIPmmPz1r.local.variable_workflow_01VIE3DUELYD03QnNo6CF6AUvsLwcdiDdm5$",
+					"operator": "eq",
+					"right_operand": ""
+				  }
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01VIE3E8Z104U3Xt5CiydjYIgI8wlbFfcHc",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "A required value was not provided. Please verify that the following local variables have been configured: Duo Deny User Group, Duo Hostname, Duo Integration Key, and ServiceNow User ID",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01VIE3E9W46PQ4XXviukWs1wMB5nTku2TyM",
+		  "name": "Group",
+		  "title": "Fetch the Duo user",
+		  "type": "logic.group",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Fetch the Duo user",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "actions": [
+			{
+			  "unique_name": "definition_activity_01VIE3EBXR8R61Jcr9NMLTSPUHLB1Na3DV4",
+			  "name": "Duo - Admin - Get User",
+			  "title": "Duo - Admin - Get User",
+			  "type": "workflow.atomic_workflow",
+			  "base_type": "subworkflow",
+			  "properties": {
+				"continue_on_failure": true,
+				"display_name": "Duo - Admin - Get User",
+				"input": {
+				  "variable_workflow_01PP784U1V8FT1Cdr6lEXfiHwwbn6bsDUKT": "$workflow.definition_workflow_01VIE3DU2MN4Q4BLQJuboNRY71pIPmmPz1r.local.variable_workflow_01VIE3DUELQ4F7d6NLR4IIbfQcoaOuVUkYW$",
+				  "variable_workflow_01PP784U1V9TF27PYoY723j3qbJl7QRQOjK": "$workflow.definition_workflow_01VIE3DU2MN4Q4BLQJuboNRY71pIPmmPz1r.local.variable_workflow_01VIE3DUEMQW76ncO8dhJKA7aP93g3zvr7l$",
+				  "variable_workflow_01PP784U1VCAA7c2VqwZKgU3scR51thmTMM": "$workflow.definition_workflow_01VIE3DU2MN4Q4BLQJuboNRY71pIPmmPz1r.local.variable_workflow_01VIE3DUEM7QT7Srmsfk1mVsXLTDPeASgMI$",
+				  "variable_workflow_01PP784U1VDEE2cwX8GdChEsHknyHsgt6nw": "$workflow.definition_workflow_01VIE3DU2MN4Q4BLQJuboNRY71pIPmmPz1r.input.variable_workflow_01VIE3DUEKIPR12B2HvwLVJQNPNz8LSrSLA$",
+				  "variable_workflow_01PP784U1VKO54wsLOPdERFQVYlMNFplLH1": ""
+				},
+				"runtime_user": {
+				  "target_default": true
+				},
+				"skip_execution": false,
+				"target": {
+				  "use_workflow_target_group": true
+				},
+				"workflow_id": "definition_workflow_01PP784U9VGRC6ISP15eyRIQPnhZsDlJlJU"
+			  },
+			  "object_type": "definition_activity"
+			},
+			{
+			  "unique_name": "definition_activity_01VIE3ED2QAUL6Kxgb5n9dOAp1eIDTHzSfV",
+			  "name": "Condition Block",
+			  "title": "Was the user found?",
+			  "type": "logic.if_else",
+			  "base_type": "activity",
+			  "properties": {
+				"continue_on_failure": false,
+				"display_name": "Was the user found?",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "blocks": [
+				{
+				  "unique_name": "definition_activity_01VIE3EE57SYJ7kldx0fLdujR0REh1LX57a",
+				  "name": "Condition Branch",
+				  "title": "No",
+				  "type": "logic.condition_block",
+				  "base_type": "activity",
+				  "properties": {
+					"condition": {
+					  "left_operand": "$activity.definition_activity_01VIE3EBXR8R61Jcr9NMLTSPUHLB1Na3DV4.output.succeeded$",
+					  "operator": "eq",
+					  "right_operand": false
+					},
+					"continue_on_failure": true,
+					"display_name": "No",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "actions": [
+					{
+					  "unique_name": "definition_activity_01VIE3EF71AVY0cO4t8tq9T1jBvmdbM9zxg",
+					  "name": "Completed",
+					  "title": "User not found",
+					  "type": "logic.completed",
+					  "base_type": "activity",
+					  "properties": {
+						"completion_type": "failed-completed",
+						"continue_on_failure": false,
+						"display_name": "User not found",
+						"result_message": "The user \"$workflow.definition_workflow_01VIE3DU2MN4Q4BLQJuboNRY71pIPmmPz1r.input.variable_workflow_01VIE3DUEKIPR12B2HvwLVJQNPNz8LSrSLA$\" was not found in Duo",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity"
+					}
+				  ]
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01VIE3EG32GO472ucQ9gDvwbGUtzmnPFiRL",
+		  "name": "JSONPath Query",
+		  "title": "Extract the user's groups",
+		  "type": "corejava.jsonpathquery",
+		  "base_type": "activity",
+		  "properties": {
+			"action_timeout": 180,
+			"continue_on_failure": false,
+			"display_name": "Extract the user's groups",
+			"input_json": "$activity.definition_activity_01VIE3EBXR8R61Jcr9NMLTSPUHLB1Na3DV4.output.variable_workflow_01PP784U1V42C78L9NSUOOdYwsoTlGDzMOw$",
+			"jsonpath_queries": [
+			  {
+				"jsonpath_query": "$.response[0].groups..group_id",
+				"jsonpath_query_name": "group_id",
+				"jsonpath_query_type": "string"
+			  }
+			],
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01VIE3EMY1IQ04mTH7KMsdJRvrho1hfisaM",
+		  "name": "Condition Block",
+		  "title": "Is the user already a member of the group?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Is the user already a member of the group?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01VIE3ENUOMU00Yzs6kAUncKBqwdkxd66zD",
+			  "name": "Condition Branch",
+			  "title": "Yes",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01VIE3EG32GO472ucQ9gDvwbGUtzmnPFiRL.output.jsonpath_queries.group_id$",
+				  "operator": "mw",
+				  "right_operand": "*$workflow.definition_workflow_01VIE3DU2MN4Q4BLQJuboNRY71pIPmmPz1r.local.variable_workflow_01VIE3DUEMH5E6ZObsxXljN9EiZzEZ19TW1$*"
+				},
+				"continue_on_failure": false,
+				"display_name": "Yes",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01VIE3EP1HRSX2OnvJ3DIp4iSQgJobJhSsN",
+				  "name": "Completed",
+				  "title": "Completed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "succeeded",
+					"continue_on_failure": false,
+					"display_name": "Completed",
+					"result_message": "User \"$workflow.definition_workflow_01VIE3DU2MN4Q4BLQJuboNRY71pIPmmPz1r.input.variable_workflow_01VIE3DUEKIPR12B2HvwLVJQNPNz8LSrSLA$\" is already a member of the group \"$workflow.definition_workflow_01VIE3DU2MN4Q4BLQJuboNRY71pIPmmPz1r.local.variable_workflow_01VIE3DUEMH5E6ZObsxXljN9EiZzEZ19TW1$\"",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01VIE3EPWCVW74aqn1BFILkQ56tC1F9AOeR",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$workflow.definition_workflow_01VIE3DU2MN4Q4BLQJuboNRY71pIPmmPz1r.output.instance_id$",
+				  "operator": "eq",
+				  "right_operand": "$workflow.definition_workflow_01VIE3DU2MN4Q4BLQJuboNRY71pIPmmPz1r.output.instance_id$"
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01VIE3ESWY4PB6AfVwRsaIPCxSpzfbz8TzN",
+				  "name": "Duo - Admin - Add User to Group",
+				  "title": "Duo - Admin - Add User to Group",
+				  "type": "workflow.atomic_workflow",
+				  "base_type": "subworkflow",
+				  "properties": {
+					"continue_on_failure": true,
+					"display_name": "Duo - Admin - Add User to Group",
+					"input": {
+					  "variable_workflow_01PP76HI9AZGF1NT9uSXRPPBsIFsNMg2021": "$activity.definition_activity_01VIE3EBXR8R61Jcr9NMLTSPUHLB1Na3DV4.output.variable_workflow_01PP784U1VH0E0HZcDN2JkRNCFyAzdDower$",
+					  "variable_workflow_01PP76HI9B62J0XruPcH0JljgczxK6FgDqf": "$workflow.definition_workflow_01VIE3DU2MN4Q4BLQJuboNRY71pIPmmPz1r.local.variable_workflow_01VIE3DUEMH5E6ZObsxXljN9EiZzEZ19TW1$",
+					  "variable_workflow_01PP76HI9B79H4SCRvyaXohP09LU2Rw5JLk": "$workflow.definition_workflow_01VIE3DU2MN4Q4BLQJuboNRY71pIPmmPz1r.local.variable_workflow_01VIE3DUELQ4F7d6NLR4IIbfQcoaOuVUkYW$",
+					  "variable_workflow_01PP76HI9B8ER5uvx2xW0oejzmz9Fx7tn48": "$workflow.definition_workflow_01VIE3DU2MN4Q4BLQJuboNRY71pIPmmPz1r.local.variable_workflow_01VIE3DUEM7QT7Srmsfk1mVsXLTDPeASgMI$",
+					  "variable_workflow_01PP76HI9BAV61iWqxBlc9XIIdE8u3yHG6V": "$workflow.definition_workflow_01VIE3DU2MN4Q4BLQJuboNRY71pIPmmPz1r.local.variable_workflow_01VIE3DUEMQW76ncO8dhJKA7aP93g3zvr7l$"
+					},
+					"runtime_user": {
+					  "target_default": true
+					},
+					"skip_execution": false,
+					"target": {
+					  "use_workflow_target_group": true
+					},
+					"workflow_id": "definition_workflow_01PP76HIHLPVI6sMwWT6bvDrktdO4x5Gbc0"
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01VIE3EUG4SVB4DGthY0EvBPUJACHbtUrs1",
+				  "name": "Condition Block",
+				  "title": "User added to group successfully?",
+				  "type": "logic.if_else",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "User added to group successfully?",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "blocks": [
+					{
+					  "unique_name": "definition_activity_01VIE3EVJOJDS29867PEiiWI4smfrnqTczb",
+					  "name": "Condition Branch",
+					  "title": "Yes",
+					  "type": "logic.condition_block",
+					  "base_type": "activity",
+					  "properties": {
+						"condition": {
+						  "left_operand": "$activity.definition_activity_01VIE3ESWY4PB6AfVwRsaIPCxSpzfbz8TzN.output.succeeded$",
+						  "operator": "eq",
+						  "right_operand": true
+						},
+						"continue_on_failure": false,
+						"display_name": "Yes",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "actions": [
+						{
+						  "unique_name": "definition_activity_01VIE3EXBK1JT29gzW6jPAPO6suBXbL6cLr",
+						  "name": "ServiceNow - Create Incident",
+						  "title": "ServiceNow - Create Incident",
+						  "type": "workflow.atomic_workflow",
+						  "base_type": "subworkflow",
+						  "properties": {
+							"continue_on_failure": true,
+							"display_name": "ServiceNow - Create Incident",
+							"input": {
+							  "variable_workflow_01C0CK2MY2SLG1FXph6ZHp7iHmRw1KvUFlN": "Duo Security User \"$workflow.definition_workflow_01VIE3DU2MN4Q4BLQJuboNRY71pIPmmPz1r.input.variable_workflow_01VIE3DUEKIPR12B2HvwLVJQNPNz8LSrSLA$\" Disabled",
+							  "variable_workflow_01FGYF0DUR8HV2TMpEKctsYjQR4mzjD5OTu": "A Duo Security user was moved to a group to disable their access to services.\nUsername: $workflow.definition_workflow_01VIE3DU2MN4Q4BLQJuboNRY71pIPmmPz1r.input.variable_workflow_01VIE3DUEKIPR12B2HvwLVJQNPNz8LSrSLA$\nDuo User ID: $activity.definition_activity_01VIE3EBXR8R61Jcr9NMLTSPUHLB1Na3DV4.output.variable_workflow_01PP784U1VH0E0HZcDN2JkRNCFyAzdDower$\n\nPlease investigate and contact the user to assist with remediation.",
+							  "variable_workflow_01FGYGCZL5M2E1m1O5tvVVn0DVzVTLwytei": 2,
+							  "variable_workflow_01FGYGPFJYM4L5aVpzNOhRwMmzKJDofqufe": 2,
+							  "variable_workflow_01FGYGZ0OYYNM5pWjyyreMjNHDjusjNe8jx": "",
+							  "variable_workflow_01FGYI8HES41K63G3UzMinBH3iApm37fBGt": "$workflow.definition_workflow_01VIE3DU2MN4Q4BLQJuboNRY71pIPmmPz1r.local.variable_workflow_01VIE3DUELYD03QnNo6CF6AUvsLwcdiDdm5$",
+							  "variable_workflow_01FMQD0HIJIDU5kce0VNx4HQiMYjMfUvBlj": "v2"
+							},
+							"runtime_user": {
+							  "target_default": true
+							},
+							"skip_execution": false,
+							"target": {
+							  "override_workflow_target_group_criteria": true,
+							  "target_group": {
+								"run_on_all_targets": false,
+								"use_criteria": {
+								  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+								  "conditions": [
+									{
+									  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+									  "operator": "eqi",
+									  "right_operand": "ServiceNow"
+									}
+								  ]
+								}
+							  }
+							},
+							"workflow_id": "definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW"
+						  },
+						  "object_type": "definition_activity"
+						},
+						{
+						  "unique_name": "definition_activity_01VIE3EYT5SIA1jn1n61yL0FkwIUrxQLv5e",
+						  "name": "Condition Block",
+						  "title": "Ticket created successfully?",
+						  "type": "logic.if_else",
+						  "base_type": "activity",
+						  "properties": {
+							"continue_on_failure": false,
+							"display_name": "Ticket created successfully?",
+							"skip_execution": false
+						  },
+						  "object_type": "definition_activity",
+						  "blocks": [
+							{
+							  "unique_name": "definition_activity_01VIE3F0354Y30gpK6hGNOHtpXdFzKDm4qe",
+							  "name": "Condition Branch",
+							  "title": "No",
+							  "type": "logic.condition_block",
+							  "base_type": "activity",
+							  "properties": {
+								"condition": {
+								  "left_operand": "$activity.definition_activity_01VIE3EXBK1JT29gzW6jPAPO6suBXbL6cLr.output.succeeded$",
+								  "operator": "eq",
+								  "right_operand": false
+								},
+								"continue_on_failure": false,
+								"display_name": "No",
+								"skip_execution": false
+							  },
+							  "object_type": "definition_activity",
+							  "actions": [
+								{
+								  "unique_name": "definition_activity_01VIE3F228F183EY4P6GqBXyY0il3In9jDw",
+								  "name": "Completed",
+								  "title": "Failed",
+								  "type": "logic.completed",
+								  "base_type": "activity",
+								  "properties": {
+									"completion_type": "failed-completed",
+									"continue_on_failure": false,
+									"display_name": "Failed",
+									"result_message": "Duo user \"$workflow.definition_workflow_01VIE3DU2MN4Q4BLQJuboNRY71pIPmmPz1r.input.variable_workflow_01VIE3DUEKIPR12B2HvwLVJQNPNz8LSrSLA$\" was moved to the new user group $workflow.definition_workflow_01VIE3DU2MN4Q4BLQJuboNRY71pIPmmPz1r.local.variable_workflow_01VIE3DUEMH5E6ZObsxXljN9EiZzEZ19TW1$, but an error occurred while creating the ServiceNow incident ticket",
+									"skip_execution": false
+								  },
+								  "object_type": "definition_activity"
+								}
+							  ]
+							}
+						  ]
+						}
+					  ]
+					},
+					{
+					  "unique_name": "definition_activity_01VIE3F3TJLSM5xPa3LRf8mLs46YhcqWOng",
+					  "name": "Condition Branch",
+					  "title": "No",
+					  "type": "logic.condition_block",
+					  "base_type": "activity",
+					  "properties": {
+						"condition": {
+						  "left_operand": "$activity.definition_activity_01VIE3ESWY4PB6AfVwRsaIPCxSpzfbz8TzN.output.succeeded$",
+						  "operator": "eq",
+						  "right_operand": false
+						},
+						"continue_on_failure": false,
+						"display_name": "No",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "actions": [
+						{
+						  "unique_name": "definition_activity_01VIE3F6BR16C2Maty9ku5Xtkz1GhhhZ7fB",
+						  "name": "Completed",
+						  "title": "Failed",
+						  "type": "logic.completed",
+						  "base_type": "activity",
+						  "properties": {
+							"completion_type": "failed-completed",
+							"continue_on_failure": false,
+							"display_name": "Failed",
+							"result_message": "Fail to add user \"$workflow.definition_workflow_01VIE3DU2MN4Q4BLQJuboNRY71pIPmmPz1r.input.variable_workflow_01VIE3DUEKIPR12B2HvwLVJQNPNz8LSrSLA$\" with Duo user ID $activity.definition_activity_01VIE3EBXR8R61Jcr9NMLTSPUHLB1Na3DV4.output.variable_workflow_01PP784U1VH0E0HZcDN2JkRNCFyAzdDower$ to group $workflow.definition_workflow_01VIE3DU2MN4Q4BLQJuboNRY71pIPmmPz1r.local.variable_workflow_01VIE3DUEMH5E6ZObsxXljN9EiZzEZ19TW1$",
+							"skip_execution": false
+						  },
+						  "object_type": "definition_activity"
+						}
+					  ]
+					}
+				  ]
+				}
+			  ]
+			}
+		  ]
+		}
+	  ],
+	  "categories": [
+		"category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m"
+	  ]
+	},
+	"categories": {
+	  "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m": {
+		"unique_name": "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m",
+		"name": "response",
+		"title": "response",
+		"type": "basic.category",
+		"base_type": "category",
+		"category_type": "custom",
+		"object_type": "category"
+	  }
+	},
+	"target_groups": {
+	  "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+		"unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+		"name": "Default TargetGroup",
+		"title": "Default TargetGroup",
+		"type": "generic.target_group",
+		"base_type": "target_group",
+		"version": "1.0.0",
+		"targets": [
+		  {
+			"data_target_type": "web-service.endpoint",
+			"view_target_type": "web-service.endpoint",
+			"include_all_targets": true
+		  },
+		  {
+			"data_target_type": "email.smtp_endpoint",
+			"view_target_type": "email.smtp_endpoint",
+			"include_all_targets": true
+		  }
+		],
+		"object_type": "target_group"
+	  }
+	},
+	"atomic_workflows": [
+	  "definition_workflow_01PP784U9VGRC6ISP15eyRIQPnhZsDlJlJU",
+	  "definition_workflow_01PP76HIHLPVI6sMwWT6bvDrktdO4x5Gbc0",
+	  "definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW"
+	]
+  }
