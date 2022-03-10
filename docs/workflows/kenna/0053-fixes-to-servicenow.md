@@ -29,6 +29,7 @@ Note: By default, this workflow is configured to create a maximum of 100 Service
 | Dec 16, 2021 | - Initial release |
 | Jan 24, 2022 | - Updated to end successfully if the ticket limit is reached, as opposed to ending and failing |
 | Feb 10, 2022 | - Updated the default values for the `ServiceNow User ID` and `Ticket Limit` local variables |
+| Mar 10, 2022 | - Updated to support the `external_identifier` that's now required by the Kenna API |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 
