@@ -7,6 +7,34 @@
 	  "base_type": "workflow",
 	  "variables": [
 		{
+		  "schema_id": "datatype.secure_string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "API Token",
+			"type": "datatype.secure_string",
+			"description": "API token for Kenna. More information: https://apidocs.kennasecurity.com/reference#authentication",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01TI80GVLDAZH5vPrng26MJXxl9T6ymWf7c",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "0",
+			"scope": "local",
+			"name": "Risk Score Threshold",
+			"type": "datatype.string",
+			"description": "The minimum risk score a vulnerability must have to be processed. If a vulnerability's risk score is less than this value, it will be ignored. This should be a number from 0 to 100",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01TI80GVLBTR74x1RlLMfzVRqHdsmaD7YQ1",
+		  "object_type": "variable_workflow"
+		},
+		{
 		  "schema_id": "datatype.string",
 		  "properties": {
 			"value": "",
@@ -18,34 +46,6 @@
 			"is_invisible": false
 		  },
 		  "unique_name": "variable_workflow_01TI80GVLCAB96Ukp404SjnouKS3YXCDisl",
-		  "object_type": "variable_workflow"
-		},
-		{
-		  "schema_id": "datatype.string",
-		  "properties": {
-			"value": "",
-			"scope": "local",
-			"name": "Risk Meter Group ID",
-			"type": "datatype.string",
-			"description": "ID of the risk meter group to fetch information for. Only a single risk meter group is supported",
-			"is_required": true,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01TI80GVLD2H73L9ZhPBtZZCeZeGsgm7ys6",
-		  "object_type": "variable_workflow"
-		},
-		{
-		  "schema_id": "datatype.string",
-		  "properties": {
-			"value": "",
-			"scope": "local",
-			"name": "Kenna Instance URL",
-			"type": "datatype.string",
-			"description": "The URL for your Kenna instance's portal. For example: customer.kennasecurity.com",
-			"is_required": true,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01TI80GVLCJ0R23oBlLKahla7BHxEytaOv4",
 		  "object_type": "variable_workflow"
 		},
 		{
@@ -66,14 +66,14 @@
 		  "schema_id": "datatype.string",
 		  "properties": {
 			"value": "",
-			"scope": "output",
-			"name": "Error List",
+			"scope": "local",
+			"name": "Kenna Instance URL",
 			"type": "datatype.string",
-			"description": "List of vulnerabilities which failed to update in the Kenna API. This list should be blank. Any items in this list should be manually processed. This will be populated automatically",
-			"is_required": false,
+			"description": "The URL for your Kenna instance's portal. For example: customer.kennasecurity.com",
+			"is_required": true,
 			"is_invisible": false
 		  },
-		  "unique_name": "variable_workflow_01TI80GVLB7L33bKmzvkhqJuT1ZLm2omnbr",
+		  "unique_name": "variable_workflow_01TI80GVLCJ0R23oBlLKahla7BHxEytaOv4",
 		  "object_type": "variable_workflow"
 		},
 		{
@@ -93,29 +93,15 @@
 		{
 		  "schema_id": "datatype.string",
 		  "properties": {
-			"value": "0",
-			"scope": "local",
-			"name": "Risk Score Threshold",
+			"value": "",
+			"scope": "output",
+			"name": "Error List",
 			"type": "datatype.string",
-			"description": "The minimum risk score a vulnerability must have to be processed. If a vulnerability's risk score is less than this value, it will be ignored. This should be a number from 0 to 100",
+			"description": "List of vulnerabilities which failed to update in the Kenna API. This list should be blank. Any items in this list should be manually processed. This will be populated automatically",
 			"is_required": false,
 			"is_invisible": false
 		  },
-		  "unique_name": "variable_workflow_01TI80GVLBTR74x1RlLMfzVRqHdsmaD7YQ1",
-		  "object_type": "variable_workflow"
-		},
-		{
-		  "schema_id": "datatype.secure_string",
-		  "properties": {
-			"value": "",
-			"scope": "local",
-			"name": "API Token",
-			"type": "datatype.secure_string",
-			"description": "API token for Kenna. More information: https://apidocs.kennasecurity.com/reference#authentication",
-			"is_required": true,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01TI80GVLDAZH5vPrng26MJXxl9T6ymWf7c",
+		  "unique_name": "variable_workflow_01TI80GVLB7L33bKmzvkhqJuT1ZLm2omnbr",
 		  "object_type": "variable_workflow"
 		},
 		{
@@ -123,13 +109,13 @@
 		  "properties": {
 			"value": "",
 			"scope": "local",
-			"name": "Vulnerabilities List",
+			"name": "Risk Meter Group ID",
 			"type": "datatype.string",
-			"description": "Local list of vulnerabilities updated in Kenna",
-			"is_required": false,
+			"description": "ID of the risk meter group to fetch information for. Only a single risk meter group is supported",
+			"is_required": true,
 			"is_invisible": false
 		  },
-		  "unique_name": "variable_workflow_01TI80GVLCSOH5aTPRd6skMT30xLupHYEXN",
+		  "unique_name": "variable_workflow_01TI80GVLD2H73L9ZhPBtZZCeZeGsgm7ys6",
 		  "object_type": "variable_workflow"
 		}
 	  ],
@@ -731,7 +717,7 @@
 												"accept": "application/json",
 												"action_timeout": 300,
 												"allow_auto_redirect": true,
-												"body": "{\n      \"vulnerability_ids\": $activity.definition_activity_01TI80HOY11QB0vnMNNqVucCT4aV33pK2Er.output.script_queries.vuln_list$,\n      \"vulnerability\": {\n      \"notes\": \"Cisco SecureX has linked this vulnerability to an incident in ServiceNow\",\n      \"service_ticket\": {\n      \"status\": \"New\",\n      \"ticket_type\": \"service_now\",\n      \"system_id\": \"$activity.definition_activity_01TI80HSMCEWD3fY2wZm2XaIRlHbk5uAMYK.output.variable_workflow_01C0F7F9L7IYM3YXHCizJhunwKtPlSJWEWM$\"\n    }\n  }\n}",
+												"body": "{\n      \"vulnerability_ids\": $activity.definition_activity_01TI80HOY11QB0vnMNNqVucCT4aV33pK2Er.output.script_queries.vuln_list$,\n      \"vulnerability\": {\n      \"notes\": \"Cisco SecureX has linked this vulnerability to an incident in ServiceNow\",\n      \"service_ticket\": {\n      \"status\": \"New\",\n      \"ticket_type\": \"service_now\",\n      \"system_id\": \"$activity.definition_activity_01TI80HSMCEWD3fY2wZm2XaIRlHbk5uAMYK.output.variable_workflow_01C0F7F9L7IYM3YXHCizJhunwKtPlSJWEWM$\",\n      \"external_identifier\": \"$activity.definition_activity_01TI80HSMCEWD3fY2wZm2XaIRlHbk5uAMYK.output.variable_workflow_01C0EMLG2EEYD14wKqkFjhK8dTwJa20Jihp$\"\n    }\n  }\n}",
 												"content_type": "application/json",
 												"continue_on_error_status_code": true,
 												"continue_on_failure": false,
@@ -1053,9 +1039,9 @@
 	  }
 	},
 	"atomic_workflows": [
-	  "definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW",
-	  "definition_workflow_01S7JOAIGZ7KW0aSfFz3oERsFZkCcUbE7TZ",
 	  "definition_workflow_01S7J1ICK1TG33BPPTPJYHKYUwqsDHGn6hK",
-	  "definition_workflow_01S7JVYHLL5V933SyXcFbwBNclrRydKd3rx"
+	  "definition_workflow_01S7JVYHLL5V933SyXcFbwBNclrRydKd3rx",
+	  "definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW",
+	  "definition_workflow_01S7JOAIGZ7KW0aSfFz3oERsFZkCcUbE7TZ"
 	]
   }
