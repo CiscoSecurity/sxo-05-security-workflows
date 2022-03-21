@@ -25,14 +25,18 @@ This workflow searches and returns the top 10 identities in Cisco Umbrella with 
 | Date | Notes |
 |:-----|:------|
 | Aug 23, 2021 | - Initial release |
+| Mar 21, 2022 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
 
 ---
 
 ## Requirements
+* The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
+	* Umbrella - Reporting v2 - Get Token
 * The following atomic actions must be imported before you can import this workflow:
 	* ServiceNow - Create Incident ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
-	* Umbrella - Reporting v2 - Get Token ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
 * The [targets](#targets) and [account keys](#account-keys) listed below
+* Cisco Umbrella
+* ServiceNow
 
 ---
 
