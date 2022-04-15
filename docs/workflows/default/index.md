@@ -14,4 +14,4 @@ When a new SecureX orchestration tenant is provisioned, five "out of the box" wo
 ## Updating a Workflow
 To update an out of the box workflow, you need to get the workflow's JSON from our [GitHub repository]({{ site.github.repository_url }}/tree/Main/Workflows-Default). You can either view the raw JSON and copy/paste it into SecureX orchestration OR you can download the raw JSON to a file and import the workflow as a file.
 
-* More information about importing workflows can be found [here]({{ site.baseurl }}/importing)
+* More information about importing workflows can be found [here]({{ site.baseurl }}/importing).

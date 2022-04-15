@@ -10,10 +10,10 @@ grand_parent: Activities
 _Category: Table_
 
 This activity allows you to update existing rows in a table. To use this activity, you need to provide:
-1. An input table to make updates to
-1. The columns you want to update
-1. The new values for those columns
-1. Criteria for selecting rows to update
+1. An input table to make updates to.
+1. The columns you want to update.
+1. The new values for those columns.
+1. Criteria for selecting rows to update.
 
 In the Table section of the activity's properties, you configure the first three of these items. This sample shows how to update the `username` column with a new value of `cbauch`:
 

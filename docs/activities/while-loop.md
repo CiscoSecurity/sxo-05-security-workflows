@@ -21,14 +21,14 @@ While loops are one of the two types of loops available in SecureX orchestration
 ## Loop Control
 While loops run as long as their control condition is true. This control condition works the same as a [`Condition Block`]({{ site.baseurl }}/activities/condition-block#building-a-condition) in that it's simply checking a logical statement. You can either:
 1. Set this condition to something that will always be true and use a `Break` to stop the loop; or
-1. Use a loop control variable that you change the value of when you want the loop to end
+1. Use a loop control variable that you change the value of when you want the loop to end.
 
-**Be careful! If you forget to stop a while loop, it will keep running for quite a while before stopping... If you're iterating through a list of items, it's usually better to use a [`For Each Loop`]({{ site.baseurl }}/activities/foreach-loop)**
+**Be careful! If you forget to stop a while loop, it will keep running for quite a while before stopping... If you're iterating through a list of items, it's usually better to use a [`For Each Loop`]({{ site.baseurl }}/activities/foreach-loop)**.
 
 ### Using a Loop Control Variable
-1. Create a local variable using the `Boolean` data type and set its value to `true`
-1. Add a `While Loop` activity and set its condition to check whether or not the local variable you created is _equal_ to `true`
-1. Inside the loop, when you're ready for the loop to end, you can either set the local variable to `false` or use a `Break` activity
+1. Create a local variable using the `Boolean` data type and set its value to `true`.
+1. Add a `While Loop` activity and set its condition to check whether or not the local variable you created is _equal_ to `true`.
+1. Inside the loop, when you're ready for the loop to end, you can either set the local variable to `false` or use a `Break` activity.
 
 ---
 

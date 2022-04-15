@@ -14,22 +14,22 @@ If you want to be able to use a table as a global, input, output, or local varia
 Variable types are managed under the **Variable Types** tab of the **Variables** section. If you have any existing custom table types, they'll be listed there. To create a new one, click the **New Variable Type** button.
 
 When creating a custom table, you'll need to provide a display name and then define your columns. Each column has various attributes:
-* Required - Whether or not the field is required
-* Field Name - The name of the field when used as a variable
-* Field Title - A human-readable field name
-* Field Type - The [data type]({{ site.baseurl }}/variables/types) of the field
-* Max Length - The maximum length for values in this field (for strings)
-* Minimum - The minimum value (for numeric data types)
-* Maximum - The maximum value (for numeric data types)
+* Required - Whether or not the field is required.
+* Field Name - The name of the field when used as a variable.
+* Field Title - A human-readable field name.
+* Field Type - The [data type]({{ site.baseurl }}/variables/types) of the field.
+* Max Length - The maximum length for values in this field (for strings).
+* Minimum - The minimum value (for numeric data types).
+* Maximum - The maximum value (for numeric data types).
 
 Here's an example of a table called **My Endpoint Table** meant to contain a list of endpoints and whether or not they're active:
 
 ![]({{ site.baseurl }}/assets/images/variables/custom/table.png)
 
 The columns in this table include:
-* `ip_address` - The endpoints IP address as a string no longer than 15 characters
-* `hostname` - The endpoint's hostname as a string
-* `is_active` - Whether or not the endpoint is active as a boolean (true/false)
+* `ip_address` - The endpoints IP address as a string no longer than 15 characters.
+* `hostname` - The endpoint's hostname as a string.
+* `is_active` - Whether or not the endpoint is active as a boolean (true/false).
 
 ---
 

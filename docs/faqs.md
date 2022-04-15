@@ -3,7 +3,6 @@ layout: page
 title: Frequently Asked Questions
 permalink: /faqs
 nav_order: 10
-has_children: true
 ---
 
 # Frequently Asked Questions
@@ -16,7 +15,7 @@ This page contains a list of frequently asked questions about SecureX orchestrat
 ---
 
 ### Q: Where is SecureX orchestration hosted?
-**A**: The orchestration components of SecureX are hosted in Amazon Web Services. The AWS region depends on which instance of SecureX you're using. For more information about AWS regions and SecureX privacy, please visit the [Cisco Trust Center](https://trustportal.cisco.com#/1592946938366835)
+**A**: The orchestration components of SecureX are hosted in Amazon Web Services. The AWS region depends on which instance of SecureX you're using. For more information about AWS regions and SecureX privacy, please visit the [Cisco Trust Center](https://trustportal.cisco.com#/1592946938366835).
 
 ### Q: Do you provide a list of source IPs/hostnames for orchestration nodes?
 **A**: Please see the following table for the source IPs used by SecureX orchestration:

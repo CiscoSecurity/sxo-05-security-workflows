@@ -49,8 +49,8 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 	* Fortinet - FortiGate - Update Firewall Policy ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
 	* Microsoft Teams - Post Message via Webhook ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
 * The [targets](#targets) and [account keys](#account-keys) listed below
+* A webhook URL for the Microsoft Teams channel to post messages to (see: [this page](https://docs.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/add-incoming-webhook))
 * Fortinet FortiGate
-* Microsoft Teams
 
 ---
 

@@ -27,22 +27,22 @@ Before you can integrate with ManageEngine APIs, you need to create an API clien
 ### Creating an API Client
 Note: These steps show an example of how to create an API client with scopes for ServiceDesk Plus
 
-1. Log in to the [Zoho Developer Console](https://api-console.zoho.com/)
-1. Select **Self Client** from the list of client types and click the **Create** button
+1. Log in to the [Zoho Developer Console](https://api-console.zoho.com/).
+1. Select **Self Client** from the list of client types and click the **Create** button.
 ![]({{ site.baseurl }}/assets/images/atomics/configuration/manageengine/self-client.png)
 
-1. Click **OK** in the pop-up to enable the self client
-1. On the **Client Secret** tab, make note of your client ID and client secret
+1. Click **OK** in the pop-up to enable the self client.
+1. On the **Client Secret** tab, make note of your client ID and client secret.
 ![]({{ site.baseurl }}/assets/images/atomics/configuration/manageengine/client-id-secret.png)
 
-1. Click the **Generate Code** tab
-	* Enter the following scopes: `SDPOnDemand.requests.ALL, SDPOnDemand.changes.ALL`
-	* Set the **Time Duration** to how long you want the grant code to be valid (we recommend 10 minutes)
-	* Enter a description and click the **Create** button
+1. Click the **Generate Code** tab.
+	* Enter the following scopes: `SDPOnDemand.requests.ALL, SDPOnDemand.changes.ALL`.
+	* Set the **Time Duration** to how long you want the grant code to be valid (we recommend 10 minutes).
+	* Enter a description and click the **Create** button.
 
 	![]({{ site.baseurl }}/assets/images/atomics/configuration/manageengine/generate-code.png)
 
-1. Make note of the code that's displayed
+1. Make note of the code that's displayed.
 
 ![]({{ site.baseurl }}/assets/images/atomics/configuration/manageengine/grant-code.png)
 

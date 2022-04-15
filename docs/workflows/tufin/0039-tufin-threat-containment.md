@@ -27,7 +27,7 @@ This workflow submits a firewall change request ticket using the Tufin SecureCha
 	* Microsoft Teams - Post Message via Webhook ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
 	* Tufin - Submit Firewall Change Request ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
 * The [targets](#targets) and [account keys](#account-keys) listed below
-* A webhook URL for the Microsoft Teams channel to post messages to (see: [this page](https://docs.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/connectors-using#setting-up-a-custom-incoming-webhook))
+* A webhook URL for the Microsoft Teams channel to post messages to (see: [this page](https://docs.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/add-incoming-webhook))
 * Tufin Orchestration Suite instance
 
 ---

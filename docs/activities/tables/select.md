@@ -10,11 +10,11 @@ grand_parent: Activities
 _Category: Table_
 
 This activity allows you to select rows from a table. To use this activity, you need to provide:
-1. An input table to select rows from
-1. Criteria for selecting rows
-1. Which columns you want to select
-1. How many rows to select
-1. (Optional) Sorting options
+1. An input table to select rows from.
+1. Criteria for selecting rows.
+1. Which columns you want to select.
+1. How many rows to select.
+1. (Optional) Sorting options.
 
 In the Select section of the activity's properties, you configure all of these items. We'll cover this section in two parts. This sample shows selecting rows from a table where their `id` equals `3`. For each matching row, all columns are being selected.
 

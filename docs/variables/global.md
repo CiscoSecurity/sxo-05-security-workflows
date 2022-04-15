@@ -8,7 +8,7 @@ parent: Variables
 # Global Variables
 Global variables are useful when you want to:
 * Store information between runs of a workflow; or
-* Share information between multiple different workflows
+* Share information between multiple different workflows.
 
 Orchestration workflows don't have any concept of persistence; as in, the second time a workflow runs it doesn't know anything about the first time. Global variables can be used to bridge this gap by storing information that persists.
 
