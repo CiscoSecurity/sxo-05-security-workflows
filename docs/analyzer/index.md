@@ -10,8 +10,6 @@ nav_order: 69
 # Workflow Analyzer
 This tool allows you to check if your workflow or atomic action conforms to our best practices. Note that this analyzer doesn't check for EVERY possible best practice, nor does it perform the same validation that SecureX orchestration does when you click the **Validate** button in the workflow editor. To use this tool, simply export your workflow or atomic action to JSON and copy/paste the JSON below.
 
-<div class="cisco-alert cisco-alert-info"><i class="fa fa-info-circle mr-1 cisco-icon-info"></i> This is a beta feature. If you experience issues with it, please <a href="{{ site.github.repository_url }}/issues/new?labels=bug">let us know</a></div>
-
 <form id="analyzer">
 	<label for="workflowJson">Workflow or Atomic Action JSON</label>:<br />
 	<textarea id="workflowJson" class="analyzer-textarea mb-3" rows="15"></textarea>

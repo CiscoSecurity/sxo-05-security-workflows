@@ -31,9 +31,9 @@ If you're interacting with Webex from your workflows, we recommend *highly* that
 Many of our workflows have the option of posting messages to Webex Teams. This section explains how to configure these workflows with the information necessary for Webex or, if you don't want to use Webex, how to disable it.
 
 ### Using Webex?
-* Make sure you've invited your bot to the room you want to post messages to
-* Add your Webex Bot Token to the `Webex Teams Bot Token` or `Webex Teams Access Token` local variable (or, if you have a token in a global variable already, set the local variable to the global's value using the `Fetch Global Variables` group at the beginning of the workflow)
-* Provide either a `Webex Teams Room Name` or `Webex Teams Room ID` in their respective local variable. If only one of these local variables exists, fill in whichever is there. If both exist, you typically only need to provide one or the other. See the workflow's documentation for details
+* Make sure you've invited your bot to the room you want to post messages to.
+* Add your Webex Bot Token to the `Webex Teams Bot Token` or `Webex Teams Access Token` local variable (or, if you have a token in a global variable already, set the local variable to the global's value using the `Fetch Global Variables` group at the beginning of the workflow).
+* Provide either a `Webex Teams Room Name` or `Webex Teams Room ID` in their respective local variable. If only one of these local variables exists, fill in whichever is there. If both exist, you typically only need to provide one or the other. See the workflow's documentation for details.
 
 ### Not Using Webex?
-* Select each Webex-related activity and check the `Skip Activity Execution` box in its properties
+* Select each Webex-related activity and check the `Skip Activity Execution` box in its properties.

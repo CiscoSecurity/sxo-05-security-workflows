@@ -24,7 +24,7 @@ While adhering to the guidelines in this section is not required for you to be s
 ## Our Process
 Content being developed for publishing to this repository goes through these steps:
 1. The content is created by the author following our best practices and guidelines.
-1. The author submits the content to our SecureX ecosystem manager for review via [GitHub]({{ site.github.repository_url }}/issues/new?label=suggestion)
+1. The author submits the content to our SecureX ecosystem manager for review via [GitHub]({{ site.github.repository_url }}/issues/new?label=suggestion).
 1. The content goes through one or more quality control checks to make sure:
 	* Best practices and guidelines are followed.
 	* There is an easily understood outcome.

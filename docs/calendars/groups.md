@@ -13,11 +13,11 @@ A group calendar allows you to combine multiple calendars into one. For example,
 ## Configuration
 To configure a group calendar:
 
-1. Give the calendar a meaningful **Display Name**
-1. Select a **Start Date** and **End Date** for the calendar. The calendar will go into effect starting on the start date and stop running on the end date
-1. Select one or more calendars to include in the group
-1. Select one or more calendars to exclude from the group
-1. Click **Submit**
+1. Give the calendar a meaningful **Display Name**.
+1. Select a **Start Date** and **End Date** for the calendar. The calendar will go into effect starting on the start date and stop running on the end date.
+1. Select one or more calendars to include in the group.
+1. Select one or more calendars to exclude from the group.
+1. Click **Submit**.
 
 Here's a sample of a group calendar that will run every Monday and Friday in December excluding any holidays:
 

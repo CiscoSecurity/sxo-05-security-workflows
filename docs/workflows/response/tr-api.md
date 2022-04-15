@@ -21,20 +21,20 @@ If you want to trigger a workflow from outside of SecureX, you can trigger respo
 
 ## Limitations
 The following limitations apply to using the Threat Response API with workflows:
-* The workflow must be a response workflow (see [this page]({{ site.baseurl }}/workflows/response/))
-* The only input you can provide the workflow are two strings named `observable_type` and `observable_value`
-* You will not be able to get the result or status of the workflow, only that it has been executed successfully
+* The workflow must be a response workflow (see [this page]({{ site.baseurl }}/workflows/response/)).
+* The only input you can provide the workflow are two strings named `observable_type` and `observable_value`.
+* You will not be able to get the result or status of the workflow, only that it has been executed successfully.
 
 ---
 
 ## Generating an API Client
 If you don't already have a SecureX API client with the **Response** scope, follow these steps:
 
-1. Log into SecureX and click on the **Administration** tab
-1. Click on **API Clients** on the left menu
-1. Click the **Generate API Client** button
-1. Enter a meaningful name for the API client and check the box for the **Response** scope
-1. Click **Add New Client** and make a note of the client ID and client secret
+1. Log into SecureX and click on the **Administration** tab.
+1. Click on **API Clients** on the left menu.
+1. Click the **Generate API Client** button.
+1. Enter a meaningful name for the API client and check the box for the **Response** scope.
+1. Click **Add New Client** and make a note of the client ID and client secret.
 
 ---
 

@@ -28,10 +28,10 @@ When you select a workflow to execute, you'll see a small success message at the
 
 ## Requirements
 In order for a workflow to appear in pivot menus, it must:
-1. Have a category of `response`
-1. Have a `String` input named `observable_type`
-1. Have a `String` input named `observable_value`
-1. Be in a **Validated** state
+1. Have a category of `response`.
+1. Have a `String` input named `observable_type`.
+1. Have a `String` input named `observable_value`.
+1. Be in a **Validated** state.
 
 ---
 

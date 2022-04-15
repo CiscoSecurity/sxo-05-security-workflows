@@ -19,11 +19,6 @@ This repository contains the [default workflows]({{ site.baseurl }}/workflows/de
 
 ---
 
-## ThirdParty_Atomics and ThirdParty_Workflows
-These repositories contain atomic actions and workflows published by Cisco in cooperation with our partners and other third parties. Content in these repositories has been reviewed by Cisco but may not follow Cisco's style guide. [Click here](https://github.com/CiscoSecurity/sxo-05-third-party-workflows) to check out the content in this repository.
-
----
-
 ## Github_Target_Atomics and Github_Target_Workflows
 These are legacy repositories which your tenant may or may not have. If you have them, you should just ignore them. If you don't have them, there's no need to add them.
 
@@ -34,5 +29,4 @@ This repository contains utilities used during tenant creation and provisioning.
 
 ## But wait, I don't have these...
 - If you're missing one of the CiscoSecurity repositories, you can follow the instructions on [this page]({{ site.baseurl }}/configuration) to configure them.
-- If you're missing one of the ThirdParty repositories, see the documentation in [that repository](https://github.com/CiscoSecurity/sxo-05-third-party-workflows).
 - If you're missing one of the Github_Target repositories, that's okay! These are legacy repositories that we don't actively maintain.

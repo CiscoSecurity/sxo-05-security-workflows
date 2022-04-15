@@ -10,8 +10,8 @@ grand_parent: Activities
 _Category: Table_
 
 This activity allows you to delete rows from a table. To use this activity, you need to provide:
-1. An input table to delete rows from
-1. Criteria for selecting rows to delete
+1. An input table to delete rows from.
+1. Criteria for selecting rows to delete.
 
 You can either select to delete all of the rows in the table or provide criteria in the **Where Clause**. This sample shows a clause that will only delete rows where the `id` is equal to a `1`:
 

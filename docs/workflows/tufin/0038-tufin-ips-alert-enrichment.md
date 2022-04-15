@@ -33,7 +33,7 @@ Note: The link to download the file posted in Microsoft Teams contains a tempora
 	* Tufin - Search Topology ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
 	* Tufin - Search Policies ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
 * The [targets](#targets) and [account keys](#account-keys) listed below
-* A webhook URL for the Microsoft Teams channel to post messages to (see: [this page](https://docs.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/connectors-using#setting-up-a-custom-incoming-webhook))
+* A webhook URL for the Microsoft Teams channel to post messages to (see: [this page](https://docs.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/add-incoming-webhook))
 * An application [registered using the Azure portal](https://docs.microsoft.com/en-us/graph/auth-register-app-v2). This will allow you to generate the API credentials needed to upload files to SharePoint
 * Tufin Orchestration Suite instance
 

@@ -27,10 +27,10 @@ The source data for a `For Each Loop` must be an array. These often come from ac
 
 ## Column Variables
 Within the `For Each Loop`, you'll probably want to use the values in your table's columns. You can do this by using the variable browser to:
-1. Select the loop
-1. Select its `Source Array`
-1. Select `Items`
-1. Select the column you want
+1. Select the loop.
+1. Select its `Source Array`.
+1. Select `Items`.
+1. Select the column you want.
 
 Here's a sample of the source array's `name` column being used as a variable:
 
