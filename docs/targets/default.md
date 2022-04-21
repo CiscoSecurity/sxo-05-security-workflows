@@ -28,14 +28,12 @@ This target is used for operations related to public threat intelligence.
 * **Protocol:** `HTTPS`
 * **Host:** `intel.amp.cisco.com`
 * **Path:** None
-* **Account Keys:**
-	* If using the SecureX Token account key: CTR_Credentials
-	* If using the [legacy method]({{ site.baseurl }}/account-keys/securex-token): None
+* **Account Keys:** None (uses a CTR access token)
 
 ---
 
 ## CTR_For_Access_Token
-This target is used to get access tokens for the Threat Response API. This target is only used if you haven't migrated to the new SecureX token account keys. More information about the different types of targets and account keys for SecureX APIs can be found [here]({{ site.baseurl }}/account-keys/securex-token).
+This target is used to get access tokens for the Threat Response API.
 
 * **Type:** HTTP Endpoint
 * **Protocol:** `HTTPS`
@@ -52,9 +50,7 @@ This target is used to access the Threat Response API for things like inspection
 * **Protocol:** `HTTPS`
 * **Host:** `visibility.amp.cisco.com`
 * **Path:** `/iroh`
-* **Account Keys:**
-	* If using the SecureX Token account key: CTR_Credentials
-	* If using the [legacy method]({{ site.baseurl }}/account-keys/securex-token): None
+* **Account Key:** None (uses a CTR access token)
 
 ---
 
@@ -87,9 +83,7 @@ This target is used for operations related to private threat intelligence such a
 * **Protocol:** `HTTPS`
 * **Host:** `private.intel.amp.cisco.com`
 * **Path:** None
-* **Account Keys:**
-	* If using the SecureX Token account key: CTR_Credentials
-	* If using the [legacy method]({{ site.baseurl }}/account-keys/securex-token): None
+* **Account Keys:** None (uses a CTR access token)
 
 ---
 
