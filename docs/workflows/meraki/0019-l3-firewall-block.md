@@ -43,7 +43,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes#workflows) page for more inf
 	* Meraki - Network - MX - Update L3 Outbound Firewall Rules
 * The following atomic actions must be imported before you can import this workflow:
 	* None
-* The [targets](#targets) listed below
+* The [targets](#targets) listed at the bottom of the page
 * Cisco Meraki MX Firewall
 
 ---

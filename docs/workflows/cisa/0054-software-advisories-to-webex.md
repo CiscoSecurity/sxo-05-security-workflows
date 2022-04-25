@@ -36,7 +36,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 	* Webex Teams - Search for Room
 * The following atomic actions must be imported before you can import this workflow:
 	* None
-* The [targets](#targets) listed below
+* The [targets](#targets) listed at the bottom of the page
 * A Webex Teams access token and room name to post messages to
 
 ---

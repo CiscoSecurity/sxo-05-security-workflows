@@ -39,7 +39,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 	* Webex Teams - Search for Room
 * The following atomic actions must be imported before you can import this workflow:
 	* Microsoft Teams - Post Message via Webhook ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
-* The [targets](#targets) and [account keys](#account-keys) listed below
+* The [targets](#targets) and [account keys](#account-keys) listed at the bottom of the page
 * (Optional) A Webex Teams access token and room name to post messages to
 * (Optional) A webhook URL for the Microsoft Teams channel to post messages to (see: [this page](https://docs.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/add-incoming-webhook))
 * Cisco Secure Email

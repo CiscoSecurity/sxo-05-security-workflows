@@ -48,7 +48,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 	* Webex Teams - Search for Room
 * The following atomic actions must be imported before you can import this workflow:
 	* ServiceNow - Create Incident ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
-* The [targets](#targets) and [account keys](#account-keys) listed below
+* The [targets](#targets) and [account keys](#account-keys) listed at the bottom of the page
 * A ServiceNow instance and API account
 * (Optional) A Webex Teams access token and room name to post messages to
 * Cisco Secure Endpoint with Orbital

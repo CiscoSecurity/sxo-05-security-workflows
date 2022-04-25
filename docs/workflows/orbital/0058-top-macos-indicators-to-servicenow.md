@@ -39,7 +39,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 	* Threat Response - Generate Access Token
 * The following atomic actions must be imported before you can import this workflow:
 	* ServiceNow - Create Incident ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
-* The [targets](#targets) and [account keys](#account-keys) listed below
+* The [targets](#targets) and [account keys](#account-keys) listed at the bottom of the page
 * Cisco Secure Endpoint with Orbital
 * ServiceNow
 

@@ -39,7 +39,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 	* Umbrella - Reporting v2 - Get Token
 * The following atomic actions must be imported before you can import this workflow:
 	* None
-* The [targets](#targets) and [account keys](#account-keys) listed below
+* The [targets](#targets) and [account keys](#account-keys) listed at the bottom of the page
 * Cisco Umbrella
 
 ---

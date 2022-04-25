@@ -37,7 +37,7 @@ Note: This workflow will only remove as many endpoints as your global `AO_LOOP_L
 	* Webex Teams - Search for Room
 * The following atomic actions must be imported before you can import this workflow:
 	* None
-* The [targets](#targets) and [account keys](#account-keys) listed below
+* The [targets](#targets) and [account keys](#account-keys) listed at the bottom of the page
 * Cisco Secure Endpoint
 * Cisco Webex
 

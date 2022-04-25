@@ -37,7 +37,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 	* None
 * The following atomic actions must be imported before you can import this workflow:
 	* None
-* The [targets](#targets) listed below
+* The [targets](#targets) listed at the bottom of the page
 * Cisco Defense Orchestrator (CDO) (API token can be generated on your [settings page](https://www.defenseorchestrator.com/settings))
 
 ---

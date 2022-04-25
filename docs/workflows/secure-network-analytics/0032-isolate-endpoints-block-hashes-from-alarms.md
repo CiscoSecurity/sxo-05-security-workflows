@@ -43,7 +43,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 	* Webex Teams - Search for Room
 * The following atomic actions must be imported before you can import this workflow:
 	* None
-* The [targets](#targets) and [account keys](#account-keys) listed below
+* The [targets](#targets) and [account keys](#account-keys) listed at the bottom of the page
 * A [SecureX orchestration remote]({{ site.baseurl }}/remote/) with connectivity to your Secure Network Analytics instance
 * (Optional) A Webex Teams access token and room name to post messages to
 * Cisco Secure Endpoint

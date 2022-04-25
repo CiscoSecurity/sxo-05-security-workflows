@@ -40,7 +40,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 	* SCA - Get Observation Details by ID ([System Atomic]({{ site.baseurl }}/atomics/system))
 	* Webex Teams - Post Message to Room ([System Atomic]({{ site.baseurl }}/atomics/system))
 	* Webex Teams - Search for Room ([System Atomic]({{ site.baseurl }}/atomics/system))
-* The [targets](#targets) and [account keys](#account-keys) listed below
+* The [targets](#targets) and [account keys](#account-keys) listed at the bottom of the page
 * A Webex Teams access token and room name to post messages to
 * Cisco Secure Cloud Analytics (SCA)
 * Cisco Secure Endpoint

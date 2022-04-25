@@ -43,7 +43,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 	* Palo Alto - Panorama - Create Address Object ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
 	* Palo Alto - Panorama - Search Address Objects by Value ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
 	* Palo Alto - Panorama - Update Security Policy Pre Rule ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
-* The [targets](#targets) and [account keys](#account-keys) listed below
+* The [targets](#targets) listed at the bottom of the page
 * A webhook URL for the Microsoft Teams channel to post messages to (see: [this page](https://docs.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/add-incoming-webhook))
 * Palo Alto Panorama
 

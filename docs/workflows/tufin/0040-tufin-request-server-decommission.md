@@ -29,7 +29,7 @@ This workflow submits a ticket for server decommission using the Tufin SecureCha
 * The following atomic actions must be imported before you can import this workflow:
 	* Microsoft Teams - Post Message via Webhook ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
 	* Tufin - Submit Server Decommission Request ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
-* The [targets](#targets) and [account keys](#account-keys) listed below
+* The [targets](#targets) and [account keys](#account-keys) listed at the bottom of the page
 * A webhook URL for the Microsoft Teams channel to post messages to (see: [this page](https://docs.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/add-incoming-webhook))
 * Tufin Orchestration Suite instance
 

@@ -51,7 +51,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 	* ServiceNow - Add Work Note to Incident ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
 	* ServiceNow - Create Incident ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
 	* Slack - Send Message to Channel ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
-* The [targets](#targets) and [account keys](#account-keys) listed below
+* The [targets](#targets) and [account keys](#account-keys) listed at the bottom of the page
 * (Optional) A Webex Teams access token and room name to post messages to
 * (Optional) A Slack access token and a channel name to post messages to
 * Cisco Secure Endpoint with Orbital

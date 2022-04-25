@@ -41,7 +41,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 	* Webex Teams - Search for Room
 * The following atomic actions must be imported before you can import this workflow:
 	* None
-* The [targets](#targets) and [account keys](#account-keys) listed below
+* The [targets](#targets) and [account keys](#account-keys) listed at the bottom of the page
 * (Optional) A Webex Teams access token and room name to post messages to
 * Cisco Secure Cloud Analytics (SCA)
 * Amazon Web Services (AWS)

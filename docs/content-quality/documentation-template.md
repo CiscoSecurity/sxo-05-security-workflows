@@ -44,7 +44,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 	* NAME OF ATOMIC (ex: Secure Endpoint - Get Events)
 * The following atomic actions must be imported before you can import this workflow:
 	* NAME OF ATOMIC (ex: ServiceNow - Create Incident)
-* The [targets](#targets) and [account keys](#account-keys) listed below
+* The [targets](#targets) and [account keys](#account-keys) listed at the bottom of the page
 * NAME OF REQUIRED PRODUCT
 * NAME OF REQUIRED PRODUCT
 
