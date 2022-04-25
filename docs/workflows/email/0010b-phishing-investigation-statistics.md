@@ -37,7 +37,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes#workflows) page for more inf
 	* None
 * The following atomic actions must be imported before you can import this workflow:
 	* None
-* The [targets](#targets) and [account keys](#account-keys) listed below
+* The [targets](#targets) and [account keys](#account-keys) listed at the bottom of the page
 
 ---
 

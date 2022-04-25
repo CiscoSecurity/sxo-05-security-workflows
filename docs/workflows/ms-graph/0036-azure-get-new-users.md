@@ -37,7 +37,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 	* Webex Teams - Search for Room
 * The following atomic actions must be imported before you can import this workflow:
 	* Microsoft Graph - Get Access Token ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
-* The [targets](#targets) and [account keys](#account-keys) listed below
+* The [targets](#targets) and [account keys](#account-keys) listed at the bottom of the page
 * (Optional) A Webex Teams access token and room name to post messages to
 * Microsoft Azure Active Directory
 * Microsoft Azure App Registration with the `AuditLog.Read.All` API permission
