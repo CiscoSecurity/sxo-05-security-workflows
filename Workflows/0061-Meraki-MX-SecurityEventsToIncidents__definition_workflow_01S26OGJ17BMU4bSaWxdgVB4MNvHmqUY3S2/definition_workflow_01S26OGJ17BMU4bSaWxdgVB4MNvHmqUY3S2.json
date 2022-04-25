@@ -23,15 +23,15 @@
 		{
 		  "schema_id": "datatype.string",
 		  "properties": {
-			"value": "",
+			"value": "SecureX Orchestration",
 			"scope": "local",
-			"name": "Meraki Organization ID",
+			"name": "Webex Teams Room Name",
 			"type": "datatype.string",
-			"description": "The ID of the Meraki organization you want to fetch security events for. You can find this ID in your Meraki dashboard",
+			"description": "The name of the Webex Teams room to post messages to. If using a bot, make sure to invite your bot to the room before attempting to send messages",
 			"is_required": false,
 			"is_invisible": false
 		  },
-		  "unique_name": "variable_workflow_01S26OGJC20DA3Ox1eUf3ijOFD3r1ImyPfE",
+		  "unique_name": "variable_workflow_01S26OGJC2S3W5SNtSji2W2AHW10oYLBlSC",
 		  "object_type": "variable_workflow"
 		},
 		{
@@ -51,15 +51,15 @@
 		{
 		  "schema_id": "datatype.string",
 		  "properties": {
-			"value": "SecureX Orchestration",
+			"value": "",
 			"scope": "local",
-			"name": "Webex Teams Room Name",
+			"name": "Meraki Organization ID",
 			"type": "datatype.string",
-			"description": "The name of the Webex Teams room to post messages to. If using a bot, make sure to invite your bot to the room before attempting to send messages",
+			"description": "The ID of the Meraki organization you want to fetch security events for. You can find this ID in your Meraki dashboard",
 			"is_required": false,
 			"is_invisible": false
 		  },
-		  "unique_name": "variable_workflow_01S26OGJC2S3W5SNtSji2W2AHW10oYLBlSC",
+		  "unique_name": "variable_workflow_01S26OGJC20DA3Ox1eUf3ijOFD3r1ImyPfE",
 		  "object_type": "variable_workflow"
 		}
 	  ],
@@ -121,10 +121,16 @@
 				"skip_execution": true,
 				"variables_to_update": [
 				  {
-					"variable_to_update": "$workflow.definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2.local.variable_workflow_01S26OGJC1MIC2lE4n2fRKEkeRAUWH3y6Hj$"
+					"variable_to_update": "$workflow.definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2.local.variable_workflow_01S26OGJC1MIC2lE4n2fRKEkeRAUWH3y6Hj$",
+					"variable_value_new": ""
 				  },
 				  {
-					"variable_to_update": "$workflow.definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2.local.variable_workflow_01S26OGJC2DZM08kzmijV6KSuoqhHLKTNF5$"
+					"variable_to_update": "$workflow.definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2.local.variable_workflow_01S26OGJC2DZM08kzmijV6KSuoqhHLKTNF5$",
+					"variable_value_new": ""
+				  },
+				  {
+					"variable_to_update": "$workflow.definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2.local.variable_workflow_01S26OGJC20DA3Ox1eUf3ijOFD3r1ImyPfE$",
+					"variable_value_new": ""
 				  }
 				]
 			  },
@@ -592,7 +598,7 @@
 								"continue_on_failure": false,
 								"display_name": "Webex Teams - Post Message to Room",
 								"input": {
-								  "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$workflow.definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2.local.variable_workflow_01S26OGJC2S3W5SNtSji2W2AHW10oYLBlSC$",
+								  "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$activity.definition_activity_01WJVU2U1YLVA1yZhqOyug6LbGSVPL76VI5.output.variable_workflow_01PP790MCXJ7Y5cAWcGZWbG4Es0126zb1I6$",
 								  "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$workflow.definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2.local.variable_workflow_01S26OGJC1MIC2lE4n2fRKEkeRAUWH3y6Hj$",
 								  "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "**Malware Downloaded @ $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ts$!**\n\n*Message:* $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].message$\n\n*File Hash:* $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].fileHash$\n\n*Source IP and Port:* $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].srcIp$\n\n*Destination IP and Port:* $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].destIp$\n\n*Timestamp event:* $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ts$\n\n**SECUREX INCIDENT:** https://visibility.amp.cisco.com/incidents?q=id:$activity.definition_activity_01S277EOV14V73w58OT8b0JW87ejdv5cNX0.output.variable_workflow_01PP773PC1CVM3SzJJrvuZfEsO3Nbw7IO7S$\n\n**INVESTIGATE WITH THREAT RESPONSE:** https://visibility.amp.cisco.com/investigate?q=ip%3A$activity.definition_activity_01S27C9FTKOH413oM90cVlTtFJZFmphPJNd.output.script_queries.source_ip$%0Aip%3A$activity.definition_activity_01S27C9FTKOH413oM90cVlTtFJZFmphPJNd.output.script_queries.dest_ip$%0Aurl%3A$activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].uri$%0Asha256%3A$activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].fileHash$",
 								  "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": "",
@@ -783,7 +789,7 @@
 								"continue_on_failure": false,
 								"display_name": "Webex Teams - Post Message to Room",
 								"input": {
-								  "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$workflow.definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2.local.variable_workflow_01S26OGJC2S3W5SNtSji2W2AHW10oYLBlSC$",
+								  "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$activity.definition_activity_01WJVU2U1YLVA1yZhqOyug6LbGSVPL76VI5.output.variable_workflow_01PP790MCXJ7Y5cAWcGZWbG4Es0126zb1I6$",
 								  "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$workflow.definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2.local.variable_workflow_01S26OGJC1MIC2lE4n2fRKEkeRAUWH3y6Hj$",
 								  "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "**Meraki Security Event: IDS Alert Priority 1 @ $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ts$!**\n\n*Message:* $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].message$\n\n*Source IP and Port:* $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].srcIp$\n\n*Destination IP and Port:* $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].destIp$\n\n*Timestamp event:* $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ts$\n\n**SECUREX INCIDENT:** https://visibility.amp.cisco.com/incidents?q=id:$activity.definition_activity_01S290HK59XYW2FgS24yENSRwrGqsDmxqYc.output.variable_workflow_01PP773PC1CVM3SzJJrvuZfEsO3Nbw7IO7S$\n\n**INVESTIGATE WITH THREAT RESPONSE:** https://visibility.amp.cisco.com/investigate?q=ip%3A$activity.definition_activity_01S290HK542EE43MVXV7ECxrGf0rCbugmVG.output.script_queries.source_ip$%0Aip%3A$activity.definition_activity_01S290HK542EE43MVXV7ECxrGf0rCbugmVG.output.script_queries.dest_ip$",
 								  "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": "",
@@ -888,12 +894,12 @@
 	  }
 	},
 	"atomic_workflows": [
-	  "definition_workflow_01PP78LW2WNY80aDM6OHNiRu2VPG4BrR8bq",
 	  "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw",
-	  "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH",
 	  "definition_workflow_01PP74DHPLES477KZo2MCv9N9Dx5fza9wiU",
 	  "definition_workflow_01PP773PI1X3Y1YQWhirIL8Uy40Thd6ND7r",
-	  "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez"
+	  "definition_workflow_01PP78LW2WNY80aDM6OHNiRu2VPG4BrR8bq",
+	  "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez",
+	  "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
 	],
 	"dependent_workflows": [
 	  "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez",
