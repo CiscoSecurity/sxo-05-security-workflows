@@ -16,6 +16,8 @@ Workflow #0061
 
 This workflow fetches security events for the last hour from Meraki for a specific organization. If there are any Malware Downloaded or IDS Priority 1 events, a sighting and incident are created in Threat Response and a Webex Teams message is sent.
 
+Contributed by: [Christopher van der Made](https://github.com/chrivand/)
+
 [<i class="fab fa-github mr-1"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0061-Meraki-MX-SecurityEventsToIncidents__definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2){: .btn-cisco-outline }
 
 ---
