@@ -7,9 +7,7 @@ nav_order: 45
 has_toc: false
 ---
 
-<div class="cisco-alert cisco-alert-danger">
-	<i class="fa fa-exclamation-triangle mr-1 cisco-icon-danger"></i> Due to back end changes being made as part of orchestration's 5.7 release on January 20th, existing orchestration remotes will need to be replaced (even if they still show as connected). Please follow the steps in this section to generate a new remote configuration and deploy the remote appliance.
-</div>
+<div class="cisco-alert cisco-alert-info"><i class="fa fa-info-circle mr-1 cisco-icon-info"></i> If you want to use the new <a href="{{ site.baseurl }}/account-keys/securex-token">SecureX Token</a> account key, you will need to update your orchestration remote to the latest version.</div>
 
 # Remote
 SecureX orchestration remote is an on-premises virtual appliance that allows your workflows to communicate with resources inside your network behind a firewall. Since many on-premises devices aren't exposed to the internet, SXo remote bridges the gap between those devices and the cloud so they can be incorporated into your workflows.
