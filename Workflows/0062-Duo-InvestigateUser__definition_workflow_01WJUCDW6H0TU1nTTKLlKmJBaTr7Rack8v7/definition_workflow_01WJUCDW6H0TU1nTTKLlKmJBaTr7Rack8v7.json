@@ -1,0 +1,1387 @@
+{
+	"workflow": {
+	  "unique_name": "definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7",
+	  "name": "0062 - Duo - Investigate User",
+	  "title": "0062 - Duo - Investigate User",
+	  "type": "generic.workflow",
+	  "base_type": "workflow",
+	  "variables": [
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "Duo Username Suffix",
+			"type": "datatype.string",
+			"description": "If your Duo usernames are email addresses, you may want to add a suffix of \"@mycompany.com\" using this variable. This is optional",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01WJUR0DF58Z56ro0okExB86TAbQ5fTfYCU",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "observable_value",
+			"type": "datatype.string",
+			"description": "The value of the observable pivoted on",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01WJUMCWFN4NE7Am7lh6OiOmTiBKSWLbqvu",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.secure_string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "Duo Secret Key",
+			"type": "datatype.secure_string",
+			"description": "The secret key key for your Duo Admin API integration. This can be found in the integration's information inyour Duo admin panel",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01WJUCDWGFXQD09CJOOhm0kasbyJzP3oR2x",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "Duo Hostname",
+			"type": "datatype.string",
+			"description": "The hostname for your Duo Admin API integration. This can be found in the integration's information inyour Duo admin panel",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01WJUCDWGH93I4q08SV0ondMafqnMedkWLa",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "Duo Integration Key",
+			"type": "datatype.string",
+			"description": "The integration key for your Duo Admin API integration. This can be found in the integration's information inyour Duo admin panel",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01WJUCDWGH1KV57LcFzJBg2eolJtfM3N8oS",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "securex-orchestration",
+			"scope": "local",
+			"name": "ServiceNow User ID",
+			"type": "datatype.string",
+			"description": "The username of the user you're using to open incident tickets. This can either match the username in your ServiceNow account key or, if the account has the appropriate permissions, can be a different user",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01WJUCDWGGI4P2lBg9Jnw89xoCkD2Cs1MiX",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "observable_type",
+			"type": "datatype.string",
+			"description": "The type of observable pivoted on",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01WJUM41R26LK73q9Mr0lVJI4aFzb43AjoZ",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.integer",
+		  "properties": {
+			"value": 72,
+			"scope": "local",
+			"name": "Hours to Search",
+			"type": "datatype.integer",
+			"description": "Number of hours into the past the workflow should fetch authentication logs",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01WJUCDWGHRUC2paWwsYOWLKNwaVvv14BSx",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "User Profile Results",
+			"type": "datatype.string",
+			"description": "Placeholder used to assemble information about the Duo user. This will be populated automatically",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01WJUCDWGGTKV5v2ARPEzOEohxdaMJ4iMbV",
+		  "object_type": "variable_workflow"
+		}
+	  ],
+	  "properties": {
+		"atomic": {
+		  "is_atomic": false
+		},
+		"delete_workflow_instance": false,
+		"description": "This workflow takes a Duo Security user's username or email address as input and retrieves the user's account details and authentication logs. It then creates a ServiceNow incident with the findings. Supported observables: user, email\n\nNote: This workflow uses the Duo Admin API which is not enabled by default. Contact Duo support to have it enabled.\n\nTarget Group: Default TargetGroup\n\nTargets: Duo Security, ServiceNow\n\nSteps:\n[] Make sure the observable is supported\n[] Fetch global variables\n[] Verify required input was provided\n[] Check if a username suffix was provided and, if so, apply it\n[] Fetch the user from Duo (end the workflow if not found)\n[] Parse a variety of information from the user's profile\n[] Fetch authentication logs for the user\n[] Check if logs were fetched:\n[]> If not, end the workflow\n[]> If they were:\n[]>> Parse the logs to an HTML table\n[]>> Create a ServiceNow incident\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0062",
+		"display_name": "0062 - Duo - Investigate User",
+		"runtime_user": {
+		  "target_default": true
+		},
+		"target": {
+		  "execute_on_target_group": true,
+		  "target_group": {
+			"target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+			"run_on_all_targets": false,
+			"selected_target_types": [
+			  "web-service.endpoint"
+			],
+			"use_criteria": {
+			  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+			  "conditions": [
+				{
+				  "operator": "eqi",
+				  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+				  "right_operand": "Duo Security"
+				}
+			  ]
+			}
+		  }
+		}
+	  },
+	  "object_type": "definition_workflow",
+	  "actions": [
+		{
+		  "unique_name": "definition_activity_01WJUKQ13J1OI5Nd7TA801NO3zQUef1FdpP",
+		  "name": "Condition Block",
+		  "title": "Is the observable supported?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Is the observable supported?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01WJUKQ1JZGRG7MNHk0o6t6kAMAtFwILI9g",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": {
+					"left_operand": "$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.input.variable_workflow_01WJUM41R26LK73q9Mr0lVJI4aFzb43AjoZ$",
+					"operator": "ne",
+					"right_operand": "user"
+				  },
+				  "operator": "and",
+				  "right_operand": {
+					"left_operand": "$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.input.variable_workflow_01WJUM41R26LK73q9Mr0lVJI4aFzb43AjoZ$",
+					"operator": "ne",
+					"right_operand": "email"
+				  }
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01WJUN86WB6VS37CrCtx2QwjclwHEfC2hbz",
+				  "name": "Completed",
+				  "title": "Unsupported observable",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Unsupported observable",
+					"result_message": "The observable type \"$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.input.variable_workflow_01WJUM41R26LK73q9Mr0lVJI4aFzb43AjoZ$\" is not supported by this workflow",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01WJUOO0DO56E4YOX0ertYoorY88BCNpoPB",
+		  "name": "Group",
+		  "title": "Fetch Global Variables",
+		  "type": "logic.group",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Fetch Global Variables",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "actions": [
+			{
+			  "unique_name": "definition_activity_01WJUCE5IIQGO6XkeLVDIO2tZAjlnSVeYtF",
+			  "name": "Set Variables",
+			  "title": "Fetch global variables",
+			  "type": "core.set_multiple_variables",
+			  "base_type": "activity",
+			  "properties": {
+				"continue_on_failure": false,
+				"display_name": "Fetch global variables",
+				"skip_execution": false,
+				"variables_to_update": [
+				  {
+					"variable_to_update": "$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.local.variable_workflow_01WJUCDWGFXQD09CJOOhm0kasbyJzP3oR2x$",
+					"variable_value_new": ""
+				  },
+				  {
+					"variable_to_update": "$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.local.variable_workflow_01WJUCDWGH1KV57LcFzJBg2eolJtfM3N8oS$",
+					"variable_value_new": ""
+				  },
+				  {
+					"variable_to_update": "$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.local.variable_workflow_01WJUCDWGH93I4q08SV0ondMafqnMedkWLa$",
+					"variable_value_new": ""
+				  }
+				]
+			  },
+			  "object_type": "definition_activity"
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01WJUTXGVAIW72HvfXcvUfBcrR2aPoe08in",
+		  "name": "Condition Block",
+		  "title": "Were all required variables provided?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Were all required variables provided?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01WJUTXHB7E9X6X5pRcriLAmfmJPVXUGI6n",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": {
+					"left_operand": {
+					  "left_operand": "$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.local.variable_workflow_01WJUCDWGH93I4q08SV0ondMafqnMedkWLa$",
+					  "operator": "eq",
+					  "right_operand": ""
+					},
+					"operator": "or",
+					"right_operand": {
+					  "left_operand": "$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.local.variable_workflow_01WJUCDWGH1KV57LcFzJBg2eolJtfM3N8oS$",
+					  "operator": "eq",
+					  "right_operand": ""
+					}
+				  },
+				  "operator": "or",
+				  "right_operand": {
+					"left_operand": "$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.local.variable_workflow_01WJUCDWGGI4P2lBg9Jnw89xoCkD2Cs1MiX$",
+					"operator": "eq",
+					"right_operand": ""
+				  }
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01WJUUEZFNM4E3tO9VZsMdNjPFqrEaX1W3i",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "A required value was not provided. Please verify that the following local variables have been configured: Duo Hostname, Duo Integration Key, and ServiceNow User ID",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01WK0FMNX1PP62BX3XXbUdP8GXjgb1BLKkm",
+		  "name": "Condition Block",
+		  "title": "Was a username suffix provided?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Was a username suffix provided?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01WK0FMOPWFIW08tLsQH9k0y1Ah11CDiAHr",
+			  "name": "Condition Branch",
+			  "title": "Yes",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": {
+					"left_operand": "$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.local.variable_workflow_01WJUR0DF58Z56ro0okExB86TAbQ5fTfYCU$",
+					"operator": "ne",
+					"right_operand": ""
+				  },
+				  "operator": "and",
+				  "right_operand": {
+					"left_operand": "$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.input.variable_workflow_01WJUM41R26LK73q9Mr0lVJI4aFzb43AjoZ$",
+					"operator": "eqi",
+					"right_operand": "user"
+				  }
+				},
+				"continue_on_failure": false,
+				"display_name": "Yes",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01WK0GPJPFH4T3G5EZiciN3z98mnhfDb4Pf",
+				  "name": "Set Variables",
+				  "title": "Add suffix to username",
+				  "type": "core.set_multiple_variables",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Add suffix to username",
+					"skip_execution": false,
+					"variables_to_update": [
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.input.variable_workflow_01WJUMCWFN4NE7Am7lh6OiOmTiBKSWLbqvu$",
+						"variable_value_new": "$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.input.variable_workflow_01WJUMCWFN4NE7Am7lh6OiOmTiBKSWLbqvu$$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.local.variable_workflow_01WJUR0DF58Z56ro0okExB86TAbQ5fTfYCU$"
+					  }
+					]
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01WJUVSBMXK5H0TC1fxAQYVi6ZDHqpF0AHO",
+		  "name": "Group",
+		  "title": "Fetch the Duo User",
+		  "type": "logic.group",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Fetch the Duo User",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "actions": [
+			{
+			  "unique_name": "definition_activity_01WJUCE7CY1KW4pcEMltgKA6pJYHVk0e6HF",
+			  "name": "Duo - Admin - Get User",
+			  "title": "Duo - Admin - Get User",
+			  "type": "workflow.atomic_workflow",
+			  "base_type": "subworkflow",
+			  "properties": {
+				"continue_on_failure": true,
+				"display_name": "Duo - Admin - Get User",
+				"input": {
+				  "variable_workflow_01PP784U1V8FT1Cdr6lEXfiHwwbn6bsDUKT": "$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.local.variable_workflow_01WJUCDWGH1KV57LcFzJBg2eolJtfM3N8oS$",
+				  "variable_workflow_01PP784U1V9TF27PYoY723j3qbJl7QRQOjK": "$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.local.variable_workflow_01WJUCDWGFXQD09CJOOhm0kasbyJzP3oR2x$",
+				  "variable_workflow_01PP784U1VCAA7c2VqwZKgU3scR51thmTMM": "$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.local.variable_workflow_01WJUCDWGH93I4q08SV0ondMafqnMedkWLa$",
+				  "variable_workflow_01PP784U1VDEE2cwX8GdChEsHknyHsgt6nw": "$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.input.variable_workflow_01WJUMCWFN4NE7Am7lh6OiOmTiBKSWLbqvu$",
+				  "variable_workflow_01PP784U1VKO54wsLOPdERFQVYlMNFplLH1": "",
+				  "variable_workflow_01WGOVFD2R9IV3WHmt3FQv1oNBGz0UvRmxp": 100,
+				  "variable_workflow_01WGOVHPQYSDL02afSLQrZUEozvSAsaesyt": 0
+				},
+				"runtime_user": {
+				  "target_default": true
+				},
+				"skip_execution": false,
+				"target": {
+				  "use_workflow_target_group": true
+				},
+				"workflow_id": "definition_workflow_01PP784U9VGRC6ISP15eyRIQPnhZsDlJlJU",
+				"workflow_name": "Duo - Admin - Get User"
+			  },
+			  "object_type": "definition_activity"
+			},
+			{
+			  "unique_name": "definition_activity_01WJUCE910K5I1eBfzNKEysPOCdqAzufKc7",
+			  "name": "Condition Block",
+			  "title": "Was the user found?",
+			  "type": "logic.if_else",
+			  "base_type": "activity",
+			  "properties": {
+				"continue_on_failure": false,
+				"display_name": "Was the user found?",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "blocks": [
+				{
+				  "unique_name": "definition_activity_01WJUCFO0GH0W3OuPPcuzj9ZhHib7kmPiJp",
+				  "name": "Condition Branch",
+				  "title": "No",
+				  "type": "logic.condition_block",
+				  "base_type": "activity",
+				  "properties": {
+					"condition": {
+					  "left_operand": "$activity.definition_activity_01WJUCE7CY1KW4pcEMltgKA6pJYHVk0e6HF.output.succeeded$",
+					  "operator": "eq",
+					  "right_operand": false
+					},
+					"continue_on_failure": false,
+					"display_name": "No",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "actions": [
+					{
+					  "unique_name": "definition_activity_01WJUCFS5XEYO5MgeSdgvyGsZsCHnwGwnhs",
+					  "name": "Completed",
+					  "title": "User not found",
+					  "type": "logic.completed",
+					  "base_type": "activity",
+					  "properties": {
+						"completion_type": "failed-completed",
+						"continue_on_failure": false,
+						"display_name": "User not found",
+						"result_message": "The user \"$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.input.variable_workflow_01WJUMCWFN4NE7Am7lh6OiOmTiBKSWLbqvu$\" was not found in Duo",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity"
+					}
+				  ]
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01WJUCEBEX12L2gq5YkOcCtLqaHmbv2p0L6",
+		  "name": "Group",
+		  "title": "Parse User Details",
+		  "type": "logic.group",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Parse User Details",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "actions": [
+			{
+			  "unique_name": "definition_activity_01WJUCECXD3IA2qeWeXDJHYvkQH0H64WOlH",
+			  "name": "JSONPath Query",
+			  "title": "Parse Email",
+			  "type": "corejava.jsonpathquery",
+			  "base_type": "activity",
+			  "properties": {
+				"action_timeout": 180,
+				"continue_on_failure": true,
+				"display_name": "Parse Email",
+				"input_json": "$activity.definition_activity_01WJUCE7CY1KW4pcEMltgKA6pJYHVk0e6HF.output.variable_workflow_01PP784U1V42C78L9NSUOOdYwsoTlGDzMOw$",
+				"jsonpath_queries": [
+				  {
+					"jsonpath_query": "$..email",
+					"jsonpath_query_name": "email",
+					"jsonpath_query_type": "string"
+				  }
+				],
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity"
+			},
+			{
+			  "unique_name": "definition_activity_01WJUCEEAZSQT4Wx96KUShv7KjGpApfP9Vs",
+			  "name": "Condition Block",
+			  "title": "Parse Successful?",
+			  "type": "logic.if_else",
+			  "base_type": "activity",
+			  "properties": {
+				"continue_on_failure": false,
+				"display_name": "Parse Successful?",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "blocks": [
+				{
+				  "unique_name": "definition_activity_01WJUCEFXEE0P3fni8AlOIaZpA24ER8EADa",
+				  "name": "Condition Branch",
+				  "title": "Yes",
+				  "type": "logic.condition_block",
+				  "base_type": "activity",
+				  "properties": {
+					"condition": {
+					  "left_operand": "$activity.definition_activity_01WJUCECXD3IA2qeWeXDJHYvkQH0H64WOlH.output.succeeded$",
+					  "operator": "eq",
+					  "right_operand": true
+					},
+					"continue_on_failure": false,
+					"display_name": "Yes",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "actions": [
+					{
+					  "unique_name": "definition_activity_01WJUCEJ482FK1iW9dXL0yHh2FJL2wFUTSi",
+					  "name": "Set Variables",
+					  "title": "Set Variables For Email",
+					  "type": "core.set_multiple_variables",
+					  "base_type": "activity",
+					  "properties": {
+						"continue_on_failure": false,
+						"display_name": "Set Variables For Email",
+						"skip_execution": false,
+						"variables_to_update": [
+						  {
+							"variable_to_update": "$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.local.variable_workflow_01WJUCDWGGTKV5v2ARPEzOEohxdaMJ4iMbV$",
+							"variable_value_new": "<tr><td><strong>Email:</strong></td><td>$activity.definition_activity_01WJUCECXD3IA2qeWeXDJHYvkQH0H64WOlH.output.jsonpath_queries.email$</td></tr>"
+						  }
+						]
+					  },
+					  "object_type": "definition_activity"
+					}
+				  ]
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01WJUCEK8NWI22UvKaU5CGIsEBGWVj6bwYa",
+			  "name": "JSONPath Query",
+			  "title": "Parse Name",
+			  "type": "corejava.jsonpathquery",
+			  "base_type": "activity",
+			  "properties": {
+				"action_timeout": 180,
+				"continue_on_failure": true,
+				"display_name": "Parse Name",
+				"input_json": "$activity.definition_activity_01WJUCE7CY1KW4pcEMltgKA6pJYHVk0e6HF.output.variable_workflow_01PP784U1V42C78L9NSUOOdYwsoTlGDzMOw$",
+				"jsonpath_queries": [
+				  {
+					"jsonpath_query": "$..realname",
+					"jsonpath_query_name": "realname",
+					"jsonpath_query_type": "string"
+				  }
+				],
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity"
+			},
+			{
+			  "unique_name": "definition_activity_01WJUCELUVQ7T6bxX5If5JdTc9hhQBR84t8",
+			  "name": "Condition Block",
+			  "title": "Parse Successful?",
+			  "type": "logic.if_else",
+			  "base_type": "activity",
+			  "properties": {
+				"continue_on_failure": false,
+				"display_name": "Parse Successful?",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "blocks": [
+				{
+				  "unique_name": "definition_activity_01WJUCEN2UR864WMFXV9EvDNHDpLeusGLUg",
+				  "name": "Condition Branch",
+				  "title": "Yes",
+				  "type": "logic.condition_block",
+				  "base_type": "activity",
+				  "properties": {
+					"condition": {
+					  "left_operand": "$activity.definition_activity_01WJUCEK8NWI22UvKaU5CGIsEBGWVj6bwYa.output.succeeded$",
+					  "operator": "eq",
+					  "right_operand": true
+					},
+					"continue_on_failure": false,
+					"display_name": "Yes",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "actions": [
+					{
+					  "unique_name": "definition_activity_01WJUCEOEA92A7fylfz6Wj5SR4VwqwpdC5s",
+					  "name": "Set Variables",
+					  "title": "Set Variables For Name",
+					  "type": "core.set_multiple_variables",
+					  "base_type": "activity",
+					  "properties": {
+						"continue_on_failure": false,
+						"display_name": "Set Variables For Name",
+						"skip_execution": false,
+						"variables_to_update": [
+						  {
+							"variable_to_update": "$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.local.variable_workflow_01WJUCDWGGTKV5v2ARPEzOEohxdaMJ4iMbV$",
+							"variable_value_new": "$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.local.variable_workflow_01WJUCDWGGTKV5v2ARPEzOEohxdaMJ4iMbV$\n<tr><td><strong>Name:</strong></td><td>$activity.definition_activity_01WJUCEK8NWI22UvKaU5CGIsEBGWVj6bwYa.output.jsonpath_queries.realname$</td></tr>"
+						  }
+						]
+					  },
+					  "object_type": "definition_activity"
+					}
+				  ]
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01WJUCEPLL3134PqL5dSjJhz2OfukTqpT1H",
+			  "name": "JSONPath Query",
+			  "title": "Parse Enrollment",
+			  "type": "corejava.jsonpathquery",
+			  "base_type": "activity",
+			  "properties": {
+				"action_timeout": 180,
+				"continue_on_failure": true,
+				"display_name": "Parse Enrollment",
+				"input_json": "$activity.definition_activity_01WJUCE7CY1KW4pcEMltgKA6pJYHVk0e6HF.output.variable_workflow_01PP784U1V42C78L9NSUOOdYwsoTlGDzMOw$",
+				"jsonpath_queries": [
+				  {
+					"jsonpath_query": "$..is_enrolled",
+					"jsonpath_query_name": "Is Enrolled",
+					"jsonpath_query_type": "string"
+				  }
+				],
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity"
+			},
+			{
+			  "unique_name": "definition_activity_01WJUCEQYKI4K4DEHYXIAESeCvif06Lf1wp",
+			  "name": "Condition Block",
+			  "title": "Parse Successful?",
+			  "type": "logic.if_else",
+			  "base_type": "activity",
+			  "properties": {
+				"continue_on_failure": false,
+				"display_name": "Parse Successful?",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "blocks": [
+				{
+				  "unique_name": "definition_activity_01WJUCET0NYXI6GCWctuMOFNUBj34myNr2d",
+				  "name": "Condition Branch",
+				  "title": "Yes",
+				  "type": "logic.condition_block",
+				  "base_type": "activity",
+				  "properties": {
+					"condition": {
+					  "left_operand": "$activity.definition_activity_01WJUCEPLL3134PqL5dSjJhz2OfukTqpT1H.output.succeeded$",
+					  "operator": "eq",
+					  "right_operand": "true"
+					},
+					"continue_on_failure": false,
+					"display_name": "Yes",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "actions": [
+					{
+					  "unique_name": "definition_activity_01WJUCEW4ZRW126M0ndkONKjlxtjdaydwsi",
+					  "name": "Set Variables",
+					  "title": "Set Variables For Enrolled",
+					  "type": "core.set_multiple_variables",
+					  "base_type": "activity",
+					  "properties": {
+						"continue_on_failure": false,
+						"display_name": "Set Variables For Enrolled",
+						"skip_execution": false,
+						"variables_to_update": [
+						  {
+							"variable_to_update": "$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.local.variable_workflow_01WJUCDWGGTKV5v2ARPEzOEohxdaMJ4iMbV$",
+							"variable_value_new": "$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.local.variable_workflow_01WJUCDWGGTKV5v2ARPEzOEohxdaMJ4iMbV$\n<tr><td><strong>Enrolled:</strong></td><td>$activity.definition_activity_01WJUCEPLL3134PqL5dSjJhz2OfukTqpT1H.output.jsonpath_queries.Is Enrolled$</td></tr>"
+						  }
+						]
+					  },
+					  "object_type": "definition_activity"
+					}
+				  ]
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01WJUCEXHAK660DNebrH7zgVzkjl2ZgbdNB",
+			  "name": "JSONPath Query",
+			  "title": "Parse Groups",
+			  "type": "corejava.jsonpathquery",
+			  "base_type": "activity",
+			  "properties": {
+				"action_timeout": 180,
+				"continue_on_failure": true,
+				"display_name": "Parse Groups",
+				"input_json": "$activity.definition_activity_01WJUCE7CY1KW4pcEMltgKA6pJYHVk0e6HF.output.variable_workflow_01PP784U1V42C78L9NSUOOdYwsoTlGDzMOw$",
+				"jsonpath_queries": [
+				  {
+					"jsonpath_query": "$..groups[*].name",
+					"jsonpath_query_name": "Group",
+					"jsonpath_query_type": "string"
+				  }
+				],
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity"
+			},
+			{
+			  "unique_name": "definition_activity_01WJUCF035HKX4y8uUAMFoaPznhv8uVQyjr",
+			  "name": "Condition Block",
+			  "title": "Parse Successful?",
+			  "type": "logic.if_else",
+			  "base_type": "activity",
+			  "properties": {
+				"continue_on_failure": false,
+				"display_name": "Parse Successful?",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "blocks": [
+				{
+				  "unique_name": "definition_activity_01WJUCF16WP5D0ekds1aXOFAzajMEdw4UdU",
+				  "name": "Condition Branch",
+				  "title": "Yes",
+				  "type": "logic.condition_block",
+				  "base_type": "activity",
+				  "properties": {
+					"condition": {
+					  "left_operand": "$activity.definition_activity_01WJUCEXHAK660DNebrH7zgVzkjl2ZgbdNB.output.succeeded$",
+					  "operator": "eq",
+					  "right_operand": "true"
+					},
+					"continue_on_failure": false,
+					"display_name": "Yes",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "actions": [
+					{
+					  "unique_name": "definition_activity_01WJUCF2LTM480VT1W4GytYqyYMQpe0Nj3o",
+					  "name": "Replace String",
+					  "title": "Replace String",
+					  "type": "core.replacestring",
+					  "base_type": "activity",
+					  "properties": {
+						"continue_on_failure": false,
+						"display_name": "Replace String",
+						"input_string": "$activity.definition_activity_01WJUCEXHAK660DNebrH7zgVzkjl2ZgbdNB.output.jsonpath_queries.Group$",
+						"replace_list": [
+						  {
+							"replaced_string": "[",
+							"replacement_string": ""
+						  },
+						  {
+							"replaced_string": "]",
+							"replacement_string": ""
+						  },
+						  {
+							"replaced_string": "\"",
+							"replacement_string": ""
+						  }
+						],
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity"
+					},
+					{
+					  "unique_name": "definition_activity_01WJUCF5GX1XE50cnfrvQgxA2NVybocJ6Az",
+					  "name": "Set Variables",
+					  "title": "Set Variables For Groups",
+					  "type": "core.set_multiple_variables",
+					  "base_type": "activity",
+					  "properties": {
+						"continue_on_failure": false,
+						"display_name": "Set Variables For Groups",
+						"skip_execution": false,
+						"variables_to_update": [
+						  {
+							"variable_to_update": "$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.local.variable_workflow_01WJUCDWGGTKV5v2ARPEzOEohxdaMJ4iMbV$",
+							"variable_value_new": "$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.local.variable_workflow_01WJUCDWGGTKV5v2ARPEzOEohxdaMJ4iMbV$\n<tr><td><strong>Groups:</strong></td><td>$activity.definition_activity_01WJUCF2LTM480VT1W4GytYqyYMQpe0Nj3o.output.result_string$</td></tr>"
+						  }
+						]
+					  },
+					  "object_type": "definition_activity"
+					}
+				  ]
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01WJUCF6R5TN71Nge08N5kln4s20tiIgSiS",
+			  "name": "JSONPath Query",
+			  "title": "Parse status",
+			  "type": "corejava.jsonpathquery",
+			  "base_type": "activity",
+			  "properties": {
+				"action_timeout": 180,
+				"continue_on_failure": true,
+				"display_name": "Parse status",
+				"input_json": "$activity.definition_activity_01WJUCE7CY1KW4pcEMltgKA6pJYHVk0e6HF.output.variable_workflow_01PP784U1V42C78L9NSUOOdYwsoTlGDzMOw$",
+				"jsonpath_queries": [
+				  {
+					"jsonpath_query": "$.response[*].status",
+					"jsonpath_query_name": "Status",
+					"jsonpath_query_type": "string"
+				  }
+				],
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity"
+			},
+			{
+			  "unique_name": "definition_activity_01WJUCF8E7TQE6gzK3C5HP9yKoVPwucPVJQ",
+			  "name": "Condition Block",
+			  "title": "Parse Successful?",
+			  "type": "logic.if_else",
+			  "base_type": "activity",
+			  "properties": {
+				"continue_on_failure": false,
+				"display_name": "Parse Successful?",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "blocks": [
+				{
+				  "unique_name": "definition_activity_01WJUCFAJ4E713ksxxmn8BUlQ1w5KhTGcOa",
+				  "name": "Condition Branch",
+				  "title": "Yes",
+				  "type": "logic.condition_block",
+				  "base_type": "activity",
+				  "properties": {
+					"condition": {
+					  "left_operand": "$activity.definition_activity_01WJUCF6R5TN71Nge08N5kln4s20tiIgSiS.output.succeeded$",
+					  "operator": "eq",
+					  "right_operand": true
+					},
+					"continue_on_failure": false,
+					"display_name": "Yes",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "actions": [
+					{
+					  "unique_name": "definition_activity_01WJUCFEBP8GK2gmV5NPsjG8ws6VAKe0G7T",
+					  "name": "Set Variables",
+					  "title": "Set Variables For Status",
+					  "type": "core.set_multiple_variables",
+					  "base_type": "activity",
+					  "properties": {
+						"continue_on_failure": false,
+						"display_name": "Set Variables For Status",
+						"skip_execution": false,
+						"variables_to_update": [
+						  {
+							"variable_to_update": "$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.local.variable_workflow_01WJUCDWGGTKV5v2ARPEzOEohxdaMJ4iMbV$",
+							"variable_value_new": "$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.local.variable_workflow_01WJUCDWGGTKV5v2ARPEzOEohxdaMJ4iMbV$\n<tr><td><strong>Status:</strong></td><td>$activity.definition_activity_01WJUCF6R5TN71Nge08N5kln4s20tiIgSiS.output.jsonpath_queries.Status$</td></tr>"
+						  }
+						]
+					  },
+					  "object_type": "definition_activity"
+					}
+				  ]
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01WJUCFFGLVZX4bJUUpJ2KqGv5Z4sNa6q3w",
+			  "name": "JSONPath Query",
+			  "title": "Parse phones",
+			  "type": "corejava.jsonpathquery",
+			  "base_type": "activity",
+			  "properties": {
+				"action_timeout": 180,
+				"continue_on_failure": true,
+				"display_name": "Parse phones",
+				"input_json": "$activity.definition_activity_01WJUCE7CY1KW4pcEMltgKA6pJYHVk0e6HF.output.variable_workflow_01PP784U1V42C78L9NSUOOdYwsoTlGDzMOw$",
+				"jsonpath_queries": [
+				  {
+					"jsonpath_query": "$..phones[*].[\"number\",\"platform\",\"model\"]",
+					"jsonpath_query_name": "Phones",
+					"jsonpath_query_type": "string"
+				  }
+				],
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity"
+			},
+			{
+			  "unique_name": "definition_activity_01WJUCFGLY65N591U7xKu386Tg3BEjzW2Kg",
+			  "name": "Condition Block",
+			  "title": "Parse Successful?",
+			  "type": "logic.if_else",
+			  "base_type": "activity",
+			  "properties": {
+				"continue_on_failure": false,
+				"display_name": "Parse Successful?",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "blocks": [
+				{
+				  "unique_name": "definition_activity_01WJUCFI7I34B0W8omejHyzMle89MHtUfK5",
+				  "name": "Condition Branch",
+				  "title": "Yes",
+				  "type": "logic.condition_block",
+				  "base_type": "activity",
+				  "properties": {
+					"condition": {
+					  "left_operand": "$activity.definition_activity_01WJUCFFGLVZX4bJUUpJ2KqGv5Z4sNa6q3w.output.succeeded$",
+					  "operator": "eq",
+					  "right_operand": "true"
+					},
+					"continue_on_failure": false,
+					"display_name": "Yes",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "actions": [
+					{
+					  "unique_name": "definition_activity_01WJUCFLC92NV2gWZUVbZ8PqpW3ASh1UdXI",
+					  "name": "Replace String",
+					  "title": "Replace String",
+					  "type": "core.replacestring",
+					  "base_type": "activity",
+					  "properties": {
+						"continue_on_failure": true,
+						"display_name": "Replace String",
+						"input_string": "$activity.definition_activity_01WJUCFFGLVZX4bJUUpJ2KqGv5Z4sNa6q3w.output.jsonpath_queries.Phones$",
+						"replace_list": [
+						  {
+							"replaced_string": "[",
+							"replacement_string": ""
+						  },
+						  {
+							"replaced_string": "]",
+							"replacement_string": ""
+						  },
+						  {
+							"replaced_string": "\"",
+							"replacement_string": ""
+						  },
+						  {
+							"replaced_string": "{",
+							"replacement_string": ""
+						  },
+						  {
+							"replaced_string": "}",
+							"replacement_string": ""
+						  }
+						],
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity"
+					},
+					{
+					  "unique_name": "definition_activity_01WJUCFMRIJWR5Abd1B59YHAr8eSk0eCSi8",
+					  "name": "Set Variables",
+					  "title": "Set Variables For Phone",
+					  "type": "core.set_multiple_variables",
+					  "base_type": "activity",
+					  "properties": {
+						"continue_on_failure": false,
+						"display_name": "Set Variables For Phone",
+						"skip_execution": false,
+						"variables_to_update": [
+						  {
+							"variable_to_update": "$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.local.variable_workflow_01WJUCDWGGTKV5v2ARPEzOEohxdaMJ4iMbV$",
+							"variable_value_new": "$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.local.variable_workflow_01WJUCDWGGTKV5v2ARPEzOEohxdaMJ4iMbV$\n<tr><td><strong>Phone Details:</strong></td><td>\n$activity.definition_activity_01WJUCFLC92NV2gWZUVbZ8PqpW3ASh1UdXI.output.result_string$</td></tr>"
+						  }
+						]
+					  },
+					  "object_type": "definition_activity"
+					}
+				  ]
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01WPW2HFP6YCL2b5ZzSGi7ai7y7TG09CTTB",
+		  "name": "Group",
+		  "title": "Calculate and format dates",
+		  "type": "logic.group",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Calculate and format dates",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "actions": [
+			{
+			  "unique_name": "definition_activity_01WJV4L653L9U4lbMLKZE6yJDuIas1Pjwz1",
+			  "name": "Calculate Date",
+			  "title": "Calculate Start Date",
+			  "type": "core.calculate_date",
+			  "base_type": "activity",
+			  "properties": {
+				"adjustment": "-($workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.local.variable_workflow_01WJUCDWGHRUC2paWwsYOWLKNwaVvv14BSx$*3600)",
+				"continue_on_failure": false,
+				"display_name": "Calculate Start Date",
+				"original_date": "$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.output.start_time$",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity"
+			},
+			{
+			  "unique_name": "definition_activity_01WPVYR7T9X606LLi3KLqbuC5GDUk1C9Ze1",
+			  "name": "Format Date",
+			  "title": "Format Start Date",
+			  "type": "core.format_date",
+			  "base_type": "activity",
+			  "properties": {
+				"continue_on_failure": false,
+				"display_name": "Format Start Date",
+				"format_string": "2006-01-02T15:04:05Z",
+				"original_date": "$activity.definition_activity_01WJV4L653L9U4lbMLKZE6yJDuIas1Pjwz1.output.result$",
+				"skip_execution": false,
+				"use_custom_format": false
+			  },
+			  "object_type": "definition_activity"
+			},
+			{
+			  "unique_name": "definition_activity_01WPVZ0FZVFD1250HGaKuiRy0dKvUqRA6z4",
+			  "name": "Format Date",
+			  "title": "Format End Date",
+			  "type": "core.format_date",
+			  "base_type": "activity",
+			  "properties": {
+				"continue_on_failure": false,
+				"display_name": "Format End Date",
+				"format_string": "2006-01-02T15:04:05Z",
+				"original_date": "$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.output.start_time$",
+				"skip_execution": false,
+				"use_custom_format": false
+			  },
+			  "object_type": "definition_activity"
+			},
+			{
+			  "unique_name": "definition_activity_01WPW0SY31IYH0MpsjPI9EUfxeRiy0J1vVe",
+			  "name": "Execute Python Script",
+			  "title": "Execute Python Script",
+			  "type": "python3.script",
+			  "base_type": "activity",
+			  "properties": {
+				"action_timeout": 180,
+				"continue_on_failure": false,
+				"display_name": "Execute Python Script",
+				"script": "import sys\n\nstartDate = sys.argv[1]\nendDate = sys.argv[2]\n",
+				"script_arguments": [
+				  "$activity.definition_activity_01WPVYR7T9X606LLi3KLqbuC5GDUk1C9Ze1.output.result$",
+				  "$activity.definition_activity_01WPVZ0FZVFD1250HGaKuiRy0dKvUqRA6z4.output.result$"
+				],
+				"script_queries": [
+				  {
+					"script_query": "startDate",
+					"script_query_name": "startDate",
+					"script_query_type": "date"
+				  },
+				  {
+					"script_query": "endDate",
+					"script_query_name": "endDate",
+					"script_query_type": "date"
+				  }
+				],
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity"
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01WPVX7R959L27le6gfSgbfqsmU9APqBiEp",
+		  "name": "Duo - Admin - Get Authentication Logs",
+		  "title": "Duo - Admin - Get Authentication Logs",
+		  "type": "workflow.atomic_workflow",
+		  "base_type": "subworkflow",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Duo - Admin - Get Authentication Logs",
+			"input": {
+			  "variable_workflow_01VYQC8GYYX9U5STtxT5PTvC7S8MlbvtmPT": "$activity.definition_activity_01WJUCE7CY1KW4pcEMltgKA6pJYHVk0e6HF.output.variable_workflow_01PP784U1VH0E0HZcDN2JkRNCFyAzdDower$",
+			  "variable_workflow_01VYQC8GYZ5LD0OIqgqR5WNRfbWQXSmt8zs": "$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.local.variable_workflow_01WJUCDWGFXQD09CJOOhm0kasbyJzP3oR2x$",
+			  "variable_workflow_01VYQC8GYZOPB2xoRNkJxj3HbfCb5RtkTwM": "$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.local.variable_workflow_01WJUCDWGH1KV57LcFzJBg2eolJtfM3N8oS$",
+			  "variable_workflow_01VYQC8GZ0OID5xWsP44qLC7ERGQZZss29b": "$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.local.variable_workflow_01WJUCDWGH93I4q08SV0ondMafqnMedkWLa$",
+			  "variable_workflow_01W1D72MO4BC33LkEPtn6VIUklNNZLQ26mq": "$activity.definition_activity_01WPW0SY31IYH0MpsjPI9EUfxeRiy0J1vVe.output.script_queries.startDate$",
+			  "variable_workflow_01W1D76657DMB0MeqFnyHvGuxKdVcRk9li9": "$activity.definition_activity_01WPW0SY31IYH0MpsjPI9EUfxeRiy0J1vVe.output.script_queries.endDate$"
+			},
+			"runtime_user": {
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "use_workflow_target_group": true
+			},
+			"workflow_id": "definition_workflow_01VYQC8GMQJV82n5jiPCOKtiaUoZ51yK7WT",
+			"workflow_name": "Duo - Admin - Get Authentication Logs"
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01WJUCFVMZY9N3BilAXBDf0XH2ENPAHKPjn",
+		  "name": "Condition Block",
+		  "title": "Were authentication logs fetched?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Were authentication logs fetched?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01WJUCFWRFV2M5VeGVxtvEUvJNVsczJx4i7",
+			  "name": "Condition Branch",
+			  "title": "Yes",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01WPVX7R959L27le6gfSgbfqsmU9APqBiEp.output.succeeded$",
+				  "operator": "eq",
+				  "right_operand": true
+				},
+				"continue_on_failure": false,
+				"display_name": "Yes",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01WJUCFZYRHVS7k1TYiVuwxVm0mgLCejOp3",
+				  "name": "Execute Python Script",
+				  "title": "Parse Authentication Logs to HTML",
+				  "type": "python3.script",
+				  "base_type": "activity",
+				  "properties": {
+					"action_timeout": 180,
+					"continue_on_failure": false,
+					"display_name": "Parse Authentication Logs to HTML",
+					"script": "import sys\nimport json\n\nDATA = json.loads(sys.argv[1])\nLOGS = DATA['response']['authlogs']\nusername = sys.argv[2]\n\ndef parse_logs(log):\n\ttry:\n\t\ttimestamp = log['isotimestamp']\n\t\tevent = log['event_type']\n\t\tfactor = log['factor']\n\t\treason = log['reason']\n\t\tresult = log['result']\n\t\taccess_ip = log['access_device']['ip']\n\t\tbrowser = log['access_device']['browser']\n\t\tb_version = log['access_device']['browser_version']\n\t\tos = log['access_device']['os']\n\t\tos_version = log['access_device']['os_version']\n\t\tapproval_device = log['auth_device']['name']\n\t\tapplication = log['application']['name']\n\texcept KeyError:\n\t\tpass\n\n\t# Set parsed results\n\tlog_data = f'''\n\t<td>{timestamp}</td>\n\t<td>{event}</td>\n\t<td>{factor}</td>\n\t<td>{approval_device}</td>\n\t<td>{application}</td>\n\t<td>{result}</td>\n\t<td>{access_ip}</td>\n\t'''\n\n\tif browser:\n\t\tlog_data += f\"<td>{browser} - {b_version}</td>\"\n\telse:\n\t\tlog_data += f\"<td>-</td>\"\n\t\n\tif os:\n\t\tlog_data += f\"<td>{os} - {os_version}</td>\"\n\telse:\n\t\tlog_data += f\"<td>-</td>\"\n\n\treturn log_data\n\n# Initialize results\nresults = \"\"\n\nif len(LOGS) == 0:\n\tresults = f'No authentication logs found for user \"{username}\" in the specified timeframe'\nelse:\n\tresults = '''<table border=\"1\">\n\t<tr>\n\t\t<th><strong>Time</strong></th>\n\t\t<th><strong>Event</strong></th>\n\t\t<th><strong>Factor</strong></th>\n\t\t<th><strong>Device Name</strong></th>\n\t\t<th><strong>Application</strong></th>\n\t\t<th><strong>Result</strong></th>\n\t\t<th><strong>Access Device IP</strong></th>\n\t\t<th><strong>Browser</strong></th>\n\t\t<th><strong>OS</strong></th>\n\t</tr>'''\n\t\n\tfor _log in LOGS:\n\t\tresults += f\"<tr>{parse_logs(_log)}</tr>\"\n\t\n\tresults += '</table>'",
+					"script_arguments": [
+					  "$activity.definition_activity_01WPVX7R959L27le6gfSgbfqsmU9APqBiEp.output.variable_workflow_01VYQC8GZ04KI5nZd2TJni9SQjloHizxVLJ$",
+					  "$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.input.variable_workflow_01WJUMCWFN4NE7Am7lh6OiOmTiBKSWLbqvu$"
+					],
+					"script_queries": [
+					  {
+						"script_query": "results",
+						"script_query_name": "table",
+						"script_query_type": "string"
+					  }
+					],
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01WJUCG8SCK3452SWKu0JErDkJBWovJ8NNo",
+				  "name": "Service Now - Create Incident",
+				  "title": "Service Now - Create Incident",
+				  "type": "workflow.atomic_workflow",
+				  "base_type": "subworkflow",
+				  "properties": {
+					"continue_on_failure": true,
+					"display_name": "Service Now - Create Incident",
+					"input": {
+					  "variable_workflow_01C0CK2MY2SLG1FXph6ZHp7iHmRw1KvUFlN": "Investigation for Duo User \"$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.input.variable_workflow_01WJUMCWFN4NE7Am7lh6OiOmTiBKSWLbqvu$\"",
+					  "variable_workflow_01FGYF0DUR8HV2TMpEKctsYjQR4mzjD5OTu": "This ticket was created by SecureX Orchestration to document an investigation for Duo user \"$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.input.variable_workflow_01WJUMCWFN4NE7Am7lh6OiOmTiBKSWLbqvu$\". See work notes below for user profile and recent authentication activity.",
+					  "variable_workflow_01FGYGCZL5M2E1m1O5tvVVn0DVzVTLwytei": 2,
+					  "variable_workflow_01FGYGPFJYM4L5aVpzNOhRwMmzKJDofqufe": 2,
+					  "variable_workflow_01FGYGZ0OYYNM5pWjyyreMjNHDjusjNe8jx": "[code]\n<h2>\"$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.input.variable_workflow_01WJUMCWFN4NE7Am7lh6OiOmTiBKSWLbqvu$\" User Profile:</h2>\n<table border=\"1\">\n$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.local.variable_workflow_01WJUCDWGGTKV5v2ARPEzOEohxdaMJ4iMbV$\n</table>\n\n<h2>Authentication Activity for \"$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.input.variable_workflow_01WJUMCWFN4NE7Am7lh6OiOmTiBKSWLbqvu$\" in the last $workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.local.variable_workflow_01WJUCDWGHRUC2paWwsYOWLKNwaVvv14BSx$ hours:</h2>\n$activity.definition_activity_01WJUCFZYRHVS7k1TYiVuwxVm0mgLCejOp3.output.script_queries.table$\n[/code]",
+					  "variable_workflow_01FGYI8HES41K63G3UzMinBH3iApm37fBGt": "$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.local.variable_workflow_01WJUCDWGGI4P2lBg9Jnw89xoCkD2Cs1MiX$",
+					  "variable_workflow_01FMQD0HIJIDU5kce0VNx4HQiMYjMfUvBlj": "v2"
+					},
+					"runtime_user": {
+					  "target_default": true
+					},
+					"skip_execution": false,
+					"target": {
+					  "override_workflow_target_group_criteria": true,
+					  "target_group": {
+						"run_on_all_targets": false,
+						"use_criteria": {
+						  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+						  "conditions": [
+							{
+							  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+							  "operator": "eqi",
+							  "right_operand": "ServiceNow"
+							}
+						  ]
+						}
+					  }
+					},
+					"workflow_id": "definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW",
+					"workflow_name": "ServiceNow - Create Incident"
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01WK0BQX42N737Vic0VGrVM4ojnQWpJkwDg",
+				  "name": "Condition Block",
+				  "title": "Ticket Created Successfully?",
+				  "type": "logic.if_else",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Ticket Created Successfully?",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "blocks": [
+					{
+					  "unique_name": "definition_activity_01WK0BQXZKRHG30Zh8WzAg8UxHO5aOoXXFz",
+					  "name": "Condition Branch",
+					  "title": "No",
+					  "type": "logic.condition_block",
+					  "base_type": "activity",
+					  "properties": {
+						"condition": {
+						  "left_operand": "$activity.definition_activity_01WJUCG8SCK3452SWKu0JErDkJBWovJ8NNo.output.succeeded$",
+						  "operator": "eq",
+						  "right_operand": false
+						},
+						"continue_on_failure": false,
+						"display_name": "No",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "actions": [
+						{
+						  "unique_name": "definition_activity_01WK0CYQSQHDV03YQX2BfEau3NTmCQAsSdL",
+						  "name": "Completed",
+						  "title": "Failed",
+						  "type": "logic.completed",
+						  "base_type": "activity",
+						  "properties": {
+							"completion_type": "failed-completed",
+							"continue_on_failure": false,
+							"display_name": "Failed",
+							"result_message": "An error occurred while creating the ServiceNow incident ticket for the investigation into Duo user \"$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.input.variable_workflow_01WJUMCWFN4NE7Am7lh6OiOmTiBKSWLbqvu$\"",
+							"skip_execution": false
+						  },
+						  "object_type": "definition_activity"
+						}
+					  ]
+					}
+				  ]
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01WJUCGDGAYT026ICoZ9WX5NdqCOyvTGzfw",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01WPVX7R959L27le6gfSgbfqsmU9APqBiEp.output.succeeded$",
+				  "operator": "eq",
+				  "right_operand": false
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01WJUCGF81Z723YHF2GzjdhncW3RhmdInaw",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "Failed to fetch authentication logs for the user \"$workflow.definition_workflow_01WJUCDW6H0TU1nTTKLlKmJBaTr7Rack8v7.input.variable_workflow_01WJUMCWFN4NE7Am7lh6OiOmTiBKSWLbqvu$\"",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		}
+	  ],
+	  "categories": [
+		"category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m"
+	  ]
+	},
+	"categories": {
+	  "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m": {
+		"unique_name": "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m",
+		"name": "response",
+		"title": "response",
+		"type": "basic.category",
+		"base_type": "category",
+		"category_type": "custom",
+		"object_type": "category"
+	  }
+	},
+	"target_groups": {
+	  "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+		"unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+		"name": "Default TargetGroup",
+		"title": "Default TargetGroup",
+		"type": "generic.target_group",
+		"base_type": "target_group",
+		"version": "1.0.0",
+		"targets": [
+		  {
+			"data_target_type": "web-service.endpoint",
+			"view_target_type": "web-service.endpoint",
+			"include_all_targets": true
+		  },
+		  {
+			"data_target_type": "email.smtp_endpoint",
+			"view_target_type": "email.smtp_endpoint",
+			"include_all_targets": true
+		  }
+		],
+		"object_type": "target_group"
+	  }
+	},
+	"atomic_workflows": [
+	  "definition_workflow_01VYQC8GMQJV82n5jiPCOKtiaUoZ51yK7WT",
+	  "definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW",
+	  "definition_workflow_01PP784U9VGRC6ISP15eyRIQPnhZsDlJlJU"
+	],
+	"dependent_workflows": [
+	  "definition_workflow_01PP784U9VGRC6ISP15eyRIQPnhZsDlJlJU",
+	  "definition_workflow_01VYQC8GMQJV82n5jiPCOKtiaUoZ51yK7WT",
+	  "definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW"
+	]
+  }
