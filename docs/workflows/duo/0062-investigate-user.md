@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Duo - Investigate User
+title: Investigate User
 permalink: /workflows/duo/0062-duo-investigate-user
 redirect_from:
   - /workflows/0062
@@ -8,7 +8,7 @@ parent: Duo Security
 grand_parent: Workflows
 ---
 
-# WORKFLOW NAME
+# Investigate User
 <div markdown="1">
 Workflow #0062
 {: .label }
