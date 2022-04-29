@@ -1,0 +1,1095 @@
+{
+	"workflow": {
+	  "unique_name": "definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78",
+	  "name": "0063 - Duo - Configuration Audit",
+	  "title": "0063 - Duo - Configuration Audit",
+	  "type": "generic.workflow",
+	  "base_type": "workflow",
+	  "variables": [
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "Duo Hostname",
+			"type": "datatype.string",
+			"description": "The hostname for your Duo Admin API integration. This can be found in the integration's information inyour Duo admin panel",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01WGPC6TVW0LC5fGAggxSLhiDWLPGRTE5yf",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "Results",
+			"type": "datatype.string",
+			"description": "Placeholder used to assemble information about the Duo settings. This will be populated automatically",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01WOBX7XNYXET1knKYChd1PLgobBvQ1KNQg",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "Duo Integration Key",
+			"type": "datatype.string",
+			"description": "The integration key for your Duo Admin API integration. This can be found in the integration's information inyour Duo admin panel",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01WGPC6TVXOMZ3hjHFBGvwm5RYqgRR1JwSu",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.integer",
+		  "properties": {
+			"value": 0,
+			"scope": "local",
+			"name": "Offset",
+			"type": "datatype.integer",
+			"description": "Placeholder for the page offset to request. This will be populated automatically",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01WOJVQ2WWL817loNFdxaRYK553N6sbVNbY",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.secure_string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "Duo Secret Key",
+			"type": "datatype.secure_string",
+			"description": "The secret key key for your Duo Admin API integration. This can be found in the integration's information inyour Duo admin panel",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01WGPC6TVWD3F4owuGoegiQatc2916oXWBO",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "securex-orchestration",
+			"scope": "local",
+			"name": "ServiceNow User ID",
+			"type": "datatype.string",
+			"description": "The username of the user you're using to open incident tickets. This can either match the username in your ServiceNow account key or, if the account has the appropriate permissions, can be a different user",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01WGPC6TVX0HD0w9mZWcdrLWRQ4Rd8IHJUD",
+		  "object_type": "variable_workflow"
+		}
+	  ],
+	  "properties": {
+		"atomic": {
+		  "is_atomic": false
+		},
+		"delete_workflow_instance": false,
+		"description": "This workflow retrieves various settings from the Duo Admin API for audit purposes. If the information is retrieved successfully, a ServiceNow incident is created to document what was fetched.\n\nNote: This workflow uses the Duo Admin API which is not enabled by default. Contact Duo support to have it enabled.\n\nTarget Group: Default TargetGroup\n\nTargets: Duo Security, ServiceNow\n\nSteps:\n[] Fetch global variables\n[] Verify required input was provided\n[] Get Duo admin settings, parse and update results\n[] Get the list of Duo admins, parse and update results\n[] Get the Duo user count, parse and update results\n[] Get the Duo endpoint count, parse and update results\n[] Get the list of Duo integrations, parse and update results\n[] Create a ServiceNow incident with results\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0063",
+		"display_name": "0063 - Duo - Configuration Audit",
+		"runtime_user": {
+		  "target_default": true
+		},
+		"target": {
+		  "execute_on_target_group": true,
+		  "target_group": {
+			"target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+			"run_on_all_targets": false,
+			"selected_target_types": [
+			  "web-service.endpoint"
+			],
+			"use_criteria": {
+			  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+			  "conditions": [
+				{
+				  "operator": "eqi",
+				  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+				  "right_operand": "Duo Security"
+				}
+			  ]
+			}
+		  }
+		}
+	  },
+	  "object_type": "definition_workflow",
+	  "actions": [
+		{
+		  "unique_name": "definition_activity_01WOARFM2YXZ31TGpuCCckiavsrgxf7ToyM",
+		  "name": "Group",
+		  "title": "Fetch global variables",
+		  "type": "logic.group",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Fetch global variables",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "actions": [
+			{
+			  "unique_name": "definition_activity_01WOARAD6WGIN27r6fRuEElDpEFMCfHFeRp",
+			  "name": "Set Variables",
+			  "title": "Fetch global variables",
+			  "type": "core.set_multiple_variables",
+			  "base_type": "activity",
+			  "properties": {
+				"continue_on_failure": false,
+				"display_name": "Fetch global variables",
+				"skip_execution": false,
+				"variables_to_update": [
+				  {
+					"variable_to_update": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WGPC6TVW0LC5fGAggxSLhiDWLPGRTE5yf$",
+					"variable_value_new": ""
+				  },
+				  {
+					"variable_to_update": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WGPC6TVXOMZ3hjHFBGvwm5RYqgRR1JwSu$",
+					"variable_value_new": ""
+				  },
+				  {
+					"variable_to_update": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WGPC6TVWD3F4owuGoegiQatc2916oXWBO$",
+					"variable_value_new": ""
+				  }
+				]
+			  },
+			  "object_type": "definition_activity"
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01WGPC72I84V43z5DPd86FIMzw1Xs4vsnIe",
+		  "name": "Condition Block",
+		  "title": "Were all required variables provided?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Were all required variables provided?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01WGPC73SZLCY0ahf5QL7mAQbQ9euPtT65K",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": {
+					"left_operand": {
+					  "left_operand": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WGPC6TVX0HD0w9mZWcdrLWRQ4Rd8IHJUD$",
+					  "operator": "eq",
+					  "right_operand": ""
+					},
+					"operator": "or",
+					"right_operand": {
+					  "left_operand": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WGPC6TVW0LC5fGAggxSLhiDWLPGRTE5yf$",
+					  "operator": "eq",
+					  "right_operand": ""
+					}
+				  },
+				  "operator": "or",
+				  "right_operand": {
+					"left_operand": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WGPC6TVXOMZ3hjHFBGvwm5RYqgRR1JwSu$",
+					"operator": "eq",
+					"right_operand": ""
+				  }
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01WGPC74XS2KP1i3f1Sw0pVk86cIMy5E3XG",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "A required value was not provided. Please verify that the following local variables have been configured: Duo Hostname, Duo Integration Key, and ServiceNow User ID",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01WGPC76QJDDS1hhP8BCXEPYqGthf2wQ6CK",
+		  "name": "Group",
+		  "title": "Get Duo Admin Settings",
+		  "type": "logic.group",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Get Duo Admin Settings",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "actions": [
+			{
+			  "unique_name": "definition_activity_01WPTOG9I2BI87SXCkLeaMdvbaixqjmdiBH",
+			  "name": "Duo - Admin - Get Settings",
+			  "title": "Duo - Admin - Get Settings",
+			  "type": "workflow.atomic_workflow",
+			  "base_type": "subworkflow",
+			  "properties": {
+				"continue_on_failure": false,
+				"display_name": "Duo - Admin - Get Settings",
+				"input": {
+				  "variable_workflow_01VTP4BZ48EVL42AubnQDOcSpvyi7FZLGOf": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WGPC6TVW0LC5fGAggxSLhiDWLPGRTE5yf$",
+				  "variable_workflow_01VTP4BZ48VJV3gs4SKXdpselHNmuTnyj4i": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WGPC6TVWD3F4owuGoegiQatc2916oXWBO$",
+				  "variable_workflow_01VTP4BZ49BQ41fgYM20nMLtGGdTxsdIcjd": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WGPC6TVXOMZ3hjHFBGvwm5RYqgRR1JwSu$"
+				},
+				"runtime_user": {
+				  "target_default": true
+				},
+				"skip_execution": false,
+				"target": {
+				  "use_workflow_target_group": true
+				},
+				"workflow_id": "definition_workflow_01VTP4BYVG6XB0fyWCWmiMGqBvD7LRYl2dO",
+				"workflow_name": "Duo - Admin - Get Settings"
+			  },
+			  "object_type": "definition_activity"
+			},
+			{
+			  "unique_name": "definition_activity_01WMN2ZPJWLLI3cXAVFTdJUWMP3ex790Z61",
+			  "name": "Execute Python Script",
+			  "title": "Format the results",
+			  "type": "python3.script",
+			  "base_type": "activity",
+			  "properties": {
+				"action_timeout": 180,
+				"continue_on_failure": true,
+				"display_name": "Format the results",
+				"script": "import sys, json\n\nsettingsRaw = json.loads(sys.argv[1])\nsettingsOut = '<table border=\"1\"><tr><th>Setting</th><th>Value</th></tr>'\n\nfor setting in settingsRaw['response']:\n  settingsOut = settingsOut + '<tr><td>' + setting + '</td><td>' + str(settingsRaw['response'][setting]) + '</tr>'\n\nsettingsOut = settingsOut + '</table>'",
+				"script_arguments": [
+				  "$activity.definition_activity_01WPTOG9I2BI87SXCkLeaMdvbaixqjmdiBH.output.variable_workflow_01VTP4BZ48NOX48O33t33Oz5Sv72ZuAjc6w$"
+				],
+				"script_queries": [
+				  {
+					"script_query": "settingsOut",
+					"script_query_name": "settingsOut",
+					"script_query_type": "string"
+				  }
+				],
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity"
+			},
+			{
+			  "unique_name": "definition_activity_01WOCT3VZUAYA3HlgqRN03csS3yJBhCE0JS",
+			  "name": "Set Variables",
+			  "title": "Update local results variable",
+			  "type": "core.set_multiple_variables",
+			  "base_type": "activity",
+			  "properties": {
+				"continue_on_failure": false,
+				"display_name": "Update local results variable",
+				"skip_execution": false,
+				"variables_to_update": [
+				  {
+					"variable_to_update": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WOBX7XNYXET1knKYChd1PLgobBvQ1KNQg$",
+					"variable_value_new": "<h3>Duo Admin Settings:</h3>\n$activity.definition_activity_01WMN2ZPJWLLI3cXAVFTdJUWMP3ex790Z61.output.script_queries.settingsOut$\n<hr />\n<h3>Duo Admins:</h3>"
+				  }
+				]
+			  },
+			  "object_type": "definition_activity"
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01WOJQRVXQFAJ49WP771V10TzcJcxFD81Jo",
+		  "name": "While Loop",
+		  "title": "While True=True",
+		  "type": "logic.while",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "While True=True",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01WOJQRWHK7NC5L46EIjiHRDceqQxSndnFt",
+			  "name": "Condition Branch",
+			  "title": "Get Admins",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.output.start_time$",
+				  "operator": "eq",
+				  "right_operand": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.output.start_time$"
+				},
+				"continue_on_failure": false,
+				"display_name": "Get Admins",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01WPTR3KLA7YD2PmqF3u61jYXSodpD6pe1Q",
+				  "name": "Duo - Admin - Get Admins",
+				  "title": "Duo - Admin - Get Admins",
+				  "type": "workflow.atomic_workflow",
+				  "base_type": "subworkflow",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Duo - Admin - Get Admins",
+					"input": {
+					  "variable_workflow_01VEBXGUJLLX80BYeNtv8Xra5HRqpZQHb7y": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WGPC6TVWD3F4owuGoegiQatc2916oXWBO$",
+					  "variable_workflow_01VEBXGUJM8QA7FKa0lv70MD8ljdFbPE3Uu": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WGPC6TVW0LC5fGAggxSLhiDWLPGRTE5yf$",
+					  "variable_workflow_01VEBXGUJN44L0h0y2mSDusf1G84dU9ziSw": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WGPC6TVXOMZ3hjHFBGvwm5RYqgRR1JwSu$",
+					  "variable_workflow_01VHPPP0R1BV73hdOjR1rNA8Mi9EZFblx2m": "",
+					  "variable_workflow_01W6FF7JP34CA00i535IH1JBaCJZAYStKg6": 500,
+					  "variable_workflow_01W6FGVRXAGBO7OiGJj1LDrMfAlziKLPvpE": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WOJVQ2WWL817loNFdxaRYK553N6sbVNbY$"
+					},
+					"runtime_user": {
+					  "target_default": true
+					},
+					"skip_execution": false,
+					"target": {
+					  "use_workflow_target_group": true
+					},
+					"workflow_id": "definition_workflow_01VEBXGU6PN4Q79kvVbrHggS66PQzkQsOXz",
+					"workflow_name": "Duo - Admin - Get Admins"
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01WOK68FHB58869ezP55rJn1Jk2zeSWRCZQ",
+				  "name": "Execute Python Script",
+				  "title": "Format the results",
+				  "type": "python3.script",
+				  "base_type": "activity",
+				  "properties": {
+					"action_timeout": 180,
+					"continue_on_failure": true,
+					"display_name": "Format the results",
+					"script": "import sys, json\n\nadminsRaw = json.loads(sys.argv[1])\nadminsOut = ''\n\nif isinstance(adminsRaw['response'], dict):\n  thisAdmin = adminsRaw['response']\n  adminsOut = f\"<strong>{thisAdmin['name']}</strong><br /><ul>\"\n  adminsOut += f\"<li><strong>Email:</strong> {thisAdmin['email']}</li>\"\n  adminsOut += f\"<li><strong>Role:</strong> {thisAdmin['role']}</li>\"\nelse:\n  adminsOut = '<table border=\"1\"><tr><th>Name</th><th>Email</th><th>Role</th></tr>'\n\n  for admin in adminsRaw['response']:\n    adminsOut += f\"<tr><td>{admin['name']}</td><td>{admin['email']}</td><td>{admin['role']}</td></tr>\"\n\n  adminsOut += '</table>'\n",
+					"script_arguments": [
+					  "$activity.definition_activity_01WPTR3KLA7YD2PmqF3u61jYXSodpD6pe1Q.output.variable_workflow_01VNPFJJE60RZ0Fh3tQyOoQr7vN2NDjaBM6$"
+					],
+					"script_queries": [
+					  {
+						"script_query": "adminsOut",
+						"script_query_name": "adminsOut",
+						"script_query_type": "string"
+					  }
+					],
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01WOK6CTR6LD57TAg5zGwPuZJJLhpvA359Z",
+				  "name": "Set Variables",
+				  "title": "Update local results variable",
+				  "type": "core.set_multiple_variables",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Update local results variable",
+					"skip_execution": false,
+					"variables_to_update": [
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WOBX7XNYXET1knKYChd1PLgobBvQ1KNQg$",
+						"variable_value_new": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WOBX7XNYXET1knKYChd1PLgobBvQ1KNQg$\n$activity.definition_activity_01WOK68FHB58869ezP55rJn1Jk2zeSWRCZQ.output.script_queries.adminsOut$"
+					  }
+					]
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01WOJJJ50JVLQ3aJTGPNZyKpOUv97GtJFKb",
+				  "name": "JSONPath Query",
+				  "title": "Parse page offset",
+				  "type": "corejava.jsonpathquery",
+				  "base_type": "activity",
+				  "properties": {
+					"action_timeout": 180,
+					"continue_on_failure": true,
+					"display_name": "Parse page offset",
+					"input_json": "$activity.definition_activity_01WPTR3KLA7YD2PmqF3u61jYXSodpD6pe1Q.output.variable_workflow_01VNPFJJE60RZ0Fh3tQyOoQr7vN2NDjaBM6$",
+					"jsonpath_queries": [
+					  {
+						"jsonpath_query": "$.metadata.next_offset",
+						"jsonpath_query_name": "offset",
+						"jsonpath_query_type": "integer"
+					  }
+					],
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01WOJL8PGSB3J0ClbPfwwAiyJxgu6MQuXQY",
+				  "name": "Condition Block",
+				  "title": "Are there more pages?",
+				  "type": "logic.if_else",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Are there more pages?",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "blocks": [
+					{
+					  "unique_name": "definition_activity_01WOJL8QXWZ8Q6KjeboA2j6c8fvRQn3DLkC",
+					  "name": "Condition Branch",
+					  "title": "Yes",
+					  "type": "logic.condition_block",
+					  "base_type": "activity",
+					  "properties": {
+						"condition": {
+						  "left_operand": "$activity.definition_activity_01WOJJJ50JVLQ3aJTGPNZyKpOUv97GtJFKb.output.succeeded$",
+						  "operator": "eq",
+						  "right_operand": true
+						},
+						"continue_on_failure": false,
+						"display_name": "Yes",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "actions": [
+						{
+						  "unique_name": "definition_activity_01WOD37YEJ48N4ILmnbljQl0EPzu4bBDIPa",
+						  "name": "Set Variables",
+						  "title": "Update the page offset",
+						  "type": "core.set_multiple_variables",
+						  "base_type": "activity",
+						  "properties": {
+							"continue_on_failure": false,
+							"display_name": "Update the page offset",
+							"skip_execution": false,
+							"variables_to_update": [
+							  {
+								"variable_to_update": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WOJVQ2WWL817loNFdxaRYK553N6sbVNbY$",
+								"variable_value_new": "$activity.definition_activity_01WOJJJ50JVLQ3aJTGPNZyKpOUv97GtJFKb.output.jsonpath_queries.offset$"
+							  }
+							]
+						  },
+						  "object_type": "definition_activity"
+						}
+					  ]
+					},
+					{
+					  "unique_name": "definition_activity_01WOJL8SHMDXH6rtgq2HVjLqmzvqdOZv3zi",
+					  "name": "Condition Branch",
+					  "title": "No",
+					  "type": "logic.condition_block",
+					  "base_type": "activity",
+					  "properties": {
+						"condition": {
+						  "left_operand": "$activity.definition_activity_01WOJJJ50JVLQ3aJTGPNZyKpOUv97GtJFKb.output.succeeded$",
+						  "operator": "eq",
+						  "right_operand": false
+						},
+						"continue_on_failure": false,
+						"display_name": "No",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "actions": [
+						{
+						  "unique_name": "definition_activity_01WOJZ7D2OCM43y4E3SCai4Rqu3bv6s2A3Y",
+						  "name": "Set Variables",
+						  "title": "Add the total number of users",
+						  "type": "core.set_multiple_variables",
+						  "base_type": "activity",
+						  "properties": {
+							"continue_on_failure": false,
+							"display_name": "Add the total number of users",
+							"skip_execution": false,
+							"variables_to_update": [
+							  {
+								"variable_to_update": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WOBX7XNYXET1knKYChd1PLgobBvQ1KNQg$",
+								"variable_value_new": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WOBX7XNYXET1knKYChd1PLgobBvQ1KNQg$\n<br />\n<strong>TOTAL ADMINS:</strong> $activity.definition_activity_01WPTR3KLA7YD2PmqF3u61jYXSodpD6pe1Q.output.variable_workflow_01W4M9C7C8AFS3X9aJaj1jkW3cjh8jQHAY2$"
+							  }
+							]
+						  },
+						  "object_type": "definition_activity"
+						},
+						{
+						  "unique_name": "definition_activity_01WOJTGY41GST34hAoqfeDYRR5xMmMaiasS",
+						  "name": "Break",
+						  "title": "End the loop",
+						  "type": "logic.break",
+						  "base_type": "activity",
+						  "properties": {
+							"continue_on_failure": false,
+							"display_name": "End the loop",
+							"skip_execution": false
+						  },
+						  "object_type": "definition_activity"
+						}
+					  ]
+					}
+				  ]
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01WOJ4R05NQQT72gQZcMbyRgfVdcMQfHg1V",
+		  "name": "Group",
+		  "title": "Get User Count",
+		  "type": "logic.group",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Get User Count",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "actions": [
+			{
+			  "unique_name": "definition_activity_01WPTSKGM7J703a20lyFvzkHkoQzirtzVDD",
+			  "name": "Duo - Admin - Get User",
+			  "title": "Duo - Admin - Get User",
+			  "type": "workflow.atomic_workflow",
+			  "base_type": "subworkflow",
+			  "properties": {
+				"continue_on_failure": false,
+				"display_name": "Duo - Admin - Get User",
+				"input": {
+				  "variable_workflow_01PP784U1V8FT1Cdr6lEXfiHwwbn6bsDUKT": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WGPC6TVXOMZ3hjHFBGvwm5RYqgRR1JwSu$",
+				  "variable_workflow_01PP784U1V9TF27PYoY723j3qbJl7QRQOjK": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WGPC6TVWD3F4owuGoegiQatc2916oXWBO$",
+				  "variable_workflow_01PP784U1VCAA7c2VqwZKgU3scR51thmTMM": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WGPC6TVW0LC5fGAggxSLhiDWLPGRTE5yf$",
+				  "variable_workflow_01PP784U1VDEE2cwX8GdChEsHknyHsgt6nw": "",
+				  "variable_workflow_01PP784U1VKO54wsLOPdERFQVYlMNFplLH1": "",
+				  "variable_workflow_01WGOVFD2R9IV3WHmt3FQv1oNBGz0UvRmxp": 1,
+				  "variable_workflow_01WGOVHPQYSDL02afSLQrZUEozvSAsaesyt": 0
+				},
+				"runtime_user": {
+				  "target_default": true
+				},
+				"skip_execution": false,
+				"target": {
+				  "use_workflow_target_group": true
+				},
+				"workflow_id": "definition_workflow_01PP784U9VGRC6ISP15eyRIQPnhZsDlJlJU",
+				"workflow_name": "Duo - Admin - Get User"
+			  },
+			  "object_type": "definition_activity"
+			},
+			{
+			  "unique_name": "definition_activity_01WOJ9NONEZE32q5z1OYSzTqBE3MZ99IvR8",
+			  "name": "JSONPath Query",
+			  "title": "Extract the user count",
+			  "type": "corejava.jsonpathquery",
+			  "base_type": "activity",
+			  "properties": {
+				"action_timeout": 180,
+				"continue_on_failure": false,
+				"display_name": "Extract the user count",
+				"input_json": "$activity.definition_activity_01WPTSKGM7J703a20lyFvzkHkoQzirtzVDD.output.variable_workflow_01PP784U1V42C78L9NSUOOdYwsoTlGDzMOw$",
+				"jsonpath_queries": [
+				  {
+					"jsonpath_query": "$.metadata.total_objects",
+					"jsonpath_query_name": "total_users",
+					"jsonpath_query_type": "integer"
+				  }
+				],
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity"
+			},
+			{
+			  "unique_name": "definition_activity_01WOJA54P279111qAIZN2RWgHWQRlBQkbL1",
+			  "name": "Set Variables",
+			  "title": "Update local results variable",
+			  "type": "core.set_multiple_variables",
+			  "base_type": "activity",
+			  "properties": {
+				"continue_on_failure": false,
+				"display_name": "Update local results variable",
+				"skip_execution": false,
+				"variables_to_update": [
+				  {
+					"variable_to_update": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WOBX7XNYXET1knKYChd1PLgobBvQ1KNQg$",
+					"variable_value_new": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WOBX7XNYXET1knKYChd1PLgobBvQ1KNQg$\n<hr />\n<h3>Duo Users:</h3>\n<strong>TOTAL USERS</strong>: $activity.definition_activity_01WOJ9NONEZE32q5z1OYSzTqBE3MZ99IvR8.output.jsonpath_queries.total_users$"
+				  }
+				]
+			  },
+			  "object_type": "definition_activity"
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01WGPC7GEF8S71uUfO2mGhkuBjUf1lx6QRQ",
+		  "name": "Group",
+		  "title": "Get Enpoint Count",
+		  "type": "logic.group",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Get Enpoint Count",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "actions": [
+			{
+			  "unique_name": "definition_activity_01WPTTIUCQB3K2hhNMmJi0MkX9VgOeQ656O",
+			  "name": "Duo - Admin - Get Endpoints",
+			  "title": "Duo - Admin - Get Endpoints",
+			  "type": "workflow.atomic_workflow",
+			  "base_type": "subworkflow",
+			  "properties": {
+				"continue_on_failure": false,
+				"display_name": "Duo - Admin - Get Endpoints",
+				"input": {
+				  "variable_workflow_01W82Z5WM9SXA4bFgFI197Mx5782H5JLCu0": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WGPC6TVW0LC5fGAggxSLhiDWLPGRTE5yf$",
+				  "variable_workflow_01W82Z5WMA3LS1nkNzpWOdBxVjUfhVj51TT": 0,
+				  "variable_workflow_01W82Z5WMABX67RwugRSdRLTTNluHBne3y9": 1,
+				  "variable_workflow_01W82Z5WMB0WC3TQqDga482CwLkgYpMak7k": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WGPC6TVXOMZ3hjHFBGvwm5RYqgRR1JwSu$",
+				  "variable_workflow_01W82Z5WMB89W1tVeXtQ5uJK41pPkvkhA97": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WGPC6TVWD3F4owuGoegiQatc2916oXWBO$"
+				},
+				"runtime_user": {
+				  "target_default": true
+				},
+				"skip_execution": false,
+				"target": {
+				  "use_workflow_target_group": true
+				},
+				"workflow_id": "definition_workflow_01W82Z5WD0DPA7ed03SkGG639JJRpsksPoY",
+				"workflow_name": "Duo - Admin - Get Endpoints"
+			  },
+			  "object_type": "definition_activity"
+			},
+			{
+			  "unique_name": "definition_activity_01WOITWO8S9VR4DUMvyUg00nHKmgSAXVW9I",
+			  "name": "Set Variables",
+			  "title": "Update local results variable",
+			  "type": "core.set_multiple_variables",
+			  "base_type": "activity",
+			  "properties": {
+				"continue_on_failure": false,
+				"display_name": "Update local results variable",
+				"skip_execution": false,
+				"variables_to_update": [
+				  {
+					"variable_to_update": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WOBX7XNYXET1knKYChd1PLgobBvQ1KNQg$",
+					"variable_value_new": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WOBX7XNYXET1knKYChd1PLgobBvQ1KNQg$\n<hr />\n<h3>Duo Endpoints:</h3>\n<strong>TOTAL ENDPOINTS:</strong> $activity.definition_activity_01WPTTIUCQB3K2hhNMmJi0MkX9VgOeQ656O.output.variable_workflow_01W82Z5WMASKU5PuOIZneZPBzQujyyjiWCI$\n<hr />\n<h3>Duo Integrations:</h3>"
+				  }
+				]
+			  },
+			  "object_type": "definition_activity"
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01WQ0NSX4JA034FVtztVyyKBWycHN1e4JUr",
+		  "name": "Set Variables",
+		  "title": "Reset the offset to 0",
+		  "type": "core.set_multiple_variables",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Reset the offset to 0",
+			"skip_execution": false,
+			"variables_to_update": [
+			  {
+				"variable_to_update": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WOJVQ2WWL817loNFdxaRYK553N6sbVNbY$",
+				"variable_value_new": 0
+			  }
+			]
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01WPUCGCP4BZ26LKBWXwayAh6gWTSO9Vr4b",
+		  "name": "While Loop",
+		  "title": "While True=True",
+		  "type": "logic.while",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "While True=True",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01WPUCGCP4U932Ta2BFvamKhpaI7rDcItxV",
+			  "name": "Condition Branch",
+			  "title": "Get Integrations",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.output.start_time$",
+				  "operator": "eq",
+				  "right_operand": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.output.start_time$"
+				},
+				"continue_on_failure": false,
+				"display_name": "Get Integrations",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01WPUE2KH2DYH32626d1zOxrki7V1TnuOHJ",
+				  "name": "Duo - Admin - Get Integrations",
+				  "title": "Duo - Admin - Get Integrations",
+				  "type": "workflow.atomic_workflow",
+				  "base_type": "subworkflow",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Duo - Admin - Get Integrations",
+					"input": {
+					  "variable_workflow_01VTL00VQ08TC5wsecWPLEUXyti0X5EJUKU": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WGPC6TVW0LC5fGAggxSLhiDWLPGRTE5yf$",
+					  "variable_workflow_01VTL00VQ0VTE6LLoVerOi0kbeBiNGX1c4m": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WGPC6TVXOMZ3hjHFBGvwm5RYqgRR1JwSu$",
+					  "variable_workflow_01VTL00VQ13XR4Qv13vt70fnopXGV3SXWCB": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WGPC6TVWD3F4owuGoegiQatc2916oXWBO$",
+					  "variable_workflow_01W738BXSXBME2L68opQeXVDj8yfRXV25C2": 500,
+					  "variable_workflow_01W73924BOX77545mZKwU5ufPxU46x5Sefr": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WOJVQ2WWL817loNFdxaRYK553N6sbVNbY$"
+					},
+					"runtime_user": {
+					  "target_default": true
+					},
+					"skip_execution": false,
+					"target": {
+					  "use_workflow_target_group": true
+					},
+					"workflow_id": "definition_workflow_01VTL00VHL1CD5LAtlKOlB04qVSzw8l9IiO",
+					"workflow_name": "Duo - Admin - Get Integrations"
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01WPUCGCPIQ4M0V9rtgQrXHhgmfVDXl6tkk",
+				  "name": "Execute Python Script",
+				  "title": "Format the results",
+				  "type": "python3.script",
+				  "base_type": "activity",
+				  "properties": {
+					"action_timeout": 180,
+					"continue_on_failure": true,
+					"display_name": "Format the results",
+					"script": "import sys, json\n\nintegrationsRaw = json.loads(sys.argv[1])\nintegrationsOut = ''\n\nif isinstance(integrationsRaw['response'], dict):\n  thisIntegration = integrationsRaw['response']\n  integrationsOut = f\"<strong>{thisIntegration['name']}</strong><br /><ul>\"\n  integrationsOut += f\"<li><strong>Type:</strong> {thisIntegration['type']}</li>\"\nelse:\n  integrationsOut = '<table border=\"1\"><tr><th>Name</th><th>Type</th></tr>'\n\n  for integration in integrationsRaw['response']:\n    integrationsOut += f\"<tr><td>{integration['name']}</td><td>{integration['type']}</td></tr>\"\n\n  integrationsOut += '</table>'",
+					"script_arguments": [
+					  "$activity.definition_activity_01WPUE2KH2DYH32626d1zOxrki7V1TnuOHJ.output.variable_workflow_01VTL00VQ01IE4IjTxOLP0wKjvSyvmhNoYX$"
+					],
+					"script_queries": [
+					  {
+						"script_query": "integrationsOut",
+						"script_query_name": "integrationsOut",
+						"script_query_type": "string"
+					  }
+					],
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01WPUCGCPJQ4P1YPNWBaNyR6OwALEyZz8JZ",
+				  "name": "Set Variables",
+				  "title": "Update local results variable",
+				  "type": "core.set_multiple_variables",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Update local results variable",
+					"skip_execution": false,
+					"variables_to_update": [
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WOBX7XNYXET1knKYChd1PLgobBvQ1KNQg$",
+						"variable_value_new": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WOBX7XNYXET1knKYChd1PLgobBvQ1KNQg$\n$activity.definition_activity_01WPUCGCPIQ4M0V9rtgQrXHhgmfVDXl6tkk.output.script_queries.integrationsOut$"
+					  }
+					]
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01WPUCGCP9XZ63qFL97IR1Q3uNicvyAMz1g",
+				  "name": "JSONPath Query",
+				  "title": "Parse page offset",
+				  "type": "corejava.jsonpathquery",
+				  "base_type": "activity",
+				  "properties": {
+					"action_timeout": 180,
+					"continue_on_failure": true,
+					"display_name": "Parse page offset",
+					"input_json": "$activity.definition_activity_01WPUE2KH2DYH32626d1zOxrki7V1TnuOHJ.output.variable_workflow_01VTL00VQ01IE4IjTxOLP0wKjvSyvmhNoYX$",
+					"jsonpath_queries": [
+					  {
+						"jsonpath_query": "$.metadata.next_offset",
+						"jsonpath_query_name": "offset",
+						"jsonpath_query_type": "integer"
+					  }
+					],
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01WPUCGCPBDOS3X48KzID8ZAmxIw575yKmj",
+				  "name": "Condition Block",
+				  "title": "Are there more pages?",
+				  "type": "logic.if_else",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Are there more pages?",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "blocks": [
+					{
+					  "unique_name": "definition_activity_01WPUCGCPEJKQ7K0LXODIEPzITICRtvsna9",
+					  "name": "Condition Branch",
+					  "title": "Yes",
+					  "type": "logic.condition_block",
+					  "base_type": "activity",
+					  "properties": {
+						"condition": {
+						  "left_operand": "$activity.definition_activity_01WPUCGCP9XZ63qFL97IR1Q3uNicvyAMz1g.output.succeeded$",
+						  "operator": "eq",
+						  "right_operand": true
+						},
+						"continue_on_failure": false,
+						"display_name": "Yes",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "actions": [
+						{
+						  "unique_name": "definition_activity_01WQ0OFU3NE9917sEIVepB1CsyBw7eo5Jrp",
+						  "name": "Set Variables",
+						  "title": "Update the page offset",
+						  "type": "core.set_multiple_variables",
+						  "base_type": "activity",
+						  "properties": {
+							"continue_on_failure": false,
+							"display_name": "Update the page offset",
+							"skip_execution": false,
+							"variables_to_update": [
+							  {
+								"variable_to_update": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WOJVQ2WWL817loNFdxaRYK553N6sbVNbY$",
+								"variable_value_new": "$activity.definition_activity_01WPUCGCP9XZ63qFL97IR1Q3uNicvyAMz1g.output.jsonpath_queries.offset$"
+							  }
+							]
+						  },
+						  "object_type": "definition_activity"
+						}
+					  ]
+					},
+					{
+					  "unique_name": "definition_activity_01WPUCGCPN4LZ759T2x2jykDpffoasic94b",
+					  "name": "Condition Branch",
+					  "title": "No",
+					  "type": "logic.condition_block",
+					  "base_type": "activity",
+					  "properties": {
+						"condition": {
+						  "left_operand": "$activity.definition_activity_01WPUCGCP9XZ63qFL97IR1Q3uNicvyAMz1g.output.succeeded$",
+						  "operator": "eq",
+						  "right_operand": false
+						},
+						"continue_on_failure": false,
+						"display_name": "No",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity",
+					  "actions": [
+						{
+						  "unique_name": "definition_activity_01WPUCGCPTCWH1AEo8Fki9nqszWGuriuUKM",
+						  "name": "Set Variables",
+						  "title": "Add the total number of integrations",
+						  "type": "core.set_multiple_variables",
+						  "base_type": "activity",
+						  "properties": {
+							"continue_on_failure": false,
+							"display_name": "Add the total number of integrations",
+							"skip_execution": false,
+							"variables_to_update": [
+							  {
+								"variable_to_update": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WOBX7XNYXET1knKYChd1PLgobBvQ1KNQg$",
+								"variable_value_new": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WOBX7XNYXET1knKYChd1PLgobBvQ1KNQg$\n<br />\n<strong>TOTAL INTEGRATIONS:</strong> $activity.definition_activity_01WPUE2KH2DYH32626d1zOxrki7V1TnuOHJ.output.variable_workflow_01W73I3HQ019479Ymm3PTkHtK8S00MHcgAW$"
+							  }
+							]
+						  },
+						  "object_type": "definition_activity"
+						},
+						{
+						  "unique_name": "definition_activity_01WPUCGCPV26T6EVSXm6nxZeWuT3JMeOf6i",
+						  "name": "Break",
+						  "title": "End the loop",
+						  "type": "logic.break",
+						  "base_type": "activity",
+						  "properties": {
+							"continue_on_failure": false,
+							"display_name": "End the loop",
+							"skip_execution": false
+						  },
+						  "object_type": "definition_activity"
+						}
+					  ]
+					}
+				  ]
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01WGPC8IT27UB71wEquJKPQM1U5BbzgOAQz",
+		  "name": "Service Now - Create Incident v2",
+		  "title": "Service Now - Create Incident v2",
+		  "type": "workflow.atomic_workflow",
+		  "base_type": "subworkflow",
+		  "properties": {
+			"continue_on_failure": true,
+			"display_name": "Service Now - Create Incident v2",
+			"input": {
+			  "variable_workflow_01C0CK2MY2SLG1FXph6ZHp7iHmRw1KvUFlN": "Duo Admin Audit",
+			  "variable_workflow_01FGYF0DUR8HV2TMpEKctsYjQR4mzjD5OTu": "This ticket was generated by SecureX orchestration to docuemnt an audit of Duo admin settings. See the work notes below for details.",
+			  "variable_workflow_01FGYGCZL5M2E1m1O5tvVVn0DVzVTLwytei": 2,
+			  "variable_workflow_01FGYGPFJYM4L5aVpzNOhRwMmzKJDofqufe": 2,
+			  "variable_workflow_01FGYGZ0OYYNM5pWjyyreMjNHDjusjNe8jx": "[code]\n$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WOBX7XNYXET1knKYChd1PLgobBvQ1KNQg$\n[/code]",
+			  "variable_workflow_01FGYI8HES41K63G3UzMinBH3iApm37fBGt": "$workflow.definition_workflow_01WGPC6TCNOST7WJ7dW6ifHOFTn93Rpnp78.local.variable_workflow_01WGPC6TVX0HD0w9mZWcdrLWRQ4Rd8IHJUD$",
+			  "variable_workflow_01FMQD0HIJIDU5kce0VNx4HQiMYjMfUvBlj": "v2"
+			},
+			"runtime_user": {
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "override_workflow_target_group_criteria": true,
+			  "target_group": {
+				"run_on_all_targets": false,
+				"use_criteria": {
+				  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+				  "conditions": [
+					{
+					  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+					  "operator": "eqi",
+					  "right_operand": "ServiceNow"
+					}
+				  ]
+				}
+			  }
+			},
+			"workflow_id": "definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW",
+			"workflow_name": "ServiceNow - Create Incident"
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01WPY1XWKJE7K0Naj7YgS3SrMvoDvcr3np8",
+		  "name": "Condition Block",
+		  "title": "Ticket Created Successfully?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Ticket Created Successfully?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01WPY1XX2G8VE457YbnjP0modCAay3dxWNT",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01WGPC8IT27UB71wEquJKPQM1U5BbzgOAQz.output.succeeded$",
+				  "operator": "eq",
+				  "right_operand": false
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01WPY2M594F1I420CNCVSxX4dLnG57nRqb3",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "An error occurred while creating the ServiceNow incident ticket for the Duo admin audit.",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		}
+	  ],
+	  "categories": [
+		"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+	  ]
+	},
+	"target_groups": {
+	  "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+		"unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+		"name": "Default TargetGroup",
+		"title": "Default TargetGroup",
+		"type": "generic.target_group",
+		"base_type": "target_group",
+		"version": "1.0.0",
+		"targets": [
+		  {
+			"data_target_type": "web-service.endpoint",
+			"view_target_type": "web-service.endpoint",
+			"include_all_targets": true
+		  },
+		  {
+			"data_target_type": "email.smtp_endpoint",
+			"view_target_type": "email.smtp_endpoint",
+			"include_all_targets": true
+		  }
+		],
+		"object_type": "target_group"
+	  }
+	},
+	"atomic_workflows": [
+	  "definition_workflow_01VTP4BYVG6XB0fyWCWmiMGqBvD7LRYl2dO",
+	  "definition_workflow_01VEBXGU6PN4Q79kvVbrHggS66PQzkQsOXz",
+	  "definition_workflow_01PP784U9VGRC6ISP15eyRIQPnhZsDlJlJU",
+	  "definition_workflow_01W82Z5WD0DPA7ed03SkGG639JJRpsksPoY",
+	  "definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW",
+	  "definition_workflow_01VTL00VHL1CD5LAtlKOlB04qVSzw8l9IiO"
+	],
+	"dependent_workflows": [
+	  "definition_workflow_01VTP4BYVG6XB0fyWCWmiMGqBvD7LRYl2dO",
+	  "definition_workflow_01VEBXGU6PN4Q79kvVbrHggS66PQzkQsOXz",
+	  "definition_workflow_01PP784U9VGRC6ISP15eyRIQPnhZsDlJlJU",
+	  "definition_workflow_01W82Z5WD0DPA7ed03SkGG639JJRpsksPoY",
+	  "definition_workflow_01VTL00VHL1CD5LAtlKOlB04qVSzw8l9IiO",
+	  "definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW"
+	]
+  }
