@@ -20,6 +20,8 @@ Response Workflow
 
 This workflow blocks an observable on Cisco Secure Firewall by creating a judgement for it in SecureX Threat Response. Once a judgement is created, the observable will appear on a feed which Secure Firewall polls for observable information. Supported observables: `domain`, `ip`, `ipv6`, `sha256`, `url`
 
+<div class="cisco-alert cisco-alert-info"><i class="fa fa-info-circle mr-1 cisco-icon-info"></i> This workflow is similar to workflow <a href="{{ site.baseurl }}/workflows/0065">0065</a> but works differently. Workflow 0065 adds observables to groups by making API calls directly to Secure Firewall, typically through an <a href="{{ site.baseurl }}/remote/">orchestration remote</a>. This workflow adds observables to feeds in SecureX which Secure Firewall then consumes.</div>
+
 [<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0015B-SecureFirewall-BlockObservable__definition_workflow_01ML39FS25W1V5nR5onJGG8OBgXRuGG8y79){: .btn-cisco-outline }
 
 ---
