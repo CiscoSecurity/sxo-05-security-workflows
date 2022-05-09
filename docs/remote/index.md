@@ -25,7 +25,7 @@ Once the remote is connected, you can [configure your targets]({{ site.baseurl }
 
 ## Virtual Appliance Requirements
 The minimum requirements for a SecureX orchestration remote virtual appliance are:
-* VMware ESXi version 5.5 or newer
+* VMware ESXi version 5.5 or newer with vCenter
 * 2 vCPU
 * 2 GB RAM
 * 30 GB Disk
