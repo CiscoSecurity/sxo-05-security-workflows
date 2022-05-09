@@ -31,7 +31,7 @@ If you want to verify the file hash of the OVA, please refer to the following ta
 ---
 
 ## Deploying the VM
-1. In your VMware vSphere client, right click on the folder you want to deploy the remote in and select **Deploy OVF Template**:
+1. In your VMware vCenter client, right click on the folder you want to deploy the remote in and select **Deploy OVF Template**:
 ![]({{ site.baseurl }}/assets/images/remote/deploy-1.png)
 
 1. Select the **Local file** option, select the remote OVA you downloaded, and click **Next**:
@@ -72,7 +72,7 @@ Once the virtual appliance finishes deploying, be sure to power it on! Once onli
 ## (Optional) Define NTP Servers
 After deploying your SecureX orchestration remote, you can configure the virtual appliance to use custom NTP servers using these steps:
 1. Log in to your virtual appliance by either:
-	* Opening a console to the VM in vSphere and logging in with your password; or
+	* Opening a console to the VM in vCenter and logging in with your password; or
 	* SSHing to the VM using the key pair you created during setup.
 1. Open the file `/etc/chrony/chrony.conf` and change the NTP servers to your preferred servers.
 1. Save and close the file.
