@@ -25,6 +25,7 @@ This workflow retrieves health monitor alerts from a Cisco Secure Firewall Manag
 | Date | Notes |
 |:-----|:------|
 | May 4, 2022 | - Initial release |
+| May 19, 2022 | - Updated to use standard target name `FMC Target` instead of `FMC_Target` |
 
 _See the [Important Notes](/sxo-05-security-workflows/notes) page for more information about updating workflows_
 
