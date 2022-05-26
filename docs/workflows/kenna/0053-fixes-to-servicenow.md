@@ -65,7 +65,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 ## Configuration
 * Add your Kenna API token to the `API Token` local variable (or, if you have an API key in a global variable already, set the local variable to the global's value using the `Fetch Global Variables` group at the beginning of the workflow)
 * Set the `Kenna Instance URL` local variable to the URL of your Kenna instance (for example: `customer.kennasecurity.com`)
-* Set the `Risk Meter Group ID` local variable to the ID of the risk meter group you want the workflow to process
+* Set the `Risk Meter Group ID` local variable to the ID of the risk meter group you want the workflow to process. You can get this by viewing the group in your Kenna console and looking at the page URL. The group ID should be after `search_id=`. For example, in this URL the group ID is 123456: `/explore?search_id=123456&name=....`
 * Set the `Risk Score Threshold` local variable to the minimum risk score you want the workflow to process. Anything with a risk score less than this value will be ignored
 * Set the `ServiceNow User ID` local variable to the username you want incidents opened as. This can either match the username in your ServiceNow **Account Key** or, if the account has the appropriate permissions, can be a different user
 * (Optional) Update the `Ticket Limit` local variable with the maximum number of ServiceNow tickets you want the workflow to create per execution
