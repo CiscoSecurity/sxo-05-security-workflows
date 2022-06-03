@@ -34,29 +34,29 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 
 ## Requirements
 * The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
-	* Webex Teams - Post Message to Room
-	* Webex Teams - Search for Room
+	* Webex - Post Message to Room
+	* Webex - Search for Room
 * The following atomic actions must be imported before you can import this workflow:
 	* None
 * The [targets](#targets) and [account keys](#account-keys) listed at the bottom of the page
-* Webex Teams access token and room name to post messages to
 * Cisco Adaptive Security Appliance (ASA)
+* Cisco Webex
 * Amazon Web Services (AWS)
 
 ---
 
 ## Workflow Steps
-1. Attempt to locate the Webex Teams room and get its ID
+1. Attempt to locate the Webex room and get its ID
 1. SSH to the target ASA and get its VPN device load
 1. Check whether or not the load is 70% or more
 	* If the load is less than 70%, end the workflow
 	* If the load is 70% or more:
 		* Create an approval task
-		* Post a message to Webex Teams indicating an approval is required
+		* Post a message to Webex indicating an approval is required
 		* When a response is received, continue
-		* If the request was approved, deploy a new ASAv using the AWS EC2 API and post a confirmation to Webex Teams with the new public IP address
-		* If the request was denied, post a message to Webex Teams indicating the denial
-		* If the request expired, post a message to Webex Teams indicating the request was not acted on
+		* If the request was approved, deploy a new ASAv using the AWS EC2 API and post a confirmation to Webex with the new public IP address
+		* If the request was denied, post a message to Webex indicating the denial
+		* If the request expired, post a message to Webex indicating the request was not acted on
 
 ---
 
@@ -69,7 +69,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 	* The `Security Group ID(s)` you want the instance added to
 	* The `Keypair Name` of the authentication key pair this instance should use
 	* The `Instance Type` to create (default: `m4.large`)
-* See [this page]({{ site.baseurl }}/atomics/configuration/webex#configuring-our-workflows) for information on configuring the workflow for Webex Teams
+* See [this page]({{ site.baseurl }}/atomics/configuration/webex#configuring-our-workflows) for information on configuring the workflow for Webex
 
 ---
 

@@ -36,12 +36,12 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 
 ## Requirements
 * The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
-	* Webex Teams - Post Message to Room
-	* Webex Teams - Search for Room
+	* Webex - Post Message to Room
+	* Webex - Search for Room
 * The following atomic actions must be imported before you can import this workflow:
 	* None
 * The [targets](#targets) and [account keys](#account-keys) listed at the bottom of the page
-* A Webex Teams access token and room name to post messages to
+* Cisco Webex
 * Amazon Web Services (AWS)
 
 ---
@@ -54,13 +54,13 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 1. Check the approval result. If the user selected to leave the instance quarantined or the task expired, do nothing. If they want to remove quarantine:
 	* Get information about the instance from AWS and extract its security group
 	* Restore normal SSH access
-	* Send a Webex Teams notification
+	* Send a Webex notification
 
 ---
 
 ## Configuration
 * Set your AWS region in the `AWS Region` local variable
-* See [this page]({{ site.baseurl }}/atomics/configuration/webex#configuring-our-workflows) for information on configuring the workflow for Webex Teams
+* See [this page]({{ site.baseurl }}/atomics/configuration/webex#configuring-our-workflows) for information on configuring the workflow for Webex
 
 ---
 

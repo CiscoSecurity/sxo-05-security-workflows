@@ -44,16 +44,16 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 	* Threat Response - Generate Access Token
 	* Threat Response - List Response Actions
 	* Threat Response - Trigger Response Action
-	* Webex Teams - Post Message to Room
-	* Webex Teams - Search for Room
+	* Webex - Post Message to Room
+	* Webex - Search for Room
 * The following atomic actions must be imported before you can import this workflow:
 	* ServiceNow - Create Incident ([Github_Target_Atomics]({{ site.baseurl }}/default-repos))
 * The [targets](#targets) and [account keys](#account-keys) listed at the bottom of the page
 * A ServiceNow instance and API account
-* (Optional) A Webex Teams access token and room name to post messages to
 * Cisco Secure Endpoint with Orbital
 * Cisco Secure Firewall
 * Cisco Umbrella
+* (Optional) Cisco Webex
 * Duo Security
 
 ---
@@ -91,7 +91,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 	* Create an approval request to perform automated remediation
 	* Send Webex notifications
 	* Wait for approval
-		* If the request was denied, send a Webex teams message and end the workflow
+		* If the request was denied, send a Webex message and end the workflow
 		* If the request was approved:
 			* For each action in the table of pending actions:
 				* Check which type of action it is and take action accordingly
@@ -100,7 +100,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 					* For computer GUIDs: enable Secure Endpoint host isolation
 					* For Duo users: move to a Duo DENY group
 			* Create a ServiceNow ticket documenting the remediation steps
-			* Send a final Webex teams message with a summary of steps taken
+			* Send a final Webex message with a summary of steps taken
 
 ---
 
@@ -117,7 +117,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 * Set `Duo Deny User Group` to the ID of the user group you want Duo users added to during remediation. You can get this ID from the URL of the group's page in the Duo admin panel. For example: `DGWP6584D8PORPPC9H01`
 * Set `Duo Username Suffix`. If you need to add something like a domain to your usernames before searching them in Duo, you can use this variable to append a value to all Duo usernames. For example: `@company.com`
 * Set `ServiceNow Instance URL` to your ServiceNow instance's URL. For example: `mycompany.service-now.com`
-* See [this page]({{ site.baseurl }}/atomics/configuration/webex#configuring-our-workflows) for information on configuring the workflow for Webex Teams
+* See [this page]({{ site.baseurl }}/atomics/configuration/webex#configuring-our-workflows) for information on configuring the workflow for Webex
 
 ### Activities
 * If you change the schedule for this workflow, you need to adjust the `Calculate time 10 minutes ago` activity's `Adjustment` input variable to match the new schedule. As in, if you change the schedule to every 30 minutes, you would need to subtract `1800` seconds instead of `600`
@@ -145,7 +145,7 @@ Target Group: `Default TargetGroup`
 | [Orbital_Target]({{ site.baseurl }}/targets/default#orbital_target) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `orbital.amp.cisco.com`<br />_Path:_ `/v0` | None | Created by default |
 | [Private_CTIA_Target]({{ site.baseurl }}/targets/default#private_ctia_target) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `private.intel.amp.cisco.com`<br />_Path:_ None | None | Created by default |
 | ServiceNow | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `<instance>.service-now.com`<br />_Path:_ `/api` | ServiceNow_Credentials | Be sure to use your instance URL |
-| Webex Teams | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `webexapis.com`<br />_Path:_ None | None | Not necessary if Webex Teams activities are removed |
+| Webex Teams | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `webexapis.com`<br />_Path:_ None | None | Not necessary if Webex activities are removed |
 
 ---
 

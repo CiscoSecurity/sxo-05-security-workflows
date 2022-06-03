@@ -14,7 +14,7 @@ Workflow #0016
 {: .label }
 </div>
 
-This workflow fetches alerts from Cisco Secure Cloud Analytics (SCA) for the past 24 hours based on the alert name and status provided. Observations are extracted from the alerts and their associated IPs, domain names, and URLs are logged. Each IP address, domain name, and URL is then added to a destination list in Cisco Umbrella (depending on workflow configuration). Finally, a Webex Teams message is sent with a summary.
+This workflow fetches alerts from Cisco Secure Cloud Analytics (SCA) for the past 24 hours based on the alert name and status provided. Observations are extracted from the alerts and their associated IPs, domain names, and URLs are logged. Each IP address, domain name, and URL is then added to a destination list in Cisco Umbrella (depending on workflow configuration). Finally, a Webex message is sent with a summary.
 
 [<i class="fab fa-github mr-1"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0016-SCA-BlockIPsAndDomainsFromAlerts__definition_workflow_01J72R7Z249ZJ1XEtWCLhQJx44IKOv2c5iF){: .btn-cisco-outline }
 
@@ -33,18 +33,18 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 
 ## Requirements
 * The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
-	* SCA - Get Alerts
-	* SCA - Get Observation Details by ID
+	* Secure Cloud Analytics - Get Alerts
+	* Secure Cloud Analytics - Get Observation Details by ID
 	* Umbrella - Management - Add Record to Destination List
 	* Umbrella - Management - Get Destination Lists
-	* Webex Teams - Post Message to Room
-	* Webex Teams - Search for Room
+	* Webex - Post Message to Room
+	* Webex - Search for Room
 * The following atomic actions must be imported before you can import this workflow:
 	* None
 * The [targets](#targets) and [account keys](#account-keys) listed at the bottom of the page
-* (Optional) A Webex Teams access token and room name to post messages to
 * Cisco Secure Cloud Analytics (SCA)
 * Cisco Umbrella
+* (Optional) Cisco Webex
 
 ---
 
@@ -76,7 +76,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 	* If the destination list was found:
 		* Loop through each domain adding them to the list and recording whether or not adding was successful
 	* If the destination list was not found, make a note in the workflow output
-1. Send a Webex Teams message with a summary
+1. Send a Webex message with a summary
 
 ---
 
@@ -87,7 +87,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 * Set the `Umbrella Domain Destination List` local variable to the name of the destination list you want domains added to
 * Set the `Umbrella IP Destination List` local variable to the name of the destination list you want IP addresses added to
 * Set the `Umbrella Organization ID` local variable to your Umbrella organization's ID (found in your Umbrella dashboard's URL)
-* See [this page]({{ site.baseurl }}/atomics/configuration/webex#configuring-our-workflows) for information on configuring the workflow for Webex Teams
+* See [this page]({{ site.baseurl }}/atomics/configuration/webex#configuring-our-workflows) for information on configuring the workflow for Webex
 
 ---
 
@@ -98,7 +98,7 @@ Target Group: `Default TargetGroup`
 |:------------|:-----|:--------|:-------------|:------|
 | Secure Cloud Analytics | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `your-tenant.obsrvbl.com`<br />_Path:_ `api` | None | |
 | Umbrella Management | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `management.api.umbrella.com`<br />_Path:_ None | Umbrella Management | |
-| Webex Teams | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `webexapis.com`<br />_Path:_ None | None | Not necessary if Webex Teams activities are removed |
+| Webex Teams | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `webexapis.com`<br />_Path:_ None | None | Not necessary if Webex activities are removed |
 
 ---
 

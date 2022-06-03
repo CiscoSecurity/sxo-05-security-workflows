@@ -33,8 +33,8 @@ Note: This workflow will only remove as many endpoints as your global `AO_LOOP_L
 
 ## Requirements
 * The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
-	* Webex Teams - Post Message to Room
-	* Webex Teams - Search for Room
+	* Webex - Post Message to Room
+	* Webex - Search for Room
 * The following atomic actions must be imported before you can import this workflow:
 	* None
 * The [targets](#targets) and [account keys](#account-keys) listed at the bottom of the page
@@ -45,7 +45,7 @@ Note: This workflow will only remove as many endpoints as your global `AO_LOOP_L
 
 ## Workflow Steps
 1. Fetch global variables
-1. Search for the Webex Teams room
+1. Search for the Webex room
 1. Calculate the date before which endpoints will be removed
 1. Fetch computers from Secure Endpoint:
 	* Parse each computer and add it to the list to remove if it's old
@@ -68,7 +68,7 @@ Note: This workflow will only remove as many endpoints as your global `AO_LOOP_L
 * (If Using Approval) Set the `Task Owner` local variable to the email address of the user who should be listed as the owner for the approval task
 * (If Using Approval) Set the `Task Assignee` local variable to the email address of the user who should be listed as the assignee for the approval task
 * (If Using Approval) By default, the workflow waits 23 hours for approval. After that, the task expires and the workflow will end. You can change this timeout by editing the `Approval to Remove Endpoints from Cisco Secure Endpoint` and `Wait for approval` activities
-* See [this page]({{ site.baseurl }}/atomics/configuration/webex#configuring-our-workflows) for information on configuring the workflow for Webex Teams
+* See [this page]({{ site.baseurl }}/atomics/configuration/webex#configuring-our-workflows) for information on configuring the workflow for Webex
 
 ---
 
@@ -78,7 +78,7 @@ Target Group: `Default TargetGroup`
 | Target Name | Type | Details | Account Keys | Notes |
 |:------------|:-----|:--------|:-------------|:------|
 | [AMP_Target]({{ site.baseurl }}/targets/default#amp_target) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `api.amp.cisco.com`<br />_Path:_ `/v1` | AMP_Credentials | Created by default |
-| Webex Teams | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `webexapis.com`<br />_Path:_ None | None | Not necessary if Webex Teams activities are removed |
+| Webex Teams | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `webexapis.com`<br />_Path:_ None | None | Not necessary if Webex activities are removed |
 
 ---
 
