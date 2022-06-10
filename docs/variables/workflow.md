@@ -33,7 +33,7 @@ Output variables can be used by workflows, but are most commonly seen in atomic 
 ---
 
 ## Local Variables
-Local variables only exist within a workflow or atomic action. As in, you don't provide their values to a workflow when it starts and their values are not accessible outside of the workflow after it ends. You can only get or set their values within the workflow itself. These are useful as placeholders for assembling text for Webex Teams messages, for example.
+Local variables only exist within a workflow or atomic action. As in, you don't provide their values to a workflow when it starts and their values are not accessible outside of the workflow after it ends. You can only get or set their values within the workflow itself. These are useful as placeholders for assembling text for Webex messages, for example.
 
 ---
 

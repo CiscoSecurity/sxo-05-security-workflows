@@ -12,7 +12,7 @@ Global variables are useful when you want to:
 
 Orchestration workflows don't have any concept of persistence; as in, the second time a workflow runs it doesn't know anything about the first time. Global variables can be used to bridge this gap by storing information that persists.
 
-In some instances you may want multiple workflows to share information. A common example is an API key or Webex Teams room name.
+In some instances you may want multiple workflows to share information. A common example is an API key or Webex room name.
 
 ---
 
