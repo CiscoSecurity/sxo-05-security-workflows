@@ -21,7 +21,7 @@ The following best practices should be followed when building a workflow.
 * Provide a detailed description. For example:
 
 ```text
-This workflow takes a Talos blog post, conducts an investigation into it using Threat Response, and then puts the results in a casebook. If a Webex Teams room name and bot token are provided, a message with the investigation's results will be sent.
+This workflow takes a Talos blog post, conducts an investigation into it using Threat Response, and then puts the results in a casebook. If a Webex room name and bot token are provided, a message with the investigation's results will be sent.
 
 Target Group: Default TargetGroup
 

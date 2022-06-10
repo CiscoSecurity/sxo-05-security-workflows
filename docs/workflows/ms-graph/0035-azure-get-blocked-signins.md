@@ -14,7 +14,7 @@ Workflow #0035
 {: .label }
 </div>
 
-This workflow checks for sign-ins that were blocked because the account was locked out in Microsoft Azure (error code 50053). If any results are found, the attempts are aggregated and a Webex Teams message is sent. Required Graph API permissions: AuditLog.Read.All, Directory.Read.All
+This workflow checks for sign-ins that were blocked because the account was locked out in Microsoft Azure (error code 50053). If any results are found, the attempts are aggregated and a Webex message is sent. Required Graph API permissions: AuditLog.Read.All, Directory.Read.All
 
 Note: This workflow requires an Azure Active Directory Premium license.
 
@@ -35,12 +35,12 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 
 ## Requirements
 * The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
-	* Webex Teams - Post Message to Room
-	* Webex Teams - Search for Room
+	* Webex - Post Message to Room
+	* Webex - Search for Room
 * The following atomic actions must be imported before you can import this workflow:
 	* Microsoft Graph - Get Access Token ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
 * The [targets](#targets) and [account keys](#account-keys) listed at the bottom of the page
-* (Optional) A Webex Teams access token and room name to post messages to
+* (Optional) Cisco Webex
 * Microsoft Azure Active Directory (with a premium license)
 * Microsoft Azure App Registration with `AuditLog.Read.All` and `Directory.Read.All` API permissions
 
@@ -53,7 +53,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 1. Fetch sign in events
 1. Check if the request was successful:
 	* If not, return an error message
-	* If it was, aggregate the events and post a Webex Teams message
+	* If it was, aggregate the events and post a Webex message
 
 ---
 
@@ -61,7 +61,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 * If you want the workflow to run on a schedule, you need to create a [schedule]({{ site.baseurl }}/schedules/) and then add it as a [trigger]({{ site.baseurl }}/workflows/triggers) within the workflow
 * Set the `Azure Tenant ID` local variable to the Azure tenant to run the report for
 * Set the `Hours to Check` to how many hours ago you want the workflow to look for events (default: 24 hours). If you're using a schedule to run this workflow, make sure the schedule's interval matches this timeframe
-* See [this page]({{ site.baseurl }}/atomics/configuration/webex#configuring-our-workflows) for information on configuring the workflow for Webex Teams
+* See [this page]({{ site.baseurl }}/atomics/configuration/webex#configuring-our-workflows) for information on configuring the workflow for Webex
 
 ---
 
@@ -72,7 +72,7 @@ Target Group: `Default TargetGroup`
 |:------------|:-----|:--------|:-------------|:------|
 | Microsoft Graph | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `graph.microsoft.com`<br />_Path:_ `/v1.0` | None | |
 | Microsoft Graph Token | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `login.microsoftonline.com`<br />_Path:_ None | Microsoft Graph API | |
-| Webex Teams | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `webexapis.com`<br />_Path:_ None | None | Not necessary if Webex Teams activities are removed |
+| Webex Teams | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `webexapis.com`<br />_Path:_ None | None | Not necessary if Webex activities are removed |
 
 ---
 

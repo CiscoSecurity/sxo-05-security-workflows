@@ -15,7 +15,7 @@ Workflow #0010
 {: .label }
 </div>
 
-This workflow monitors a mailbox for incoming phishing reports. When an email is received, the workflow investigates its attachments and attempts to determine if anything in the email (or its attachments) was suspicious or malicious. If anything suspicious or malicious is found, the user is told to delete the email, a casebook and incident are created in Cisco SecureX, a Webex Teams message is posted, and an email is sent to a "SOC" email address.
+This workflow monitors a mailbox for incoming phishing reports. When an email is received, the workflow investigates its attachments and attempts to determine if anything in the email (or its attachments) was suspicious or malicious. If anything suspicious or malicious is found, the user is told to delete the email, a casebook and incident are created in Cisco SecureX, a Webex message is posted, and an email is sent to a "SOC" email address.
 
 [<i class="fa fa-video mr-1"></i> Overview](https://www.youtube.com/watch?v=xUehFeCJGL4&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo){: .btn-cisco-outline .mr-2 } [<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0010-Phishing-Investigation__definition_workflow_01LDICSCPVGP20hFTpJfjEVUZ57FMXx5sOC){: .btn-cisco-outline }
 
@@ -46,13 +46,13 @@ _See the [Important Notes]({{ site.baseurl }}/notes#workflows) page for more inf
 	* Threat Response - Deliberate Observable
 	* Threat Response - Generate Access Token
 	* Threat Response - Inspect for Observables
-	* Webex Teams - Post Message to Room * See note below!
-	* Webex Teams - Search for Room
+	* Webex - Post Message to Room
+	* Webex - Search for Room
 * The following atomic actions must be imported before you can import this workflow:
 	* None
 * The [targets](#targets) and [account keys](#account-keys) listed at the bottom of the page
-* (Optional) A Webex Teams access token and room name to post messages to
 * Cisco Secure Malware Analytics
+* (Optional) Cisco Webex
 
 ---
 
@@ -102,7 +102,7 @@ This workflow is designed to be triggered by an email arriving in a phishing inv
 		* Relate the two new objects to each other
 		* Create a sighting
 		* Relate the sighting to the incident
-		* If a Webex Teams room was provided:
+		* If a Webex room was provided:
 			* Look up the room and get the room ID
 			* Send a message to the room with some information about the investigation
 		* Send an email notification to the `Notification Email Addresses`
@@ -122,7 +122,7 @@ This workflow is designed to be triggered by an email arriving in a phishing inv
 * Provide the workflow your Secure Malware Analytics API token by either:
 	* Storing your token in a [global variable]({{ site.baseurl }}/variables/global) and using the `Fetch Global Variables` group at the beginning of the workflow to update the `Secure Malware Analytics API Key` local variable; or
 	* Remove the `Secure Malware Analytics API Key` from the `Fetch Global Variables` group and add your token directly to the `Secure Malware Analytics API Key` local variable
-* See [this page]({{ site.baseurl }}/atomics/configuration/webex#configuring-our-workflows) for information on configuring the workflow for Webex Teams
+* See [this page]({{ site.baseurl }}/atomics/configuration/webex#configuring-our-workflows) for information on configuring the workflow for Webex
 * Set `Notification Email Addresses` to the email addresses you want notified when the workflow detects a phishing attempt
 * This workflow is configured to auto-detect which SecureX environment you're using based on the `SECUREX_ENVIRONMENT` environment variable and then assumes you're using the same environment for Threat Response and Secure Malware Analytics
 	* The default region associations are:
@@ -158,7 +158,7 @@ By default, the `Default TargetGroup` may not include `SMTP Endpoint` targets. I
 | Phishing Investigation Outgoing | SMTP Endpoint | Configured for your SMTP server | Phishing Investigation Mailbox Credentials | |
 | [Private_CTIA_Target]({{ site.baseurl }}/targets/default#private_ctia_target) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `private.intel.amp.cisco.com`<br />_Path:_ None | None | Created by default |
 | [ThreatGrid_Target]({{ site.baseurl }}/targets/default#threatgrid_target) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `panacea.threatgrid.com`<br />_Path:_ None | None | Created by default |
-| Webex Teams | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `webexapis.com`<br />_Path:_ None | None | Not necessary if Webex Teams activities are removed |
+| Webex Teams | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `webexapis.com`<br />_Path:_ None | None | Not necessary if Webex activities are removed |
 
 ---
 

@@ -44,8 +44,8 @@ _See the [Important Notes](/sxo-05-security-workflows/notes) page for more infor
     * Secure Firewall - Get Network Group by Name
     * Secure Firewall - Get URL Group by Name
     * Secure Firewall - Search object by Value
-    * Webex Teams - Post Message to Room
-    * Webex Teams - Search for Room
+    * Webex - Post Message to Room
+    * Webex - Search for Room
 * The [targets](#targets) and [account keys](#account-keys) listed at the bottom of the page
 * Cisco Secure Firewall
 * Cisco Webex

@@ -36,14 +36,14 @@ _See the [Important Notes](/sxo-05-security-workflows/notes) page for more infor
 	* Secure Firewall - Get Access Token
     * Secure Firewall - Get Device Details
     * Secure Firewall - Get Health Alerts
-    * Webex Teams - Post Message to Room
-    * Webex Teams - Search for Room
+    * Webex - Post Message to Room
+    * Webex - Search for Room
 * The following atomic actions must be imported before you can import this workflow:
 	* ServiceNow - Create Incident  ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
 * The [targets](#targets) and [account keys](#account-keys) listed at the bottom of the page
 * Cisco Secure Firewall
-* ServiceNow
 * Cisco Webex
+* ServiceNow
 
 ---
 

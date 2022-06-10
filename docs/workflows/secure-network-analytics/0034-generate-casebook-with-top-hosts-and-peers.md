@@ -38,10 +38,10 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 
 ## Requirements
 * The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
-	* SNA - Get Tenants
-	* SNA - Get Tokens
-	* SNA - Get Top Hosts by IP Address
-	* SNA - Get Top Peers by IP Address
+	* Secure Network Analytics - Get Tenants
+	* Secure Network Analytics - Get Tokens
+	* Secure Network Analytics - Get Top Hosts by IP Address
+	* Secure Network Analytics - Get Top Peers by IP Address
 	* Threat Response - Create Casebook
 	* Threat Response - Generate Access Token
 * The following atomic actions must be imported before you can import this workflow:

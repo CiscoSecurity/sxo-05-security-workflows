@@ -14,7 +14,7 @@ Workflow #0033
 {: .label }
 </div>
 
-This workflow fetches top attacking external hosts from Cisco Secure Network Analytics (SNA) for the past 24 hours. Each IP address and domain name is added to a destination list in Umbrella (depending on workflow configuration). Finally, a Webex Teams message is sent with a summary.
+This workflow fetches top attacking external hosts from Cisco Secure Network Analytics (SNA) for the past 24 hours. Each IP address and domain name is added to a destination list in Umbrella (depending on workflow configuration). Finally, a Webex message is sent with a summary.
 
 Note: This workflow will only fetch the first 10 external hosts. If you want to fetch more, update the limit in the workflow.
 
@@ -35,19 +35,19 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 
 ## Requirements
 * The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
-	* SNA - Get Tenants
-	* SNA - Get Tokens
+	* Secure Network Analytics - Get Tenants
+	* Secure Network Analytics - Get Tokens
 	* Umbrella - Management - Add Record to Destination List
 	* Umbrella - Management - Get Destination Lists
-	* Webex Teams - Post Message to Room
-	* Webex Teams - Search for Room
+	* Webex - Post Message to Room
+	* Webex - Search for Room
 * The following atomic actions must be imported before you can import this workflow:
 	* None
 * The [targets](#targets) and [account keys](#account-keys) listed at the bottom of the page
 * A [SecureX orchestration remote]({{ site.baseurl }}/remote/) with connectivity to your Secure Network Analytics instance
-* (Optional) A Webex Teams access token and room name to post messages to
 * Cisco Secure Network Analytics (SNA)
 * Cisco Umbrella
+* (Optional) Cisco Webex
 
 ---
 
@@ -61,7 +61,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 	* Perform a reverse DNS lookup:
 	* If successful, add the domain to the DNS destination list
 	* If unsuccessful, add the IP address to the web destination list
-1. Send a Webex Teams message (if a room was provided)
+1. Send a Webex message (if a room was provided)
 
 ---
 
@@ -72,7 +72,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 * Set the `Umbrella Domain Destination List` local variable to the name of the destination list you want domains added to
 * Set the `Umbrella IP Destination List` local variable to the name of the destination list you want IP addresses added to
 * Set the `Umbrella Organization ID` local variable to your Umbrella organization's ID (found in your Umbrella dashboard's URL)
-* See [this page]({{ site.baseurl }}/atomics/configuration/webex#configuring-our-workflows) for information on configuring the workflow for Webex Teams
+* See [this page]({{ site.baseurl }}/atomics/configuration/webex#configuring-our-workflows) for information on configuring the workflow for Webex
 
 ---
 
@@ -85,7 +85,7 @@ Target Group: `Default TargetGroup`
 |:------------|:-----|:--------|:-------------|:------|
 | Secure Network Analytics | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `your-sna-management-center.yourdomain`<br />_Path:_ None | None | |
 | Umbrella Management | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `management.api.umbrella.com`<br />_Path:_ None | Umbrella Management | |
-| Webex Teams | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `webexapis.com`<br />_Path:_ None | None | Not necessary if Webex Teams activities are removed |
+| Webex Teams | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `webexapis.com`<br />_Path:_ None | None | Not necessary if Webex activities are removed |
 
 ---
 
