@@ -20,7 +20,7 @@ To configure SecureX orchestration to import atomic actions from Cohesity, refer
 * **Protocol:** `HTTPS`
 * **REST API Repository Type:** `GitHub`
 * **REST API Repository:** `api.github.com/repos/cohesity/SecureX`
-* **Branch:** `Main`
+* **Branch:** `main`
 * **Code Path:** `Atomics`
 
 ---
@@ -33,5 +33,5 @@ To configure SecureX orchestration to import workflows from Cohesity, refer to [
 * **Protocol:** `HTTPS`
 * **REST API Repository Type:** `GitHub`
 * **REST API Repository:** `api.github.com/repos/cohesity/SecureX`
-* **Branch:** `Main`
+* **Branch:** `main`
 * **Code Path:** `Workflows`
