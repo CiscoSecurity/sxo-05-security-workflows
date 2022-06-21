@@ -1,0 +1,250 @@
+{
+	"workflow": {
+	  "unique_name": "definition_workflow_01XOUTFQZVMAP1a8Xj9VTXPAEpPS8jGnAoD",
+	  "name": "Shodan - InternetDB IP Lookup",
+	  "title": "Shodan - InternetDB IP Lookup",
+	  "type": "generic.workflow",
+	  "base_type": "workflow",
+	  "variables": [
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "input",
+			"name": "IP Address",
+			"type": "datatype.string",
+			"description": "IPv4 or IPv6 address to search for",
+			"is_required": true,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01XOUTFRFCN7R54bME9M9ALJ9Q25ZnV7Ydt",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "output",
+			"name": "Results",
+			"type": "datatype.string",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_01XOUTFRFCZRE3d9g9km7NwpAICLYUuGTyB",
+		  "object_type": "variable_workflow"
+		}
+	  ],
+	  "properties": {
+		"atomic": {
+		  "atomic_group": "Shodan",
+		  "is_atomic": true
+		},
+		"delete_workflow_instance": false,
+		"description": "This atomic performs a lookup on a single IP address (IPv4 or IPv6) using the Shodan InternetDB API.\n\nTarget: HTTP Endpoint for \"internetdb.shodan.io\"\n\nAccount Key: None\n\nSteps:\n[] Check if the IP address is a v6 address:\n[]> If IPv6, encode \":\" to \"%3A\"\n[] Request information about the IP from Shodan\n[] Check if the request was successful:\n[]> If it was, set the output variable\n[]> If not, return an error\n\nMore information about this API: https://internetdb.shodan.io/docs#/",
+		"display_name": "Shodan - InternetDB IP Lookup",
+		"runtime_user": {
+		  "target_default": true
+		},
+		"target": {
+		  "target_type": "web-service.endpoint",
+		  "specify_on_workflow_start": true
+		}
+	  },
+	  "object_type": "definition_workflow",
+	  "actions": [
+		{
+		  "unique_name": "definition_activity_01XOUTFU9UVDM3lv3Hg9ZaV3q2UJphH04Xf",
+		  "name": "Condition Block",
+		  "title": "Is the input IPv6?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Is the input IPv6?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01XOUTFVCEVL34mEqZecTDdikFwIxgFU2KF",
+			  "name": "Condition Branch",
+			  "title": "Yes",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$workflow.definition_workflow_01XOUTFQZVMAP1a8Xj9VTXPAEpPS8jGnAoD.input.variable_workflow_01XOUTFRFCN7R54bME9M9ALJ9Q25ZnV7Ydt$",
+				  "operator": "mw",
+				  "right_operand": "*:*"
+				},
+				"continue_on_failure": false,
+				"display_name": "Yes",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01XOUTFWG6WAI2GEl1hsRTszHfTbwS5UlC2",
+				  "name": "Replace String",
+				  "title": "URL escape colons",
+				  "type": "core.replacestring",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "URL escape colons",
+					"input_string": "$workflow.definition_workflow_01XOUTFQZVMAP1a8Xj9VTXPAEpPS8jGnAoD.input.variable_workflow_01XOUTFRFCN7R54bME9M9ALJ9Q25ZnV7Ydt$",
+					"replace_list": [
+					  {
+						"replaced_string": ":",
+						"replacement_string": "%3A"
+					  }
+					],
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				},
+				{
+				  "unique_name": "definition_activity_01XOVSJIJ2P5W6DxJhZJsuG4pyEy0bYOJSk",
+				  "name": "Set Variables",
+				  "title": "Update input variable",
+				  "type": "core.set_multiple_variables",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Update input variable",
+					"skip_execution": false,
+					"variables_to_update": [
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01XOUTFQZVMAP1a8Xj9VTXPAEpPS8jGnAoD.input.variable_workflow_01XOUTFRFCN7R54bME9M9ALJ9Q25ZnV7Ydt$",
+						"variable_value_new": "$activity.definition_activity_01XOUTFWG6WAI2GEl1hsRTszHfTbwS5UlC2.output.result_string$"
+					  }
+					]
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_01XOUTG4XU1CP17qNL79GacD1vdQqSbh1l2",
+		  "name": "HTTP Request",
+		  "title": "Request information about IP",
+		  "type": "web-service.http_request",
+		  "base_type": "activity",
+		  "properties": {
+			"accept": "application/json",
+			"action_timeout": 180,
+			"allow_auto_redirect": true,
+			"allow_headers_redirect": false,
+			"content_type": "application/json",
+			"continue_on_error_status_code": true,
+			"continue_on_failure": false,
+			"display_name": "Request information about IP",
+			"method": "GET",
+			"relative_url": "/$workflow.definition_workflow_01XOUTFQZVMAP1a8Xj9VTXPAEpPS8jGnAoD.input.variable_workflow_01XOUTFRFCN7R54bME9M9ALJ9Q25ZnV7Ydt$",
+			"runtime_user": {
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "use_workflow_target": true
+			}
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_01XOUTG5Y67BI1okgzyV6H7HshYTn22CYQ5",
+		  "name": "Condition Block",
+		  "title": "Was the request successful?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Was the request successful?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_01XOUTG6YUXCN5IUpNyFlgs6Uf9QB1pfPV2",
+			  "name": "Condition Branch",
+			  "title": "200/Success",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01XOUTG4XU1CP17qNL79GacD1vdQqSbh1l2.output.status_code$",
+				  "operator": "eq",
+				  "right_operand": 200
+				},
+				"continue_on_failure": false,
+				"display_name": "200/Success",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01XOUTG881RFR5QqkdxggOFRbbtsITjkBJh",
+				  "name": "Set Variables",
+				  "title": "Set output variable",
+				  "type": "core.set_multiple_variables",
+				  "base_type": "activity",
+				  "properties": {
+					"continue_on_failure": false,
+					"display_name": "Set output variable",
+					"skip_execution": false,
+					"variables_to_update": [
+					  {
+						"variable_to_update": "$workflow.definition_workflow_01XOUTFQZVMAP1a8Xj9VTXPAEpPS8jGnAoD.output.variable_workflow_01XOUTFRFCZRE3d9g9km7NwpAICLYUuGTyB$",
+						"variable_value_new": "$activity.definition_activity_01XOUTG4XU1CP17qNL79GacD1vdQqSbh1l2.output.response_body$"
+					  }
+					]
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			},
+			{
+			  "unique_name": "definition_activity_01XOUTG99HM746vnrP3wNjmvCGzhDSQbmQi",
+			  "name": "Condition Branch",
+			  "title": "Anything Else",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_01XOUTG4XU1CP17qNL79GacD1vdQqSbh1l2.output.status_code$",
+				  "operator": "ne",
+				  "right_operand": 200
+				},
+				"continue_on_failure": false,
+				"display_name": "Anything Else",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_01XOUTGABE71230lmZQ4bAkx7euizThwmvV",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "Failed to fetch information for IP address\n\nStatus code: $activity.definition_activity_01XOUTG4XU1CP17qNL79GacD1vdQqSbh1l2.output.status_code$\nResponse body: $activity.definition_activity_01XOUTG4XU1CP17qNL79GacD1vdQqSbh1l2.output.response_body$",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		}
+	  ],
+	  "categories": [
+		"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+	  ]
+	}
+  }
