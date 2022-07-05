@@ -15,6 +15,8 @@ Once you create a remote in SecureX orchestration, you can deploy the virtual ap
 
 [<i class="fa fa-video mr-1"></i> Remote Overview](https://www.youtube.com/watch?v=EC2nCiAn1HM&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo){: .btn-cisco-outline }
 
+<div class="cisco-alert cisco-alert-info"><i class="fa fa-info-circle mr-1 cisco-icon-info"></i> Note that the virutal machine's configuration cannot be easily modified after it is deployed. You can SSH or console into the Ubuntu host operating system, however, we do not support or document how to make configuration changes to the VM directly (with the exception of configuring NTP servers).</div>
+
 ---
 
 ## Download the OVA
@@ -24,9 +26,9 @@ Once you create a remote in SecureX orchestration, you can deploy the virtual ap
 
 If you want to verify the file hash of the OVA, please refer to the following table:
 
-| File Name | SHA256 Hash |
-|:----------|:------------|
-| sxo-remote-5.10.0-14-20220421T1535-41ffac7.ova | 73a563aa019a37aeb1ec36fe93aae47c8dabcb08369d23bcf6f8e044e0e26284 |
+| File Name | File Size | SHA256 Hash |
+|:----------|:----------|:------------|
+| sxo-remote-1.6.ova | 1.6 GB | 2cc3ffc5cb753d20ffc438598f1246b44dca7e1145cbfcb48da68fc9daa193c3 |
 
 ---
 
@@ -103,6 +105,6 @@ One of the easiest ways to generate a key pair on Windows is by using the PuTTyg
 ---
 
 ## Next Steps
-Now that you've deployed the SXo remote virtual appliance, you can configure your on-premises targets to use it!
+Now that you've deployed the orchestration remote virtual appliance, you can configure your on-premises targets to use it!
 
 [Target Configuration]({{ site.baseurl }}/remote/targets){: .btn-cisco-sky-blue }

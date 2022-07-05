@@ -10,6 +10,8 @@ The first step to setting up an orchestration remote is to create it in your Sec
 
 [<i class="fa fa-video mr-1"></i> Remote Overview](https://www.youtube.com/watch?v=EC2nCiAn1HM&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo){: .btn-cisco-outline }
 
+<div class="cisco-alert cisco-alert-info"><i class="fa fa-info-circle mr-1 cisco-icon-info"></i> Note that the virutal machine's configuration cannot be easily modified after it is deployed. You can SSH or console into the Ubuntu host operating system, however, we do not support or document how to make configuration changes to the VM directly (with the exception of configuring NTP servers).</div>
+
 To create a new remote:
 1. Expand the main menu, click on **Admin** and then click on **Remote Configuration**.
 1. Click the **New Remote** button:
