@@ -5,10 +5,6 @@ permalink: /webhooks
 nav_order: 68
 ---
 
-<div class="cisco-alert cisco-alert-danger">
-	<i class="fa fa-exclamation-triangle mr-1 cisco-icon-danger"></i>  Due to back end changes being made as part of orchestration's 5.7 release on January 20th, existing webhooks will need new API keys. If you're using a webhook, it may stop working after the upgrade. To resolve this, edit the webhook and make note of the new API key. Then, update whatever source systems are sending webhooks with the new API key.
-</div>
-
 # Webhooks
 Webhooks allow you to push information from external platforms to orchestration workflows. Instead of your workflow having to reach out to an API to check for events, a webhook can be used to listen for incoming data and then [trigger]({{ site.baseurl }}/workflows/triggers) a workflow through an [event]({{ site.baseurl }}/events/) when data is received.
 

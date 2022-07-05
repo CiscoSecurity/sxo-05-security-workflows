@@ -7,10 +7,8 @@ nav_order: 45
 has_toc: false
 ---
 
-<div class="cisco-alert cisco-alert-info"><i class="fa fa-info-circle mr-1 cisco-icon-info"></i> If you want to use the new <a href="{{ site.baseurl }}/account-keys/securex-token">SecureX Token</a> account key, you will need to update your orchestration remote to the latest version.</div>
-
 # Remote
-SecureX orchestration remote is an on-premises virtual appliance that allows your workflows to communicate with resources inside your network behind a firewall. Since many on-premises devices aren't exposed to the internet, SXo remote bridges the gap between those devices and the cloud so they can be incorporated into your workflows.
+SecureX orchestration remote is an on-premises virtual appliance that allows your workflows to communicate with resources inside your network behind a firewall. Since many on-premises devices aren't exposed to the internet, orchestration remote bridges the gap between those devices and the cloud so they can be incorporated into your workflows.
 
 [<i class="fa fa-video mr-1"></i> Remote Overview](https://www.youtube.com/watch?v=EC2nCiAn1HM&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo){: .btn-cisco-outline }
 
