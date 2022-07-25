@@ -7,27 +7,13 @@
     "base_type": "workflow",
     "variables": [
       {
-        "schema_id": "datatype.date",
-        "properties": {
-          "value": "0001-01-01T00:00:00+00:00",
-          "scope": "local",
-          "name": "RSS Last-Modified",
-          "type": "datatype.date",
-          "description": "Placeholder for the latest Last-Modified date header from the blog. This will be populated automatically",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01FX7M5IS13ZU2auOqXvGzVCcMCqtTBcYqE",
-        "object_type": "variable_workflow"
-      },
-      {
         "schema_id": "datatype.string",
         "properties": {
-          "value": "",
+          "value": "SecureX Orchestration",
           "scope": "local",
-          "name": "Webex Teams Room Name",
+          "name": "Webex Room Name",
           "type": "datatype.string",
-          "description": "The name of the Webex Teams room to post messages to. If using a bot, make sure to invite your bot to the room before attempting to send messages. If you don't want to use Webex, leave this blank",
+          "description": "The name of the Webex room to post messages to. If using a bot, make sure to invite your bot to the room before attempting to send messages. If you don't want to use Webex, leave this blank",
           "is_required": false,
           "is_invisible": false
         },
@@ -39,27 +25,13 @@
         "properties": {
           "value": "",
           "scope": "local",
-          "name": "Webex Teams Access Token",
+          "name": "Webex Access Token",
           "type": "datatype.secure_string",
-          "description": "The access token to use to authenticate to the Webex Teams API. Information about using a bot, which is what we recommend, can be found here: https://developer.webex.com/docs/bots",
+          "description": "The access token to use to authenticate to the Webex API. Information about using a bot, which is what we recommend, can be found here: https://developer.webex.com/docs/bots",
           "is_required": false,
           "is_invisible": false
         },
         "unique_name": "variable_workflow_01KENBNVA0ZXA50LqTd8WTMTlFh9avooUYa",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "local",
-          "name": "RSS Etag",
-          "type": "datatype.string",
-          "description": "Placeholder for the latest Etag from the blog. This will be populated automatically",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01FX7LYV46SKE1XHJiLwyDP7kYML8kyRlqP",
         "object_type": "variable_workflow"
       }
     ],
@@ -68,7 +40,7 @@
         "is_atomic": false
       },
       "delete_workflow_instance": false,
-      "description": "This workflow consumes the Talos Intelligence Blog RSS feed and converts individual blog posts into Cisco SecureX casebooks if they contain suspicious observables. These casebooks can then be investigated with one click in Cisco Threat Response.\n\nTarget: HTTP Endpoint named \"Talos Intelligence Blog\" for \"feeds.feedburner.com\" with a path of \"/feedburner/Talos\"\n\nAccount Key: None\n\nSteps:\n[] Get the RSS feed XML\n[] If the Etag is the same or there aren’t any recent updates, end the workflow\n[] Get the updated Etag and Last-Modified headers\n[] Convert the feed XML into JSON and parse out each post’s information\n[] For each blog post:\n[]> Check if the post has been updated since the last run of the workflow, if not, skip it\n[]> Run a sub-workflow to parse this single blog post\n[] Update the global variables with the new Etag and Last-Modified date\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0001",
+      "description": "This workflow consumes the Talos Intelligence Blog RSS feed and converts individual blog posts into Cisco SecureX casebooks if they contain suspicious observables. These casebooks can then be investigated with one click in Cisco Threat Response.\n\nTarget: HTTP Endpoint named \"Talos Intelligence Blog\" for \"blogger.com\" with a path of \"/feeds/1029833275466591797/posts/default\"\n\nAccount Key: None\n\nSteps:\n[] Fetch/validate global variables\n[] Get the RSS feed XML\n[] Convert the feed XML into JSON and parse the feed meta data and posts\n[] Check if there have been new posts since the last run (if not, end the workflow)\n[] For each blog post:\n[]> Check if the post has been updated since the last run of the workflow, if not, skip it\n[]> Run a sub-workflow to parse this single blog post\n[] Update the global variables with the new last modified date\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0001",
       "display_name": "0001 - Talos - Get New Blog Posts",
       "runtime_user": {
         "override_target_runtime_user": false,
@@ -195,17 +167,13 @@
         "properties": {
           "action_timeout": 180,
           "allow_auto_redirect": true,
+          "allow_headers_redirect": false,
           "content_type": "application/xml",
           "continue_on_error_status_code": true,
           "continue_on_failure": false,
-          "custom_headers": [
-            {
-              "name": "If-None-Match",
-              "value": "$global.variable_01JNHUXUS6AOJ01kru5YMihoCRZszke5o2c.global.variable_01JNHUXUS6AOJ01kru5YMihoCRZszke5o2c$"
-            }
-          ],
           "display_name": "Get RSS feed XML",
           "method": "GET",
+          "relative_url": "?start-index=1&max-results=10&redirect=false",
           "runtime_user": {
             "override_target_runtime_user": false,
             "target_default": true
@@ -234,44 +202,9 @@
         "object_type": "definition_activity",
         "blocks": [
           {
-            "unique_name": "definition_activity_01FX7K0K3WWGY4H1VBmsETSFroO7UFema69",
-            "name": "Condition Branch",
-            "title": "304/Etag is the same",
-            "type": "logic.condition_block",
-            "base_type": "activity",
-            "properties": {
-              "condition": {
-                "left_operand": "$activity.definition_activity_01FX7J76FKWXQ14bOdwWpVW6KGC6bGArda0.output.status_code$",
-                "operator": "eq",
-                "right_operand": 304
-              },
-              "continue_on_failure": false,
-              "display_name": "304/Etag is the same",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity",
-            "actions": [
-              {
-                "unique_name": "definition_activity_01FX7KFOCSRKT0Yd1gL0RCVhlAbt3CwMnta",
-                "name": "Completed",
-                "title": "Completed",
-                "type": "logic.completed",
-                "base_type": "activity",
-                "properties": {
-                  "completion_type": "succeeded",
-                  "continue_on_failure": false,
-                  "display_name": "Completed",
-                  "result_message": "No new blog posts need to be parsed",
-                  "skip_execution": false
-                },
-                "object_type": "definition_activity"
-              }
-            ]
-          },
-          {
             "unique_name": "definition_activity_01FX7K0LD6PHF3E71bJiz3iPOZ1ePrCTMND",
             "name": "Condition Branch",
-            "title": "Anything else not 200",
+            "title": "Anything not 200",
             "type": "logic.condition_block",
             "base_type": "activity",
             "properties": {
@@ -281,7 +214,7 @@
                 "right_operand": 200
               },
               "continue_on_failure": false,
-              "display_name": "Anything else not 200",
+              "display_name": "Anything not 200",
               "skip_execution": false
             },
             "object_type": "definition_activity",
@@ -306,115 +239,6 @@
         ]
       },
       {
-        "unique_name": "definition_activity_01FX7KNXLNGXM5g8P48WWHybHT1E3pXVwWK",
-        "name": "For Each",
-        "title": "Parse blog headers",
-        "type": "logic.for_each",
-        "base_type": "activity",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "Parse blog headers",
-          "skip_execution": false,
-          "source_array": "$activity.definition_activity_01FX7J76FKWXQ14bOdwWpVW6KGC6bGArda0.output.response_headers$"
-        },
-        "object_type": "definition_activity",
-        "actions": [
-          {
-            "unique_name": "definition_activity_01FX7KP0HYAWR1cPXQxx1pZWUuAvmG9Tah5",
-            "name": "Condition Block",
-            "title": "Is this a header we want?",
-            "type": "logic.if_else",
-            "base_type": "activity",
-            "properties": {
-              "continue_on_failure": false,
-              "display_name": "Is this a header we want?",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity",
-            "blocks": [
-              {
-                "unique_name": "definition_activity_01FX7KP35OAAK66aLt0DH7AWIYjZrEvhaqr",
-                "name": "Condition Branch",
-                "title": "Etag",
-                "type": "logic.condition_block",
-                "base_type": "activity",
-                "properties": {
-                  "condition": {
-                    "left_operand": "$activity.definition_activity_01FX7KNXLNGXM5g8P48WWHybHT1E3pXVwWK.input.source_array[@].name$",
-                    "operator": "eqi",
-                    "right_operand": "Etag"
-                  },
-                  "continue_on_failure": false,
-                  "display_name": "Etag",
-                  "skip_execution": false
-                },
-                "object_type": "definition_activity",
-                "actions": [
-                  {
-                    "unique_name": "definition_activity_01FX7MAEY8F2R5wNCARgz3fvbkCNtxWDQOw",
-                    "name": "Set Variables",
-                    "title": "Set local variables",
-                    "type": "core.set_multiple_variables",
-                    "base_type": "activity",
-                    "properties": {
-                      "continue_on_failure": false,
-                      "display_name": "Set local variables",
-                      "skip_execution": false,
-                      "variables_to_update": [
-                        {
-                          "variable_to_update": "$workflow.definition_workflow_01FX7FQDZRDUX1TWgKJwTPBMaOWrgUOld2q.local.variable_workflow_01FX7LYV46SKE1XHJiLwyDP7kYML8kyRlqP$",
-                          "variable_value_new": "$activity.definition_activity_01FX7KNXLNGXM5g8P48WWHybHT1E3pXVwWK.input.source_array[@].value$"
-                        }
-                      ]
-                    },
-                    "object_type": "definition_activity"
-                  }
-                ]
-              },
-              {
-                "unique_name": "definition_activity_01FX7KP4DOF9Y5WQzzejaBWunUD5NTwvPh2",
-                "name": "Condition Branch",
-                "title": "Last-Modified",
-                "type": "logic.condition_block",
-                "base_type": "activity",
-                "properties": {
-                  "condition": {
-                    "left_operand": "$activity.definition_activity_01FX7KNXLNGXM5g8P48WWHybHT1E3pXVwWK.input.source_array[@].name$",
-                    "operator": "eqi",
-                    "right_operand": "Last-Modified"
-                  },
-                  "continue_on_failure": false,
-                  "display_name": "Last-Modified",
-                  "skip_execution": false
-                },
-                "object_type": "definition_activity",
-                "actions": [
-                  {
-                    "unique_name": "definition_activity_01FX7MBB9AKRY0HJTTkzbb4FS2RysDYO3cl",
-                    "name": "Set Variables",
-                    "title": "Set local variables",
-                    "type": "core.set_multiple_variables",
-                    "base_type": "activity",
-                    "properties": {
-                      "continue_on_failure": false,
-                      "display_name": "Set local variables",
-                      "skip_execution": false,
-                      "variables_to_update": [
-                        {
-                          "variable_to_update": "$workflow.definition_workflow_01FX7FQDZRDUX1TWgKJwTPBMaOWrgUOld2q.local.variable_workflow_01FX7M5IS13ZU2auOqXvGzVCcMCqtTBcYqE$",
-                          "variable_value_new": "$activity.definition_activity_01FX7KNXLNGXM5g8P48WWHybHT1E3pXVwWK.input.source_array[@].value$"
-                        }
-                      ]
-                    },
-                    "object_type": "definition_activity"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      {
         "unique_name": "definition_activity_01FX7MOC8R6OS1fGhfZfNjiejKB3XVeBeo5",
         "name": "Convert Xml to Json",
         "title": "Convert RSS XML to JSON",
@@ -429,6 +253,86 @@
         "object_type": "definition_activity"
       },
       {
+        "unique_name": "definition_activity_01YRUWQWKT5AG67SB1olc6Iuh4Qxvpe4lXY",
+        "name": "Execute Python Script",
+        "title": "Format blog post metadata",
+        "type": "python3.script",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Format blog post metadata",
+          "script": "import sys, json\nfrom datetime import datetime\n\nfeed = json.loads(sys.argv[1])\nfeedUpdated = feed['feed']['updated']\nfeedOut = []\n\nif ':' == feedUpdated[-3:-2]:\n  feedUpdated = feedUpdated[:-3] + feedUpdated[-2:]\n\nfeedUpdated = datetime.strptime(feedUpdated, '%Y-%m-%dT%H:%M:%S.%f%z')\nfeedUpdated = feedUpdated.strftime('%Y-%m-%dT%H:%M:%S%z')\nfeedUpdated = feedUpdated[:-2] + ':' + feedUpdated[-2:]\n\nfor entry in feed['feed']['entry']:\n  if ':' == entry['published'][-3:-2]:\n    entry['published'] = entry['published'][:-3] + entry['published'][-2:]\n  \n  pubDate = datetime.strptime(entry['published'], '%Y-%m-%dT%H:%M:%S.%f%z')\n  pubDate = pubDate.strftime('%Y-%m-%dT%H:%M:%S%z')\n  pubDate = pubDate[:-2] + ':' + pubDate[-2:]\n\n  postLink = ''\n  \n  for link in entry['link']:\n    if ('-title' in link and link['-title'] == entry['title']['#text']) or link['-rel'] == 'alternate':\n      postLink = link['-href']\n  \n  thisPost = {\n    'link': postLink,\n    'title': entry['title']['#text'],\n    'pubDate': pubDate\n  }\n  feedOut.append(thisPost)\n\nfeedOut = json.dumps(feedOut)",
+          "script_arguments": [
+            "$activity.definition_activity_01FX7MOC8R6OS1fGhfZfNjiejKB3XVeBeo5.output.output_json$"
+          ],
+          "script_queries": [
+            {
+              "script_query": "feedOut",
+              "script_query_name": "feedOut",
+              "script_query_type": "string"
+            },
+            {
+              "script_query": "feedUpdated",
+              "script_query_name": "feedUpdated",
+              "script_query_type": "date"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01YRVKELA7C3G1ukkqvsyGBgaqUx84U6xug",
+        "name": "Condition Block",
+        "title": "Have there been new posts?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Have there been new posts?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01YRVKELRP0NK6khIOBwBSBr9xzXCstVTiY",
+            "name": "Condition Branch",
+            "title": "No",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01YRUWQWKT5AG67SB1olc6Iuh4Qxvpe4lXY.output.script_queries.feedUpdated$",
+                "operator": "lt",
+                "right_operand": "$global.variable_01JNI7VSR47ZV0QY21qMyGvZLxB8DLApExq.global.variable_01JNI7VSR47ZV0QY21qMyGvZLxB8DLApExq$"
+              },
+              "continue_on_failure": false,
+              "display_name": "No",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01YRVKUYVPH6A4qjP7eB5u0kRUXYGW3J4KZ",
+                "name": "Completed",
+                "title": "Completed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "succeeded",
+                  "continue_on_failure": false,
+                  "display_name": "Completed",
+                  "result_message": "No new blog posts to parse",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
         "unique_name": "definition_activity_01FX7MXK2CA5F3hzCAfnq2KTvxKAZi1EW8q",
         "name": "Read Table from JSON",
         "title": "Convert list of posts to table",
@@ -438,8 +342,8 @@
           "action_timeout": 180,
           "continue_on_failure": false,
           "display_name": "Convert list of posts to table",
-          "input_json": "$activity.definition_activity_01FX7MOC8R6OS1fGhfZfNjiejKB3XVeBeo5.output.output_json$",
-          "jsonpath_query": "$.rss.channel.item[*]",
+          "input_json": "$activity.definition_activity_01YRUWQWKT5AG67SB1olc6Iuh4Qxvpe4lXY.output.script_queries.feedOut$",
+          "jsonpath_query": "$.",
           "persist_output": false,
           "populate_columns": false,
           "skip_execution": false,
@@ -454,8 +358,8 @@
             },
             {
               "column_name": "pubDate",
-              "column_type": "date",
-              "zdate_type_format": "E, dd MMM yyyy HH:mm:ss z"
+              "column_type": "string",
+              "zdate_type_format": ""
             }
           ]
         },
@@ -476,6 +380,22 @@
         "object_type": "definition_activity",
         "actions": [
           {
+            "unique_name": "definition_activity_01YRVT9CSNMEE5OPKMKrVjH9LLF5UxKSxrG",
+            "name": "Parse Date",
+            "title": "Parse Date",
+            "type": "core.parse_date",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Parse Date",
+              "format_string": "2006-01-02T15:04:05Z07:00",
+              "input_string": "$activity.definition_activity_01FX7NHTMHY8V4lCoHWZJYhyNMads9IaNH8.input.source_array[@].pubDate$",
+              "skip_execution": false,
+              "use_custom_format": false
+            },
+            "object_type": "definition_activity"
+          },
+          {
             "unique_name": "definition_activity_01FX7NUMVMIEZ6k89T2ugr2H9OpoEHfPW9t",
             "name": "Condition Block",
             "title": "Is this a post we should skip?",
@@ -488,39 +408,6 @@
             },
             "object_type": "definition_activity",
             "blocks": [
-              {
-                "unique_name": "definition_activity_01FX7NUPNW0S20bVwErO15gyDR7XIP1GTf7",
-                "name": "Condition Branch",
-                "title": "Not updated since last run",
-                "type": "logic.condition_block",
-                "base_type": "activity",
-                "properties": {
-                  "condition": {
-                    "left_operand": "$activity.definition_activity_01FX7NHTMHY8V4lCoHWZJYhyNMads9IaNH8.input.source_array[@].pubDate$",
-                    "operator": "lt",
-                    "right_operand": "$global.variable_01JNI7VSR47ZV0QY21qMyGvZLxB8DLApExq.global.variable_01JNI7VSR47ZV0QY21qMyGvZLxB8DLApExq$"
-                  },
-                  "continue_on_failure": false,
-                  "display_name": "Not updated since last run",
-                  "skip_execution": false
-                },
-                "object_type": "definition_activity",
-                "actions": [
-                  {
-                    "unique_name": "definition_activity_01FX7R0CWHAD006wW8cWkQVbqCQ8mCwULZ1",
-                    "name": "Continue",
-                    "title": "Skip this post",
-                    "type": "logic.continue",
-                    "base_type": "activity",
-                    "properties": {
-                      "continue_on_failure": false,
-                      "display_name": "Skip this post",
-                      "skip_execution": false
-                    },
-                    "object_type": "definition_activity"
-                  }
-                ]
-              },
               {
                 "unique_name": "definition_activity_01FX7NUQRBJK0730mNYEp9wcRa5Gk8CxKb2",
                 "name": "Condition Branch",
@@ -561,6 +448,39 @@
                     "object_type": "definition_activity"
                   }
                 ]
+              },
+              {
+                "unique_name": "definition_activity_01YRVXGJUBH4119WDrem6u76C2b4wBS1kbK",
+                "name": "Condition Branch",
+                "title": "Not updated since last run",
+                "type": "logic.condition_block",
+                "base_type": "activity",
+                "properties": {
+                  "condition": {
+                    "left_operand": "$activity.definition_activity_01YRVT9CSNMEE5OPKMKrVjH9LLF5UxKSxrG.output.result$",
+                    "operator": "lt",
+                    "right_operand": "$global.variable_01JNI7VSR47ZV0QY21qMyGvZLxB8DLApExq.global.variable_01JNI7VSR47ZV0QY21qMyGvZLxB8DLApExq$"
+                  },
+                  "continue_on_failure": false,
+                  "display_name": "Not updated since last run",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01YRVXGJUC9VZ6zxSIXtHXgoUVhdP14V3lT",
+                    "name": "Continue",
+                    "title": "Skip this post",
+                    "type": "logic.continue",
+                    "base_type": "activity",
+                    "properties": {
+                      "continue_on_failure": false,
+                      "display_name": "Skip this post",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
               }
             ]
           },
@@ -586,7 +506,8 @@
                 "execute_on_this_target_group": true,
                 "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH"
               },
-              "workflow_id": "definition_workflow_01MHP8WZ02JRX6p60bAkisFCZ4fox9ru1X0"
+              "workflow_id": "definition_workflow_01MHP8WZ02JRX6p60bAkisFCZ4fox9ru1X0",
+              "workflow_name": "0001 - Talos - Blog Post to SecureX Casebook"
             },
             "object_type": "definition_activity"
           }
@@ -604,12 +525,8 @@
           "skip_execution": false,
           "variables_to_update": [
             {
-              "variable_to_update": "$global.variable_01JNHUXUS6AOJ01kru5YMihoCRZszke5o2c.global.variable_01JNHUXUS6AOJ01kru5YMihoCRZszke5o2c$",
-              "variable_value_new": "$workflow.definition_workflow_01FX7FQDZRDUX1TWgKJwTPBMaOWrgUOld2q.local.variable_workflow_01FX7LYV46SKE1XHJiLwyDP7kYML8kyRlqP$"
-            },
-            {
               "variable_to_update": "$global.variable_01JNI7VSR47ZV0QY21qMyGvZLxB8DLApExq.global.variable_01JNI7VSR47ZV0QY21qMyGvZLxB8DLApExq$",
-              "variable_value_new": "$workflow.definition_workflow_01FX7FQDZRDUX1TWgKJwTPBMaOWrgUOld2q.local.variable_workflow_01FX7M5IS13ZU2auOqXvGzVCcMCqtTBcYqE$"
+              "variable_value_new": "$activity.definition_activity_01YRUWQWKT5AG67SB1olc6Iuh4Qxvpe4lXY.output.script_queries.feedUpdated$"
             }
           ]
         },
@@ -631,10 +548,10 @@
       "properties": {
         "disable_certificate_validation": false,
         "display_name": "Talos Intelligence Blog",
-        "host": "feeds.feedburner.com",
+        "host": "blogger.com",
         "ignore_proxy": false,
         "no_runtime_user": true,
-        "path": "/feedburner/Talos",
+        "path": "/feeds/1029833275466591797/posts/default",
         "port": 443,
         "protocol": "https"
       }
@@ -664,18 +581,6 @@
     }
   },
   "variables": {
-    "variable_01JNHUXUS6AOJ01kru5YMihoCRZszke5o2c": {
-      "unique_name": "variable_01JNHUXUS6AOJ01kru5YMihoCRZszke5o2c",
-      "properties": {
-        "value": "x",
-        "scope": "global",
-        "name": "0001 - Talos Blog - Etag",
-        "type": "datatype.string",
-        "is_required": false,
-        "is_invisible": false
-      },
-      "object_type": "variable"
-    },
     "variable_01JNI7VSR47ZV0QY21qMyGvZLxB8DLApExq": {
       "unique_name": "variable_01JNI7VSR47ZV0QY21qMyGvZLxB8DLApExq",
       "properties": {
@@ -702,56 +607,14 @@
             "schema_id": "datatype.string",
             "properties": {
               "value": "",
-              "scope": "input",
-              "name": "Blog Post URL",
-              "type": "datatype.string",
-              "description": "The URL of the blog post to investigate. This will be provided by the parent workflow",
-              "is_required": true,
-              "is_invisible": false
-            },
-            "unique_name": "variable_workflow_01MHP8WXXUJM54tGb2SRCdHCCXBVxGHvhje",
-            "object_type": "variable_workflow"
-          },
-          {
-            "schema_id": "datatype.date",
-            "properties": {
-              "value": "0001-01-01T00:00:00+00:00",
               "scope": "local",
-              "name": "Threat Response Token Time",
-              "type": "datatype.date",
-              "description": "The time at which the Threat Response access token was last fetched. This is used to determine when it's time to fetch a new token and should not be modified",
-              "is_required": false,
-              "is_invisible": false
-            },
-            "unique_name": "variable_workflow_01MHP8WXXURHE0QuTrVOXPIFPKLFVePVq5b",
-            "object_type": "variable_workflow"
-          },
-          {
-            "schema_id": "datatype.string",
-            "properties": {
-              "value": "",
-              "scope": "input",
-              "name": "Webex Teams Room Name",
+              "name": "Webex Text",
               "type": "datatype.string",
-              "description": "The name of the Webex Teams room to post messages to. If using a bot, make sure to invite your bot to the room before attempting to send messages. If you don't want to use Webex, leave this blank",
+              "description": "Placeholder for the text to send via Webex. This will be populated automatically",
               "is_required": false,
               "is_invisible": false
             },
-            "unique_name": "variable_workflow_01MHP8WXXUER36eFlqkgW3A19xhs1JgBiZ7",
-            "object_type": "variable_workflow"
-          },
-          {
-            "schema_id": "datatype.string",
-            "properties": {
-              "value": "",
-              "scope": "local",
-              "name": "Threat Response Environment URL",
-              "type": "datatype.string",
-              "description": "Placeholder for the URL of the Threat Response environment being used. You don't need to provide this, it will be fetched automatically",
-              "is_required": false,
-              "is_invisible": false
-            },
-            "unique_name": "variable_workflow_01MHP8WXXUI0X0kLFq9s3wxPlDXgpOJcx6a",
+            "unique_name": "variable_workflow_01MHP8WXXULCW7jNg64BqPDuIhwkk3alBLt",
             "object_type": "variable_workflow"
           },
           {
@@ -766,6 +629,48 @@
               "is_invisible": false
             },
             "unique_name": "variable_workflow_01MHP8WXXUSW40Q8g4wXuk5Zz1Ou5Ibue38",
+            "object_type": "variable_workflow"
+          },
+          {
+            "schema_id": "datatype.secure_string",
+            "properties": {
+              "value": "",
+              "scope": "input",
+              "name": "Webex Access Token",
+              "type": "datatype.secure_string",
+              "description": "The access token to use to authenticate to the Webex API. Information about using a bot, which is what we recommend, can be found here: https://developer.webex.com/docs/bots",
+              "is_required": false,
+              "is_invisible": false
+            },
+            "unique_name": "variable_workflow_01MHP8WXXUOBY2qrIXPvZAcvuS10c5u68Fs",
+            "object_type": "variable_workflow"
+          },
+          {
+            "schema_id": "datatype.integer",
+            "properties": {
+              "value": 0,
+              "scope": "local",
+              "name": "Number of Non-Clean Observables",
+              "type": "datatype.integer",
+              "description": "How many non-clean observables were found during the investigation (as in: unknown, suspicious, or malicious)",
+              "is_required": false,
+              "is_invisible": false
+            },
+            "unique_name": "variable_workflow_01MHP8WXXU9DD5nUKo5o9ffMz3wY4uNyAeS",
+            "object_type": "variable_workflow"
+          },
+          {
+            "schema_id": "datatype.date",
+            "properties": {
+              "value": "0001-01-01T00:00:00+00:00",
+              "scope": "local",
+              "name": "Threat Response Token Time",
+              "type": "datatype.date",
+              "description": "The time at which the Threat Response access token was last fetched. This is used to determine when it's time to fetch a new token and should not be modified",
+              "is_required": false,
+              "is_invisible": false
+            },
+            "unique_name": "variable_workflow_01MHP8WXXURHE0QuTrVOXPIFPKLFVePVq5b",
             "object_type": "variable_workflow"
           },
           {
@@ -797,17 +702,17 @@
             "object_type": "variable_workflow"
           },
           {
-            "schema_id": "datatype.secure_string",
+            "schema_id": "datatype.string",
             "properties": {
               "value": "",
               "scope": "input",
-              "name": "Webex Teams Access Token",
-              "type": "datatype.secure_string",
-              "description": "The access token to use to authenticate to the Webex Teams API. Information about using a bot, which is what we recommend, can be found here: https://developer.webex.com/docs/bots",
-              "is_required": false,
+              "name": "Blog Post URL",
+              "type": "datatype.string",
+              "description": "The URL of the blog post to investigate. This will be provided by the parent workflow",
+              "is_required": true,
               "is_invisible": false
             },
-            "unique_name": "variable_workflow_01MHP8WXXUOBY2qrIXPvZAcvuS10c5u68Fs",
+            "unique_name": "variable_workflow_01MHP8WXXUJM54tGb2SRCdHCCXBVxGHvhje",
             "object_type": "variable_workflow"
           },
           {
@@ -815,27 +720,27 @@
             "properties": {
               "value": "",
               "scope": "local",
-              "name": "Webex Text",
+              "name": "Threat Response Environment URL",
               "type": "datatype.string",
-              "description": "Placeholder for the text to send via Webex. This will be populated automatically",
+              "description": "Placeholder for the URL of the Threat Response environment being used. You don't need to provide this, it will be fetched automatically",
               "is_required": false,
               "is_invisible": false
             },
-            "unique_name": "variable_workflow_01MHP8WXXULCW7jNg64BqPDuIhwkk3alBLt",
+            "unique_name": "variable_workflow_01MHP8WXXUI0X0kLFq9s3wxPlDXgpOJcx6a",
             "object_type": "variable_workflow"
           },
           {
-            "schema_id": "datatype.integer",
+            "schema_id": "datatype.string",
             "properties": {
-              "value": 0,
-              "scope": "local",
-              "name": "Number of Non-Clean Observables",
-              "type": "datatype.integer",
-              "description": "How many non-clean observables were found during the investigation (as in: unknown, suspicious, or malicious)",
+              "value": "",
+              "scope": "input",
+              "name": "Webex Room Name",
+              "type": "datatype.string",
+              "description": "The name of the Webex room to post messages to. If using a bot, make sure to invite your bot to the room before attempting to send messages. If you don't want to use Webex, leave this blank",
               "is_required": false,
               "is_invisible": false
             },
-            "unique_name": "variable_workflow_01MHP8WXXU9DD5nUKo5o9ffMz3wY4uNyAeS",
+            "unique_name": "variable_workflow_01MHP8WXXUER36eFlqkgW3A19xhs1JgBiZ7",
             "object_type": "variable_workflow"
           },
           {
@@ -858,7 +763,7 @@
             "is_atomic": false
           },
           "delete_workflow_instance": false,
-          "description": "This workflow takes a Talos blog post, conducts an investigation into it using Cisco Threat Response, and then puts the results in a SecureX casebook. If a Webex Teams room name and bot token are provided, a message with the investigation's results will be sent.\n\nTarget Group: Default TargetGroup\n\nTargets: CTR_For_Access_Token, CTR_API, Private_CTIA_Target, Webex Teams\n\nSteps:\n[] Fetch the blog post content and strip out any HTML\n[] Request a Threat Response access token and inspect the blog post content for observables\n[] Loop through each observable and get its Threat Response disposition\n[] For observables that weren't clean, conduct Threat Response enrichment to get sightings\n[] For modules with sightings, build the text to post to Webex\n[] Create the SecureX casebook and, if a teams room is provided, post a message to Webex\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0001",
+          "description": "This workflow takes a Talos blog post, conducts an investigation into it using Cisco Threat Response, and then puts the results in a SecureX casebook. If a Webex room name and bot token are provided, a message with the investigation's results will be sent.\n\nTarget Group: Default TargetGroup\n\nTargets: CTR_For_Access_Token, CTR_API, Private_CTIA_Target, Webex Teams\n\nSteps:\n[] Fetch the blog post content and strip out any HTML\n[] Request a Threat Response access token and inspect the blog post content for observables\n[] Loop through each observable and get its Threat Response disposition\n[] For observables that weren't clean, conduct Threat Response enrichment to get sightings\n[] For modules with sightings, build the text to post to Webex\n[] Create the SecureX casebook and, if a teams room is provided, post a message to Webex\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0001",
           "display_name": "0001 - Talos - Blog Post to SecureX Casebook",
           "runtime_user": {
             "override_target_runtime_user": false,
@@ -1157,7 +1062,8 @@
                       }
                     }
                   },
-                  "workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
+                  "workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH",
+                  "workflow_name": "Threat Response - Generate Access Token"
                 },
                 "object_type": "definition_activity"
               },
@@ -1204,7 +1110,8 @@
                   "target": {
                     "use_workflow_target_group": true
                   },
-                  "workflow_id": "definition_workflow_01PP7586MYQ913P0nWshTHMU7mQNNFG58Bv"
+                  "workflow_id": "definition_workflow_01PP7586MYQ913P0nWshTHMU7mQNNFG58Bv",
+                  "workflow_name": "Threat Response - Inspect for Observables"
                 },
                 "object_type": "definition_activity"
               },
@@ -1362,7 +1269,8 @@
                       "target": {
                         "use_workflow_target_group": true
                       },
-                      "workflow_id": "definition_workflow_01PP77MLQ4QAG765OwlT0ZDqBzv80HvYuPC"
+                      "workflow_id": "definition_workflow_01PP77MLQ4QAG765OwlT0ZDqBzv80HvYuPC",
+                      "workflow_name": "Threat Response - Deliberate Observable"
                     },
                     "object_type": "definition_activity"
                   },
@@ -1454,7 +1362,8 @@
                                       }
                                     }
                                   },
-                                  "workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
+                                  "workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH",
+                                  "workflow_name": "Threat Response - Generate Access Token"
                                 },
                                 "object_type": "definition_activity"
                               },
@@ -1821,7 +1730,8 @@
                                       }
                                     }
                                   },
-                                  "workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
+                                  "workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH",
+                                  "workflow_name": "Threat Response - Generate Access Token"
                                 },
                                 "object_type": "definition_activity"
                               },
@@ -1875,7 +1785,8 @@
                       "target": {
                         "use_workflow_target_group": true
                       },
-                      "workflow_id": "definition_workflow_01PP78TYLE76D6188QkWvzWydNU6L8PtlvS"
+                      "workflow_id": "definition_workflow_01PP78TYLE76D6188QkWvzWydNU6L8PtlvS",
+                      "workflow_name": "Threat Response - Enrich Observable"
                     },
                     "object_type": "definition_activity"
                   },
@@ -2198,7 +2109,8 @@
                               }
                             }
                           },
-                          "workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
+                          "workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH",
+                          "workflow_name": "Threat Response - Generate Access Token"
                         },
                         "object_type": "definition_activity"
                       },
@@ -2306,19 +2218,20 @@
                       }
                     }
                   },
-                  "workflow_id": "definition_workflow_01PP75X6VPQNK4hKE1XQXIMeIcHrE1khIML"
+                  "workflow_id": "definition_workflow_01PP75X6VPQNK4hKE1XQXIMeIcHrE1khIML",
+                  "workflow_name": "Threat Response - Create Casebook"
                 },
                 "object_type": "definition_activity"
               },
               {
                 "unique_name": "definition_activity_01MHP9N7PUNLJ69xvm791bT6IX2ndDVFpDw",
                 "name": "Condition Block",
-                "title": "Was a Webex Teams room provided?",
+                "title": "Was a Webex room provided?",
                 "type": "logic.if_else",
                 "base_type": "activity",
                 "properties": {
                   "continue_on_failure": false,
-                  "display_name": "Was a Webex Teams room provided?",
+                  "display_name": "Was a Webex room provided?",
                   "skip_execution": false
                 },
                 "object_type": "definition_activity",
@@ -2343,13 +2256,13 @@
                     "actions": [
                       {
                         "unique_name": "definition_activity_01MHP9NNFTY7L6NyW3hE03uXSLBvJvu78Ed",
-                        "name": "Webex Teams - Search for Room",
-                        "title": "Webex Teams - Search for Room",
+                        "name": "Webex - Search for Room",
+                        "title": "Webex - Search for Room",
                         "type": "workflow.atomic_workflow",
                         "base_type": "subworkflow",
                         "properties": {
                           "continue_on_failure": true,
-                          "display_name": "Webex Teams - Search for Room",
+                          "display_name": "Webex - Search for Room",
                           "input": {
                             "variable_workflow_01PP790MCX1DN3EitpQebkUyJS65DbwS3nU": "$workflow.definition_workflow_01MHP8WZ02JRX6p60bAkisFCZ4fox9ru1X0.input.variable_workflow_01MHP8WXXUOBY2qrIXPvZAcvuS10c5u68Fs$",
                             "variable_workflow_01PP790MCXB392D3R8pxh9fgOTjTde2bcMW": "$workflow.definition_workflow_01MHP8WZ02JRX6p60bAkisFCZ4fox9ru1X0.input.variable_workflow_01MHP8WXXUER36eFlqkgW3A19xhs1JgBiZ7$",
@@ -2376,7 +2289,8 @@
                               }
                             }
                           },
-                          "workflow_id": "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez"
+                          "workflow_id": "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez",
+                          "workflow_name": "Webex - Search for Room"
                         },
                         "object_type": "definition_activity"
                       },
@@ -2413,18 +2327,19 @@
                             "actions": [
                               {
                                 "unique_name": "definition_activity_01MHP9ORUL6GF3LdN1Rf29NABGzXJIq3wbK",
-                                "name": "Webex Teams - Post Message to Room",
-                                "title": "Webex Teams - Post Message to Room",
+                                "name": "Webex - Post Message to Room",
+                                "title": "Webex - Post Message to Room",
                                 "type": "workflow.atomic_workflow",
                                 "base_type": "subworkflow",
                                 "properties": {
                                   "continue_on_failure": false,
-                                  "display_name": "Webex Teams - Post Message to Room",
+                                  "display_name": "Webex - Post Message to Room",
                                   "input": {
                                     "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$activity.definition_activity_01MHP9NNFTY7L6NyW3hE03uXSLBvJvu78Ed.output.variable_workflow_01PP790MCXJ7Y5cAWcGZWbG4Es0126zb1I6$",
                                     "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$workflow.definition_workflow_01MHP8WZ02JRX6p60bAkisFCZ4fox9ru1X0.input.variable_workflow_01MHP8WXXUOBY2qrIXPvZAcvuS10c5u68Fs$",
                                     "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "A SecureX casebook has been created for the blog post [$activity.definition_activity_01MHP90W2RZES7F5IgHqO9x6uUzGKqm2xdk.output.script_queries.postTitle$]($workflow.definition_workflow_01MHP8WZ02JRX6p60bAkisFCZ4fox9ru1X0.input.variable_workflow_01MHP8WXXUJM54tGb2SRCdHCCXBVxGHvhje$) from Talos. [Click here](https://$workflow.definition_workflow_01MHP8WZ02JRX6p60bAkisFCZ4fox9ru1X0.local.variable_workflow_01MHP8WXXUI0X0kLFq9s3wxPlDXgpOJcx6a$/investigate?spid=$activity.definition_activity_01MHP9MIXJHN24AlhaTWnYS7yjoCpVDYxSY.output.variable_workflow_01PP75X6NLWYO1BiZbBFEXJyqmmfiQcqId3$) to investigate\n\n**Sighting Summary:**\n$activity.definition_activity_01MHP9M5D9VGX5srLark8wdIC0cKrsp0aFz.output.script_queries.markdownSummary$",
-                                    "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": ""
+                                    "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": "",
+                                    "variable_workflow_01SVERQNMKN8N6vqX2djMtAfshphGydGsH8": ""
                                   },
                                   "runtime_user": {
                                     "target_default": true
@@ -2446,7 +2361,8 @@
                                       }
                                     }
                                   },
-                                  "workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw"
+                                  "workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw",
+                                  "workflow_name": "Webex - Post Message to Room"
                                 },
                                 "object_type": "definition_activity"
                               }
@@ -2464,16 +2380,28 @@
         "categories": [
           "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
         ]
-      }
+      },
+      "dependent_workflows": [
+        "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH",
+        "definition_workflow_01PP7586MYQ913P0nWshTHMU7mQNNFG58Bv",
+        "definition_workflow_01PP77MLQ4QAG765OwlT0ZDqBzv80HvYuPC",
+        "definition_workflow_01PP78TYLE76D6188QkWvzWydNU6L8PtlvS",
+        "definition_workflow_01PP75X6VPQNK4hKE1XQXIMeIcHrE1khIML",
+        "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez",
+        "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw"
+      ]
     }
   ],
   "atomic_workflows": [
+    "definition_workflow_01PP75X6VPQNK4hKE1XQXIMeIcHrE1khIML",
     "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH",
     "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez",
+    "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw",
     "definition_workflow_01PP7586MYQ913P0nWshTHMU7mQNNFG58Bv",
-    "definition_workflow_01PP78TYLE76D6188QkWvzWydNU6L8PtlvS",
-    "definition_workflow_01PP75X6VPQNK4hKE1XQXIMeIcHrE1khIML",
     "definition_workflow_01PP77MLQ4QAG765OwlT0ZDqBzv80HvYuPC",
-    "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw"
+    "definition_workflow_01PP78TYLE76D6188QkWvzWydNU6L8PtlvS"
+  ],
+  "dependent_workflows": [
+    "definition_workflow_01MHP8WZ02JRX6p60bAkisFCZ4fox9ru1X0"
   ]
 }

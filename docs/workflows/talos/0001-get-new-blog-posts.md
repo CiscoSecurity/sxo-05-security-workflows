@@ -36,6 +36,7 @@ This workflow has two components: a parent workflow and a sub-workflow. Importin
 | Sep 10, 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
 | Nov 12, 2021 | - Updated the workflow based on a change to the Talos blog XML (The `origLink` field is now called `link`) |
 | Apr 5, 2022 | - Fixed the Post URL link markdown for the SecureX casebook |
+| Jul 25, 2022 | - Updated to handle the new Talos blog feed format ([Issue #177]({{ site.github.repository_url }}/issues/177)) |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 
