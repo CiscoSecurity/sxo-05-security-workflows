@@ -27,6 +27,7 @@ This workflow fetches request per category statistics from Cisco Umbrella for a 
 | Apr 13, 2021 | - Initial release |
 | Jun 14, 2021 | - Additional error handling |
 | Sep 10, 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+| Jul 25, 2022 | - Updated to enable sensitive header redirection for Umbrella APIs ([Issue #176]({{ site.github.repository_url }}/issues/176)) |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 
