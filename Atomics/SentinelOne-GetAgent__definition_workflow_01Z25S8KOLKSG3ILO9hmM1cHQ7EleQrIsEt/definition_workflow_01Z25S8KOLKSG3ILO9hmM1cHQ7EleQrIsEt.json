@@ -1,0 +1,594 @@
+{
+    "workflow": {
+        "unique_name": "definition_workflow_01Z25S8KOLKSG3ILO9hmM1cHQ7EleQrIsEt",
+        "name": "SentinelOne - Get Agent",
+        "title": "SentinelOne - Get Agent",
+        "type": "generic.workflow",
+        "base_type": "workflow",
+        "variables": [
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "",
+                    "scope": "input",
+                    "name": "Computer Name",
+                    "type": "datatype.string",
+                    "description": "Name of the computer to search for",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01Z25SKDBDV912Z0X7OeO9mGEnce42pQbxf",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "",
+                    "scope": "output",
+                    "name": "Agent ID",
+                    "type": "datatype.string",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01Z26ELG93V9M6HvA151xmAxK7EgmMZYDxo",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "",
+                    "scope": "output",
+                    "name": "Agent UUID",
+                    "type": "datatype.string",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01Z25X7QMFE7Y2DdYXFmVaktAWCrl0wsuR9",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "",
+                    "scope": "input",
+                    "name": "IP Address",
+                    "type": "datatype.string",
+                    "description": "IP address of the computer to search for",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01Z2637GNIWD85CVa475B7vtOvpo66nA88r",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "",
+                    "scope": "input",
+                    "name": "Query Parameters",
+                    "type": "datatype.string",
+                    "description": "Additional query parameters to use when searching for accounts. See the SentinelOne API documentation for more information about supported query parameters",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01Z268NHT8X0U0CcjL0sjqcXFOFMCUIiV1s",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "",
+                    "scope": "output",
+                    "name": "Agent Details",
+                    "type": "datatype.string",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01Z25XAL69HOY4udPQ4T04gieHGLxzgnpjj",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.secure_string",
+                "properties": {
+                    "value": "",
+                    "scope": "input",
+                    "name": "API Token",
+                    "type": "datatype.secure_string",
+                    "description": "Your SentinalOne API token. See the API documentation in SentinelOne for more information on how to generate this",
+                    "is_required": true,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01Z25S8L1VV1V0w7icKjr3vZqMTQepfDRWo",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "",
+                    "scope": "input",
+                    "name": "MAC Address",
+                    "type": "datatype.string",
+                    "description": "MAC address of the computer to search for",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01Z25TLWKEK011NB7R65cwiYrMxV8dNEBX1",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "",
+                    "scope": "local",
+                    "name": "Query String",
+                    "type": "datatype.string",
+                    "description": "Placeholder for the query string appended to the request URL. This will be populated automatically",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01Z25TQ7LH9SB7UrEyFGIKCOd0iEjGtEpfo",
+                "object_type": "variable_workflow"
+            }
+        ],
+        "properties": {
+            "atomic": {
+                "atomic_group": "SentinelOne",
+                "is_atomic": true
+            },
+            "delete_workflow_instance": false,
+            "description": "Fetches a single agent from SentinelOne using device name, MAC address, IP address, or a custom query string. If multiple agents match the search term provided, only the first result will be returned. See the SentinelOne API documentation for more information about supported query string options.\n\nTarget: HTTP Endpoint for your \"your-tenant.sentinelone.net\" with a path of \"\/web\/api\"\n\nAccount Key: None (uses an API token)\n\nSteps:\n[] Build the query string\n[] Request matching agents from SentinelOne\n[] Check if the API request succeeded:\n[]> If it did, extract the agent's information and set the output variables\n[]> If it didn't, output an error\n\nMore information about this API can be found in the SentinelOne documentation",
+            "display_name": "SentinelOne - Get Agent",
+            "runtime_user": {
+                "target_default": true
+            },
+            "target": {
+                "target_type": "web-service.endpoint",
+                "specify_on_workflow_start": true
+            }
+        },
+        "object_type": "definition_workflow",
+        "actions": [
+            {
+                "unique_name": "definition_activity_01Z25TRNJRPDZ1Qlj0BhpKe4lcQWWEgxeYJ",
+                "name": "Condition Block",
+                "title": "What search field was provided?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                    "continue_on_failure": false,
+                    "display_name": "What search field was provided?",
+                    "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                    {
+                        "unique_name": "definition_activity_01Z25TRNZ8L1T5N97vcs51eIJkEsCg8AxlV",
+                        "name": "Condition Branch",
+                        "title": "Computer Name",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$workflow.definition_workflow_01Z25S8KOLKSG3ILO9hmM1cHQ7EleQrIsEt.input.variable_workflow_01Z25SKDBDV912Z0X7OeO9mGEnce42pQbxf$",
+                                "operator": "ne",
+                                "right_operand": ""
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "Computer Name",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01Z25U1KW77201zOjgraAXb3AfDhBfsc390",
+                                "name": "Set Variables",
+                                "title": "Set Query String",
+                                "type": "core.set_multiple_variables",
+                                "base_type": "activity",
+                                "properties": {
+                                    "continue_on_failure": false,
+                                    "display_name": "Set Query String",
+                                    "skip_execution": false,
+                                    "variables_to_update": [
+                                        {
+                                            "variable_to_update": "$workflow.definition_workflow_01Z25S8KOLKSG3ILO9hmM1cHQ7EleQrIsEt.local.variable_workflow_01Z25TQ7LH9SB7UrEyFGIKCOd0iEjGtEpfo$",
+                                            "variable_value_new": "computerName=$workflow.definition_workflow_01Z25S8KOLKSG3ILO9hmM1cHQ7EleQrIsEt.input.variable_workflow_01Z25SKDBDV912Z0X7OeO9mGEnce42pQbxf$"
+                                        }
+                                    ]
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    },
+                    {
+                        "unique_name": "definition_activity_01Z25UI151QZF1jdHhX8UqdEBAU6TkC1YFE",
+                        "name": "Condition Branch",
+                        "title": "MAC Address",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$workflow.definition_workflow_01Z25S8KOLKSG3ILO9hmM1cHQ7EleQrIsEt.input.variable_workflow_01Z25TLWKEK011NB7R65cwiYrMxV8dNEBX1$",
+                                "operator": "ne",
+                                "right_operand": ""
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "MAC Address",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01Z25UI152CR80Hjr1uLoLgg9powowfWRjy",
+                                "name": "Set Variables",
+                                "title": "Set Query String",
+                                "type": "core.set_multiple_variables",
+                                "base_type": "activity",
+                                "properties": {
+                                    "continue_on_failure": false,
+                                    "display_name": "Set Query String",
+                                    "skip_execution": false,
+                                    "variables_to_update": [
+                                        {
+                                            "variable_to_update": "$workflow.definition_workflow_01Z25S8KOLKSG3ILO9hmM1cHQ7EleQrIsEt.local.variable_workflow_01Z25TQ7LH9SB7UrEyFGIKCOd0iEjGtEpfo$",
+                                            "variable_value_new": "networkInterfacePhysical__contains=$workflow.definition_workflow_01Z25S8KOLKSG3ILO9hmM1cHQ7EleQrIsEt.input.variable_workflow_01Z25TLWKEK011NB7R65cwiYrMxV8dNEBX1$"
+                                        }
+                                    ]
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    },
+                    {
+                        "unique_name": "definition_activity_01Z2638UOH3SU6RCIa0TKJsvIcQQEMS7bU7",
+                        "name": "Condition Branch",
+                        "title": "IP Address",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$workflow.definition_workflow_01Z25S8KOLKSG3ILO9hmM1cHQ7EleQrIsEt.input.variable_workflow_01Z2637GNIWD85CVa475B7vtOvpo66nA88r$",
+                                "operator": "ne",
+                                "right_operand": ""
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "IP Address",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01Z2638UOHWMM6sLc1x63gcncO0rH7TZRxW",
+                                "name": "Set Variables",
+                                "title": "Set Query String",
+                                "type": "core.set_multiple_variables",
+                                "base_type": "activity",
+                                "properties": {
+                                    "continue_on_failure": false,
+                                    "display_name": "Set Query String",
+                                    "skip_execution": false,
+                                    "variables_to_update": [
+                                        {
+                                            "variable_to_update": "$workflow.definition_workflow_01Z25S8KOLKSG3ILO9hmM1cHQ7EleQrIsEt.local.variable_workflow_01Z25TQ7LH9SB7UrEyFGIKCOd0iEjGtEpfo$",
+                                            "variable_value_new": "networkInterfaceInet__contains=$workflow.definition_workflow_01Z25S8KOLKSG3ILO9hmM1cHQ7EleQrIsEt.input.variable_workflow_01Z2637GNIWD85CVa475B7vtOvpo66nA88r$"
+                                        }
+                                    ]
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    },
+                    {
+                        "unique_name": "definition_activity_01Z268OYC51LU5SajQFvsq8UWTSsKKjrgX1",
+                        "name": "Condition Branch",
+                        "title": "Query String",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$workflow.definition_workflow_01Z25S8KOLKSG3ILO9hmM1cHQ7EleQrIsEt.input.variable_workflow_01Z268NHT8X0U0CcjL0sjqcXFOFMCUIiV1s$",
+                                "operator": "ne",
+                                "right_operand": ""
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "Query String",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01Z268OYC5XVC6xswvFHNTsZXAKdFF1iZVU",
+                                "name": "Set Variables",
+                                "title": "Set Query String",
+                                "type": "core.set_multiple_variables",
+                                "base_type": "activity",
+                                "properties": {
+                                    "continue_on_failure": false,
+                                    "display_name": "Set Query String",
+                                    "skip_execution": false,
+                                    "variables_to_update": [
+                                        {
+                                            "variable_to_update": "$workflow.definition_workflow_01Z25S8KOLKSG3ILO9hmM1cHQ7EleQrIsEt.local.variable_workflow_01Z25TQ7LH9SB7UrEyFGIKCOd0iEjGtEpfo$",
+                                            "variable_value_new": "$workflow.definition_workflow_01Z25S8KOLKSG3ILO9hmM1cHQ7EleQrIsEt.input.variable_workflow_01Z268NHT8X0U0CcjL0sjqcXFOFMCUIiV1s$"
+                                        }
+                                    ]
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    },
+                    {
+                        "unique_name": "definition_activity_01Z25URCTNZ6H2hDfvRTcuPiJLEcaAPbHfN",
+                        "name": "Condition Branch",
+                        "title": "Nothing",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$workflow.definition_workflow_01Z25S8KOLKSG3ILO9hmM1cHQ7EleQrIsEt.output.instance_id$",
+                                "operator": "eq",
+                                "right_operand": "$workflow.definition_workflow_01Z25S8KOLKSG3ILO9hmM1cHQ7EleQrIsEt.output.instance_id$"
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "Nothing",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01Z25V703X4H13S8IqX1f7pUL0AbBcVSDUl",
+                                "name": "Completed",
+                                "title": "Missing Input",
+                                "type": "logic.completed",
+                                "base_type": "activity",
+                                "properties": {
+                                    "completion_type": "failed-completed",
+                                    "continue_on_failure": false,
+                                    "display_name": "Missing Input",
+                                    "result_message": "One of the following inputs must be provided: computer name, MAC address, IP address, or query string",
+                                    "skip_execution": false
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "unique_name": "definition_activity_01Z25S8QZ2BHM0bhBuPqUfxwbkTWBcrUWf2",
+                "name": "HTTP Request",
+                "title": "Get Agents",
+                "type": "web-service.http_request",
+                "base_type": "activity",
+                "properties": {
+                    "accept": "application\/json",
+                    "action_timeout": 180,
+                    "allow_auto_redirect": true,
+                    "allow_headers_redirect": false,
+                    "content_type": "application\/json",
+                    "continue_on_error_status_code": true,
+                    "continue_on_failure": false,
+                    "custom_headers": [
+                        {
+                            "name": "Authorization",
+                            "value": "ApiToken $workflow.definition_workflow_01Z25S8KOLKSG3ILO9hmM1cHQ7EleQrIsEt.input.variable_workflow_01Z25S8L1VV1V0w7icKjr3vZqMTQepfDRWo$"
+                        }
+                    ],
+                    "display_name": "Get Agents",
+                    "method": "GET",
+                    "relative_url": "v2.1\/agents?$workflow.definition_workflow_01Z25S8KOLKSG3ILO9hmM1cHQ7EleQrIsEt.local.variable_workflow_01Z25TQ7LH9SB7UrEyFGIKCOd0iEjGtEpfo$",
+                    "runtime_user": {
+                        "target_default": true
+                    },
+                    "skip_execution": false,
+                    "target": {
+                        "use_workflow_target": true
+                    }
+                },
+                "object_type": "definition_activity"
+            },
+            {
+                "unique_name": "definition_activity_01Z25WB5IQG6D3TusNn66LuRMtLvyEIxOBz",
+                "name": "Condition Block",
+                "title": "Was the request successful?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                    "continue_on_failure": false,
+                    "display_name": "Was the request successful?",
+                    "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                    {
+                        "unique_name": "definition_activity_01Z25WB644F2D2LOzWgORwcvr2dXlZ10lzt",
+                        "name": "Condition Branch",
+                        "title": "200\/Success",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$activity.definition_activity_01Z25S8QZ2BHM0bhBuPqUfxwbkTWBcrUWf2.output.status_code$",
+                                "operator": "eq",
+                                "right_operand": "200"
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "200\/Success",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01Z25XKKTX7905fecN0qmb1GlmivwgFoY1w",
+                                "name": "JSONPath Query",
+                                "title": "Extract Agent Information",
+                                "type": "corejava.jsonpathquery",
+                                "base_type": "activity",
+                                "properties": {
+                                    "action_timeout": 180,
+                                    "continue_on_failure": true,
+                                    "display_name": "Extract Agent Information",
+                                    "input_json": "$activity.definition_activity_01Z25S8QZ2BHM0bhBuPqUfxwbkTWBcrUWf2.output.response_body$",
+                                    "jsonpath_queries": [
+                                        {
+                                            "jsonpath_query": "$.data[0].uuid",
+                                            "jsonpath_query_name": "uuid",
+                                            "jsonpath_query_type": "string"
+                                        },
+                                        {
+                                            "jsonpath_query": "$.data[0]",
+                                            "jsonpath_query_name": "device",
+                                            "jsonpath_query_type": "string"
+                                        },
+                                        {
+                                            "jsonpath_query": "$.data[0].id",
+                                            "jsonpath_query_name": "id",
+                                            "jsonpath_query_type": "string"
+                                        }
+                                    ],
+                                    "skip_execution": false
+                                },
+                                "object_type": "definition_activity"
+                            },
+                            {
+                                "unique_name": "definition_activity_01Z4RSI2S4R9X6WOlu9iGqD8U2ygcXBSFTv",
+                                "name": "Condition Block",
+                                "title": "Was extraction successful?",
+                                "type": "logic.if_else",
+                                "base_type": "activity",
+                                "properties": {
+                                    "continue_on_failure": false,
+                                    "display_name": "Was extraction successful?",
+                                    "skip_execution": false
+                                },
+                                "object_type": "definition_activity",
+                                "blocks": [
+                                    {
+                                        "unique_name": "definition_activity_01Z4RSI389ST56tpQJAKnKVRhPboFD8VAcM",
+                                        "name": "Condition Branch",
+                                        "title": "Yes",
+                                        "type": "logic.condition_block",
+                                        "base_type": "activity",
+                                        "properties": {
+                                            "condition": {
+                                                "left_operand": "$activity.definition_activity_01Z25S8QZ2BHM0bhBuPqUfxwbkTWBcrUWf2.output.succeeded$",
+                                                "operator": "eq",
+                                                "right_operand": true
+                                            },
+                                            "continue_on_failure": false,
+                                            "display_name": "Yes",
+                                            "skip_execution": false
+                                        },
+                                        "object_type": "definition_activity",
+                                        "actions": [
+                                            {
+                                                "unique_name": "definition_activity_01Z25XR78UELI7aZGjeA5njS6wgHlxMXMa8",
+                                                "name": "Set Variables",
+                                                "title": "Set Output Variables",
+                                                "type": "core.set_multiple_variables",
+                                                "base_type": "activity",
+                                                "properties": {
+                                                    "continue_on_failure": false,
+                                                    "display_name": "Set Output Variables",
+                                                    "skip_execution": false,
+                                                    "variables_to_update": [
+                                                        {
+                                                            "variable_to_update": "$workflow.definition_workflow_01Z25S8KOLKSG3ILO9hmM1cHQ7EleQrIsEt.output.variable_workflow_01Z25X7QMFE7Y2DdYXFmVaktAWCrl0wsuR9$",
+                                                            "variable_value_new": "$activity.definition_activity_01Z25XKKTX7905fecN0qmb1GlmivwgFoY1w.output.jsonpath_queries.uuid$"
+                                                        },
+                                                        {
+                                                            "variable_to_update": "$workflow.definition_workflow_01Z25S8KOLKSG3ILO9hmM1cHQ7EleQrIsEt.output.variable_workflow_01Z25XAL69HOY4udPQ4T04gieHGLxzgnpjj$",
+                                                            "variable_value_new": "$activity.definition_activity_01Z25XKKTX7905fecN0qmb1GlmivwgFoY1w.output.jsonpath_queries.device$"
+                                                        },
+                                                        {
+                                                            "variable_to_update": "$workflow.definition_workflow_01Z25S8KOLKSG3ILO9hmM1cHQ7EleQrIsEt.output.variable_workflow_01Z26ELG93V9M6HvA151xmAxK7EgmMZYDxo$",
+                                                            "variable_value_new": "$activity.definition_activity_01Z25XKKTX7905fecN0qmb1GlmivwgFoY1w.output.jsonpath_queries.id$"
+                                                        }
+                                                    ]
+                                                },
+                                                "object_type": "definition_activity"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "unique_name": "definition_activity_01Z4RSI3Q8MCG1AGHKUFxC8emKhWWne3t3Z",
+                                        "name": "Condition Branch",
+                                        "title": "No",
+                                        "type": "logic.condition_block",
+                                        "base_type": "activity",
+                                        "properties": {
+                                            "condition": {
+                                                "left_operand": "$activity.definition_activity_01Z25S8QZ2BHM0bhBuPqUfxwbkTWBcrUWf2.output.succeeded$",
+                                                "operator": "eq",
+                                                "right_operand": false
+                                            },
+                                            "continue_on_failure": false,
+                                            "display_name": "No",
+                                            "skip_execution": false
+                                        },
+                                        "object_type": "definition_activity",
+                                        "actions": [
+                                            {
+                                                "unique_name": "definition_activity_01Z4RTAR5H07E4yGrkgF7zU8bIgEAkXax6H",
+                                                "name": "Completed",
+                                                "title": "Failed",
+                                                "type": "logic.completed",
+                                                "base_type": "activity",
+                                                "properties": {
+                                                    "completion_type": "failed-completed",
+                                                    "continue_on_failure": false,
+                                                    "display_name": "Failed",
+                                                    "result_message": "Failed to extract agent information. There may not be any matching agents",
+                                                    "skip_execution": false
+                                                },
+                                                "object_type": "definition_activity"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "unique_name": "definition_activity_01Z25WOBXKUSJ3M2SWeWa9OAznxPIH19lMh",
+                        "name": "Condition Branch",
+                        "title": "Anything else",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$activity.definition_activity_01Z25S8QZ2BHM0bhBuPqUfxwbkTWBcrUWf2.output.status_code$",
+                                "operator": "ne",
+                                "right_operand": "200"
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "Anything else",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01Z25WRVFT8GV5q820H0bz1oQatxLbVDy1Z",
+                                "name": "Completed",
+                                "title": "Failed",
+                                "type": "logic.completed",
+                                "base_type": "activity",
+                                "properties": {
+                                    "completion_type": "failed-completed",
+                                    "continue_on_failure": false,
+                                    "display_name": "Failed",
+                                    "result_message": "Failed to fetch matching agents\n\nStatus code: $activity.definition_activity_01Z25S8QZ2BHM0bhBuPqUfxwbkTWBcrUWf2.output.status_code$\nResponse body: $activity.definition_activity_01Z25S8QZ2BHM0bhBuPqUfxwbkTWBcrUWf2.output.response_body$",
+                                    "skip_execution": false
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "categories": [
+            "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+        ]
+    }
+}

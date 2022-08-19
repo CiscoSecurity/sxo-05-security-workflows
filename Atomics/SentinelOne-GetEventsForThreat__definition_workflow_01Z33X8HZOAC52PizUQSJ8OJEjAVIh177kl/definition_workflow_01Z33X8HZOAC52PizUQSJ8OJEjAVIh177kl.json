@@ -1,0 +1,263 @@
+{
+    "workflow": {
+        "unique_name": "definition_workflow_01Z33X8HZOAC52PizUQSJ8OJEjAVIh177kl",
+        "name": "SentinelOne - Get Events for Threat",
+        "title": "SentinelOne - Get Events for Threat",
+        "type": "generic.workflow",
+        "base_type": "workflow",
+        "variables": [
+            {
+                "schema_id": "datatype.secure_string",
+                "properties": {
+                    "value": "",
+                    "scope": "input",
+                    "name": "API Token",
+                    "type": "datatype.secure_string",
+                    "description": "Your SentinalOne API token. See the API documentation in SentinelOne for more information on how to generate this",
+                    "is_required": true,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01Z33X8IB953N66w0zRiR4Fpq8dUjhnlQg3",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "",
+                    "scope": "input",
+                    "name": "Threat ID",
+                    "type": "datatype.string",
+                    "description": "ID of the threat to get events for",
+                    "is_required": true,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01Z33X8IB9IGI05tQevDEcFDgXJ4nEMiXON",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "",
+                    "scope": "output",
+                    "name": "Next Cursor",
+                    "type": "datatype.string",
+                    "description": "The cursor for the beginning of the next page. This can be used to request the next page of results by adding it to the atomic's query string input",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01ZBIUUIBSRET2xFGsnFaoNmyGNUFlk1STW",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.integer",
+                "properties": {
+                    "value": 0,
+                    "scope": "output",
+                    "name": "Total Items",
+                    "type": "datatype.integer",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01ZBIUXQSAVU009lqKTBIxqFPEdnaAu2vcI",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "",
+                    "scope": "output",
+                    "name": "Events",
+                    "type": "datatype.string",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01Z33X8IB9S110yOzyEGSInPQMQQfOfyGhg",
+                "object_type": "variable_workflow"
+            }
+        ],
+        "properties": {
+            "atomic": {
+                "atomic_group": "SentinelOne",
+                "is_atomic": true
+            },
+            "delete_workflow_instance": false,
+            "description": "Fetches events for a given threat from SentinelOne.\n\nTarget: HTTP Endpoint for your \"your-tenant.sentinelone.net\" with a path of \"\/web\/api\"\n\nAccount Key: None (uses an API token)\n\nSteps:\n[] Request matching events\n[] Check if the API request succeeded:\n[]> If it did, set the output variable\n[]> If it didn't, output an error\n\nMore information about this API can be found in the SentinelOne documentation",
+            "display_name": "SentinelOne - Get Events for Threat",
+            "runtime_user": {
+                "target_default": true
+            },
+            "target": {
+                "target_type": "web-service.endpoint",
+                "specify_on_workflow_start": true
+            }
+        },
+        "object_type": "definition_workflow",
+        "actions": [
+            {
+                "unique_name": "definition_activity_01Z33X8KKN38H3k25Bn7Z949N1K09klyWVv",
+                "name": "HTTP Request",
+                "title": "Fetch Events",
+                "type": "web-service.http_request",
+                "base_type": "activity",
+                "properties": {
+                    "accept": "application\/json",
+                    "action_timeout": 180,
+                    "allow_auto_redirect": true,
+                    "allow_headers_redirect": false,
+                    "content_type": "application\/json",
+                    "continue_on_error_status_code": true,
+                    "continue_on_failure": false,
+                    "custom_headers": [
+                        {
+                            "name": "Authorization",
+                            "value": "ApiToken $workflow.definition_workflow_01Z33X8HZOAC52PizUQSJ8OJEjAVIh177kl.input.variable_workflow_01Z33X8IB953N66w0zRiR4Fpq8dUjhnlQg3$"
+                        }
+                    ],
+                    "display_name": "Fetch Events",
+                    "method": "GET",
+                    "relative_url": "v2.1\/threats\/$workflow.definition_workflow_01Z33X8HZOAC52PizUQSJ8OJEjAVIh177kl.input.variable_workflow_01Z33X8IB9IGI05tQevDEcFDgXJ4nEMiXON$\/explore\/events",
+                    "runtime_user": {
+                        "target_default": true
+                    },
+                    "skip_execution": false,
+                    "target": {
+                        "use_workflow_target": true
+                    }
+                },
+                "object_type": "definition_activity"
+            },
+            {
+                "unique_name": "definition_activity_01Z33X8LED7IT0Q5LtQOpFo1ks5K08hRjk5",
+                "name": "Condition Block",
+                "title": "Was the request succesful?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                    "continue_on_failure": false,
+                    "display_name": "Was the request succesful?",
+                    "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                    {
+                        "unique_name": "definition_activity_01Z33X8M78Y9V6VUIpZ5u5hLljRu9eTUHXx",
+                        "name": "Condition Branch",
+                        "title": "200\/Success",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$activity.definition_activity_01Z33X8KKN38H3k25Bn7Z949N1K09klyWVv.output.status_code$",
+                                "operator": "eq",
+                                "right_operand": 200
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "200\/Success",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01ZBIU3H6QIZR7KiCWZlLrFYMw3km4TNe81",
+                                "name": "JSONPath Query",
+                                "title": "Extract Results",
+                                "type": "corejava.jsonpathquery",
+                                "base_type": "activity",
+                                "properties": {
+                                    "action_timeout": 180,
+                                    "continue_on_failure": false,
+                                    "display_name": "Extract Results",
+                                    "input_json": "$activity.definition_activity_01Z33X8KKN38H3k25Bn7Z949N1K09klyWVv.output.response_body$",
+                                    "jsonpath_queries": [
+                                        {
+                                            "jsonpath_query": "$.pagination.nextCursor",
+                                            "jsonpath_query_name": "nextCursor",
+                                            "jsonpath_query_type": "string"
+                                        },
+                                        {
+                                            "jsonpath_query": "$.pagination.totalItems",
+                                            "jsonpath_query_name": "totalItems",
+                                            "jsonpath_query_type": "integer"
+                                        },
+                                        {
+                                            "jsonpath_query": "$.data",
+                                            "jsonpath_query_name": "data",
+                                            "jsonpath_query_type": "string"
+                                        }
+                                    ],
+                                    "skip_execution": false
+                                },
+                                "object_type": "definition_activity"
+                            },
+                            {
+                                "unique_name": "definition_activity_01Z33X8OCGTWC5xexSXvwGdsp1ui0H5KGon",
+                                "name": "Set Variables",
+                                "title": "Set Output Variables",
+                                "type": "core.set_multiple_variables",
+                                "base_type": "activity",
+                                "properties": {
+                                    "continue_on_failure": false,
+                                    "display_name": "Set Output Variables",
+                                    "skip_execution": false,
+                                    "variables_to_update": [
+                                        {
+                                            "variable_to_update": "$workflow.definition_workflow_01Z33X8HZOAC52PizUQSJ8OJEjAVIh177kl.output.variable_workflow_01Z33X8IB9S110yOzyEGSInPQMQQfOfyGhg$",
+                                            "variable_value_new": "$activity.definition_activity_01ZBIU3H6QIZR7KiCWZlLrFYMw3km4TNe81.output.jsonpath_queries.data$"
+                                        },
+                                        {
+                                            "variable_to_update": "$workflow.definition_workflow_01Z33X8HZOAC52PizUQSJ8OJEjAVIh177kl.output.variable_workflow_01ZBIUUIBSRET2xFGsnFaoNmyGNUFlk1STW$",
+                                            "variable_value_new": "$activity.definition_activity_01ZBIU3H6QIZR7KiCWZlLrFYMw3km4TNe81.output.jsonpath_queries.nextCursor$"
+                                        },
+                                        {
+                                            "variable_to_update": "$workflow.definition_workflow_01Z33X8HZOAC52PizUQSJ8OJEjAVIh177kl.output.variable_workflow_01ZBIUXQSAVU009lqKTBIxqFPEdnaAu2vcI$",
+                                            "variable_value_new": "$activity.definition_activity_01ZBIU3H6QIZR7KiCWZlLrFYMw3km4TNe81.output.jsonpath_queries.totalItems$"
+                                        }
+                                    ]
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    },
+                    {
+                        "unique_name": "definition_activity_01Z33X8PEFTTS6o1DxhK85zHkGdLEmfUx5t",
+                        "name": "Condition Branch",
+                        "title": "Anything Else",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$activity.definition_activity_01Z33X8KKN38H3k25Bn7Z949N1K09klyWVv.output.status_code$",
+                                "operator": "ne",
+                                "right_operand": 200
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "Anything Else",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01Z33X8QFKKQP3xtCnmyeYSXD3ZfHoE5yrs",
+                                "name": "Completed",
+                                "title": "Failed",
+                                "type": "logic.completed",
+                                "base_type": "activity",
+                                "properties": {
+                                    "completion_type": "failed-completed",
+                                    "continue_on_failure": false,
+                                    "display_name": "Failed",
+                                    "result_message": "Failed to fetch events for the given threat ID\n\nStatus code: $activity.definition_activity_01Z33X8KKN38H3k25Bn7Z949N1K09klyWVv.output.status_code$\nResponse body: $activity.definition_activity_01Z33X8KKN38H3k25Bn7Z949N1K09klyWVv.output.response_body$",
+                                    "skip_execution": false
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "categories": [
+            "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+        ]
+    }
+}
