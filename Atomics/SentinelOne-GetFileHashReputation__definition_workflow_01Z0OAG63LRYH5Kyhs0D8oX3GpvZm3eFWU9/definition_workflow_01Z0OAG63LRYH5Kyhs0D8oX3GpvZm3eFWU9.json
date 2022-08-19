@@ -1,0 +1,196 @@
+{
+    "workflow": {
+        "unique_name": "definition_workflow_01Z0OAG63LRYH5Kyhs0D8oX3GpvZm3eFWU9",
+        "name": "SentinelOne - Get File Hash Reputation",
+        "title": "SentinelOne - Get File Hash Reputation",
+        "type": "generic.workflow",
+        "base_type": "workflow",
+        "variables": [
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "",
+                    "scope": "input",
+                    "name": "File Hash",
+                    "type": "datatype.string",
+                    "description": "SHA-1 file hash to fetch reputation information for",
+                    "is_required": true,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01Z0OC3LQ1FSM0V4btvHGOGEdlVpA7EvS7g",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.secure_string",
+                "properties": {
+                    "value": "",
+                    "scope": "input",
+                    "name": "API Token",
+                    "type": "datatype.secure_string",
+                    "description": "Your SentinalOne API token. See the API documentation in SentinelOne for more information on how to generate this",
+                    "is_required": true,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01Z1DTFSSJ0L850vkzH8mTafp1IBVtnUuH0",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "",
+                    "scope": "output",
+                    "name": "Reputation",
+                    "type": "datatype.string",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01Z0OJ89KXNO56gKYwCtJ2jueHlN6dvJkW3",
+                "object_type": "variable_workflow"
+            }
+        ],
+        "properties": {
+            "atomic": {
+                "atomic_group": "SentinelOne",
+                "is_atomic": true
+            },
+            "delete_workflow_instance": false,
+            "description": "Fetches reputation information for a given SHA-1 file hash from SentinelOne.\n\nTarget: HTTP Endpoint for your \"your-tenant.sentinelone.net\" with a path of \"\/web\/api\"\n\nAccount Key: None (uses an API token)\n\nSteps:\n[] Request reputation information\n[] Check if the API request succeeded:\n[]> If it did, set the output variable\n[]> If it didn't, output an error\n\nMore information about this API can be found in the SentinelOne documentation",
+            "display_name": "SentinelOne - Get File Hash Reputation",
+            "runtime_user": {
+                "target_default": true
+            },
+            "target": {
+                "target_type": "web-service.endpoint",
+                "specify_on_workflow_start": true
+            }
+        },
+        "object_type": "definition_workflow",
+        "actions": [
+            {
+                "unique_name": "definition_activity_01Z0OBCAOMG8N2sfi4g5QvRkK0g0k63w7Ju",
+                "name": "HTTP Request",
+                "title": "Fetch File Hash Reputation",
+                "type": "web-service.http_request",
+                "base_type": "activity",
+                "properties": {
+                    "accept": "application\/json",
+                    "action_timeout": 180,
+                    "allow_auto_redirect": true,
+                    "allow_headers_redirect": false,
+                    "content_type": "application\/json",
+                    "continue_on_error_status_code": true,
+                    "continue_on_failure": false,
+                    "custom_headers": [
+                        {
+                            "name": "Authorization",
+                            "value": "ApiToken $workflow.definition_workflow_01Z0OAG63LRYH5Kyhs0D8oX3GpvZm3eFWU9.input.variable_workflow_01Z1DTFSSJ0L850vkzH8mTafp1IBVtnUuH0$"
+                        }
+                    ],
+                    "display_name": "Fetch File Hash Reputation",
+                    "method": "GET",
+                    "relative_url": "v2.1\/hashes\/$workflow.definition_workflow_01Z0OAG63LRYH5Kyhs0D8oX3GpvZm3eFWU9.input.variable_workflow_01Z0OC3LQ1FSM0V4btvHGOGEdlVpA7EvS7g$\/reputation",
+                    "runtime_user": {
+                        "target_default": true
+                    },
+                    "skip_execution": false,
+                    "target": {
+                        "use_workflow_target": true
+                    }
+                },
+                "object_type": "definition_activity"
+            },
+            {
+                "unique_name": "definition_activity_01Z0OHBK277LW2pR2vrCm3fzldnVTY2y14H",
+                "name": "Condition Block",
+                "title": "Was the request succesful?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                    "continue_on_failure": false,
+                    "display_name": "Was the request succesful?",
+                    "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                    {
+                        "unique_name": "definition_activity_01Z0OHBKHXV0C75IZU5GxxL903e0GScJ8Im",
+                        "name": "Condition Branch",
+                        "title": "200\/Success",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$activity.definition_activity_01Z0OBCAOMG8N2sfi4g5QvRkK0g0k63w7Ju.output.status_code$",
+                                "operator": "eq",
+                                "right_operand": 200
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "200\/Success",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01Z0OJC2E1XL247nFBqpupk3A6C5n9cy8RQ",
+                                "name": "Set Variables",
+                                "title": "Set Output Variables",
+                                "type": "core.set_multiple_variables",
+                                "base_type": "activity",
+                                "properties": {
+                                    "continue_on_failure": false,
+                                    "display_name": "Set Output Variables",
+                                    "skip_execution": false,
+                                    "variables_to_update": [
+                                        {
+                                            "variable_to_update": "$workflow.definition_workflow_01Z0OAG63LRYH5Kyhs0D8oX3GpvZm3eFWU9.output.variable_workflow_01Z0OJ89KXNO56gKYwCtJ2jueHlN6dvJkW3$",
+                                            "variable_value_new": "$activity.definition_activity_01Z0OBCAOMG8N2sfi4g5QvRkK0g0k63w7Ju.output.response_body$"
+                                        }
+                                    ]
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    },
+                    {
+                        "unique_name": "definition_activity_01Z0OHBKZBZPN4aLrCu5OCB0flI1PnsmTcF",
+                        "name": "Condition Branch",
+                        "title": "Anything Else",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$activity.definition_activity_01Z0OBCAOMG8N2sfi4g5QvRkK0g0k63w7Ju.output.status_code$",
+                                "operator": "ne",
+                                "right_operand": 200
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "Anything Else",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01Z0OI7EZZRMR1gfCIe8Y9IpmGvHz8rcWoD",
+                                "name": "Completed",
+                                "title": "Failed",
+                                "type": "logic.completed",
+                                "base_type": "activity",
+                                "properties": {
+                                    "completion_type": "failed-completed",
+                                    "continue_on_failure": false,
+                                    "display_name": "Failed",
+                                    "result_message": "Failed to fetch the file hash's reputation\n\nStatus code: $activity.definition_activity_01Z0OBCAOMG8N2sfi4g5QvRkK0g0k63w7Ju.output.status_code$\nResponse body: $activity.definition_activity_01Z0OBCAOMG8N2sfi4g5QvRkK0g0k63w7Ju.output.response_body$",
+                                    "skip_execution": false
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "categories": [
+            "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+        ]
+    }
+}
