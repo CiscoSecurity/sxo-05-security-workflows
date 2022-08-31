@@ -17,6 +17,8 @@ Workflow #0001
 
 This workflow consumes the Talos Intelligence Blog RSS feed and converts individual blog posts into Cisco SecureX casebooks if they contain suspicious observables. These casebooks can then be investigated with one click in Cisco Threat Response.
 
+<div class="cisco-alert cisco-alert-info"><i class="fa fa-info-circle mr-1 cisco-icon-info"></i> This workflow has been updated to use the new "SecureX Token" account key. For more information about this, please see <a href="{{ site.baseurl }}/account-keys/securex-token">this page</a>. If you want to use legacy authentication, you can import an older version of the workflow.</div>
+
 [<i class="fab fa-github mr-1"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0001-Talos-GetNewBlogPosts__definition_workflow_01FX7FQDZRDUX1TWgKJwTPBMaOWrgUOld2q){: .btn-cisco-outline }
 
 ---
@@ -37,6 +39,7 @@ This workflow has two components: a parent workflow and a sub-workflow. Importin
 | Nov 12, 2021 | - Updated the workflow based on a change to the Talos blog XML (The `origLink` field is now called `link`) |
 | Apr 5, 2022 | - Fixed the Post URL link markdown for the SecureX casebook |
 | Jul 25, 2022 | - Updated to handle the new Talos blog feed format ([Issue #177]({{ site.github.repository_url }}/issues/177)) |
+| Aug 31, 2022 | - Updated to support [SecureX Tokens]({{ site.baseurl }}/account-keys/securex-token) |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 
@@ -47,7 +50,6 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 	* Threat Response - Create Casebook
 	* Threat Response - Deliberate Observable
 	* Threat Response - Enrich Observable
-	* Threat Response - Generate Access Token
 	* Threat Response - Inspect for Observables
 	* Webex - Search for Room
 	* Webex - Post Message to Room
@@ -74,7 +76,7 @@ This workflow is designed to run on a [schedule]({{ site.baseurl }}/schedules/) 
 These steps are executed for each new or updated blog post the parent workflow discovers on the Talos blog.
 
 1. Fetch the blog post content and strip out any HTML
-1. Request a Threat Response access token and inspect the blog post content for observables
+1. Inspect the blog post content for observables
 1. Loop through each observable and get its Threat Response disposition
 1. For observables that weren't clean, conduct Threat Response enrichment to get sightings
 1. For modules with sightings, build the text to post to Webex
@@ -101,8 +103,7 @@ Target Group: `Default TargetGroup`
 
 | Target Name | Type | Details | Account Keys | Notes |
 |:------------|:-----|:--------|:-------------|:------|
-| [CTR_For_Access_Token]({{ site.baseurl }}/targets/default#ctr_for_access_token) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `visibility.amp.cisco.com`<br />_Path:_ `/iroh` | CTR_Credentials | Created by default |
-| [CTR_API]({{ site.baseurl }}/targets/default#ctr_api) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `visibility.amp.cisco.com`<br />_Path:_ `/iroh` | None | Created by default |
+| [CTR_API]({{ site.baseurl }}/targets/default#ctr_api) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `visibility.amp.cisco.com`<br />_Path:_ `/iroh` | CTR_Credentials | Created by default |
 | [Private_CTIA_Target]({{ site.baseurl }}/targets/default#private_ctia_target) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `private.intel.amp.cisco.com`<br />_Path:_ None | None | Created by default |
 | Webex Teams | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `webexapis.com`<br />_Path:_ None | None | Not necessary if Webex activities are removed |
 
@@ -114,4 +115,4 @@ Target Group: `Default TargetGroup`
 
 | Account Key Name | Type | Details | Notes |
 |:-----------------|:-----|:--------|:------|
-| [CTR_Credentials]({{ site.baseurl }}/account-keys/default#ctr_credentials) | HTTP Basic Authentication | _Username:_ Client ID<br />_Password:_ Client Secret | Created by default |
+| [CTR_Credentials]({{ site.baseurl }}/account-keys/default#ctr_credentials) | SecureX Token | | See [this page]({{ site.baseurl }}/account-keys/securex-token) |

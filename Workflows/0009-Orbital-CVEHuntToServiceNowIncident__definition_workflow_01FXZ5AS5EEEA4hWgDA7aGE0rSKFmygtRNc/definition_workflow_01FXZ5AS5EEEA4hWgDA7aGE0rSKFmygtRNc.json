@@ -1,776 +1,786 @@
 {
   "workflow": {
-    "unique_name": "definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc",
-    "name": "0009 - Orbital - CVE Hunt to ServiceNow Incident",
-    "title": "0009 - Orbital - CVE Hunt to ServiceNow Incident",
-    "type": "generic.workflow",
-    "base_type": "workflow",
-    "variables": [
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "securex-orchestration",
-          "scope": "local",
-          "name": "ServiceNow User ID",
-          "type": "datatype.string",
-          "description": "The username of the user you're using to open incident tickets. This can either match the username in your ServiceNow account key or, if the account has the appropriate permissions, can be a different user",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01KQRTMB91ICM67jVYYWh04AQp8ZZalDKqP",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "local",
-          "name": "Ticket Text",
-          "type": "datatype.string",
-          "description": "Placeholder for the text to be added to the ServiceNow incident. This will be populated automatically",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01FXZDEXSWJYN6wLEkThGE16CG6oDbZY7Z9",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.integer",
-        "properties": {
-          "value": 2,
-          "scope": "local",
-          "name": "Orbital Query Wait Time (Minutes)",
-          "type": "datatype.integer",
-          "description": "How long to wait for Orbital query results in minutes. The longer you wait, the more results you'll probably get since endpoints will answer the query as they come online and receive it",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01KEOJFPD69K61svv0Lh0ZpKPMSziil8UhZ",
-        "object_type": "variable_workflow"
-      }
-    ],
-    "properties": {
-      "atomic": {
-        "is_atomic": false
-      },
-      "delete_workflow_instance": false,
-      "description": "This workflow uses Cisco Orbital to look for endpoints that are vulnerable for a given CVE. For demonstration purposes we use CVE-2020-0796 which has been added to Orbital as a catalog query. After the Orbital query is executed, we open a ServiceNow incident with the results.\n\nTarget Group: Default TargetGroup\n\nTargets: Orbital_For_Access_Token, Orbital_Target, ServiceNow\n\nSteps:\n[] Get an API token for Orbital\n[] Execute a catalog query for all endpoints using Orbital\n[] Fetch the results of the Orbital query\n[] Iterate through each result and build a table of vulnerable/not-vulnerable endpoints\n[] Assemble the text for the ServiceNow incident\n[] Create the ServiceNow incident ticket\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0009",
-      "display_name": "0009 - Orbital - CVE Hunt to ServiceNow Incident",
-      "runtime_user": {
-        "override_target_runtime_user": false,
-        "specify_on_workflow_start": false,
-        "target_default": true
-      },
-      "target": {
-        "execute_on_target_group": true,
-        "target_group": {
-          "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
-          "run_on_all_targets": false,
-          "selected_target_types": [
-            "web-service.endpoint"
-          ],
-          "use_criteria": {
-            "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-            "conditions": [
-              {
-                "operator": "eqi",
-                "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-                "right_operand": "Orbital_For_Access_Token"
-              }
-            ]
+      "unique_name": "definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc",
+      "name": "0009 - Orbital - CVE Hunt to ServiceNow Incident",
+      "title": "0009 - Orbital - CVE Hunt to ServiceNow Incident",
+      "type": "generic.workflow",
+      "base_type": "workflow",
+      "variables": [
+          {
+              "schema_id": "datatype.string",
+              "properties": {
+                  "value": "",
+                  "scope": "local",
+                  "name": "Ticket Text",
+                  "type": "datatype.string",
+                  "description": "Placeholder for the text to be added to the ServiceNow incident. This will be populated automatically",
+                  "is_required": false,
+                  "is_invisible": false
+              },
+              "unique_name": "variable_workflow_01FXZDEXSWJYN6wLEkThGE16CG6oDbZY7Z9",
+              "object_type": "variable_workflow"
+          },
+          {
+              "schema_id": "datatype.integer",
+              "properties": {
+                  "value": 2,
+                  "scope": "local",
+                  "name": "Orbital Query Wait Time (Minutes)",
+                  "type": "datatype.integer",
+                  "description": "How long to wait for Orbital query results in minutes. The longer you wait, the more results you'll probably get since endpoints will answer the query as they come online and receive it",
+                  "is_required": false,
+                  "is_invisible": false
+              },
+              "unique_name": "variable_workflow_01KEOJFPD69K61svv0Lh0ZpKPMSziil8UhZ",
+              "object_type": "variable_workflow"
+          },
+          {
+              "schema_id": "datatype.string",
+              "properties": {
+                  "value": "securex-orchestration",
+                  "scope": "local",
+                  "name": "ServiceNow User ID",
+                  "type": "datatype.string",
+                  "description": "The username of the user you're using to open incident tickets. This can either match the username in your ServiceNow account key or, if the account has the appropriate permissions, can be a different user",
+                  "is_required": false,
+                  "is_invisible": false
+              },
+              "unique_name": "variable_workflow_01KQRTMB91ICM67jVYYWh04AQp8ZZalDKqP",
+              "object_type": "variable_workflow"
           }
-        }
-      }
-    },
-    "object_type": "definition_workflow",
-    "actions": [
-      {
-        "unique_name": "definition_activity_01FXZ65RS8EWE0DTcSwbnmUJV3u0Pg76tWK",
-        "name": "Generate Orbital access token",
-        "title": "Generate Orbital access token",
-        "type": "workflow.atomic_workflow",
-        "base_type": "subworkflow",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "Generate Orbital access token",
+      ],
+      "properties": {
+          "atomic": {
+              "is_atomic": false
+          },
+          "delete_workflow_instance": false,
+          "description": "This workflow uses Cisco Orbital to look for endpoints that are vulnerable for a given CVE. For demonstration purposes we use CVE-2020-0796 which has been added to Orbital as a catalog query. After the Orbital query is executed, we open a ServiceNow incident with the results.\n\nDocumentation: https:\/\/ciscosecurity.github.io\/sxo-05-security-workflows\/workflows\/0009\n\nTarget Group: Default TargetGroup\n\nTargets: Orbital_For_Access_Token, Orbital_Target, ServiceNow\n\nSteps:\n[] Get an API token for Orbital\n[] Execute a catalog query for all endpoints using Orbital\n[] Fetch the results of the Orbital query\n[] Iterate through each result and build a table of vulnerable\/not-vulnerable endpoints\n[] Assemble the text for the ServiceNow incident\n[] Create the ServiceNow incident ticket",
+          "display_name": "0009 - Orbital - CVE Hunt to ServiceNow Incident",
           "runtime_user": {
-            "target_default": true
+              "override_target_runtime_user": false,
+              "specify_on_workflow_start": false,
+              "target_default": true
           },
-          "skip_execution": false,
           "target": {
-            "use_workflow_target_group": true
-          },
-          "workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
-        },
-        "object_type": "definition_activity"
-      },
-      {
-        "unique_name": "definition_activity_01JGMBHGCAZ920Kn5fGWKR6QEdBs1jLD1dW",
-        "name": "Orbital - Query All Endpoints",
-        "title": "Orbital - Query All Endpoints",
-        "type": "workflow.atomic_workflow",
-        "base_type": "subworkflow",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "Orbital - Query All Endpoints",
-          "input": {
-            "variable_workflow_01PP74XXDJ6I02lUbtpjEKbDd7y0gpOYS4y": true,
-            "variable_workflow_01PP74XXDJ7U10PBSYZl7md3gg6krQ03p57": "",
-            "variable_workflow_01PP74XXDJ95H0lvwlcEnTPXWXQgvbbTKe6": "cve_2020_0796_monitoring",
-            "variable_workflow_01PP74XXDJAL33MsBJCm3Iptr9I5iu7pLvI": "HUNT FOR POSSIBLE CVE-2020-0796",
-            "variable_workflow_01PP74XXDJFAH5HLlFGbENuXfD77aWNTPrF": "$activity.definition_activity_01FXZ65RS8EWE0DTcSwbnmUJV3u0Pg76tWK.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$",
-            "variable_workflow_01PP74XXDJGFR2b0QKga75DJjqwiX0K9Nbt": "$workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01KEOJFPD69K61svv0Lh0ZpKPMSziil8UhZ$"
-          },
-          "runtime_user": {
-            "target_default": true
-          },
-          "skip_execution": false,
-          "target": {
-            "override_workflow_target_group_criteria": true,
-            "target_group": {
-              "run_on_all_targets": false,
-              "use_criteria": {
-                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-                "conditions": [
-                  {
-                    "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-                    "operator": "eqi",
-                    "right_operand": "Orbital_Target"
-                  }
-                ]
-              }
-            }
-          },
-          "workflow_id": "definition_workflow_01PP74XXLH4JK5RznBkKvbBUhiBqVm0A35C"
-        },
-        "object_type": "definition_activity"
-      },
-      {
-        "unique_name": "definition_activity_01FXZ6C8DR8RP6i7Cps8foIIqyvB29qpLjH",
-        "name": "JSONPath Query",
-        "title": "Check for results",
-        "type": "corejava.jsonpathquery",
-        "base_type": "activity",
-        "properties": {
-          "action_timeout": 180,
-          "continue_on_failure": true,
-          "display_name": "Check for results",
-          "input_json": "$activity.definition_activity_01JGMBHGCAZ920Kn5fGWKR6QEdBs1jLD1dW.output.variable_workflow_01PP74XXDJBRP6hhz6uRRyhmvLv1NKZQnt9$",
-          "jsonpath_queries": [
-            {
-              "jsonpath_query": "$.[0].node",
-              "jsonpath_query_name": "resultCheck",
-              "jsonpath_query_type": "string"
-            }
-          ],
-          "skip_execution": false
-        },
-        "object_type": "definition_activity"
-      },
-      {
-        "unique_name": "definition_activity_01FXZ6DJYRQ5F1Y0mgp5r6OxiyP2GQG3ZVG",
-        "name": "Condition Block",
-        "title": "Were there results?",
-        "type": "logic.if_else",
-        "base_type": "activity",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "Were there results?",
-          "skip_execution": false
-        },
-        "object_type": "definition_activity",
-        "blocks": [
-          {
-            "unique_name": "definition_activity_01FXZ6DQ56T100XaJrGsO4FK10hN8DTX0jh",
-            "name": "Condition Branch",
-            "title": "No",
-            "type": "logic.condition_block",
-            "base_type": "activity",
-            "properties": {
-              "condition": {
-                "left_operand": "$activity.definition_activity_01FXZ6C8DR8RP6i7Cps8foIIqyvB29qpLjH.output.succeeded$",
-                "operator": "eq",
-                "right_operand": false
-              },
-              "continue_on_failure": false,
-              "display_name": "No",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity",
-            "actions": [
-              {
-                "unique_name": "definition_activity_01FXZ9QJPVAIA4SINheyLqOcG0jUU1RBtx7",
-                "name": "Completed",
-                "title": "No results",
-                "type": "logic.completed",
-                "base_type": "activity",
-                "properties": {
-                  "completion_type": "failed-completed",
-                  "continue_on_failure": false,
-                  "display_name": "No results",
-                  "result_message": "There weren't any results from the Orbital query",
-                  "skip_execution": false
-                },
-                "object_type": "definition_activity"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "unique_name": "definition_activity_01FXZ6JTI1ZL81ceV5W46wGULPgPceTTRh6",
-        "name": "Read Table from JSON",
-        "title": "Parse results to table",
-        "type": "corejava.read_table_from_json",
-        "base_type": "activity",
-        "properties": {
-          "action_timeout": 180,
-          "continue_on_failure": false,
-          "display_name": "Parse results to table",
-          "input_json": "$activity.definition_activity_01JGMBHGCAZ920Kn5fGWKR6QEdBs1jLD1dW.output.variable_workflow_01PP74XXDJBRP6hhz6uRRyhmvLv1NKZQnt9$",
-          "jsonpath_query": "$.[*]",
-          "persist_output": true,
-          "populate_columns": false,
-          "skip_execution": false,
-          "table_columns": [
-            {
-              "column_name": "node",
-              "column_type": "string"
-            },
-            {
-              "column_name": "hostname",
-              "column_type": "string"
-            },
-            {
-              "column_name": "status",
-              "column_type": "string"
-            }
-          ]
-        },
-        "object_type": "definition_activity"
-      },
-      {
-        "unique_name": "definition_activity_01FXZ6MTQ84UC4xjbo7QaPgVzIQozCGwWPd",
-        "name": "For Each",
-        "title": "Loop through results",
-        "type": "logic.for_each",
-        "base_type": "activity",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "Loop through results",
-          "skip_execution": false,
-          "source_array": "$activity.definition_activity_01FXZ6JTI1ZL81ceV5W46wGULPgPceTTRh6.output.read_table_from_json$"
-        },
-        "object_type": "definition_activity",
-        "actions": [
-          {
-            "unique_name": "definition_activity_01FXZALXC6R1V5y6Em4URrbHxBCB6bb2J6M",
-            "name": "JSONPath Query",
-            "title": "Extract this computer's details",
-            "type": "corejava.jsonpathquery",
-            "base_type": "activity",
-            "properties": {
-              "action_timeout": 180,
-              "continue_on_failure": false,
-              "display_name": "Extract this computer's details",
-              "input_json": "$activity.definition_activity_01JGMBHGCAZ920Kn5fGWKR6QEdBs1jLD1dW.output.variable_workflow_01PP74XXDJBRP6hhz6uRRyhmvLv1NKZQnt9$",
-              "jsonpath_queries": [
-                {
-                  "jsonpath_query": "$.[?(@.node==\"$activity.definition_activity_01FXZ6MTQ84UC4xjbo7QaPgVzIQozCGwWPd.input.source_array[@].node$\")]",
-                  "jsonpath_query_name": "thisNode",
-                  "jsonpath_query_type": "string"
-                }
-              ],
-              "skip_execution": false
-            },
-            "object_type": "definition_activity"
-          },
-          {
-            "unique_name": "definition_activity_01FXZB9QP8WTY5LHOxQtDl2qnY1kM1oryAN",
-            "name": "JSONPath Query",
-            "title": "Extract computer fields",
-            "type": "corejava.jsonpathquery",
-            "base_type": "activity",
-            "properties": {
-              "action_timeout": 180,
-              "continue_on_failure": false,
-              "display_name": "Extract computer fields",
-              "input_json": "$activity.definition_activity_01FXZALXC6R1V5y6Em4URrbHxBCB6bb2J6M.output.jsonpath_queries.thisNode$",
-              "jsonpath_queries": [
-                {
-                  "jsonpath_query": "$.hostinfo.hostname",
-                  "jsonpath_query_name": "hostname",
-                  "jsonpath_query_type": "string"
-                },
-                {
-                  "jsonpath_query": "$.osQueryResult[0].values[0]",
-                  "jsonpath_query_name": "queryResult",
-                  "jsonpath_query_type": "string"
-                }
-              ],
-              "skip_execution": false
-            },
-            "object_type": "definition_activity"
-          },
-          {
-            "unique_name": "definition_activity_01FXZBSDRZGTE64nEEDS5uoQcOd7jv0KukK",
-            "name": "Update Row in Table",
-            "title": "Update table with new fields",
-            "type": "core.updaterowintable",
-            "base_type": "activity",
-            "properties": {
-              "action_timeout": 180,
-              "columns": [
-                {
-                  "column_name": "hostname",
-                  "column_type": "string"
-                },
-                {
-                  "column_name": "status",
-                  "column_type": "string"
-                }
-              ],
-              "continue_on_failure": false,
-              "display_name": "Update table with new fields",
-              "input_table": "$activity.definition_activity_01FXZ6JTI1ZL81ceV5W46wGULPgPceTTRh6.output.read_table_from_json$",
-              "row": [
-                {
-                  "key": "hostname",
-                  "type": "string",
-                  "value": "$activity.definition_activity_01FXZB9QP8WTY5LHOxQtDl2qnY1kM1oryAN.output.jsonpath_queries.hostname$"
-                },
-                {
-                  "key": "status",
-                  "type": "string",
-                  "value": "$activity.definition_activity_01FXZB9QP8WTY5LHOxQtDl2qnY1kM1oryAN.output.jsonpath_queries.queryResult$"
-                }
-              ],
-              "rows": {
-                "rows_matching_criteria": true,
-                "where_clause": "node == '$activity.definition_activity_01FXZ6MTQ84UC4xjbo7QaPgVzIQozCGwWPd.input.source_array[@].node$'"
-              },
-              "skip_execution": false
-            },
-            "object_type": "definition_activity"
-          }
-        ]
-      },
-      {
-        "unique_name": "definition_activity_01FXZ6QBH2RI64a9lmPuh9IO8Pr2VuURBbb",
-        "name": "Select from Table",
-        "title": "Get vulnerable rows",
-        "type": "core.selectfromtable",
-        "base_type": "activity",
-        "properties": {
-          "action_timeout": 180,
-          "columns": [
-            {
-              "column_name": "node",
-              "column_type": "string"
-            },
-            {
-              "column_name": "hostname",
-              "column_type": "string"
-            },
-            {
-              "column_name": "status",
-              "column_type": "string"
-            }
-          ],
-          "continue_on_failure": false,
-          "display_name": "Get vulnerable rows",
-          "input_table": "$activity.definition_activity_01FXZ6JTI1ZL81ceV5W46wGULPgPceTTRh6.output.read_table_from_json$",
-          "number_of_rows": {
-            "all_rows": true,
-            "at_most": false
-          },
-          "persist_output": false,
-          "skip_execution": false,
-          "sorting": {
-            "column_name": "hostname",
-            "order": "asc",
-            "sort_by": true
-          },
-          "where_clause": "status == 'Vulnerable'"
-        },
-        "object_type": "definition_activity"
-      },
-      {
-        "unique_name": "definition_activity_01FXZ6UYXXDKE0MYyaEbLFYvECKCoYbiihD",
-        "name": "Condition Block",
-        "title": "Were any vulnerable?",
-        "type": "logic.if_else",
-        "base_type": "activity",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "Were any vulnerable?",
-          "skip_execution": false
-        },
-        "object_type": "definition_activity",
-        "blocks": [
-          {
-            "unique_name": "definition_activity_01FXZ6V3SUY5M6NQ0oJtKUnwXHwG7hHyZLD",
-            "name": "Condition Branch",
-            "title": "Yes",
-            "type": "logic.condition_block",
-            "base_type": "activity",
-            "properties": {
-              "condition": {
-                "left_operand": "$activity.definition_activity_01FXZ6QBH2RI64a9lmPuh9IO8Pr2VuURBbb.output.row_count$",
-                "operator": "gt",
-                "right_operand": 0
-              },
-              "continue_on_failure": false,
-              "display_name": "Yes",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity",
-            "actions": [
-              {
-                "unique_name": "definition_activity_01FXZDHIF4UM81wKW8ICpcvEQk6JAiIGyaP",
-                "name": "Set Variables",
-                "title": "Add vulnerable header",
-                "type": "core.set_multiple_variables",
-                "base_type": "activity",
-                "properties": {
-                  "continue_on_failure": false,
-                  "display_name": "Add vulnerable header",
-                  "skip_execution": false,
-                  "variables_to_update": [
-                    {
-                      "variable_to_update": "$workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01FXZDEXSWJYN6wLEkThGE16CG6oDbZY7Z9$",
-                      "variable_value_new": "<strong>VULNERABLE DEVICES:</strong>\n"
-                    }
-                  ]
-                },
-                "object_type": "definition_activity"
-              },
-              {
-                "unique_name": "definition_activity_01FXZE0WRN1LN2ubC48C3CZqBoBsuJ3ybqd",
-                "name": "For Each",
-                "title": "Append each vulnerable",
-                "type": "logic.for_each",
-                "base_type": "activity",
-                "properties": {
-                  "continue_on_failure": false,
-                  "display_name": "Append each vulnerable",
-                  "skip_execution": false,
-                  "source_array": "$activity.definition_activity_01FXZ6QBH2RI64a9lmPuh9IO8Pr2VuURBbb.output.output_table$"
-                },
-                "object_type": "definition_activity",
-                "actions": [
-                  {
-                    "unique_name": "definition_activity_01FXZE9L19CGK0qOfZ4WYooC1CXjISX6sT3",
-                    "name": "Set Variables",
-                    "title": "Append this computer",
-                    "type": "core.set_multiple_variables",
-                    "base_type": "activity",
-                    "properties": {
-                      "continue_on_failure": false,
-                      "display_name": "Append this computer",
-                      "skip_execution": false,
-                      "variables_to_update": [
-                        {
-                          "variable_to_update": "$workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01FXZDEXSWJYN6wLEkThGE16CG6oDbZY7Z9$",
-                          "variable_value_new": "$workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01FXZDEXSWJYN6wLEkThGE16CG6oDbZY7Z9$<a href=\"https://orbital.amp.cisco.com/nodes/$activity.definition_activity_01FXZE0WRN1LN2ubC48C3CZqBoBsuJ3ybqd.input.source_array[@].node$\" target=\"_blank\">$activity.definition_activity_01FXZE0WRN1LN2ubC48C3CZqBoBsuJ3ybqd.input.source_array[@].hostname$</a><br />"
-                        }
+              "execute_on_target_group": true,
+              "target_group": {
+                  "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+                  "run_on_all_targets": false,
+                  "selected_target_types": [
+                      "web-service.endpoint"
+                  ],
+                  "use_criteria": {
+                      "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                      "conditions": [
+                          {
+                              "operator": "eqi",
+                              "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                              "right_operand": "Orbital_For_Access_Token"
+                          }
                       ]
-                    },
-                    "object_type": "definition_activity"
                   }
-                ]
               }
-            ]
           }
-        ]
       },
-      {
-        "unique_name": "definition_activity_01FXZ74NTRQ1M44TWodpJt0rBTXCA6wczhP",
-        "name": "Select from Table",
-        "title": "Get not vulnerable rows",
-        "type": "core.selectfromtable",
-        "base_type": "activity",
-        "properties": {
-          "action_timeout": 180,
-          "columns": [
-            {
-              "column_name": "node",
-              "column_type": "string"
-            },
-            {
-              "column_name": "hostname",
-              "column_type": "string"
-            },
-            {
-              "column_name": "status",
-              "column_type": "string"
-            }
-          ],
-          "continue_on_failure": false,
-          "display_name": "Get not vulnerable rows",
-          "input_table": "$activity.definition_activity_01FXZ6JTI1ZL81ceV5W46wGULPgPceTTRh6.output.read_table_from_json$",
-          "number_of_rows": {
-            "all_rows": true,
-            "at_most": false
-          },
-          "persist_output": false,
-          "skip_execution": false,
-          "sorting": {
-            "column_name": "hostname",
-            "order": "asc",
-            "sort_by": true
-          },
-          "where_clause": "status == 'Not Vulnerable'"
-        },
-        "object_type": "definition_activity"
-      },
-      {
-        "unique_name": "definition_activity_01FXZ79ELW8022TrcFLzTSl6muLL1OC7v86",
-        "name": "Condition Block",
-        "title": "Were any not vulnerable?",
-        "type": "logic.if_else",
-        "base_type": "activity",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "Were any not vulnerable?",
-          "skip_execution": false
-        },
-        "object_type": "definition_activity",
-        "blocks": [
+      "object_type": "definition_workflow",
+      "actions": [
           {
-            "unique_name": "definition_activity_01FXZ79HV14SN31rYcJnmFQNklU0D419Ek2",
-            "name": "Condition Branch",
-            "title": "Yes",
-            "type": "logic.condition_block",
-            "base_type": "activity",
-            "properties": {
-              "condition": {
-                "left_operand": "$activity.definition_activity_01FXZ74NTRQ1M44TWodpJt0rBTXCA6wczhP.output.row_count$",
-                "operator": "gt",
-                "right_operand": 0
-              },
-              "continue_on_failure": false,
-              "display_name": "Yes",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity",
-            "actions": [
-              {
-                "unique_name": "definition_activity_01FXZFWNEALUM0T00DwEyGQFnvbr21f06V4",
-                "name": "Set Variables",
-                "title": "Add not vulnerable header",
-                "type": "core.set_multiple_variables",
-                "base_type": "activity",
-                "properties": {
+              "unique_name": "definition_activity_01FXZ65RS8EWE0DTcSwbnmUJV3u0Pg76tWK",
+              "name": "Generate Orbital access token",
+              "title": "Generate Orbital access token",
+              "type": "workflow.atomic_workflow",
+              "base_type": "subworkflow",
+              "properties": {
                   "continue_on_failure": false,
-                  "display_name": "Add not vulnerable header",
-                  "skip_execution": false,
-                  "variables_to_update": [
-                    {
-                      "variable_to_update": "$workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01FXZDEXSWJYN6wLEkThGE16CG6oDbZY7Z9$",
-                      "variable_value_new": "$workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01FXZDEXSWJYN6wLEkThGE16CG6oDbZY7Z9$\n<strong>NOT VULNERABLE DEVICES:</strong>\n"
-                    }
-                  ]
-                },
-                "object_type": "definition_activity"
-              },
-              {
-                "unique_name": "definition_activity_01FXZFZ7X97AL4Gg554cg29eSmX5Z3J6G8g",
-                "name": "For Each",
-                "title": "Append each not vulnerable",
-                "type": "logic.for_each",
-                "base_type": "activity",
-                "properties": {
-                  "continue_on_failure": false,
-                  "display_name": "Append each not vulnerable",
-                  "skip_execution": false,
-                  "source_array": "$activity.definition_activity_01FXZ74NTRQ1M44TWodpJt0rBTXCA6wczhP.output.output_table$"
-                },
-                "object_type": "definition_activity",
-                "actions": [
-                  {
-                    "unique_name": "definition_activity_01FXZFZB1BZD71FG262wl7YcQqHz2U73phu",
-                    "name": "Set Variables",
-                    "title": "Append this computer",
-                    "type": "core.set_multiple_variables",
-                    "base_type": "activity",
-                    "properties": {
-                      "continue_on_failure": false,
-                      "display_name": "Append this computer",
-                      "skip_execution": false,
-                      "variables_to_update": [
-                        {
-                          "variable_to_update": "$workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01FXZDEXSWJYN6wLEkThGE16CG6oDbZY7Z9$",
-                          "variable_value_new": "$workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01FXZDEXSWJYN6wLEkThGE16CG6oDbZY7Z9$<a href=\"https://orbital.amp.cisco.com/nodes/$activity.definition_activity_01FXZFZ7X97AL4Gg554cg29eSmX5Z3J6G8g.input.source_array[@].node$\" target=\"_blank\">$activity.definition_activity_01FXZFZ7X97AL4Gg554cg29eSmX5Z3J6G8g.input.source_array[@].hostname$</a><br />"
-                        }
-                      ]
-                    },
-                    "object_type": "definition_activity"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "unique_name": "definition_activity_01FXZ7D4ENKVV2O5YkFPRW0FNoFTlAUf3nJ",
-        "name": "Condition Block",
-        "title": "Were there any results for the ticket?",
-        "type": "logic.if_else",
-        "base_type": "activity",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "Were there any results for the ticket?",
-          "skip_execution": false
-        },
-        "object_type": "definition_activity",
-        "blocks": [
-          {
-            "unique_name": "definition_activity_01FXZ7D8VR1VA6qOpuMFqpPK8S2GjEavKNI",
-            "name": "Condition Branch",
-            "title": "Yes",
-            "type": "logic.condition_block",
-            "base_type": "activity",
-            "properties": {
-              "condition": {
-                "left_operand": "$workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01FXZDEXSWJYN6wLEkThGE16CG6oDbZY7Z9$",
-                "operator": "ne",
-                "right_operand": ""
-              },
-              "continue_on_failure": false,
-              "display_name": "Yes",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity",
-            "actions": [
-              {
-                "unique_name": "definition_activity_01FXZHD2O4HHE6ZjAz8TBqpEGtfefdVS7aw",
-                "name": "ServiceNow - Create Incident",
-                "title": "ServiceNow - Create Incident",
-                "type": "workflow.atomic_workflow",
-                "base_type": "subworkflow",
-                "properties": {
-                  "continue_on_failure": true,
-                  "display_name": "ServiceNow - Create Incident",
-                  "input": {
-                    "variable_workflow_01C0CK2MY2SLG1FXph6ZHp7iHmRw1KvUFlN": "CVE-2020-0796 Vulnerabilities Detected",
-                    "variable_workflow_01FGYF0DUR8HV2TMpEKctsYjQR4mzjD5OTu": "Orbital query to discover SMB servers potentially vulnerable to CVE-2020-0796. Indicates vulnerability when shares are present, SMB compression is enabled, and Windows build is 18362 or 18363",
-                    "variable_workflow_01FGYGCZL5M2E1m1O5tvVVn0DVzVTLwytei": 2,
-                    "variable_workflow_01FGYGPFJYM4L5aVpzNOhRwMmzKJDofqufe": 1,
-                    "variable_workflow_01FGYGZ0OYYNM5pWjyyreMjNHDjusjNe8jx": "A scheduled Orbital query has executed and found devices vulnerable for CVE-2020-0796.\n[code]<a href=\"https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2020-0796\" target=\"_blank\">Click here</a> to view the Microsoft Advisory for mitigations and workaround information<br />\n<a href=\"https://orbital.amp.cisco.com/jobs/$activity.definition_activity_01JGMBHGCAZ920Kn5fGWKR6QEdBs1jLD1dW.output.variable_workflow_01PP74XXDJCY74dJLD4gRvaMADzoTM2ZCHK$/results\" target=\"_blank\">Link to Orbital Query Results</a><br />\n<a href=\"https://orbital.amp.cisco.com/query/cve_2020_0796_monitoring?target=all\" target=\"_blank\">Re-run Orbital Query</a><br /><br />\n$workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01FXZDEXSWJYN6wLEkThGE16CG6oDbZY7Z9$\n[/code]",
-                    "variable_workflow_01FGYI8HES41K63G3UzMinBH3iApm37fBGt": "$workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01KQRTMB91ICM67jVYYWh04AQp8ZZalDKqP$",
-                    "variable_workflow_01FMQD0HIJIDU5kce0VNx4HQiMYjMfUvBlj": "v2"
-                  },
+                  "display_name": "Generate Orbital access token",
                   "runtime_user": {
-                    "target_default": true
+                      "target_default": true
                   },
                   "skip_execution": false,
                   "target": {
-                    "override_workflow_target_group_criteria": true,
-                    "target_group": {
-                      "run_on_all_targets": false,
-                      "use_criteria": {
-                        "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-                        "conditions": [
-                          {
-                            "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-                            "operator": "eqi",
-                            "right_operand": "ServiceNow"
-                          }
-                        ]
-                      }
-                    }
+                      "use_workflow_target_group": true
                   },
-                  "workflow_id": "definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW"
-                },
-                "object_type": "definition_activity"
+                  "workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH",
+                  "workflow_name": "Threat Response - Generate Access Token"
               },
-              {
-                "unique_name": "definition_activity_01FXZHEZGJVHR0gHfsXahFnwBCB9VX8BeXS",
-                "name": "Condition Block",
-                "title": "Was the ticket opened?",
-                "type": "logic.if_else",
-                "base_type": "activity",
-                "properties": {
+              "object_type": "definition_activity"
+          },
+          {
+              "unique_name": "definition_activity_01JGMBHGCAZ920Kn5fGWKR6QEdBs1jLD1dW",
+              "name": "Orbital - Query All Endpoints",
+              "title": "Orbital - Query All Endpoints",
+              "type": "workflow.atomic_workflow",
+              "base_type": "subworkflow",
+              "properties": {
                   "continue_on_failure": false,
-                  "display_name": "Was the ticket opened?",
-                  "skip_execution": false
-                },
-                "object_type": "definition_activity",
-                "blocks": [
-                  {
-                    "unique_name": "definition_activity_01FXZHF3KBM197AGkjzT5DMBCaZt1oXiD5M",
-                    "name": "Condition Branch",
-                    "title": "No",
-                    "type": "logic.condition_block",
-                    "base_type": "activity",
-                    "properties": {
-                      "condition": {
-                        "left_operand": "$activity.definition_activity_01FXZHD2O4HHE6ZjAz8TBqpEGtfefdVS7aw.output.succeeded$",
-                        "operator": "eq",
-                        "right_operand": false
-                      },
-                      "continue_on_failure": false,
-                      "display_name": "No",
-                      "skip_execution": false
-                    },
-                    "object_type": "definition_activity",
-                    "actions": [
-                      {
-                        "unique_name": "definition_activity_01FXZJDV26BF54NxC26dISSQyZ0bOnVF9z2",
-                        "name": "Completed",
-                        "title": "Failed",
-                        "type": "logic.completed",
-                        "base_type": "activity",
-                        "properties": {
-                          "completion_type": "failed-completed",
-                          "continue_on_failure": false,
-                          "display_name": "Failed",
-                          "result_message": "Failed to open ServiceNow incident ticket",
-                          "skip_execution": false
-                        },
-                        "object_type": "definition_activity"
+                  "display_name": "Orbital - Query All Endpoints",
+                  "input": {
+                      "variable_workflow_01PP74XXDJ6I02lUbtpjEKbDd7y0gpOYS4y": true,
+                      "variable_workflow_01PP74XXDJ7U10PBSYZl7md3gg6krQ03p57": "",
+                      "variable_workflow_01PP74XXDJ95H0lvwlcEnTPXWXQgvbbTKe6": "cve_2020_0796_monitoring",
+                      "variable_workflow_01PP74XXDJAL33MsBJCm3Iptr9I5iu7pLvI": "HUNT FOR POSSIBLE CVE-2020-0796",
+                      "variable_workflow_01PP74XXDJFAH5HLlFGbENuXfD77aWNTPrF": "$activity.definition_activity_01FXZ65RS8EWE0DTcSwbnmUJV3u0Pg76tWK.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$",
+                      "variable_workflow_01PP74XXDJGFR2b0QKga75DJjqwiX0K9Nbt": "$workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01KEOJFPD69K61svv0Lh0ZpKPMSziil8UhZ$",
+                      "variable_workflow_01SW2GRR9R9EH4rSK7JBaDZjavxyl8SX0UR": "0",
+                      "variable_workflow_01SW2H938IB3V0XwjYGxkRaW62xKwJH0gwF": ""
+                  },
+                  "runtime_user": {
+                      "target_default": true
+                  },
+                  "skip_execution": false,
+                  "target": {
+                      "override_workflow_target_group_criteria": true,
+                      "target_group": {
+                          "run_on_all_targets": false,
+                          "use_criteria": {
+                              "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                              "conditions": [
+                                  {
+                                      "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                      "operator": "eqi",
+                                      "right_operand": "Orbital_Target"
+                                  }
+                              ]
+                          }
                       }
-                    ]
+                  },
+                  "workflow_id": "definition_workflow_01PP74XXLH4JK5RznBkKvbBUhiBqVm0A35C",
+                  "workflow_name": "Orbital - Query All Endpoints"
+              },
+              "object_type": "definition_activity"
+          },
+          {
+              "unique_name": "definition_activity_01FXZ6C8DR8RP6i7Cps8foIIqyvB29qpLjH",
+              "name": "JSONPath Query",
+              "title": "Check for results",
+              "type": "corejava.jsonpathquery",
+              "base_type": "activity",
+              "properties": {
+                  "action_timeout": 180,
+                  "continue_on_failure": true,
+                  "display_name": "Check for results",
+                  "input_json": "$activity.definition_activity_01JGMBHGCAZ920Kn5fGWKR6QEdBs1jLD1dW.output.variable_workflow_01PP74XXDJBRP6hhz6uRRyhmvLv1NKZQnt9$",
+                  "jsonpath_queries": [
+                      {
+                          "jsonpath_query": "$.[0].node",
+                          "jsonpath_query_name": "resultCheck",
+                          "jsonpath_query_type": "string"
+                      }
+                  ],
+                  "skip_execution": false
+              },
+              "object_type": "definition_activity"
+          },
+          {
+              "unique_name": "definition_activity_01FXZ6DJYRQ5F1Y0mgp5r6OxiyP2GQG3ZVG",
+              "name": "Condition Block",
+              "title": "Were there results?",
+              "type": "logic.if_else",
+              "base_type": "activity",
+              "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Were there results?",
+                  "skip_execution": false
+              },
+              "object_type": "definition_activity",
+              "blocks": [
+                  {
+                      "unique_name": "definition_activity_01FXZ6DQ56T100XaJrGsO4FK10hN8DTX0jh",
+                      "name": "Condition Branch",
+                      "title": "No",
+                      "type": "logic.condition_block",
+                      "base_type": "activity",
+                      "properties": {
+                          "condition": {
+                              "left_operand": "$activity.definition_activity_01FXZ6C8DR8RP6i7Cps8foIIqyvB29qpLjH.output.succeeded$",
+                              "operator": "eq",
+                              "right_operand": false
+                          },
+                          "continue_on_failure": false,
+                          "display_name": "No",
+                          "skip_execution": false
+                      },
+                      "object_type": "definition_activity",
+                      "actions": [
+                          {
+                              "unique_name": "definition_activity_01FXZ9QJPVAIA4SINheyLqOcG0jUU1RBtx7",
+                              "name": "Completed",
+                              "title": "No results",
+                              "type": "logic.completed",
+                              "base_type": "activity",
+                              "properties": {
+                                  "completion_type": "failed-completed",
+                                  "continue_on_failure": false,
+                                  "display_name": "No results",
+                                  "result_message": "There weren't any results from the Orbital query",
+                                  "skip_execution": false
+                              },
+                              "object_type": "definition_activity"
+                          }
+                      ]
                   }
-                ]
-              }
-            ]
+              ]
+          },
+          {
+              "unique_name": "definition_activity_01FXZ6JTI1ZL81ceV5W46wGULPgPceTTRh6",
+              "name": "Read Table from JSON",
+              "title": "Parse results to table",
+              "type": "corejava.read_table_from_json",
+              "base_type": "activity",
+              "properties": {
+                  "action_timeout": 180,
+                  "continue_on_failure": false,
+                  "display_name": "Parse results to table",
+                  "input_json": "$activity.definition_activity_01JGMBHGCAZ920Kn5fGWKR6QEdBs1jLD1dW.output.variable_workflow_01PP74XXDJBRP6hhz6uRRyhmvLv1NKZQnt9$",
+                  "jsonpath_query": "$.[*]",
+                  "persist_output": true,
+                  "populate_columns": false,
+                  "skip_execution": false,
+                  "table_columns": [
+                      {
+                          "column_name": "node",
+                          "column_type": "string"
+                      },
+                      {
+                          "column_name": "hostname",
+                          "column_type": "string"
+                      },
+                      {
+                          "column_name": "status",
+                          "column_type": "string"
+                      }
+                  ]
+              },
+              "object_type": "definition_activity"
+          },
+          {
+              "unique_name": "definition_activity_01FXZ6MTQ84UC4xjbo7QaPgVzIQozCGwWPd",
+              "name": "For Each",
+              "title": "Loop through results",
+              "type": "logic.for_each",
+              "base_type": "activity",
+              "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Loop through results",
+                  "skip_execution": false,
+                  "source_array": "$activity.definition_activity_01FXZ6JTI1ZL81ceV5W46wGULPgPceTTRh6.output.read_table_from_json$"
+              },
+              "object_type": "definition_activity",
+              "actions": [
+                  {
+                      "unique_name": "definition_activity_01FXZALXC6R1V5y6Em4URrbHxBCB6bb2J6M",
+                      "name": "JSONPath Query",
+                      "title": "Extract this computer's details",
+                      "type": "corejava.jsonpathquery",
+                      "base_type": "activity",
+                      "properties": {
+                          "action_timeout": 180,
+                          "continue_on_failure": false,
+                          "display_name": "Extract this computer's details",
+                          "input_json": "$activity.definition_activity_01JGMBHGCAZ920Kn5fGWKR6QEdBs1jLD1dW.output.variable_workflow_01PP74XXDJBRP6hhz6uRRyhmvLv1NKZQnt9$",
+                          "jsonpath_queries": [
+                              {
+                                  "jsonpath_query": "$.[?(@.node==\"$activity.definition_activity_01FXZ6MTQ84UC4xjbo7QaPgVzIQozCGwWPd.input.source_array[@].node$\")]",
+                                  "jsonpath_query_name": "thisNode",
+                                  "jsonpath_query_type": "string"
+                              }
+                          ],
+                          "skip_execution": false
+                      },
+                      "object_type": "definition_activity"
+                  },
+                  {
+                      "unique_name": "definition_activity_01FXZB9QP8WTY5LHOxQtDl2qnY1kM1oryAN",
+                      "name": "JSONPath Query",
+                      "title": "Extract computer fields",
+                      "type": "corejava.jsonpathquery",
+                      "base_type": "activity",
+                      "properties": {
+                          "action_timeout": 180,
+                          "continue_on_failure": false,
+                          "display_name": "Extract computer fields",
+                          "input_json": "$activity.definition_activity_01FXZALXC6R1V5y6Em4URrbHxBCB6bb2J6M.output.jsonpath_queries.thisNode$",
+                          "jsonpath_queries": [
+                              {
+                                  "jsonpath_query": "$.hostinfo.hostname",
+                                  "jsonpath_query_name": "hostname",
+                                  "jsonpath_query_type": "string"
+                              },
+                              {
+                                  "jsonpath_query": "$.osQueryResult[0].values[0]",
+                                  "jsonpath_query_name": "queryResult",
+                                  "jsonpath_query_type": "string"
+                              }
+                          ],
+                          "skip_execution": false
+                      },
+                      "object_type": "definition_activity"
+                  },
+                  {
+                      "unique_name": "definition_activity_01FXZBSDRZGTE64nEEDS5uoQcOd7jv0KukK",
+                      "name": "Update Row in Table",
+                      "title": "Update table with new fields",
+                      "type": "core.updaterowintable",
+                      "base_type": "activity",
+                      "properties": {
+                          "action_timeout": 180,
+                          "columns": [
+                              {
+                                  "column_name": "hostname",
+                                  "column_type": "string"
+                              },
+                              {
+                                  "column_name": "status",
+                                  "column_type": "string"
+                              }
+                          ],
+                          "continue_on_failure": false,
+                          "display_name": "Update table with new fields",
+                          "input_table": "$activity.definition_activity_01FXZ6JTI1ZL81ceV5W46wGULPgPceTTRh6.output.read_table_from_json$",
+                          "row": [
+                              {
+                                  "key": "hostname",
+                                  "type": "string",
+                                  "value": "$activity.definition_activity_01FXZB9QP8WTY5LHOxQtDl2qnY1kM1oryAN.output.jsonpath_queries.hostname$"
+                              },
+                              {
+                                  "key": "status",
+                                  "type": "string",
+                                  "value": "$activity.definition_activity_01FXZB9QP8WTY5LHOxQtDl2qnY1kM1oryAN.output.jsonpath_queries.queryResult$"
+                              }
+                          ],
+                          "rows": {
+                              "rows_matching_criteria": true,
+                              "where_clause": "node == '$activity.definition_activity_01FXZ6MTQ84UC4xjbo7QaPgVzIQozCGwWPd.input.source_array[@].node$'"
+                          },
+                          "skip_execution": false
+                      },
+                      "object_type": "definition_activity"
+                  }
+              ]
+          },
+          {
+              "unique_name": "definition_activity_01FXZ6QBH2RI64a9lmPuh9IO8Pr2VuURBbb",
+              "name": "Select from Table",
+              "title": "Get vulnerable rows",
+              "type": "core.selectfromtable",
+              "base_type": "activity",
+              "properties": {
+                  "action_timeout": 180,
+                  "columns": [
+                      {
+                          "column_name": "node",
+                          "column_type": "string"
+                      },
+                      {
+                          "column_name": "hostname",
+                          "column_type": "string"
+                      },
+                      {
+                          "column_name": "status",
+                          "column_type": "string"
+                      }
+                  ],
+                  "continue_on_failure": false,
+                  "display_name": "Get vulnerable rows",
+                  "input_table": "$activity.definition_activity_01FXZ6JTI1ZL81ceV5W46wGULPgPceTTRh6.output.read_table_from_json$",
+                  "number_of_rows": {
+                      "all_rows": true,
+                      "at_most": false
+                  },
+                  "persist_output": false,
+                  "skip_execution": false,
+                  "sorting": {
+                      "column_name": "hostname",
+                      "order": "asc",
+                      "sort_by": true
+                  },
+                  "where_clause": "status == 'Vulnerable'"
+              },
+              "object_type": "definition_activity"
+          },
+          {
+              "unique_name": "definition_activity_01FXZ6UYXXDKE0MYyaEbLFYvECKCoYbiihD",
+              "name": "Condition Block",
+              "title": "Were any vulnerable?",
+              "type": "logic.if_else",
+              "base_type": "activity",
+              "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Were any vulnerable?",
+                  "skip_execution": false
+              },
+              "object_type": "definition_activity",
+              "blocks": [
+                  {
+                      "unique_name": "definition_activity_01FXZ6V3SUY5M6NQ0oJtKUnwXHwG7hHyZLD",
+                      "name": "Condition Branch",
+                      "title": "Yes",
+                      "type": "logic.condition_block",
+                      "base_type": "activity",
+                      "properties": {
+                          "condition": {
+                              "left_operand": "$activity.definition_activity_01FXZ6QBH2RI64a9lmPuh9IO8Pr2VuURBbb.output.row_count$",
+                              "operator": "gt",
+                              "right_operand": 0
+                          },
+                          "continue_on_failure": false,
+                          "display_name": "Yes",
+                          "skip_execution": false
+                      },
+                      "object_type": "definition_activity",
+                      "actions": [
+                          {
+                              "unique_name": "definition_activity_01FXZDHIF4UM81wKW8ICpcvEQk6JAiIGyaP",
+                              "name": "Set Variables",
+                              "title": "Add vulnerable header",
+                              "type": "core.set_multiple_variables",
+                              "base_type": "activity",
+                              "properties": {
+                                  "continue_on_failure": false,
+                                  "display_name": "Add vulnerable header",
+                                  "skip_execution": false,
+                                  "variables_to_update": [
+                                      {
+                                          "variable_to_update": "$workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01FXZDEXSWJYN6wLEkThGE16CG6oDbZY7Z9$",
+                                          "variable_value_new": "<strong>VULNERABLE DEVICES:<\/strong>\n"
+                                      }
+                                  ]
+                              },
+                              "object_type": "definition_activity"
+                          },
+                          {
+                              "unique_name": "definition_activity_01FXZE0WRN1LN2ubC48C3CZqBoBsuJ3ybqd",
+                              "name": "For Each",
+                              "title": "Append each vulnerable",
+                              "type": "logic.for_each",
+                              "base_type": "activity",
+                              "properties": {
+                                  "continue_on_failure": false,
+                                  "display_name": "Append each vulnerable",
+                                  "skip_execution": false,
+                                  "source_array": "$activity.definition_activity_01FXZ6QBH2RI64a9lmPuh9IO8Pr2VuURBbb.output.output_table$"
+                              },
+                              "object_type": "definition_activity",
+                              "actions": [
+                                  {
+                                      "unique_name": "definition_activity_01FXZE9L19CGK0qOfZ4WYooC1CXjISX6sT3",
+                                      "name": "Set Variables",
+                                      "title": "Append this computer",
+                                      "type": "core.set_multiple_variables",
+                                      "base_type": "activity",
+                                      "properties": {
+                                          "continue_on_failure": false,
+                                          "display_name": "Append this computer",
+                                          "skip_execution": false,
+                                          "variables_to_update": [
+                                              {
+                                                  "variable_to_update": "$workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01FXZDEXSWJYN6wLEkThGE16CG6oDbZY7Z9$",
+                                                  "variable_value_new": "$workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01FXZDEXSWJYN6wLEkThGE16CG6oDbZY7Z9$<a href=\"https:\/\/orbital.amp.cisco.com\/nodes\/$activity.definition_activity_01FXZE0WRN1LN2ubC48C3CZqBoBsuJ3ybqd.input.source_array[@].node$\" target=\"_blank\">$activity.definition_activity_01FXZE0WRN1LN2ubC48C3CZqBoBsuJ3ybqd.input.source_array[@].hostname$<\/a><br \/>"
+                                              }
+                                          ]
+                                      },
+                                      "object_type": "definition_activity"
+                                  }
+                              ]
+                          }
+                      ]
+                  }
+              ]
+          },
+          {
+              "unique_name": "definition_activity_01FXZ74NTRQ1M44TWodpJt0rBTXCA6wczhP",
+              "name": "Select from Table",
+              "title": "Get not vulnerable rows",
+              "type": "core.selectfromtable",
+              "base_type": "activity",
+              "properties": {
+                  "action_timeout": 180,
+                  "columns": [
+                      {
+                          "column_name": "node",
+                          "column_type": "string"
+                      },
+                      {
+                          "column_name": "hostname",
+                          "column_type": "string"
+                      },
+                      {
+                          "column_name": "status",
+                          "column_type": "string"
+                      }
+                  ],
+                  "continue_on_failure": false,
+                  "display_name": "Get not vulnerable rows",
+                  "input_table": "$activity.definition_activity_01FXZ6JTI1ZL81ceV5W46wGULPgPceTTRh6.output.read_table_from_json$",
+                  "number_of_rows": {
+                      "all_rows": true,
+                      "at_most": false
+                  },
+                  "persist_output": false,
+                  "skip_execution": false,
+                  "sorting": {
+                      "column_name": "hostname",
+                      "order": "asc",
+                      "sort_by": true
+                  },
+                  "where_clause": "status == 'Not Vulnerable'"
+              },
+              "object_type": "definition_activity"
+          },
+          {
+              "unique_name": "definition_activity_01FXZ79ELW8022TrcFLzTSl6muLL1OC7v86",
+              "name": "Condition Block",
+              "title": "Were any not vulnerable?",
+              "type": "logic.if_else",
+              "base_type": "activity",
+              "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Were any not vulnerable?",
+                  "skip_execution": false
+              },
+              "object_type": "definition_activity",
+              "blocks": [
+                  {
+                      "unique_name": "definition_activity_01FXZ79HV14SN31rYcJnmFQNklU0D419Ek2",
+                      "name": "Condition Branch",
+                      "title": "Yes",
+                      "type": "logic.condition_block",
+                      "base_type": "activity",
+                      "properties": {
+                          "condition": {
+                              "left_operand": "$activity.definition_activity_01FXZ74NTRQ1M44TWodpJt0rBTXCA6wczhP.output.row_count$",
+                              "operator": "gt",
+                              "right_operand": 0
+                          },
+                          "continue_on_failure": false,
+                          "display_name": "Yes",
+                          "skip_execution": false
+                      },
+                      "object_type": "definition_activity",
+                      "actions": [
+                          {
+                              "unique_name": "definition_activity_01FXZFWNEALUM0T00DwEyGQFnvbr21f06V4",
+                              "name": "Set Variables",
+                              "title": "Add not vulnerable header",
+                              "type": "core.set_multiple_variables",
+                              "base_type": "activity",
+                              "properties": {
+                                  "continue_on_failure": false,
+                                  "display_name": "Add not vulnerable header",
+                                  "skip_execution": false,
+                                  "variables_to_update": [
+                                      {
+                                          "variable_to_update": "$workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01FXZDEXSWJYN6wLEkThGE16CG6oDbZY7Z9$",
+                                          "variable_value_new": "$workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01FXZDEXSWJYN6wLEkThGE16CG6oDbZY7Z9$\n<strong>NOT VULNERABLE DEVICES:<\/strong>\n"
+                                      }
+                                  ]
+                              },
+                              "object_type": "definition_activity"
+                          },
+                          {
+                              "unique_name": "definition_activity_01FXZFZ7X97AL4Gg554cg29eSmX5Z3J6G8g",
+                              "name": "For Each",
+                              "title": "Append each not vulnerable",
+                              "type": "logic.for_each",
+                              "base_type": "activity",
+                              "properties": {
+                                  "continue_on_failure": false,
+                                  "display_name": "Append each not vulnerable",
+                                  "skip_execution": false,
+                                  "source_array": "$activity.definition_activity_01FXZ74NTRQ1M44TWodpJt0rBTXCA6wczhP.output.output_table$"
+                              },
+                              "object_type": "definition_activity",
+                              "actions": [
+                                  {
+                                      "unique_name": "definition_activity_01FXZFZB1BZD71FG262wl7YcQqHz2U73phu",
+                                      "name": "Set Variables",
+                                      "title": "Append this computer",
+                                      "type": "core.set_multiple_variables",
+                                      "base_type": "activity",
+                                      "properties": {
+                                          "continue_on_failure": false,
+                                          "display_name": "Append this computer",
+                                          "skip_execution": false,
+                                          "variables_to_update": [
+                                              {
+                                                  "variable_to_update": "$workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01FXZDEXSWJYN6wLEkThGE16CG6oDbZY7Z9$",
+                                                  "variable_value_new": "$workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01FXZDEXSWJYN6wLEkThGE16CG6oDbZY7Z9$<a href=\"https:\/\/orbital.amp.cisco.com\/nodes\/$activity.definition_activity_01FXZFZ7X97AL4Gg554cg29eSmX5Z3J6G8g.input.source_array[@].node$\" target=\"_blank\">$activity.definition_activity_01FXZFZ7X97AL4Gg554cg29eSmX5Z3J6G8g.input.source_array[@].hostname$<\/a><br \/>"
+                                              }
+                                          ]
+                                      },
+                                      "object_type": "definition_activity"
+                                  }
+                              ]
+                          }
+                      ]
+                  }
+              ]
+          },
+          {
+              "unique_name": "definition_activity_01FXZ7D4ENKVV2O5YkFPRW0FNoFTlAUf3nJ",
+              "name": "Condition Block",
+              "title": "Were there any results for the ticket?",
+              "type": "logic.if_else",
+              "base_type": "activity",
+              "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Were there any results for the ticket?",
+                  "skip_execution": false
+              },
+              "object_type": "definition_activity",
+              "blocks": [
+                  {
+                      "unique_name": "definition_activity_01FXZ7D8VR1VA6qOpuMFqpPK8S2GjEavKNI",
+                      "name": "Condition Branch",
+                      "title": "Yes",
+                      "type": "logic.condition_block",
+                      "base_type": "activity",
+                      "properties": {
+                          "condition": {
+                              "left_operand": "$workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01FXZDEXSWJYN6wLEkThGE16CG6oDbZY7Z9$",
+                              "operator": "ne",
+                              "right_operand": ""
+                          },
+                          "continue_on_failure": false,
+                          "display_name": "Yes",
+                          "skip_execution": false
+                      },
+                      "object_type": "definition_activity",
+                      "actions": [
+                          {
+                              "unique_name": "definition_activity_01FXZHD2O4HHE6ZjAz8TBqpEGtfefdVS7aw",
+                              "name": "ServiceNow - Create Incident",
+                              "title": "ServiceNow - Create Incident",
+                              "type": "workflow.atomic_workflow",
+                              "base_type": "subworkflow",
+                              "properties": {
+                                  "continue_on_failure": true,
+                                  "display_name": "ServiceNow - Create Incident",
+                                  "input": {
+                                      "variable_workflow_01C0CK2MY2SLG1FXph6ZHp7iHmRw1KvUFlN": "CVE-2020-0796 Vulnerabilities Detected",
+                                      "variable_workflow_01FGYF0DUR8HV2TMpEKctsYjQR4mzjD5OTu": "Orbital query to discover SMB servers potentially vulnerable to CVE-2020-0796. Indicates vulnerability when shares are present, SMB compression is enabled, and Windows build is 18362 or 18363",
+                                      "variable_workflow_01FGYGCZL5M2E1m1O5tvVVn0DVzVTLwytei": 2,
+                                      "variable_workflow_01FGYGPFJYM4L5aVpzNOhRwMmzKJDofqufe": 1,
+                                      "variable_workflow_01FGYGZ0OYYNM5pWjyyreMjNHDjusjNe8jx": "A scheduled Orbital query has executed and found devices vulnerable for CVE-2020-0796.\n[code]<a href=\"https:\/\/portal.msrc.microsoft.com\/en-US\/security-guidance\/advisory\/CVE-2020-0796\" target=\"_blank\">Click here<\/a> to view the Microsoft Advisory for mitigations and workaround information<br \/>\n<a href=\"https:\/\/orbital.amp.cisco.com\/jobs\/$activity.definition_activity_01JGMBHGCAZ920Kn5fGWKR6QEdBs1jLD1dW.output.variable_workflow_01PP74XXDJCY74dJLD4gRvaMADzoTM2ZCHK$\/results\" target=\"_blank\">Link to Orbital Query Results<\/a><br \/>\n<a href=\"https:\/\/orbital.amp.cisco.com\/query\/cve_2020_0796_monitoring?target=all\" target=\"_blank\">Re-run Orbital Query<\/a><br \/><br \/>\n$workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01FXZDEXSWJYN6wLEkThGE16CG6oDbZY7Z9$\n[\/code]",
+                                      "variable_workflow_01FGYI8HES41K63G3UzMinBH3iApm37fBGt": "$workflow.definition_workflow_01FXZ5AS5EEEA4hWgDA7aGE0rSKFmygtRNc.local.variable_workflow_01KQRTMB91ICM67jVYYWh04AQp8ZZalDKqP$",
+                                      "variable_workflow_01FMQD0HIJIDU5kce0VNx4HQiMYjMfUvBlj": "v2"
+                                  },
+                                  "runtime_user": {
+                                      "target_default": true
+                                  },
+                                  "skip_execution": false,
+                                  "target": {
+                                      "override_workflow_target_group_criteria": true,
+                                      "target_group": {
+                                          "run_on_all_targets": false,
+                                          "use_criteria": {
+                                              "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                              "conditions": [
+                                                  {
+                                                      "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                                      "operator": "eqi",
+                                                      "right_operand": "ServiceNow"
+                                                  }
+                                              ]
+                                          }
+                                      }
+                                  },
+                                  "workflow_id": "definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW",
+                                  "workflow_name": "ServiceNow - Create Incident"
+                              },
+                              "object_type": "definition_activity"
+                          },
+                          {
+                              "unique_name": "definition_activity_01FXZHEZGJVHR0gHfsXahFnwBCB9VX8BeXS",
+                              "name": "Condition Block",
+                              "title": "Was the ticket opened?",
+                              "type": "logic.if_else",
+                              "base_type": "activity",
+                              "properties": {
+                                  "continue_on_failure": false,
+                                  "display_name": "Was the ticket opened?",
+                                  "skip_execution": false
+                              },
+                              "object_type": "definition_activity",
+                              "blocks": [
+                                  {
+                                      "unique_name": "definition_activity_01FXZHF3KBM197AGkjzT5DMBCaZt1oXiD5M",
+                                      "name": "Condition Branch",
+                                      "title": "No",
+                                      "type": "logic.condition_block",
+                                      "base_type": "activity",
+                                      "properties": {
+                                          "condition": {
+                                              "left_operand": "$activity.definition_activity_01FXZHD2O4HHE6ZjAz8TBqpEGtfefdVS7aw.output.succeeded$",
+                                              "operator": "eq",
+                                              "right_operand": false
+                                          },
+                                          "continue_on_failure": false,
+                                          "display_name": "No",
+                                          "skip_execution": false
+                                      },
+                                      "object_type": "definition_activity",
+                                      "actions": [
+                                          {
+                                              "unique_name": "definition_activity_01FXZJDV26BF54NxC26dISSQyZ0bOnVF9z2",
+                                              "name": "Completed",
+                                              "title": "Failed",
+                                              "type": "logic.completed",
+                                              "base_type": "activity",
+                                              "properties": {
+                                                  "completion_type": "failed-completed",
+                                                  "continue_on_failure": false,
+                                                  "display_name": "Failed",
+                                                  "result_message": "Failed to open ServiceNow incident ticket",
+                                                  "skip_execution": false
+                                              },
+                                              "object_type": "definition_activity"
+                                          }
+                                      ]
+                                  }
+                              ]
+                          }
+                      ]
+                  }
+              ]
           }
-        ]
-      }
-    ],
-    "categories": [
-      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
-    ]
+      ],
+      "categories": [
+          "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+      ]
   },
   "target_groups": {
-    "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
-      "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
-      "name": "Default TargetGroup",
-      "title": "Default TargetGroup",
-      "type": "generic.target_group",
-      "base_type": "target_group",
-      "version": "1.0.0",
-      "targets": [
-        {
-          "data_target_type": "web-service.endpoint",
-          "view_target_type": "web-service.endpoint",
-          "include_all_targets": true
-        },
-        {
-          "data_target_type": "email.smtp_endpoint",
-          "view_target_type": "email.smtp_endpoint",
-          "include_all_targets": true
-        }
-      ],
-      "object_type": "target_group"
-    }
+      "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+          "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+          "name": "Default TargetGroup",
+          "title": "Default TargetGroup",
+          "type": "generic.target_group",
+          "base_type": "target_group",
+          "version": "1.0.0",
+          "targets": [
+              {
+                  "data_target_type": "web-service.endpoint",
+                  "view_target_type": "web-service.endpoint",
+                  "include_all_targets": true
+              },
+              {
+                  "data_target_type": "email.smtp_endpoint",
+                  "view_target_type": "email.smtp_endpoint",
+                  "include_all_targets": true
+              }
+          ],
+          "object_type": "target_group"
+      }
   },
   "atomic_workflows": [
-    "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH",
-    "definition_workflow_01PP74XXLH4JK5RznBkKvbBUhiBqVm0A35C",
-    "definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW"
+      "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH",
+      "definition_workflow_01PP74XXLH4JK5RznBkKvbBUhiBqVm0A35C",
+      "definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW"
+  ],
+  "dependent_workflows": [
+      "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH",
+      "definition_workflow_01PP74XXLH4JK5RznBkKvbBUhiBqVm0A35C",
+      "definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW"
   ]
 }

@@ -27,6 +27,7 @@ Microsoft provides a JSON-formatted feed of their networks and domains for their
 | Date | Notes |
 |:-----|:------|
 | Nov 24, 2020 | - Initial release |
+| Aug 31, 2022 | - Minor updates to naming and descriptions |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 

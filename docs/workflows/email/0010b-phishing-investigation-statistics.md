@@ -27,6 +27,7 @@ This workflow sends an email summary of [Phishing Investigation]({{ site.baseurl
 |:-----|:------|
 | Jan 21, 2021 | - Initial release |
 | Feb 4, 2021 | - Updated the runtime calculation Python script to fix some possible failures |
+| Aug 31, 2022 | - Minor updates to naming and descriptions |
 
 _See the [Important Notes]({{ site.baseurl }}/notes#workflows) page for more information about updating workflows_
 
