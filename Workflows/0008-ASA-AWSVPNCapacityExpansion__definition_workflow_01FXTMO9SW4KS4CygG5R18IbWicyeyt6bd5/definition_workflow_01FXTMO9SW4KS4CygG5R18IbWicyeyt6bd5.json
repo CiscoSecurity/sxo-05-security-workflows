@@ -1,879 +1,893 @@
 {
   "workflow": {
-    "unique_name": "definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5",
-    "name": "0008 - ASA - AWS VPN Capacity Expansion",
-    "title": "0008 - ASA - AWS VPN Capacity Expansion",
-    "type": "generic.workflow",
-    "base_type": "workflow",
-    "variables": [
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "approver@company.com",
-          "scope": "local",
-          "name": "Task Approver",
-          "type": "datatype.string",
-          "description": "The email address of the user who is responsible for approving expansion requests",
-          "is_required": true,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01JR0BZ0COPME4u4tAN0SiVNbMsc9BqhFsz",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "local",
-          "name": "SecureX Region",
-          "type": "datatype.string",
-          "description": "The region of SecureX you're using. This will be populated automatically",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01JR0D8A1N4MM5CeM1hvcmmfwcrdx7KNP7h",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "local",
-          "name": "Webex Teams Room Name",
-          "type": "datatype.string",
-          "description": "Name of the Webex Teams room to post messages in. Note that you should invite your bot to the room before trying to send a message to it",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01KENWF5BYMOG6DyDbKBIy7R1KO9Ah0P9ts",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.secure_string",
-        "properties": {
-          "value": "",
-          "scope": "local",
-          "name": "Webex Teams Access Token",
-          "type": "datatype.secure_string",
-          "description": "The access token to use to authenticate to the Webex Teams API. Information about using a bot, which is what we recommend, can be found here: https://developer.webex.com/docs/bots",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01KENW54APJT007wjtsBrVn7uCnNzTxARqG",
-        "object_type": "variable_workflow"
-      }
-    ],
-    "properties": {
-      "atomic": {
-        "is_atomic": false
-      },
-      "delete_workflow_instance": false,
-      "description": "This workflow demonstrates the ability to dynamically expand Cisco Adaptive Security Appliance (ASA) head end capacity using Amazon EC2 if an existing ASA has VPN user load over 70%. If load is 70% or more, approval is requested using the built-in task/approval features within SecureX orchestration prior to Amazon Web Services (AWS) deployment.\n\nTarget Group: Default TargetGroup\n\nTargets: ASA VPN Target, AWS EC2 Target, Webex Teams\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0008",
-      "display_name": "0008 - ASA - AWS VPN Capacity Expansion",
-      "runtime_user": {
-        "override_target_runtime_user": false,
-        "specify_on_workflow_start": false,
-        "target_default": true
-      },
-      "target": {
-        "execute_on_target_group": true,
-        "target_group": {
-          "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
-          "run_on_all_targets": false,
-          "selected_target_types": [
-            "web-service.endpoint",
-            "aws.endpoint",
-            "terminal.endpoint"
-          ],
-          "use_criteria": {
-            "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-            "conditions": [
-              {
-                "operator": "eqi",
-                "left_operand": "$targetgroup.terminal endpoint.input.display_name$",
-                "right_operand": "ASA VPN Target"
-              }
-            ]
-          }
-        }
-      }
-    },
-    "object_type": "definition_workflow",
-    "actions": [
-      {
-        "unique_name": "definition_activity_01KEO0KYV5M4W5SoJfZhyKxjcTzn6w7ZahJ",
-        "name": "Group",
-        "title": "Fetch global variables",
-        "type": "logic.group",
-        "base_type": "activity",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "Fetch global variables",
-          "skip_execution": true
-        },
-        "object_type": "definition_activity",
-        "actions": [
+      "unique_name": "definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5",
+      "name": "0008 - ASA - AWS VPN Capacity Expansion",
+      "title": "0008 - ASA - AWS VPN Capacity Expansion",
+      "type": "generic.workflow",
+      "base_type": "workflow",
+      "variables": [
           {
-            "unique_name": "definition_activity_01KEO0PDQ76KP58GtlQtUzs7U2YVgW1QQIi",
-            "name": "Set Variables",
-            "title": "Fetch global variables",
-            "type": "core.set_multiple_variables",
-            "base_type": "activity",
-            "properties": {
-              "continue_on_failure": false,
-              "display_name": "Fetch global variables",
-              "skip_execution": false,
-              "variables_to_update": [
-                {
-                  "variable_to_update": "$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01KENW54APJT007wjtsBrVn7uCnNzTxARqG$"
-                }
-              ]
-            },
-            "object_type": "definition_activity"
-          }
-        ]
-      },
-      {
-        "unique_name": "definition_activity_01QDYUX1FMNCH6gQA6m6o25SctaAcCCSY42",
-        "name": "Condition Block",
-        "title": "Set the environment URL",
-        "type": "logic.if_else",
-        "base_type": "activity",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "Set the environment URL",
-          "skip_execution": false
-        },
-        "object_type": "definition_activity",
-        "blocks": [
-          {
-            "unique_name": "definition_activity_01QDYUX8S314M518ta5e9NQMa2jHknysrGp",
-            "name": "Condition Branch",
-            "title": "PROD-NAM",
-            "type": "logic.condition_block",
-            "base_type": "activity",
-            "properties": {
-              "condition": {
-                "left_operand": "$env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG.env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG$",
-                "operator": "eqi",
-                "right_operand": "prod-nam"
+              "schema_id": "datatype.string",
+              "properties": {
+                  "value": "approver@company.com",
+                  "scope": "local",
+                  "name": "Task Approver",
+                  "type": "datatype.string",
+                  "description": "The email address of the user who is responsible for approving expansion requests",
+                  "is_required": true,
+                  "is_invisible": false
               },
-              "continue_on_failure": false,
-              "display_name": "PROD-NAM",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity",
-            "actions": [
-              {
-                "unique_name": "definition_activity_01QDYVFI5J3J756RxpmwOH1p1EgEBNevKBD",
-                "name": "Set Variables",
-                "title": "Set local environment variables",
-                "type": "core.set_multiple_variables",
-                "base_type": "activity",
-                "properties": {
-                  "continue_on_failure": false,
-                  "display_name": "Set local environment variables",
-                  "skip_execution": false,
-                  "variables_to_update": [
-                    {
-                      "variable_to_update": "$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01JR0D8A1N4MM5CeM1hvcmmfwcrdx7KNP7h$",
-                      "variable_value_new": "us"
-                    }
-                  ]
-                },
-                "object_type": "definition_activity"
-              }
-            ]
+              "unique_name": "variable_workflow_01JR0BZ0COPME4u4tAN0SiVNbMsc9BqhFsz",
+              "object_type": "variable_workflow"
           },
           {
-            "unique_name": "definition_activity_01QDYVWPIA71J4ou6coeMVRxVXIx9pHvpew",
-            "name": "Condition Branch",
-            "title": "PROD-EU",
-            "type": "logic.condition_block",
-            "base_type": "activity",
-            "properties": {
-              "condition": {
-                "left_operand": "$env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG.env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG$",
-                "operator": "eqi",
-                "right_operand": "prod-eu"
+              "schema_id": "datatype.string",
+              "properties": {
+                  "value": "",
+                  "scope": "local",
+                  "name": "SecureX Region",
+                  "type": "datatype.string",
+                  "description": "The region of SecureX you're using. This will be populated automatically",
+                  "is_required": false,
+                  "is_invisible": false
               },
-              "continue_on_failure": false,
-              "display_name": "PROD-EU",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity",
-            "actions": [
-              {
-                "unique_name": "definition_activity_01QDYVWQIIUZI1KqTFUj8XO627JDDtPvVEn",
-                "name": "Set Variables",
-                "title": "Set local environment variables",
-                "type": "core.set_multiple_variables",
-                "base_type": "activity",
-                "properties": {
-                  "continue_on_failure": false,
-                  "display_name": "Set local environment variables",
-                  "skip_execution": false,
-                  "variables_to_update": [
-                    {
-                      "variable_to_update": "$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01JR0D8A1N4MM5CeM1hvcmmfwcrdx7KNP7h$",
-                      "variable_value_new": "eu"
-                    }
-                  ]
-                },
-                "object_type": "definition_activity"
-              }
-            ]
+              "unique_name": "variable_workflow_01JR0D8A1N4MM5CeM1hvcmmfwcrdx7KNP7h",
+              "object_type": "variable_workflow"
           },
           {
-            "unique_name": "definition_activity_01QDYW5B0NP4S7L49v2YWfYHZNRTS27yUBj",
-            "name": "Condition Branch",
-            "title": "PROD-APJC",
-            "type": "logic.condition_block",
-            "base_type": "activity",
-            "properties": {
-              "condition": {
-                "left_operand": "$env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG.env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG$",
-                "operator": "eqi",
-                "right_operand": "prod-apjc"
+              "schema_id": "datatype.secure_string",
+              "properties": {
+                  "value": "",
+                  "scope": "local",
+                  "name": "Webex Access Token",
+                  "type": "datatype.secure_string",
+                  "description": "The access token to use to authenticate to the Webex API. Information about using a bot, which is what we recommend, can be found here: https:\/\/developer.webex.com\/docs\/bots",
+                  "is_required": false,
+                  "is_invisible": false
               },
-              "continue_on_failure": false,
-              "display_name": "PROD-APJC",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity",
-            "actions": [
-              {
-                "unique_name": "definition_activity_01QDYW5CBIEVM01rxncdXWRAHbZaOoxe16z",
-                "name": "Set Variables",
-                "title": "Set local environment variables",
-                "type": "core.set_multiple_variables",
-                "base_type": "activity",
-                "properties": {
-                  "continue_on_failure": false,
-                  "display_name": "Set local environment variables",
-                  "skip_execution": false,
-                  "variables_to_update": [
-                    {
-                      "variable_to_update": "$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01JR0D8A1N4MM5CeM1hvcmmfwcrdx7KNP7h$",
-                      "variable_value_new": "apjc"
-                    }
-                  ]
-                },
-                "object_type": "definition_activity"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "unique_name": "definition_activity_01KENWOQBOEEZ4OTDPaZtmXrh3HEK4wgZYF",
-        "name": "Group",
-        "title": "Get Webex Teams Room ID",
-        "type": "logic.group",
-        "base_type": "activity",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "Get Webex Teams Room ID",
-          "skip_execution": false
-        },
-        "object_type": "definition_activity",
-        "actions": [
+              "unique_name": "variable_workflow_01KENW54APJT007wjtsBrVn7uCnNzTxARqG",
+              "object_type": "variable_workflow"
+          },
           {
-            "unique_name": "definition_activity_01KENWMY3JR774zzO8UHaWvROg6KOGXPYt4",
-            "name": "Webex Teams - Search for Room",
-            "title": "Webex Teams - Search for Room",
-            "type": "workflow.atomic_workflow",
-            "base_type": "subworkflow",
-            "properties": {
-              "continue_on_failure": true,
-              "display_name": "Webex Teams - Search for Room",
-              "input": {
-                "variable_workflow_01PP790MCX1DN3EitpQebkUyJS65DbwS3nU": "$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01KENW54APJT007wjtsBrVn7uCnNzTxARqG$",
-                "variable_workflow_01PP790MCXB392D3R8pxh9fgOTjTde2bcMW": "$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01KENWF5BYMOG6DyDbKBIy7R1KO9Ah0P9ts$",
-                "variable_workflow_01PP790MCXHP55YE6ylOEITWsWbUFJeyWGv": "",
-                "variable_workflow_01PP790MCXM9W1MUwo85y8iNRCoQuQ4RGNa": ""
+              "schema_id": "datatype.string",
+              "properties": {
+                  "value": "",
+                  "scope": "local",
+                  "name": "Webex Room Name",
+                  "type": "datatype.string",
+                  "description": "Name of the Webex room to post messages in. Note that you should invite your bot to the room before trying to send a message to it",
+                  "is_required": false,
+                  "is_invisible": false
               },
-              "runtime_user": {
-                "target_default": true
-              },
-              "skip_execution": false,
-              "target": {
-                "override_workflow_target_group_criteria": true,
-                "target_group": {
+              "unique_name": "variable_workflow_01KENWF5BYMOG6DyDbKBIy7R1KO9Ah0P9ts",
+              "object_type": "variable_workflow"
+          }
+      ],
+      "properties": {
+          "atomic": {
+              "is_atomic": false
+          },
+          "delete_workflow_instance": false,
+          "description": "This workflow demonstrates the ability to dynamically expand Cisco Adaptive Security Appliance (ASA) head end capacity using Amazon EC2 if an existing ASA has VPN user load over 70%. If load is 70% or more, approval is requested using the built-in task\/approval features within SecureX orchestration prior to Amazon Web Services (AWS) deployment.\n\nDocumentation: https:\/\/ciscosecurity.github.io\/sxo-05-security-workflows\/workflows\/0008\n\nTarget Group: Default TargetGroup\n\nTargets: ASA VPN Target, AWS EC2 Target, Webex Teams\n\nSteps:\n[] SSH to the target ASA and get its VPN device load\n[] Check whether or not the load is 70% or more:\n[]> If the load is less than 70%, end the workflow\n[]> If the load is 70% or more:\n[]>> Create an approval task\n[]>> Post a message to Webex\n[]>> If the request was approved, deploy a new ASAv using the AWS EC2 API\n[]>> If the request was denied, post a message to Webex\n[]>> If the request expired, post a message to Webex",
+          "display_name": "0008 - ASA - AWS VPN Capacity Expansion",
+          "runtime_user": {
+              "override_target_runtime_user": false,
+              "specify_on_workflow_start": false,
+              "target_default": true
+          },
+          "target": {
+              "execute_on_target_group": true,
+              "target_group": {
+                  "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
                   "run_on_all_targets": false,
+                  "selected_target_types": [
+                      "web-service.endpoint",
+                      "aws.endpoint",
+                      "terminal.endpoint"
+                  ],
                   "use_criteria": {
-                    "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-                    "conditions": [
-                      {
-                        "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-                        "operator": "eqi",
-                        "right_operand": "Webex Teams"
-                      }
-                    ]
-                  }
-                }
-              },
-              "workflow_id": "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez"
-            },
-            "object_type": "definition_activity"
-          },
-          {
-            "unique_name": "definition_activity_01KENWUN4KRDF2TYGUh9pyiLm06E7EbIdxj",
-            "name": "Condition Block",
-            "title": "Did we find the room?",
-            "type": "logic.if_else",
-            "base_type": "activity",
-            "properties": {
-              "continue_on_failure": false,
-              "display_name": "Did we find the room?",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity",
-            "blocks": [
-              {
-                "unique_name": "definition_activity_01KENWUSSGHPM0lVbvc4Z72J8kzSeqZRGN9",
-                "name": "Condition Branch",
-                "title": "No",
-                "type": "logic.condition_block",
-                "base_type": "activity",
-                "properties": {
-                  "condition": {
-                    "left_operand": "$activity.definition_activity_01KENWMY3JR774zzO8UHaWvROg6KOGXPYt4.output.succeeded$",
-                    "operator": "eq",
-                    "right_operand": false
-                  },
-                  "continue_on_failure": false,
-                  "display_name": "No",
-                  "skip_execution": false
-                },
-                "object_type": "definition_activity",
-                "actions": [
-                  {
-                    "unique_name": "definition_activity_01KENWVQJRZLM6y6I9WbWQRfCazkly7DMwm",
-                    "name": "Completed",
-                    "title": "Failed",
-                    "type": "logic.completed",
-                    "base_type": "activity",
-                    "properties": {
-                      "completion_type": "failed-completed",
-                      "continue_on_failure": false,
-                      "display_name": "Failed",
-                      "result_message": "Failed to fetch room ID for Webex room named \"$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01KENWF5BYMOG6DyDbKBIy7R1KO9Ah0P9ts$\"",
-                      "skip_execution": false
-                    },
-                    "object_type": "definition_activity"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "unique_name": "definition_activity_01FXTO6904HTY3G893BAxpRoNixYwFlv3cI",
-        "name": "Group",
-        "title": "Fetch and extract current ASA VPN load",
-        "type": "logic.group",
-        "base_type": "activity",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "Fetch and extract current ASA VPN load",
-          "skip_execution": false
-        },
-        "object_type": "definition_activity",
-        "actions": [
-          {
-            "unique_name": "definition_activity_01FXTOBD8LY3A66F6YFSVyWsu3i7Th6NLH5",
-            "name": "Execute Terminal Command(s)",
-            "title": "Fetch ASA VPN load",
-            "type": "terminal.command",
-            "base_type": "activity",
-            "properties": {
-              "action_timeout": 180,
-              "command_timeout": 60,
-              "commands": "enable\nshow vpn-sessiondb | incl %",
-              "continue_on_failure": false,
-              "display_name": "Fetch ASA VPN load",
-              "merge_commands": false,
-              "runtime_user": {
-                "override_target_runtime_user": false,
-                "target_default": true
-              },
-              "skip_execution": false,
-              "target": {
-                "use_workflow_target_group": true
-              }
-            },
-            "object_type": "definition_activity"
-          },
-          {
-            "unique_name": "definition_activity_01FXTOF7KEJQ76J34DXqIyzwksH5qUHmILc",
-            "name": "Match Regex",
-            "title": "Check if 70% or more",
-            "type": "core.matchregex",
-            "base_type": "activity",
-            "properties": {
-              "continue_on_failure": false,
-              "display_name": "Check if 70% or more",
-              "input_regex": "^Device Load[^\\n]+(100|[7-9][0-9])%$",
-              "input_string": "$activity.definition_activity_01FXTOBD8LY3A66F6YFSVyWsu3i7Th6NLH5.output.response_body$",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity"
-          }
-        ]
-      },
-      {
-        "unique_name": "definition_activity_01FXTOHIFNSIN1y07V1wv5dzv5PMzroCOms",
-        "name": "Condition Block",
-        "title": "Has the threshold been met?",
-        "type": "logic.if_else",
-        "base_type": "activity",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "Has the threshold been met?",
-          "skip_execution": false
-        },
-        "object_type": "definition_activity",
-        "blocks": [
-          {
-            "unique_name": "definition_activity_01FXTOHLHZXWF7KCldT9pU0QgPrkj0HZnYj",
-            "name": "Condition Branch",
-            "title": "Below 70%",
-            "type": "logic.condition_block",
-            "base_type": "activity",
-            "properties": {
-              "condition": {
-                "left_operand": "$activity.definition_activity_01FXTOF7KEJQ76J34DXqIyzwksH5qUHmILc.output.has_match$",
-                "operator": "eq",
-                "right_operand": false
-              },
-              "continue_on_failure": false,
-              "display_name": "Below 70%",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity",
-            "actions": [
-              {
-                "unique_name": "definition_activity_01FXTR1GTACDV2U06iBov6jvaBPDuNntY8r",
-                "name": "Completed",
-                "title": "Completed",
-                "type": "logic.completed",
-                "base_type": "activity",
-                "properties": {
-                  "completion_type": "succeeded",
-                  "continue_on_failure": false,
-                  "display_name": "Completed",
-                  "result_message": "ASA VPN load is below 70%, no action is required",
-                  "skip_execution": false
-                },
-                "object_type": "definition_activity"
-              }
-            ]
-          },
-          {
-            "unique_name": "definition_activity_01FXTOHN2F78J681Vvt6EHcb4zb7DQebQiu",
-            "name": "Condition Branch",
-            "title": "70% or more",
-            "type": "logic.condition_block",
-            "base_type": "activity",
-            "properties": {
-              "condition": {
-                "left_operand": "$activity.definition_activity_01FXTOF7KEJQ76J34DXqIyzwksH5qUHmILc.output.has_match$",
-                "operator": "eq",
-                "right_operand": true
-              },
-              "continue_on_failure": false,
-              "display_name": "70% or more",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity",
-            "actions": [
-              {
-                "unique_name": "definition_activity_01FXTRWG12S052UdUDStzZF5UaNc94FQFDU",
-                "name": "Create Approval Request",
-                "title": "Create deployment approval request",
-                "type": "task.approval_request",
-                "base_type": "activity",
-                "properties": {
-                  "approval_choices": [
-                    "Approve",
-                    "Reject"
-                  ],
-                  "assignees": [
-                    "$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01JR0BZ0COPME4u4tAN0SiVNbMsc9BqhFsz$"
-                  ],
-                  "continue_on_failure": false,
-                  "display_name": "Create deployment approval request",
-                  "due_date": {
-                    "is_relative_time": true,
-                    "is_specified_date": false,
-                    "relative_time": {
-                      "duration": 1,
-                      "time_units": "hours"
-                    },
-                    "set_due_date": true
-                  },
-                  "expiration_date": {
-                    "is_relative_time": true,
-                    "is_specified_date": false,
-                    "relative_time": {
-                      "duration": 1,
-                      "time_units": "hours"
-                    }
-                  },
-                  "expiration_status": "Expired",
-                  "minimum_approvals": 1,
-                  "priority": "high",
-                  "skip_execution": false,
-                  "subject_line": "AWS EC2 ASA Deploy Approval",
-                  "task_message": "Your approval is required to deploy additional ASA capacity in AWS",
-                  "task_owner": "owner@company.com",
-                  "task_requestor": "requestor@company.com"
-                },
-                "object_type": "definition_activity"
-              },
-              {
-                "unique_name": "definition_activity_01FXTS1H5YROS0FkGRKOWW1Id2AkgEjeHum",
-                "name": "Post Webex message about approval",
-                "title": "Post Webex message about approval",
-                "type": "workflow.atomic_workflow",
-                "base_type": "subworkflow",
-                "properties": {
-                  "continue_on_failure": false,
-                  "display_name": "Post Webex message about approval",
-                  "input": {
-                    "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$activity.definition_activity_01KENWMY3JR774zzO8UHaWvROg6KOGXPYt4.output.variable_workflow_01PP790MCXJ7Y5cAWcGZWbG4Es0126zb1I6$",
-                    "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01KENW54APJT007wjtsBrVn7uCnNzTxARqG$",
-                    "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "AWS EC2 ASA approval request sent to $workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01JR0BZ0COPME4u4tAN0SiVNbMsc9BqhFsz$. [Click here](https://securex-ao.$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01JR0D8A1N4MM5CeM1hvcmmfwcrdx7KNP7h$.security.cisco.com/orch-ui/tasks/$activity.definition_activity_01FXTRWG12S052UdUDStzZF5UaNc94FQFDU.output.task_id$) to view the approval task",
-                    "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": ""
-                  },
-                  "runtime_user": {
-                    "target_default": true
-                  },
-                  "skip_execution": false,
-                  "target": {
-                    "override_workflow_target_group_criteria": true,
-                    "target_group": {
-                      "run_on_all_targets": false,
-                      "use_criteria": {
-                        "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-                        "conditions": [
+                      "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                      "conditions": [
                           {
-                            "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-                            "operator": "eqi",
-                            "right_operand": "Webex Teams"
+                              "operator": "eqi",
+                              "left_operand": "$targetgroup.terminal endpoint.input.display_name$",
+                              "right_operand": "ASA VPN Target"
                           }
-                        ]
-                      }
-                    }
-                  },
-                  "workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw"
-                },
-                "object_type": "definition_activity"
-              },
-              {
-                "unique_name": "definition_activity_01FXTS3VVOYNZ5Mi31gLaoPlfNsAP7GOmKv",
-                "name": "Wait For Event",
-                "title": "Wait for approval",
-                "type": "task.wait_for_event",
-                "base_type": "activity",
-                "properties": {
-                  "continue_on_failure": false,
-                  "display_name": "Wait for approval",
-                  "event_info": {
-                    "add_event": true,
-                    "event_definition": {
-                      "conditions": {
-                        "left_operand": "$output.task_id$",
-                        "operator": "eq",
-                        "right_operand": "$activity.definition_activity_01FXTRWG12S052UdUDStzZF5UaNc94FQFDU.output.task_id$"
-                      }
-                    }
-                  },
-                  "event_type": "approval_task.event",
-                  "skip_execution": false
-                },
-                "object_type": "definition_activity"
-              },
-              {
-                "unique_name": "definition_activity_01FXTS5KJ6S4P41lMLDXVSrAD2DSANDSZmB",
-                "name": "Condition Block",
-                "title": "What was the approval result?",
-                "type": "logic.if_else",
-                "base_type": "activity",
-                "properties": {
-                  "continue_on_failure": false,
-                  "display_name": "What was the approval result?",
-                  "skip_execution": false
-                },
-                "object_type": "definition_activity",
-                "blocks": [
-                  {
-                    "unique_name": "definition_activity_01FXTS5NIO7PS2O30CmLnIJx5eeRA3ZSIBz",
-                    "name": "Condition Branch",
-                    "title": "Approve",
-                    "type": "logic.condition_block",
-                    "base_type": "activity",
-                    "properties": {
-                      "condition": {
-                        "left_operand": "$activity.definition_activity_01FXTS3VVOYNZ5Mi31gLaoPlfNsAP7GOmKv.output.response$",
-                        "operator": "eq",
-                        "right_operand": "Approve"
-                      },
-                      "continue_on_failure": false,
-                      "display_name": "Approve",
-                      "skip_execution": false
-                    },
-                    "object_type": "definition_activity",
-                    "actions": [
-                      {
-                        "unique_name": "definition_activity_01FXTSAVWVYR55GmIgPQv6Fm28Ukp9t5i2P",
-                        "name": "Create EC2 Instances",
-                        "title": "Create ASA instance in EC2",
-                        "type": "aws.create_ec2",
-                        "base_type": "activity",
-                        "properties": {
-                          "action_timeout": 180,
-                          "auto_public_ip_address_option": "enable",
-                          "continue_on_failure": false,
-                          "display_name": "Create ASA instance in EC2",
-                          "image_id": "ami-xxxxxxxx",
-                          "instance_type": "m4.xlarge",
-                          "keypair_name": "Keypair-Name",
-                          "max_count": 1,
-                          "runtime_user": {
-                            "override_target_runtime_user": false,
-                            "target_default": true
-                          },
-                          "sec_group_ids": [
-                            "sg-xxxxxxxx"
-                          ],
-                          "skip_execution": false,
-                          "target": {
-                            "override_workflow_target_group_criteria": true,
-                            "target_group": {
-                              "run_on_all_targets": false,
-                              "use_criteria": {
-                                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-                                "conditions": [
-                                  {
-                                    "left_operand": "$targetgroup.aws endpoint.input.display_name$",
-                                    "operator": "eqi",
-                                    "right_operand": "AWS EC2 Target"
-                                  }
-                                ]
-                              }
-                            }
-                          }
-                        },
-                        "object_type": "definition_activity"
-                      },
-                      {
-                        "unique_name": "definition_activity_01FXTVS72Y2OJ3dSBJqUNUMq7lFPsacE8bE",
-                        "name": "Post Webex message with instance IP",
-                        "title": "Post Webex message with instance IP",
-                        "type": "workflow.atomic_workflow",
-                        "base_type": "subworkflow",
-                        "properties": {
-                          "continue_on_failure": false,
-                          "display_name": "Post Webex message with instance IP",
-                          "input": {
-                            "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$activity.definition_activity_01KENWMY3JR774zzO8UHaWvROg6KOGXPYt4.output.variable_workflow_01PP790MCXJ7Y5cAWcGZWbG4Es0126zb1I6$",
-                            "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01KENW54APJT007wjtsBrVn7uCnNzTxARqG$",
-                            "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "A new EC2 ASA VPN head end has been deployed. The public IP address is $activity.definition_activity_01FXTSAVWVYR55GmIgPQv6Fm28Ukp9t5i2P.output.instances[0].public_ip_address$. [Click here](https://securex-ao.$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01JR0D8A1N4MM5CeM1hvcmmfwcrdx7KNP7h$.security.cisco.com/orch-ui/tasks/$activity.definition_activity_01FXTRWG12S052UdUDStzZF5UaNc94FQFDU.output.task_id$) to view the approval",
-                            "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": ""
-                          },
-                          "runtime_user": {
-                            "target_default": true
-                          },
-                          "skip_execution": false,
-                          "target": {
-                            "override_workflow_target_group_criteria": true,
-                            "target_group": {
-                              "run_on_all_targets": false,
-                              "use_criteria": {
-                                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-                                "conditions": [
-                                  {
-                                    "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-                                    "operator": "eqi",
-                                    "right_operand": "Webex Teams"
-                                  }
-                                ]
-                              }
-                            }
-                          },
-                          "workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw"
-                        },
-                        "object_type": "definition_activity"
-                      }
-                    ]
-                  },
-                  {
-                    "unique_name": "definition_activity_01FXTS5OSCHLL6vbXi5TplbZoV7EuByhMHU",
-                    "name": "Condition Branch",
-                    "title": "Reject",
-                    "type": "logic.condition_block",
-                    "base_type": "activity",
-                    "properties": {
-                      "condition": {
-                        "left_operand": "$activity.definition_activity_01FXTS3VVOYNZ5Mi31gLaoPlfNsAP7GOmKv.output.response$",
-                        "operator": "eq",
-                        "right_operand": "Reject"
-                      },
-                      "continue_on_failure": false,
-                      "display_name": "Reject",
-                      "skip_execution": false
-                    },
-                    "object_type": "definition_activity",
-                    "actions": [
-                      {
-                        "unique_name": "definition_activity_01FXTYSWX8XBH35QMsEs8ntBFvdDfwwzUBp",
-                        "name": "Post Webex message about rejection",
-                        "title": "Post Webex message about rejection",
-                        "type": "workflow.atomic_workflow",
-                        "base_type": "subworkflow",
-                        "properties": {
-                          "continue_on_failure": false,
-                          "display_name": "Post Webex message about rejection",
-                          "input": {
-                            "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$activity.definition_activity_01KENWMY3JR774zzO8UHaWvROg6KOGXPYt4.output.variable_workflow_01PP790MCXJ7Y5cAWcGZWbG4Es0126zb1I6$",
-                            "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01KENW54APJT007wjtsBrVn7uCnNzTxARqG$",
-                            "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "Approval to deploy a new EC2 ASA VPN head end instance was denied. [Click here](https://securex-ao.$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01JR0D8A1N4MM5CeM1hvcmmfwcrdx7KNP7h$.security.cisco.com/orch-ui/tasks/$activity.definition_activity_01FXTRWG12S052UdUDStzZF5UaNc94FQFDU.output.task_id$) to view the denial",
-                            "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": ""
-                          },
-                          "runtime_user": {
-                            "target_default": true
-                          },
-                          "skip_execution": false,
-                          "target": {
-                            "override_workflow_target_group_criteria": true,
-                            "target_group": {
-                              "run_on_all_targets": false,
-                              "use_criteria": {
-                                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-                                "conditions": [
-                                  {
-                                    "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-                                    "operator": "eqi",
-                                    "right_operand": "Webex Teams"
-                                  }
-                                ]
-                              }
-                            }
-                          },
-                          "workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw"
-                        },
-                        "object_type": "definition_activity"
-                      }
-                    ]
-                  },
-                  {
-                    "unique_name": "definition_activity_01FXTVCXR1YXN5qqL66GUOBQjtvgkF2HlVK",
-                    "name": "Condition Branch",
-                    "title": "Expired",
-                    "type": "logic.condition_block",
-                    "base_type": "activity",
-                    "properties": {
-                      "condition": {
-                        "left_operand": "$activity.definition_activity_01FXTS3VVOYNZ5Mi31gLaoPlfNsAP7GOmKv.output.response$",
-                        "operator": "eq",
-                        "right_operand": "Expired"
-                      },
-                      "continue_on_failure": false,
-                      "display_name": "Expired",
-                      "skip_execution": false
-                    },
-                    "object_type": "definition_activity",
-                    "actions": [
-                      {
-                        "unique_name": "definition_activity_01FXTYUU9RUBQ5SpXmzGmEfmvb5mPifVMQb",
-                        "name": "Post Webex message about expiration",
-                        "title": "Post Webex message about expiration",
-                        "type": "workflow.atomic_workflow",
-                        "base_type": "subworkflow",
-                        "properties": {
-                          "continue_on_failure": false,
-                          "display_name": "Post Webex message about expiration",
-                          "input": {
-                            "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$activity.definition_activity_01KENWMY3JR774zzO8UHaWvROg6KOGXPYt4.output.variable_workflow_01PP790MCXJ7Y5cAWcGZWbG4Es0126zb1I6$",
-                            "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01KENW54APJT007wjtsBrVn7uCnNzTxARqG$",
-                            "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "Approval to deploy a new EC2 ASA VPN head end instance was not received before the request expired. [Click here](https://securex-ao.$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01JR0D8A1N4MM5CeM1hvcmmfwcrdx7KNP7h$.security.cisco.com/orch-ui/tasks/$activity.definition_activity_01FXTRWG12S052UdUDStzZF5UaNc94FQFDU.output.task_id$) to view the approval",
-                            "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": ""
-                          },
-                          "runtime_user": {
-                            "target_default": true
-                          },
-                          "skip_execution": false,
-                          "target": {
-                            "override_workflow_target_group_criteria": true,
-                            "target_group": {
-                              "run_on_all_targets": false,
-                              "use_criteria": {
-                                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-                                "conditions": [
-                                  {
-                                    "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-                                    "operator": "eqi",
-                                    "right_operand": "Webex Teams"
-                                  }
-                                ]
-                              }
-                            }
-                          },
-                          "workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw"
-                        },
-                        "object_type": "definition_activity"
-                      }
-                    ]
+                      ]
                   }
-                ]
               }
-            ]
           }
-        ]
-      }
-    ],
-    "categories": [
-      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
-    ]
+      },
+      "object_type": "definition_workflow",
+      "actions": [
+          {
+              "unique_name": "definition_activity_01KEO0KYV5M4W5SoJfZhyKxjcTzn6w7ZahJ",
+              "name": "Group",
+              "title": "Fetch global variables",
+              "type": "logic.group",
+              "base_type": "activity",
+              "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Fetch global variables",
+                  "skip_execution": true
+              },
+              "object_type": "definition_activity",
+              "actions": [
+                  {
+                      "unique_name": "definition_activity_01KEO0PDQ76KP58GtlQtUzs7U2YVgW1QQIi",
+                      "name": "Set Variables",
+                      "title": "Fetch global variables",
+                      "type": "core.set_multiple_variables",
+                      "base_type": "activity",
+                      "properties": {
+                          "continue_on_failure": false,
+                          "display_name": "Fetch global variables",
+                          "skip_execution": false,
+                          "variables_to_update": [
+                              {
+                                  "variable_to_update": "$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01KENW54APJT007wjtsBrVn7uCnNzTxARqG$"
+                              }
+                          ]
+                      },
+                      "object_type": "definition_activity"
+                  }
+              ]
+          },
+          {
+              "unique_name": "definition_activity_01QDYUX1FMNCH6gQA6m6o25SctaAcCCSY42",
+              "name": "Condition Block",
+              "title": "Set the environment URL",
+              "type": "logic.if_else",
+              "base_type": "activity",
+              "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Set the environment URL",
+                  "skip_execution": false
+              },
+              "object_type": "definition_activity",
+              "blocks": [
+                  {
+                      "unique_name": "definition_activity_01QDYUX8S314M518ta5e9NQMa2jHknysrGp",
+                      "name": "Condition Branch",
+                      "title": "PROD-NAM",
+                      "type": "logic.condition_block",
+                      "base_type": "activity",
+                      "properties": {
+                          "condition": {
+                              "left_operand": "$env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG.env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG$",
+                              "operator": "eqi",
+                              "right_operand": "prod-nam"
+                          },
+                          "continue_on_failure": false,
+                          "display_name": "PROD-NAM",
+                          "skip_execution": false
+                      },
+                      "object_type": "definition_activity",
+                      "actions": [
+                          {
+                              "unique_name": "definition_activity_01QDYVFI5J3J756RxpmwOH1p1EgEBNevKBD",
+                              "name": "Set Variables",
+                              "title": "Set local environment variables",
+                              "type": "core.set_multiple_variables",
+                              "base_type": "activity",
+                              "properties": {
+                                  "continue_on_failure": false,
+                                  "display_name": "Set local environment variables",
+                                  "skip_execution": false,
+                                  "variables_to_update": [
+                                      {
+                                          "variable_to_update": "$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01JR0D8A1N4MM5CeM1hvcmmfwcrdx7KNP7h$",
+                                          "variable_value_new": "us"
+                                      }
+                                  ]
+                              },
+                              "object_type": "definition_activity"
+                          }
+                      ]
+                  },
+                  {
+                      "unique_name": "definition_activity_01QDYVWPIA71J4ou6coeMVRxVXIx9pHvpew",
+                      "name": "Condition Branch",
+                      "title": "PROD-EU",
+                      "type": "logic.condition_block",
+                      "base_type": "activity",
+                      "properties": {
+                          "condition": {
+                              "left_operand": "$env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG.env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG$",
+                              "operator": "eqi",
+                              "right_operand": "prod-eu"
+                          },
+                          "continue_on_failure": false,
+                          "display_name": "PROD-EU",
+                          "skip_execution": false
+                      },
+                      "object_type": "definition_activity",
+                      "actions": [
+                          {
+                              "unique_name": "definition_activity_01QDYVWQIIUZI1KqTFUj8XO627JDDtPvVEn",
+                              "name": "Set Variables",
+                              "title": "Set local environment variables",
+                              "type": "core.set_multiple_variables",
+                              "base_type": "activity",
+                              "properties": {
+                                  "continue_on_failure": false,
+                                  "display_name": "Set local environment variables",
+                                  "skip_execution": false,
+                                  "variables_to_update": [
+                                      {
+                                          "variable_to_update": "$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01JR0D8A1N4MM5CeM1hvcmmfwcrdx7KNP7h$",
+                                          "variable_value_new": "eu"
+                                      }
+                                  ]
+                              },
+                              "object_type": "definition_activity"
+                          }
+                      ]
+                  },
+                  {
+                      "unique_name": "definition_activity_01QDYW5B0NP4S7L49v2YWfYHZNRTS27yUBj",
+                      "name": "Condition Branch",
+                      "title": "PROD-APJC",
+                      "type": "logic.condition_block",
+                      "base_type": "activity",
+                      "properties": {
+                          "condition": {
+                              "left_operand": "$env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG.env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG$",
+                              "operator": "eqi",
+                              "right_operand": "prod-apjc"
+                          },
+                          "continue_on_failure": false,
+                          "display_name": "PROD-APJC",
+                          "skip_execution": false
+                      },
+                      "object_type": "definition_activity",
+                      "actions": [
+                          {
+                              "unique_name": "definition_activity_01QDYW5CBIEVM01rxncdXWRAHbZaOoxe16z",
+                              "name": "Set Variables",
+                              "title": "Set local environment variables",
+                              "type": "core.set_multiple_variables",
+                              "base_type": "activity",
+                              "properties": {
+                                  "continue_on_failure": false,
+                                  "display_name": "Set local environment variables",
+                                  "skip_execution": false,
+                                  "variables_to_update": [
+                                      {
+                                          "variable_to_update": "$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01JR0D8A1N4MM5CeM1hvcmmfwcrdx7KNP7h$",
+                                          "variable_value_new": "apjc"
+                                      }
+                                  ]
+                              },
+                              "object_type": "definition_activity"
+                          }
+                      ]
+                  }
+              ]
+          },
+          {
+              "unique_name": "definition_activity_01KENWOQBOEEZ4OTDPaZtmXrh3HEK4wgZYF",
+              "name": "Group",
+              "title": "Get Webex Room ID",
+              "type": "logic.group",
+              "base_type": "activity",
+              "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Get Webex Room ID",
+                  "skip_execution": false
+              },
+              "object_type": "definition_activity",
+              "actions": [
+                  {
+                      "unique_name": "definition_activity_01KENWMY3JR774zzO8UHaWvROg6KOGXPYt4",
+                      "name": "Webex - Search for Room",
+                      "title": "Webex - Search for Room",
+                      "type": "workflow.atomic_workflow",
+                      "base_type": "subworkflow",
+                      "properties": {
+                          "continue_on_failure": true,
+                          "display_name": "Webex - Search for Room",
+                          "input": {
+                              "variable_workflow_01PP790MCX1DN3EitpQebkUyJS65DbwS3nU": "$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01KENW54APJT007wjtsBrVn7uCnNzTxARqG$",
+                              "variable_workflow_01PP790MCXB392D3R8pxh9fgOTjTde2bcMW": "$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01KENWF5BYMOG6DyDbKBIy7R1KO9Ah0P9ts$",
+                              "variable_workflow_01PP790MCXHP55YE6ylOEITWsWbUFJeyWGv": "",
+                              "variable_workflow_01PP790MCXM9W1MUwo85y8iNRCoQuQ4RGNa": ""
+                          },
+                          "runtime_user": {
+                              "target_default": true
+                          },
+                          "skip_execution": false,
+                          "target": {
+                              "override_workflow_target_group_criteria": true,
+                              "target_group": {
+                                  "run_on_all_targets": false,
+                                  "use_criteria": {
+                                      "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                      "conditions": [
+                                          {
+                                              "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                              "operator": "eqi",
+                                              "right_operand": "Webex Teams"
+                                          }
+                                      ]
+                                  }
+                              }
+                          },
+                          "workflow_id": "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez",
+                          "workflow_name": "Webex - Search for Room"
+                      },
+                      "object_type": "definition_activity"
+                  },
+                  {
+                      "unique_name": "definition_activity_01KENWUN4KRDF2TYGUh9pyiLm06E7EbIdxj",
+                      "name": "Condition Block",
+                      "title": "Did we find the room?",
+                      "type": "logic.if_else",
+                      "base_type": "activity",
+                      "properties": {
+                          "continue_on_failure": false,
+                          "display_name": "Did we find the room?",
+                          "skip_execution": false
+                      },
+                      "object_type": "definition_activity",
+                      "blocks": [
+                          {
+                              "unique_name": "definition_activity_01KENWUSSGHPM0lVbvc4Z72J8kzSeqZRGN9",
+                              "name": "Condition Branch",
+                              "title": "No",
+                              "type": "logic.condition_block",
+                              "base_type": "activity",
+                              "properties": {
+                                  "condition": {
+                                      "left_operand": "$activity.definition_activity_01KENWMY3JR774zzO8UHaWvROg6KOGXPYt4.output.succeeded$",
+                                      "operator": "eq",
+                                      "right_operand": false
+                                  },
+                                  "continue_on_failure": false,
+                                  "display_name": "No",
+                                  "skip_execution": false
+                              },
+                              "object_type": "definition_activity",
+                              "actions": [
+                                  {
+                                      "unique_name": "definition_activity_01KENWVQJRZLM6y6I9WbWQRfCazkly7DMwm",
+                                      "name": "Completed",
+                                      "title": "Failed",
+                                      "type": "logic.completed",
+                                      "base_type": "activity",
+                                      "properties": {
+                                          "completion_type": "failed-completed",
+                                          "continue_on_failure": false,
+                                          "display_name": "Failed",
+                                          "result_message": "Failed to fetch room ID for Webex room named \"$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01KENWF5BYMOG6DyDbKBIy7R1KO9Ah0P9ts$\"",
+                                          "skip_execution": false
+                                      },
+                                      "object_type": "definition_activity"
+                                  }
+                              ]
+                          }
+                      ]
+                  }
+              ]
+          },
+          {
+              "unique_name": "definition_activity_01FXTO6904HTY3G893BAxpRoNixYwFlv3cI",
+              "name": "Group",
+              "title": "Fetch and extract current ASA VPN load",
+              "type": "logic.group",
+              "base_type": "activity",
+              "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Fetch and extract current ASA VPN load",
+                  "skip_execution": false
+              },
+              "object_type": "definition_activity",
+              "actions": [
+                  {
+                      "unique_name": "definition_activity_01FXTOBD8LY3A66F6YFSVyWsu3i7Th6NLH5",
+                      "name": "Execute Terminal Command(s)",
+                      "title": "Fetch ASA VPN load",
+                      "type": "terminal.command",
+                      "base_type": "activity",
+                      "properties": {
+                          "action_timeout": 180,
+                          "command_timeout": 60,
+                          "commands": "enable\nshow vpn-sessiondb | incl %",
+                          "continue_on_failure": false,
+                          "display_name": "Fetch ASA VPN load",
+                          "merge_commands": false,
+                          "runtime_user": {
+                              "override_target_runtime_user": false,
+                              "target_default": true
+                          },
+                          "skip_execution": false,
+                          "target": {
+                              "use_workflow_target_group": true
+                          }
+                      },
+                      "object_type": "definition_activity"
+                  },
+                  {
+                      "unique_name": "definition_activity_01FXTOF7KEJQ76J34DXqIyzwksH5qUHmILc",
+                      "name": "Match Regex",
+                      "title": "Check if 70% or more",
+                      "type": "core.matchregex",
+                      "base_type": "activity",
+                      "properties": {
+                          "continue_on_failure": false,
+                          "display_name": "Check if 70% or more",
+                          "input_regex": "^Device Load[^\\n]+(100|[7-9][0-9])%$",
+                          "input_string": "$activity.definition_activity_01FXTOBD8LY3A66F6YFSVyWsu3i7Th6NLH5.output.response_body$",
+                          "skip_execution": false
+                      },
+                      "object_type": "definition_activity"
+                  }
+              ]
+          },
+          {
+              "unique_name": "definition_activity_01FXTOHIFNSIN1y07V1wv5dzv5PMzroCOms",
+              "name": "Condition Block",
+              "title": "Has the threshold been met?",
+              "type": "logic.if_else",
+              "base_type": "activity",
+              "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Has the threshold been met?",
+                  "skip_execution": false
+              },
+              "object_type": "definition_activity",
+              "blocks": [
+                  {
+                      "unique_name": "definition_activity_01FXTOHLHZXWF7KCldT9pU0QgPrkj0HZnYj",
+                      "name": "Condition Branch",
+                      "title": "Below 70%",
+                      "type": "logic.condition_block",
+                      "base_type": "activity",
+                      "properties": {
+                          "condition": {
+                              "left_operand": "$activity.definition_activity_01FXTOF7KEJQ76J34DXqIyzwksH5qUHmILc.output.has_match$",
+                              "operator": "eq",
+                              "right_operand": false
+                          },
+                          "continue_on_failure": false,
+                          "display_name": "Below 70%",
+                          "skip_execution": false
+                      },
+                      "object_type": "definition_activity",
+                      "actions": [
+                          {
+                              "unique_name": "definition_activity_01FXTR1GTACDV2U06iBov6jvaBPDuNntY8r",
+                              "name": "Completed",
+                              "title": "Completed",
+                              "type": "logic.completed",
+                              "base_type": "activity",
+                              "properties": {
+                                  "completion_type": "succeeded",
+                                  "continue_on_failure": false,
+                                  "display_name": "Completed",
+                                  "result_message": "ASA VPN load is below 70%, no action is required",
+                                  "skip_execution": false
+                              },
+                              "object_type": "definition_activity"
+                          }
+                      ]
+                  },
+                  {
+                      "unique_name": "definition_activity_01FXTOHN2F78J681Vvt6EHcb4zb7DQebQiu",
+                      "name": "Condition Branch",
+                      "title": "70% or more",
+                      "type": "logic.condition_block",
+                      "base_type": "activity",
+                      "properties": {
+                          "condition": {
+                              "left_operand": "$activity.definition_activity_01FXTOF7KEJQ76J34DXqIyzwksH5qUHmILc.output.has_match$",
+                              "operator": "eq",
+                              "right_operand": true
+                          },
+                          "continue_on_failure": false,
+                          "display_name": "70% or more",
+                          "skip_execution": false
+                      },
+                      "object_type": "definition_activity",
+                      "actions": [
+                          {
+                              "unique_name": "definition_activity_01FXTRWG12S052UdUDStzZF5UaNc94FQFDU",
+                              "name": "Create Approval Request",
+                              "title": "Create deployment approval request",
+                              "type": "task.approval_request",
+                              "base_type": "activity",
+                              "properties": {
+                                  "approval_choices": [
+                                      "Approve",
+                                      "Reject"
+                                  ],
+                                  "assignees": [
+                                      "$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01JR0BZ0COPME4u4tAN0SiVNbMsc9BqhFsz$"
+                                  ],
+                                  "continue_on_failure": false,
+                                  "display_name": "Create deployment approval request",
+                                  "due_date": {
+                                      "is_relative_time": true,
+                                      "is_specified_date": false,
+                                      "relative_time": {
+                                          "duration": 1,
+                                          "time_units": "hours"
+                                      },
+                                      "set_due_date": true
+                                  },
+                                  "expiration_date": {
+                                      "is_relative_time": true,
+                                      "is_specified_date": false,
+                                      "relative_time": {
+                                          "duration": 1,
+                                          "time_units": "hours"
+                                      }
+                                  },
+                                  "expiration_status": "Expired",
+                                  "minimum_approvals": 1,
+                                  "priority": "high",
+                                  "skip_execution": false,
+                                  "subject_line": "AWS EC2 ASA Deploy Approval",
+                                  "task_message": "Your approval is required to deploy additional ASA capacity in AWS",
+                                  "task_owner": "owner@company.com",
+                                  "task_requestor": "requestor@company.com"
+                              },
+                              "object_type": "definition_activity"
+                          },
+                          {
+                              "unique_name": "definition_activity_01FXTS1H5YROS0FkGRKOWW1Id2AkgEjeHum",
+                              "name": "Post Webex message about approval",
+                              "title": "Post Webex message about approval",
+                              "type": "workflow.atomic_workflow",
+                              "base_type": "subworkflow",
+                              "properties": {
+                                  "continue_on_failure": false,
+                                  "display_name": "Post Webex message about approval",
+                                  "input": {
+                                      "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$activity.definition_activity_01KENWMY3JR774zzO8UHaWvROg6KOGXPYt4.output.variable_workflow_01PP790MCXJ7Y5cAWcGZWbG4Es0126zb1I6$",
+                                      "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01KENW54APJT007wjtsBrVn7uCnNzTxARqG$",
+                                      "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "AWS EC2 ASA approval request sent to $workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01JR0BZ0COPME4u4tAN0SiVNbMsc9BqhFsz$. [Click here](https:\/\/securex-ao.$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01JR0D8A1N4MM5CeM1hvcmmfwcrdx7KNP7h$.security.cisco.com\/orch-ui\/tasks\/$activity.definition_activity_01FXTRWG12S052UdUDStzZF5UaNc94FQFDU.output.task_id$) to view the approval task",
+                                      "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": "",
+                                      "variable_workflow_01SVERQNMKN8N6vqX2djMtAfshphGydGsH8": ""
+                                  },
+                                  "runtime_user": {
+                                      "target_default": true
+                                  },
+                                  "skip_execution": false,
+                                  "target": {
+                                      "override_workflow_target_group_criteria": true,
+                                      "target_group": {
+                                          "run_on_all_targets": false,
+                                          "use_criteria": {
+                                              "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                              "conditions": [
+                                                  {
+                                                      "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                                      "operator": "eqi",
+                                                      "right_operand": "Webex Teams"
+                                                  }
+                                              ]
+                                          }
+                                      }
+                                  },
+                                  "workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw",
+                                  "workflow_name": "Webex - Post Message to Room"
+                              },
+                              "object_type": "definition_activity"
+                          },
+                          {
+                              "unique_name": "definition_activity_01FXTS3VVOYNZ5Mi31gLaoPlfNsAP7GOmKv",
+                              "name": "Wait For Event",
+                              "title": "Wait for approval",
+                              "type": "task.wait_for_event",
+                              "base_type": "activity",
+                              "properties": {
+                                  "continue_on_failure": false,
+                                  "display_name": "Wait for approval",
+                                  "event_info": {
+                                      "add_event": true,
+                                      "event_definition": {
+                                          "conditions": {
+                                              "left_operand": "$output.task_id$",
+                                              "operator": "eq",
+                                              "right_operand": "$activity.definition_activity_01FXTRWG12S052UdUDStzZF5UaNc94FQFDU.output.task_id$"
+                                          }
+                                      }
+                                  },
+                                  "event_timeout": 2580000,
+                                  "event_type": "approval_task.event",
+                                  "skip_execution": false
+                              },
+                              "object_type": "definition_activity"
+                          },
+                          {
+                              "unique_name": "definition_activity_01FXTS5KJ6S4P41lMLDXVSrAD2DSANDSZmB",
+                              "name": "Condition Block",
+                              "title": "What was the approval result?",
+                              "type": "logic.if_else",
+                              "base_type": "activity",
+                              "properties": {
+                                  "continue_on_failure": false,
+                                  "display_name": "What was the approval result?",
+                                  "skip_execution": false
+                              },
+                              "object_type": "definition_activity",
+                              "blocks": [
+                                  {
+                                      "unique_name": "definition_activity_01FXTS5NIO7PS2O30CmLnIJx5eeRA3ZSIBz",
+                                      "name": "Condition Branch",
+                                      "title": "Approve",
+                                      "type": "logic.condition_block",
+                                      "base_type": "activity",
+                                      "properties": {
+                                          "condition": {
+                                              "left_operand": "$activity.definition_activity_01FXTS3VVOYNZ5Mi31gLaoPlfNsAP7GOmKv.output.response$",
+                                              "operator": "eq",
+                                              "right_operand": "Approve"
+                                          },
+                                          "continue_on_failure": false,
+                                          "display_name": "Approve",
+                                          "skip_execution": false
+                                      },
+                                      "object_type": "definition_activity",
+                                      "actions": [
+                                          {
+                                              "unique_name": "definition_activity_01FXTSAVWVYR55GmIgPQv6Fm28Ukp9t5i2P",
+                                              "name": "Create EC2 Instances",
+                                              "title": "Create ASA instance in EC2",
+                                              "type": "aws.create_ec2",
+                                              "base_type": "activity",
+                                              "properties": {
+                                                  "action_timeout": 180,
+                                                  "auto_public_ip_address_option": "enable",
+                                                  "continue_on_failure": false,
+                                                  "display_name": "Create ASA instance in EC2",
+                                                  "image_id": "ami-xxxxxxxx",
+                                                  "instance_type": "m4.xlarge",
+                                                  "keypair_name": "Keypair-Name",
+                                                  "max_count": 1,
+                                                  "runtime_user": {
+                                                      "override_target_runtime_user": false,
+                                                      "target_default": true
+                                                  },
+                                                  "sec_group_ids": [
+                                                      "sg-xxxxxxxx"
+                                                  ],
+                                                  "skip_execution": false,
+                                                  "target": {
+                                                      "override_workflow_target_group_criteria": true,
+                                                      "target_group": {
+                                                          "run_on_all_targets": false,
+                                                          "use_criteria": {
+                                                              "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                                              "conditions": [
+                                                                  {
+                                                                      "left_operand": "$targetgroup.aws endpoint.input.display_name$",
+                                                                      "operator": "eqi",
+                                                                      "right_operand": "AWS EC2 Target"
+                                                                  }
+                                                              ]
+                                                          }
+                                                      }
+                                                  }
+                                              },
+                                              "object_type": "definition_activity"
+                                          },
+                                          {
+                                              "unique_name": "definition_activity_01FXTVS72Y2OJ3dSBJqUNUMq7lFPsacE8bE",
+                                              "name": "Post Webex message with instance IP",
+                                              "title": "Post Webex message with instance IP",
+                                              "type": "workflow.atomic_workflow",
+                                              "base_type": "subworkflow",
+                                              "properties": {
+                                                  "continue_on_failure": false,
+                                                  "display_name": "Post Webex message with instance IP",
+                                                  "input": {
+                                                      "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$activity.definition_activity_01KENWMY3JR774zzO8UHaWvROg6KOGXPYt4.output.variable_workflow_01PP790MCXJ7Y5cAWcGZWbG4Es0126zb1I6$",
+                                                      "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01KENW54APJT007wjtsBrVn7uCnNzTxARqG$",
+                                                      "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "A new EC2 ASA VPN head end has been deployed. The public IP address is $activity.definition_activity_01FXTSAVWVYR55GmIgPQv6Fm28Ukp9t5i2P.output.instances[0].public_ip_address$. [Click here](https:\/\/securex-ao.$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01JR0D8A1N4MM5CeM1hvcmmfwcrdx7KNP7h$.security.cisco.com\/orch-ui\/tasks\/$activity.definition_activity_01FXTRWG12S052UdUDStzZF5UaNc94FQFDU.output.task_id$) to view the approval",
+                                                      "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": "",
+                                                      "variable_workflow_01SVERQNMKN8N6vqX2djMtAfshphGydGsH8": ""
+                                                  },
+                                                  "runtime_user": {
+                                                      "target_default": true
+                                                  },
+                                                  "skip_execution": false,
+                                                  "target": {
+                                                      "override_workflow_target_group_criteria": true,
+                                                      "target_group": {
+                                                          "run_on_all_targets": false,
+                                                          "use_criteria": {
+                                                              "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                                              "conditions": [
+                                                                  {
+                                                                      "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                                                      "operator": "eqi",
+                                                                      "right_operand": "Webex Teams"
+                                                                  }
+                                                              ]
+                                                          }
+                                                      }
+                                                  },
+                                                  "workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw",
+                                                  "workflow_name": "Webex - Post Message to Room"
+                                              },
+                                              "object_type": "definition_activity"
+                                          }
+                                      ]
+                                  },
+                                  {
+                                      "unique_name": "definition_activity_01FXTS5OSCHLL6vbXi5TplbZoV7EuByhMHU",
+                                      "name": "Condition Branch",
+                                      "title": "Reject",
+                                      "type": "logic.condition_block",
+                                      "base_type": "activity",
+                                      "properties": {
+                                          "condition": {
+                                              "left_operand": "$activity.definition_activity_01FXTS3VVOYNZ5Mi31gLaoPlfNsAP7GOmKv.output.response$",
+                                              "operator": "eq",
+                                              "right_operand": "Reject"
+                                          },
+                                          "continue_on_failure": false,
+                                          "display_name": "Reject",
+                                          "skip_execution": false
+                                      },
+                                      "object_type": "definition_activity",
+                                      "actions": [
+                                          {
+                                              "unique_name": "definition_activity_01FXTYSWX8XBH35QMsEs8ntBFvdDfwwzUBp",
+                                              "name": "Post Webex message about rejection",
+                                              "title": "Post Webex message about rejection",
+                                              "type": "workflow.atomic_workflow",
+                                              "base_type": "subworkflow",
+                                              "properties": {
+                                                  "continue_on_failure": false,
+                                                  "display_name": "Post Webex message about rejection",
+                                                  "input": {
+                                                      "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$activity.definition_activity_01KENWMY3JR774zzO8UHaWvROg6KOGXPYt4.output.variable_workflow_01PP790MCXJ7Y5cAWcGZWbG4Es0126zb1I6$",
+                                                      "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01KENW54APJT007wjtsBrVn7uCnNzTxARqG$",
+                                                      "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "Approval to deploy a new EC2 ASA VPN head end instance was denied. [Click here](https:\/\/securex-ao.$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01JR0D8A1N4MM5CeM1hvcmmfwcrdx7KNP7h$.security.cisco.com\/orch-ui\/tasks\/$activity.definition_activity_01FXTRWG12S052UdUDStzZF5UaNc94FQFDU.output.task_id$) to view the denial",
+                                                      "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": "",
+                                                      "variable_workflow_01SVERQNMKN8N6vqX2djMtAfshphGydGsH8": ""
+                                                  },
+                                                  "runtime_user": {
+                                                      "target_default": true
+                                                  },
+                                                  "skip_execution": false,
+                                                  "target": {
+                                                      "override_workflow_target_group_criteria": true,
+                                                      "target_group": {
+                                                          "run_on_all_targets": false,
+                                                          "use_criteria": {
+                                                              "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                                              "conditions": [
+                                                                  {
+                                                                      "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                                                      "operator": "eqi",
+                                                                      "right_operand": "Webex Teams"
+                                                                  }
+                                                              ]
+                                                          }
+                                                      }
+                                                  },
+                                                  "workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw",
+                                                  "workflow_name": "Webex - Post Message to Room"
+                                              },
+                                              "object_type": "definition_activity"
+                                          }
+                                      ]
+                                  },
+                                  {
+                                      "unique_name": "definition_activity_01FXTVCXR1YXN5qqL66GUOBQjtvgkF2HlVK",
+                                      "name": "Condition Branch",
+                                      "title": "Expired",
+                                      "type": "logic.condition_block",
+                                      "base_type": "activity",
+                                      "properties": {
+                                          "condition": {
+                                              "left_operand": "$activity.definition_activity_01FXTS3VVOYNZ5Mi31gLaoPlfNsAP7GOmKv.output.response$",
+                                              "operator": "eq",
+                                              "right_operand": "Expired"
+                                          },
+                                          "continue_on_failure": false,
+                                          "display_name": "Expired",
+                                          "skip_execution": false
+                                      },
+                                      "object_type": "definition_activity",
+                                      "actions": [
+                                          {
+                                              "unique_name": "definition_activity_01FXTYUU9RUBQ5SpXmzGmEfmvb5mPifVMQb",
+                                              "name": "Post Webex message about expiration",
+                                              "title": "Post Webex message about expiration",
+                                              "type": "workflow.atomic_workflow",
+                                              "base_type": "subworkflow",
+                                              "properties": {
+                                                  "continue_on_failure": false,
+                                                  "display_name": "Post Webex message about expiration",
+                                                  "input": {
+                                                      "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$activity.definition_activity_01KENWMY3JR774zzO8UHaWvROg6KOGXPYt4.output.variable_workflow_01PP790MCXJ7Y5cAWcGZWbG4Es0126zb1I6$",
+                                                      "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01KENW54APJT007wjtsBrVn7uCnNzTxARqG$",
+                                                      "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "Approval to deploy a new EC2 ASA VPN head end instance was not received before the request expired. [Click here](https:\/\/securex-ao.$workflow.definition_workflow_01FXTMO9SW4KS4CygG5R18IbWicyeyt6bd5.local.variable_workflow_01JR0D8A1N4MM5CeM1hvcmmfwcrdx7KNP7h$.security.cisco.com\/orch-ui\/tasks\/$activity.definition_activity_01FXTRWG12S052UdUDStzZF5UaNc94FQFDU.output.task_id$) to view the approval",
+                                                      "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": "",
+                                                      "variable_workflow_01SVERQNMKN8N6vqX2djMtAfshphGydGsH8": ""
+                                                  },
+                                                  "runtime_user": {
+                                                      "target_default": true
+                                                  },
+                                                  "skip_execution": false,
+                                                  "target": {
+                                                      "override_workflow_target_group_criteria": true,
+                                                      "target_group": {
+                                                          "run_on_all_targets": false,
+                                                          "use_criteria": {
+                                                              "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                                              "conditions": [
+                                                                  {
+                                                                      "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                                                      "operator": "eqi",
+                                                                      "right_operand": "Webex Teams"
+                                                                  }
+                                                              ]
+                                                          }
+                                                      }
+                                                  },
+                                                  "workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw",
+                                                  "workflow_name": "Webex - Post Message to Room"
+                                              },
+                                              "object_type": "definition_activity"
+                                          }
+                                      ]
+                                  }
+                              ]
+                          }
+                      ]
+                  }
+              ]
+          }
+      ],
+      "categories": [
+          "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+      ]
   },
   "target_groups": {
-    "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
-      "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
-      "name": "Default TargetGroup",
-      "title": "Default TargetGroup",
-      "type": "generic.target_group",
-      "base_type": "target_group",
-      "version": "1.0.0",
-      "targets": [
-        {
-          "data_target_type": "web-service.endpoint",
-          "view_target_type": "web-service.endpoint",
-          "include_all_targets": true
-        },
-        {
-          "data_target_type": "email.smtp_endpoint",
-          "view_target_type": "email.smtp_endpoint",
-          "include_all_targets": true
-        },
-        {
-          "data_target_type": "aws.endpoint",
-          "view_target_type": "aws.endpoint",
-          "include_all_targets": true
-        },
-        {
-          "data_target_type": "terminal.endpoint",
-          "view_target_type": "terminal.endpoint",
-          "include_all_targets": true
-        }
-      ],
-      "object_type": "target_group"
-    }
+      "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+          "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+          "name": "Default TargetGroup",
+          "title": "Default TargetGroup",
+          "type": "generic.target_group",
+          "base_type": "target_group",
+          "version": "1.0.0",
+          "targets": [
+              {
+                  "data_target_type": "web-service.endpoint",
+                  "view_target_type": "web-service.endpoint",
+                  "include_all_targets": true
+              },
+              {
+                  "data_target_type": "email.smtp_endpoint",
+                  "view_target_type": "email.smtp_endpoint",
+                  "include_all_targets": true
+              },
+              {
+                  "data_target_type": "terminal.endpoint",
+                  "view_target_type": "terminal.endpoint",
+                  "include_all_targets": true
+              },
+              {
+                  "data_target_type": "aws.endpoint",
+                  "view_target_type": "aws.endpoint",
+                  "include_all_targets": true
+              }
+          ],
+          "object_type": "target_group"
+      }
   },
   "atomic_workflows": [
-    "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez",
-    "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw"
+      "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw",
+      "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez"
+  ],
+  "dependent_workflows": [
+      "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez",
+      "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw"
   ]
 }

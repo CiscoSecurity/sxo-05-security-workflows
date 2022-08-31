@@ -1,1134 +1,1142 @@
 {
   "workflow": {
-    "unique_name": "definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl",
-    "name": "0006 - SCA - Quarantine AWS Instances from Alerts",
-    "title": "0006 - SCA - Quarantine AWS Instances from Alerts",
-    "type": "generic.workflow",
-    "base_type": "workflow",
-    "variables": [
-      {
-        "schema_id": "datatype.secure_string",
-        "properties": {
-          "value": "",
-          "scope": "local",
-          "name": "Secure Cloud Analytics API Key",
-          "type": "datatype.secure_string",
-          "description": "You can generate or regenerate an API key on your user page in your Secure Cloud Analytics portal. If you already have an API key for SCA in a global variable, use the group at the beginning of the workflow to set this variable to the global variable's value",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01KB7F57FRAHX0eIZj9N660f66nj1aDjTv3",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "eu-north-1",
-          "scope": "local",
-          "name": "AWS Region",
-          "type": "datatype.string",
-          "description": "The name of your AWS region",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01KB83WGA3SEH5DB832FFhzfrv4RF63yaBq",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.secure_string",
-        "properties": {
-          "value": "",
-          "scope": "local",
-          "name": "Webex Teams Access Token",
-          "type": "datatype.secure_string",
-          "description": "The access token to use to authenticate to the Webex Teams API. Information about using a bot, which is what we recommend, can be found here: https://developer.webex.com/docs/bots",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01KB7F57FR9CT5j3Rzga92YQDS7rU71BZhR",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "20.1.1.1/32",
-          "scope": "local",
-          "name": "CIDR IP to Exclude",
-          "type": "datatype.string",
-          "description": "This CIDR network will be excluded from SSH restrictions and will still be able to access the instances in the security group. If you only want to allow a single IP, just add the IP with /32 for the mask like this: \"192.168.1.100/32\"",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01KB7F57FR8562y1RJyYeyq7eBDM5TJQAnc",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "local",
-          "name": "Webex Text",
-          "type": "datatype.string",
-          "description": "Placeholder for the text to send via Webex. This will be populated automatically",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01KB7F57FR6VD7f1c1MtAKDuwyjsNFmwTou",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "local",
-          "name": "Webex Teams Room Name",
-          "type": "datatype.string",
-          "description": "The name of the Webex Teams room to post messages to. If you'd rather provide a room ID, leave this blank and set the \"Webex Teams Room ID\" local variable instead",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01KBAYWW9BMR26fi5wz1golH9Zj9xXqe8w7",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "local",
-          "name": "Webex Teams Room ID",
-          "type": "datatype.string",
-          "description": "The ID of the Webex Teams room to post messages to. If you'd rather provide a room name, leave this blank and set the \"Webex Teams Room Name\" local variable instead",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01KB7F57FR35373aOB0pgqYotJeTG3TNsYR",
-        "object_type": "variable_workflow"
-      }
-    ],
-    "properties": {
-      "atomic": {
-        "is_atomic": false
-      },
-      "delete_workflow_instance": false,
-      "description": "This workflow fetches \"Geographically Unusual Remote Access\" alerts from the Cisco Secure Cloud Analytics (SCA) API for the past hour. For each alerts, it looks for a matching Amazon Web Services (AWS) instance and restrict SSH access to its security group. Notifications are sent using Webex Teams and an approval is requested to lift the quarantine restrictions.\n\nTargets: Amazon Web Services, Secure Cloud Analytics, Webex Teams\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0006",
-      "display_name": "0006 - SCA - Quarantine AWS Instances from Alerts",
-      "runtime_user": {
-        "override_target_runtime_user": false,
-        "specify_on_workflow_start": false,
-        "target_default": true
-      },
-      "target": {
-        "execute_on_target_group": true,
-        "target_group": {
-          "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
-          "run_on_all_targets": false,
-          "selected_target_types": [
-            "web-service.endpoint",
-            "aws.endpoint"
-          ],
-          "use_criteria": {
-            "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-            "conditions": [
-              {
-                "operator": "eqi",
-                "left_operand": "$targetgroup.aws endpoint.input.display_name$",
-                "right_operand": "Amazon Web Services"
-              }
-            ]
-          }
-        }
-      }
-    },
-    "object_type": "definition_workflow",
-    "actions": [
-      {
-        "unique_name": "definition_activity_01KB7F5Y3OK2B7MzzLkLwNnSyNuccb3hd4R",
-        "name": "Group",
-        "title": "Fetch global variables",
-        "type": "logic.group",
-        "base_type": "activity",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "Fetch global variables",
-          "skip_execution": true
-        },
-        "object_type": "definition_activity",
-        "actions": [
+      "unique_name": "definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl",
+      "name": "0006 - SCA - Quarantine AWS Instances from Alerts",
+      "title": "0006 - SCA - Quarantine AWS Instances from Alerts",
+      "type": "generic.workflow",
+      "base_type": "workflow",
+      "variables": [
           {
-            "unique_name": "definition_activity_01KB7F66B6LG171UYqEk7Qt1ku7KFh4DqPY",
-            "name": "Set Variables",
-            "title": "Fetch global variables",
-            "type": "core.set_multiple_variables",
-            "base_type": "activity",
-            "properties": {
-              "continue_on_failure": false,
-              "display_name": "Fetch global variables",
-              "skip_execution": false,
-              "variables_to_update": [
-                {
-                  "variable_to_update": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FRAHX0eIZj9N660f66nj1aDjTv3$",
-                  "variable_value_new": ""
-                },
-                {
-                  "variable_to_update": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR9CT5j3Rzga92YQDS7rU71BZhR$",
-                  "variable_value_new": ""
-                }
-              ]
-            },
-            "object_type": "definition_activity"
-          }
-        ]
-      },
-      {
-        "unique_name": "definition_activity_01KB7F6EYDSOD2zZLm9ZELhh3CoPEJ18mmh",
-        "name": "Group",
-        "title": "Fetch alerts from Secure Cloud Analytics",
-        "type": "logic.group",
-        "base_type": "activity",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "Fetch alerts from Secure Cloud Analytics",
-          "skip_execution": false
-        },
-        "object_type": "definition_activity",
-        "actions": [
-          {
-            "unique_name": "definition_activity_01QDYPRYG657S1IS8mDaHORtE5fptE7Hjis",
-            "name": "Calculate Date",
-            "title": "Calculate Date 1 Hour Ago",
-            "type": "core.calculate_date",
-            "base_type": "activity",
-            "properties": {
-              "adjustment": -3600,
-              "continue_on_failure": false,
-              "display_name": "Calculate Date 1 Hour Ago",
-              "original_date": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.output.start_time$",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity"
+              "schema_id": "datatype.secure_string",
+              "properties": {
+                  "value": "",
+                  "scope": "local",
+                  "name": "Secure Cloud Analytics API Key",
+                  "type": "datatype.secure_string",
+                  "description": "You can generate or regenerate an API key on your user page in your Secure Cloud Analytics portal. If you already have an API key for SCA in a global variable, use the group at the beginning of the workflow to set this variable to the global variable's value",
+                  "is_required": false,
+                  "is_invisible": false
+              },
+              "unique_name": "variable_workflow_01KB7F57FRAHX0eIZj9N660f66nj1aDjTv3",
+              "object_type": "variable_workflow"
           },
           {
-            "unique_name": "definition_activity_01KB7F72WMX0X7J88TBH1OZIRBP9Dn5lfdf",
-            "name": "SCA - Get Alerts",
-            "title": "SCA - Get Alerts",
-            "type": "workflow.atomic_workflow",
-            "base_type": "subworkflow",
-            "properties": {
-              "continue_on_failure": false,
-              "display_name": "SCA - Get Alerts",
-              "input": {
-                "variable_workflow_01PP767ENJBFA5SN9YJC7swhvNCTdtgTVvK": "$activity.definition_activity_01QDYPRYG657S1IS8mDaHORtE5fptE7Hjis.output.result$",
-                "variable_workflow_01PP767ENJEQ96BUYwuD5WCUPqI1f7d8tW5": "Geographically Unusual Remote Access",
-                "variable_workflow_01PP767ENJFWZ2lRbLkNzB68HQefGY1Mr4e": "open",
-                "variable_workflow_01PP767ENJH2S4VttPD6BHxHR3AZszCkzg8": 0,
-                "variable_workflow_01PP767ENJI7Y1nCg4PDqDlFSw9BGqcc48m": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.output.start_time$",
-                "variable_workflow_01PP767ENJKGT3cQ36vcV8I04GCm7Z0JuZi": 100,
-                "variable_workflow_01PP767ENJLM97Xsdwn8fEod1HP3whVWfvU": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FRAHX0eIZj9N660f66nj1aDjTv3$"
+              "schema_id": "datatype.string",
+              "properties": {
+                  "value": "",
+                  "scope": "local",
+                  "name": "Webex Room ID",
+                  "type": "datatype.string",
+                  "description": "The ID of the Webex room to post messages to. If you'd rather provide a room name, leave this blank and set the \"Webex Room Name\" local variable instead",
+                  "is_required": false,
+                  "is_invisible": false
               },
-              "runtime_user": {
-                "target_default": true
+              "unique_name": "variable_workflow_01KB7F57FR35373aOB0pgqYotJeTG3TNsYR",
+              "object_type": "variable_workflow"
+          },
+          {
+              "schema_id": "datatype.string",
+              "properties": {
+                  "value": "eu-north-1",
+                  "scope": "local",
+                  "name": "AWS Region",
+                  "type": "datatype.string",
+                  "description": "The name of your AWS region",
+                  "is_required": false,
+                  "is_invisible": false
               },
-              "skip_execution": false,
-              "target": {
-                "override_workflow_target_group_criteria": true,
-                "target_group": {
+              "unique_name": "variable_workflow_01KB83WGA3SEH5DB832FFhzfrv4RF63yaBq",
+              "object_type": "variable_workflow"
+          },
+          {
+              "schema_id": "datatype.secure_string",
+              "properties": {
+                  "value": "",
+                  "scope": "local",
+                  "name": "Webex Access Token",
+                  "type": "datatype.secure_string",
+                  "description": "The access token to use to authenticate to the Webex API. Information about using a bot, which is what we recommend, can be found here: https:\/\/developer.webex.com\/docs\/bots",
+                  "is_required": false,
+                  "is_invisible": false
+              },
+              "unique_name": "variable_workflow_01KB7F57FR9CT5j3Rzga92YQDS7rU71BZhR",
+              "object_type": "variable_workflow"
+          },
+          {
+              "schema_id": "datatype.string",
+              "properties": {
+                  "value": "",
+                  "scope": "local",
+                  "name": "Webex Room Name",
+                  "type": "datatype.string",
+                  "description": "The name of the Webex room to post messages to. If you'd rather provide a room ID, leave this blank and set the \"Webex Room ID\" local variable instead",
+                  "is_required": false,
+                  "is_invisible": false
+              },
+              "unique_name": "variable_workflow_01KBAYWW9BMR26fi5wz1golH9Zj9xXqe8w7",
+              "object_type": "variable_workflow"
+          },
+          {
+              "schema_id": "datatype.string",
+              "properties": {
+                  "value": "",
+                  "scope": "local",
+                  "name": "Webex Text",
+                  "type": "datatype.string",
+                  "description": "Placeholder for the text to send via Webex. This will be populated automatically",
+                  "is_required": false,
+                  "is_invisible": false
+              },
+              "unique_name": "variable_workflow_01KB7F57FR6VD7f1c1MtAKDuwyjsNFmwTou",
+              "object_type": "variable_workflow"
+          },
+          {
+              "schema_id": "datatype.string",
+              "properties": {
+                  "value": "20.1.1.1\/32",
+                  "scope": "local",
+                  "name": "CIDR IP to Exclude",
+                  "type": "datatype.string",
+                  "description": "This CIDR network will be excluded from SSH restrictions and will still be able to access the instances in the security group. If you only want to allow a single IP, just add the IP with \/32 for the mask like this: \"192.168.1.100\/32\"",
+                  "is_required": false,
+                  "is_invisible": false
+              },
+              "unique_name": "variable_workflow_01KB7F57FR8562y1RJyYeyq7eBDM5TJQAnc",
+              "object_type": "variable_workflow"
+          }
+      ],
+      "properties": {
+          "atomic": {
+              "is_atomic": false
+          },
+          "delete_workflow_instance": false,
+          "description": "This workflow fetches \"Geographically Unusual Remote Access\" alerts from the Cisco Secure Cloud Analytics (SCA) API for the past hour. For each alerts, it looks for a matching Amazon Web Services (AWS) instance and restrict SSH access to its security group. Notifications are sent using Webex and an approval is requested to lift the quarantine restrictions.\n\nDocumentation: https:\/\/ciscosecurity.github.io\/sxo-05-security-workflows\/workflows\/0006\n\nTarget Group: Default TargetGroup\n\nTargets: Amazon Web Services, Secure Cloud Analytics, Webex Teams\n\nSteps:\n[] Fetch Geographically Unusual Remote Access alerts from SCA for the past hour\n[] For each alert:\n[]> Check if the instance was already quarantined (if so, skip it)\n[]> Get information from AWS and extract security group\n[]> Revoke SSH access and add an exception for the CIDR network in the local variable\n[]> Create an approval request to remove the instance from quarantine\n[]> Send a Webex notification",
+          "display_name": "0006 - SCA - Quarantine AWS Instances from Alerts",
+          "runtime_user": {
+              "override_target_runtime_user": false,
+              "specify_on_workflow_start": false,
+              "target_default": true
+          },
+          "target": {
+              "execute_on_target_group": true,
+              "target_group": {
+                  "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
                   "run_on_all_targets": false,
+                  "selected_target_types": [
+                      "web-service.endpoint",
+                      "aws.endpoint"
+                  ],
                   "use_criteria": {
-                    "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-                    "conditions": [
-                      {
-                        "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-                        "operator": "eqi",
-                        "right_operand": "Secure Cloud Analytics"
-                      }
-                    ]
-                  }
-                }
-              },
-              "workflow_id": "definition_workflow_01PP767EUS6Q52H9Ww5DQjcJoxKwKBIMkdK"
-            },
-            "object_type": "definition_activity"
-          },
-          {
-            "unique_name": "definition_activity_01KB7F7H7HA5B0u4KmXZqghaHcPXSyrcin4",
-            "name": "Read Table from JSON",
-            "title": "Create table to track instances",
-            "type": "corejava.read_table_from_json",
-            "base_type": "activity",
-            "properties": {
-              "action_timeout": 180,
-              "continue_on_failure": false,
-              "display_name": "Create table to track instances",
-              "input_json": "[]",
-              "jsonpath_query": "$.",
-              "persist_output": true,
-              "populate_columns": false,
-              "skip_execution": false,
-              "table_columns": [
-                {
-                  "column_name": "instanceId",
-                  "column_type": "string"
-                }
-              ]
-            },
-            "object_type": "definition_activity"
-          },
-          {
-            "unique_name": "definition_activity_01KB7F7QX35J54c0izRVdoysHwx4SwCMYr0",
-            "name": "Read Table from JSON",
-            "title": "Convert alerts to table",
-            "type": "corejava.read_table_from_json",
-            "base_type": "activity",
-            "properties": {
-              "action_timeout": 180,
-              "continue_on_failure": false,
-              "display_name": "Convert alerts to table",
-              "input_json": "$activity.definition_activity_01KB7F72WMX0X7J88TBH1OZIRBP9Dn5lfdf.output.variable_workflow_01PP767ENJJDI5V6ZUMTo1uD5nXQKHXXps5$",
-              "jsonpath_query": "$.objects",
-              "persist_output": true,
-              "populate_columns": false,
-              "skip_execution": false,
-              "table_columns": [
-                {
-                  "column_name": "hostname",
-                  "column_type": "string"
-                }
-              ]
-            },
-            "object_type": "definition_activity"
-          },
-          {
-            "unique_name": "definition_activity_01KB8HLGDECS96PhgIOdnYUYKzv8tXTKUY8",
-            "name": "Condition Block",
-            "title": "Were there any alerts?",
-            "type": "logic.if_else",
-            "base_type": "activity",
-            "properties": {
-              "continue_on_failure": false,
-              "display_name": "Were there any alerts?",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity",
-            "blocks": [
-              {
-                "unique_name": "definition_activity_01KB8HLQ44TPO5lBV5c1qcxXXZRAH2esejV",
-                "name": "Condition Branch",
-                "title": "No",
-                "type": "logic.condition_block",
-                "base_type": "activity",
-                "properties": {
-                  "condition": {
-                    "left_operand": "$activity.definition_activity_01KB7F7QX35J54c0izRVdoysHwx4SwCMYr0.output.row_count$",
-                    "operator": "eq",
-                    "right_operand": 0
-                  },
-                  "continue_on_failure": false,
-                  "display_name": "No",
-                  "skip_execution": false
-                },
-                "object_type": "definition_activity",
-                "actions": [
-                  {
-                    "unique_name": "definition_activity_01KB8HSQ64PZF5ELm1Bnov3ErHPzUvMRmBU",
-                    "name": "Completed",
-                    "title": "End the workflow",
-                    "type": "logic.completed",
-                    "base_type": "activity",
-                    "properties": {
-                      "completion_type": "succeeded",
-                      "continue_on_failure": false,
-                      "display_name": "End the workflow",
-                      "result_message": "No alerts to process, ending the workflow",
-                      "skip_execution": false
-                    },
-                    "object_type": "definition_activity"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "unique_name": "definition_activity_01KBAZP2SQN3T25JbD11kHbKIVnLwn5t01v",
-        "name": "Condition Block",
-        "title": "Was a Teams room name provided?",
-        "type": "logic.if_else",
-        "base_type": "activity",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "Was a Teams room name provided?",
-          "skip_execution": false
-        },
-        "object_type": "definition_activity",
-        "blocks": [
-          {
-            "unique_name": "definition_activity_01KBAZPCM933W0MdPUZIHLVAjwSjdjypnkN",
-            "name": "Condition Branch",
-            "title": "Yes",
-            "type": "logic.condition_block",
-            "base_type": "activity",
-            "properties": {
-              "condition": {
-                "left_operand": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KBAYWW9BMR26fi5wz1golH9Zj9xXqe8w7$",
-                "operator": "ne",
-                "right_operand": ""
-              },
-              "continue_on_failure": false,
-              "display_name": "Yes",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity",
-            "actions": [
-              {
-                "unique_name": "definition_activity_01KBB06GKJG7A6DuaR7wRjPzfOyRLp6dOhg",
-                "name": "Webex Teams - Search for Room",
-                "title": "Webex Teams - Search for Room",
-                "type": "workflow.atomic_workflow",
-                "base_type": "subworkflow",
-                "properties": {
-                  "continue_on_failure": false,
-                  "display_name": "Webex Teams - Search for Room",
-                  "input": {
-                    "variable_workflow_01PP790MCX1DN3EitpQebkUyJS65DbwS3nU": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR9CT5j3Rzga92YQDS7rU71BZhR$",
-                    "variable_workflow_01PP790MCXB392D3R8pxh9fgOTjTde2bcMW": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KBAYWW9BMR26fi5wz1golH9Zj9xXqe8w7$",
-                    "variable_workflow_01PP790MCXHP55YE6ylOEITWsWbUFJeyWGv": "",
-                    "variable_workflow_01PP790MCXM9W1MUwo85y8iNRCoQuQ4RGNa": ""
-                  },
-                  "runtime_user": {
-                    "target_default": true
-                  },
-                  "skip_execution": false,
-                  "target": {
-                    "override_workflow_target_group_criteria": true,
-                    "target_group": {
-                      "run_on_all_targets": false,
-                      "use_criteria": {
-                        "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-                        "conditions": [
+                      "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                      "conditions": [
                           {
-                            "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-                            "operator": "eqi",
-                            "right_operand": "Webex Teams"
+                              "operator": "eqi",
+                              "left_operand": "$targetgroup.aws endpoint.input.display_name$",
+                              "right_operand": "Amazon Web Services"
                           }
-                        ]
-                      }
-                    }
-                  },
-                  "workflow_id": "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez"
-                },
-                "object_type": "definition_activity"
-              },
-              {
-                "unique_name": "definition_activity_01KBB0SYTBKM454MHCjMVdfB3k0sOrHxQh8",
-                "name": "Set Variables",
-                "title": "Set room ID variable",
-                "type": "core.set_multiple_variables",
-                "base_type": "activity",
-                "properties": {
-                  "continue_on_failure": false,
-                  "display_name": "Set room ID variable",
-                  "skip_execution": false,
-                  "variables_to_update": [
-                    {
-                      "variable_to_update": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR35373aOB0pgqYotJeTG3TNsYR$",
-                      "variable_value_new": "$activity.definition_activity_01KBB06GKJG7A6DuaR7wRjPzfOyRLp6dOhg.output.variable_workflow_01PP790MCXJ7Y5cAWcGZWbG4Es0126zb1I6$"
-                    }
-                  ]
-                },
-                "object_type": "definition_activity"
+                      ]
+                  }
               }
-            ]
           }
-        ]
       },
-      {
-        "unique_name": "definition_activity_01KB7F810HAED3GMUVxfnulBayospYYLybz",
-        "name": "For Each",
-        "title": "For each alert",
-        "type": "logic.for_each",
-        "base_type": "activity",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "For each alert",
-          "skip_execution": false,
-          "source_array": "$activity.definition_activity_01KB7F7QX35J54c0izRVdoysHwx4SwCMYr0.output.read_table_from_json$"
-        },
-        "object_type": "definition_activity",
-        "actions": [
+      "object_type": "definition_workflow",
+      "actions": [
           {
-            "unique_name": "definition_activity_01KB7F8BB9WJ11HQbN9xotL6XjNLdbLIpiy",
-            "name": "Select from Table",
-            "title": "Check if this instance is already in the table",
-            "type": "core.selectfromtable",
-            "base_type": "activity",
-            "properties": {
-              "action_timeout": 180,
-              "continue_on_failure": false,
-              "display_name": "Check if this instance is already in the table",
-              "input_table": "$activity.definition_activity_01KB7F7H7HA5B0u4KmXZqghaHcPXSyrcin4.output.read_table_from_json$",
-              "number_of_rows": {
-                "all_rows": true,
-                "at_most": false
-              },
-              "persist_output": false,
-              "skip_execution": false,
-              "sorting": {
-                "no_sort": true,
-                "sort_by": false
-              },
-              "where_clause": "instanceId == '$activity.definition_activity_01KB7F810HAED3GMUVxfnulBayospYYLybz.input.source_array[@].hostname$'"
-            },
-            "object_type": "definition_activity"
-          },
-          {
-            "unique_name": "definition_activity_01KB7F8KBCNWD7EF09uiE8JBdRtOxNExzPx",
-            "name": "Condition Block",
-            "title": "Instance in table?",
-            "type": "logic.if_else",
-            "base_type": "activity",
-            "properties": {
-              "continue_on_failure": false,
-              "display_name": "Instance in table?",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity",
-            "blocks": [
-              {
-                "unique_name": "definition_activity_01KB7F8RBNYDE0KsVlwEMzu7cnGSRFVMk2s",
-                "name": "Condition Branch",
-                "title": "No",
-                "type": "logic.condition_block",
-                "base_type": "activity",
-                "properties": {
-                  "condition": {
-                    "left_operand": "$activity.definition_activity_01KB7F8BB9WJ11HQbN9xotL6XjNLdbLIpiy.output.row_count$",
-                    "operator": "eq",
-                    "right_operand": 0
-                  },
+              "unique_name": "definition_activity_01KB7F5Y3OK2B7MzzLkLwNnSyNuccb3hd4R",
+              "name": "Group",
+              "title": "Fetch global variables",
+              "type": "logic.group",
+              "base_type": "activity",
+              "properties": {
                   "continue_on_failure": false,
-                  "display_name": "No",
-                  "skip_execution": false
-                },
-                "object_type": "definition_activity",
-                "actions": [
-                  {
-                    "unique_name": "definition_activity_01KB7F8WD392C5TzI54t1r4qdfDYzMwpux4",
-                    "name": "Add Row to Table",
-                    "title": "Add instance to table",
-                    "type": "core.addrowtotable",
-                    "base_type": "activity",
-                    "properties": {
-                      "action_timeout": 180,
-                      "continue_on_failure": false,
-                      "display_name": "Add instance to table",
-                      "input_table": "$activity.definition_activity_01KB7F7H7HA5B0u4KmXZqghaHcPXSyrcin4.output.read_table_from_json$",
-                      "row": [
-                        {
-                          "key": "instanceId",
-                          "type": "string",
-                          "value": "$activity.definition_activity_01KB7F810HAED3GMUVxfnulBayospYYLybz.input.source_array[@].hostname$"
-                        },
-                        {
-                          "key": "groupId",
-                          "type": "string"
-                        },
-                        {
-                          "key": "groupName",
-                          "type": "string"
-                        }
-                      ],
-                      "skip_execution": false
-                    },
-                    "object_type": "definition_activity"
-                  }
-                ]
+                  "display_name": "Fetch global variables",
+                  "skip_execution": true
               },
-              {
-                "unique_name": "definition_activity_01KB7WVWKLKT81aSPMuRCKWmTmjJn3xSj14",
-                "name": "Condition Branch",
-                "title": "Yes",
-                "type": "logic.condition_block",
-                "base_type": "activity",
-                "properties": {
-                  "condition": {
-                    "left_operand": "$activity.definition_activity_01KB7F8BB9WJ11HQbN9xotL6XjNLdbLIpiy.output.row_count$",
-                    "operator": "gt",
-                    "right_operand": 0
-                  },
-                  "continue_on_failure": false,
-                  "display_name": "Yes",
-                  "skip_execution": false
-                },
-                "object_type": "definition_activity",
-                "actions": [
+              "object_type": "definition_activity",
+              "actions": [
                   {
-                    "unique_name": "definition_activity_01KB7XXFPP8SH5rohcJxH4SHFZTR9wrXjSg",
-                    "name": "Continue",
-                    "title": "Continue",
-                    "type": "logic.continue",
-                    "base_type": "activity",
-                    "properties": {
-                      "continue_on_failure": false,
-                      "display_name": "Continue",
-                      "skip_execution": false
-                    },
-                    "object_type": "definition_activity"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "unique_name": "definition_activity_01KB7OEI6NBYL7mVtpkSKW7Pd4TaLsmwTnA",
-            "name": "Set Variables",
-            "title": "Reset Webex text",
-            "type": "core.set_multiple_variables",
-            "base_type": "activity",
-            "properties": {
-              "continue_on_failure": false,
-              "display_name": "Reset Webex text",
-              "skip_execution": false,
-              "variables_to_update": [
-                {
-                  "variable_to_update": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR6VD7f1c1MtAKDuwyjsNFmwTou$",
-                  "variable_value_new": "Secure Cloud Analytics \"Geographically Unusual Remote Access\" alert received for AWS instance `$activity.definition_activity_01KB7F810HAED3GMUVxfnulBayospYYLybz.input.source_array[@].hostname$`"
-                }
-              ]
-            },
-            "object_type": "definition_activity"
-          },
-          {
-            "unique_name": "definition_activity_01KB7F9FP9OBV5FO3I7En62tGZJPeKOSSDd",
-            "name": "Generic AWS API Request",
-            "title": "Get instance information from AWS",
-            "type": "aws.api_request",
-            "base_type": "activity",
-            "properties": {
-              "action_timeout": 180,
-              "api_call_method": "ec2",
-              "api_url": "https://ec2.$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB83WGA3SEH5DB832FFhzfrv4RF63yaBq$.amazonaws.com/?Action=DescribeInstances&InstanceId.1=$activity.definition_activity_01KB7F810HAED3GMUVxfnulBayospYYLybz.input.source_array[@].hostname$&Version=2016-11-15",
-              "continue_on_failure": true,
-              "display_name": "Get instance information from AWS",
-              "runtime_user": {
-                "override_target_runtime_user": false,
-                "target_default": true
-              },
-              "skip_execution": false,
-              "target": {
-                "use_workflow_target_group": true
-              }
-            },
-            "object_type": "definition_activity"
-          },
-          {
-            "unique_name": "definition_activity_01KB7F9O7XBFD7lLVNFIqoiiqULvimrg7zD",
-            "name": "Condition Block",
-            "title": "Did we get instance information?",
-            "type": "logic.if_else",
-            "base_type": "activity",
-            "properties": {
-              "continue_on_failure": false,
-              "display_name": "Did we get instance information?",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity",
-            "blocks": [
-              {
-                "unique_name": "definition_activity_01KB7F9VPXKJB3DxhIHUbHqu6UhJy3wIXHq",
-                "name": "Condition Branch",
-                "title": "Yes",
-                "type": "logic.condition_block",
-                "base_type": "activity",
-                "properties": {
-                  "condition": {
-                    "left_operand": "$activity.definition_activity_01KB7F9FP9OBV5FO3I7En62tGZJPeKOSSDd.output.succeeded$",
-                    "operator": "eq",
-                    "right_operand": true
-                  },
-                  "continue_on_failure": false,
-                  "display_name": "Yes",
-                  "skip_execution": false
-                },
-                "object_type": "definition_activity",
-                "actions": [
-                  {
-                    "unique_name": "definition_activity_01KB7FA9BTG6I4ogFDeiXgMO92DiJZbjKhF",
-                    "name": "XPath Query",
-                    "title": "Extract security group",
-                    "type": "core.xpathquery",
-                    "base_type": "activity",
-                    "properties": {
-                      "continue_on_failure": false,
-                      "display_name": "Extract security group",
-                      "input_xml": "$activity.definition_activity_01KB7F9FP9OBV5FO3I7En62tGZJPeKOSSDd.output.response_body$",
-                      "skip_execution": false,
-                      "xpath_queries": [
-                        {
-                          "xpath_query": "/DescribeInstancesResponse/reservationSet/item[1]/instancesSet/item[1]/groupSet/item[1]/groupName",
-                          "xpath_query_name": "groupName",
-                          "xpath_query_type": "string"
-                        },
-                        {
-                          "xpath_query": "/DescribeInstancesResponse/reservationSet/item[1]/instancesSet/item[1]/groupSet/item[1]/groupId",
-                          "xpath_query_name": "groupId",
-                          "xpath_query_type": "string"
-                        }
-                      ]
-                    },
-                    "object_type": "definition_activity"
-                  },
-                  {
-                    "unique_name": "definition_activity_01KB8LDRNE3BW1hO7KfNzXnAyh2Wviz8IfI",
-                    "name": "Set Variables",
-                    "title": "Set Webex text",
-                    "type": "core.set_multiple_variables",
-                    "base_type": "activity",
-                    "properties": {
-                      "continue_on_failure": false,
-                      "display_name": "Set Webex text",
-                      "skip_execution": false,
-                      "variables_to_update": [
-                        {
-                          "variable_to_update": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR6VD7f1c1MtAKDuwyjsNFmwTou$",
-                          "variable_value_new": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR6VD7f1c1MtAKDuwyjsNFmwTou$  \\n Security group for instance: `$activity.definition_activity_01KB7FA9BTG6I4ogFDeiXgMO92DiJZbjKhF.output.xpath_queries.groupName$ ($activity.definition_activity_01KB7FA9BTG6I4ogFDeiXgMO92DiJZbjKhF.output.xpath_queries.groupId$)`"
-                        }
-                      ]
-                    },
-                    "object_type": "definition_activity"
-                  },
-                  {
-                    "unique_name": "definition_activity_01KB7FAHZH8YR6t0v0Zx4XPDtnmYNqBC77x",
-                    "name": "Generic AWS API Request",
-                    "title": "Revoke SSH access to AWS instance",
-                    "type": "aws.api_request",
-                    "base_type": "activity",
-                    "properties": {
-                      "action_timeout": 180,
-                      "api_call_method": "ec2",
-                      "api_url": "https://ec2.$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB83WGA3SEH5DB832FFhzfrv4RF63yaBq$.amazonaws.com/?Action=RevokeSecurityGroupIngress&GroupName.1=$activity.definition_activity_01KB7FA9BTG6I4ogFDeiXgMO92DiJZbjKhF.output.xpath_queries.groupName$&Version=2016-11-15&IpPermissions.1.IpProtocol=tcp&IpPermissions.1.FromPort=22&IpPermissions.1.ToPort=22&IpPermissions.1.IpRanges.1.CidrIp=0.0.0.0/0",
-                      "continue_on_failure": true,
-                      "display_name": "Revoke SSH access to AWS instance",
-                      "runtime_user": {
-                        "override_target_runtime_user": false,
-                        "target_default": true
-                      },
-                      "skip_execution": false,
-                      "target": {
-                        "use_workflow_target_group": true
-                      }
-                    },
-                    "object_type": "definition_activity"
-                  },
-                  {
-                    "unique_name": "definition_activity_01KB7FAQXHY986NoerthBsGpkL1xLe3z7xw",
-                    "name": "Condition Block",
-                    "title": "Was revocation successful?",
-                    "type": "logic.if_else",
-                    "base_type": "activity",
-                    "properties": {
-                      "continue_on_failure": false,
-                      "display_name": "Was revocation successful?",
-                      "skip_execution": false
-                    },
-                    "object_type": "definition_activity",
-                    "blocks": [
-                      {
-                        "unique_name": "definition_activity_01KB7FAY9O6SV7LWNElzU2h14DPHaeoLSBN",
-                        "name": "Condition Branch",
-                        "title": "Yes",
-                        "type": "logic.condition_block",
-                        "base_type": "activity",
-                        "properties": {
-                          "condition": {
-                            "left_operand": "$activity.definition_activity_01KB7FAHZH8YR6t0v0Zx4XPDtnmYNqBC77x.output.succeeded$",
-                            "operator": "eq",
-                            "right_operand": true
-                          },
+                      "unique_name": "definition_activity_01KB7F66B6LG171UYqEk7Qt1ku7KFh4DqPY",
+                      "name": "Set Variables",
+                      "title": "Fetch global variables",
+                      "type": "core.set_multiple_variables",
+                      "base_type": "activity",
+                      "properties": {
                           "continue_on_failure": false,
-                          "display_name": "Yes",
-                          "skip_execution": false
-                        },
-                        "object_type": "definition_activity",
-                        "actions": [
-                          {
-                            "unique_name": "definition_activity_01KB7FB3CNPXP3lN7P2c09eQmVHGhk6Hk5Q",
-                            "name": "Set Variables",
-                            "title": "Set Webex text",
-                            "type": "core.set_multiple_variables",
-                            "base_type": "activity",
-                            "properties": {
-                              "continue_on_failure": false,
-                              "display_name": "Set Webex text",
-                              "skip_execution": false,
-                              "variables_to_update": [
-                                {
-                                  "variable_to_update": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR6VD7f1c1MtAKDuwyjsNFmwTou$",
-                                  "variable_value_new": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR6VD7f1c1MtAKDuwyjsNFmwTou$  \\n SSH access revoked for security group"
-                                }
-                              ]
-                            },
-                            "object_type": "definition_activity"
-                          },
-                          {
-                            "unique_name": "definition_activity_01KB7FBC3YF0D1Ck7lcmLsXQzRTTtyBrDaY",
-                            "name": "Generic AWS API Request",
-                            "title": "Add SSH access to AWS instance from specific IP",
-                            "type": "aws.api_request",
-                            "base_type": "activity",
-                            "properties": {
-                              "action_timeout": 180,
-                              "api_call_method": "ec2",
-                              "api_url": "https://ec2.$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB83WGA3SEH5DB832FFhzfrv4RF63yaBq$.amazonaws.com/?Action=AuthorizeSecurityGroupIngress&GroupName.1=$activity.definition_activity_01KB7FA9BTG6I4ogFDeiXgMO92DiJZbjKhF.output.xpath_queries.groupName$&Version=2016-11-15&IpPermissions.1.IpProtocol=tcp&IpPermissions.1.FromPort=22&IpPermissions.1.ToPort=22&IpPermissions.1.IpRanges.1.CidrIp=$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR8562y1RJyYeyq7eBDM5TJQAnc$",
-                              "continue_on_failure": true,
-                              "display_name": "Add SSH access to AWS instance from specific IP",
-                              "runtime_user": {
-                                "override_target_runtime_user": false,
-                                "target_default": true
+                          "display_name": "Fetch global variables",
+                          "skip_execution": false,
+                          "variables_to_update": [
+                              {
+                                  "variable_to_update": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FRAHX0eIZj9N660f66nj1aDjTv3$",
+                                  "variable_value_new": ""
                               },
-                              "skip_execution": false,
-                              "target": {
-                                "use_workflow_target_group": true
+                              {
+                                  "variable_to_update": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR9CT5j3Rzga92YQDS7rU71BZhR$",
+                                  "variable_value_new": ""
                               }
-                            },
-                            "object_type": "definition_activity"
+                          ]
+                      },
+                      "object_type": "definition_activity"
+                  }
+              ]
+          },
+          {
+              "unique_name": "definition_activity_01KB7F6EYDSOD2zZLm9ZELhh3CoPEJ18mmh",
+              "name": "Group",
+              "title": "Fetch alerts from Secure Cloud Analytics",
+              "type": "logic.group",
+              "base_type": "activity",
+              "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Fetch alerts from Secure Cloud Analytics",
+                  "skip_execution": false
+              },
+              "object_type": "definition_activity",
+              "actions": [
+                  {
+                      "unique_name": "definition_activity_01QDYPRYG657S1IS8mDaHORtE5fptE7Hjis",
+                      "name": "Calculate Date",
+                      "title": "Calculate Date 1 Hour Ago",
+                      "type": "core.calculate_date",
+                      "base_type": "activity",
+                      "properties": {
+                          "adjustment": -3600,
+                          "continue_on_failure": false,
+                          "display_name": "Calculate Date 1 Hour Ago",
+                          "original_date": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.output.start_time$",
+                          "skip_execution": false
+                      },
+                      "object_type": "definition_activity"
+                  },
+                  {
+                      "unique_name": "definition_activity_01KB7F72WMX0X7J88TBH1OZIRBP9Dn5lfdf",
+                      "name": "SCA - Get Alerts",
+                      "title": "SCA - Get Alerts",
+                      "type": "workflow.atomic_workflow",
+                      "base_type": "subworkflow",
+                      "properties": {
+                          "continue_on_failure": false,
+                          "display_name": "SCA - Get Alerts",
+                          "input": {
+                              "variable_workflow_01PP767ENJBFA5SN9YJC7swhvNCTdtgTVvK": "$activity.definition_activity_01QDYPRYG657S1IS8mDaHORtE5fptE7Hjis.output.result$",
+                              "variable_workflow_01PP767ENJEQ96BUYwuD5WCUPqI1f7d8tW5": "Geographically Unusual Remote Access",
+                              "variable_workflow_01PP767ENJFWZ2lRbLkNzB68HQefGY1Mr4e": "open",
+                              "variable_workflow_01PP767ENJH2S4VttPD6BHxHR3AZszCkzg8": 0,
+                              "variable_workflow_01PP767ENJI7Y1nCg4PDqDlFSw9BGqcc48m": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.output.start_time$",
+                              "variable_workflow_01PP767ENJKGT3cQ36vcV8I04GCm7Z0JuZi": 100,
+                              "variable_workflow_01PP767ENJLM97Xsdwn8fEod1HP3whVWfvU": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FRAHX0eIZj9N660f66nj1aDjTv3$"
                           },
-                          {
-                            "unique_name": "definition_activity_01KB7FBK97X9L2z2r8J2qhsH1NeYHd0zHwt",
-                            "name": "Condition Block",
-                            "title": "Was adding the exception successful?",
-                            "type": "logic.if_else",
-                            "base_type": "activity",
-                            "properties": {
-                              "continue_on_failure": false,
-                              "display_name": "Was adding the exception successful?",
-                              "skip_execution": false
-                            },
-                            "object_type": "definition_activity",
-                            "blocks": [
-                              {
-                                "unique_name": "definition_activity_01KB7FBRM104L1eCIOruvRIhOLKG6agWSIy",
-                                "name": "Condition Branch",
-                                "title": "Yes",
-                                "type": "logic.condition_block",
-                                "base_type": "activity",
-                                "properties": {
-                                  "condition": {
-                                    "left_operand": "$activity.definition_activity_01KB7FBC3YF0D1Ck7lcmLsXQzRTTtyBrDaY.output.succeeded$",
-                                    "operator": "eq",
-                                    "right_operand": true
-                                  },
-                                  "continue_on_failure": false,
-                                  "display_name": "Yes",
-                                  "skip_execution": false
-                                },
-                                "object_type": "definition_activity",
-                                "actions": [
-                                  {
-                                    "unique_name": "definition_activity_01KB7FC5R5F3T21fjOorTan9UdXpnZGaPkO",
-                                    "name": "Create Approval Request",
-                                    "title": "Approval request to undo AWS SSH quarantine",
-                                    "type": "task.approval_request",
-                                    "base_type": "activity",
-                                    "properties": {
-                                      "approval_choices": [
-                                        "Disable Quarantine",
-                                        "Leave Quarantined"
-                                      ],
-                                      "assignees": [
-                                        "assignee@company.com"
-                                      ],
-                                      "continue_on_failure": false,
-                                      "display_name": "Approval request to undo AWS SSH quarantine",
-                                      "due_date": {
-                                        "is_relative_time": true,
-                                        "is_specified_date": false,
-                                        "relative_time": {
-                                          "duration": 2,
-                                          "time_units": "days"
-                                        },
-                                        "set_due_date": true
-                                      },
-                                      "expiration_date": {
-                                        "is_relative_time": true,
-                                        "is_specified_date": false,
-                                        "relative_time": {
-                                          "duration": 5,
-                                          "time_units": "days"
-                                        }
-                                      },
-                                      "expiration_status": "Expired",
-                                      "minimum_approvals": 1,
-                                      "priority": "normal",
-                                      "skip_execution": false,
-                                      "subject_line": "Disable SSH Quarantine for AWS Instance",
-                                      "task_message": "Do you want to remove SSH traffic restrictions from the AWS instance \"$activity.definition_activity_01KB7F810HAED3GMUVxfnulBayospYYLybz.input.source_array[@].hostname$\" in security group \"$activity.definition_activity_01KB7FA9BTG6I4ogFDeiXgMO92DiJZbjKhF.output.xpath_queries.groupName$\"?\n\nInstance ID: $activity.definition_activity_01KB7F810HAED3GMUVxfnulBayospYYLybz.input.source_array[@].hostname$",
-                                      "task_owner": "owner@company.com",
-                                      "task_requestor": "requestor@company.com"
-                                    },
-                                    "object_type": "definition_activity"
-                                  },
-                                  {
-                                    "unique_name": "definition_activity_01KB7FBX2ZTX30Bzbu3xntD9kI8GvtreHFa",
-                                    "name": "Set Variables",
-                                    "title": "Set Webex text",
-                                    "type": "core.set_multiple_variables",
-                                    "base_type": "activity",
-                                    "properties": {
-                                      "continue_on_failure": false,
-                                      "display_name": "Set Webex text",
-                                      "skip_execution": false,
-                                      "variables_to_update": [
-                                        {
-                                          "variable_to_update": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR6VD7f1c1MtAKDuwyjsNFmwTou$",
-                                          "variable_value_new": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR6VD7f1c1MtAKDuwyjsNFmwTou$  \\n SSH access exception added for `$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR8562y1RJyYeyq7eBDM5TJQAnc$`  \\n To leave this group in quarantine, no action is required. To remove restrictions from this group [click here](https://securex-ao.us.security.cisco.com/orch-ui/tasks/$activity.definition_activity_01KB7FC5R5F3T21fjOorTan9UdXpnZGaPkO.output.task_id$)"
-                                        }
+                          "runtime_user": {
+                              "target_default": true
+                          },
+                          "skip_execution": false,
+                          "target": {
+                              "override_workflow_target_group_criteria": true,
+                              "target_group": {
+                                  "run_on_all_targets": false,
+                                  "use_criteria": {
+                                      "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                      "conditions": [
+                                          {
+                                              "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                              "operator": "eqi",
+                                              "right_operand": "Secure Cloud Analytics"
+                                          }
                                       ]
-                                    },
-                                    "object_type": "definition_activity"
                                   }
-                                ]
-                              },
+                              }
+                          },
+                          "workflow_id": "definition_workflow_01PP767EUS6Q52H9Ww5DQjcJoxKwKBIMkdK",
+                          "workflow_name": "Secure Cloud Analytics - Get Alerts"
+                      },
+                      "object_type": "definition_activity"
+                  },
+                  {
+                      "unique_name": "definition_activity_01KB7F7H7HA5B0u4KmXZqghaHcPXSyrcin4",
+                      "name": "Read Table from JSON",
+                      "title": "Create table to track instances",
+                      "type": "corejava.read_table_from_json",
+                      "base_type": "activity",
+                      "properties": {
+                          "action_timeout": 180,
+                          "continue_on_failure": false,
+                          "display_name": "Create table to track instances",
+                          "input_json": "[]",
+                          "jsonpath_query": "$.",
+                          "persist_output": true,
+                          "populate_columns": false,
+                          "skip_execution": false,
+                          "table_columns": [
                               {
-                                "unique_name": "definition_activity_01KB7FG4L0RZK1AsNKCCFoLmew3v2VOZw33",
-                                "name": "Condition Branch",
-                                "title": "No",
-                                "type": "logic.condition_block",
-                                "base_type": "activity",
-                                "properties": {
+                                  "column_name": "instanceId",
+                                  "column_type": "string"
+                              }
+                          ]
+                      },
+                      "object_type": "definition_activity"
+                  },
+                  {
+                      "unique_name": "definition_activity_01KB7F7QX35J54c0izRVdoysHwx4SwCMYr0",
+                      "name": "Read Table from JSON",
+                      "title": "Convert alerts to table",
+                      "type": "corejava.read_table_from_json",
+                      "base_type": "activity",
+                      "properties": {
+                          "action_timeout": 180,
+                          "continue_on_failure": false,
+                          "display_name": "Convert alerts to table",
+                          "input_json": "$activity.definition_activity_01KB7F72WMX0X7J88TBH1OZIRBP9Dn5lfdf.output.variable_workflow_01PP767ENJJDI5V6ZUMTo1uD5nXQKHXXps5$",
+                          "jsonpath_query": "$.objects",
+                          "persist_output": true,
+                          "populate_columns": false,
+                          "skip_execution": false,
+                          "table_columns": [
+                              {
+                                  "column_name": "hostname",
+                                  "column_type": "string"
+                              }
+                          ]
+                      },
+                      "object_type": "definition_activity"
+                  },
+                  {
+                      "unique_name": "definition_activity_01KB8HLGDECS96PhgIOdnYUYKzv8tXTKUY8",
+                      "name": "Condition Block",
+                      "title": "Were there any alerts?",
+                      "type": "logic.if_else",
+                      "base_type": "activity",
+                      "properties": {
+                          "continue_on_failure": false,
+                          "display_name": "Were there any alerts?",
+                          "skip_execution": false
+                      },
+                      "object_type": "definition_activity",
+                      "blocks": [
+                          {
+                              "unique_name": "definition_activity_01KB8HLQ44TPO5lBV5c1qcxXXZRAH2esejV",
+                              "name": "Condition Branch",
+                              "title": "No",
+                              "type": "logic.condition_block",
+                              "base_type": "activity",
+                              "properties": {
                                   "condition": {
-                                    "left_operand": "$activity.definition_activity_01KB7FBC3YF0D1Ck7lcmLsXQzRTTtyBrDaY.output.succeeded$",
-                                    "operator": "eq",
-                                    "right_operand": false
+                                      "left_operand": "$activity.definition_activity_01KB7F7QX35J54c0izRVdoysHwx4SwCMYr0.output.row_count$",
+                                      "operator": "eq",
+                                      "right_operand": 0
                                   },
                                   "continue_on_failure": false,
                                   "display_name": "No",
                                   "skip_execution": false
-                                },
-                                "object_type": "definition_activity",
-                                "actions": [
+                              },
+                              "object_type": "definition_activity",
+                              "actions": [
                                   {
-                                    "unique_name": "definition_activity_01KB7FGA01HVQ4UPT5bn8LZIwDqUBScr6EP",
-                                    "name": "Set Variables",
-                                    "title": "Set Webex text",
-                                    "type": "core.set_multiple_variables",
-                                    "base_type": "activity",
-                                    "properties": {
-                                      "continue_on_failure": false,
-                                      "display_name": "Set Webex text",
-                                      "skip_execution": false,
-                                      "variables_to_update": [
-                                        {
-                                          "variable_to_update": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR6VD7f1c1MtAKDuwyjsNFmwTou$",
-                                          "variable_value_new": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR6VD7f1c1MtAKDuwyjsNFmwTou$  \\n Failed to add SSH access exception to security group"
-                                        }
-                                      ]
-                                    },
-                                    "object_type": "definition_activity"
+                                      "unique_name": "definition_activity_01KB8HSQ64PZF5ELm1Bnov3ErHPzUvMRmBU",
+                                      "name": "Completed",
+                                      "title": "End the workflow",
+                                      "type": "logic.completed",
+                                      "base_type": "activity",
+                                      "properties": {
+                                          "completion_type": "succeeded",
+                                          "continue_on_failure": false,
+                                          "display_name": "End the workflow",
+                                          "result_message": "No alerts to process, ending the workflow",
+                                          "skip_execution": false
+                                      },
+                                      "object_type": "definition_activity"
                                   }
-                                ]
-                              }
-                            ]
-                          }
-                        ]
-                      },
-                      {
-                        "unique_name": "definition_activity_01KB7FGJJJNTR6c1qwjDI33jzyYrcBMLpKB",
-                        "name": "Condition Branch",
-                        "title": "No",
-                        "type": "logic.condition_block",
-                        "base_type": "activity",
-                        "properties": {
-                          "condition": {
-                            "left_operand": "$activity.definition_activity_01KB7FAHZH8YR6t0v0Zx4XPDtnmYNqBC77x.output.succeeded$",
-                            "operator": "eq",
-                            "right_operand": false
-                          },
-                          "continue_on_failure": false,
-                          "display_name": "No",
-                          "skip_execution": false
-                        },
-                        "object_type": "definition_activity",
-                        "actions": [
-                          {
-                            "unique_name": "definition_activity_01KB7FGPCO15U3d0o0JEMtWZ8MIln7Uz01H",
-                            "name": "Set Variables",
-                            "title": "Set Webex text",
-                            "type": "core.set_multiple_variables",
-                            "base_type": "activity",
-                            "properties": {
-                              "continue_on_failure": false,
-                              "display_name": "Set Webex text",
-                              "skip_execution": false,
-                              "variables_to_update": [
-                                {
-                                  "variable_to_update": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR6VD7f1c1MtAKDuwyjsNFmwTou$",
-                                  "variable_value_new": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR6VD7f1c1MtAKDuwyjsNFmwTou$  \\n Failed to revoke SSH access for security group"
-                                }
                               ]
-                            },
-                            "object_type": "definition_activity"
                           }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "unique_name": "definition_activity_01KB7FGY50WFJ2JlxNyV4NNW93I496fMCP3",
-                "name": "Condition Branch",
-                "title": "No",
-                "type": "logic.condition_block",
-                "base_type": "activity",
-                "properties": {
-                  "condition": {
-                    "left_operand": "$activity.definition_activity_01KB7F9FP9OBV5FO3I7En62tGZJPeKOSSDd.output.succeeded$",
-                    "operator": "eq",
-                    "right_operand": false
-                  },
-                  "continue_on_failure": false,
-                  "display_name": "No",
-                  "skip_execution": false
-                },
-                "object_type": "definition_activity",
-                "actions": [
-                  {
-                    "unique_name": "definition_activity_01KB7FH5GYRVK3TSV6OzIztwY2NcfDbNT6u",
-                    "name": "Set Variables",
-                    "title": "Set Webex text",
-                    "type": "core.set_multiple_variables",
-                    "base_type": "activity",
-                    "properties": {
-                      "continue_on_failure": false,
-                      "display_name": "Set Webex text",
-                      "skip_execution": false,
-                      "variables_to_update": [
-                        {
-                          "variable_to_update": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR6VD7f1c1MtAKDuwyjsNFmwTou$",
-                          "variable_value_new": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR6VD7f1c1MtAKDuwyjsNFmwTou$  \\n Failed to fetch instance information from AWS"
-                        }
                       ]
-                    },
-                    "object_type": "definition_activity"
                   }
-                ]
-              }
-            ]
+              ]
           },
           {
-            "unique_name": "definition_activity_01Q7W96LOY1LB7TvAzyMStkCfbjQuG8PVfe",
-            "name": "Condition Block",
-            "title": "Is there a teams room ID?",
-            "type": "logic.if_else",
-            "base_type": "activity",
-            "properties": {
-              "continue_on_failure": false,
-              "display_name": "Is there a teams room ID?",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity",
-            "blocks": [
-              {
-                "unique_name": "definition_activity_01Q7W96SR2A6R7BXqgPbvOA13Dmqk9Cuy65",
-                "name": "Condition Branch",
-                "title": "Yes",
-                "type": "logic.condition_block",
-                "base_type": "activity",
-                "properties": {
-                  "condition": {
-                    "left_operand": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR35373aOB0pgqYotJeTG3TNsYR$",
-                    "operator": "ne",
-                    "right_operand": ""
-                  },
+              "unique_name": "definition_activity_01KBAZP2SQN3T25JbD11kHbKIVnLwn5t01v",
+              "name": "Condition Block",
+              "title": "Was a Webex room name provided?",
+              "type": "logic.if_else",
+              "base_type": "activity",
+              "properties": {
                   "continue_on_failure": false,
-                  "display_name": "Yes",
+                  "display_name": "Was a Webex room name provided?",
                   "skip_execution": false
-                },
-                "object_type": "definition_activity",
-                "actions": [
+              },
+              "object_type": "definition_activity",
+              "blocks": [
                   {
-                    "unique_name": "definition_activity_01KB7GQVCDU0C4eyWPwMGWprsSsB2nRAH1h",
-                    "name": "Post message to Webex",
-                    "title": "Post message to Webex",
-                    "type": "workflow.atomic_workflow",
-                    "base_type": "subworkflow",
-                    "properties": {
-                      "continue_on_failure": false,
-                      "display_name": "Post message to Webex",
-                      "input": {
-                        "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR35373aOB0pgqYotJeTG3TNsYR$",
-                        "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR9CT5j3Rzga92YQDS7rU71BZhR$",
-                        "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR6VD7f1c1MtAKDuwyjsNFmwTou$",
-                        "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": ""
+                      "unique_name": "definition_activity_01KBAZPCM933W0MdPUZIHLVAjwSjdjypnkN",
+                      "name": "Condition Branch",
+                      "title": "Yes",
+                      "type": "logic.condition_block",
+                      "base_type": "activity",
+                      "properties": {
+                          "condition": {
+                              "left_operand": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KBAYWW9BMR26fi5wz1golH9Zj9xXqe8w7$",
+                              "operator": "ne",
+                              "right_operand": ""
+                          },
+                          "continue_on_failure": false,
+                          "display_name": "Yes",
+                          "skip_execution": false
                       },
-                      "runtime_user": {
-                        "override_target_runtime_user": false,
-                        "target_default": true
-                      },
-                      "skip_execution": false,
-                      "target": {
-                        "override_workflow_target_group_criteria": true,
-                        "target_group": {
-                          "run_on_all_targets": false,
-                          "use_criteria": {
-                            "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-                            "conditions": [
-                              {
-                                "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-                                "operator": "eqi",
-                                "right_operand": "Webex Teams"
-                              }
-                            ]
+                      "object_type": "definition_activity",
+                      "actions": [
+                          {
+                              "unique_name": "definition_activity_01KBB06GKJG7A6DuaR7wRjPzfOyRLp6dOhg",
+                              "name": "Webex - Search for Room",
+                              "title": "Webex - Search for Room",
+                              "type": "workflow.atomic_workflow",
+                              "base_type": "subworkflow",
+                              "properties": {
+                                  "continue_on_failure": false,
+                                  "display_name": "Webex - Search for Room",
+                                  "input": {
+                                      "variable_workflow_01PP790MCX1DN3EitpQebkUyJS65DbwS3nU": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR9CT5j3Rzga92YQDS7rU71BZhR$",
+                                      "variable_workflow_01PP790MCXB392D3R8pxh9fgOTjTde2bcMW": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KBAYWW9BMR26fi5wz1golH9Zj9xXqe8w7$",
+                                      "variable_workflow_01PP790MCXHP55YE6ylOEITWsWbUFJeyWGv": "",
+                                      "variable_workflow_01PP790MCXM9W1MUwo85y8iNRCoQuQ4RGNa": ""
+                                  },
+                                  "runtime_user": {
+                                      "target_default": true
+                                  },
+                                  "skip_execution": false,
+                                  "target": {
+                                      "override_workflow_target_group_criteria": true,
+                                      "target_group": {
+                                          "run_on_all_targets": false,
+                                          "use_criteria": {
+                                              "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                              "conditions": [
+                                                  {
+                                                      "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                                      "operator": "eqi",
+                                                      "right_operand": "Webex Teams"
+                                                  }
+                                              ]
+                                          }
+                                      }
+                                  },
+                                  "workflow_id": "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez",
+                                  "workflow_name": "Webex - Search for Room"
+                              },
+                              "object_type": "definition_activity"
+                          },
+                          {
+                              "unique_name": "definition_activity_01KBB0SYTBKM454MHCjMVdfB3k0sOrHxQh8",
+                              "name": "Set Variables",
+                              "title": "Set room ID variable",
+                              "type": "core.set_multiple_variables",
+                              "base_type": "activity",
+                              "properties": {
+                                  "continue_on_failure": false,
+                                  "display_name": "Set room ID variable",
+                                  "skip_execution": false,
+                                  "variables_to_update": [
+                                      {
+                                          "variable_to_update": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR35373aOB0pgqYotJeTG3TNsYR$",
+                                          "variable_value_new": "$activity.definition_activity_01KBB06GKJG7A6DuaR7wRjPzfOyRLp6dOhg.output.variable_workflow_01PP790MCXJ7Y5cAWcGZWbG4Es0126zb1I6$"
+                                      }
+                                  ]
+                              },
+                              "object_type": "definition_activity"
                           }
-                        }
-                      },
-                      "workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw"
-                    },
-                    "object_type": "definition_activity"
+                      ]
                   }
-                ]
-              }
-            ]
+              ]
+          },
+          {
+              "unique_name": "definition_activity_01KB7F810HAED3GMUVxfnulBayospYYLybz",
+              "name": "For Each",
+              "title": "For each alert",
+              "type": "logic.for_each",
+              "base_type": "activity",
+              "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "For each alert",
+                  "skip_execution": false,
+                  "source_array": "$activity.definition_activity_01KB7F7QX35J54c0izRVdoysHwx4SwCMYr0.output.read_table_from_json$"
+              },
+              "object_type": "definition_activity",
+              "actions": [
+                  {
+                      "unique_name": "definition_activity_01KB7F8BB9WJ11HQbN9xotL6XjNLdbLIpiy",
+                      "name": "Select from Table",
+                      "title": "Check if this instance is already in the table",
+                      "type": "core.selectfromtable",
+                      "base_type": "activity",
+                      "properties": {
+                          "action_timeout": 180,
+                          "continue_on_failure": false,
+                          "display_name": "Check if this instance is already in the table",
+                          "input_table": "$activity.definition_activity_01KB7F7H7HA5B0u4KmXZqghaHcPXSyrcin4.output.read_table_from_json$",
+                          "number_of_rows": {
+                              "all_rows": true,
+                              "at_most": false
+                          },
+                          "persist_output": false,
+                          "skip_execution": false,
+                          "sorting": {
+                              "no_sort": true,
+                              "sort_by": false
+                          },
+                          "where_clause": "instanceId == '$activity.definition_activity_01KB7F810HAED3GMUVxfnulBayospYYLybz.input.source_array[@].hostname$'"
+                      },
+                      "object_type": "definition_activity"
+                  },
+                  {
+                      "unique_name": "definition_activity_01KB7F8KBCNWD7EF09uiE8JBdRtOxNExzPx",
+                      "name": "Condition Block",
+                      "title": "Instance in table?",
+                      "type": "logic.if_else",
+                      "base_type": "activity",
+                      "properties": {
+                          "continue_on_failure": false,
+                          "display_name": "Instance in table?",
+                          "skip_execution": false
+                      },
+                      "object_type": "definition_activity",
+                      "blocks": [
+                          {
+                              "unique_name": "definition_activity_01KB7F8RBNYDE0KsVlwEMzu7cnGSRFVMk2s",
+                              "name": "Condition Branch",
+                              "title": "No",
+                              "type": "logic.condition_block",
+                              "base_type": "activity",
+                              "properties": {
+                                  "condition": {
+                                      "left_operand": "$activity.definition_activity_01KB7F8BB9WJ11HQbN9xotL6XjNLdbLIpiy.output.row_count$",
+                                      "operator": "eq",
+                                      "right_operand": 0
+                                  },
+                                  "continue_on_failure": false,
+                                  "display_name": "No",
+                                  "skip_execution": false
+                              },
+                              "object_type": "definition_activity",
+                              "actions": [
+                                  {
+                                      "unique_name": "definition_activity_01KB7F8WD392C5TzI54t1r4qdfDYzMwpux4",
+                                      "name": "Add Row to Table",
+                                      "title": "Add instance to table",
+                                      "type": "core.addrowtotable",
+                                      "base_type": "activity",
+                                      "properties": {
+                                          "action_timeout": 180,
+                                          "continue_on_failure": false,
+                                          "display_name": "Add instance to table",
+                                          "input_table": "$activity.definition_activity_01KB7F7H7HA5B0u4KmXZqghaHcPXSyrcin4.output.read_table_from_json$",
+                                          "row": [
+                                              {
+                                                  "key": "instanceId",
+                                                  "type": "string",
+                                                  "value": "$activity.definition_activity_01KB7F810HAED3GMUVxfnulBayospYYLybz.input.source_array[@].hostname$"
+                                              },
+                                              {
+                                                  "key": "groupId",
+                                                  "type": "string"
+                                              },
+                                              {
+                                                  "key": "groupName",
+                                                  "type": "string"
+                                              }
+                                          ],
+                                          "skip_execution": false
+                                      },
+                                      "object_type": "definition_activity"
+                                  }
+                              ]
+                          },
+                          {
+                              "unique_name": "definition_activity_01KB7WVWKLKT81aSPMuRCKWmTmjJn3xSj14",
+                              "name": "Condition Branch",
+                              "title": "Yes",
+                              "type": "logic.condition_block",
+                              "base_type": "activity",
+                              "properties": {
+                                  "condition": {
+                                      "left_operand": "$activity.definition_activity_01KB7F8BB9WJ11HQbN9xotL6XjNLdbLIpiy.output.row_count$",
+                                      "operator": "gt",
+                                      "right_operand": 0
+                                  },
+                                  "continue_on_failure": false,
+                                  "display_name": "Yes",
+                                  "skip_execution": false
+                              },
+                              "object_type": "definition_activity",
+                              "actions": [
+                                  {
+                                      "unique_name": "definition_activity_01KB7XXFPP8SH5rohcJxH4SHFZTR9wrXjSg",
+                                      "name": "Continue",
+                                      "title": "Continue",
+                                      "type": "logic.continue",
+                                      "base_type": "activity",
+                                      "properties": {
+                                          "continue_on_failure": false,
+                                          "display_name": "Continue",
+                                          "skip_execution": false
+                                      },
+                                      "object_type": "definition_activity"
+                                  }
+                              ]
+                          }
+                      ]
+                  },
+                  {
+                      "unique_name": "definition_activity_01KB7OEI6NBYL7mVtpkSKW7Pd4TaLsmwTnA",
+                      "name": "Set Variables",
+                      "title": "Reset Webex text",
+                      "type": "core.set_multiple_variables",
+                      "base_type": "activity",
+                      "properties": {
+                          "continue_on_failure": false,
+                          "display_name": "Reset Webex text",
+                          "skip_execution": false,
+                          "variables_to_update": [
+                              {
+                                  "variable_to_update": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR6VD7f1c1MtAKDuwyjsNFmwTou$",
+                                  "variable_value_new": "Secure Cloud Analytics \"Geographically Unusual Remote Access\" alert received for AWS instance `$activity.definition_activity_01KB7F810HAED3GMUVxfnulBayospYYLybz.input.source_array[@].hostname$`"
+                              }
+                          ]
+                      },
+                      "object_type": "definition_activity"
+                  },
+                  {
+                      "unique_name": "definition_activity_01KB7F9FP9OBV5FO3I7En62tGZJPeKOSSDd",
+                      "name": "Generic AWS API Request",
+                      "title": "Get instance information from AWS",
+                      "type": "aws.api_request",
+                      "base_type": "activity",
+                      "properties": {
+                          "action_timeout": 180,
+                          "api_call_method": "ec2",
+                          "api_url": "https:\/\/ec2.$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB83WGA3SEH5DB832FFhzfrv4RF63yaBq$.amazonaws.com\/?Action=DescribeInstances&InstanceId.1=$activity.definition_activity_01KB7F810HAED3GMUVxfnulBayospYYLybz.input.source_array[@].hostname$&Version=2016-11-15",
+                          "continue_on_failure": true,
+                          "display_name": "Get instance information from AWS",
+                          "runtime_user": {
+                              "override_target_runtime_user": false,
+                              "target_default": true
+                          },
+                          "skip_execution": false,
+                          "target": {
+                              "use_workflow_target_group": true
+                          }
+                      },
+                      "object_type": "definition_activity"
+                  },
+                  {
+                      "unique_name": "definition_activity_01KB7F9O7XBFD7lLVNFIqoiiqULvimrg7zD",
+                      "name": "Condition Block",
+                      "title": "Did we get instance information?",
+                      "type": "logic.if_else",
+                      "base_type": "activity",
+                      "properties": {
+                          "continue_on_failure": false,
+                          "display_name": "Did we get instance information?",
+                          "skip_execution": false
+                      },
+                      "object_type": "definition_activity",
+                      "blocks": [
+                          {
+                              "unique_name": "definition_activity_01KB7F9VPXKJB3DxhIHUbHqu6UhJy3wIXHq",
+                              "name": "Condition Branch",
+                              "title": "Yes",
+                              "type": "logic.condition_block",
+                              "base_type": "activity",
+                              "properties": {
+                                  "condition": {
+                                      "left_operand": "$activity.definition_activity_01KB7F9FP9OBV5FO3I7En62tGZJPeKOSSDd.output.succeeded$",
+                                      "operator": "eq",
+                                      "right_operand": true
+                                  },
+                                  "continue_on_failure": false,
+                                  "display_name": "Yes",
+                                  "skip_execution": false
+                              },
+                              "object_type": "definition_activity",
+                              "actions": [
+                                  {
+                                      "unique_name": "definition_activity_01KB7FA9BTG6I4ogFDeiXgMO92DiJZbjKhF",
+                                      "name": "XPath Query",
+                                      "title": "Extract security group",
+                                      "type": "core.xpathquery",
+                                      "base_type": "activity",
+                                      "properties": {
+                                          "continue_on_failure": false,
+                                          "display_name": "Extract security group",
+                                          "input_xml": "$activity.definition_activity_01KB7F9FP9OBV5FO3I7En62tGZJPeKOSSDd.output.response_body$",
+                                          "skip_execution": false,
+                                          "xpath_queries": [
+                                              {
+                                                  "xpath_query": "\/DescribeInstancesResponse\/reservationSet\/item[1]\/instancesSet\/item[1]\/groupSet\/item[1]\/groupName",
+                                                  "xpath_query_name": "groupName",
+                                                  "xpath_query_type": "string"
+                                              },
+                                              {
+                                                  "xpath_query": "\/DescribeInstancesResponse\/reservationSet\/item[1]\/instancesSet\/item[1]\/groupSet\/item[1]\/groupId",
+                                                  "xpath_query_name": "groupId",
+                                                  "xpath_query_type": "string"
+                                              }
+                                          ]
+                                      },
+                                      "object_type": "definition_activity"
+                                  },
+                                  {
+                                      "unique_name": "definition_activity_01KB8LDRNE3BW1hO7KfNzXnAyh2Wviz8IfI",
+                                      "name": "Set Variables",
+                                      "title": "Set Webex text",
+                                      "type": "core.set_multiple_variables",
+                                      "base_type": "activity",
+                                      "properties": {
+                                          "continue_on_failure": false,
+                                          "display_name": "Set Webex text",
+                                          "skip_execution": false,
+                                          "variables_to_update": [
+                                              {
+                                                  "variable_to_update": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR6VD7f1c1MtAKDuwyjsNFmwTou$",
+                                                  "variable_value_new": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR6VD7f1c1MtAKDuwyjsNFmwTou$  \\n Security group for instance: `$activity.definition_activity_01KB7FA9BTG6I4ogFDeiXgMO92DiJZbjKhF.output.xpath_queries.groupName$ ($activity.definition_activity_01KB7FA9BTG6I4ogFDeiXgMO92DiJZbjKhF.output.xpath_queries.groupId$)`"
+                                              }
+                                          ]
+                                      },
+                                      "object_type": "definition_activity"
+                                  },
+                                  {
+                                      "unique_name": "definition_activity_01KB7FAHZH8YR6t0v0Zx4XPDtnmYNqBC77x",
+                                      "name": "Generic AWS API Request",
+                                      "title": "Revoke SSH access to AWS instance",
+                                      "type": "aws.api_request",
+                                      "base_type": "activity",
+                                      "properties": {
+                                          "action_timeout": 180,
+                                          "api_call_method": "ec2",
+                                          "api_url": "https:\/\/ec2.$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB83WGA3SEH5DB832FFhzfrv4RF63yaBq$.amazonaws.com\/?Action=RevokeSecurityGroupIngress&GroupName.1=$activity.definition_activity_01KB7FA9BTG6I4ogFDeiXgMO92DiJZbjKhF.output.xpath_queries.groupName$&Version=2016-11-15&IpPermissions.1.IpProtocol=tcp&IpPermissions.1.FromPort=22&IpPermissions.1.ToPort=22&IpPermissions.1.IpRanges.1.CidrIp=0.0.0.0\/0",
+                                          "continue_on_failure": true,
+                                          "display_name": "Revoke SSH access to AWS instance",
+                                          "runtime_user": {
+                                              "override_target_runtime_user": false,
+                                              "target_default": true
+                                          },
+                                          "skip_execution": false,
+                                          "target": {
+                                              "use_workflow_target_group": true
+                                          }
+                                      },
+                                      "object_type": "definition_activity"
+                                  },
+                                  {
+                                      "unique_name": "definition_activity_01KB7FAQXHY986NoerthBsGpkL1xLe3z7xw",
+                                      "name": "Condition Block",
+                                      "title": "Was revocation successful?",
+                                      "type": "logic.if_else",
+                                      "base_type": "activity",
+                                      "properties": {
+                                          "continue_on_failure": false,
+                                          "display_name": "Was revocation successful?",
+                                          "skip_execution": false
+                                      },
+                                      "object_type": "definition_activity",
+                                      "blocks": [
+                                          {
+                                              "unique_name": "definition_activity_01KB7FAY9O6SV7LWNElzU2h14DPHaeoLSBN",
+                                              "name": "Condition Branch",
+                                              "title": "Yes",
+                                              "type": "logic.condition_block",
+                                              "base_type": "activity",
+                                              "properties": {
+                                                  "condition": {
+                                                      "left_operand": "$activity.definition_activity_01KB7FAHZH8YR6t0v0Zx4XPDtnmYNqBC77x.output.succeeded$",
+                                                      "operator": "eq",
+                                                      "right_operand": true
+                                                  },
+                                                  "continue_on_failure": false,
+                                                  "display_name": "Yes",
+                                                  "skip_execution": false
+                                              },
+                                              "object_type": "definition_activity",
+                                              "actions": [
+                                                  {
+                                                      "unique_name": "definition_activity_01KB7FB3CNPXP3lN7P2c09eQmVHGhk6Hk5Q",
+                                                      "name": "Set Variables",
+                                                      "title": "Set Webex text",
+                                                      "type": "core.set_multiple_variables",
+                                                      "base_type": "activity",
+                                                      "properties": {
+                                                          "continue_on_failure": false,
+                                                          "display_name": "Set Webex text",
+                                                          "skip_execution": false,
+                                                          "variables_to_update": [
+                                                              {
+                                                                  "variable_to_update": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR6VD7f1c1MtAKDuwyjsNFmwTou$",
+                                                                  "variable_value_new": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR6VD7f1c1MtAKDuwyjsNFmwTou$  \\n SSH access revoked for security group"
+                                                              }
+                                                          ]
+                                                      },
+                                                      "object_type": "definition_activity"
+                                                  },
+                                                  {
+                                                      "unique_name": "definition_activity_01KB7FBC3YF0D1Ck7lcmLsXQzRTTtyBrDaY",
+                                                      "name": "Generic AWS API Request",
+                                                      "title": "Add SSH access to AWS instance from specific IP",
+                                                      "type": "aws.api_request",
+                                                      "base_type": "activity",
+                                                      "properties": {
+                                                          "action_timeout": 180,
+                                                          "api_call_method": "ec2",
+                                                          "api_url": "https:\/\/ec2.$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB83WGA3SEH5DB832FFhzfrv4RF63yaBq$.amazonaws.com\/?Action=AuthorizeSecurityGroupIngress&GroupName.1=$activity.definition_activity_01KB7FA9BTG6I4ogFDeiXgMO92DiJZbjKhF.output.xpath_queries.groupName$&Version=2016-11-15&IpPermissions.1.IpProtocol=tcp&IpPermissions.1.FromPort=22&IpPermissions.1.ToPort=22&IpPermissions.1.IpRanges.1.CidrIp=$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR8562y1RJyYeyq7eBDM5TJQAnc$",
+                                                          "continue_on_failure": true,
+                                                          "display_name": "Add SSH access to AWS instance from specific IP",
+                                                          "runtime_user": {
+                                                              "override_target_runtime_user": false,
+                                                              "target_default": true
+                                                          },
+                                                          "skip_execution": false,
+                                                          "target": {
+                                                              "use_workflow_target_group": true
+                                                          }
+                                                      },
+                                                      "object_type": "definition_activity"
+                                                  },
+                                                  {
+                                                      "unique_name": "definition_activity_01KB7FBK97X9L2z2r8J2qhsH1NeYHd0zHwt",
+                                                      "name": "Condition Block",
+                                                      "title": "Was adding the exception successful?",
+                                                      "type": "logic.if_else",
+                                                      "base_type": "activity",
+                                                      "properties": {
+                                                          "continue_on_failure": false,
+                                                          "display_name": "Was adding the exception successful?",
+                                                          "skip_execution": false
+                                                      },
+                                                      "object_type": "definition_activity",
+                                                      "blocks": [
+                                                          {
+                                                              "unique_name": "definition_activity_01KB7FBRM104L1eCIOruvRIhOLKG6agWSIy",
+                                                              "name": "Condition Branch",
+                                                              "title": "Yes",
+                                                              "type": "logic.condition_block",
+                                                              "base_type": "activity",
+                                                              "properties": {
+                                                                  "condition": {
+                                                                      "left_operand": "$activity.definition_activity_01KB7FBC3YF0D1Ck7lcmLsXQzRTTtyBrDaY.output.succeeded$",
+                                                                      "operator": "eq",
+                                                                      "right_operand": true
+                                                                  },
+                                                                  "continue_on_failure": false,
+                                                                  "display_name": "Yes",
+                                                                  "skip_execution": false
+                                                              },
+                                                              "object_type": "definition_activity",
+                                                              "actions": [
+                                                                  {
+                                                                      "unique_name": "definition_activity_01KB7FC5R5F3T21fjOorTan9UdXpnZGaPkO",
+                                                                      "name": "Create Approval Request",
+                                                                      "title": "Approval request to undo AWS SSH quarantine",
+                                                                      "type": "task.approval_request",
+                                                                      "base_type": "activity",
+                                                                      "properties": {
+                                                                          "approval_choices": [
+                                                                              "Disable Quarantine",
+                                                                              "Leave Quarantined"
+                                                                          ],
+                                                                          "assignees": [
+                                                                              "assignee@company.com"
+                                                                          ],
+                                                                          "continue_on_failure": false,
+                                                                          "display_name": "Approval request to undo AWS SSH quarantine",
+                                                                          "due_date": {
+                                                                              "is_relative_time": true,
+                                                                              "is_specified_date": false,
+                                                                              "relative_time": {
+                                                                                  "duration": 2,
+                                                                                  "time_units": "days"
+                                                                              },
+                                                                              "set_due_date": true
+                                                                          },
+                                                                          "expiration_date": {
+                                                                              "is_relative_time": true,
+                                                                              "is_specified_date": false,
+                                                                              "relative_time": {
+                                                                                  "duration": 5,
+                                                                                  "time_units": "days"
+                                                                              }
+                                                                          },
+                                                                          "expiration_status": "Expired",
+                                                                          "minimum_approvals": 1,
+                                                                          "priority": "normal",
+                                                                          "skip_execution": false,
+                                                                          "subject_line": "Disable SSH Quarantine for AWS Instance",
+                                                                          "task_message": "Do you want to remove SSH traffic restrictions from the AWS instance \"$activity.definition_activity_01KB7F810HAED3GMUVxfnulBayospYYLybz.input.source_array[@].hostname$\" in security group \"$activity.definition_activity_01KB7FA9BTG6I4ogFDeiXgMO92DiJZbjKhF.output.xpath_queries.groupName$\"?\n\nInstance ID: $activity.definition_activity_01KB7F810HAED3GMUVxfnulBayospYYLybz.input.source_array[@].hostname$",
+                                                                          "task_owner": "owner@company.com",
+                                                                          "task_requestor": "requestor@company.com"
+                                                                      },
+                                                                      "object_type": "definition_activity"
+                                                                  },
+                                                                  {
+                                                                      "unique_name": "definition_activity_01KB7FBX2ZTX30Bzbu3xntD9kI8GvtreHFa",
+                                                                      "name": "Set Variables",
+                                                                      "title": "Set Webex text",
+                                                                      "type": "core.set_multiple_variables",
+                                                                      "base_type": "activity",
+                                                                      "properties": {
+                                                                          "continue_on_failure": false,
+                                                                          "display_name": "Set Webex text",
+                                                                          "skip_execution": false,
+                                                                          "variables_to_update": [
+                                                                              {
+                                                                                  "variable_to_update": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR6VD7f1c1MtAKDuwyjsNFmwTou$",
+                                                                                  "variable_value_new": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR6VD7f1c1MtAKDuwyjsNFmwTou$  \\n SSH access exception added for `$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR8562y1RJyYeyq7eBDM5TJQAnc$`  \\n To leave this group in quarantine, no action is required. To remove restrictions from this group [click here](https:\/\/securex-ao.us.security.cisco.com\/orch-ui\/tasks\/$activity.definition_activity_01KB7FC5R5F3T21fjOorTan9UdXpnZGaPkO.output.task_id$)"
+                                                                              }
+                                                                          ]
+                                                                      },
+                                                                      "object_type": "definition_activity"
+                                                                  }
+                                                              ]
+                                                          },
+                                                          {
+                                                              "unique_name": "definition_activity_01KB7FG4L0RZK1AsNKCCFoLmew3v2VOZw33",
+                                                              "name": "Condition Branch",
+                                                              "title": "No",
+                                                              "type": "logic.condition_block",
+                                                              "base_type": "activity",
+                                                              "properties": {
+                                                                  "condition": {
+                                                                      "left_operand": "$activity.definition_activity_01KB7FBC3YF0D1Ck7lcmLsXQzRTTtyBrDaY.output.succeeded$",
+                                                                      "operator": "eq",
+                                                                      "right_operand": false
+                                                                  },
+                                                                  "continue_on_failure": false,
+                                                                  "display_name": "No",
+                                                                  "skip_execution": false
+                                                              },
+                                                              "object_type": "definition_activity",
+                                                              "actions": [
+                                                                  {
+                                                                      "unique_name": "definition_activity_01KB7FGA01HVQ4UPT5bn8LZIwDqUBScr6EP",
+                                                                      "name": "Set Variables",
+                                                                      "title": "Set Webex text",
+                                                                      "type": "core.set_multiple_variables",
+                                                                      "base_type": "activity",
+                                                                      "properties": {
+                                                                          "continue_on_failure": false,
+                                                                          "display_name": "Set Webex text",
+                                                                          "skip_execution": false,
+                                                                          "variables_to_update": [
+                                                                              {
+                                                                                  "variable_to_update": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR6VD7f1c1MtAKDuwyjsNFmwTou$",
+                                                                                  "variable_value_new": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR6VD7f1c1MtAKDuwyjsNFmwTou$  \\n Failed to add SSH access exception to security group"
+                                                                              }
+                                                                          ]
+                                                                      },
+                                                                      "object_type": "definition_activity"
+                                                                  }
+                                                              ]
+                                                          }
+                                                      ]
+                                                  }
+                                              ]
+                                          },
+                                          {
+                                              "unique_name": "definition_activity_01KB7FGJJJNTR6c1qwjDI33jzyYrcBMLpKB",
+                                              "name": "Condition Branch",
+                                              "title": "No",
+                                              "type": "logic.condition_block",
+                                              "base_type": "activity",
+                                              "properties": {
+                                                  "condition": {
+                                                      "left_operand": "$activity.definition_activity_01KB7FAHZH8YR6t0v0Zx4XPDtnmYNqBC77x.output.succeeded$",
+                                                      "operator": "eq",
+                                                      "right_operand": false
+                                                  },
+                                                  "continue_on_failure": false,
+                                                  "display_name": "No",
+                                                  "skip_execution": false
+                                              },
+                                              "object_type": "definition_activity",
+                                              "actions": [
+                                                  {
+                                                      "unique_name": "definition_activity_01KB7FGPCO15U3d0o0JEMtWZ8MIln7Uz01H",
+                                                      "name": "Set Variables",
+                                                      "title": "Set Webex text",
+                                                      "type": "core.set_multiple_variables",
+                                                      "base_type": "activity",
+                                                      "properties": {
+                                                          "continue_on_failure": false,
+                                                          "display_name": "Set Webex text",
+                                                          "skip_execution": false,
+                                                          "variables_to_update": [
+                                                              {
+                                                                  "variable_to_update": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR6VD7f1c1MtAKDuwyjsNFmwTou$",
+                                                                  "variable_value_new": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR6VD7f1c1MtAKDuwyjsNFmwTou$  \\n Failed to revoke SSH access for security group"
+                                                              }
+                                                          ]
+                                                      },
+                                                      "object_type": "definition_activity"
+                                                  }
+                                              ]
+                                          }
+                                      ]
+                                  }
+                              ]
+                          },
+                          {
+                              "unique_name": "definition_activity_01KB7FGY50WFJ2JlxNyV4NNW93I496fMCP3",
+                              "name": "Condition Branch",
+                              "title": "No",
+                              "type": "logic.condition_block",
+                              "base_type": "activity",
+                              "properties": {
+                                  "condition": {
+                                      "left_operand": "$activity.definition_activity_01KB7F9FP9OBV5FO3I7En62tGZJPeKOSSDd.output.succeeded$",
+                                      "operator": "eq",
+                                      "right_operand": false
+                                  },
+                                  "continue_on_failure": false,
+                                  "display_name": "No",
+                                  "skip_execution": false
+                              },
+                              "object_type": "definition_activity",
+                              "actions": [
+                                  {
+                                      "unique_name": "definition_activity_01KB7FH5GYRVK3TSV6OzIztwY2NcfDbNT6u",
+                                      "name": "Set Variables",
+                                      "title": "Set Webex text",
+                                      "type": "core.set_multiple_variables",
+                                      "base_type": "activity",
+                                      "properties": {
+                                          "continue_on_failure": false,
+                                          "display_name": "Set Webex text",
+                                          "skip_execution": false,
+                                          "variables_to_update": [
+                                              {
+                                                  "variable_to_update": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR6VD7f1c1MtAKDuwyjsNFmwTou$",
+                                                  "variable_value_new": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR6VD7f1c1MtAKDuwyjsNFmwTou$  \\n Failed to fetch instance information from AWS"
+                                              }
+                                          ]
+                                      },
+                                      "object_type": "definition_activity"
+                                  }
+                              ]
+                          }
+                      ]
+                  },
+                  {
+                      "unique_name": "definition_activity_01Q7W96LOY1LB7TvAzyMStkCfbjQuG8PVfe",
+                      "name": "Condition Block",
+                      "title": "Is there a Webex room ID?",
+                      "type": "logic.if_else",
+                      "base_type": "activity",
+                      "properties": {
+                          "continue_on_failure": false,
+                          "display_name": "Is there a Webex room ID?",
+                          "skip_execution": false
+                      },
+                      "object_type": "definition_activity",
+                      "blocks": [
+                          {
+                              "unique_name": "definition_activity_01Q7W96SR2A6R7BXqgPbvOA13Dmqk9Cuy65",
+                              "name": "Condition Branch",
+                              "title": "Yes",
+                              "type": "logic.condition_block",
+                              "base_type": "activity",
+                              "properties": {
+                                  "condition": {
+                                      "left_operand": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR35373aOB0pgqYotJeTG3TNsYR$",
+                                      "operator": "ne",
+                                      "right_operand": ""
+                                  },
+                                  "continue_on_failure": false,
+                                  "display_name": "Yes",
+                                  "skip_execution": false
+                              },
+                              "object_type": "definition_activity",
+                              "actions": [
+                                  {
+                                      "unique_name": "definition_activity_01KB7GQVCDU0C4eyWPwMGWprsSsB2nRAH1h",
+                                      "name": "Webex - Post Message to Room",
+                                      "title": "Webex - Post Message to Room",
+                                      "type": "workflow.atomic_workflow",
+                                      "base_type": "subworkflow",
+                                      "properties": {
+                                          "continue_on_failure": false,
+                                          "display_name": "Webex - Post Message to Room",
+                                          "input": {
+                                              "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR35373aOB0pgqYotJeTG3TNsYR$",
+                                              "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR9CT5j3Rzga92YQDS7rU71BZhR$",
+                                              "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "$workflow.definition_workflow_01KB7F57QJWPF4vcfJy8tJXanOHelboFJVl.local.variable_workflow_01KB7F57FR6VD7f1c1MtAKDuwyjsNFmwTou$",
+                                              "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": "",
+                                              "variable_workflow_01SVERQNMKN8N6vqX2djMtAfshphGydGsH8": ""
+                                          },
+                                          "runtime_user": {
+                                              "target_default": true
+                                          },
+                                          "skip_execution": false,
+                                          "target": {
+                                              "override_workflow_target_group_criteria": true,
+                                              "target_group": {
+                                                  "run_on_all_targets": false,
+                                                  "use_criteria": {
+                                                      "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                                      "conditions": [
+                                                          {
+                                                              "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                                              "operator": "eqi",
+                                                              "right_operand": "Webex Teams"
+                                                          }
+                                                      ]
+                                                  }
+                                              }
+                                          },
+                                          "workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw",
+                                          "workflow_name": "Webex - Post Message to Room"
+                                      },
+                                      "object_type": "definition_activity"
+                                  }
+                              ]
+                          }
+                      ]
+                  }
+              ]
           }
-        ]
-      }
-    ],
-    "categories": [
-      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
-    ]
+      ],
+      "categories": [
+          "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+      ]
   },
   "target_groups": {
-    "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
-      "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
-      "name": "Default TargetGroup",
-      "title": "Default TargetGroup",
-      "type": "generic.target_group",
-      "base_type": "target_group",
-      "version": "1.0.0",
-      "targets": [
-        {
-          "data_target_type": "web-service.endpoint",
-          "view_target_type": "web-service.endpoint",
-          "include_all_targets": true
-        },
-        {
-          "data_target_type": "email.smtp_endpoint",
-          "view_target_type": "email.smtp_endpoint",
-          "include_all_targets": true
-        },
-        {
-          "data_target_type": "aws.endpoint",
-          "view_target_type": "aws.endpoint",
-          "include_all_targets": true
-        }
-      ],
-      "object_type": "target_group"
-    }
+      "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+          "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+          "name": "Default TargetGroup",
+          "title": "Default TargetGroup",
+          "type": "generic.target_group",
+          "base_type": "target_group",
+          "version": "1.0.0",
+          "targets": [
+              {
+                  "data_target_type": "web-service.endpoint",
+                  "view_target_type": "web-service.endpoint",
+                  "include_all_targets": true
+              },
+              {
+                  "data_target_type": "email.smtp_endpoint",
+                  "view_target_type": "email.smtp_endpoint",
+                  "include_all_targets": true
+              },
+              {
+                  "data_target_type": "aws.endpoint",
+                  "view_target_type": "aws.endpoint",
+                  "include_all_targets": true
+              }
+          ],
+          "object_type": "target_group"
+      }
   },
   "atomic_workflows": [
-    "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez",
-    "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw",
-    "definition_workflow_01PP767EUS6Q52H9Ww5DQjcJoxKwKBIMkdK"
+      "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez",
+      "definition_workflow_01PP767EUS6Q52H9Ww5DQjcJoxKwKBIMkdK",
+      "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw"
+  ],
+  "dependent_workflows": [
+      "definition_workflow_01PP767EUS6Q52H9Ww5DQjcJoxKwKBIMkdK",
+      "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez",
+      "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw"
   ]
 }
