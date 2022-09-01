@@ -1,275 +1,279 @@
 {
   "workflow": {
-    "unique_name": "definition_workflow_01N181T3IG8ZO3hpAavtoimVvrNmkjIiCuM",
-    "name": "0018 - ServiceNow - Request Firewall NullRoute",
-    "title": "0018 - ServiceNow - Request Firewall NullRoute",
-    "type": "generic.workflow",
-    "base_type": "workflow",
-    "variables": [
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "input",
-          "name": "observable_value",
-          "type": "datatype.string",
-          "description": "The value of the observable pivoted on",
-          "is_required": true,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01N8S1D4BY2C40tnWB6SPtVINnSwwQcD9H9",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "input",
-          "name": "observable_type",
-          "type": "datatype.string",
-          "description": "The type of observable pivoted on",
-          "is_required": true,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01N8S186NI31957xscTO2TAxWr46A2JPb5w",
-        "object_type": "variable_workflow"
-      }
-    ],
-    "properties": {
-      "atomic": {
-        "is_atomic": false
-      },
-      "delete_workflow_instance": false,
-      "description": "This workflow submits a change request in ServiceNow with pre-defined ticket text and the observable provided as input to the workflow. Supported observable: ip\n\nTarget Group: Default TargetGroup\n\nTargets: ServiceNow\n\nSteps:\n[] Make sure the observable type provided is supported\n[] Calculate the ticket start and end time (defaults to three days from now from 2-5 AM eastern time)\n[] Create the change request in ServiceNow\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0018",
-      "display_name": "0018 - ServiceNow - Request Firewall NullRoute",
-      "runtime_user": {
-        "override_target_runtime_user": false,
-        "specify_on_workflow_start": false,
-        "target_default": true
-      },
-      "target": {
-        "execute_on_target_group": true,
-        "target_group": {
-          "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
-          "run_on_all_targets": false,
-          "selected_target_types": [
-            "web-service.endpoint"
-          ],
-          "use_criteria": {
-            "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-            "conditions": [
-              {
-                "operator": "eqi",
-                "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-                "right_operand": "ServiceNow"
-              }
-            ]
-          }
-        }
-      }
-    },
-    "object_type": "definition_workflow",
-    "actions": [
-      {
-        "unique_name": "definition_activity_01NCZ6Q72LV5I5Ve1ZLhejEGCUc8QzKIXFA",
-        "name": "Condition Block",
-        "title": "Is the observable type supported?",
-        "type": "logic.if_else",
-        "base_type": "activity",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "Is the observable type supported?",
-          "skip_execution": false
-        },
-        "object_type": "definition_activity",
-        "blocks": [
+      "unique_name": "definition_workflow_01N181T3IG8ZO3hpAavtoimVvrNmkjIiCuM",
+      "name": "0018 - ServiceNow - Request Firewall NullRoute",
+      "title": "0018 - ServiceNow - Request Firewall NullRoute",
+      "type": "generic.workflow",
+      "base_type": "workflow",
+      "variables": [
           {
-            "unique_name": "definition_activity_01NCZ6QXYRK2Z3SL6OUjFRJhKW5Q4ZlpIhS",
-            "name": "Condition Branch",
-            "title": "No",
-            "type": "logic.condition_block",
-            "base_type": "activity",
-            "properties": {
-              "condition": {
-                "left_operand": "$workflow.definition_workflow_01N181T3IG8ZO3hpAavtoimVvrNmkjIiCuM.input.variable_workflow_01N8S186NI31957xscTO2TAxWr46A2JPb5w$",
-                "operator": "ne",
-                "right_operand": "ip"
+              "schema_id": "datatype.string",
+              "properties": {
+                  "value": "",
+                  "scope": "input",
+                  "name": "observable_type",
+                  "type": "datatype.string",
+                  "description": "The type of observable pivoted on",
+                  "is_required": true,
+                  "is_invisible": false
               },
-              "continue_on_failure": false,
-              "display_name": "No",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity",
-            "actions": [
-              {
-                "unique_name": "definition_activity_01NCZ76D5MVVL3E46ofGOsViBitYu8c7vsT",
-                "name": "Completed",
-                "title": "Unsupported observable",
-                "type": "logic.completed",
-                "base_type": "activity",
-                "properties": {
-                  "completion_type": "failed-completed",
-                  "continue_on_failure": false,
-                  "display_name": "Unsupported observable",
-                  "result_message": "The observable type \"$workflow.definition_workflow_01N181T3IG8ZO3hpAavtoimVvrNmkjIiCuM.input.variable_workflow_01N8S186NI31957xscTO2TAxWr46A2JPb5w$\" is not supported by this workflow",
-                  "skip_execution": false
-                },
-                "object_type": "definition_activity"
-              }
-            ]
+              "unique_name": "variable_workflow_01N8S186NI31957xscTO2TAxWr46A2JPb5w",
+              "object_type": "variable_workflow"
+          },
+          {
+              "schema_id": "datatype.string",
+              "properties": {
+                  "value": "",
+                  "scope": "input",
+                  "name": "observable_value",
+                  "type": "datatype.string",
+                  "description": "The value of the observable pivoted on",
+                  "is_required": true,
+                  "is_invisible": false
+              },
+              "unique_name": "variable_workflow_01N8S1D4BY2C40tnWB6SPtVINnSwwQcD9H9",
+              "object_type": "variable_workflow"
           }
-        ]
-      },
-      {
-        "unique_name": "definition_activity_01NCZ7RAZZ8LR7aba6M4gxGj3YSjeCSRZYj",
-        "name": "Group",
-        "title": "Calculate dates",
-        "type": "logic.group",
-        "base_type": "activity",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "Calculate dates",
-          "skip_execution": false
-        },
-        "object_type": "definition_activity",
-        "actions": [
-          {
-            "unique_name": "definition_activity_01NCZ2Z3PCQQR162rLcVRTThPLhYE7WaBc9",
-            "name": "Calculate Date",
-            "title": "Calculate date in 3 days",
-            "type": "core.calculate_date",
-            "base_type": "activity",
-            "properties": {
-              "adjustment": 259200,
-              "continue_on_failure": false,
-              "display_name": "Calculate date in 3 days",
-              "original_date": "$workflow.definition_workflow_01N181T3IG8ZO3hpAavtoimVvrNmkjIiCuM.output.start_time$",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity"
+      ],
+      "properties": {
+          "atomic": {
+              "is_atomic": false
           },
-          {
-            "unique_name": "definition_activity_01NCZ3CR0LGWK4AIeHz7PuYpMmvzBj4dub5",
-            "name": "Format Date",
-            "title": "Extract date",
-            "type": "core.format_date",
-            "base_type": "activity",
-            "properties": {
-              "continue_on_failure": false,
-              "display_name": "Extract date",
-              "format_string": "2006-01-02",
-              "original_date": "$activity.definition_activity_01NCZ2Z3PCQQR162rLcVRTThPLhYE7WaBc9.output.result$",
-              "skip_execution": false,
-              "use_custom_format": false
-            },
-            "object_type": "definition_activity"
-          },
-          {
-            "unique_name": "definition_activity_01NCZ3HFH7W317dFW9RhHpWRfKcz8azY8GY",
-            "name": "Parse Date",
-            "title": "Parse ticket start date",
-            "type": "core.parse_date",
-            "base_type": "activity",
-            "properties": {
-              "continue_on_failure": false,
-              "display_name": "Parse ticket start date",
-              "format_string": "2006-01-02T15:04:05-0700",
-              "input_string": "$activity.definition_activity_01NCZ3CR0LGWK4AIeHz7PuYpMmvzBj4dub5.output.result$T05:00:00-0500",
-              "skip_execution": false,
-              "use_custom_format": false
-            },
-            "object_type": "definition_activity"
-          },
-          {
-            "unique_name": "definition_activity_01NCZ3VK0V5XQ7cutFawTpvxBu9sGzTvL9U",
-            "name": "Parse Date",
-            "title": "Parse ticket end date",
-            "type": "core.parse_date",
-            "base_type": "activity",
-            "properties": {
-              "continue_on_failure": false,
-              "display_name": "Parse ticket end date",
-              "format_string": "2006-01-02T15:04:05-0700",
-              "input_string": "$activity.definition_activity_01NCZ3CR0LGWK4AIeHz7PuYpMmvzBj4dub5.output.result$T05:00:00-0500",
-              "skip_execution": false,
-              "use_custom_format": false
-            },
-            "object_type": "definition_activity"
-          }
-        ]
-      },
-      {
-        "unique_name": "definition_activity_01N8R3SBLQH8Y5p89U2NhoGS5cznab5qhsn",
-        "name": "ServiceNow - Create Change Request",
-        "title": "ServiceNow - Create Change Request",
-        "type": "workflow.atomic_workflow",
-        "base_type": "subworkflow",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "ServiceNow - Create Change Request",
-          "input": {
-            "variable_workflow_01N8QDRJEUY1V3E7RaT5JTmfQUUJdcDYAVI": "A request has been submitted to null route the IP address \"$workflow.definition_workflow_01N181T3IG8ZO3hpAavtoimVvrNmkjIiCuM.input.variable_workflow_01N8S1D4BY2C40tnWB6SPtVINnSwwQcD9H9$\" at the firewall",
-            "variable_workflow_01N8QDRJEV38X7Ilv6Ndh9SqTRD49iUPI0T": "v1",
-            "variable_workflow_01N8QDRJEV9XW53aWVoLcZx9qpZanikyhRb": "Firewall NullRoute requested",
-            "variable_workflow_01N8RISWWL9045unuXat4wnYV2wJKWvvWUL": "The IP address was observed interracting with known malicious resources",
-            "variable_workflow_01N8RJ19YTSO32DJ9qqDez4AJTYSDhohAU4": "Add the following route to the firewall:\nroute null0 $workflow.definition_workflow_01N181T3IG8ZO3hpAavtoimVvrNmkjIiCuM.input.variable_workflow_01N8S1D4BY2C40tnWB6SPtVINnSwwQcD9H9$ 255.255.255.255",
-            "variable_workflow_01N8RJB01MWBE6B3HSj9CESHiQ7jGg1QKb1": "Traffic from $workflow.definition_workflow_01N181T3IG8ZO3hpAavtoimVvrNmkjIiCuM.input.variable_workflow_01N8S1D4BY2C40tnWB6SPtVINnSwwQcD9H9$/32 will be blocked. This will cause an interruption of service for this endpoint",
-            "variable_workflow_01N8RJJATJX1X3Vxc67can7LPufX93ivOHq": "The new null route can be removed if necessary",
-            "variable_workflow_01N8RJS99T8ZM4PXJyoODA70SZAHUnoYmuZ": "",
-            "variable_workflow_01N8RK8VZ125K1oKHHUns08Q7dudEPAsZct": "$activity.definition_activity_01NCZ3HFH7W317dFW9RhHpWRfKcz8azY8GY.output.result$",
-            "variable_workflow_01N8RKGF2UBN34s14xqmULN5dN2alDtcA1n": "$activity.definition_activity_01NCZ3VK0V5XQ7cutFawTpvxBu9sGzTvL9U.output.result$"
-          },
+          "delete_workflow_instance": false,
+          "description": "This workflow submits a change request in ServiceNow with pre-defined ticket text and the observable provided as input to the workflow. Supported observable: ip\n\nDocumentation: https:\/\/ciscosecurity.github.io\/sxo-05-security-workflows\/workflows\/0018\n\nTarget Group: Default TargetGroup\n\nTargets: ServiceNow\n\nSteps:\n[] Make sure the observable type provided is supported\n[] Calculate the ticket start and end time (defaults to three days from now from 2-5 AM eastern time)\n[] Create the change request in ServiceNow",
+          "display_name": "0018 - ServiceNow - Request Firewall NullRoute",
           "runtime_user": {
-            "target_default": true
+              "override_target_runtime_user": false,
+              "specify_on_workflow_start": false,
+              "target_default": true
           },
-          "skip_execution": false,
           "target": {
-            "use_workflow_target_group": true
+              "execute_on_target_group": true,
+              "target_group": {
+                  "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+                  "run_on_all_targets": false,
+                  "selected_target_types": [
+                      "web-service.endpoint"
+                  ],
+                  "use_criteria": {
+                      "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                      "conditions": [
+                          {
+                              "operator": "eqi",
+                              "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                              "right_operand": "ServiceNow"
+                          }
+                      ]
+                  }
+              }
+          }
+      },
+      "object_type": "definition_workflow",
+      "actions": [
+          {
+              "unique_name": "definition_activity_01NCZ6Q72LV5I5Ve1ZLhejEGCUc8QzKIXFA",
+              "name": "Condition Block",
+              "title": "Is the observable type supported?",
+              "type": "logic.if_else",
+              "base_type": "activity",
+              "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Is the observable type supported?",
+                  "skip_execution": false
+              },
+              "object_type": "definition_activity",
+              "blocks": [
+                  {
+                      "unique_name": "definition_activity_01NCZ6QXYRK2Z3SL6OUjFRJhKW5Q4ZlpIhS",
+                      "name": "Condition Branch",
+                      "title": "No",
+                      "type": "logic.condition_block",
+                      "base_type": "activity",
+                      "properties": {
+                          "condition": {
+                              "left_operand": "$workflow.definition_workflow_01N181T3IG8ZO3hpAavtoimVvrNmkjIiCuM.input.variable_workflow_01N8S186NI31957xscTO2TAxWr46A2JPb5w$",
+                              "operator": "ne",
+                              "right_operand": "ip"
+                          },
+                          "continue_on_failure": false,
+                          "display_name": "No",
+                          "skip_execution": false
+                      },
+                      "object_type": "definition_activity",
+                      "actions": [
+                          {
+                              "unique_name": "definition_activity_01NCZ76D5MVVL3E46ofGOsViBitYu8c7vsT",
+                              "name": "Completed",
+                              "title": "Unsupported observable",
+                              "type": "logic.completed",
+                              "base_type": "activity",
+                              "properties": {
+                                  "completion_type": "failed-completed",
+                                  "continue_on_failure": false,
+                                  "display_name": "Unsupported observable",
+                                  "result_message": "The observable type \"$workflow.definition_workflow_01N181T3IG8ZO3hpAavtoimVvrNmkjIiCuM.input.variable_workflow_01N8S186NI31957xscTO2TAxWr46A2JPb5w$\" is not supported by this workflow",
+                                  "skip_execution": false
+                              },
+                              "object_type": "definition_activity"
+                          }
+                      ]
+                  }
+              ]
           },
-          "workflow_id": "definition_workflow_01N8QDRJMU8990v1XTzGMCnA8hzWEZbXRTt"
-        },
-        "object_type": "definition_activity"
-      }
-    ],
-    "categories": [
-      "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m"
-    ]
+          {
+              "unique_name": "definition_activity_01NCZ7RAZZ8LR7aba6M4gxGj3YSjeCSRZYj",
+              "name": "Group",
+              "title": "Calculate dates",
+              "type": "logic.group",
+              "base_type": "activity",
+              "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Calculate dates",
+                  "skip_execution": false
+              },
+              "object_type": "definition_activity",
+              "actions": [
+                  {
+                      "unique_name": "definition_activity_01NCZ2Z3PCQQR162rLcVRTThPLhYE7WaBc9",
+                      "name": "Calculate Date",
+                      "title": "Calculate date in 3 days",
+                      "type": "core.calculate_date",
+                      "base_type": "activity",
+                      "properties": {
+                          "adjustment": 259200,
+                          "continue_on_failure": false,
+                          "display_name": "Calculate date in 3 days",
+                          "original_date": "$workflow.definition_workflow_01N181T3IG8ZO3hpAavtoimVvrNmkjIiCuM.output.start_time$",
+                          "skip_execution": false
+                      },
+                      "object_type": "definition_activity"
+                  },
+                  {
+                      "unique_name": "definition_activity_01NCZ3CR0LGWK4AIeHz7PuYpMmvzBj4dub5",
+                      "name": "Format Date",
+                      "title": "Extract date",
+                      "type": "core.format_date",
+                      "base_type": "activity",
+                      "properties": {
+                          "continue_on_failure": false,
+                          "display_name": "Extract date",
+                          "format_string": "2006-01-02",
+                          "original_date": "$activity.definition_activity_01NCZ2Z3PCQQR162rLcVRTThPLhYE7WaBc9.output.result$",
+                          "skip_execution": false,
+                          "use_custom_format": false
+                      },
+                      "object_type": "definition_activity"
+                  },
+                  {
+                      "unique_name": "definition_activity_01NCZ3HFH7W317dFW9RhHpWRfKcz8azY8GY",
+                      "name": "Parse Date",
+                      "title": "Parse ticket start date",
+                      "type": "core.parse_date",
+                      "base_type": "activity",
+                      "properties": {
+                          "continue_on_failure": false,
+                          "display_name": "Parse ticket start date",
+                          "format_string": "2006-01-02T15:04:05-0700",
+                          "input_string": "$activity.definition_activity_01NCZ3CR0LGWK4AIeHz7PuYpMmvzBj4dub5.output.result$T05:00:00-0500",
+                          "skip_execution": false,
+                          "use_custom_format": false
+                      },
+                      "object_type": "definition_activity"
+                  },
+                  {
+                      "unique_name": "definition_activity_01NCZ3VK0V5XQ7cutFawTpvxBu9sGzTvL9U",
+                      "name": "Parse Date",
+                      "title": "Parse ticket end date",
+                      "type": "core.parse_date",
+                      "base_type": "activity",
+                      "properties": {
+                          "continue_on_failure": false,
+                          "display_name": "Parse ticket end date",
+                          "format_string": "2006-01-02T15:04:05-0700",
+                          "input_string": "$activity.definition_activity_01NCZ3CR0LGWK4AIeHz7PuYpMmvzBj4dub5.output.result$T05:00:00-0500",
+                          "skip_execution": false,
+                          "use_custom_format": false
+                      },
+                      "object_type": "definition_activity"
+                  }
+              ]
+          },
+          {
+              "unique_name": "definition_activity_01N8R3SBLQH8Y5p89U2NhoGS5cznab5qhsn",
+              "name": "ServiceNow - Create Change Request",
+              "title": "ServiceNow - Create Change Request",
+              "type": "workflow.atomic_workflow",
+              "base_type": "subworkflow",
+              "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "ServiceNow - Create Change Request",
+                  "input": {
+                      "variable_workflow_01N8QDRJEUY1V3E7RaT5JTmfQUUJdcDYAVI": "A request has been submitted to null route the IP address \"$workflow.definition_workflow_01N181T3IG8ZO3hpAavtoimVvrNmkjIiCuM.input.variable_workflow_01N8S1D4BY2C40tnWB6SPtVINnSwwQcD9H9$\" at the firewall",
+                      "variable_workflow_01N8QDRJEV38X7Ilv6Ndh9SqTRD49iUPI0T": "v1",
+                      "variable_workflow_01N8QDRJEV9XW53aWVoLcZx9qpZanikyhRb": "Firewall NullRoute requested",
+                      "variable_workflow_01N8RISWWL9045unuXat4wnYV2wJKWvvWUL": "The IP address was observed interracting with known malicious resources",
+                      "variable_workflow_01N8RJ19YTSO32DJ9qqDez4AJTYSDhohAU4": "Add the following route to the firewall:\nroute null0 $workflow.definition_workflow_01N181T3IG8ZO3hpAavtoimVvrNmkjIiCuM.input.variable_workflow_01N8S1D4BY2C40tnWB6SPtVINnSwwQcD9H9$ 255.255.255.255",
+                      "variable_workflow_01N8RJB01MWBE6B3HSj9CESHiQ7jGg1QKb1": "Traffic from $workflow.definition_workflow_01N181T3IG8ZO3hpAavtoimVvrNmkjIiCuM.input.variable_workflow_01N8S1D4BY2C40tnWB6SPtVINnSwwQcD9H9$\/32 will be blocked. This will cause an interruption of service for this endpoint",
+                      "variable_workflow_01N8RJJATJX1X3Vxc67can7LPufX93ivOHq": "The new null route can be removed if necessary",
+                      "variable_workflow_01N8RJS99T8ZM4PXJyoODA70SZAHUnoYmuZ": "",
+                      "variable_workflow_01N8RK8VZ125K1oKHHUns08Q7dudEPAsZct": "$activity.definition_activity_01NCZ3HFH7W317dFW9RhHpWRfKcz8azY8GY.output.result$",
+                      "variable_workflow_01N8RKGF2UBN34s14xqmULN5dN2alDtcA1n": "$activity.definition_activity_01NCZ3VK0V5XQ7cutFawTpvxBu9sGzTvL9U.output.result$"
+                  },
+                  "runtime_user": {
+                      "target_default": true
+                  },
+                  "skip_execution": false,
+                  "target": {
+                      "use_workflow_target_group": true
+                  },
+                  "workflow_id": "definition_workflow_01N8QDRJMU8990v1XTzGMCnA8hzWEZbXRTt",
+                  "workflow_name": "ServiceNow - Create Change Request"
+              },
+              "object_type": "definition_activity"
+          }
+      ],
+      "categories": [
+          "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m"
+      ]
   },
   "categories": {
-    "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m": {
-      "unique_name": "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m",
-      "name": "response",
-      "title": "response",
-      "type": "basic.category",
-      "base_type": "category",
-      "category_type": "custom",
-      "object_type": "category"
-    }
+      "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m": {
+          "unique_name": "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m",
+          "name": "response",
+          "title": "response",
+          "type": "basic.category",
+          "base_type": "category",
+          "category_type": "custom",
+          "object_type": "category"
+      }
   },
   "target_groups": {
-    "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
-      "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
-      "name": "Default TargetGroup",
-      "title": "Default TargetGroup",
-      "type": "generic.target_group",
-      "base_type": "target_group",
-      "version": "1.0.0",
-      "targets": [
-        {
-          "data_target_type": "web-service.endpoint",
-          "view_target_type": "web-service.endpoint",
-          "include_all_targets": true
-        },
-        {
-          "data_target_type": "email.smtp_endpoint",
-          "view_target_type": "email.smtp_endpoint",
-          "include_all_targets": true
-        }
-      ],
-      "object_type": "target_group"
-    }
+      "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+          "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+          "name": "Default TargetGroup",
+          "title": "Default TargetGroup",
+          "type": "generic.target_group",
+          "base_type": "target_group",
+          "version": "1.0.0",
+          "targets": [
+              {
+                  "data_target_type": "web-service.endpoint",
+                  "view_target_type": "web-service.endpoint",
+                  "include_all_targets": true
+              },
+              {
+                  "data_target_type": "email.smtp_endpoint",
+                  "view_target_type": "email.smtp_endpoint",
+                  "include_all_targets": true
+              }
+          ],
+          "object_type": "target_group"
+      }
   },
   "atomic_workflows": [
-    "definition_workflow_01N8QDRJMU8990v1XTzGMCnA8hzWEZbXRTt"
+      "definition_workflow_01N8QDRJMU8990v1XTzGMCnA8hzWEZbXRTt"
+  ],
+  "dependent_workflows": [
+      "definition_workflow_01N8QDRJMU8990v1XTzGMCnA8hzWEZbXRTt"
   ]
 }

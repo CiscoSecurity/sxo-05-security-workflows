@@ -30,6 +30,7 @@ This workflow blocks the given IP address on a Cisco Meraki MX L3 outbound firew
 | Apr 5, 2021 | - Initial release |
 | Apr 8, 2021 | - Fixed an issue in one of the Python scripts that caused the rule list JSON to be double wrapped |
 | Sep 10, 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+| Aug 31, 2022 | - Minor updates to naming and descriptions |
 
 _See the [Important Notes]({{ site.baseurl }}/notes#workflows) page for more information about updating workflows_
 

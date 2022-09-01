@@ -16,6 +16,8 @@ Workflow #0020
 
 This workflow allows you to bulk-delete incidents from your Cisco SecureX incident manager. The incidents to delete are identified by a Lucene/ES query and a time window. A dry run is executed first and an approval task is generated to confirm how many incidents will be deleted. If the approval task is approved, deletion is completed.
 
+<div class="cisco-alert cisco-alert-info"><i class="fa fa-info-circle mr-1 cisco-icon-info"></i> This workflow has been updated to use the new "SecureX Token" account key. For more information about this, please see <a href="{{ site.baseurl }}/account-keys/securex-token">this page</a>. If you want to use legacy authentication, you can import an older version of the workflow.</div>
+
 <div class="cisco-alert cisco-alert-danger"><i class="fa fa-exclamation-circle mr-1 cisco-icon-danger"></i> NOTE: DELETED INCIDENTS CANNOT BE RECOVERED!</div>
 
 [<i class="fab fa-github mr-1"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0020-SecureX-IncidentManagerCleanup__definition_workflow_01NLKX7ATT51N2uqeBtRMYilkGPgABnIUeS){: .btn-cisco-outline }
@@ -28,6 +30,7 @@ This workflow allows you to bulk-delete incidents from your Cisco SecureX incide
 |:-----|:------|
 | Apr 8, 2021 | - Initial release |
 | Sep 10, 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+| Aug 31, 2022 | - Updated to support [SecureX Tokens]({{ site.baseurl }}/account-keys/securex-token) |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 
@@ -35,7 +38,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 
 ## Requirements
 * The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
-	* Threat Response - Generate Access Token
+	* None
 * The following atomic actions must be imported before you can import this workflow:
 	* None
 * The [targets](#targets) and [account keys](#account-keys) listed at the bottom of the page
@@ -44,7 +47,6 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 
 ## Workflow Steps
 1. Validate inputs and format date/times
-1. Get an access token for Cisco SecureX
 1. Execute a dry run of the deletion query
 1. Check if the request was successful:
 	* If it wasn't, output an error
@@ -66,8 +68,7 @@ Target Group: `Default TargetGroup`
 
 | Target Name | Type | Details | Account Keys | Notes |
 |:------------|:-----|:--------|:-------------|:------|
-| [CTR_For_Access_Token]({{ site.baseurl }}/targets/default#ctr_for_access_token) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `visibility.amp.cisco.com`<br />_Path:_ `/iroh` | CTR_Credentials | Created by default |
-| [Private_CTIA_Target]({{ site.baseurl }}/targets/default#private_ctia_target) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `private.intel.amp.cisco.com`<br />_Path:_ None | None | Created by default |
+| [Private_CTIA_Target]({{ site.baseurl }}/targets/default#private_ctia_target) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `private.intel.amp.cisco.com`<br />_Path:_ None | CTR_Credentials | Created by default |
 
 ---
 
@@ -75,4 +76,4 @@ Target Group: `Default TargetGroup`
 
 | Account Key Name | Type | Details | Notes |
 |:-----------------|:-----|:--------|:------|
-| [CTR_Credentials]({{ site.baseurl }}/account-keys/default#ctr_credentials) | HTTP Basic Authentication | _Username:_ Client ID<br />_Password:_ Client Secret | Created by default |
+| [CTR_Credentials]({{ site.baseurl }}/account-keys/default#ctr_credentials) | SecureX Token | | See [this page]({{ site.baseurl }}/account-keys/securex-token) |

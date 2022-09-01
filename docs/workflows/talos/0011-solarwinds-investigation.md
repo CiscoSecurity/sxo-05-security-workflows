@@ -17,6 +17,8 @@ Workflow #0011
 
 This workflow uses a Talos blog post about the SolarWinds supply chain attack as a source of intelligence. Using observables extracted from the blog post, it conducts an investigation and looks for sightings within your environment. If there are sightings, a variety of actions are taken including creating a Cisco SecureX incident and casebook, creating a ServiceNow incident, sending a Webex message, sending a message on Slack, and sending an email. The workflow also supports automated remediation (with approval). If the resulting approval task is approved, unknown or suspicious file hashes and domains are blocked using Cisco Secure Endpoint and Umbrella respectively. If there are any target endpoints, Cisco Orbital is used to take a forensic snapshot and Secure Endpoint is used to enable host isolation.
 
+<div class="cisco-alert cisco-alert-info"><i class="fa fa-info-circle mr-1 cisco-icon-info"></i> This workflow has been updated to use the new "SecureX Token" account key. For more information about this, please see <a href="{{ site.baseurl }}/account-keys/securex-token">this page</a>. If you want to use legacy authentication, you can import an older version of the workflow.</div>
+
 [<i class="fa fa-video mr-1"></i> Overview](https://www.youtube.com/watch?v=WR6pr-BEM6E&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo){: .btn-cisco-outline .mr-2 } [<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0011-Talos-SolarWindsInvestigation__definition_workflow_01LQA3KMNO5FO3ikAlUvOc3cLoXQQo6GwUa){: .btn-cisco-outline }
 
 ---
@@ -28,6 +30,7 @@ This workflow uses a Talos blog post about the SolarWinds supply chain attack as
 | Jan 22, 2021 | - Initial release |
 | Jun 24, 2021 | - Updated the user agent header being used to fetch blog posts from Talos |
 | Sep 10, 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+| Aug 31, 2022 | - Updated to support [SecureX Tokens]({{ site.baseurl }}/account-keys/securex-token) |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 
@@ -63,7 +66,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 ## Workflow Steps
 1. Fetch any necessary global variables and set the environment URLs for SecureX and Threat Response
 1. Fetch the blog post content and strip out any HTML
-1. Request a Threat Response access token and inspect the blog post content for observables
+1. Inspect the blog post content for observables
 1. Loop through each observable and get its Threat Response disposition
 1. For observables that weren't clean, conduct Threat Response enrichment to get sightings
 	* For modules with sightings, extract the sightings and targets for use later
@@ -78,7 +81,6 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 	* Email
 1. Wait for the approval task to be completed
 1. If completed and approved:
-	* Fetch an access token for Threat Response
 	* Fetch the Cisco Secure Endpoint and Umbrella module instance IDs from Threat Response
 	* Loop through each observable:
 		* If it's a file hash, add it to the Secure Endpoint simple custom detections list using Threat Response
@@ -120,12 +122,11 @@ By default, the `Default TargetGroup` may not include `SMTP Endpoint` targets. I
 
 | Target Name | Type | Details | Account Keys | Notes |
 |:------------|:-----|:--------|:-------------|:------|
-| [CTR_API]({{ site.baseurl }}/targets/default#ctr_api) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `visibility.amp.cisco.com`<br />_Path:_ `/iroh` | None | Created by default |
-| [CTR_For_Access_Token]({{ site.baseurl }}/targets/default#ctr_for_access_token) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `visibility.amp.cisco.com`<br />_Path:_ `/iroh` | CTR_Credentials | Created by default |
+| [CTR_API]({{ site.baseurl }}/targets/default#ctr_api) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `visibility.amp.cisco.com`<br />_Path:_ `/iroh` | CTR_Credentials | Created by default |
 | Email Endpoint | SMTP Endpoint | Configured for your SMTP server | `Email Credentials` account key | |
 | [Orbital_For_Access_Token]({{ site.baseurl }}/targets/default#orbital_for_access_token) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `visibility.amp.cisco.com`<br />_Path:_ `/iroh` | Orbital_Credentials | Created by default |
 | [Orbital_Target]({{ site.baseurl }}/targets/default#orbital_target) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `orbital.amp.cisco.com`<br />_Path:_ `/v0` | None | Created by default |
-| [Private_CTIA_Target]({{ site.baseurl }}/targets/default#private_ctia_target) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `private.intel.amp.cisco.com`<br />_Path:_ None | None | Created by default |
+| [Private_CTIA_Target]({{ site.baseurl }}/targets/default#private_ctia_target) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `private.intel.amp.cisco.com`<br />_Path:_ None | CTR_Credentials | Created by default |
 | ServiceNow | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `<instance>.service-now.com`<br />_Path:_ `/api` | ServiceNow_Credentials | Be sure to use your instance URL |
 | Slack | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `slack.com`<br />_Path:_ `/api` | None | Not necessary if Slack activities are removed |
 | Webex Teams | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `webexapis.com`<br />_Path:_ None | None | Not necessary if Webex activities are removed |
@@ -136,7 +137,7 @@ By default, the `Default TargetGroup` may not include `SMTP Endpoint` targets. I
 
 | Account Key Name | Type | Details | Notes |
 |:-----------------|:-----|:--------|:------|
-| [CTR_Credentials]({{ site.baseurl }}/account-keys/default#ctr_credentials) | HTTP Basic Authentication | _Username:_ Client ID<br />_Password:_ Client Secret | Created by default |
+| [CTR_Credentials]({{ site.baseurl }}/account-keys/default#ctr_credentials) | SecureX Token | | See [this page]({{ site.baseurl }}/account-keys/securex-token) |
 | Email Credentials | Email Credentials | _Username:_ Mailbox Username<br />_Password:_ Mailbox Password | |
 | [Orbital_Credentials]({{ site.baseurl }}/account-keys/default#orbital_credentials) | HTTP Basic Authentication | _Username:_ Client ID<br />_Password:_ Client Secret | Created by default |
 | ServiceNow_Credentials | HTTP Basic Authentication | _Username:_ ServiceNow User ID<br />_Password:_ ServiceNow Password | |
