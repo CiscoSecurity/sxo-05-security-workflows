@@ -1,624 +1,596 @@
 {
   "workflow": {
-    "unique_name": "definition_workflow_01NOZNOLQGMUL2K59yNj2rcOYLAsvxkoKuD",
-    "name": "0023 - Umbrella - Excessive Requests to Incidents",
-    "title": "0023 - Umbrella - Excessive Requests to Incidents",
-    "type": "generic.workflow",
-    "base_type": "workflow",
-    "variables": [
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "local",
-          "name": "Umbrella Organization ID",
-          "type": "datatype.string",
-          "description": "Your Umbrella organization ID. This can be found in the URL of your Umbrella dashboard. For example, in this URL the organization ID is \"1234567\": https://dashboard.umbrella.com/o/1234567/#/overview",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01NOZXMQTF2C14J5mXLd9YMzA7YRX2rSBhd",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "Cryptomining,Illegal Downloads,Illegal Activity,Phishing",
-          "scope": "local",
-          "name": "Categories to Alert On",
-          "type": "datatype.string",
-          "description": "The list of category names you want the workflow to pay attention to. An incident will only be created if the threshold is exceeded for one of these categories. You can specify a single category or multiple in a comma separated list",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01NPNN4JWMF741SF2HRu6ZGsXoF9bYPxZ7E",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.integer",
-        "properties": {
-          "value": 1000,
-          "scope": "local",
-          "name": "Request Threshold",
-          "type": "datatype.integer",
-          "description": "How many requests the selected categories should have before an incident is created in SecureX",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01NP03YWDKYNG24sKDZyIzoYS63w9cMc7Wo",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "local",
-          "name": "Incident Text",
-          "type": "datatype.string",
-          "description": "Placeholder used to assemble text during the workflow. This is set automatically",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01NP064WW1FNK6PYEuIOTGeNWcBzlvq3Ji2",
-        "object_type": "variable_workflow"
-      }
-    ],
-    "properties": {
-      "atomic": {
-        "is_atomic": false
-      },
-      "delete_workflow_instance": false,
-      "description": "This workflow fetches request per category statistics from Cisco Umbrella for a 1 hour window. If any of the categories had a request count higher than the threshold configured in the workflow, an incident is created in Cisco SecureX.\n\nTarget Group: Default TargetGroup\n\nTargets: CTR_For_Access_Token, Private_CTIA_Target, Umbrella OAuth, Umbrella Reporting v2\n\nSteps:\n[] Get a token for the Umbrella API\n[] Request statistics for DNS categories\n[] Check if the request was successful:\n[]> If it wasn't, output an error and end the workflow\n[]> If it was:\n[]>> Convert the statistics to a table\n[]>> Loop through the table checking if any of the categories are in scope. If it is, add it to the ticket text\n[] Check if any categories exceeded the threshold (overall)\n[]> If none of them did, end the workflow\n[] Generate an access token for SecureX and create an incident\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0023",
-      "display_name": "0023 - Umbrella - Excessive Requests to Incidents",
-      "runtime_user": {
-        "override_target_runtime_user": false,
-        "specify_on_workflow_start": false,
-        "target_default": true
-      },
-      "target": {
-        "execute_on_target_group": true,
-        "target_group": {
-          "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
-          "run_on_all_targets": false,
-          "selected_target_types": [
-            "web-service.endpoint"
-          ],
-          "use_criteria": {
-            "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-            "conditions": [
-              {
-                "operator": "eqi",
-                "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-                "right_operand": "Umbrella Reporting v2"
-              }
-            ]
-          }
-        }
-      }
-    },
-    "object_type": "definition_workflow",
-    "actions": [
-      {
-        "unique_name": "definition_activity_01NOZRJ54SP8Q7NIZNo5NtoRCFQkltJMuyT",
-        "name": "Umbrella - Reporting v2 - Get Token",
-        "title": "Umbrella - Reporting v2 - Get Token",
-        "type": "workflow.atomic_workflow",
-        "base_type": "subworkflow",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "Umbrella - Reporting v2 - Get Token",
-          "runtime_user": {
-            "target_default": true
-          },
-          "skip_execution": false,
-          "target": {
-            "override_workflow_target_group_criteria": true,
-            "target_group": {
-              "run_on_all_targets": false,
-              "use_criteria": {
-                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-                "conditions": [
-                  {
-                    "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-                    "operator": "eqi",
-                    "right_operand": "Umbrella OAuth"
-                  }
-                ]
-              }
-            }
-          },
-          "workflow_id": "definition_workflow_01PP75D6GJ0002MvUF1kmECjGTE8Ps6WiaC"
-        },
-        "object_type": "definition_activity"
-      },
-      {
-        "unique_name": "definition_activity_01NOZV41ZBU3I2iUw0HpGdSZWAbtoUxwegS",
-        "name": "HTTP Request",
-        "title": "Request category statistics",
-        "type": "web-service.http_request",
-        "base_type": "activity",
-        "properties": {
-          "accept": "application/json",
-          "action_timeout": 180,
-          "allow_auto_redirect": true,
-          "allow_headers_redirect": true,
-          "continue_on_error_status_code": true,
-          "continue_on_failure": false,
-          "custom_headers": [
-            {
-              "name": "Authorization",
-              "value": "Bearer $activity.definition_activity_01NOZRJ54SP8Q7NIZNo5NtoRCFQkltJMuyT.output.variable_workflow_01PP75D6AZ5UZ53AWQQ12vT5dEujYPUhe2x$"
-            }
-          ],
-          "display_name": "Request category statistics",
-          "method": "GET",
-          "relative_url": "v2/organizations/$workflow.definition_workflow_01NOZNOLQGMUL2K59yNj2rcOYLAsvxkoKuD.local.variable_workflow_01NOZXMQTF2C14J5mXLd9YMzA7YRX2rSBhd$/categories-by-timerange/dns?from=-1hours&to=now",
-          "runtime_user": {
-            "override_target_runtime_user": false,
-            "target_default": true
-          },
-          "skip_execution": false,
-          "target": {
-            "use_workflow_target_group": true
-          }
-        },
-        "object_type": "definition_activity"
-      },
-      {
-        "unique_name": "definition_activity_01NP01X9UPSCO3bltrgcGRnjU9EqYB1a8hC",
-        "name": "Condition Block",
-        "title": "Was the request successful?",
-        "type": "logic.if_else",
-        "base_type": "activity",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "Was the request successful?",
-          "skip_execution": false
-        },
-        "object_type": "definition_activity",
-        "blocks": [
+      "unique_name": "definition_workflow_01NOZNOLQGMUL2K59yNj2rcOYLAsvxkoKuD",
+      "name": "0023 - Umbrella - Excessive Requests to Incidents",
+      "title": "0023 - Umbrella - Excessive Requests to Incidents",
+      "type": "generic.workflow",
+      "base_type": "workflow",
+      "variables": [
           {
-            "unique_name": "definition_activity_01NP01Y0OGKNX3oEURolehPIXAsynx79gEi",
-            "name": "Condition Branch",
-            "title": "200/Success",
-            "type": "logic.condition_block",
-            "base_type": "activity",
-            "properties": {
-              "condition": {
-                "left_operand": "$activity.definition_activity_01NOZV41ZBU3I2iUw0HpGdSZWAbtoUxwegS.output.status_code$",
-                "operator": "eq",
-                "right_operand": 200
+              "schema_id": "datatype.integer",
+              "properties": {
+                  "value": 1000,
+                  "scope": "local",
+                  "name": "Request Threshold",
+                  "type": "datatype.integer",
+                  "description": "How many requests the selected categories should have before an incident is created in SecureX",
+                  "is_required": false,
+                  "is_invisible": false
               },
-              "continue_on_failure": false,
-              "display_name": "200/Success",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity",
-            "actions": [
-              {
-                "unique_name": "definition_activity_01NP01OWJUJNR45b6carvaYgb4bSQopTcgq",
-                "name": "Read Table from JSON",
-                "title": "Convert categories to table",
-                "type": "corejava.read_table_from_json",
-                "base_type": "activity",
-                "properties": {
-                  "action_timeout": 180,
-                  "continue_on_failure": true,
-                  "display_name": "Convert categories to table",
-                  "input_json": "$activity.definition_activity_01NOZV41ZBU3I2iUw0HpGdSZWAbtoUxwegS.output.response_body$",
-                  "jsonpath_query": "$.data[0].counts[?(@.requests >= $workflow.definition_workflow_01NOZNOLQGMUL2K59yNj2rcOYLAsvxkoKuD.local.variable_workflow_01NP03YWDKYNG24sKDZyIzoYS63w9cMc7Wo$)]",
-                  "persist_output": false,
-                  "populate_columns": false,
-                  "skip_execution": false,
-                  "table_columns": [
-                    {
-                      "column_name": "category",
-                      "column_type": "string"
-                    },
-                    {
-                      "column_name": "requests",
-                      "column_type": "integer"
-                    }
-                  ]
-                },
-                "object_type": "definition_activity"
+              "unique_name": "variable_workflow_01NP03YWDKYNG24sKDZyIzoYS63w9cMc7Wo",
+              "object_type": "variable_workflow"
+          },
+          {
+              "schema_id": "datatype.string",
+              "properties": {
+                  "value": "Cryptomining,Illegal Downloads,Illegal Activity,Phishing",
+                  "scope": "local",
+                  "name": "Categories to Alert On",
+                  "type": "datatype.string",
+                  "description": "The list of category names you want the workflow to pay attention to. An incident will only be created if the threshold is exceeded for one of these categories. You can specify a single category or multiple in a comma separated list",
+                  "is_required": false,
+                  "is_invisible": false
               },
-              {
-                "unique_name": "definition_activity_01P6NXC6L9ALF3bmf4cV3ykhIxpzi4rbyR6",
-                "name": "Condition Block",
-                "title": "Did we get results?",
-                "type": "logic.if_else",
-                "base_type": "activity",
-                "properties": {
-                  "continue_on_failure": false,
-                  "display_name": "Did we get results?",
-                  "skip_execution": false
-                },
-                "object_type": "definition_activity",
-                "blocks": [
-                  {
-                    "unique_name": "definition_activity_01P6NXCCVFA7P6eO9nLzGL09rNjWB4EXEHF",
-                    "name": "Condition Branch",
-                    "title": "No",
-                    "type": "logic.condition_block",
-                    "base_type": "activity",
-                    "properties": {
-                      "condition": {
-                        "left_operand": "$activity.definition_activity_01NP01OWJUJNR45b6carvaYgb4bSQopTcgq.output.succeeded$",
-                        "operator": "eq",
-                        "right_operand": false
-                      },
-                      "continue_on_failure": false,
-                      "display_name": "No",
-                      "skip_execution": false
-                    },
-                    "object_type": "definition_activity",
-                    "actions": [
-                      {
-                        "unique_name": "definition_activity_01P6NYIPX34QG2i19WClnRCQtsq68b9Bdyq",
-                        "name": "Completed",
-                        "title": "No results",
-                        "type": "logic.completed",
-                        "base_type": "activity",
-                        "properties": {
-                          "completion_type": "succeeded",
-                          "continue_on_failure": false,
-                          "display_name": "No results",
-                          "result_message": "No results were returned by Umbrella. This usually means there weren't any requests in the given timeframe",
-                          "skip_execution": false
-                        },
-                        "object_type": "definition_activity"
-                      }
-                    ]
+              "unique_name": "variable_workflow_01NPNN4JWMF741SF2HRu6ZGsXoF9bYPxZ7E",
+              "object_type": "variable_workflow"
+          },
+          {
+              "schema_id": "datatype.string",
+              "properties": {
+                  "value": "",
+                  "scope": "local",
+                  "name": "Umbrella Organization ID",
+                  "type": "datatype.string",
+                  "description": "Your Umbrella organization ID. This can be found in the URL of your Umbrella dashboard. For example, in this URL the organization ID is \"1234567\": https:\/\/dashboard.umbrella.com\/o\/1234567\/#\/overview",
+                  "is_required": false,
+                  "is_invisible": false
+              },
+              "unique_name": "variable_workflow_01NOZXMQTF2C14J5mXLd9YMzA7YRX2rSBhd",
+              "object_type": "variable_workflow"
+          },
+          {
+              "schema_id": "datatype.string",
+              "properties": {
+                  "value": "",
+                  "scope": "local",
+                  "name": "Incident Text",
+                  "type": "datatype.string",
+                  "description": "Placeholder used to assemble text during the workflow. This is set automatically",
+                  "is_required": false,
+                  "is_invisible": false
+              },
+              "unique_name": "variable_workflow_01NP064WW1FNK6PYEuIOTGeNWcBzlvq3Ji2",
+              "object_type": "variable_workflow"
+          }
+      ],
+      "properties": {
+          "atomic": {
+              "is_atomic": false
+          },
+          "delete_workflow_instance": false,
+          "description": "This workflow fetches request per category statistics from Cisco Umbrella for a 1 hour window. If any of the categories had a request count higher than the threshold configured in the workflow, an incident is created in Cisco SecureX.\n\nNote: This workflow has been updated to support SecureX Token account keys. See the workflow documentation for more information.\n\nDocumentation: https:\/\/ciscosecurity.github.io\/sxo-05-security-workflows\/workflows\/0023\n\nTarget Group: Default TargetGroup\n\nTargets: Private_CTIA_Target, Umbrella OAuth, Umbrella Reporting v2\n\nSteps:\n[] Get a token for Umbrella\n[] Request statistics for DNS categories\n[] Check if the request was successful:\n[]> If it wasn't, output an error and end the workflow\n[]> If it was:\n[]>> Convert the statistics to a table\n[]>> Loop through the table checking if any of the categories are in scope. If it is, add it to the ticket text\n[] Check if any categories exceeded the threshold (overall)\n[]> If none of them did, end the workflow\n[] Create an incident",
+          "display_name": "0023 - Umbrella - Excessive Requests to Incidents",
+          "runtime_user": {
+              "override_target_runtime_user": false,
+              "specify_on_workflow_start": false,
+              "target_default": true
+          },
+          "target": {
+              "execute_on_target_group": true,
+              "target_group": {
+                  "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+                  "run_on_all_targets": false,
+                  "selected_target_types": [
+                      "web-service.endpoint"
+                  ],
+                  "use_criteria": {
+                      "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                      "conditions": [
+                          {
+                              "operator": "eqi",
+                              "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                              "right_operand": "Umbrella Reporting v2"
+                          }
+                      ]
                   }
-                ]
-              },
-              {
-                "unique_name": "definition_activity_01NP01ZSC0CYS41QFSb7p1pjprdAD47t227",
-                "name": "For Each",
-                "title": "For each category",
-                "type": "logic.for_each",
-                "base_type": "activity",
-                "properties": {
+              }
+          }
+      },
+      "object_type": "definition_workflow",
+      "actions": [
+          {
+              "unique_name": "definition_activity_01NOZRJ54SP8Q7NIZNo5NtoRCFQkltJMuyT",
+              "name": "Umbrella - Reporting v2 - Get Token",
+              "title": "Umbrella - Reporting v2 - Get Token",
+              "type": "workflow.atomic_workflow",
+              "base_type": "subworkflow",
+              "properties": {
                   "continue_on_failure": false,
-                  "display_name": "For each category",
-                  "skip_execution": false,
-                  "source_array": "$activity.definition_activity_01NP01OWJUJNR45b6carvaYgb4bSQopTcgq.output.read_table_from_json$"
-                },
-                "object_type": "definition_activity",
-                "actions": [
-                  {
-                    "unique_name": "definition_activity_01NP052TYSJY160ZTcycuuh75pmNRHB93Y0",
-                    "name": "JSONPath Query",
-                    "title": "Extract the category's details",
-                    "type": "corejava.jsonpathquery",
-                    "base_type": "activity",
-                    "properties": {
-                      "action_timeout": 180,
-                      "continue_on_failure": false,
-                      "display_name": "Extract the category's details",
-                      "input_json": "$activity.definition_activity_01NP01ZSC0CYS41QFSb7p1pjprdAD47t227.input.source_array[@].category$",
-                      "jsonpath_queries": [
-                        {
-                          "jsonpath_query": "$.id",
-                          "jsonpath_query_name": "id",
-                          "jsonpath_query_type": "integer"
-                        },
-                        {
-                          "jsonpath_query": "$.type",
-                          "jsonpath_query_name": "type",
-                          "jsonpath_query_type": "string"
-                        },
-                        {
-                          "jsonpath_query": "$.label",
-                          "jsonpath_query_name": "label",
-                          "jsonpath_query_type": "string"
-                        }
-                      ],
-                      "skip_execution": false
-                    },
-                    "object_type": "definition_activity"
+                  "display_name": "Umbrella - Reporting v2 - Get Token",
+                  "runtime_user": {
+                      "target_default": true
                   },
-                  {
-                    "unique_name": "definition_activity_01NPNNDZHCMKA4sUnO8eII3npz2IfiQGvL0",
-                    "name": "Condition Block",
-                    "title": "Is this a category we care about?",
-                    "type": "logic.if_else",
-                    "base_type": "activity",
-                    "properties": {
-                      "continue_on_failure": false,
-                      "display_name": "Is this a category we care about?",
-                      "skip_execution": false
-                    },
-                    "object_type": "definition_activity",
-                    "blocks": [
+                  "skip_execution": false,
+                  "target": {
+                      "override_workflow_target_group_criteria": true,
+                      "target_group": {
+                          "run_on_all_targets": false,
+                          "use_criteria": {
+                              "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                              "conditions": [
+                                  {
+                                      "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                      "operator": "eqi",
+                                      "right_operand": "Umbrella OAuth"
+                                  }
+                              ]
+                          }
+                      }
+                  },
+                  "workflow_id": "definition_workflow_01PP75D6GJ0002MvUF1kmECjGTE8Ps6WiaC",
+                  "workflow_name": "Umbrella - Reporting v2 - Get Token"
+              },
+              "object_type": "definition_activity"
+          },
+          {
+              "unique_name": "definition_activity_01NOZV41ZBU3I2iUw0HpGdSZWAbtoUxwegS",
+              "name": "HTTP Request",
+              "title": "Request category statistics",
+              "type": "web-service.http_request",
+              "base_type": "activity",
+              "properties": {
+                  "accept": "application\/json",
+                  "action_timeout": 180,
+                  "allow_auto_redirect": true,
+                  "allow_headers_redirect": true,
+                  "continue_on_error_status_code": true,
+                  "continue_on_failure": false,
+                  "custom_headers": [
                       {
-                        "unique_name": "definition_activity_01NPNNERWOW800YOFrKhGSuRHa7bOWLNMDz",
-                        "name": "Condition Branch",
-                        "title": "Yes",
-                        "type": "logic.condition_block",
-                        "base_type": "activity",
-                        "properties": {
+                          "name": "Authorization",
+                          "value": "Bearer $activity.definition_activity_01NOZRJ54SP8Q7NIZNo5NtoRCFQkltJMuyT.output.variable_workflow_01PP75D6AZ5UZ53AWQQ12vT5dEujYPUhe2x$"
+                      }
+                  ],
+                  "display_name": "Request category statistics",
+                  "method": "GET",
+                  "relative_url": "v2\/organizations\/$workflow.definition_workflow_01NOZNOLQGMUL2K59yNj2rcOYLAsvxkoKuD.local.variable_workflow_01NOZXMQTF2C14J5mXLd9YMzA7YRX2rSBhd$\/categories-by-timerange\/dns?from=-1hours&to=now",
+                  "runtime_user": {
+                      "override_target_runtime_user": false,
+                      "target_default": true
+                  },
+                  "skip_execution": false,
+                  "target": {
+                      "use_workflow_target_group": true
+                  }
+              },
+              "object_type": "definition_activity"
+          },
+          {
+              "unique_name": "definition_activity_01NP01X9UPSCO3bltrgcGRnjU9EqYB1a8hC",
+              "name": "Condition Block",
+              "title": "Was the request successful?",
+              "type": "logic.if_else",
+              "base_type": "activity",
+              "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Was the request successful?",
+                  "skip_execution": false
+              },
+              "object_type": "definition_activity",
+              "blocks": [
+                  {
+                      "unique_name": "definition_activity_01NP01Y0OGKNX3oEURolehPIXAsynx79gEi",
+                      "name": "Condition Branch",
+                      "title": "200\/Success",
+                      "type": "logic.condition_block",
+                      "base_type": "activity",
+                      "properties": {
                           "condition": {
-                            "left_operand": "$workflow.definition_workflow_01NOZNOLQGMUL2K59yNj2rcOYLAsvxkoKuD.local.variable_workflow_01NPNN4JWMF741SF2HRu6ZGsXoF9bYPxZ7E$",
-                            "operator": "mw",
-                            "right_operand": "*$activity.definition_activity_01NP052TYSJY160ZTcycuuh75pmNRHB93Y0.output.jsonpath_queries.label$*"
+                              "left_operand": "$activity.definition_activity_01NOZV41ZBU3I2iUw0HpGdSZWAbtoUxwegS.output.status_code$",
+                              "operator": "eq",
+                              "right_operand": 200
                           },
                           "continue_on_failure": false,
-                          "display_name": "Yes",
+                          "display_name": "200\/Success",
                           "skip_execution": false
-                        },
-                        "object_type": "definition_activity",
-                        "actions": [
+                      },
+                      "object_type": "definition_activity",
+                      "actions": [
                           {
-                            "unique_name": "definition_activity_01NP0681CKTHQ0PDcXtiGpZQBm7biOVpCda",
-                            "name": "Set Variables",
-                            "title": "Set ticket text variable",
-                            "type": "core.set_multiple_variables",
-                            "base_type": "activity",
-                            "properties": {
-                              "continue_on_failure": false,
-                              "display_name": "Set ticket text variable",
-                              "skip_execution": false,
-                              "variables_to_update": [
-                                {
-                                  "variable_to_update": "$workflow.definition_workflow_01NOZNOLQGMUL2K59yNj2rcOYLAsvxkoKuD.local.variable_workflow_01NP064WW1FNK6PYEuIOTGeNWcBzlvq3Ji2$",
-                                  "variable_value_new": "$workflow.definition_workflow_01NOZNOLQGMUL2K59yNj2rcOYLAsvxkoKuD.local.variable_workflow_01NP064WW1FNK6PYEuIOTGeNWcBzlvq3Ji2$\n| $activity.definition_activity_01NP052TYSJY160ZTcycuuh75pmNRHB93Y0.output.jsonpath_queries.label$ | $activity.definition_activity_01NP01ZSC0CYS41QFSb7p1pjprdAD47t227.input.source_array[@].requests$ |"
-                                }
+                              "unique_name": "definition_activity_01NP01OWJUJNR45b6carvaYgb4bSQopTcgq",
+                              "name": "Read Table from JSON",
+                              "title": "Convert categories to table",
+                              "type": "corejava.read_table_from_json",
+                              "base_type": "activity",
+                              "properties": {
+                                  "action_timeout": 180,
+                                  "continue_on_failure": true,
+                                  "display_name": "Convert categories to table",
+                                  "input_json": "$activity.definition_activity_01NOZV41ZBU3I2iUw0HpGdSZWAbtoUxwegS.output.response_body$",
+                                  "jsonpath_query": "$.data[0].counts[?(@.requests >= $workflow.definition_workflow_01NOZNOLQGMUL2K59yNj2rcOYLAsvxkoKuD.local.variable_workflow_01NP03YWDKYNG24sKDZyIzoYS63w9cMc7Wo$)]",
+                                  "persist_output": false,
+                                  "populate_columns": false,
+                                  "skip_execution": false,
+                                  "table_columns": [
+                                      {
+                                          "column_name": "category",
+                                          "column_type": "string"
+                                      },
+                                      {
+                                          "column_name": "requests",
+                                          "column_type": "integer"
+                                      }
+                                  ]
+                              },
+                              "object_type": "definition_activity"
+                          },
+                          {
+                              "unique_name": "definition_activity_01P6NXC6L9ALF3bmf4cV3ykhIxpzi4rbyR6",
+                              "name": "Condition Block",
+                              "title": "Did we get results?",
+                              "type": "logic.if_else",
+                              "base_type": "activity",
+                              "properties": {
+                                  "continue_on_failure": false,
+                                  "display_name": "Did we get results?",
+                                  "skip_execution": false
+                              },
+                              "object_type": "definition_activity",
+                              "blocks": [
+                                  {
+                                      "unique_name": "definition_activity_01P6NXCCVFA7P6eO9nLzGL09rNjWB4EXEHF",
+                                      "name": "Condition Branch",
+                                      "title": "No",
+                                      "type": "logic.condition_block",
+                                      "base_type": "activity",
+                                      "properties": {
+                                          "condition": {
+                                              "left_operand": "$activity.definition_activity_01NP01OWJUJNR45b6carvaYgb4bSQopTcgq.output.succeeded$",
+                                              "operator": "eq",
+                                              "right_operand": false
+                                          },
+                                          "continue_on_failure": false,
+                                          "display_name": "No",
+                                          "skip_execution": false
+                                      },
+                                      "object_type": "definition_activity",
+                                      "actions": [
+                                          {
+                                              "unique_name": "definition_activity_01P6NYIPX34QG2i19WClnRCQtsq68b9Bdyq",
+                                              "name": "Completed",
+                                              "title": "No results",
+                                              "type": "logic.completed",
+                                              "base_type": "activity",
+                                              "properties": {
+                                                  "completion_type": "succeeded",
+                                                  "continue_on_failure": false,
+                                                  "display_name": "No results",
+                                                  "result_message": "No results were returned by Umbrella. This usually means there weren't any requests in the given timeframe",
+                                                  "skip_execution": false
+                                              },
+                                              "object_type": "definition_activity"
+                                          }
+                                      ]
+                                  }
                               ]
-                            },
-                            "object_type": "definition_activity"
+                          },
+                          {
+                              "unique_name": "definition_activity_01NP01ZSC0CYS41QFSb7p1pjprdAD47t227",
+                              "name": "For Each",
+                              "title": "For each category",
+                              "type": "logic.for_each",
+                              "base_type": "activity",
+                              "properties": {
+                                  "continue_on_failure": false,
+                                  "display_name": "For each category",
+                                  "skip_execution": false,
+                                  "source_array": "$activity.definition_activity_01NP01OWJUJNR45b6carvaYgb4bSQopTcgq.output.read_table_from_json$"
+                              },
+                              "object_type": "definition_activity",
+                              "actions": [
+                                  {
+                                      "unique_name": "definition_activity_01NP052TYSJY160ZTcycuuh75pmNRHB93Y0",
+                                      "name": "JSONPath Query",
+                                      "title": "Extract the category's details",
+                                      "type": "corejava.jsonpathquery",
+                                      "base_type": "activity",
+                                      "properties": {
+                                          "action_timeout": 180,
+                                          "continue_on_failure": false,
+                                          "display_name": "Extract the category's details",
+                                          "input_json": "$activity.definition_activity_01NP01ZSC0CYS41QFSb7p1pjprdAD47t227.input.source_array[@].category$",
+                                          "jsonpath_queries": [
+                                              {
+                                                  "jsonpath_query": "$.id",
+                                                  "jsonpath_query_name": "id",
+                                                  "jsonpath_query_type": "integer"
+                                              },
+                                              {
+                                                  "jsonpath_query": "$.type",
+                                                  "jsonpath_query_name": "type",
+                                                  "jsonpath_query_type": "string"
+                                              },
+                                              {
+                                                  "jsonpath_query": "$.label",
+                                                  "jsonpath_query_name": "label",
+                                                  "jsonpath_query_type": "string"
+                                              }
+                                          ],
+                                          "skip_execution": false
+                                      },
+                                      "object_type": "definition_activity"
+                                  },
+                                  {
+                                      "unique_name": "definition_activity_01NPNNDZHCMKA4sUnO8eII3npz2IfiQGvL0",
+                                      "name": "Condition Block",
+                                      "title": "Is this a category we care about?",
+                                      "type": "logic.if_else",
+                                      "base_type": "activity",
+                                      "properties": {
+                                          "continue_on_failure": false,
+                                          "display_name": "Is this a category we care about?",
+                                          "skip_execution": false
+                                      },
+                                      "object_type": "definition_activity",
+                                      "blocks": [
+                                          {
+                                              "unique_name": "definition_activity_01NPNNERWOW800YOFrKhGSuRHa7bOWLNMDz",
+                                              "name": "Condition Branch",
+                                              "title": "Yes",
+                                              "type": "logic.condition_block",
+                                              "base_type": "activity",
+                                              "properties": {
+                                                  "condition": {
+                                                      "left_operand": "$workflow.definition_workflow_01NOZNOLQGMUL2K59yNj2rcOYLAsvxkoKuD.local.variable_workflow_01NPNN4JWMF741SF2HRu6ZGsXoF9bYPxZ7E$",
+                                                      "operator": "mw",
+                                                      "right_operand": "*$activity.definition_activity_01NP052TYSJY160ZTcycuuh75pmNRHB93Y0.output.jsonpath_queries.label$*"
+                                                  },
+                                                  "continue_on_failure": false,
+                                                  "display_name": "Yes",
+                                                  "skip_execution": false
+                                              },
+                                              "object_type": "definition_activity",
+                                              "actions": [
+                                                  {
+                                                      "unique_name": "definition_activity_01NP0681CKTHQ0PDcXtiGpZQBm7biOVpCda",
+                                                      "name": "Set Variables",
+                                                      "title": "Set ticket text variable",
+                                                      "type": "core.set_multiple_variables",
+                                                      "base_type": "activity",
+                                                      "properties": {
+                                                          "continue_on_failure": false,
+                                                          "display_name": "Set ticket text variable",
+                                                          "skip_execution": false,
+                                                          "variables_to_update": [
+                                                              {
+                                                                  "variable_to_update": "$workflow.definition_workflow_01NOZNOLQGMUL2K59yNj2rcOYLAsvxkoKuD.local.variable_workflow_01NP064WW1FNK6PYEuIOTGeNWcBzlvq3Ji2$",
+                                                                  "variable_value_new": "$workflow.definition_workflow_01NOZNOLQGMUL2K59yNj2rcOYLAsvxkoKuD.local.variable_workflow_01NP064WW1FNK6PYEuIOTGeNWcBzlvq3Ji2$\n| $activity.definition_activity_01NP052TYSJY160ZTcycuuh75pmNRHB93Y0.output.jsonpath_queries.label$ | $activity.definition_activity_01NP01ZSC0CYS41QFSb7p1pjprdAD47t227.input.source_array[@].requests$ |"
+                                                              }
+                                                          ]
+                                                      },
+                                                      "object_type": "definition_activity"
+                                                  }
+                                              ]
+                                          }
+                                      ]
+                                  }
+                              ]
                           }
-                        ]
-                      }
-                    ]
+                      ]
+                  },
+                  {
+                      "unique_name": "definition_activity_01NP01Y1EKDY83Y7M2CRcdyTSMGoicdNSpt",
+                      "name": "Condition Branch",
+                      "title": "Anything else",
+                      "type": "logic.condition_block",
+                      "base_type": "activity",
+                      "properties": {
+                          "condition": {
+                              "left_operand": "$activity.definition_activity_01NOZV41ZBU3I2iUw0HpGdSZWAbtoUxwegS.output.status_code$",
+                              "operator": "ne",
+                              "right_operand": 200
+                          },
+                          "continue_on_failure": false,
+                          "display_name": "Anything else",
+                          "skip_execution": false
+                      },
+                      "object_type": "definition_activity",
+                      "actions": [
+                          {
+                              "unique_name": "definition_activity_01NP02FFXG0JW3a5JDwZv8xoqGE1MaexBuk",
+                              "name": "Completed",
+                              "title": "Failed",
+                              "type": "logic.completed",
+                              "base_type": "activity",
+                              "properties": {
+                                  "completion_type": "failed-completed",
+                                  "continue_on_failure": false,
+                                  "display_name": "Failed",
+                                  "result_message": "Failed to request report data from Umbrella\n\nStatus code: $activity.definition_activity_01NOZV41ZBU3I2iUw0HpGdSZWAbtoUxwegS.output.status_code$\nResponse body: $activity.definition_activity_01NOZV41ZBU3I2iUw0HpGdSZWAbtoUxwegS.output.response_body$",
+                                  "skip_execution": false
+                              },
+                              "object_type": "definition_activity"
+                          }
+                      ]
                   }
-                ]
-              }
-            ]
+              ]
           },
           {
-            "unique_name": "definition_activity_01NP01Y1EKDY83Y7M2CRcdyTSMGoicdNSpt",
-            "name": "Condition Branch",
-            "title": "Anything else",
-            "type": "logic.condition_block",
-            "base_type": "activity",
-            "properties": {
-              "condition": {
-                "left_operand": "$activity.definition_activity_01NOZV41ZBU3I2iUw0HpGdSZWAbtoUxwegS.output.status_code$",
-                "operator": "ne",
-                "right_operand": 200
-              },
-              "continue_on_failure": false,
-              "display_name": "Anything else",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity",
-            "actions": [
-              {
-                "unique_name": "definition_activity_01NP02FFXG0JW3a5JDwZv8xoqGE1MaexBuk",
-                "name": "Completed",
-                "title": "Failed",
-                "type": "logic.completed",
-                "base_type": "activity",
-                "properties": {
-                  "completion_type": "failed-completed",
+              "unique_name": "definition_activity_01NP2U92S9HUI4fVynT1gzBp1UWUZwSkHE8",
+              "name": "Condition Block",
+              "title": "Did anything meet the threshold?",
+              "type": "logic.if_else",
+              "base_type": "activity",
+              "properties": {
                   "continue_on_failure": false,
-                  "display_name": "Failed",
-                  "result_message": "Failed to request report data from Umbrella\n\nStatus code: $activity.definition_activity_01NOZV41ZBU3I2iUw0HpGdSZWAbtoUxwegS.output.status_code$\nResponse body: $activity.definition_activity_01NOZV41ZBU3I2iUw0HpGdSZWAbtoUxwegS.output.response_body$",
+                  "display_name": "Did anything meet the threshold?",
                   "skip_execution": false
-                },
-                "object_type": "definition_activity"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "unique_name": "definition_activity_01NP2U92S9HUI4fVynT1gzBp1UWUZwSkHE8",
-        "name": "Condition Block",
-        "title": "Did anything meet the threshold?",
-        "type": "logic.if_else",
-        "base_type": "activity",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "Did anything meet the threshold?",
-          "skip_execution": false
-        },
-        "object_type": "definition_activity",
-        "blocks": [
-          {
-            "unique_name": "definition_activity_01NP2U9VTX5QE669p16bW9kaK1SXYTkfceK",
-            "name": "Condition Branch",
-            "title": "No",
-            "type": "logic.condition_block",
-            "base_type": "activity",
-            "properties": {
-              "condition": {
-                "left_operand": "$workflow.definition_workflow_01NOZNOLQGMUL2K59yNj2rcOYLAsvxkoKuD.local.variable_workflow_01NP064WW1FNK6PYEuIOTGeNWcBzlvq3Ji2$",
-                "operator": "eq",
-                "right_operand": ""
               },
-              "continue_on_failure": false,
-              "display_name": "No",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity",
-            "actions": [
-              {
-                "unique_name": "definition_activity_01NP2UTPTDW9056A59WRvPxOjHM5OiKgmRE",
-                "name": "Completed",
-                "title": "Nothing to report",
-                "type": "logic.completed",
-                "base_type": "activity",
-                "properties": {
-                  "completion_type": "succeeded",
-                  "continue_on_failure": false,
-                  "display_name": "Nothing to report",
-                  "skip_execution": false
-                },
-                "object_type": "definition_activity"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "unique_name": "definition_activity_01NP2SE9YFH7V37c9znZ12mMTwddxHcRzxz",
-        "name": "Group",
-        "title": "Create the Threat Response objects",
-        "type": "logic.group",
-        "base_type": "activity",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "Create the Threat Response objects",
-          "skip_execution": false
-        },
-        "object_type": "definition_activity",
-        "actions": [
-          {
-            "unique_name": "definition_activity_01NP2SIVCKO4K4FsoxaYGZaljKTjCMStfeh",
-            "name": "Threat Response - Generate Access Token",
-            "title": "Threat Response - Generate Access Token",
-            "type": "workflow.atomic_workflow",
-            "base_type": "subworkflow",
-            "properties": {
-              "continue_on_failure": false,
-              "display_name": "Threat Response - Generate Access Token",
-              "runtime_user": {
-                "target_default": true
-              },
-              "skip_execution": false,
-              "target": {
-                "override_workflow_target_group_criteria": true,
-                "target_group": {
-                  "run_on_all_targets": false,
-                  "use_criteria": {
-                    "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-                    "conditions": [
-                      {
-                        "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-                        "operator": "eqi",
-                        "right_operand": "CTR_For_Access_Token"
-                      }
-                    ]
+              "object_type": "definition_activity",
+              "blocks": [
+                  {
+                      "unique_name": "definition_activity_01NP2U9VTX5QE669p16bW9kaK1SXYTkfceK",
+                      "name": "Condition Branch",
+                      "title": "No",
+                      "type": "logic.condition_block",
+                      "base_type": "activity",
+                      "properties": {
+                          "condition": {
+                              "left_operand": "$workflow.definition_workflow_01NOZNOLQGMUL2K59yNj2rcOYLAsvxkoKuD.local.variable_workflow_01NP064WW1FNK6PYEuIOTGeNWcBzlvq3Ji2$",
+                              "operator": "eq",
+                              "right_operand": ""
+                          },
+                          "continue_on_failure": false,
+                          "display_name": "No",
+                          "skip_execution": false
+                      },
+                      "object_type": "definition_activity",
+                      "actions": [
+                          {
+                              "unique_name": "definition_activity_01NP2UTPTDW9056A59WRvPxOjHM5OiKgmRE",
+                              "name": "Completed",
+                              "title": "Nothing to report",
+                              "type": "logic.completed",
+                              "base_type": "activity",
+                              "properties": {
+                                  "completion_type": "succeeded",
+                                  "continue_on_failure": false,
+                                  "display_name": "Nothing to report",
+                                  "skip_execution": false
+                              },
+                              "object_type": "definition_activity"
+                          }
+                      ]
                   }
-                }
-              },
-              "workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
-            },
-            "object_type": "definition_activity"
+              ]
           },
           {
-            "unique_name": "definition_activity_01NP2SM5WGIWP1D7kZudycjRJmtcbaBM0nB",
-            "name": "Threat Response - Create Incident",
-            "title": "Threat Response - Create Incident",
-            "type": "workflow.atomic_workflow",
-            "base_type": "subworkflow",
-            "properties": {
-              "continue_on_failure": false,
-              "display_name": "Threat Response - Create Incident",
-              "input": {
-                "variable_workflow_01PP773PC153N1sUPzhFqV9bCbaxsz3yDwH": "$activity.definition_activity_01NP2SIVCKO4K4FsoxaYGZaljKTjCMStfeh.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$",
-                "variable_workflow_01PP773PC19C57fpPyxEFzuX0kP8dAqdVoQ": "At least one Umbrella DNS category exceeded the threshold of $workflow.definition_workflow_01NOZNOLQGMUL2K59yNj2rcOYLAsvxkoKuD.local.variable_workflow_01NP03YWDKYNG24sKDZyIzoYS63w9cMc7Wo$ requests per hour.\n\n[View Activity in Umbrella](https://dashboard.umbrella.com/o/$workflow.definition_workflow_01NOZNOLQGMUL2K59yNj2rcOYLAsvxkoKuD.local.variable_workflow_01NOZXMQTF2C14J5mXLd9YMzA7YRX2rSBhd$/#/reports/overview)\n\n| Category | Request Count |\n|:------|:------| $workflow.definition_workflow_01NOZNOLQGMUL2K59yNj2rcOYLAsvxkoKuD.local.variable_workflow_01NP064WW1FNK6PYEuIOTGeNWcBzlvq3Ji2$",
-                "variable_workflow_01PP773PC1ALV47FYVyDKQsPCuKzTZwYeyv": "New",
-                "variable_workflow_01PP773PC1DZZ2rpbgvgD3IRrMsngkGxWkK": "Request Threshold Breached for Umbrella Category",
-                "variable_workflow_01PP773PC1F547IibuvGX89UFFJE9ZNlHgb": "amber",
-                "variable_workflow_01PP773PC1G7V6ZMj5IyCTQcEPiVhQm1fYO": "High"
+              "unique_name": "definition_activity_01NP2SE9YFH7V37c9znZ12mMTwddxHcRzxz",
+              "name": "Group",
+              "title": "Create the Threat Response objects",
+              "type": "logic.group",
+              "base_type": "activity",
+              "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Create the Threat Response objects",
+                  "skip_execution": false
               },
-              "runtime_user": {
-                "target_default": true
-              },
-              "skip_execution": false,
-              "target": {
-                "override_workflow_target_group_criteria": true,
-                "target_group": {
-                  "run_on_all_targets": false,
-                  "use_criteria": {
-                    "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-                    "conditions": [
-                      {
-                        "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-                        "operator": "eqi",
-                        "right_operand": "Private_CTIA_Target"
-                      }
-                    ]
+              "object_type": "definition_activity",
+              "actions": [
+                  {
+                      "unique_name": "definition_activity_01NP2SM5WGIWP1D7kZudycjRJmtcbaBM0nB",
+                      "name": "Threat Response - Create Incident",
+                      "title": "Threat Response - Create Incident",
+                      "type": "workflow.atomic_workflow",
+                      "base_type": "subworkflow",
+                      "properties": {
+                          "continue_on_failure": false,
+                          "display_name": "Threat Response - Create Incident",
+                          "input": {
+                              "variable_workflow_01PP773PC153N1sUPzhFqV9bCbaxsz3yDwH": "",
+                              "variable_workflow_01PP773PC19C57fpPyxEFzuX0kP8dAqdVoQ": "At least one Umbrella DNS category exceeded the threshold of $workflow.definition_workflow_01NOZNOLQGMUL2K59yNj2rcOYLAsvxkoKuD.local.variable_workflow_01NP03YWDKYNG24sKDZyIzoYS63w9cMc7Wo$ requests per hour.\n\n[View Activity in Umbrella](https:\/\/dashboard.umbrella.com\/o\/$workflow.definition_workflow_01NOZNOLQGMUL2K59yNj2rcOYLAsvxkoKuD.local.variable_workflow_01NOZXMQTF2C14J5mXLd9YMzA7YRX2rSBhd$\/#\/reports\/overview)\n\n| Category | Request Count |\n|:------|:------| $workflow.definition_workflow_01NOZNOLQGMUL2K59yNj2rcOYLAsvxkoKuD.local.variable_workflow_01NP064WW1FNK6PYEuIOTGeNWcBzlvq3Ji2$",
+                              "variable_workflow_01PP773PC1ALV47FYVyDKQsPCuKzTZwYeyv": "New",
+                              "variable_workflow_01PP773PC1DZZ2rpbgvgD3IRrMsngkGxWkK": "Request Threshold Breached for Umbrella Category",
+                              "variable_workflow_01PP773PC1F547IibuvGX89UFFJE9ZNlHgb": "amber",
+                              "variable_workflow_01PP773PC1G7V6ZMj5IyCTQcEPiVhQm1fYO": "High"
+                          },
+                          "runtime_user": {
+                              "target_default": true
+                          },
+                          "skip_execution": false,
+                          "target": {
+                              "override_workflow_target_group_criteria": true,
+                              "target_group": {
+                                  "run_on_all_targets": false,
+                                  "use_criteria": {
+                                      "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                      "conditions": [
+                                          {
+                                              "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                              "operator": "eqi",
+                                              "right_operand": "Private_CTIA_Target"
+                                          }
+                                      ]
+                                  }
+                              }
+                          },
+                          "workflow_id": "definition_workflow_01PP773PI1X3Y1YQWhirIL8Uy40Thd6ND7r",
+                          "workflow_name": "Threat Response - Create Incident"
+                      },
+                      "object_type": "definition_activity"
                   }
-                }
-              },
-              "workflow_id": "definition_workflow_01PP773PI1X3Y1YQWhirIL8Uy40Thd6ND7r"
-            },
-            "object_type": "definition_activity"
+              ]
           }
-        ]
-      }
-    ],
-    "categories": [
-      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
-    ]
+      ],
+      "categories": [
+          "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+      ]
   },
   "triggers": {
-    "triggerschedule_01NP3NXJYINXB45DZNuRnbtdJyEotXjsVW8": {
-      "workflow_id": "definition_workflow_01NOZNOLQGMUL2K59yNj2rcOYLAsvxkoKuD",
-      "name": "Umbrella Report Polling",
-      "title": "",
-      "lowercase_name": "schedule.umbrella_report_polling",
-      "type": "schedule",
-      "base_type": "trigger",
-      "ref_id": "schedule_01NP3NM2AAOOL1sdjnMUfc1P80GqprPQHIp",
-      "version": "1.0.0",
-      "disabled": true,
-      "unique_name": "triggerschedule_01NP3NXJYINXB45DZNuRnbtdJyEotXjsVW8",
-      "object_type": "triggerschedule"
-    }
+      "triggerschedule_01NP3NXJYINXB45DZNuRnbtdJyEotXjsVW8": {
+          "workflow_id": "definition_workflow_01NOZNOLQGMUL2K59yNj2rcOYLAsvxkoKuD",
+          "name": "Umbrella Report Polling",
+          "title": "",
+          "lowercase_name": "schedule.umbrella_report_polling",
+          "type": "schedule",
+          "base_type": "trigger",
+          "ref_id": "schedule_01NP3NM2AAOOL1sdjnMUfc1P80GqprPQHIp",
+          "version": "1.0.0",
+          "disabled": true,
+          "unique_name": "triggerschedule_01NP3NXJYINXB45DZNuRnbtdJyEotXjsVW8",
+          "object_type": "triggerschedule"
+      }
   },
   "schedules": {
-    "schedule_01NP3NM2AAOOL1sdjnMUfc1P80GqprPQHIp": {
-      "unique_name": "schedule_01NP3NM2AAOOL1sdjnMUfc1P80GqprPQHIp",
-      "name": "0023 - Umbrella - Excessive Requests to Incidents",
-      "description": "This schedule is used to fetch category request statistics from Cisco Umbrella",
-      "type": "basic.schedule",
-      "base_type": "schedule",
-      "properties": {
-        "calendar": "calendar_recurring_1BMfMWvgiDhSjBQ7hTSyvz3NyVZ",
-        "timezone": "Etc/GMT+0",
-        "starttime": "00:00",
-        "interval_hours": 1,
-        "interval_minutes": 0,
-        "number_of_times": 24,
-        "display_name": "0023 - Umbrella - Excessive Requests to Incidents",
-        "description": "This schedule is used to fetch category request statistics from Cisco Umbrella"
-      },
-      "version": "1.0.0",
-      "object_type": "schedule"
-    }
+      "schedule_01NP3NM2AAOOL1sdjnMUfc1P80GqprPQHIp": {
+          "unique_name": "schedule_01NP3NM2AAOOL1sdjnMUfc1P80GqprPQHIp",
+          "name": "0023 - Umbrella - Excessive Requests to Incidents",
+          "description": "This schedule is used to fetch category request statistics from Cisco Umbrella",
+          "type": "basic.schedule",
+          "base_type": "schedule",
+          "properties": {
+              "calendar": "calendar_recurring_1BMfMWvgiDhSjBQ7hTSyvz3NyVZ",
+              "timezone": "Etc\/GMT+0",
+              "starttime": "00:00",
+              "interval_hours": 1,
+              "interval_minutes": 0,
+              "number_of_times": 24,
+              "display_name": "0023 - Umbrella - Excessive Requests to Incidents",
+              "description": "This schedule is used to fetch category request statistics from Cisco Umbrella"
+          },
+          "version": "1.0.0",
+          "object_type": "schedule"
+      }
   },
   "target_groups": {
-    "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
-      "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
-      "name": "Default TargetGroup",
-      "title": "Default TargetGroup",
-      "type": "generic.target_group",
-      "base_type": "target_group",
-      "version": "1.0.0",
-      "targets": [
-        {
-          "data_target_type": "web-service.endpoint",
-          "view_target_type": "web-service.endpoint",
-          "include_all_targets": true
-        },
-        {
-          "data_target_type": "email.smtp_endpoint",
-          "view_target_type": "email.smtp_endpoint",
-          "include_all_targets": true
-        }
-      ],
-      "object_type": "target_group"
-    }
+      "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+          "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+          "name": "Default TargetGroup",
+          "title": "Default TargetGroup",
+          "type": "generic.target_group",
+          "base_type": "target_group",
+          "version": "1.0.0",
+          "targets": [
+              {
+                  "data_target_type": "web-service.endpoint",
+                  "view_target_type": "web-service.endpoint",
+                  "include_all_targets": true
+              },
+              {
+                  "data_target_type": "email.smtp_endpoint",
+                  "view_target_type": "email.smtp_endpoint",
+                  "include_all_targets": true
+              }
+          ],
+          "object_type": "target_group"
+      }
   },
   "atomic_workflows": [
-    "definition_workflow_01PP75D6GJ0002MvUF1kmECjGTE8Ps6WiaC",
-    "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH",
-    "definition_workflow_01PP773PI1X3Y1YQWhirIL8Uy40Thd6ND7r"
+      "definition_workflow_01PP75D6GJ0002MvUF1kmECjGTE8Ps6WiaC",
+      "definition_workflow_01PP773PI1X3Y1YQWhirIL8Uy40Thd6ND7r"
+  ],
+  "dependent_workflows": [
+      "definition_workflow_01PP75D6GJ0002MvUF1kmECjGTE8Ps6WiaC",
+      "definition_workflow_01PP773PI1X3Y1YQWhirIL8Uy40Thd6ND7r"
   ]
 }

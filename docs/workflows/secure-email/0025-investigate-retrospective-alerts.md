@@ -16,6 +16,8 @@ Workflow #0025
 
 This workflow monitors a mailbox for retrospective detection alerts from Cisco Secure Email. When an alert is received via Cisco Secure Endpoint for a file hash, an investigation is conducted to determine if there were any sightings for the hash. If there are sightings, an instant message is sent with details.
 
+<div class="cisco-alert cisco-alert-info"><i class="fa fa-info-circle mr-1 cisco-icon-info"></i> This workflow has been updated to use the new "SecureX Token" account key. For more information about this, please see <a href="{{ site.baseurl }}/account-keys/securex-token">this page</a>. If you want to use legacy authentication, you can import an older version of the workflow.</div>
+
 [<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0025-SecureEmail-InvestigateRetrospectiveAlerts__definition_workflow_01NS8Q78T90QI7lCpLw6wNvtsfGk0xwiQ6h){: .btn-cisco-outline }
 
 ---
@@ -26,6 +28,7 @@ This workflow monitors a mailbox for retrospective detection alerts from Cisco S
 |:-----|:------|
 | Apr 16, 2021 | - Initial release |
 | Sep 10, 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+| Sep 1, 2022 | - Updated to support [SecureX Tokens]({{ site.baseurl }}/account-keys/securex-token) |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 
@@ -34,7 +37,6 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 ## Requirements
 * The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
 	* Threat Response - Enrich Observable
-	* Threat Response - Generate Access Token
 	* Webex - Post Message to Room
 	* Webex - Search for Room
 * The following atomic actions must be imported before you can import this workflow:
@@ -50,7 +52,6 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 ## Workflow Steps
 1. Fetch global variables (optional)
 1. Extract the information we need from the email
-1. Generate an access token for Threat Response
 1. Enrich the file hash to look for sightings
 1. Extract the sightings
 1. Check if there were any, if not end the workflow
@@ -72,8 +73,7 @@ Target Group: `Default TargetGroup`
 
 | Target Name | Type | Details | Account Keys | Notes |
 |:------------|:-----|:--------|:-------------|:------|
-| [CTR_API]({{ site.baseurl }}/targets/default#ctr_api) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `visibility.amp.cisco.com`<br />_Path:_ `/iroh` | None | Created by default |
-| [CTR_For_Access_Token]({{ site.baseurl }}/targets/default#ctr_for_access_token) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `visibility.amp.cisco.com`<br />_Path:_ `/iroh` | CTR_Credentials | Created by default |
+| [CTR_API]({{ site.baseurl }}/targets/default#ctr_api) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `visibility.amp.cisco.com`<br />_Path:_ `/iroh` | CTR_Credentials | Created by default |
 | Microsoft Teams Webhook | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `your-tenant.webhook.office.com`<br />_Path:_ `/the-rest-of-the-webhook-url` | None | |
 | 0025 - Retrospective Alert Mailbox | IMAP Endpoint | Configured for your IMAP server | 0025 - Retrospective Alert Mailbox Credentials | |
 | Webex Teams | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `webexapis.com`<br />_Path:_ None | None | Not necessary if Webex activities are removed |
@@ -84,5 +84,5 @@ Target Group: `Default TargetGroup`
 
 | Account Key Name | Type | Details | Notes |
 |:-----------------|:-----|:--------|:------|
-| [CTR_Credentials]({{ site.baseurl }}/account-keys/default#ctr_credentials) | HTTP Basic Authentication | _Username:_ Client ID<br />_Password:_ Client Secret | Created by default |
+| [CTR_Credentials]({{ site.baseurl }}/account-keys/default#ctr_credentials) | SecureX Token | | See [this page]({{ site.baseurl }}/account-keys/securex-token) |
 | 0025 - Retrospective Alert Mailbox Credentials | Email Credentials | _Username:_ Mailbox Username<br />_Password:_ Mailbox Password | |
