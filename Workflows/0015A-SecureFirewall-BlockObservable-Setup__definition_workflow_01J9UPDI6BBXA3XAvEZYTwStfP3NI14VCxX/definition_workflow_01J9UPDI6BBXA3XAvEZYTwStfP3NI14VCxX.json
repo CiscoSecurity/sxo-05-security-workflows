@@ -1,886 +1,830 @@
 {
   "workflow": {
-    "unique_name": "definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX",
-    "name": "0015A - Secure Firewall - Block Observable - Setup",
-    "title": "0015A - Secure Firewall - Block Observable - Setup",
-    "type": "generic.workflow",
-    "base_type": "workflow",
-    "variables": [
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "local",
-          "name": "Indicator ID",
-          "type": "datatype.string",
-          "description": "Placeholder for the indicator ID being built",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01ML2386S4K8A0ztaCP2ovqYuGpPz6OrUJZ",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "local",
-          "name": "Feed View URL",
-          "type": "datatype.string",
-          "description": "Placeholder for the view URL of the feed being built",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01ML2HDFTK3JK6ZGsx4QBwvEGQsPymFXtmi",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "output",
-          "name": "Output Text",
-          "type": "datatype.string",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01ML2EB2R0ZCD4G4Lv545LGb3m0QxFYu4gq",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "IPv4,IP Watchlist\nIPv6,IP Watchlist\nDomain,Domain Watchlist\nURL,URL Watchlist\nSHA256,File Hash Watchlist",
-          "scope": "static",
-          "name": "Observable Types",
-          "type": "datatype.string",
-          "description": "The list of observable types to create indicators and feeds for",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01MKA3XPM5KSA5Vuu661ozZMovlevdm6Qlx",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "SecureX_Firewall_Private_Feed",
-          "scope": "local",
-          "name": "Feed Name",
-          "type": "datatype.string",
-          "description": "The base feed name to use when referencing feeds. The type of observable will be appended to this",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01JDOWSNWW2VZ47ASe2TcwOJ9bS5dQS80CV",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "Secure_Firewall_SecureX_Indicator",
-          "scope": "local",
-          "name": "Indicator Name",
-          "type": "datatype.string",
-          "description": "The base indicator name to use when referencing feeds. The type of observable will be appended to this. If you change this, you will also need to update the same variable in workflow 0015B",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01JB3JSTG1V9N2ARVNBoVp9zIMRWO8KO9EW",
-        "object_type": "variable_workflow"
-      }
-    ],
-    "properties": {
-      "atomic": {
-        "is_atomic": false
-      },
-      "delete_workflow_instance": false,
-      "description": "This workflow creates a series of indicators and feeds for various observable types in Cisco Threat Response. These feeds can then be added to Cisco Secure Firewall (or other compatible platforms) to block observables.\n\nNOTE: At the end of this workflow, the Output Text variable will contain the list of feed URLs you need to configure in your firewall.\n\nTarget Group: Default TargetGroup\n\nTargets: CTR_For_Access_Token, Private_CTIA_Target\n\nSteps:\n[] Generate a Threat Response access token\n[] For each observable type:\n[]> Search for an indicator for this observable type\n[]> Check if the indicator was found:\n[]>> If it was, extract the indicator ID\n[]>> If it wasn't, create the indicator\n[]> Search for a feed for this observable type\n[]> Check if the feed was found:\n[]>> If it was, extract the feed view URL\n[]>> If it wasn't, create the feed\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0015A",
-      "display_name": "0015A - Secure Firewall - Block Observable - Setup",
-      "runtime_user": {
-        "override_target_runtime_user": false,
-        "specify_on_workflow_start": false,
-        "target_default": true
-      },
-      "target": {
-        "execute_on_target_group": true,
-        "target_group": {
-          "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
-          "run_on_all_targets": false,
-          "selected_target_types": [
-            "web-service.endpoint"
-          ],
-          "use_criteria": {
-            "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-            "conditions": [
-              {
-                "operator": "eqi",
-                "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-                "right_operand": "Private_CTIA_Target"
-              }
-            ]
+      "unique_name": "definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX",
+      "name": "0015A - Secure Firewall - Block Observable - Setup",
+      "title": "0015A - Secure Firewall - Block Observable - Setup",
+      "type": "generic.workflow",
+      "base_type": "workflow",
+      "variables": [
+          {
+              "schema_id": "datatype.string",
+              "properties": {
+                  "value": "",
+                  "scope": "local",
+                  "name": "Feed View URL",
+                  "type": "datatype.string",
+                  "description": "Placeholder for the view URL of the feed being built",
+                  "is_required": false,
+                  "is_invisible": false
+              },
+              "unique_name": "variable_workflow_01ML2HDFTK3JK6ZGsx4QBwvEGQsPymFXtmi",
+              "object_type": "variable_workflow"
+          },
+          {
+              "schema_id": "datatype.string",
+              "properties": {
+                  "value": "Secure_Firewall_SecureX_Indicator",
+                  "scope": "local",
+                  "name": "Indicator Name",
+                  "type": "datatype.string",
+                  "description": "The base indicator name to use when referencing feeds. The type of observable will be appended to this. If you change this, you will also need to update the same variable in workflow 0015B",
+                  "is_required": false,
+                  "is_invisible": false
+              },
+              "unique_name": "variable_workflow_01JB3JSTG1V9N2ARVNBoVp9zIMRWO8KO9EW",
+              "object_type": "variable_workflow"
+          },
+          {
+              "schema_id": "datatype.string",
+              "properties": {
+                  "value": "",
+                  "scope": "output",
+                  "name": "Output Text",
+                  "type": "datatype.string",
+                  "is_required": false,
+                  "is_invisible": false
+              },
+              "unique_name": "variable_workflow_01ML2EB2R0ZCD4G4Lv545LGb3m0QxFYu4gq",
+              "object_type": "variable_workflow"
+          },
+          {
+              "schema_id": "datatype.string",
+              "properties": {
+                  "value": "SecureX_Firewall_Private_Feed",
+                  "scope": "local",
+                  "name": "Feed Name",
+                  "type": "datatype.string",
+                  "description": "The base feed name to use when referencing feeds. The type of observable will be appended to this",
+                  "is_required": false,
+                  "is_invisible": false
+              },
+              "unique_name": "variable_workflow_01JDOWSNWW2VZ47ASe2TcwOJ9bS5dQS80CV",
+              "object_type": "variable_workflow"
+          },
+          {
+              "schema_id": "datatype.string",
+              "properties": {
+                  "value": "",
+                  "scope": "local",
+                  "name": "Indicator ID",
+                  "type": "datatype.string",
+                  "description": "Placeholder for the indicator ID being built",
+                  "is_required": false,
+                  "is_invisible": false
+              },
+              "unique_name": "variable_workflow_01ML2386S4K8A0ztaCP2ovqYuGpPz6OrUJZ",
+              "object_type": "variable_workflow"
+          },
+          {
+              "schema_id": "datatype.string",
+              "properties": {
+                  "value": "IPv4,IP Watchlist\nIPv6,IP Watchlist\nDomain,Domain Watchlist\nURL,URL Watchlist\nSHA256,File Hash Watchlist",
+                  "scope": "static",
+                  "name": "Observable Types",
+                  "type": "datatype.string",
+                  "description": "The list of observable types to create indicators and feeds for",
+                  "is_required": false,
+                  "is_invisible": false
+              },
+              "unique_name": "variable_workflow_01MKA3XPM5KSA5Vuu661ozZMovlevdm6Qlx",
+              "object_type": "variable_workflow"
           }
-        }
-      }
-    },
-    "object_type": "definition_workflow",
-    "actions": [
-      {
-        "unique_name": "definition_activity_01MK6B2SA8KMN2Nlx8NQPgliDIlOymCaCGk",
-        "name": "Threat Response - Generate Access Token",
-        "title": "Threat Response - Generate Access Token",
-        "type": "workflow.atomic_workflow",
-        "base_type": "subworkflow",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "Threat Response - Generate Access Token",
+      ],
+      "properties": {
+          "atomic": {
+              "is_atomic": false
+          },
+          "delete_workflow_instance": false,
+          "description": "This workflow creates a series of indicators and feeds for various observable types in Cisco Threat Response. These feeds can then be added to Cisco Secure Firewall (or other compatible platforms) to block observables.\n\nNote: This workflow has been updated to support SecureX Token account keys. See the workflow documentation for more information.\n\nNOTE: At the end of this workflow, the Output Text variable will contain the list of feed URLs you need to configure in your firewall.\n\nDocumentation: https:\/\/ciscosecurity.github.io\/sxo-05-security-workflows\/workflows\/0015A\n\nTarget Group: Default TargetGroup\n\nTargets: Private_CTIA_Target\n\nSteps:\n[] For each observable type:\n[]> Search for an indicator for this observable type\n[]> Check if the indicator was found:\n[]>> If it was, extract the indicator ID\n[]>> If it wasn't, create the indicator\n[]> Search for a feed for this observable type\n[]> Check if the feed was found:\n[]>> If it was, extract the feed view URL\n[]>> If it wasn't, create the feed",
+          "display_name": "0015A - Secure Firewall - Block Observable - Setup",
           "runtime_user": {
-            "target_default": true
+              "override_target_runtime_user": false,
+              "specify_on_workflow_start": false,
+              "target_default": true
           },
-          "skip_execution": false,
           "target": {
-            "override_workflow_target_group_criteria": true,
-            "target_group": {
-              "run_on_all_targets": false,
-              "use_criteria": {
-                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-                "conditions": [
-                  {
-                    "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-                    "operator": "eqi",
-                    "right_operand": "CTR_For_Access_Token"
-                  }
-                ]
-              }
-            }
-          },
-          "workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
-        },
-        "object_type": "definition_activity"
-      },
-      {
-        "unique_name": "definition_activity_01MKA4FJZJ3LQ3lnPXgsygXDWYQosPOb952",
-        "name": "Split String",
-        "title": "Split String",
-        "type": "core.splitstring",
-        "base_type": "activity",
-        "properties": {
-          "boundaries": [
-            {
-              "boundary": "\\n"
-            }
-          ],
-          "continue_on_failure": false,
-          "display_name": "Split String",
-          "input_string": "$workflow.definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX.static.variable_workflow_01MKA3XPM5KSA5Vuu661ozZMovlevdm6Qlx$",
-          "remove_empty": true,
-          "skip_execution": false,
-          "use_regexp": true
-        },
-        "object_type": "definition_activity"
-      },
-      {
-        "unique_name": "definition_activity_01MKA3KUQGEZZ3nLJI16yoxS1WF0ePIbRBW",
-        "name": "For Each",
-        "title": "For each observable type",
-        "type": "logic.for_each",
-        "base_type": "activity",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "For each observable type",
-          "skip_execution": false,
-          "source_array": "$activity.definition_activity_01MKA4FJZJ3LQ3lnPXgsygXDWYQosPOb952.output.parts$"
-        },
-        "object_type": "definition_activity",
-        "actions": [
-          {
-            "unique_name": "definition_activity_01ML1JI9RFE5J5gBUjyQEOXjoyeNGMFxbhR",
-            "name": "Split String",
-            "title": "Split String",
-            "type": "core.splitstring",
-            "base_type": "activity",
-            "properties": {
-              "boundaries": [
-                {
-                  "boundary": ","
-                }
-              ],
-              "continue_on_failure": false,
-              "display_name": "Split String",
-              "input_string": "$activity.definition_activity_01MKA3KUQGEZZ3nLJI16yoxS1WF0ePIbRBW.input.source_array[@]$",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity"
-          },
-          {
-            "unique_name": "definition_activity_01ML23I6I3U9Y04aOyenKmoL4vFB9TuEkMq",
-            "name": "Set Variables",
-            "title": "Update local variables",
-            "type": "core.set_multiple_variables",
-            "base_type": "activity",
-            "properties": {
-              "continue_on_failure": false,
-              "display_name": "Update local variables",
-              "skip_execution": false,
-              "variables_to_update": [
-                {
-                  "variable_to_update": "$workflow.definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX.local.variable_workflow_01ML2386S4K8A0ztaCP2ovqYuGpPz6OrUJZ$",
-                  "variable_value_new": ""
-                }
-              ]
-            },
-            "object_type": "definition_activity"
-          },
-          {
-            "unique_name": "definition_activity_01NUUKA71Y21D1WJysEYxMGV8ijBV8GW9a3",
-            "name": "HTTP Request",
-            "title": "Search for existing indicators",
-            "type": "web-service.http_request",
-            "base_type": "activity",
-            "properties": {
-              "accept": "application/json",
-              "action_timeout": 180,
-              "allow_auto_redirect": true,
-              "content_type": "application/json",
-              "continue_on_error_status_code": false,
-              "continue_on_failure": false,
-              "custom_headers": [
-                {
-                  "name": "Authorization",
-                  "value": "Bearer $activity.definition_activity_01MK6B2SA8KMN2Nlx8NQPgliDIlOymCaCGk.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$"
-                }
-              ],
-              "display_name": "Search for existing indicators",
-              "method": "GET",
-              "relative_url": "/ctia/indicator/search?limit=1&offset=0&query=title:$workflow.definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX.local.variable_workflow_01JB3JSTG1V9N2ARVNBoVp9zIMRWO8KO9EW$_$activity.definition_activity_01ML1JI9RFE5J5gBUjyQEOXjoyeNGMFxbhR.output.parts[0]$",
-              "runtime_user": {
-                "override_target_runtime_user": false,
-                "target_default": true
-              },
-              "skip_execution": false,
-              "target": {
-                "use_workflow_target_group": true
-              }
-            },
-            "object_type": "definition_activity"
-          },
-          {
-            "unique_name": "definition_activity_01MKA2C9JO4KG7mwD7x1KVPbyXbg5gswpJY",
-            "name": "Condition Block",
-            "title": "Does the indicator exist?",
-            "type": "logic.if_else",
-            "base_type": "activity",
-            "properties": {
-              "continue_on_failure": false,
-              "display_name": "Does the indicator exist?",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity",
-            "blocks": [
-              {
-                "unique_name": "definition_activity_01ML23RUA69XX2dJnI4mvWAFj29bk8aPgeh",
-                "name": "Condition Branch",
-                "title": "Yes",
-                "type": "logic.condition_block",
-                "base_type": "activity",
-                "properties": {
-                  "condition": {
-                    "left_operand": "$activity.definition_activity_01NUUKA71Y21D1WJysEYxMGV8ijBV8GW9a3.output.response_body$",
-                    "operator": "ne",
-                    "right_operand": "[]"
-                  },
-                  "continue_on_failure": false,
-                  "display_name": "Yes",
-                  "skip_execution": false
-                },
-                "object_type": "definition_activity",
-                "actions": [
-                  {
-                    "unique_name": "definition_activity_01ML248Z28Z5R4pdSbnMOtMqYL4eWWMETdE",
-                    "name": "JSONPath Query",
-                    "title": "Extract indicator ID",
-                    "type": "corejava.jsonpathquery",
-                    "base_type": "activity",
-                    "properties": {
-                      "action_timeout": 180,
-                      "continue_on_failure": false,
-                      "display_name": "Extract indicator ID",
-                      "input_json": "$activity.definition_activity_01NUUKA71Y21D1WJysEYxMGV8ijBV8GW9a3.output.response_body$",
-                      "jsonpath_queries": [
-                        {
-                          "jsonpath_query": "$.[0].id",
-                          "jsonpath_query_name": "indicator_id",
-                          "jsonpath_query_type": "string"
-                        }
-                      ],
-                      "skip_execution": false
-                    },
-                    "object_type": "definition_activity"
-                  },
-                  {
-                    "unique_name": "definition_activity_01ML23YU7J2CW2ZpHRT75AmGsCBWjcoiYew",
-                    "name": "Set Variables",
-                    "title": "Set indicator ID",
-                    "type": "core.set_multiple_variables",
-                    "base_type": "activity",
-                    "properties": {
-                      "continue_on_failure": false,
-                      "display_name": "Set indicator ID",
-                      "skip_execution": false,
-                      "variables_to_update": [
-                        {
-                          "variable_to_update": "$workflow.definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX.local.variable_workflow_01ML2386S4K8A0ztaCP2ovqYuGpPz6OrUJZ$",
-                          "variable_value_new": "$activity.definition_activity_01ML248Z28Z5R4pdSbnMOtMqYL4eWWMETdE.output.jsonpath_queries.indicator_id$"
-                        }
+              "execute_on_target_group": true,
+              "target_group": {
+                  "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+                  "run_on_all_targets": false,
+                  "selected_target_types": [
+                      "web-service.endpoint"
+                  ],
+                  "use_criteria": {
+                      "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                      "conditions": [
+                          {
+                              "operator": "eqi",
+                              "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                              "right_operand": "Private_CTIA_Target"
+                          }
                       ]
-                    },
-                    "object_type": "definition_activity"
                   }
-                ]
-              },
-              {
-                "unique_name": "definition_activity_01MKA2CKF5KAK5FKadEUPy8RdW4D4lrehYm",
-                "name": "Condition Branch",
-                "title": "No",
-                "type": "logic.condition_block",
-                "base_type": "activity",
-                "properties": {
-                  "condition": {
-                    "left_operand": "$activity.definition_activity_01NUUKA71Y21D1WJysEYxMGV8ijBV8GW9a3.output.response_body$",
-                    "operator": "eq",
-                    "right_operand": "[]"
-                  },
-                  "continue_on_failure": false,
-                  "display_name": "No",
-                  "skip_execution": false
-                },
-                "object_type": "definition_activity",
-                "actions": [
-                  {
-                    "unique_name": "definition_activity_01NUUO3V1IG2145EaRNXltTM5QbTu8vuW8I",
-                    "name": "Execute Python Script",
-                    "title": "Generate indicator JSON",
-                    "type": "python3.script",
-                    "base_type": "activity",
-                    "properties": {
-                      "action_timeout": 180,
-                      "continue_on_failure": false,
-                      "display_name": "Generate indicator JSON",
-                      "script": "import json, sys\nfrom datetime import datetime, date, timedelta\n\n# Get the current date/time\ndateTime = datetime.now()\n\n# Validate the indicator type list\nindicator_types = sys.argv[2]\nif len(indicator_types) > 0:\n\tindicator_types = json.loads(indicator_types)\nelse:\n\tindicator_types = []\n\n# Build the indicator objects\nindicator_object = {}\nindicator_object[\"description\"] = \"\"\nindicator_object[\"producer\"] = \"NGFW\"\nindicator_object[\"schema_version\"] = \"1.0.19\"\nindicator_object[\"type\"] = \"indicator\"\nindicator_object[\"source\"] = \"securex-orchestration\"\nindicator_object[\"short_description\"] = sys.argv[1]\nindicator_object[\"title\"] = sys.argv[1]\nindicator_object[\"indicator_type\"] = indicator_types\nindicator_object[\"severity\"] = \"Info\"\nindicator_object[\"tlp\"] = \"amber\"\nindicator_object[\"timestamp\"] = dateTime.strftime(\"%Y-%m-%dT%H:%M:%SZ\")\nindicator_object[\"confidence\"] = \"High\"\n\nindicator_json = json.dumps(indicator_object)",
-                      "script_arguments": [
-                        "$workflow.definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX.local.variable_workflow_01JB3JSTG1V9N2ARVNBoVp9zIMRWO8KO9EW$_$activity.definition_activity_01ML1JI9RFE5J5gBUjyQEOXjoyeNGMFxbhR.output.parts[0]$",
-                        "[ \"$activity.definition_activity_01ML1JI9RFE5J5gBUjyQEOXjoyeNGMFxbhR.output.parts[-1]$\" ]"
-                      ],
-                      "script_queries": [
-                        {
-                          "script_query": "indicator_json",
-                          "script_query_name": "indicator_json",
-                          "script_query_type": "string"
-                        }
-                      ],
-                      "skip_execution": false
-                    },
-                    "object_type": "definition_activity"
-                  },
-                  {
-                    "unique_name": "definition_activity_01NUUQYIULGE90E2p2GoKHkY4820beVYynh",
-                    "name": "HTTP Request",
-                    "title": "Create the indicator",
-                    "type": "web-service.http_request",
-                    "base_type": "activity",
-                    "properties": {
-                      "accept": "application/json",
-                      "action_timeout": 180,
-                      "allow_auto_redirect": true,
-                      "body": "$activity.definition_activity_01NUUO3V1IG2145EaRNXltTM5QbTu8vuW8I.output.script_queries.indicator_json$",
-                      "content_type": "application/json",
-                      "continue_on_error_status_code": true,
-                      "continue_on_failure": false,
-                      "custom_headers": [
-                        {
-                          "name": "Authorization",
-                          "value": "Bearer $activity.definition_activity_01MK6B2SA8KMN2Nlx8NQPgliDIlOymCaCGk.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$"
-                        }
-                      ],
-                      "display_name": "Create the indicator",
-                      "method": "POST",
-                      "relative_url": "/ctia/indicator",
-                      "runtime_user": {
-                        "override_target_runtime_user": false,
-                        "target_default": true
-                      },
-                      "skip_execution": false,
-                      "target": {
-                        "use_workflow_target_group": true
-                      }
-                    },
-                    "object_type": "definition_activity"
-                  },
-                  {
-                    "unique_name": "definition_activity_01NUUS2V3OSHP1NoILhNoTNCV1BKVxhJj2Y",
-                    "name": "Condition Block",
-                    "title": "Was the indicator created?",
-                    "type": "logic.if_else",
-                    "base_type": "activity",
-                    "properties": {
-                      "continue_on_failure": false,
-                      "display_name": "Was the indicator created?",
-                      "skip_execution": false
-                    },
-                    "object_type": "definition_activity",
-                    "blocks": [
-                      {
-                        "unique_name": "definition_activity_01NUUS3MPYWYO7g6AFNoVRbKEglKY7qMuCI",
-                        "name": "Condition Branch",
-                        "title": "201/Created",
-                        "type": "logic.condition_block",
-                        "base_type": "activity",
-                        "properties": {
-                          "condition": {
-                            "left_operand": "$activity.definition_activity_01NUUQYIULGE90E2p2GoKHkY4820beVYynh.output.status_code$",
-                            "operator": "eq",
-                            "right_operand": 201
-                          },
-                          "continue_on_failure": false,
-                          "display_name": "201/Created",
-                          "skip_execution": false
-                        },
-                        "object_type": "definition_activity",
-                        "actions": [
-                          {
-                            "unique_name": "definition_activity_01NUUSRQT5X196aSjRyXvQbQ0SmaiaBftoz",
-                            "name": "JSONPath Query",
-                            "title": "Extract the indicator ID",
-                            "type": "corejava.jsonpathquery",
-                            "base_type": "activity",
-                            "properties": {
-                              "action_timeout": 180,
-                              "continue_on_failure": false,
-                              "display_name": "Extract the indicator ID",
-                              "input_json": "$activity.definition_activity_01NUUQYIULGE90E2p2GoKHkY4820beVYynh.output.response_body$",
-                              "jsonpath_queries": [
-                                {
-                                  "jsonpath_query": "$.id",
-                                  "jsonpath_query_name": "id",
-                                  "jsonpath_query_type": "string"
-                                }
-                              ],
-                              "skip_execution": false
-                            },
-                            "object_type": "definition_activity"
-                          },
-                          {
-                            "unique_name": "definition_activity_01ML24WVIH0LR3aqBAraIV0Sg3yFZKw5nng",
-                            "name": "Set Variables",
-                            "title": "Set indicator ID",
-                            "type": "core.set_multiple_variables",
-                            "base_type": "activity",
-                            "properties": {
-                              "continue_on_failure": false,
-                              "display_name": "Set indicator ID",
-                              "skip_execution": false,
-                              "variables_to_update": [
-                                {
-                                  "variable_to_update": "$workflow.definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX.local.variable_workflow_01ML2386S4K8A0ztaCP2ovqYuGpPz6OrUJZ$",
-                                  "variable_value_new": "$activity.definition_activity_01NUUSRQT5X196aSjRyXvQbQ0SmaiaBftoz.output.jsonpath_queries.id$"
-                                }
-                              ]
-                            },
-                            "object_type": "definition_activity"
-                          }
-                        ]
-                      },
-                      {
-                        "unique_name": "definition_activity_01NUUS3NHBK635j0A6kOkAwLBeqefRQkESr",
-                        "name": "Condition Branch",
-                        "title": "Anything else",
-                        "type": "logic.condition_block",
-                        "base_type": "activity",
-                        "properties": {
-                          "condition": {
-                            "left_operand": "$activity.definition_activity_01NUUQYIULGE90E2p2GoKHkY4820beVYynh.output.status_code$",
-                            "operator": "ne",
-                            "right_operand": 201
-                          },
-                          "continue_on_failure": false,
-                          "display_name": "Anything else",
-                          "skip_execution": false
-                        },
-                        "object_type": "definition_activity",
-                        "actions": [
-                          {
-                            "unique_name": "definition_activity_01NUUSP9W7WPI4glSg49lAwcRgyT7GShmIO",
-                            "name": "Completed",
-                            "title": "Failed",
-                            "type": "logic.completed",
-                            "base_type": "activity",
-                            "properties": {
-                              "completion_type": "failed-completed",
-                              "continue_on_failure": false,
-                              "display_name": "Failed",
-                              "result_message": "Failed to create the indicator \"$workflow.definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX.local.variable_workflow_01JB3JSTG1V9N2ARVNBoVp9zIMRWO8KO9EW$_$activity.definition_activity_01ML1JI9RFE5J5gBUjyQEOXjoyeNGMFxbhR.output.parts[0]$\"\n\nStatus code: $activity.definition_activity_01NUUQYIULGE90E2p2GoKHkY4820beVYynh.output.status_code$\nResponse body: $activity.definition_activity_01NUUQYIULGE90E2p2GoKHkY4820beVYynh.output.response_body$",
-                              "skip_execution": false
-                            },
-                            "object_type": "definition_activity"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
               }
-            ]
-          },
-          {
-            "unique_name": "definition_activity_01NUUUG7XX7X01pFgxHsXXwNIw8upYglg8O",
-            "name": "HTTP Request",
-            "title": "Search for existing feeds",
-            "type": "web-service.http_request",
-            "base_type": "activity",
-            "properties": {
-              "accept": "application/json",
-              "action_timeout": 180,
-              "allow_auto_redirect": true,
-              "content_type": "application/json",
-              "continue_on_error_status_code": false,
-              "continue_on_failure": false,
-              "custom_headers": [
-                {
-                  "name": "Authorization",
-                  "value": "Bearer $activity.definition_activity_01MK6B2SA8KMN2Nlx8NQPgliDIlOymCaCGk.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$"
-                }
-              ],
-              "display_name": "Search for existing feeds",
-              "method": "GET",
-              "relative_url": "/ctia/feed/search?limit=1&offset=0&query=title:$workflow.definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX.local.variable_workflow_01JDOWSNWW2VZ47ASe2TcwOJ9bS5dQS80CV$_$activity.definition_activity_01ML1JI9RFE5J5gBUjyQEOXjoyeNGMFxbhR.output.parts[0]$",
-              "runtime_user": {
-                "override_target_runtime_user": false,
-                "target_default": true
-              },
-              "skip_execution": false,
-              "target": {
-                "use_workflow_target_group": true
-              }
-            },
-            "object_type": "definition_activity"
-          },
-          {
-            "unique_name": "definition_activity_01ML1ZEKDMLXV2dniqIuVSg4gJLcxGG3ARq",
-            "name": "Condition Block",
-            "title": "Does the feed exist?",
-            "type": "logic.if_else",
-            "base_type": "activity",
-            "properties": {
-              "continue_on_failure": false,
-              "display_name": "Does the feed exist?",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity",
-            "blocks": [
-              {
-                "unique_name": "definition_activity_01ML2HT4AR71G07iI5I8WvM8VzLhyIXJpZq",
-                "name": "Condition Branch",
-                "title": "Yes",
-                "type": "logic.condition_block",
-                "base_type": "activity",
-                "properties": {
-                  "condition": {
-                    "left_operand": "$activity.definition_activity_01NUUUG7XX7X01pFgxHsXXwNIw8upYglg8O.output.response_body$",
-                    "operator": "ne",
-                    "right_operand": "[]"
-                  },
-                  "continue_on_failure": false,
-                  "display_name": "Yes",
-                  "skip_execution": false
-                },
-                "object_type": "definition_activity",
-                "actions": [
-                  {
-                    "unique_name": "definition_activity_01ML2I9O5P9I641RVSqZ0AJK9cLzZYmgxkj",
-                    "name": "JSONPath Query",
-                    "title": "Extract feed view URL",
-                    "type": "corejava.jsonpathquery",
-                    "base_type": "activity",
-                    "properties": {
-                      "action_timeout": 180,
-                      "continue_on_failure": false,
-                      "display_name": "Extract feed view URL",
-                      "input_json": "$activity.definition_activity_01NUUUG7XX7X01pFgxHsXXwNIw8upYglg8O.output.response_body$",
-                      "jsonpath_queries": [
-                        {
-                          "jsonpath_query": "$.[0].feed_view_url",
-                          "jsonpath_query_name": "feed_view_url",
-                          "jsonpath_query_type": "string"
-                        }
-                      ],
-                      "skip_execution": false
-                    },
-                    "object_type": "definition_activity"
-                  },
-                  {
-                    "unique_name": "definition_activity_01ML2K1L2LO010Zkzsl0bQ4jsLcnjSDQP9K",
-                    "name": "Set Variables",
-                    "title": "Set feed view URL",
-                    "type": "core.set_multiple_variables",
-                    "base_type": "activity",
-                    "properties": {
-                      "continue_on_failure": false,
-                      "display_name": "Set feed view URL",
-                      "skip_execution": false,
-                      "variables_to_update": [
-                        {
-                          "variable_to_update": "$workflow.definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX.local.variable_workflow_01ML2HDFTK3JK6ZGsx4QBwvEGQsPymFXtmi$",
-                          "variable_value_new": "$activity.definition_activity_01ML2I9O5P9I641RVSqZ0AJK9cLzZYmgxkj.output.jsonpath_queries.feed_view_url$"
-                        }
-                      ]
-                    },
-                    "object_type": "definition_activity"
-                  }
-                ]
-              },
-              {
-                "unique_name": "definition_activity_01ML1ZF6HJ0XI6300d7qWKxjzQmpS3xbjvx",
-                "name": "Condition Branch",
-                "title": "No",
-                "type": "logic.condition_block",
-                "base_type": "activity",
-                "properties": {
-                  "condition": {
-                    "left_operand": "$activity.definition_activity_01NUUUG7XX7X01pFgxHsXXwNIw8upYglg8O.output.response_body$",
-                    "operator": "eq",
-                    "right_operand": "[]"
-                  },
-                  "continue_on_failure": false,
-                  "display_name": "No",
-                  "skip_execution": false
-                },
-                "object_type": "definition_activity",
-                "actions": [
-                  {
-                    "unique_name": "definition_activity_01NUUWS9CFAWH0OSvBjmYlI0unN4nuXIfug",
-                    "name": "Execute Python Script",
-                    "title": "Generate feed JSON",
-                    "type": "python3.script",
-                    "base_type": "activity",
-                    "properties": {
-                      "action_timeout": 180,
-                      "continue_on_failure": false,
-                      "display_name": "Generate feed JSON",
-                      "script": "import json, sys\nfrom datetime import datetime, date, timedelta\n\n# Get the current date/time\ndateTime = datetime.now()\n\n# Build the feed object\nfeed_object = {}\nfeed_object[\"schema_version\"] = \"1.0.19\"\nfeed_object[\"indicator_id\"] = sys.argv[2]\nfeed_object[\"type\"] = \"feed\"\nfeed_object[\"output\"] = \"observables\"\nfeed_object[\"title\"] = sys.argv[1]\nfeed_object[\"tlp\"] = \"amber\"\nfeed_object[\"lifetime\"] = {\n\t\"start_time\": dateTime.strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n}\nfeed_object[\"timestamp\"] = dateTime.strftime(\"%Y-%m-%dT%H:%M:%SZ\")\nfeed_object[\"feed_type\"] = \"indicator\"\n\nfeed_json = json.dumps(feed_object)",
-                      "script_arguments": [
-                        "$workflow.definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX.local.variable_workflow_01JDOWSNWW2VZ47ASe2TcwOJ9bS5dQS80CV$_$activity.definition_activity_01ML1JI9RFE5J5gBUjyQEOXjoyeNGMFxbhR.output.parts[0]$",
-                        "$workflow.definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX.local.variable_workflow_01ML2386S4K8A0ztaCP2ovqYuGpPz6OrUJZ$"
-                      ],
-                      "script_queries": [
-                        {
-                          "script_query": "feed_json",
-                          "script_query_name": "feed_json",
-                          "script_query_type": "string"
-                        }
-                      ],
-                      "skip_execution": false
-                    },
-                    "object_type": "definition_activity"
-                  },
-                  {
-                    "unique_name": "definition_activity_01NUUXSP4EVY276Zs6Lcfx2Lg7OJtT4jwuE",
-                    "name": "HTTP Request",
-                    "title": "Create the feed",
-                    "type": "web-service.http_request",
-                    "base_type": "activity",
-                    "properties": {
-                      "accept": "application/json",
-                      "action_timeout": 180,
-                      "allow_auto_redirect": true,
-                      "body": "$activity.definition_activity_01NUUWS9CFAWH0OSvBjmYlI0unN4nuXIfug.output.script_queries.feed_json$",
-                      "content_type": "application/json",
-                      "continue_on_error_status_code": true,
-                      "continue_on_failure": false,
-                      "custom_headers": [
-                        {
-                          "name": "Authorization",
-                          "value": "Bearer $activity.definition_activity_01MK6B2SA8KMN2Nlx8NQPgliDIlOymCaCGk.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$"
-                        }
-                      ],
-                      "display_name": "Create the feed",
-                      "method": "POST",
-                      "relative_url": "/ctia/feed",
-                      "runtime_user": {
-                        "override_target_runtime_user": false,
-                        "target_default": true
-                      },
-                      "skip_execution": false,
-                      "target": {
-                        "use_workflow_target_group": true
-                      }
-                    },
-                    "object_type": "definition_activity"
-                  },
-                  {
-                    "unique_name": "definition_activity_01NUUYLGQKLV50GfB7y7TVV2KCu2EHgbqco",
-                    "name": "Condition Block",
-                    "title": "Was the feed created?",
-                    "type": "logic.if_else",
-                    "base_type": "activity",
-                    "properties": {
-                      "continue_on_failure": false,
-                      "display_name": "Was the feed created?",
-                      "skip_execution": false
-                    },
-                    "object_type": "definition_activity",
-                    "blocks": [
-                      {
-                        "unique_name": "definition_activity_01NUUYM7GU6MD0WRKik5fR1Tlknuzw2QsbV",
-                        "name": "Condition Branch",
-                        "title": "201/Created",
-                        "type": "logic.condition_block",
-                        "base_type": "activity",
-                        "properties": {
-                          "condition": {
-                            "left_operand": "$activity.definition_activity_01NUUXSP4EVY276Zs6Lcfx2Lg7OJtT4jwuE.output.status_code$",
-                            "operator": "eq",
-                            "right_operand": 201
-                          },
-                          "continue_on_failure": false,
-                          "display_name": "201/Created",
-                          "skip_execution": false
-                        },
-                        "object_type": "definition_activity",
-                        "actions": [
-                          {
-                            "unique_name": "definition_activity_01NUUZB24LVLJ7FVrOOlw8yfXFpz21IkqSW",
-                            "name": "JSONPath Query",
-                            "title": "Extract the feed URL",
-                            "type": "corejava.jsonpathquery",
-                            "base_type": "activity",
-                            "properties": {
-                              "action_timeout": 180,
-                              "continue_on_failure": false,
-                              "display_name": "Extract the feed URL",
-                              "input_json": "$activity.definition_activity_01NUUXSP4EVY276Zs6Lcfx2Lg7OJtT4jwuE.output.response_body$",
-                              "jsonpath_queries": [
-                                {
-                                  "jsonpath_query": "$.feed_view_url",
-                                  "jsonpath_query_name": "feed_view_url",
-                                  "jsonpath_query_type": "string"
-                                }
-                              ],
-                              "skip_execution": false
-                            },
-                            "object_type": "definition_activity"
-                          },
-                          {
-                            "unique_name": "definition_activity_01ML2HYI1J6DS1eAYEtHbArYBOIzkv95vQs",
-                            "name": "Set Variables",
-                            "title": "Set feed view URL",
-                            "type": "core.set_multiple_variables",
-                            "base_type": "activity",
-                            "properties": {
-                              "continue_on_failure": false,
-                              "display_name": "Set feed view URL",
-                              "skip_execution": false,
-                              "variables_to_update": [
-                                {
-                                  "variable_to_update": "$workflow.definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX.local.variable_workflow_01ML2HDFTK3JK6ZGsx4QBwvEGQsPymFXtmi$",
-                                  "variable_value_new": "$activity.definition_activity_01NUUZB24LVLJ7FVrOOlw8yfXFpz21IkqSW.output.jsonpath_queries.feed_view_url$"
-                                }
-                              ]
-                            },
-                            "object_type": "definition_activity"
-                          }
-                        ]
-                      },
-                      {
-                        "unique_name": "definition_activity_01NUUYM866BVD77KCKV52HPRFmLu7tqxAMb",
-                        "name": "Condition Branch",
-                        "title": "Anything else",
-                        "type": "logic.condition_block",
-                        "base_type": "activity",
-                        "properties": {
-                          "condition": {
-                            "left_operand": "$activity.definition_activity_01NUUXSP4EVY276Zs6Lcfx2Lg7OJtT4jwuE.output.status_code$",
-                            "operator": "ne",
-                            "right_operand": 201
-                          },
-                          "continue_on_failure": false,
-                          "display_name": "Anything else",
-                          "skip_execution": false
-                        },
-                        "object_type": "definition_activity",
-                        "actions": [
-                          {
-                            "unique_name": "definition_activity_01NUUZ95HH8276rtWE1PbZ3aeENbcEuj22T",
-                            "name": "Completed",
-                            "title": "Failed",
-                            "type": "logic.completed",
-                            "base_type": "activity",
-                            "properties": {
-                              "completion_type": "failed-completed",
-                              "continue_on_failure": false,
-                              "display_name": "Failed",
-                              "result_message": "Failed to create the feed \"$workflow.definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX.local.variable_workflow_01JDOWSNWW2VZ47ASe2TcwOJ9bS5dQS80CV$_$activity.definition_activity_01ML1JI9RFE5J5gBUjyQEOXjoyeNGMFxbhR.output.parts[0]$\"\n\nStatus code: $activity.definition_activity_01NUUXSP4EVY276Zs6Lcfx2Lg7OJtT4jwuE.output.status_code$\nResponse body: $activity.definition_activity_01NUUXSP4EVY276Zs6Lcfx2Lg7OJtT4jwuE.output.response_body$",
-                              "skip_execution": false
-                            },
-                            "object_type": "definition_activity"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "unique_name": "definition_activity_01ML2ECSAB8WN5VvsX3rwTpHNI1OBOurRqW",
-            "name": "Set Variables",
-            "title": "Update output text",
-            "type": "core.set_multiple_variables",
-            "base_type": "activity",
-            "properties": {
-              "continue_on_failure": false,
-              "display_name": "Update output text",
-              "skip_execution": false,
-              "variables_to_update": [
-                {
-                  "variable_to_update": "$workflow.definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX.output.variable_workflow_01ML2EB2R0ZCD4G4Lv545LGb3m0QxFYu4gq$",
-                  "variable_value_new": "$workflow.definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX.output.variable_workflow_01ML2EB2R0ZCD4G4Lv545LGb3m0QxFYu4gq$\nFeed View URL for $activity.definition_activity_01ML1JI9RFE5J5gBUjyQEOXjoyeNGMFxbhR.output.parts[0]$: $workflow.definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX.local.variable_workflow_01ML2HDFTK3JK6ZGsx4QBwvEGQsPymFXtmi$"
-                }
-              ]
-            },
-            "object_type": "definition_activity"
           }
-        ]
-      }
-    ],
-    "categories": [
-      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
-    ]
+      },
+      "object_type": "definition_workflow",
+      "actions": [
+          {
+              "unique_name": "definition_activity_01MKA4FJZJ3LQ3lnPXgsygXDWYQosPOb952",
+              "name": "Split String",
+              "title": "Split String",
+              "type": "core.splitstring",
+              "base_type": "activity",
+              "properties": {
+                  "boundaries": [
+                      {
+                          "boundary": "\\n"
+                      }
+                  ],
+                  "continue_on_failure": false,
+                  "display_name": "Split String",
+                  "input_string": "$workflow.definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX.static.variable_workflow_01MKA3XPM5KSA5Vuu661ozZMovlevdm6Qlx$",
+                  "remove_empty": true,
+                  "skip_execution": false,
+                  "use_regexp": true
+              },
+              "object_type": "definition_activity"
+          },
+          {
+              "unique_name": "definition_activity_01MKA3KUQGEZZ3nLJI16yoxS1WF0ePIbRBW",
+              "name": "For Each",
+              "title": "For each observable type",
+              "type": "logic.for_each",
+              "base_type": "activity",
+              "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "For each observable type",
+                  "skip_execution": false,
+                  "source_array": "$activity.definition_activity_01MKA4FJZJ3LQ3lnPXgsygXDWYQosPOb952.output.parts$"
+              },
+              "object_type": "definition_activity",
+              "actions": [
+                  {
+                      "unique_name": "definition_activity_01ML1JI9RFE5J5gBUjyQEOXjoyeNGMFxbhR",
+                      "name": "Split String",
+                      "title": "Split String",
+                      "type": "core.splitstring",
+                      "base_type": "activity",
+                      "properties": {
+                          "boundaries": [
+                              {
+                                  "boundary": ","
+                              }
+                          ],
+                          "continue_on_failure": false,
+                          "display_name": "Split String",
+                          "input_string": "$activity.definition_activity_01MKA3KUQGEZZ3nLJI16yoxS1WF0ePIbRBW.input.source_array[@]$",
+                          "skip_execution": false
+                      },
+                      "object_type": "definition_activity"
+                  },
+                  {
+                      "unique_name": "definition_activity_01ML23I6I3U9Y04aOyenKmoL4vFB9TuEkMq",
+                      "name": "Set Variables",
+                      "title": "Update local variables",
+                      "type": "core.set_multiple_variables",
+                      "base_type": "activity",
+                      "properties": {
+                          "continue_on_failure": false,
+                          "display_name": "Update local variables",
+                          "skip_execution": false,
+                          "variables_to_update": [
+                              {
+                                  "variable_to_update": "$workflow.definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX.local.variable_workflow_01ML2386S4K8A0ztaCP2ovqYuGpPz6OrUJZ$",
+                                  "variable_value_new": ""
+                              }
+                          ]
+                      },
+                      "object_type": "definition_activity"
+                  },
+                  {
+                      "unique_name": "definition_activity_01NUUKA71Y21D1WJysEYxMGV8ijBV8GW9a3",
+                      "name": "HTTP Request",
+                      "title": "Search for existing indicators",
+                      "type": "web-service.http_request",
+                      "base_type": "activity",
+                      "properties": {
+                          "accept": "application\/json",
+                          "action_timeout": 180,
+                          "allow_auto_redirect": true,
+                          "allow_headers_redirect": false,
+                          "content_type": "application\/json",
+                          "continue_on_error_status_code": false,
+                          "continue_on_failure": false,
+                          "display_name": "Search for existing indicators",
+                          "method": "GET",
+                          "relative_url": "\/ctia\/indicator\/search?limit=1&offset=0&query=title:$workflow.definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX.local.variable_workflow_01JB3JSTG1V9N2ARVNBoVp9zIMRWO8KO9EW$_$activity.definition_activity_01ML1JI9RFE5J5gBUjyQEOXjoyeNGMFxbhR.output.parts[0]$",
+                          "runtime_user": {
+                              "override_target_runtime_user": false,
+                              "target_default": true
+                          },
+                          "skip_execution": false,
+                          "target": {
+                              "use_workflow_target_group": true
+                          }
+                      },
+                      "object_type": "definition_activity"
+                  },
+                  {
+                      "unique_name": "definition_activity_01MKA2C9JO4KG7mwD7x1KVPbyXbg5gswpJY",
+                      "name": "Condition Block",
+                      "title": "Does the indicator exist?",
+                      "type": "logic.if_else",
+                      "base_type": "activity",
+                      "properties": {
+                          "continue_on_failure": false,
+                          "display_name": "Does the indicator exist?",
+                          "skip_execution": false
+                      },
+                      "object_type": "definition_activity",
+                      "blocks": [
+                          {
+                              "unique_name": "definition_activity_01ML23RUA69XX2dJnI4mvWAFj29bk8aPgeh",
+                              "name": "Condition Branch",
+                              "title": "Yes",
+                              "type": "logic.condition_block",
+                              "base_type": "activity",
+                              "properties": {
+                                  "condition": {
+                                      "left_operand": "$activity.definition_activity_01NUUKA71Y21D1WJysEYxMGV8ijBV8GW9a3.output.response_body$",
+                                      "operator": "ne",
+                                      "right_operand": "[]"
+                                  },
+                                  "continue_on_failure": false,
+                                  "display_name": "Yes",
+                                  "skip_execution": false
+                              },
+                              "object_type": "definition_activity",
+                              "actions": [
+                                  {
+                                      "unique_name": "definition_activity_01ML248Z28Z5R4pdSbnMOtMqYL4eWWMETdE",
+                                      "name": "JSONPath Query",
+                                      "title": "Extract indicator ID",
+                                      "type": "corejava.jsonpathquery",
+                                      "base_type": "activity",
+                                      "properties": {
+                                          "action_timeout": 180,
+                                          "continue_on_failure": false,
+                                          "display_name": "Extract indicator ID",
+                                          "input_json": "$activity.definition_activity_01NUUKA71Y21D1WJysEYxMGV8ijBV8GW9a3.output.response_body$",
+                                          "jsonpath_queries": [
+                                              {
+                                                  "jsonpath_query": "$.[0].id",
+                                                  "jsonpath_query_name": "indicator_id",
+                                                  "jsonpath_query_type": "string"
+                                              }
+                                          ],
+                                          "skip_execution": false
+                                      },
+                                      "object_type": "definition_activity"
+                                  },
+                                  {
+                                      "unique_name": "definition_activity_01ML23YU7J2CW2ZpHRT75AmGsCBWjcoiYew",
+                                      "name": "Set Variables",
+                                      "title": "Set indicator ID",
+                                      "type": "core.set_multiple_variables",
+                                      "base_type": "activity",
+                                      "properties": {
+                                          "continue_on_failure": false,
+                                          "display_name": "Set indicator ID",
+                                          "skip_execution": false,
+                                          "variables_to_update": [
+                                              {
+                                                  "variable_to_update": "$workflow.definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX.local.variable_workflow_01ML2386S4K8A0ztaCP2ovqYuGpPz6OrUJZ$",
+                                                  "variable_value_new": "$activity.definition_activity_01ML248Z28Z5R4pdSbnMOtMqYL4eWWMETdE.output.jsonpath_queries.indicator_id$"
+                                              }
+                                          ]
+                                      },
+                                      "object_type": "definition_activity"
+                                  }
+                              ]
+                          },
+                          {
+                              "unique_name": "definition_activity_01MKA2CKF5KAK5FKadEUPy8RdW4D4lrehYm",
+                              "name": "Condition Branch",
+                              "title": "No",
+                              "type": "logic.condition_block",
+                              "base_type": "activity",
+                              "properties": {
+                                  "condition": {
+                                      "left_operand": "$activity.definition_activity_01NUUKA71Y21D1WJysEYxMGV8ijBV8GW9a3.output.response_body$",
+                                      "operator": "eq",
+                                      "right_operand": "[]"
+                                  },
+                                  "continue_on_failure": false,
+                                  "display_name": "No",
+                                  "skip_execution": false
+                              },
+                              "object_type": "definition_activity",
+                              "actions": [
+                                  {
+                                      "unique_name": "definition_activity_01NUUO3V1IG2145EaRNXltTM5QbTu8vuW8I",
+                                      "name": "Execute Python Script",
+                                      "title": "Generate indicator JSON",
+                                      "type": "python3.script",
+                                      "base_type": "activity",
+                                      "properties": {
+                                          "action_timeout": 180,
+                                          "continue_on_failure": false,
+                                          "display_name": "Generate indicator JSON",
+                                          "script": "import json, sys\nfrom datetime import datetime, date, timedelta\n\n# Get the current date\/time\ndateTime = datetime.now()\n\n# Validate the indicator type list\nindicator_types = sys.argv[2]\nif len(indicator_types) > 0:\n\tindicator_types = json.loads(indicator_types)\nelse:\n\tindicator_types = []\n\n# Build the indicator objects\nindicator_object = {}\nindicator_object[\"description\"] = \"\"\nindicator_object[\"producer\"] = \"NGFW\"\nindicator_object[\"schema_version\"] = \"1.0.19\"\nindicator_object[\"type\"] = \"indicator\"\nindicator_object[\"source\"] = \"securex-orchestration\"\nindicator_object[\"short_description\"] = sys.argv[1]\nindicator_object[\"title\"] = sys.argv[1]\nindicator_object[\"indicator_type\"] = indicator_types\nindicator_object[\"severity\"] = \"Info\"\nindicator_object[\"tlp\"] = \"amber\"\nindicator_object[\"timestamp\"] = dateTime.strftime(\"%Y-%m-%dT%H:%M:%SZ\")\nindicator_object[\"confidence\"] = \"High\"\n\nindicator_json = json.dumps(indicator_object)",
+                                          "script_arguments": [
+                                              "$workflow.definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX.local.variable_workflow_01JB3JSTG1V9N2ARVNBoVp9zIMRWO8KO9EW$_$activity.definition_activity_01ML1JI9RFE5J5gBUjyQEOXjoyeNGMFxbhR.output.parts[0]$",
+                                              "[ \"$activity.definition_activity_01ML1JI9RFE5J5gBUjyQEOXjoyeNGMFxbhR.output.parts[-1]$\" ]"
+                                          ],
+                                          "script_queries": [
+                                              {
+                                                  "script_query": "indicator_json",
+                                                  "script_query_name": "indicator_json",
+                                                  "script_query_type": "string"
+                                              }
+                                          ],
+                                          "skip_execution": false
+                                      },
+                                      "object_type": "definition_activity"
+                                  },
+                                  {
+                                      "unique_name": "definition_activity_01NUUQYIULGE90E2p2GoKHkY4820beVYynh",
+                                      "name": "HTTP Request",
+                                      "title": "Create the indicator",
+                                      "type": "web-service.http_request",
+                                      "base_type": "activity",
+                                      "properties": {
+                                          "accept": "application\/json",
+                                          "action_timeout": 180,
+                                          "allow_auto_redirect": true,
+                                          "allow_headers_redirect": false,
+                                          "body": "$activity.definition_activity_01NUUO3V1IG2145EaRNXltTM5QbTu8vuW8I.output.script_queries.indicator_json$",
+                                          "content_type": "application\/json",
+                                          "continue_on_error_status_code": true,
+                                          "continue_on_failure": false,
+                                          "display_name": "Create the indicator",
+                                          "method": "POST",
+                                          "relative_url": "\/ctia\/indicator",
+                                          "runtime_user": {
+                                              "override_target_runtime_user": false,
+                                              "target_default": true
+                                          },
+                                          "skip_execution": false,
+                                          "target": {
+                                              "use_workflow_target_group": true
+                                          }
+                                      },
+                                      "object_type": "definition_activity"
+                                  },
+                                  {
+                                      "unique_name": "definition_activity_01NUUS2V3OSHP1NoILhNoTNCV1BKVxhJj2Y",
+                                      "name": "Condition Block",
+                                      "title": "Was the indicator created?",
+                                      "type": "logic.if_else",
+                                      "base_type": "activity",
+                                      "properties": {
+                                          "continue_on_failure": false,
+                                          "display_name": "Was the indicator created?",
+                                          "skip_execution": false
+                                      },
+                                      "object_type": "definition_activity",
+                                      "blocks": [
+                                          {
+                                              "unique_name": "definition_activity_01NUUS3MPYWYO7g6AFNoVRbKEglKY7qMuCI",
+                                              "name": "Condition Branch",
+                                              "title": "201\/Created",
+                                              "type": "logic.condition_block",
+                                              "base_type": "activity",
+                                              "properties": {
+                                                  "condition": {
+                                                      "left_operand": "$activity.definition_activity_01NUUQYIULGE90E2p2GoKHkY4820beVYynh.output.status_code$",
+                                                      "operator": "eq",
+                                                      "right_operand": 201
+                                                  },
+                                                  "continue_on_failure": false,
+                                                  "display_name": "201\/Created",
+                                                  "skip_execution": false
+                                              },
+                                              "object_type": "definition_activity",
+                                              "actions": [
+                                                  {
+                                                      "unique_name": "definition_activity_01NUUSRQT5X196aSjRyXvQbQ0SmaiaBftoz",
+                                                      "name": "JSONPath Query",
+                                                      "title": "Extract the indicator ID",
+                                                      "type": "corejava.jsonpathquery",
+                                                      "base_type": "activity",
+                                                      "properties": {
+                                                          "action_timeout": 180,
+                                                          "continue_on_failure": false,
+                                                          "display_name": "Extract the indicator ID",
+                                                          "input_json": "$activity.definition_activity_01NUUQYIULGE90E2p2GoKHkY4820beVYynh.output.response_body$",
+                                                          "jsonpath_queries": [
+                                                              {
+                                                                  "jsonpath_query": "$.id",
+                                                                  "jsonpath_query_name": "id",
+                                                                  "jsonpath_query_type": "string"
+                                                              }
+                                                          ],
+                                                          "skip_execution": false
+                                                      },
+                                                      "object_type": "definition_activity"
+                                                  },
+                                                  {
+                                                      "unique_name": "definition_activity_01ML24WVIH0LR3aqBAraIV0Sg3yFZKw5nng",
+                                                      "name": "Set Variables",
+                                                      "title": "Set indicator ID",
+                                                      "type": "core.set_multiple_variables",
+                                                      "base_type": "activity",
+                                                      "properties": {
+                                                          "continue_on_failure": false,
+                                                          "display_name": "Set indicator ID",
+                                                          "skip_execution": false,
+                                                          "variables_to_update": [
+                                                              {
+                                                                  "variable_to_update": "$workflow.definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX.local.variable_workflow_01ML2386S4K8A0ztaCP2ovqYuGpPz6OrUJZ$",
+                                                                  "variable_value_new": "$activity.definition_activity_01NUUSRQT5X196aSjRyXvQbQ0SmaiaBftoz.output.jsonpath_queries.id$"
+                                                              }
+                                                          ]
+                                                      },
+                                                      "object_type": "definition_activity"
+                                                  }
+                                              ]
+                                          },
+                                          {
+                                              "unique_name": "definition_activity_01NUUS3NHBK635j0A6kOkAwLBeqefRQkESr",
+                                              "name": "Condition Branch",
+                                              "title": "Anything else",
+                                              "type": "logic.condition_block",
+                                              "base_type": "activity",
+                                              "properties": {
+                                                  "condition": {
+                                                      "left_operand": "$activity.definition_activity_01NUUQYIULGE90E2p2GoKHkY4820beVYynh.output.status_code$",
+                                                      "operator": "ne",
+                                                      "right_operand": 201
+                                                  },
+                                                  "continue_on_failure": false,
+                                                  "display_name": "Anything else",
+                                                  "skip_execution": false
+                                              },
+                                              "object_type": "definition_activity",
+                                              "actions": [
+                                                  {
+                                                      "unique_name": "definition_activity_01NUUSP9W7WPI4glSg49lAwcRgyT7GShmIO",
+                                                      "name": "Completed",
+                                                      "title": "Failed",
+                                                      "type": "logic.completed",
+                                                      "base_type": "activity",
+                                                      "properties": {
+                                                          "completion_type": "failed-completed",
+                                                          "continue_on_failure": false,
+                                                          "display_name": "Failed",
+                                                          "result_message": "Failed to create the indicator \"$workflow.definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX.local.variable_workflow_01JB3JSTG1V9N2ARVNBoVp9zIMRWO8KO9EW$_$activity.definition_activity_01ML1JI9RFE5J5gBUjyQEOXjoyeNGMFxbhR.output.parts[0]$\"\n\nStatus code: $activity.definition_activity_01NUUQYIULGE90E2p2GoKHkY4820beVYynh.output.status_code$\nResponse body: $activity.definition_activity_01NUUQYIULGE90E2p2GoKHkY4820beVYynh.output.response_body$",
+                                                          "skip_execution": false
+                                                      },
+                                                      "object_type": "definition_activity"
+                                                  }
+                                              ]
+                                          }
+                                      ]
+                                  }
+                              ]
+                          }
+                      ]
+                  },
+                  {
+                      "unique_name": "definition_activity_01NUUUG7XX7X01pFgxHsXXwNIw8upYglg8O",
+                      "name": "HTTP Request",
+                      "title": "Search for existing feeds",
+                      "type": "web-service.http_request",
+                      "base_type": "activity",
+                      "properties": {
+                          "accept": "application\/json",
+                          "action_timeout": 180,
+                          "allow_auto_redirect": true,
+                          "allow_headers_redirect": false,
+                          "content_type": "application\/json",
+                          "continue_on_error_status_code": false,
+                          "continue_on_failure": false,
+                          "display_name": "Search for existing feeds",
+                          "method": "GET",
+                          "relative_url": "\/ctia\/feed\/search?limit=1&offset=0&query=title:$workflow.definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX.local.variable_workflow_01JDOWSNWW2VZ47ASe2TcwOJ9bS5dQS80CV$_$activity.definition_activity_01ML1JI9RFE5J5gBUjyQEOXjoyeNGMFxbhR.output.parts[0]$",
+                          "runtime_user": {
+                              "override_target_runtime_user": false,
+                              "target_default": true
+                          },
+                          "skip_execution": false,
+                          "target": {
+                              "use_workflow_target_group": true
+                          }
+                      },
+                      "object_type": "definition_activity"
+                  },
+                  {
+                      "unique_name": "definition_activity_01ML1ZEKDMLXV2dniqIuVSg4gJLcxGG3ARq",
+                      "name": "Condition Block",
+                      "title": "Does the feed exist?",
+                      "type": "logic.if_else",
+                      "base_type": "activity",
+                      "properties": {
+                          "continue_on_failure": false,
+                          "display_name": "Does the feed exist?",
+                          "skip_execution": false
+                      },
+                      "object_type": "definition_activity",
+                      "blocks": [
+                          {
+                              "unique_name": "definition_activity_01ML2HT4AR71G07iI5I8WvM8VzLhyIXJpZq",
+                              "name": "Condition Branch",
+                              "title": "Yes",
+                              "type": "logic.condition_block",
+                              "base_type": "activity",
+                              "properties": {
+                                  "condition": {
+                                      "left_operand": "$activity.definition_activity_01NUUUG7XX7X01pFgxHsXXwNIw8upYglg8O.output.response_body$",
+                                      "operator": "ne",
+                                      "right_operand": "[]"
+                                  },
+                                  "continue_on_failure": false,
+                                  "display_name": "Yes",
+                                  "skip_execution": false
+                              },
+                              "object_type": "definition_activity",
+                              "actions": [
+                                  {
+                                      "unique_name": "definition_activity_01ML2I9O5P9I641RVSqZ0AJK9cLzZYmgxkj",
+                                      "name": "JSONPath Query",
+                                      "title": "Extract feed view URL",
+                                      "type": "corejava.jsonpathquery",
+                                      "base_type": "activity",
+                                      "properties": {
+                                          "action_timeout": 180,
+                                          "continue_on_failure": false,
+                                          "display_name": "Extract feed view URL",
+                                          "input_json": "$activity.definition_activity_01NUUUG7XX7X01pFgxHsXXwNIw8upYglg8O.output.response_body$",
+                                          "jsonpath_queries": [
+                                              {
+                                                  "jsonpath_query": "$.[0].feed_view_url",
+                                                  "jsonpath_query_name": "feed_view_url",
+                                                  "jsonpath_query_type": "string"
+                                              }
+                                          ],
+                                          "skip_execution": false
+                                      },
+                                      "object_type": "definition_activity"
+                                  },
+                                  {
+                                      "unique_name": "definition_activity_01ML2K1L2LO010Zkzsl0bQ4jsLcnjSDQP9K",
+                                      "name": "Set Variables",
+                                      "title": "Set feed view URL",
+                                      "type": "core.set_multiple_variables",
+                                      "base_type": "activity",
+                                      "properties": {
+                                          "continue_on_failure": false,
+                                          "display_name": "Set feed view URL",
+                                          "skip_execution": false,
+                                          "variables_to_update": [
+                                              {
+                                                  "variable_to_update": "$workflow.definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX.local.variable_workflow_01ML2HDFTK3JK6ZGsx4QBwvEGQsPymFXtmi$",
+                                                  "variable_value_new": "$activity.definition_activity_01ML2I9O5P9I641RVSqZ0AJK9cLzZYmgxkj.output.jsonpath_queries.feed_view_url$"
+                                              }
+                                          ]
+                                      },
+                                      "object_type": "definition_activity"
+                                  }
+                              ]
+                          },
+                          {
+                              "unique_name": "definition_activity_01ML1ZF6HJ0XI6300d7qWKxjzQmpS3xbjvx",
+                              "name": "Condition Branch",
+                              "title": "No",
+                              "type": "logic.condition_block",
+                              "base_type": "activity",
+                              "properties": {
+                                  "condition": {
+                                      "left_operand": "$activity.definition_activity_01NUUUG7XX7X01pFgxHsXXwNIw8upYglg8O.output.response_body$",
+                                      "operator": "eq",
+                                      "right_operand": "[]"
+                                  },
+                                  "continue_on_failure": false,
+                                  "display_name": "No",
+                                  "skip_execution": false
+                              },
+                              "object_type": "definition_activity",
+                              "actions": [
+                                  {
+                                      "unique_name": "definition_activity_01NUUWS9CFAWH0OSvBjmYlI0unN4nuXIfug",
+                                      "name": "Execute Python Script",
+                                      "title": "Generate feed JSON",
+                                      "type": "python3.script",
+                                      "base_type": "activity",
+                                      "properties": {
+                                          "action_timeout": 180,
+                                          "continue_on_failure": false,
+                                          "display_name": "Generate feed JSON",
+                                          "script": "import json, sys\nfrom datetime import datetime, date, timedelta\n\n# Get the current date\/time\ndateTime = datetime.now()\n\n# Build the feed object\nfeed_object = {}\nfeed_object[\"schema_version\"] = \"1.0.19\"\nfeed_object[\"indicator_id\"] = sys.argv[2]\nfeed_object[\"type\"] = \"feed\"\nfeed_object[\"output\"] = \"observables\"\nfeed_object[\"title\"] = sys.argv[1]\nfeed_object[\"tlp\"] = \"amber\"\nfeed_object[\"lifetime\"] = {\n\t\"start_time\": dateTime.strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n}\nfeed_object[\"timestamp\"] = dateTime.strftime(\"%Y-%m-%dT%H:%M:%SZ\")\nfeed_object[\"feed_type\"] = \"indicator\"\n\nfeed_json = json.dumps(feed_object)",
+                                          "script_arguments": [
+                                              "$workflow.definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX.local.variable_workflow_01JDOWSNWW2VZ47ASe2TcwOJ9bS5dQS80CV$_$activity.definition_activity_01ML1JI9RFE5J5gBUjyQEOXjoyeNGMFxbhR.output.parts[0]$",
+                                              "$workflow.definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX.local.variable_workflow_01ML2386S4K8A0ztaCP2ovqYuGpPz6OrUJZ$"
+                                          ],
+                                          "script_queries": [
+                                              {
+                                                  "script_query": "feed_json",
+                                                  "script_query_name": "feed_json",
+                                                  "script_query_type": "string"
+                                              }
+                                          ],
+                                          "skip_execution": false
+                                      },
+                                      "object_type": "definition_activity"
+                                  },
+                                  {
+                                      "unique_name": "definition_activity_01NUUXSP4EVY276Zs6Lcfx2Lg7OJtT4jwuE",
+                                      "name": "HTTP Request",
+                                      "title": "Create the feed",
+                                      "type": "web-service.http_request",
+                                      "base_type": "activity",
+                                      "properties": {
+                                          "accept": "application\/json",
+                                          "action_timeout": 180,
+                                          "allow_auto_redirect": true,
+                                          "allow_headers_redirect": false,
+                                          "body": "$activity.definition_activity_01NUUWS9CFAWH0OSvBjmYlI0unN4nuXIfug.output.script_queries.feed_json$",
+                                          "content_type": "application\/json",
+                                          "continue_on_error_status_code": true,
+                                          "continue_on_failure": false,
+                                          "display_name": "Create the feed",
+                                          "method": "POST",
+                                          "relative_url": "\/ctia\/feed",
+                                          "runtime_user": {
+                                              "override_target_runtime_user": false,
+                                              "target_default": true
+                                          },
+                                          "skip_execution": false,
+                                          "target": {
+                                              "use_workflow_target_group": true
+                                          }
+                                      },
+                                      "object_type": "definition_activity"
+                                  },
+                                  {
+                                      "unique_name": "definition_activity_01NUUYLGQKLV50GfB7y7TVV2KCu2EHgbqco",
+                                      "name": "Condition Block",
+                                      "title": "Was the feed created?",
+                                      "type": "logic.if_else",
+                                      "base_type": "activity",
+                                      "properties": {
+                                          "continue_on_failure": false,
+                                          "display_name": "Was the feed created?",
+                                          "skip_execution": false
+                                      },
+                                      "object_type": "definition_activity",
+                                      "blocks": [
+                                          {
+                                              "unique_name": "definition_activity_01NUUYM7GU6MD0WRKik5fR1Tlknuzw2QsbV",
+                                              "name": "Condition Branch",
+                                              "title": "201\/Created",
+                                              "type": "logic.condition_block",
+                                              "base_type": "activity",
+                                              "properties": {
+                                                  "condition": {
+                                                      "left_operand": "$activity.definition_activity_01NUUXSP4EVY276Zs6Lcfx2Lg7OJtT4jwuE.output.status_code$",
+                                                      "operator": "eq",
+                                                      "right_operand": 201
+                                                  },
+                                                  "continue_on_failure": false,
+                                                  "display_name": "201\/Created",
+                                                  "skip_execution": false
+                                              },
+                                              "object_type": "definition_activity",
+                                              "actions": [
+                                                  {
+                                                      "unique_name": "definition_activity_01NUUZB24LVLJ7FVrOOlw8yfXFpz21IkqSW",
+                                                      "name": "JSONPath Query",
+                                                      "title": "Extract the feed URL",
+                                                      "type": "corejava.jsonpathquery",
+                                                      "base_type": "activity",
+                                                      "properties": {
+                                                          "action_timeout": 180,
+                                                          "continue_on_failure": false,
+                                                          "display_name": "Extract the feed URL",
+                                                          "input_json": "$activity.definition_activity_01NUUXSP4EVY276Zs6Lcfx2Lg7OJtT4jwuE.output.response_body$",
+                                                          "jsonpath_queries": [
+                                                              {
+                                                                  "jsonpath_query": "$.feed_view_url",
+                                                                  "jsonpath_query_name": "feed_view_url",
+                                                                  "jsonpath_query_type": "string"
+                                                              }
+                                                          ],
+                                                          "skip_execution": false
+                                                      },
+                                                      "object_type": "definition_activity"
+                                                  },
+                                                  {
+                                                      "unique_name": "definition_activity_01ML2HYI1J6DS1eAYEtHbArYBOIzkv95vQs",
+                                                      "name": "Set Variables",
+                                                      "title": "Set feed view URL",
+                                                      "type": "core.set_multiple_variables",
+                                                      "base_type": "activity",
+                                                      "properties": {
+                                                          "continue_on_failure": false,
+                                                          "display_name": "Set feed view URL",
+                                                          "skip_execution": false,
+                                                          "variables_to_update": [
+                                                              {
+                                                                  "variable_to_update": "$workflow.definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX.local.variable_workflow_01ML2HDFTK3JK6ZGsx4QBwvEGQsPymFXtmi$",
+                                                                  "variable_value_new": "$activity.definition_activity_01NUUZB24LVLJ7FVrOOlw8yfXFpz21IkqSW.output.jsonpath_queries.feed_view_url$"
+                                                              }
+                                                          ]
+                                                      },
+                                                      "object_type": "definition_activity"
+                                                  }
+                                              ]
+                                          },
+                                          {
+                                              "unique_name": "definition_activity_01NUUYM866BVD77KCKV52HPRFmLu7tqxAMb",
+                                              "name": "Condition Branch",
+                                              "title": "Anything else",
+                                              "type": "logic.condition_block",
+                                              "base_type": "activity",
+                                              "properties": {
+                                                  "condition": {
+                                                      "left_operand": "$activity.definition_activity_01NUUXSP4EVY276Zs6Lcfx2Lg7OJtT4jwuE.output.status_code$",
+                                                      "operator": "ne",
+                                                      "right_operand": 201
+                                                  },
+                                                  "continue_on_failure": false,
+                                                  "display_name": "Anything else",
+                                                  "skip_execution": false
+                                              },
+                                              "object_type": "definition_activity",
+                                              "actions": [
+                                                  {
+                                                      "unique_name": "definition_activity_01NUUZ95HH8276rtWE1PbZ3aeENbcEuj22T",
+                                                      "name": "Completed",
+                                                      "title": "Failed",
+                                                      "type": "logic.completed",
+                                                      "base_type": "activity",
+                                                      "properties": {
+                                                          "completion_type": "failed-completed",
+                                                          "continue_on_failure": false,
+                                                          "display_name": "Failed",
+                                                          "result_message": "Failed to create the feed \"$workflow.definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX.local.variable_workflow_01JDOWSNWW2VZ47ASe2TcwOJ9bS5dQS80CV$_$activity.definition_activity_01ML1JI9RFE5J5gBUjyQEOXjoyeNGMFxbhR.output.parts[0]$\"\n\nStatus code: $activity.definition_activity_01NUUXSP4EVY276Zs6Lcfx2Lg7OJtT4jwuE.output.status_code$\nResponse body: $activity.definition_activity_01NUUXSP4EVY276Zs6Lcfx2Lg7OJtT4jwuE.output.response_body$",
+                                                          "skip_execution": false
+                                                      },
+                                                      "object_type": "definition_activity"
+                                                  }
+                                              ]
+                                          }
+                                      ]
+                                  }
+                              ]
+                          }
+                      ]
+                  },
+                  {
+                      "unique_name": "definition_activity_01ML2ECSAB8WN5VvsX3rwTpHNI1OBOurRqW",
+                      "name": "Set Variables",
+                      "title": "Update output text",
+                      "type": "core.set_multiple_variables",
+                      "base_type": "activity",
+                      "properties": {
+                          "continue_on_failure": false,
+                          "display_name": "Update output text",
+                          "skip_execution": false,
+                          "variables_to_update": [
+                              {
+                                  "variable_to_update": "$workflow.definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX.output.variable_workflow_01ML2EB2R0ZCD4G4Lv545LGb3m0QxFYu4gq$",
+                                  "variable_value_new": "$workflow.definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX.output.variable_workflow_01ML2EB2R0ZCD4G4Lv545LGb3m0QxFYu4gq$\nFeed View URL for $activity.definition_activity_01ML1JI9RFE5J5gBUjyQEOXjoyeNGMFxbhR.output.parts[0]$: $workflow.definition_workflow_01J9UPDI6BBXA3XAvEZYTwStfP3NI14VCxX.local.variable_workflow_01ML2HDFTK3JK6ZGsx4QBwvEGQsPymFXtmi$"
+                              }
+                          ]
+                      },
+                      "object_type": "definition_activity"
+                  }
+              ]
+          }
+      ],
+      "categories": [
+          "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+      ]
   },
   "target_groups": {
-    "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
-      "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
-      "name": "Default TargetGroup",
-      "title": "Default TargetGroup",
-      "type": "generic.target_group",
-      "base_type": "target_group",
-      "version": "1.0.0",
-      "targets": [
-        {
-          "data_target_type": "web-service.endpoint",
-          "view_target_type": "web-service.endpoint",
-          "include_all_targets": true
-        },
-        {
-          "data_target_type": "email.smtp_endpoint",
-          "view_target_type": "email.smtp_endpoint",
-          "include_all_targets": true
-        }
-      ],
-      "object_type": "target_group"
-    }
-  },
-  "atomic_workflows": [
-    "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
-  ]
+      "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+          "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+          "name": "Default TargetGroup",
+          "title": "Default TargetGroup",
+          "type": "generic.target_group",
+          "base_type": "target_group",
+          "version": "1.0.0",
+          "targets": [
+              {
+                  "data_target_type": "web-service.endpoint",
+                  "view_target_type": "web-service.endpoint",
+                  "include_all_targets": true
+              },
+              {
+                  "data_target_type": "email.smtp_endpoint",
+                  "view_target_type": "email.smtp_endpoint",
+                  "include_all_targets": true
+              }
+          ],
+          "object_type": "target_group"
+      }
+  }
 }

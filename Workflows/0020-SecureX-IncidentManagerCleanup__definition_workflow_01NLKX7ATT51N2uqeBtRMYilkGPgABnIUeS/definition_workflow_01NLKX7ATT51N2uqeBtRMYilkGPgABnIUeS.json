@@ -1,644 +1,575 @@
 {
   "workflow": {
-    "unique_name": "definition_workflow_01NLKX7ATT51N2uqeBtRMYilkGPgABnIUeS",
-    "name": "0020 - SecureX - Incident Manager Cleanup",
-    "title": "0020 - SecureX - Incident Manager Cleanup",
-    "type": "generic.workflow",
-    "base_type": "workflow",
-    "variables": [
-      {
-        "schema_id": "datatype.date",
-        "properties": {
-          "value": "0001-01-01T00:00:00+00:00",
-          "scope": "input",
-          "name": "To Time",
-          "type": "datatype.date",
-          "description": "The end of the window within which matching incidents should be deleted",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01NLLQYZQ5MA64JEESMEZodTIzOB1NWM5fW",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "input",
-          "name": "Lucene/ES Query",
-          "type": "datatype.string",
-          "description": "A Lucene/ES query to use when selecting incidents for deletion. Information about Lucene queries can be found here: https://lucene.apache.org/core/7_7_3/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#package.description",
-          "is_required": true,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01NLKZ99R8PDJ08tDiOOqWC9iwfp4kZmDz9",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.date",
-        "properties": {
-          "value": "0001-01-01T00:00:00+00:00",
-          "scope": "input",
-          "name": "From Time",
-          "type": "datatype.date",
-          "description": "The beginning of the window within which matching incidents should be deleted",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01NLLQJM5XUFA0xuBOcswBhVtdauhfhtKPl",
-        "object_type": "variable_workflow"
-      }
-    ],
-    "properties": {
-      "atomic": {
-        "is_atomic": false
-      },
-      "delete_workflow_instance": false,
-      "description": "This workflow allows you to bulk-delete incidents from your Cisco SecureX incident manager. The incidents to delete are identified by a Lucene/ES query and a time window. A dry run is executed first and an approval task is generated to confirm how many incidents will be deleted. If the approval task is approved, deletion is completed.\n\nNOTE: DELETED INCIDENTS CANNOT BE RECOVERED!\n\nTarget Group: Default TargetGroup\n\nTargets: CTR_For_Access_Token, Private_CTIA_Target\n\nSteps:\n[] Validate inputs and format date/times\n[] Get an access token for SecureX\n[] Execute a dry run of the deletion query\n[] Check if the request was successful:\n[]> If it wasn't, output an error\n[]> If it was:\n[]>> Check if there was anything to delete (if not, end the workflow)\n[]>> Request approval for deletion\n[]>> If the request is denied or expires, end the workflow\n[]>> Request the incidents actually be deleted\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0020",
-      "display_name": "0020 - SecureX - Incident Manager Cleanup",
-      "runtime_user": {
-        "override_target_runtime_user": false,
-        "specify_on_workflow_start": false,
-        "target_default": true
-      },
-      "target": {
-        "execute_on_target_group": true,
-        "target_group": {
-          "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
-          "run_on_all_targets": false,
-          "selected_target_types": [
-            "web-service.endpoint"
-          ],
-          "use_criteria": {
-            "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-            "conditions": [
-              {
-                "operator": "eqi",
-                "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-                "right_operand": "Private_CTIA_Target"
-              }
-            ]
-          }
-        }
-      }
-    },
-    "object_type": "definition_workflow",
-    "actions": [
-      {
-        "unique_name": "definition_activity_01NLLR7F23W4M0OWRBSFbHQOizTZURQpsf1",
-        "name": "Condition Block",
-        "title": "Were timestamps provided?",
-        "type": "logic.if_else",
-        "base_type": "activity",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "Were timestamps provided?",
-          "skip_execution": false
-        },
-        "object_type": "definition_activity",
-        "blocks": [
+      "unique_name": "definition_workflow_01NLKX7ATT51N2uqeBtRMYilkGPgABnIUeS",
+      "name": "0020 - SecureX - Incident Manager Cleanup",
+      "title": "0020 - SecureX - Incident Manager Cleanup",
+      "type": "generic.workflow",
+      "base_type": "workflow",
+      "variables": [
           {
-            "unique_name": "definition_activity_01NLLR87AZ0R95h1mgDz0IHNGCgPsqT97BD",
-            "name": "Condition Branch",
-            "title": "No",
-            "type": "logic.condition_block",
-            "base_type": "activity",
-            "properties": {
-              "condition": {
-                "left_operand": {
-                  "left_operand": "$workflow.definition_workflow_01NLKX7ATT51N2uqeBtRMYilkGPgABnIUeS.input.variable_workflow_01NLLQJM5XUFA0xuBOcswBhVtdauhfhtKPl$",
-                  "operator": "eq",
-                  "right_operand": "0001-01-01T00:00:00+00:00"
-                },
-                "operator": "or",
-                "right_operand": {
-                  "left_operand": "$workflow.definition_workflow_01NLKX7ATT51N2uqeBtRMYilkGPgABnIUeS.input.variable_workflow_01NLLQYZQ5MA64JEESMEZodTIzOB1NWM5fW$",
-                  "operator": "eq",
-                  "right_operand": "0001-01-01T00:00:00+00:00"
-                }
+              "schema_id": "datatype.date",
+              "properties": {
+                  "value": "0001-01-01T00:00:00+00:00",
+                  "scope": "input",
+                  "name": "From Time",
+                  "type": "datatype.date",
+                  "description": "The beginning of the window within which matching incidents should be deleted",
+                  "is_required": false,
+                  "is_invisible": false
               },
-              "continue_on_failure": false,
-              "display_name": "No",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity",
-            "actions": [
-              {
-                "unique_name": "definition_activity_01NLLROGCSBNM2cpvAQlwpk682Q3jlWZ11J",
-                "name": "Completed",
-                "title": "Missing input",
-                "type": "logic.completed",
-                "base_type": "activity",
-                "properties": {
-                  "completion_type": "failed-completed",
-                  "continue_on_failure": false,
-                  "display_name": "Missing input",
-                  "result_message": "You must provide a from and to time. Only incidents from within that time period will be targeted for deletion",
-                  "skip_execution": false
-                },
-                "object_type": "definition_activity"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "unique_name": "definition_activity_01NLMZQ0Q2FG050Nk8q4tZ1G4o4l7DWqenZ",
-        "name": "Condition Block",
-        "title": "Is the query dangerous?",
-        "type": "logic.if_else",
-        "base_type": "activity",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "Is the query dangerous?",
-          "skip_execution": false
-        },
-        "object_type": "definition_activity",
-        "blocks": [
-          {
-            "unique_name": "definition_activity_01NLMZQT800F14S2ekSl8Esi5hhYr1BgYZM",
-            "name": "Condition Branch",
-            "title": "Yes",
-            "type": "logic.condition_block",
-            "base_type": "activity",
-            "properties": {
-              "condition": {
-                "left_operand": "$workflow.definition_workflow_01NLKX7ATT51N2uqeBtRMYilkGPgABnIUeS.input.variable_workflow_01NLKZ99R8PDJ08tDiOOqWC9iwfp4kZmDz9$",
-                "operator": "mregex",
-                "right_operand": "^[^:]+\\:\\*$"
-              },
-              "continue_on_failure": false,
-              "display_name": "Yes",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity",
-            "actions": [
-              {
-                "unique_name": "definition_activity_01NLN08W3ZN8S5ifxN6fKpJwf1sesXDiLKe",
-                "name": "Completed",
-                "title": "Dangerous query",
-                "type": "logic.completed",
-                "base_type": "activity",
-                "properties": {
-                  "completion_type": "failed-completed",
-                  "continue_on_failure": false,
-                  "display_name": "Dangerous query",
-                  "result_message": "Using a query with \"field=*\" will delete ALL incidents within the time period provided. If this is what you want to do, delete or disable the \"Is the query dangerous?\" condition block",
-                  "skip_execution": false
-                },
-                "object_type": "definition_activity"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "unique_name": "definition_activity_01NLMXHIJ40AN2UbrPn1KZfnbyeWaSoxvIa",
-        "name": "Group",
-        "title": "Format to/from times",
-        "type": "logic.group",
-        "base_type": "activity",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "Format to/from times",
-          "skip_execution": false
-        },
-        "object_type": "definition_activity",
-        "actions": [
-          {
-            "unique_name": "definition_activity_01NLLT2YTF5SG280XWPDPCyRnj6Mk3Ab7Nw",
-            "name": "Format Date",
-            "title": "Format from date/time",
-            "type": "core.format_date",
-            "base_type": "activity",
-            "properties": {
-              "continue_on_failure": false,
-              "display_name": "Format from date/time",
-              "format_string": "2006-01-02T15:04:05Z",
-              "original_date": "$workflow.definition_workflow_01NLKX7ATT51N2uqeBtRMYilkGPgABnIUeS.input.variable_workflow_01NLLQJM5XUFA0xuBOcswBhVtdauhfhtKPl$",
-              "skip_execution": false,
-              "use_custom_format": false
-            },
-            "object_type": "definition_activity"
+              "unique_name": "variable_workflow_01NLLQJM5XUFA0xuBOcswBhVtdauhfhtKPl",
+              "object_type": "variable_workflow"
           },
           {
-            "unique_name": "definition_activity_01NLLT9KORZJW0v65NIuFWPN00EFaK8RyLa",
-            "name": "Format Date",
-            "title": "Format to date/time",
-            "type": "core.format_date",
-            "base_type": "activity",
-            "properties": {
-              "continue_on_failure": false,
-              "display_name": "Format to date/time",
-              "format_string": "2006-01-02T15:04:05Z",
-              "original_date": "$workflow.definition_workflow_01NLKX7ATT51N2uqeBtRMYilkGPgABnIUeS.input.variable_workflow_01NLLQYZQ5MA64JEESMEZodTIzOB1NWM5fW$",
-              "skip_execution": false,
-              "use_custom_format": false
-            },
-            "object_type": "definition_activity"
+              "schema_id": "datatype.string",
+              "properties": {
+                  "value": "",
+                  "scope": "input",
+                  "name": "Lucene\/ES Query",
+                  "type": "datatype.string",
+                  "description": "A Lucene\/ES query to use when selecting incidents for deletion. Information about Lucene queries can be found here: https:\/\/lucene.apache.org\/core\/7_7_3\/queryparser\/org\/apache\/lucene\/queryparser\/classic\/package-summary.html#package.description",
+                  "is_required": true,
+                  "is_invisible": false
+              },
+              "unique_name": "variable_workflow_01NLKZ99R8PDJ08tDiOOqWC9iwfp4kZmDz9",
+              "object_type": "variable_workflow"
+          },
+          {
+              "schema_id": "datatype.date",
+              "properties": {
+                  "value": "0001-01-01T00:00:00+00:00",
+                  "scope": "input",
+                  "name": "To Time",
+                  "type": "datatype.date",
+                  "description": "The end of the window within which matching incidents should be deleted",
+                  "is_required": false,
+                  "is_invisible": false
+              },
+              "unique_name": "variable_workflow_01NLLQYZQ5MA64JEESMEZodTIzOB1NWM5fW",
+              "object_type": "variable_workflow"
           }
-        ]
-      },
-      {
-        "unique_name": "definition_activity_01NLL0B4SY8NW2DkKQ9Uyuj9YYKYBgoAqxy",
-        "name": "Threat Response - Generate Access Token",
-        "title": "Threat Response - Generate Access Token",
-        "type": "workflow.atomic_workflow",
-        "base_type": "subworkflow",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "Threat Response - Generate Access Token",
+      ],
+      "properties": {
+          "atomic": {
+              "is_atomic": false
+          },
+          "delete_workflow_instance": false,
+          "description": "This workflow allows you to bulk-delete incidents from your Cisco SecureX incident manager. The incidents to delete are identified by a Lucene\/ES query and a time window. A dry run is executed first and an approval task is generated to confirm how many incidents will be deleted. If the approval task is approved, deletion is completed.\n\nDELETED INCIDENTS CANNOT BE RECOVERED!\n\nNote: This workflow has been updated to support SecureX Token account keys. See the workflow documentation for more information.\n\nDocumentation: https:\/\/ciscosecurity.github.io\/sxo-05-security-workflows\/workflows\/0020\n\nTarget Group: Default TargetGroup\n\nTargets: Private_CTIA_Target\n\nSteps:\n[] Validate inputs and format date\/times\n[] Execute a dry run of the deletion query\n[] Check if the request was successful:\n[]> If it wasn't, output an error\n[]> If it was:\n[]>> Check if there was anything to delete (if not, end the workflow)\n[]>> Request approval\n[]>> If the request is denied or expires, end the workflow\n[]>> Delete the incidents",
+          "display_name": "0020 - SecureX - Incident Manager Cleanup",
           "runtime_user": {
-            "target_default": true
+              "override_target_runtime_user": false,
+              "specify_on_workflow_start": false,
+              "target_default": true
           },
-          "skip_execution": false,
           "target": {
-            "override_workflow_target_group_criteria": true,
-            "target_group": {
-              "run_on_all_targets": false,
-              "use_criteria": {
-                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-                "conditions": [
-                  {
-                    "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-                    "operator": "eqi",
-                    "right_operand": "CTR_For_Access_Token"
-                  }
-                ]
-              }
-            }
-          },
-          "workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
-        },
-        "object_type": "definition_activity"
-      },
-      {
-        "unique_name": "definition_activity_01NLKZER4ULLB7aGimP8LRSl2SDOc8MMh8I",
-        "name": "HTTP Request",
-        "title": "Delete matching incidents (dry run)",
-        "type": "web-service.http_request",
-        "base_type": "activity",
-        "properties": {
-          "accept": "application/json",
-          "action_timeout": 180,
-          "allow_auto_redirect": true,
-          "content_type": "application/json",
-          "continue_on_error_status_code": true,
-          "continue_on_failure": false,
-          "custom_headers": [
-            {
-              "name": "Authorization",
-              "value": "Bearer $activity.definition_activity_01NLL0B4SY8NW2DkKQ9Uyuj9YYKYBgoAqxy.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$"
-            }
-          ],
-          "display_name": "Delete matching incidents (dry run)",
-          "method": "DELETE",
-          "relative_url": "/ctia/incident/search?from=$activity.definition_activity_01NLLT2YTF5SG280XWPDPCyRnj6Mk3Ab7Nw.output.result$&to=$activity.definition_activity_01NLLT9KORZJW0v65NIuFWPN00EFaK8RyLa.output.result$&query=$workflow.definition_workflow_01NLKX7ATT51N2uqeBtRMYilkGPgABnIUeS.input.variable_workflow_01NLKZ99R8PDJ08tDiOOqWC9iwfp4kZmDz9$",
-          "runtime_user": {
-            "override_target_runtime_user": false,
-            "target_default": true
-          },
-          "skip_execution": false,
-          "target": {
-            "use_workflow_target_group": true
-          }
-        },
-        "object_type": "definition_activity"
-      },
-      {
-        "unique_name": "definition_activity_01NLL1AEKX1NT3vCWXiKhTbq8Cvwie2Tvcc",
-        "name": "Condition Block",
-        "title": "Was the request successful?",
-        "type": "logic.if_else",
-        "base_type": "activity",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "Was the request successful?",
-          "skip_execution": false
-        },
-        "object_type": "definition_activity",
-        "blocks": [
-          {
-            "unique_name": "definition_activity_01NLL1ASO2O126EVxYmTfilMxH45I2srL5q",
-            "name": "Condition Branch",
-            "title": "200/Success",
-            "type": "logic.condition_block",
-            "base_type": "activity",
-            "properties": {
-              "condition": {
-                "left_operand": "$activity.definition_activity_01NLKZER4ULLB7aGimP8LRSl2SDOc8MMh8I.output.status_code$",
-                "operator": "eq",
-                "right_operand": 200
-              },
-              "continue_on_failure": false,
-              "display_name": "200/Success",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity",
-            "actions": [
-              {
-                "unique_name": "definition_activity_01NLL8KGDEI9I2vAso9hKZ72N4Lg96RjtiX",
-                "name": "Condition Block",
-                "title": "Was there anything to delete?",
-                "type": "logic.if_else",
-                "base_type": "activity",
-                "properties": {
-                  "continue_on_failure": false,
-                  "display_name": "Was there anything to delete?",
-                  "skip_execution": false
-                },
-                "object_type": "definition_activity",
-                "blocks": [
-                  {
-                    "unique_name": "definition_activity_01NLL8KVOOPXQ3ZNmCwOlXWGFPHaFB7jJGy",
-                    "name": "Condition Branch",
-                    "title": "No",
-                    "type": "logic.condition_block",
-                    "base_type": "activity",
-                    "properties": {
-                      "condition": {
-                        "left_operand": "$activity.definition_activity_01NLKZER4ULLB7aGimP8LRSl2SDOc8MMh8I.output.response_body$",
-                        "operator": "eq",
-                        "right_operand": "0"
-                      },
-                      "continue_on_failure": false,
-                      "display_name": "No",
-                      "skip_execution": false
-                    },
-                    "object_type": "definition_activity",
-                    "actions": [
-                      {
-                        "unique_name": "definition_activity_01NLL8UVKBFDX41X1fyi8Im0YYPhHceaN7G",
-                        "name": "Completed",
-                        "title": "Completed",
-                        "type": "logic.completed",
-                        "base_type": "activity",
-                        "properties": {
-                          "completion_type": "succeeded",
-                          "continue_on_failure": false,
-                          "display_name": "Completed",
-                          "result_message": "No incidents matched the query provided",
-                          "skip_execution": false
-                        },
-                        "object_type": "definition_activity"
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "unique_name": "definition_activity_01NLL97UXN4NE7I1HbRyPaexuSJalzmhnvm",
-                "name": "Create Approval Request",
-                "title": "Incident deletion approval",
-                "type": "task.approval_request",
-                "base_type": "activity",
-                "properties": {
-                  "approval_choices": [
-                    "DELETE",
-                    "Cancel"
+              "execute_on_target_group": true,
+              "target_group": {
+                  "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+                  "run_on_all_targets": false,
+                  "selected_target_types": [
+                      "web-service.endpoint"
                   ],
-                  "assignees": [
-                    "assignee@company.com"
-                  ],
-                  "continue_on_failure": false,
-                  "display_name": "Incident deletion approval",
-                  "due_date": {
-                    "is_relative_time": true,
-                    "is_specified_date": false,
-                    "relative_time": {
-                      "duration": 2,
-                      "time_units": "hours"
-                    },
-                    "set_due_date": true
-                  },
-                  "expiration_date": {
-                    "is_relative_time": true,
-                    "is_specified_date": false,
-                    "relative_time": {
-                      "duration": 2,
-                      "time_units": "hours"
-                    }
-                  },
-                  "expiration_status": "Expired",
-                  "minimum_approvals": 1,
-                  "priority": "normal",
-                  "skip_execution": false,
-                  "subject_line": "Incident deletion approval",
-                  "task_message": "A workflow has been executed to delete SecureX incidents matching a query. $activity.definition_activity_01NLKZER4ULLB7aGimP8LRSl2SDOc8MMh8I.output.response_body$ incidents matched the query provided and will be deleted. Are you sure you want to continue?\n\nTHIS ACTION CANNOT BE UNDONE!",
-                  "task_owner": "owner@company.com",
-                  "task_requestor": "requestor@company.com"
-                },
-                "object_type": "definition_activity"
-              },
-              {
-                "unique_name": "definition_activity_01NLLAWUBTPGQ0kkstYocWTYyV4eWynf72y",
-                "name": "Wait For Event",
-                "title": "Wait For Event",
-                "type": "task.wait_for_event",
-                "base_type": "activity",
-                "properties": {
-                  "continue_on_failure": false,
-                  "display_name": "Wait For Event",
-                  "event_info": {
-                    "add_event": true,
-                    "event_definition": {
-                      "conditions": {
-                        "left_operand": "$output.task_id$",
-                        "operator": "eq",
-                        "right_operand": "$activity.definition_activity_01NLL97UXN4NE7I1HbRyPaexuSJalzmhnvm.output.task_id$"
-                      }
-                    }
-                  },
-                  "event_timeout": 7200,
-                  "event_type": "approval_task.event",
-                  "skip_execution": false
-                },
-                "object_type": "definition_activity"
-              },
-              {
-                "unique_name": "definition_activity_01NLLBC644FP02UdfEMYtm9vdUexrPFV2Xg",
-                "name": "Condition Block",
-                "title": "What was the result?",
-                "type": "logic.if_else",
-                "base_type": "activity",
-                "properties": {
-                  "continue_on_failure": false,
-                  "display_name": "What was the result?",
-                  "skip_execution": false
-                },
-                "object_type": "definition_activity",
-                "blocks": [
-                  {
-                    "unique_name": "definition_activity_01NLLBCL72SNP4U6vYQ3l9iFn2SrlzZn510",
-                    "name": "Condition Branch",
-                    "title": "Cancel/Expired",
-                    "type": "logic.condition_block",
-                    "base_type": "activity",
-                    "properties": {
-                      "condition": {
-                        "left_operand": "$activity.definition_activity_01NLLAWUBTPGQ0kkstYocWTYyV4eWynf72y.output.response$",
-                        "operator": "ne",
-                        "right_operand": "DELETE"
-                      },
-                      "continue_on_failure": false,
-                      "display_name": "Cancel/Expired",
-                      "skip_execution": false
-                    },
-                    "object_type": "definition_activity",
-                    "actions": [
-                      {
-                        "unique_name": "definition_activity_01NLLC0YG4TNP3UXGgsSHf27v8FKqB8c0Uj",
-                        "name": "Completed",
-                        "title": "Completed",
-                        "type": "logic.completed",
-                        "base_type": "activity",
-                        "properties": {
-                          "completion_type": "succeeded",
-                          "continue_on_failure": false,
-                          "display_name": "Completed",
-                          "result_message": "Incident deletion was either cancelled or the approval request expired",
-                          "skip_execution": false
-                        },
-                        "object_type": "definition_activity"
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "unique_name": "definition_activity_01NLMUIWFD6YZ3bzf8ITDG3bPYTsCC5Qx8l",
-                "name": "Threat Response - Generate Access Token",
-                "title": "Threat Response - Generate Access Token",
-                "type": "workflow.atomic_workflow",
-                "base_type": "subworkflow",
-                "properties": {
-                  "continue_on_failure": false,
-                  "display_name": "Threat Response - Generate Access Token",
-                  "runtime_user": {
-                    "target_default": true
-                  },
-                  "skip_execution": false,
-                  "target": {
-                    "override_workflow_target_group_criteria": true,
-                    "target_group": {
-                      "run_on_all_targets": false,
-                      "use_criteria": {
-                        "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-                        "conditions": [
+                  "use_criteria": {
+                      "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                      "conditions": [
                           {
-                            "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-                            "operator": "eqi",
-                            "right_operand": "CTR_For_Access_Token"
+                              "operator": "eqi",
+                              "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                              "right_operand": "Private_CTIA_Target"
                           }
-                        ]
-                      }
-                    }
-                  },
-                  "workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
-                },
-                "object_type": "definition_activity"
+                      ]
+                  }
+              }
+          }
+      },
+      "object_type": "definition_workflow",
+      "actions": [
+          {
+              "unique_name": "definition_activity_01NLLR7F23W4M0OWRBSFbHQOizTZURQpsf1",
+              "name": "Condition Block",
+              "title": "Were timestamps provided?",
+              "type": "logic.if_else",
+              "base_type": "activity",
+              "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Were timestamps provided?",
+                  "skip_execution": false
               },
-              {
-                "unique_name": "definition_activity_01NLLCAWAGWMT6TdYmsSLCl2zPOuH0GPUA4",
-                "name": "HTTP Request",
-                "title": "Delete matching incidents (for real)",
-                "type": "web-service.http_request",
-                "base_type": "activity",
-                "properties": {
-                  "accept": "application/json",
+              "object_type": "definition_activity",
+              "blocks": [
+                  {
+                      "unique_name": "definition_activity_01NLLR87AZ0R95h1mgDz0IHNGCgPsqT97BD",
+                      "name": "Condition Branch",
+                      "title": "No",
+                      "type": "logic.condition_block",
+                      "base_type": "activity",
+                      "properties": {
+                          "condition": {
+                              "left_operand": {
+                                  "left_operand": "$workflow.definition_workflow_01NLKX7ATT51N2uqeBtRMYilkGPgABnIUeS.input.variable_workflow_01NLLQJM5XUFA0xuBOcswBhVtdauhfhtKPl$",
+                                  "operator": "eq",
+                                  "right_operand": "0001-01-01T00:00:00+00:00"
+                              },
+                              "operator": "or",
+                              "right_operand": {
+                                  "left_operand": "$workflow.definition_workflow_01NLKX7ATT51N2uqeBtRMYilkGPgABnIUeS.input.variable_workflow_01NLLQYZQ5MA64JEESMEZodTIzOB1NWM5fW$",
+                                  "operator": "eq",
+                                  "right_operand": "0001-01-01T00:00:00+00:00"
+                              }
+                          },
+                          "continue_on_failure": false,
+                          "display_name": "No",
+                          "skip_execution": false
+                      },
+                      "object_type": "definition_activity",
+                      "actions": [
+                          {
+                              "unique_name": "definition_activity_01NLLROGCSBNM2cpvAQlwpk682Q3jlWZ11J",
+                              "name": "Completed",
+                              "title": "Missing input",
+                              "type": "logic.completed",
+                              "base_type": "activity",
+                              "properties": {
+                                  "completion_type": "failed-completed",
+                                  "continue_on_failure": false,
+                                  "display_name": "Missing input",
+                                  "result_message": "You must provide a from and to time. Only incidents from within that time period will be targeted for deletion",
+                                  "skip_execution": false
+                              },
+                              "object_type": "definition_activity"
+                          }
+                      ]
+                  }
+              ]
+          },
+          {
+              "unique_name": "definition_activity_01NLMZQ0Q2FG050Nk8q4tZ1G4o4l7DWqenZ",
+              "name": "Condition Block",
+              "title": "Is the query dangerous?",
+              "type": "logic.if_else",
+              "base_type": "activity",
+              "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Is the query dangerous?",
+                  "skip_execution": false
+              },
+              "object_type": "definition_activity",
+              "blocks": [
+                  {
+                      "unique_name": "definition_activity_01NLMZQT800F14S2ekSl8Esi5hhYr1BgYZM",
+                      "name": "Condition Branch",
+                      "title": "Yes",
+                      "type": "logic.condition_block",
+                      "base_type": "activity",
+                      "properties": {
+                          "condition": {
+                              "left_operand": "$workflow.definition_workflow_01NLKX7ATT51N2uqeBtRMYilkGPgABnIUeS.input.variable_workflow_01NLKZ99R8PDJ08tDiOOqWC9iwfp4kZmDz9$",
+                              "operator": "mregex",
+                              "right_operand": "^[^:]+\\:\\*$"
+                          },
+                          "continue_on_failure": false,
+                          "display_name": "Yes",
+                          "skip_execution": false
+                      },
+                      "object_type": "definition_activity",
+                      "actions": [
+                          {
+                              "unique_name": "definition_activity_01NLN08W3ZN8S5ifxN6fKpJwf1sesXDiLKe",
+                              "name": "Completed",
+                              "title": "Dangerous query",
+                              "type": "logic.completed",
+                              "base_type": "activity",
+                              "properties": {
+                                  "completion_type": "failed-completed",
+                                  "continue_on_failure": false,
+                                  "display_name": "Dangerous query",
+                                  "result_message": "Using a query with \"field=*\" will delete ALL incidents within the time period provided. If this is what you want to do, delete or disable the \"Is the query dangerous?\" condition block",
+                                  "skip_execution": false
+                              },
+                              "object_type": "definition_activity"
+                          }
+                      ]
+                  }
+              ]
+          },
+          {
+              "unique_name": "definition_activity_01NLMXHIJ40AN2UbrPn1KZfnbyeWaSoxvIa",
+              "name": "Group",
+              "title": "Format to\/from times",
+              "type": "logic.group",
+              "base_type": "activity",
+              "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Format to\/from times",
+                  "skip_execution": false
+              },
+              "object_type": "definition_activity",
+              "actions": [
+                  {
+                      "unique_name": "definition_activity_01NLLT2YTF5SG280XWPDPCyRnj6Mk3Ab7Nw",
+                      "name": "Format Date",
+                      "title": "Format from date\/time",
+                      "type": "core.format_date",
+                      "base_type": "activity",
+                      "properties": {
+                          "continue_on_failure": false,
+                          "display_name": "Format from date\/time",
+                          "format_string": "2006-01-02T15:04:05Z",
+                          "original_date": "$workflow.definition_workflow_01NLKX7ATT51N2uqeBtRMYilkGPgABnIUeS.input.variable_workflow_01NLLQJM5XUFA0xuBOcswBhVtdauhfhtKPl$",
+                          "skip_execution": false,
+                          "use_custom_format": false
+                      },
+                      "object_type": "definition_activity"
+                  },
+                  {
+                      "unique_name": "definition_activity_01NLLT9KORZJW0v65NIuFWPN00EFaK8RyLa",
+                      "name": "Format Date",
+                      "title": "Format to date\/time",
+                      "type": "core.format_date",
+                      "base_type": "activity",
+                      "properties": {
+                          "continue_on_failure": false,
+                          "display_name": "Format to date\/time",
+                          "format_string": "2006-01-02T15:04:05Z",
+                          "original_date": "$workflow.definition_workflow_01NLKX7ATT51N2uqeBtRMYilkGPgABnIUeS.input.variable_workflow_01NLLQYZQ5MA64JEESMEZodTIzOB1NWM5fW$",
+                          "skip_execution": false,
+                          "use_custom_format": false
+                      },
+                      "object_type": "definition_activity"
+                  }
+              ]
+          },
+          {
+              "unique_name": "definition_activity_01NLKZER4ULLB7aGimP8LRSl2SDOc8MMh8I",
+              "name": "HTTP Request",
+              "title": "Delete matching incidents (dry run)",
+              "type": "web-service.http_request",
+              "base_type": "activity",
+              "properties": {
+                  "accept": "application\/json",
                   "action_timeout": 180,
                   "allow_auto_redirect": true,
-                  "content_type": "application/json",
+                  "allow_headers_redirect": false,
+                  "content_type": "application\/json",
                   "continue_on_error_status_code": true,
                   "continue_on_failure": false,
-                  "custom_headers": [
-                    {
-                      "name": "Authorization",
-                      "value": "Bearer $activity.definition_activity_01NLMUIWFD6YZ3bzf8ITDG3bPYTsCC5Qx8l.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$"
-                    }
-                  ],
-                  "display_name": "Delete matching incidents (for real)",
+                  "display_name": "Delete matching incidents (dry run)",
                   "method": "DELETE",
-                  "relative_url": "/ctia/incident/search?REALLY_DELETE_ALL_THESE_ENTITIES=true&from=$activity.definition_activity_01NLLT2YTF5SG280XWPDPCyRnj6Mk3Ab7Nw.output.result$&to=$activity.definition_activity_01NLLT9KORZJW0v65NIuFWPN00EFaK8RyLa.output.result$&query=$workflow.definition_workflow_01NLKX7ATT51N2uqeBtRMYilkGPgABnIUeS.input.variable_workflow_01NLKZ99R8PDJ08tDiOOqWC9iwfp4kZmDz9$",
+                  "relative_url": "\/ctia\/incident\/search?from=$activity.definition_activity_01NLLT2YTF5SG280XWPDPCyRnj6Mk3Ab7Nw.output.result$&to=$activity.definition_activity_01NLLT9KORZJW0v65NIuFWPN00EFaK8RyLa.output.result$&query=$workflow.definition_workflow_01NLKX7ATT51N2uqeBtRMYilkGPgABnIUeS.input.variable_workflow_01NLKZ99R8PDJ08tDiOOqWC9iwfp4kZmDz9$",
                   "runtime_user": {
-                    "override_target_runtime_user": false,
-                    "target_default": true
+                      "override_target_runtime_user": false,
+                      "target_default": true
                   },
                   "skip_execution": false,
                   "target": {
-                    "use_workflow_target_group": true
+                      "use_workflow_target_group": true
                   }
-                },
-                "object_type": "definition_activity"
-              }
-            ]
+              },
+              "object_type": "definition_activity"
           },
           {
-            "unique_name": "definition_activity_01NLL1ATCBNYE1z44QnKOj37VXy6Qe7O2Fk",
-            "name": "Condition Branch",
-            "title": "Anything else",
-            "type": "logic.condition_block",
-            "base_type": "activity",
-            "properties": {
-              "condition": {
-                "left_operand": "$activity.definition_activity_01NLKZER4ULLB7aGimP8LRSl2SDOc8MMh8I.output.status_code$",
-                "operator": "ne",
-                "right_operand": 200
-              },
-              "continue_on_failure": false,
-              "display_name": "Anything else",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity",
-            "actions": [
-              {
-                "unique_name": "definition_activity_01NLL1CDMFLL46J5N2nORYBK6UHlf7pMzbM",
-                "name": "Completed",
-                "title": "Failed",
-                "type": "logic.completed",
-                "base_type": "activity",
-                "properties": {
-                  "completion_type": "failed-completed",
+              "unique_name": "definition_activity_01NLL1AEKX1NT3vCWXiKhTbq8Cvwie2Tvcc",
+              "name": "Condition Block",
+              "title": "Was the request successful?",
+              "type": "logic.if_else",
+              "base_type": "activity",
+              "properties": {
                   "continue_on_failure": false,
-                  "display_name": "Failed",
-                  "result_message": "Failed to delete incidents (dry run)\n\nStatus code: $activity.definition_activity_01NLKZER4ULLB7aGimP8LRSl2SDOc8MMh8I.output.status_code$\nResponse body: $activity.definition_activity_01NLKZER4ULLB7aGimP8LRSl2SDOc8MMh8I.output.response_body$",
+                  "display_name": "Was the request successful?",
                   "skip_execution": false
-                },
-                "object_type": "definition_activity"
-              }
-            ]
+              },
+              "object_type": "definition_activity",
+              "blocks": [
+                  {
+                      "unique_name": "definition_activity_01NLL1ASO2O126EVxYmTfilMxH45I2srL5q",
+                      "name": "Condition Branch",
+                      "title": "200\/Success",
+                      "type": "logic.condition_block",
+                      "base_type": "activity",
+                      "properties": {
+                          "condition": {
+                              "left_operand": "$activity.definition_activity_01NLKZER4ULLB7aGimP8LRSl2SDOc8MMh8I.output.status_code$",
+                              "operator": "eq",
+                              "right_operand": 200
+                          },
+                          "continue_on_failure": false,
+                          "display_name": "200\/Success",
+                          "skip_execution": false
+                      },
+                      "object_type": "definition_activity",
+                      "actions": [
+                          {
+                              "unique_name": "definition_activity_01NLL8KGDEI9I2vAso9hKZ72N4Lg96RjtiX",
+                              "name": "Condition Block",
+                              "title": "Was there anything to delete?",
+                              "type": "logic.if_else",
+                              "base_type": "activity",
+                              "properties": {
+                                  "continue_on_failure": false,
+                                  "display_name": "Was there anything to delete?",
+                                  "skip_execution": false
+                              },
+                              "object_type": "definition_activity",
+                              "blocks": [
+                                  {
+                                      "unique_name": "definition_activity_01NLL8KVOOPXQ3ZNmCwOlXWGFPHaFB7jJGy",
+                                      "name": "Condition Branch",
+                                      "title": "No",
+                                      "type": "logic.condition_block",
+                                      "base_type": "activity",
+                                      "properties": {
+                                          "condition": {
+                                              "left_operand": "$activity.definition_activity_01NLKZER4ULLB7aGimP8LRSl2SDOc8MMh8I.output.response_body$",
+                                              "operator": "eq",
+                                              "right_operand": "0"
+                                          },
+                                          "continue_on_failure": false,
+                                          "display_name": "No",
+                                          "skip_execution": false
+                                      },
+                                      "object_type": "definition_activity",
+                                      "actions": [
+                                          {
+                                              "unique_name": "definition_activity_01NLL8UVKBFDX41X1fyi8Im0YYPhHceaN7G",
+                                              "name": "Completed",
+                                              "title": "Completed",
+                                              "type": "logic.completed",
+                                              "base_type": "activity",
+                                              "properties": {
+                                                  "completion_type": "succeeded",
+                                                  "continue_on_failure": false,
+                                                  "display_name": "Completed",
+                                                  "result_message": "No incidents matched the query provided",
+                                                  "skip_execution": false
+                                              },
+                                              "object_type": "definition_activity"
+                                          }
+                                      ]
+                                  }
+                              ]
+                          },
+                          {
+                              "unique_name": "definition_activity_01NLL97UXN4NE7I1HbRyPaexuSJalzmhnvm",
+                              "name": "Create Approval Request",
+                              "title": "Incident deletion approval",
+                              "type": "task.approval_request",
+                              "base_type": "activity",
+                              "properties": {
+                                  "approval_choices": [
+                                      "DELETE",
+                                      "Cancel"
+                                  ],
+                                  "assignees": [
+                                      "assignee@company.com"
+                                  ],
+                                  "continue_on_failure": false,
+                                  "display_name": "Incident deletion approval",
+                                  "due_date": {
+                                      "is_relative_time": true,
+                                      "is_specified_date": false,
+                                      "relative_time": {
+                                          "duration": 2,
+                                          "time_units": "hours"
+                                      },
+                                      "set_due_date": true
+                                  },
+                                  "expiration_date": {
+                                      "is_relative_time": true,
+                                      "is_specified_date": false,
+                                      "relative_time": {
+                                          "duration": 2,
+                                          "time_units": "hours"
+                                      }
+                                  },
+                                  "expiration_status": "Expired",
+                                  "minimum_approvals": 1,
+                                  "priority": "normal",
+                                  "skip_execution": false,
+                                  "subject_line": "Incident deletion approval",
+                                  "task_message": "A workflow has been executed to delete SecureX incidents matching a query. $activity.definition_activity_01NLKZER4ULLB7aGimP8LRSl2SDOc8MMh8I.output.response_body$ incidents matched the query provided and will be deleted. Are you sure you want to continue?\n\nTHIS ACTION CANNOT BE UNDONE!",
+                                  "task_owner": "owner@company.com",
+                                  "task_requestor": "requestor@company.com"
+                              },
+                              "object_type": "definition_activity"
+                          },
+                          {
+                              "unique_name": "definition_activity_01NLLAWUBTPGQ0kkstYocWTYyV4eWynf72y",
+                              "name": "Wait For Event",
+                              "title": "Wait For Event",
+                              "type": "task.wait_for_event",
+                              "base_type": "activity",
+                              "properties": {
+                                  "continue_on_failure": false,
+                                  "display_name": "Wait For Event",
+                                  "event_info": {
+                                      "add_event": true,
+                                      "event_definition": {
+                                          "conditions": {
+                                              "left_operand": "$output.task_id$",
+                                              "operator": "eq",
+                                              "right_operand": "$activity.definition_activity_01NLL97UXN4NE7I1HbRyPaexuSJalzmhnvm.output.task_id$"
+                                          }
+                                      }
+                                  },
+                                  "event_timeout": 7200,
+                                  "event_type": "approval_task.event",
+                                  "skip_execution": false
+                              },
+                              "object_type": "definition_activity"
+                          },
+                          {
+                              "unique_name": "definition_activity_01NLLBC644FP02UdfEMYtm9vdUexrPFV2Xg",
+                              "name": "Condition Block",
+                              "title": "What was the result?",
+                              "type": "logic.if_else",
+                              "base_type": "activity",
+                              "properties": {
+                                  "continue_on_failure": false,
+                                  "display_name": "What was the result?",
+                                  "skip_execution": false
+                              },
+                              "object_type": "definition_activity",
+                              "blocks": [
+                                  {
+                                      "unique_name": "definition_activity_01NLLBCL72SNP4U6vYQ3l9iFn2SrlzZn510",
+                                      "name": "Condition Branch",
+                                      "title": "Cancel\/Expired",
+                                      "type": "logic.condition_block",
+                                      "base_type": "activity",
+                                      "properties": {
+                                          "condition": {
+                                              "left_operand": "$activity.definition_activity_01NLLAWUBTPGQ0kkstYocWTYyV4eWynf72y.output.response$",
+                                              "operator": "ne",
+                                              "right_operand": "DELETE"
+                                          },
+                                          "continue_on_failure": false,
+                                          "display_name": "Cancel\/Expired",
+                                          "skip_execution": false
+                                      },
+                                      "object_type": "definition_activity",
+                                      "actions": [
+                                          {
+                                              "unique_name": "definition_activity_01NLLC0YG4TNP3UXGgsSHf27v8FKqB8c0Uj",
+                                              "name": "Completed",
+                                              "title": "Completed",
+                                              "type": "logic.completed",
+                                              "base_type": "activity",
+                                              "properties": {
+                                                  "completion_type": "succeeded",
+                                                  "continue_on_failure": false,
+                                                  "display_name": "Completed",
+                                                  "result_message": "Incident deletion was either cancelled or the approval request expired",
+                                                  "skip_execution": false
+                                              },
+                                              "object_type": "definition_activity"
+                                          }
+                                      ]
+                                  }
+                              ]
+                          },
+                          {
+                              "unique_name": "definition_activity_01NLLCAWAGWMT6TdYmsSLCl2zPOuH0GPUA4",
+                              "name": "HTTP Request",
+                              "title": "Delete matching incidents (for real)",
+                              "type": "web-service.http_request",
+                              "base_type": "activity",
+                              "properties": {
+                                  "accept": "application\/json",
+                                  "action_timeout": 180,
+                                  "allow_auto_redirect": true,
+                                  "allow_headers_redirect": false,
+                                  "content_type": "application\/json",
+                                  "continue_on_error_status_code": true,
+                                  "continue_on_failure": false,
+                                  "display_name": "Delete matching incidents (for real)",
+                                  "method": "DELETE",
+                                  "relative_url": "\/ctia\/incident\/search?REALLY_DELETE_ALL_THESE_ENTITIES=true&from=$activity.definition_activity_01NLLT2YTF5SG280XWPDPCyRnj6Mk3Ab7Nw.output.result$&to=$activity.definition_activity_01NLLT9KORZJW0v65NIuFWPN00EFaK8RyLa.output.result$&query=$workflow.definition_workflow_01NLKX7ATT51N2uqeBtRMYilkGPgABnIUeS.input.variable_workflow_01NLKZ99R8PDJ08tDiOOqWC9iwfp4kZmDz9$",
+                                  "runtime_user": {
+                                      "override_target_runtime_user": false,
+                                      "target_default": true
+                                  },
+                                  "skip_execution": false,
+                                  "target": {
+                                      "use_workflow_target_group": true
+                                  }
+                              },
+                              "object_type": "definition_activity"
+                          }
+                      ]
+                  },
+                  {
+                      "unique_name": "definition_activity_01NLL1ATCBNYE1z44QnKOj37VXy6Qe7O2Fk",
+                      "name": "Condition Branch",
+                      "title": "Anything else",
+                      "type": "logic.condition_block",
+                      "base_type": "activity",
+                      "properties": {
+                          "condition": {
+                              "left_operand": "$activity.definition_activity_01NLKZER4ULLB7aGimP8LRSl2SDOc8MMh8I.output.status_code$",
+                              "operator": "ne",
+                              "right_operand": 200
+                          },
+                          "continue_on_failure": false,
+                          "display_name": "Anything else",
+                          "skip_execution": false
+                      },
+                      "object_type": "definition_activity",
+                      "actions": [
+                          {
+                              "unique_name": "definition_activity_01NLL1CDMFLL46J5N2nORYBK6UHlf7pMzbM",
+                              "name": "Completed",
+                              "title": "Failed",
+                              "type": "logic.completed",
+                              "base_type": "activity",
+                              "properties": {
+                                  "completion_type": "failed-completed",
+                                  "continue_on_failure": false,
+                                  "display_name": "Failed",
+                                  "result_message": "Failed to delete incidents (dry run)\n\nStatus code: $activity.definition_activity_01NLKZER4ULLB7aGimP8LRSl2SDOc8MMh8I.output.status_code$\nResponse body: $activity.definition_activity_01NLKZER4ULLB7aGimP8LRSl2SDOc8MMh8I.output.response_body$",
+                                  "skip_execution": false
+                              },
+                              "object_type": "definition_activity"
+                          }
+                      ]
+                  }
+              ]
           }
-        ]
-      }
-    ],
-    "categories": [
-      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
-    ]
+      ],
+      "categories": [
+          "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+      ]
   },
   "target_groups": {
-    "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
-      "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
-      "name": "Default TargetGroup",
-      "title": "Default TargetGroup",
-      "type": "generic.target_group",
-      "base_type": "target_group",
-      "version": "1.0.0",
-      "targets": [
-        {
-          "data_target_type": "web-service.endpoint",
-          "view_target_type": "web-service.endpoint",
-          "include_all_targets": true
-        },
-        {
-          "data_target_type": "email.smtp_endpoint",
-          "view_target_type": "email.smtp_endpoint",
-          "include_all_targets": true
-        }
-      ],
-      "object_type": "target_group"
-    }
-  },
-  "atomic_workflows": [
-    "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
-  ]
+      "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+          "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+          "name": "Default TargetGroup",
+          "title": "Default TargetGroup",
+          "type": "generic.target_group",
+          "base_type": "target_group",
+          "version": "1.0.0",
+          "targets": [
+              {
+                  "data_target_type": "web-service.endpoint",
+                  "view_target_type": "web-service.endpoint",
+                  "include_all_targets": true
+              },
+              {
+                  "data_target_type": "email.smtp_endpoint",
+                  "view_target_type": "email.smtp_endpoint",
+                  "include_all_targets": true
+              },
+              {
+                  "data_target_type": "terminal.endpoint",
+                  "view_target_type": "terminal.endpoint",
+                  "include_all_targets": true
+              },
+              {
+                  "data_target_type": "aws.endpoint",
+                  "view_target_type": "aws.endpoint",
+                  "include_all_targets": true
+              }
+          ],
+          "object_type": "target_group"
+      }
+  }
 }

@@ -16,6 +16,8 @@ Workflow #0012
 
 This workflow periodically checks Cisco Secure Endpoint for SecureX Threat Hunting events. When an event is returned, the workflow collects information from it and creates a casebook and incident in Cisco SecureX to document what happened. This workflow is designed to run every 5 minutes on a schedule.
 
+<div class="cisco-alert cisco-alert-info"><i class="fa fa-info-circle mr-1 cisco-icon-info"></i> This workflow has been updated to use the new "SecureX Token" account key. For more information about this, please see <a href="{{ site.baseurl }}/account-keys/securex-token">this page</a>. If you want to use legacy authentication, you can import an older version of the workflow.</div>
+
 [<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0012-SecureEndpoint-ThreatHuntingEventsToIncidents__definition_workflow_01M2FIQ8COLYA7BMDsc3UeOgYjJxoF9WFZ1){: .btn-cisco-outline }
 
 ---
@@ -26,6 +28,7 @@ This workflow periodically checks Cisco Secure Endpoint for SecureX Threat Hunti
 |:-----|:------|
 | Feb 19, 2021 | - Initial release |
 | Sep 10, 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+| Aug 31, 2022 | - Updated to support [SecureX Tokens]({{ site.baseurl }}/account-keys/securex-token) |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 
@@ -37,7 +40,6 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 	* Threat Response - Create Incident
 	* Threat Response - Create Relationship
 	* Threat Response - Create Sighting
-	* Threat Response - Generate Access Token
 * The following atomic actions must be imported before you can import this workflow:
 	* None
 * The [targets](#targets) and [account keys](#account-keys) listed at the bottom of the page
@@ -75,8 +77,7 @@ Target Group: `Default TargetGroup`
 | Target Name | Type | Details | Account Keys | Notes |
 |:------------|:-----|:--------|:-------------|:------|
 | [AMP_Target]({{ site.baseurl }}/targets/default#amp_target) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `api.amp.cisco.com`<br />_Path:_ `/v1` | AMP_Credentials | Created by default |
-| [CTR_For_Access_Token]({{ site.baseurl }}/targets/default#ctr_for_access_token) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `visibility.amp.cisco.com`<br />_Path:_ `/iroh` | CTR_Credentials | Created by default |
-| [Private_CTIA_Target]({{ site.baseurl }}/targets/default#private_ctia_target) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `private.intel.amp.cisco.com`<br />_Path:_ None | None | Created by default |
+| [Private_CTIA_Target]({{ site.baseurl }}/targets/default#private_ctia_target) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `private.intel.amp.cisco.com`<br />_Path:_ None | CTR_Credentials | Created by default |
 
 ---
 
@@ -85,4 +86,4 @@ Target Group: `Default TargetGroup`
 | Account Key Name | Type | Details | Notes |
 |:-----------------|:-----|:--------|:------|
 | [AMP_Credentials]({{ site.baseurl }}/account-keys/default#amp_credentials) | HTTP Basic Authentication | _Username:_ Client ID<br />_Password:_ Client Secret | Created by default |
-| [CTR_Credentials]({{ site.baseurl }}/account-keys/default#ctr_credentials) | HTTP Basic Authentication | _Username:_ Client ID<br />_Password:_ Client Secret | Created by default |
+| [CTR_Credentials]({{ site.baseurl }}/account-keys/default#ctr_credentials) | SecureX Token | | See [this page]({{ site.baseurl }}/account-keys/securex-token) |

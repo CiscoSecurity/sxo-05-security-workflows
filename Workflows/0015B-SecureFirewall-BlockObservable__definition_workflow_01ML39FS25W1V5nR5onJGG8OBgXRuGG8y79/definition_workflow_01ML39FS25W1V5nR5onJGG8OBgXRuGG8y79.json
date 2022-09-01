@@ -1,583 +1,543 @@
 {
   "workflow": {
-    "unique_name": "definition_workflow_01ML39FS25W1V5nR5onJGG8OBgXRuGG8y79",
-    "name": "0015B - Secure Firewall - Block Observable",
-    "title": "0015B - Secure Firewall - Block Observable",
-    "type": "generic.workflow",
-    "base_type": "workflow",
-    "variables": [
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "Secure_Firewall_SecureX_Indicator",
-          "scope": "local",
-          "name": "Indicator Name",
-          "type": "datatype.string",
-          "description": "The base indicator name to use when referencing feeds. The type of observable will be appended to this. If you change this, you will also need to update the same variable in workflow 0015A",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01ML3OGSXO15K2DY4fUvR8Vh9QbHoJezgaf",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "input",
-          "name": "observable_value",
-          "type": "datatype.string",
-          "description": "The value of the observable pivoted on",
-          "is_required": true,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01ML3BIJEVG3N6sxdcUKX1lLBTf5i2pR4aL",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "input",
-          "name": "observable_type",
-          "type": "datatype.string",
-          "description": "The type of observable pivoted on",
-          "is_required": true,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01ML3BD7SISBS077kpX3Y8XYWmlJkq7gXjq",
-        "object_type": "variable_workflow"
-      }
-    ],
-    "properties": {
-      "atomic": {
-        "is_atomic": false
-      },
-      "delete_workflow_instance": false,
-      "description": "This workflow blocks an observable on Cisco Secure Firewall by creating a judgement for it in SecureX Threat Response. Once a judgement is created, the observable will appear on a feed which Secure Firewall polls for observable information. Supported observables: domain, ip, ipv6, sha256, url\n\nNote: Workflow 0015A should be executed to create the required indicators and feeds in SecureX before you run this workflow. See the documentation for more information.\n\nTarget Group: Default TargetGroup\n\nTargets: CTR_For_Access_Token, Private_CTIA_Target\n\nSteps:\nPlease see: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0015B",
-      "display_name": "0015B - Secure Firewall - Block Observable",
-      "runtime_user": {
-        "override_target_runtime_user": false,
-        "specify_on_workflow_start": false,
-        "target_default": true
-      },
-      "target": {
-        "execute_on_target_group": true,
-        "target_group": {
-          "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
-          "run_on_all_targets": false,
-          "selected_target_types": [
-            "web-service.endpoint"
-          ],
-          "use_criteria": {
-            "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-            "conditions": [
-              {
-                "operator": "eqi",
-                "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-                "right_operand": "Private_CTIA_Target"
-              }
-            ]
-          }
-        }
-      }
-    },
-    "object_type": "definition_workflow",
-    "actions": [
-      {
-        "unique_name": "definition_activity_01ML3PI1DN9N547S7mrpKLPl4ohlCYHOggx",
-        "name": "Execute Python Script",
-        "title": "Convert observable_type to indicator type",
-        "type": "python3.script",
-        "base_type": "activity",
-        "properties": {
-          "action_timeout": 180,
-          "continue_on_failure": false,
-          "display_name": "Convert observable_type to indicator type",
-          "script": "import sys\n\nobservable_type = sys.argv[1]\nobservable_out = \"\"\n\nif observable_type == \"domain\":\n\tobservable_out = \"Domain\"\nelif observable_type == \"ip\":\n\tobservable_out = \"IPv4\"\nelif observable_type == \"ipv6\":\n\tobservable_out = \"IPv6\"\nelif observable_type == \"sha256\":\n\tobservable_out = \"SHA256\"\nelif observable_type == \"url\":\n\tobservable_out = \"URL\"",
-          "script_arguments": [
-            "$workflow.definition_workflow_01ML39FS25W1V5nR5onJGG8OBgXRuGG8y79.input.variable_workflow_01ML3BD7SISBS077kpX3Y8XYWmlJkq7gXjq$"
-          ],
-          "script_queries": [
-            {
-              "script_query": "observable_out",
-              "script_query_name": "observable_out",
-              "script_query_type": "string"
-            }
-          ],
-          "skip_execution": false
-        },
-        "object_type": "definition_activity"
-      },
-      {
-        "unique_name": "definition_activity_01ML3ERI58BVR5WlxDYvUNsdaJ0BSqqGOKI",
-        "name": "Condition Block",
-        "title": "Is this observable type supported?",
-        "type": "logic.if_else",
-        "base_type": "activity",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "Is this observable type supported?",
-          "skip_execution": false
-        },
-        "object_type": "definition_activity",
-        "blocks": [
+      "unique_name": "definition_workflow_01ML39FS25W1V5nR5onJGG8OBgXRuGG8y79",
+      "name": "0015B - Secure Firewall - Block Observable",
+      "title": "0015B - Secure Firewall - Block Observable",
+      "type": "generic.workflow",
+      "base_type": "workflow",
+      "variables": [
           {
-            "unique_name": "definition_activity_01ML3G6CATAX5705V1SSvgTUl4elTRb3k08",
-            "name": "Condition Branch",
-            "title": "No",
-            "type": "logic.condition_block",
-            "base_type": "activity",
-            "properties": {
-              "condition": {
-                "left_operand": "$activity.definition_activity_01ML3PI1DN9N547S7mrpKLPl4ohlCYHOggx.output.script_queries.observable_out$",
-                "operator": "eq",
-                "right_operand": ""
+              "schema_id": "datatype.string",
+              "properties": {
+                  "value": "",
+                  "scope": "input",
+                  "name": "observable_value",
+                  "type": "datatype.string",
+                  "description": "The value of the observable pivoted on",
+                  "is_required": true,
+                  "is_invisible": false
               },
-              "continue_on_failure": false,
-              "display_name": "No",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity",
-            "actions": [
-              {
-                "unique_name": "definition_activity_01ML3GC7UHEKN4rBI9qqyagt0oE8nFreK6v",
-                "name": "Completed",
-                "title": "Unsupported observable",
-                "type": "logic.completed",
-                "base_type": "activity",
-                "properties": {
-                  "completion_type": "failed-completed",
-                  "continue_on_failure": false,
-                  "display_name": "Unsupported observable",
-                  "result_message": "The type of observable provided ($workflow.definition_workflow_01ML39FS25W1V5nR5onJGG8OBgXRuGG8y79.input.variable_workflow_01ML3BD7SISBS077kpX3Y8XYWmlJkq7gXjq$) is not supported by this workflow",
-                  "skip_execution": false
-                },
-                "object_type": "definition_activity"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "unique_name": "definition_activity_01ML3C85GA79F69XhfaknVY0dUtYgvytVUe",
-        "name": "Threat Response - Generate Access Token",
-        "title": "Threat Response - Generate Access Token",
-        "type": "workflow.atomic_workflow",
-        "base_type": "subworkflow",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "Threat Response - Generate Access Token",
-          "runtime_user": {
-            "target_default": true
+              "unique_name": "variable_workflow_01ML3BIJEVG3N6sxdcUKX1lLBTf5i2pR4aL",
+              "object_type": "variable_workflow"
           },
-          "skip_execution": false,
+          {
+              "schema_id": "datatype.string",
+              "properties": {
+                  "value": "",
+                  "scope": "input",
+                  "name": "observable_type",
+                  "type": "datatype.string",
+                  "description": "The type of observable pivoted on",
+                  "is_required": true,
+                  "is_invisible": false
+              },
+              "unique_name": "variable_workflow_01ML3BD7SISBS077kpX3Y8XYWmlJkq7gXjq",
+              "object_type": "variable_workflow"
+          },
+          {
+              "schema_id": "datatype.string",
+              "properties": {
+                  "value": "Secure_Firewall_SecureX_Indicator",
+                  "scope": "local",
+                  "name": "Indicator Name",
+                  "type": "datatype.string",
+                  "description": "The base indicator name to use when referencing feeds. The type of observable will be appended to this. If you change this, you will also need to update the same variable in workflow 0015A",
+                  "is_required": false,
+                  "is_invisible": false
+              },
+              "unique_name": "variable_workflow_01ML3OGSXO15K2DY4fUvR8Vh9QbHoJezgaf",
+              "object_type": "variable_workflow"
+          }
+      ],
+      "properties": {
+          "atomic": {
+              "is_atomic": false
+          },
+          "delete_workflow_instance": false,
+          "description": "This workflow blocks an observable on Cisco Secure Firewall by creating a judgement for it in SecureX Threat Response. Once a judgement is created, the observable will appear on a feed which Secure Firewall polls for observable information. Supported observables: domain, ip, ipv6, sha256, url\n\nNote: This workflow has been updated to support SecureX Token account keys. See the workflow documentation for more information.\n\nNote: Workflow 0015A should be executed to create the required indicators and feeds in SecureX before you run this workflow. See the documentation for more information.\n\nDocumentation: https:\/\/ciscosecurity.github.io\/sxo-05-security-workflows\/workflows\/0015B\n\nTarget Group: Default TargetGroup\n\nTargets: Private_CTIA_Target",
+          "display_name": "0015B - Secure Firewall - Block Observable",
+          "runtime_user": {
+              "override_target_runtime_user": false,
+              "specify_on_workflow_start": false,
+              "target_default": true
+          },
           "target": {
-            "override_workflow_target_group_criteria": true,
-            "target_group": {
-              "run_on_all_targets": false,
-              "use_criteria": {
-                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-                "conditions": [
-                  {
-                    "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-                    "operator": "eqi",
-                    "right_operand": "CTR_For_Access_Token"
+              "execute_on_target_group": true,
+              "target_group": {
+                  "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+                  "run_on_all_targets": false,
+                  "selected_target_types": [
+                      "web-service.endpoint"
+                  ],
+                  "use_criteria": {
+                      "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                      "conditions": [
+                          {
+                              "operator": "eqi",
+                              "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                              "right_operand": "Private_CTIA_Target"
+                          }
+                      ]
                   }
-                ]
               }
-            }
-          },
-          "workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
-        },
-        "object_type": "definition_activity"
-      },
-      {
-        "unique_name": "definition_activity_01NUV9NBNQRGA7Y9fgf6fm5t5tWAv0Uzq82",
-        "name": "HTTP Request",
-        "title": "Search for indicator",
-        "type": "web-service.http_request",
-        "base_type": "activity",
-        "properties": {
-          "accept": "application/json",
-          "action_timeout": 180,
-          "allow_auto_redirect": true,
-          "content_type": "application/json",
-          "continue_on_error_status_code": true,
-          "continue_on_failure": false,
-          "custom_headers": [
-            {
-              "name": "Authorization",
-              "value": "Bearer $activity.definition_activity_01ML3C85GA79F69XhfaknVY0dUtYgvytVUe.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$"
-            }
-          ],
-          "display_name": "Search for indicator",
-          "method": "GET",
-          "relative_url": "/ctia/indicator/search?limit=1&offset=0&query=title:$workflow.definition_workflow_01ML39FS25W1V5nR5onJGG8OBgXRuGG8y79.local.variable_workflow_01ML3OGSXO15K2DY4fUvR8Vh9QbHoJezgaf$_$activity.definition_activity_01ML3PI1DN9N547S7mrpKLPl4ohlCYHOggx.output.script_queries.observable_out$",
-          "runtime_user": {
-            "override_target_runtime_user": false,
-            "target_default": true
-          },
-          "skip_execution": false,
-          "target": {
-            "use_workflow_target_group": true
           }
-        },
-        "object_type": "definition_activity"
       },
-      {
-        "unique_name": "definition_activity_01NUVHGVPQ2IJ5xPTht4YTu2OWpNN40XlvS",
-        "name": "Condition Block",
-        "title": "Was the search successful?",
-        "type": "logic.if_else",
-        "base_type": "activity",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "Was the search successful?",
-          "skip_execution": false
-        },
-        "object_type": "definition_activity",
-        "blocks": [
+      "object_type": "definition_workflow",
+      "actions": [
           {
-            "unique_name": "definition_activity_01NUVHHMG1RSP1S7gkl96FboKLcNQNRGblt",
-            "name": "Condition Branch",
-            "title": "200/Success",
-            "type": "logic.condition_block",
-            "base_type": "activity",
-            "properties": {
-              "condition": {
-                "left_operand": "$activity.definition_activity_01NUV9NBNQRGA7Y9fgf6fm5t5tWAv0Uzq82.output.status_code$",
-                "operator": "eq",
-                "right_operand": 200
-              },
-              "continue_on_failure": false,
-              "display_name": "200/Success",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity",
-            "actions": [
-              {
-                "unique_name": "definition_activity_01ML3SAZ67MZT6w4UmLVKRn3r3Vqo2vaQVP",
-                "name": "Condition Block",
-                "title": "Did we find the indicator?",
-                "type": "logic.if_else",
-                "base_type": "activity",
-                "properties": {
-                  "continue_on_failure": false,
-                  "display_name": "Did we find the indicator?",
-                  "skip_execution": false
-                },
-                "object_type": "definition_activity",
-                "blocks": [
-                  {
-                    "unique_name": "definition_activity_01ML3SBM2M0YA5EyOLqyDdlsGoz7mjXTuBB",
-                    "name": "Condition Branch",
-                    "title": "No",
-                    "type": "logic.condition_block",
-                    "base_type": "activity",
-                    "properties": {
-                      "condition": {
-                        "left_operand": "$activity.definition_activity_01NUV9NBNQRGA7Y9fgf6fm5t5tWAv0Uzq82.output.response_body$",
-                        "operator": "eq",
-                        "right_operand": "[]"
-                      },
-                      "continue_on_failure": false,
-                      "display_name": "No",
-                      "skip_execution": false
-                    },
-                    "object_type": "definition_activity",
-                    "actions": [
-                      {
-                        "unique_name": "definition_activity_01ML3T22YDJGH59qACAPHeiNJzmh6BjQhWq",
-                        "name": "Completed",
-                        "title": "Missing indicator",
-                        "type": "logic.completed",
-                        "base_type": "activity",
-                        "properties": {
-                          "completion_type": "failed-completed",
-                          "continue_on_failure": false,
-                          "display_name": "Missing indicator",
-                          "result_message": "The indicator $workflow.definition_workflow_01ML39FS25W1V5nR5onJGG8OBgXRuGG8y79.local.variable_workflow_01ML3OGSXO15K2DY4fUvR8Vh9QbHoJezgaf$_$activity.definition_activity_01ML3PI1DN9N547S7mrpKLPl4ohlCYHOggx.output.script_queries.observable_out$ was not found. This means that a judgement cannot be created for this observable as there's nothing to relate it to",
-                          "skip_execution": false
-                        },
-                        "object_type": "definition_activity"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "unique_name": "definition_activity_01NUVHHN1ZQFH4FRAuyTijrzYAaHlkQw2J1",
-            "name": "Condition Branch",
-            "title": "Anything else",
-            "type": "logic.condition_block",
-            "base_type": "activity",
-            "properties": {
-              "condition": {
-                "left_operand": "$activity.definition_activity_01NUV9NBNQRGA7Y9fgf6fm5t5tWAv0Uzq82.output.status_code$",
-                "operator": "ne",
-                "right_operand": 200
-              },
-              "continue_on_failure": false,
-              "display_name": "Anything else",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity",
-            "actions": [
-              {
-                "unique_name": "definition_activity_01NUVHZFE5N9423sN9uQle4hFCgaN7huPXi",
-                "name": "Completed",
-                "title": "Failed",
-                "type": "logic.completed",
-                "base_type": "activity",
-                "properties": {
-                  "completion_type": "failed-completed",
-                  "continue_on_failure": false,
-                  "display_name": "Failed",
-                  "result_message": "Failed to search for the indicator \"$workflow.definition_workflow_01ML39FS25W1V5nR5onJGG8OBgXRuGG8y79.local.variable_workflow_01ML3OGSXO15K2DY4fUvR8Vh9QbHoJezgaf$_$activity.definition_activity_01ML3PI1DN9N547S7mrpKLPl4ohlCYHOggx.output.script_queries.observable_out$\"\n\nStatus code: $activity.definition_activity_01NUV9NBNQRGA7Y9fgf6fm5t5tWAv0Uzq82.output.status_code$\nResponse body: $activity.definition_activity_01NUV9NBNQRGA7Y9fgf6fm5t5tWAv0Uzq82.output.response_body$",
-                  "skip_execution": false
-                },
-                "object_type": "definition_activity"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "unique_name": "definition_activity_01ML3TPYTTXZT5KKlcVUtt5aX2f1woUJKx9",
-        "name": "JSONPath Query",
-        "title": "Extract indicator ID",
-        "type": "corejava.jsonpathquery",
-        "base_type": "activity",
-        "properties": {
-          "action_timeout": 180,
-          "continue_on_failure": false,
-          "display_name": "Extract indicator ID",
-          "input_json": "$activity.definition_activity_01NUV9NBNQRGA7Y9fgf6fm5t5tWAv0Uzq82.output.response_body$",
-          "jsonpath_queries": [
-            {
-              "jsonpath_query": "$.[0].id",
-              "jsonpath_query_name": "indicator_id",
-              "jsonpath_query_type": "string"
-            }
-          ],
-          "skip_execution": false
-        },
-        "object_type": "definition_activity"
-      },
-      {
-        "unique_name": "definition_activity_01NUVBBDD6IU96DG73BkvAxaroNQOfCcI36",
-        "name": "Execute Python Script",
-        "title": "Generate judgment JSON",
-        "type": "python3.script",
-        "base_type": "activity",
-        "properties": {
-          "action_timeout": 180,
-          "continue_on_failure": false,
-          "display_name": "Generate judgment JSON",
-          "script": "import json, sys\nfrom datetime import datetime, date, timedelta\n\n# Get the current date/time\ndateTime = datetime.now()\n\n# Build the judgement object\njudgment_object = {}\njudgment_object[\"schema_version\"] = \"1.0.19\"\njudgment_object[\"observable\"] = {\n\t\"value\": sys.argv[1],\n\t\"type\": sys.argv[2]\n}\njudgment_object[\"type\"] = \"judgement\"\njudgment_object[\"source\"] = \"securex-orchestration\"\njudgment_object[\"disposition\"] = 5\njudgment_object[\"reason\"] = \"\"\njudgment_object[\"disposition_name\"] = \"Unknown\"\njudgment_object[\"priority\"] = 95\njudgment_object[\"severity\"] = \"Info\"\njudgment_object[\"tlp\"] = \"amber\"\njudgment_object[\"timestamp\"] = dateTime.strftime(\"%Y-%m-%dT%H:%M:%SZ\")\njudgment_object[\"confidence\"] = \"High\"\n\njudgment_json = json.dumps(judgment_object)",
-          "script_arguments": [
-            "$workflow.definition_workflow_01ML39FS25W1V5nR5onJGG8OBgXRuGG8y79.input.variable_workflow_01ML3BIJEVG3N6sxdcUKX1lLBTf5i2pR4aL$",
-            "$workflow.definition_workflow_01ML39FS25W1V5nR5onJGG8OBgXRuGG8y79.input.variable_workflow_01ML3BD7SISBS077kpX3Y8XYWmlJkq7gXjq$"
-          ],
-          "script_queries": [
-            {
-              "script_query": "judgment_json",
-              "script_query_name": "judgment_json",
-              "script_query_type": "string"
-            }
-          ],
-          "skip_execution": false
-        },
-        "object_type": "definition_activity"
-      },
-      {
-        "unique_name": "definition_activity_01NUVB9BO1N7U6tnfkP4f8vvLbJRKnwnHCk",
-        "name": "HTTP Request",
-        "title": "Create the judgment",
-        "type": "web-service.http_request",
-        "base_type": "activity",
-        "properties": {
-          "accept": "application/json",
-          "action_timeout": 180,
-          "allow_auto_redirect": true,
-          "body": "$activity.definition_activity_01NUVBBDD6IU96DG73BkvAxaroNQOfCcI36.output.script_queries.judgment_json$",
-          "content_type": "application/json",
-          "continue_on_error_status_code": true,
-          "continue_on_failure": false,
-          "custom_headers": [
-            {
-              "name": "Authorization",
-              "value": "Bearer $activity.definition_activity_01ML3C85GA79F69XhfaknVY0dUtYgvytVUe.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$"
-            }
-          ],
-          "display_name": "Create the judgment",
-          "method": "POST",
-          "relative_url": "/ctia/judgement",
-          "runtime_user": {
-            "override_target_runtime_user": false,
-            "target_default": true
-          },
-          "skip_execution": false,
-          "target": {
-            "use_workflow_target_group": true
-          }
-        },
-        "object_type": "definition_activity"
-      },
-      {
-        "unique_name": "definition_activity_01NUVFMPINV5U2uxobS7OCuyEwxdw5AZomc",
-        "name": "Condition Block",
-        "title": "Was the judgment created?",
-        "type": "logic.if_else",
-        "base_type": "activity",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "Was the judgment created?",
-          "skip_execution": false
-        },
-        "object_type": "definition_activity",
-        "blocks": [
-          {
-            "unique_name": "definition_activity_01NUVFNGV410764ShWaKUubPOrgE6xK9vXq",
-            "name": "Condition Branch",
-            "title": "201/Created",
-            "type": "logic.condition_block",
-            "base_type": "activity",
-            "properties": {
-              "condition": {
-                "left_operand": "$activity.definition_activity_01NUVB9BO1N7U6tnfkP4f8vvLbJRKnwnHCk.output.status_code$",
-                "operator": "eq",
-                "right_operand": 201
-              },
-              "continue_on_failure": false,
-              "display_name": "201/Created",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity",
-            "actions": [
-              {
-                "unique_name": "definition_activity_01NUVFQLBS5940rSXyF0wGfNZlNuaOWmlH8",
-                "name": "JSONPath Query",
-                "title": "Extract the judgment ID",
-                "type": "corejava.jsonpathquery",
-                "base_type": "activity",
-                "properties": {
+              "unique_name": "definition_activity_01ML3PI1DN9N547S7mrpKLPl4ohlCYHOggx",
+              "name": "Execute Python Script",
+              "title": "Convert observable_type to indicator type",
+              "type": "python3.script",
+              "base_type": "activity",
+              "properties": {
                   "action_timeout": 180,
                   "continue_on_failure": false,
-                  "display_name": "Extract the judgment ID",
-                  "input_json": "$activity.definition_activity_01NUVB9BO1N7U6tnfkP4f8vvLbJRKnwnHCk.output.response_body$",
-                  "jsonpath_queries": [
-                    {
-                      "jsonpath_query": "$.id",
-                      "jsonpath_query_name": "id",
-                      "jsonpath_query_type": "string"
-                    }
+                  "display_name": "Convert observable_type to indicator type",
+                  "script": "import sys\n\nobservable_type = sys.argv[1]\nobservable_out = \"\"\n\nif observable_type == \"domain\":\n\tobservable_out = \"Domain\"\nelif observable_type == \"ip\":\n\tobservable_out = \"IPv4\"\nelif observable_type == \"ipv6\":\n\tobservable_out = \"IPv6\"\nelif observable_type == \"sha256\":\n\tobservable_out = \"SHA256\"\nelif observable_type == \"url\":\n\tobservable_out = \"URL\"",
+                  "script_arguments": [
+                      "$workflow.definition_workflow_01ML39FS25W1V5nR5onJGG8OBgXRuGG8y79.input.variable_workflow_01ML3BD7SISBS077kpX3Y8XYWmlJkq7gXjq$"
+                  ],
+                  "script_queries": [
+                      {
+                          "script_query": "observable_out",
+                          "script_query_name": "observable_out",
+                          "script_query_type": "string"
+                      }
                   ],
                   "skip_execution": false
-                },
-                "object_type": "definition_activity"
               },
-              {
-                "unique_name": "definition_activity_01ML3NIGUHCI23qiJX9Qz02Hyb7O2OF9Lvb",
-                "name": "Threat Response - Create Relationship",
-                "title": "Threat Response - Create Relationship",
-                "type": "workflow.atomic_workflow",
-                "base_type": "subworkflow",
-                "properties": {
+              "object_type": "definition_activity"
+          },
+          {
+              "unique_name": "definition_activity_01ML3ERI58BVR5WlxDYvUNsdaJ0BSqqGOKI",
+              "name": "Condition Block",
+              "title": "Is this observable type supported?",
+              "type": "logic.if_else",
+              "base_type": "activity",
+              "properties": {
                   "continue_on_failure": false,
-                  "display_name": "Threat Response - Create Relationship",
-                  "input": {
-                    "variable_workflow_01PP78LVV8JKR6NKKuym8RA2VYFgUJrR4qU": "$activity.definition_activity_01NUVFQLBS5940rSXyF0wGfNZlNuaOWmlH8.output.jsonpath_queries.id$",
-                    "variable_workflow_01PP78LVV8NS94TRyx07G3ajwZ5eE5oWZ36": "",
-                    "variable_workflow_01PP78LVV8P3X5wkMhrcIXTnToxb6HxuLpk": "$activity.definition_activity_01ML3C85GA79F69XhfaknVY0dUtYgvytVUe.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$",
-                    "variable_workflow_01PP78LVV8QB314gJIqe5PQHoWnRTMtwhK4": "amber",
-                    "variable_workflow_01PP78LVV8RLZ02Yzy68Uz59X8kInnUomdU": "",
-                    "variable_workflow_01PP78LVV8SVF31gxGXEVhu26vewW98cJxO": "$activity.definition_activity_01ML3TPYTTXZT5KKlcVUtt5aX2f1woUJKx9.output.jsonpath_queries.indicator_id$",
-                    "variable_workflow_01PP78LVV8V4B28e1wJKo9WReVhIZ3bvM6f": "element-of"
-                  },
+                  "display_name": "Is this observable type supported?",
+                  "skip_execution": false
+              },
+              "object_type": "definition_activity",
+              "blocks": [
+                  {
+                      "unique_name": "definition_activity_01ML3G6CATAX5705V1SSvgTUl4elTRb3k08",
+                      "name": "Condition Branch",
+                      "title": "No",
+                      "type": "logic.condition_block",
+                      "base_type": "activity",
+                      "properties": {
+                          "condition": {
+                              "left_operand": "$activity.definition_activity_01ML3PI1DN9N547S7mrpKLPl4ohlCYHOggx.output.script_queries.observable_out$",
+                              "operator": "eq",
+                              "right_operand": ""
+                          },
+                          "continue_on_failure": false,
+                          "display_name": "No",
+                          "skip_execution": false
+                      },
+                      "object_type": "definition_activity",
+                      "actions": [
+                          {
+                              "unique_name": "definition_activity_01ML3GC7UHEKN4rBI9qqyagt0oE8nFreK6v",
+                              "name": "Completed",
+                              "title": "Unsupported observable",
+                              "type": "logic.completed",
+                              "base_type": "activity",
+                              "properties": {
+                                  "completion_type": "failed-completed",
+                                  "continue_on_failure": false,
+                                  "display_name": "Unsupported observable",
+                                  "result_message": "The type of observable provided ($workflow.definition_workflow_01ML39FS25W1V5nR5onJGG8OBgXRuGG8y79.input.variable_workflow_01ML3BD7SISBS077kpX3Y8XYWmlJkq7gXjq$) is not supported by this workflow",
+                                  "skip_execution": false
+                              },
+                              "object_type": "definition_activity"
+                          }
+                      ]
+                  }
+              ]
+          },
+          {
+              "unique_name": "definition_activity_01NUV9NBNQRGA7Y9fgf6fm5t5tWAv0Uzq82",
+              "name": "HTTP Request",
+              "title": "Search for indicator",
+              "type": "web-service.http_request",
+              "base_type": "activity",
+              "properties": {
+                  "accept": "application\/json",
+                  "action_timeout": 180,
+                  "allow_auto_redirect": true,
+                  "allow_headers_redirect": false,
+                  "content_type": "application\/json",
+                  "continue_on_error_status_code": true,
+                  "continue_on_failure": false,
+                  "display_name": "Search for indicator",
+                  "method": "GET",
+                  "relative_url": "\/ctia\/indicator\/search?limit=1&offset=0&query=title:$workflow.definition_workflow_01ML39FS25W1V5nR5onJGG8OBgXRuGG8y79.local.variable_workflow_01ML3OGSXO15K2DY4fUvR8Vh9QbHoJezgaf$_$activity.definition_activity_01ML3PI1DN9N547S7mrpKLPl4ohlCYHOggx.output.script_queries.observable_out$",
                   "runtime_user": {
-                    "target_default": true
+                      "override_target_runtime_user": false,
+                      "target_default": true
                   },
                   "skip_execution": false,
                   "target": {
-                    "use_workflow_target_group": true
-                  },
-                  "workflow_id": "definition_workflow_01PP78LW2WNY80aDM6OHNiRu2VPG4BrR8bq"
-                },
-                "object_type": "definition_activity"
-              }
-            ]
+                      "use_workflow_target_group": true
+                  }
+              },
+              "object_type": "definition_activity"
           },
           {
-            "unique_name": "definition_activity_01NUVFNHGMEST2AuBj9WQUHpEcQC6VJyNJ5",
-            "name": "Condition Branch",
-            "title": "Anything else",
-            "type": "logic.condition_block",
-            "base_type": "activity",
-            "properties": {
-              "condition": {
-                "left_operand": "$activity.definition_activity_01NUVB9BO1N7U6tnfkP4f8vvLbJRKnwnHCk.output.status_code$",
-                "operator": "ne",
-                "right_operand": 201
-              },
-              "continue_on_failure": false,
-              "display_name": "Anything else",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity",
-            "actions": [
-              {
-                "unique_name": "definition_activity_01NUVFOUBWQKR6WMw26WgXDYLWVkJLlSI5g",
-                "name": "Completed",
-                "title": "Failed",
-                "type": "logic.completed",
-                "base_type": "activity",
-                "properties": {
-                  "completion_type": "failed-completed",
+              "unique_name": "definition_activity_01NUVHGVPQ2IJ5xPTht4YTu2OWpNN40XlvS",
+              "name": "Condition Block",
+              "title": "Was the search successful?",
+              "type": "logic.if_else",
+              "base_type": "activity",
+              "properties": {
                   "continue_on_failure": false,
-                  "display_name": "Failed",
-                  "result_message": "Failed to create judgment for observable $workflow.definition_workflow_01ML39FS25W1V5nR5onJGG8OBgXRuGG8y79.input.variable_workflow_01ML3BIJEVG3N6sxdcUKX1lLBTf5i2pR4aL$ ($workflow.definition_workflow_01ML39FS25W1V5nR5onJGG8OBgXRuGG8y79.input.variable_workflow_01ML3BD7SISBS077kpX3Y8XYWmlJkq7gXjq$)",
+                  "display_name": "Was the search successful?",
                   "skip_execution": false
-                },
-                "object_type": "definition_activity"
-              }
-            ]
+              },
+              "object_type": "definition_activity",
+              "blocks": [
+                  {
+                      "unique_name": "definition_activity_01NUVHHMG1RSP1S7gkl96FboKLcNQNRGblt",
+                      "name": "Condition Branch",
+                      "title": "200\/Success",
+                      "type": "logic.condition_block",
+                      "base_type": "activity",
+                      "properties": {
+                          "condition": {
+                              "left_operand": "$activity.definition_activity_01NUV9NBNQRGA7Y9fgf6fm5t5tWAv0Uzq82.output.status_code$",
+                              "operator": "eq",
+                              "right_operand": 200
+                          },
+                          "continue_on_failure": false,
+                          "display_name": "200\/Success",
+                          "skip_execution": false
+                      },
+                      "object_type": "definition_activity",
+                      "actions": [
+                          {
+                              "unique_name": "definition_activity_01ML3SAZ67MZT6w4UmLVKRn3r3Vqo2vaQVP",
+                              "name": "Condition Block",
+                              "title": "Did we find the indicator?",
+                              "type": "logic.if_else",
+                              "base_type": "activity",
+                              "properties": {
+                                  "continue_on_failure": false,
+                                  "display_name": "Did we find the indicator?",
+                                  "skip_execution": false
+                              },
+                              "object_type": "definition_activity",
+                              "blocks": [
+                                  {
+                                      "unique_name": "definition_activity_01ML3SBM2M0YA5EyOLqyDdlsGoz7mjXTuBB",
+                                      "name": "Condition Branch",
+                                      "title": "No",
+                                      "type": "logic.condition_block",
+                                      "base_type": "activity",
+                                      "properties": {
+                                          "condition": {
+                                              "left_operand": "$activity.definition_activity_01NUV9NBNQRGA7Y9fgf6fm5t5tWAv0Uzq82.output.response_body$",
+                                              "operator": "eq",
+                                              "right_operand": "[]"
+                                          },
+                                          "continue_on_failure": false,
+                                          "display_name": "No",
+                                          "skip_execution": false
+                                      },
+                                      "object_type": "definition_activity",
+                                      "actions": [
+                                          {
+                                              "unique_name": "definition_activity_01ML3T22YDJGH59qACAPHeiNJzmh6BjQhWq",
+                                              "name": "Completed",
+                                              "title": "Missing indicator",
+                                              "type": "logic.completed",
+                                              "base_type": "activity",
+                                              "properties": {
+                                                  "completion_type": "failed-completed",
+                                                  "continue_on_failure": false,
+                                                  "display_name": "Missing indicator",
+                                                  "result_message": "The indicator $workflow.definition_workflow_01ML39FS25W1V5nR5onJGG8OBgXRuGG8y79.local.variable_workflow_01ML3OGSXO15K2DY4fUvR8Vh9QbHoJezgaf$_$activity.definition_activity_01ML3PI1DN9N547S7mrpKLPl4ohlCYHOggx.output.script_queries.observable_out$ was not found. This means that a judgement cannot be created for this observable as there's nothing to relate it to",
+                                                  "skip_execution": false
+                                              },
+                                              "object_type": "definition_activity"
+                                          }
+                                      ]
+                                  }
+                              ]
+                          }
+                      ]
+                  },
+                  {
+                      "unique_name": "definition_activity_01NUVHHN1ZQFH4FRAuyTijrzYAaHlkQw2J1",
+                      "name": "Condition Branch",
+                      "title": "Anything else",
+                      "type": "logic.condition_block",
+                      "base_type": "activity",
+                      "properties": {
+                          "condition": {
+                              "left_operand": "$activity.definition_activity_01NUV9NBNQRGA7Y9fgf6fm5t5tWAv0Uzq82.output.status_code$",
+                              "operator": "ne",
+                              "right_operand": 200
+                          },
+                          "continue_on_failure": false,
+                          "display_name": "Anything else",
+                          "skip_execution": false
+                      },
+                      "object_type": "definition_activity",
+                      "actions": [
+                          {
+                              "unique_name": "definition_activity_01NUVHZFE5N9423sN9uQle4hFCgaN7huPXi",
+                              "name": "Completed",
+                              "title": "Failed",
+                              "type": "logic.completed",
+                              "base_type": "activity",
+                              "properties": {
+                                  "completion_type": "failed-completed",
+                                  "continue_on_failure": false,
+                                  "display_name": "Failed",
+                                  "result_message": "Failed to search for the indicator \"$workflow.definition_workflow_01ML39FS25W1V5nR5onJGG8OBgXRuGG8y79.local.variable_workflow_01ML3OGSXO15K2DY4fUvR8Vh9QbHoJezgaf$_$activity.definition_activity_01ML3PI1DN9N547S7mrpKLPl4ohlCYHOggx.output.script_queries.observable_out$\"\n\nStatus code: $activity.definition_activity_01NUV9NBNQRGA7Y9fgf6fm5t5tWAv0Uzq82.output.status_code$\nResponse body: $activity.definition_activity_01NUV9NBNQRGA7Y9fgf6fm5t5tWAv0Uzq82.output.response_body$",
+                                  "skip_execution": false
+                              },
+                              "object_type": "definition_activity"
+                          }
+                      ]
+                  }
+              ]
+          },
+          {
+              "unique_name": "definition_activity_01ML3TPYTTXZT5KKlcVUtt5aX2f1woUJKx9",
+              "name": "JSONPath Query",
+              "title": "Extract indicator ID",
+              "type": "corejava.jsonpathquery",
+              "base_type": "activity",
+              "properties": {
+                  "action_timeout": 180,
+                  "continue_on_failure": false,
+                  "display_name": "Extract indicator ID",
+                  "input_json": "$activity.definition_activity_01NUV9NBNQRGA7Y9fgf6fm5t5tWAv0Uzq82.output.response_body$",
+                  "jsonpath_queries": [
+                      {
+                          "jsonpath_query": "$.[0].id",
+                          "jsonpath_query_name": "indicator_id",
+                          "jsonpath_query_type": "string"
+                      }
+                  ],
+                  "skip_execution": false
+              },
+              "object_type": "definition_activity"
+          },
+          {
+              "unique_name": "definition_activity_01NUVBBDD6IU96DG73BkvAxaroNQOfCcI36",
+              "name": "Execute Python Script",
+              "title": "Generate judgment JSON",
+              "type": "python3.script",
+              "base_type": "activity",
+              "properties": {
+                  "action_timeout": 180,
+                  "continue_on_failure": false,
+                  "display_name": "Generate judgment JSON",
+                  "script": "import json, sys\nfrom datetime import datetime, date, timedelta\n\n# Get the current date\/time\ndateTime = datetime.now()\n\n# Build the judgement object\njudgment_object = {}\njudgment_object[\"schema_version\"] = \"1.0.19\"\njudgment_object[\"observable\"] = {\n\t\"value\": sys.argv[1],\n\t\"type\": sys.argv[2]\n}\njudgment_object[\"type\"] = \"judgement\"\njudgment_object[\"source\"] = \"securex-orchestration\"\njudgment_object[\"disposition\"] = 5\njudgment_object[\"reason\"] = \"\"\njudgment_object[\"disposition_name\"] = \"Unknown\"\njudgment_object[\"priority\"] = 95\njudgment_object[\"severity\"] = \"Info\"\njudgment_object[\"tlp\"] = \"amber\"\njudgment_object[\"timestamp\"] = dateTime.strftime(\"%Y-%m-%dT%H:%M:%SZ\")\njudgment_object[\"confidence\"] = \"High\"\n\njudgment_json = json.dumps(judgment_object)",
+                  "script_arguments": [
+                      "$workflow.definition_workflow_01ML39FS25W1V5nR5onJGG8OBgXRuGG8y79.input.variable_workflow_01ML3BIJEVG3N6sxdcUKX1lLBTf5i2pR4aL$",
+                      "$workflow.definition_workflow_01ML39FS25W1V5nR5onJGG8OBgXRuGG8y79.input.variable_workflow_01ML3BD7SISBS077kpX3Y8XYWmlJkq7gXjq$"
+                  ],
+                  "script_queries": [
+                      {
+                          "script_query": "judgment_json",
+                          "script_query_name": "judgment_json",
+                          "script_query_type": "string"
+                      }
+                  ],
+                  "skip_execution": false
+              },
+              "object_type": "definition_activity"
+          },
+          {
+              "unique_name": "definition_activity_01NUVB9BO1N7U6tnfkP4f8vvLbJRKnwnHCk",
+              "name": "HTTP Request",
+              "title": "Create the judgment",
+              "type": "web-service.http_request",
+              "base_type": "activity",
+              "properties": {
+                  "accept": "application\/json",
+                  "action_timeout": 180,
+                  "allow_auto_redirect": true,
+                  "allow_headers_redirect": false,
+                  "body": "$activity.definition_activity_01NUVBBDD6IU96DG73BkvAxaroNQOfCcI36.output.script_queries.judgment_json$",
+                  "content_type": "application\/json",
+                  "continue_on_error_status_code": true,
+                  "continue_on_failure": false,
+                  "display_name": "Create the judgment",
+                  "method": "POST",
+                  "relative_url": "\/ctia\/judgement",
+                  "runtime_user": {
+                      "override_target_runtime_user": false,
+                      "target_default": true
+                  },
+                  "skip_execution": false,
+                  "target": {
+                      "use_workflow_target_group": true
+                  }
+              },
+              "object_type": "definition_activity"
+          },
+          {
+              "unique_name": "definition_activity_01NUVFMPINV5U2uxobS7OCuyEwxdw5AZomc",
+              "name": "Condition Block",
+              "title": "Was the judgment created?",
+              "type": "logic.if_else",
+              "base_type": "activity",
+              "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Was the judgment created?",
+                  "skip_execution": false
+              },
+              "object_type": "definition_activity",
+              "blocks": [
+                  {
+                      "unique_name": "definition_activity_01NUVFNGV410764ShWaKUubPOrgE6xK9vXq",
+                      "name": "Condition Branch",
+                      "title": "201\/Created",
+                      "type": "logic.condition_block",
+                      "base_type": "activity",
+                      "properties": {
+                          "condition": {
+                              "left_operand": "$activity.definition_activity_01NUVB9BO1N7U6tnfkP4f8vvLbJRKnwnHCk.output.status_code$",
+                              "operator": "eq",
+                              "right_operand": 201
+                          },
+                          "continue_on_failure": false,
+                          "display_name": "201\/Created",
+                          "skip_execution": false
+                      },
+                      "object_type": "definition_activity",
+                      "actions": [
+                          {
+                              "unique_name": "definition_activity_01NUVFQLBS5940rSXyF0wGfNZlNuaOWmlH8",
+                              "name": "JSONPath Query",
+                              "title": "Extract the judgment ID",
+                              "type": "corejava.jsonpathquery",
+                              "base_type": "activity",
+                              "properties": {
+                                  "action_timeout": 180,
+                                  "continue_on_failure": false,
+                                  "display_name": "Extract the judgment ID",
+                                  "input_json": "$activity.definition_activity_01NUVB9BO1N7U6tnfkP4f8vvLbJRKnwnHCk.output.response_body$",
+                                  "jsonpath_queries": [
+                                      {
+                                          "jsonpath_query": "$.id",
+                                          "jsonpath_query_name": "id",
+                                          "jsonpath_query_type": "string"
+                                      }
+                                  ],
+                                  "skip_execution": false
+                              },
+                              "object_type": "definition_activity"
+                          },
+                          {
+                              "unique_name": "definition_activity_01ML3NIGUHCI23qiJX9Qz02Hyb7O2OF9Lvb",
+                              "name": "Threat Response - Create Relationship",
+                              "title": "Threat Response - Create Relationship",
+                              "type": "workflow.atomic_workflow",
+                              "base_type": "subworkflow",
+                              "properties": {
+                                  "continue_on_failure": false,
+                                  "display_name": "Threat Response - Create Relationship",
+                                  "input": {
+                                      "variable_workflow_01PP78LVV8JKR6NKKuym8RA2VYFgUJrR4qU": "$activity.definition_activity_01NUVFQLBS5940rSXyF0wGfNZlNuaOWmlH8.output.jsonpath_queries.id$",
+                                      "variable_workflow_01PP78LVV8NS94TRyx07G3ajwZ5eE5oWZ36": "",
+                                      "variable_workflow_01PP78LVV8P3X5wkMhrcIXTnToxb6HxuLpk": "",
+                                      "variable_workflow_01PP78LVV8QB314gJIqe5PQHoWnRTMtwhK4": "amber",
+                                      "variable_workflow_01PP78LVV8RLZ02Yzy68Uz59X8kInnUomdU": "",
+                                      "variable_workflow_01PP78LVV8SVF31gxGXEVhu26vewW98cJxO": "$activity.definition_activity_01ML3TPYTTXZT5KKlcVUtt5aX2f1woUJKx9.output.jsonpath_queries.indicator_id$",
+                                      "variable_workflow_01PP78LVV8V4B28e1wJKo9WReVhIZ3bvM6f": "element-of"
+                                  },
+                                  "runtime_user": {
+                                      "target_default": true
+                                  },
+                                  "skip_execution": false,
+                                  "target": {
+                                      "use_workflow_target_group": true
+                                  },
+                                  "workflow_id": "definition_workflow_01PP78LW2WNY80aDM6OHNiRu2VPG4BrR8bq",
+                                  "workflow_name": "Threat Response - Create Relationship"
+                              },
+                              "object_type": "definition_activity"
+                          }
+                      ]
+                  },
+                  {
+                      "unique_name": "definition_activity_01NUVFNHGMEST2AuBj9WQUHpEcQC6VJyNJ5",
+                      "name": "Condition Branch",
+                      "title": "Anything else",
+                      "type": "logic.condition_block",
+                      "base_type": "activity",
+                      "properties": {
+                          "condition": {
+                              "left_operand": "$activity.definition_activity_01NUVB9BO1N7U6tnfkP4f8vvLbJRKnwnHCk.output.status_code$",
+                              "operator": "ne",
+                              "right_operand": 201
+                          },
+                          "continue_on_failure": false,
+                          "display_name": "Anything else",
+                          "skip_execution": false
+                      },
+                      "object_type": "definition_activity",
+                      "actions": [
+                          {
+                              "unique_name": "definition_activity_01NUVFOUBWQKR6WMw26WgXDYLWVkJLlSI5g",
+                              "name": "Completed",
+                              "title": "Failed",
+                              "type": "logic.completed",
+                              "base_type": "activity",
+                              "properties": {
+                                  "completion_type": "failed-completed",
+                                  "continue_on_failure": false,
+                                  "display_name": "Failed",
+                                  "result_message": "Failed to create judgment for observable $workflow.definition_workflow_01ML39FS25W1V5nR5onJGG8OBgXRuGG8y79.input.variable_workflow_01ML3BIJEVG3N6sxdcUKX1lLBTf5i2pR4aL$ ($workflow.definition_workflow_01ML39FS25W1V5nR5onJGG8OBgXRuGG8y79.input.variable_workflow_01ML3BD7SISBS077kpX3Y8XYWmlJkq7gXjq$)",
+                                  "skip_execution": false
+                              },
+                              "object_type": "definition_activity"
+                          }
+                      ]
+                  }
+              ]
           }
-        ]
-      }
-    ],
-    "categories": [
-      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
-    ]
+      ],
+      "categories": [
+          "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+      ]
   },
   "target_groups": {
-    "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
-      "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
-      "name": "Default TargetGroup",
-      "title": "Default TargetGroup",
-      "type": "generic.target_group",
-      "base_type": "target_group",
-      "version": "1.0.0",
-      "targets": [
-        {
-          "data_target_type": "web-service.endpoint",
-          "view_target_type": "web-service.endpoint",
-          "include_all_targets": true
-        },
-        {
-          "data_target_type": "email.smtp_endpoint",
-          "view_target_type": "email.smtp_endpoint",
-          "include_all_targets": true
-        }
-      ],
-      "object_type": "target_group"
-    }
+      "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+          "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+          "name": "Default TargetGroup",
+          "title": "Default TargetGroup",
+          "type": "generic.target_group",
+          "base_type": "target_group",
+          "version": "1.0.0",
+          "targets": [
+              {
+                  "data_target_type": "web-service.endpoint",
+                  "view_target_type": "web-service.endpoint",
+                  "include_all_targets": true
+              },
+              {
+                  "data_target_type": "email.smtp_endpoint",
+                  "view_target_type": "email.smtp_endpoint",
+                  "include_all_targets": true
+              }
+          ],
+          "object_type": "target_group"
+      }
   },
   "atomic_workflows": [
-    "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH",
-    "definition_workflow_01PP78LW2WNY80aDM6OHNiRu2VPG4BrR8bq"
+      "definition_workflow_01PP78LW2WNY80aDM6OHNiRu2VPG4BrR8bq"
+  ],
+  "dependent_workflows": [
+      "definition_workflow_01PP78LW2WNY80aDM6OHNiRu2VPG4BrR8bq"
   ]
 }

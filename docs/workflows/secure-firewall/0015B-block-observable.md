@@ -20,6 +20,8 @@ Response Workflow
 
 This workflow blocks an observable on Cisco Secure Firewall by creating a judgement for it in SecureX Threat Response. Once a judgement is created, the observable will appear on a feed which Secure Firewall polls for observable information. Supported observables: `domain`, `ip`, `ipv6`, `sha256`, `url`
 
+<div class="cisco-alert cisco-alert-info"><i class="fa fa-info-circle mr-1 cisco-icon-info"></i> This workflow has been updated to use the new "SecureX Token" account key. For more information about this, please see <a href="{{ site.baseurl }}/account-keys/securex-token">this page</a>. If you want to use legacy authentication, you can import an older version of the workflow.</div>
+
 <div class="cisco-alert cisco-alert-info"><i class="fa fa-info-circle mr-1 cisco-icon-info"></i> This workflow is similar to workflow <a href="{{ site.baseurl }}/workflows/0065">0065</a> but works differently. Workflow 0065 adds observables to groups by making API calls directly to Secure Firewall, typically through an <a href="{{ site.baseurl }}/remote/">orchestration remote</a>. This workflow adds observables to feeds in SecureX which Secure Firewall then consumes.</div>
 
 [<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0015B-SecureFirewall-BlockObservable__definition_workflow_01ML39FS25W1V5nR5onJGG8OBgXRuGG8y79){: .btn-cisco-outline }
@@ -32,6 +34,7 @@ This workflow blocks an observable on Cisco Secure Firewall by creating a judgem
 |:-----|:------|
 | Apr 19, 2021 | - Initial release |
 | Sep 10, 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+| Aug 31, 2022 | - Updated to support [SecureX Tokens]({{ site.baseurl }}/account-keys/securex-token) |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 
@@ -40,7 +43,6 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 ## Requirements
 * The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
 	* Threat Response - Create Relationship
-	* Threat Response - Generate Access Token
 * The following atomic actions must be imported before you can import this workflow:
 	* None
 * The [targets](#targets) and [account keys](#account-keys) listed at the bottom of the page
@@ -75,8 +77,7 @@ Target Group: `Default TargetGroup`
 
 | Target Name | Type | Details | Account Keys | Notes |
 |:------------|:-----|:--------|:-------------|:------|
-| [CTR_For_Access_Token]({{ site.baseurl }}/targets/default#ctr_for_access_token) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `visibility.amp.cisco.com`<br />_Path:_ `/iroh` | CTR_Credentials | Created by default |
-| [Private_CTIA_Target]({{ site.baseurl }}/targets/default#private_ctia_target) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `private.intel.amp.cisco.com`<br />_Path:_ None | None | Created by default |
+| [Private_CTIA_Target]({{ site.baseurl }}/targets/default#private_ctia_target) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `private.intel.amp.cisco.com`<br />_Path:_ None | CTR_Credentials | Created by default |
 
 ---
 
@@ -84,4 +85,4 @@ Target Group: `Default TargetGroup`
 
 | Account Key Name | Type | Details | Notes |
 |:-----------------|:-----|:--------|:------|
-| [CTR_Credentials]({{ site.baseurl }}/account-keys/default#ctr_credentials) | HTTP Basic Authentication | _Username:_ Client ID<br />_Password:_ Client Secret | Created by default |
+| [CTR_Credentials]({{ site.baseurl }}/account-keys/default#ctr_credentials) | SecureX Token | | See [this page]({{ site.baseurl }}/account-keys/securex-token) |
