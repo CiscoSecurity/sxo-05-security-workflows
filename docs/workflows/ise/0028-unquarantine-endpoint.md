@@ -17,7 +17,7 @@ Response Workflow
 {: .label }
 </div>
 
-This workflow removes an endpoint from quarantine in Cisco Identity Services Engine (ISE) by clearing its ANC Policy assignments. Supported observable: `mac_address`
+This workflow removes an endpoint from quarantine in Cisco Identity Services Engine (ISE) by clearing its ANC Policy assignments. Supported observables: `mac_address`, `ip`
 
 [<i class="fab fa-github mr-1"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0028-ISE-UnQuarantineEndpoint__definition_workflow_01O3B646121ZW3GCZiNVPrwXwn7B87qf2vm){: .btn-cisco-outline }
 
@@ -29,6 +29,7 @@ This workflow removes an endpoint from quarantine in Cisco Identity Services Eng
 |:-----|:------|
 | May 26, 2021 | - Initial release |
 | Sep 10, 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+| Sep 1, 2022 | - Updated to support IP addresses in addition to MAC addresses |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 
@@ -46,7 +47,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 
 ## Workflow Steps
 1. Make sure the observable type provided is supported
-1. Clear the ANC policies from the endpoint
+1. Clear the ANC policies from the endpoint depending on which type of observable was provided
 
 ---
 

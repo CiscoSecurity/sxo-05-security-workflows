@@ -17,7 +17,9 @@ Response Workflow
 {: .label }
 </div>
 
-This workflow quarantines an endpoint in Cisco Identity Services Engine (ISE) by applying an Adaptive Network Control (ANC) policy. Supported observable: `mac_address`
+This workflow quarantines an endpoint in Cisco Identity Services Engine (ISE) by applying an Adaptive Network Control (ANC) policy. Supported observables: `mac_address`, `ip`
+
+**Note:** When applying an ANC policy using an IP address as the observable, the endpoint must have an active session with an IP address associated with it. Depending on your network configuration, this may not always be the case.
 
 [<i class="fab fa-github mr-1"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0027-ISE-QuarantineEndpoint__definition_workflow_01O39GXAGAAR65AsfAl2NPgy97Z8XcT6Bir){: .btn-cisco-outline }
 
@@ -29,6 +31,7 @@ This workflow quarantines an endpoint in Cisco Identity Services Engine (ISE) by
 |:-----|:------|
 | May 26, 2021 | - Initial release |
 | Sep 10, 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+| Sep 1, 2022 | - Updated to support IP addresses in addition to MAC addresses |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 
@@ -46,7 +49,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 
 ## Workflow Steps
 1. Make sure the observable type provided is supported
-1. Apply the ANC policy to the endpoint
+1. Apply the ANC policy to the endpoint depending on which type of observable was provided
 
 ---
 

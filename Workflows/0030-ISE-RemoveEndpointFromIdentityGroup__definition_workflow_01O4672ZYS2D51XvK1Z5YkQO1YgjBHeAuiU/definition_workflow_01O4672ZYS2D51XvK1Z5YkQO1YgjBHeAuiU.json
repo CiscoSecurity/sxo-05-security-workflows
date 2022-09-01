@@ -1,276 +1,282 @@
 {
   "workflow": {
-    "unique_name": "definition_workflow_01O4672ZYS2D51XvK1Z5YkQO1YgjBHeAuiU",
-    "name": "0030 - ISE - Remove Endpoint from Identity Group",
-    "title": "0030 - ISE - Remove Endpoint from Identity Group",
-    "type": "generic.workflow",
-    "base_type": "workflow",
-    "variables": [
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "input",
-          "name": "observable_type",
-          "type": "datatype.string",
-          "description": "The type of observable pivoted on",
-          "is_required": true,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01O4672ZS4M1L6ZOXLmJrwvryNp2cKWsJnX",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "input",
-          "name": "observable_value",
-          "type": "datatype.string",
-          "description": "The value of the observable pivoted on",
-          "is_required": true,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01O4672ZS4NDL7kiMVAm6B2u583iNoqQFnJ",
-        "object_type": "variable_workflow"
-      }
-    ],
-    "properties": {
-      "atomic": {
-        "is_atomic": false
-      },
-      "delete_workflow_instance": false,
-      "description": "This workflow removes a static identity group assignment from a MAC address in Cisco Identity Services Engine (ISE). Note that this workflow does not move the endpoint back to an \"Unknown\" status. This means the endpoint may stay in the identity group until it's reprofiled and moved elsewhere. Supported observable: mac_address\n\nTarget Group: Default TargetGroup\n\nTargets: Cisco ISE ERS\n\nSteps:\n[] Make sure the observable type provided is supported\n[] Make sure the endpoint exists and get its ID\n[] Reset the endpoint's static group assignment\n\nMore information: http://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0030",
-      "display_name": "0030 - ISE - Remove Endpoint from Identity Group",
-      "runtime_user": {
-        "override_target_runtime_user": false,
-        "specify_on_workflow_start": false,
-        "target_default": true
-      },
-      "target": {
-        "execute_on_target_group": true,
-        "target_group": {
-          "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
-          "run_on_all_targets": false,
-          "selected_target_types": [
-            "web-service.endpoint"
-          ],
-          "use_criteria": {
-            "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-            "conditions": [
-              {
-                "operator": "eqi",
-                "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-                "right_operand": "Cisco ISE ERS"
-              }
-            ]
-          }
-        }
-      }
-    },
-    "object_type": "definition_workflow",
-    "actions": [
-      {
-        "unique_name": "definition_activity_01O467691Z1HO1V2iac9Tbn9K3wLST0bsP0",
-        "name": "Condition Block",
-        "title": "Is the observable type supported?",
-        "type": "logic.if_else",
-        "base_type": "activity",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "Is the observable type supported?",
-          "skip_execution": false
-        },
-        "object_type": "definition_activity",
-        "blocks": [
+      "unique_name": "definition_workflow_01O4672ZYS2D51XvK1Z5YkQO1YgjBHeAuiU",
+      "name": "0030 - ISE - Remove Endpoint from Identity Group",
+      "title": "0030 - ISE - Remove Endpoint from Identity Group",
+      "type": "generic.workflow",
+      "base_type": "workflow",
+      "variables": [
           {
-            "unique_name": "definition_activity_01O46771WM9SI0EoLcCsmPTxnrRSCpUXtTe",
-            "name": "Condition Branch",
-            "title": "No",
-            "type": "logic.condition_block",
-            "base_type": "activity",
-            "properties": {
-              "condition": {
-                "left_operand": "$workflow.definition_workflow_01O4672ZYS2D51XvK1Z5YkQO1YgjBHeAuiU.input.variable_workflow_01O4672ZS4M1L6ZOXLmJrwvryNp2cKWsJnX$",
-                "operator": "ne",
-                "right_operand": "mac_address"
+              "schema_id": "datatype.string",
+              "properties": {
+                  "value": "",
+                  "scope": "input",
+                  "name": "observable_value",
+                  "type": "datatype.string",
+                  "description": "The value of the observable pivoted on",
+                  "is_required": true,
+                  "is_invisible": false
               },
-              "continue_on_failure": false,
-              "display_name": "No",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity",
-            "actions": [
-              {
-                "unique_name": "definition_activity_01O4677UP4HHT2HLGBvBMZEh9wr4XFE2uLV",
-                "name": "Completed",
-                "title": "Unsupported observable",
-                "type": "logic.completed",
-                "base_type": "activity",
-                "properties": {
-                  "completion_type": "failed-completed",
-                  "continue_on_failure": false,
-                  "display_name": "Unsupported observable",
-                  "result_message": "The observable type \"$workflow.definition_workflow_01O4672ZYS2D51XvK1Z5YkQO1YgjBHeAuiU.input.variable_workflow_01O4672ZS4M1L6ZOXLmJrwvryNp2cKWsJnX$\" is not supported by this workflow",
-                  "skip_execution": false
-                },
-                "object_type": "definition_activity"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "unique_name": "definition_activity_01O467D8I2STS4lkaKt2B8IioAWHhsGngWa",
-        "name": "ISE - ERS - Endpoint - Search",
-        "title": "ISE - ERS - Endpoint - Search",
-        "type": "workflow.atomic_workflow",
-        "base_type": "subworkflow",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "ISE - ERS - Endpoint - Search",
-          "input": {
-            "variable_workflow_01PP741NBPGDK3P3ojsN4Henv016yT3TpoE": "",
-            "variable_workflow_01PP741NBPK9J2KfgPs4urcnQmVBVgDtKGl": "$workflow.definition_workflow_01O4672ZYS2D51XvK1Z5YkQO1YgjBHeAuiU.input.variable_workflow_01O4672ZS4NDL7kiMVAm6B2u583iNoqQFnJ$",
-            "variable_workflow_01PP741NBPLKW1lNnikhh7vU4Mv3Z85Zpw6": "",
-            "variable_workflow_01PP741NBPMQV2RC0CIicEQwrduDDVHydqt": 1,
-            "variable_workflow_01PP741NBPQ7T4OgjEo5oJEDBEvzXpinnED": "",
-            "variable_workflow_01PP741NBPRD45vrrjbW3JIJmYFBNdSLGxw": 1
+              "unique_name": "variable_workflow_01O4672ZS4NDL7kiMVAm6B2u583iNoqQFnJ",
+              "object_type": "variable_workflow"
           },
+          {
+              "schema_id": "datatype.string",
+              "properties": {
+                  "value": "",
+                  "scope": "input",
+                  "name": "observable_type",
+                  "type": "datatype.string",
+                  "description": "The type of observable pivoted on",
+                  "is_required": true,
+                  "is_invisible": false
+              },
+              "unique_name": "variable_workflow_01O4672ZS4M1L6ZOXLmJrwvryNp2cKWsJnX",
+              "object_type": "variable_workflow"
+          }
+      ],
+      "properties": {
+          "atomic": {
+              "is_atomic": false
+          },
+          "delete_workflow_instance": false,
+          "description": "This workflow removes a static identity group assignment from a MAC address in Cisco Identity Services Engine (ISE). Note that this workflow does not move the endpoint back to an \"Unknown\" status. This means the endpoint may stay in the identity group until it's reprofiled and moved elsewhere. Supported observable: mac_address\n\nDocumentation: http:\/\/ciscosecurity.github.io\/sxo-05-security-workflows\/workflows\/0030\n\nTarget Group: Default TargetGroup\n\nTargets: Cisco ISE ERS\n\nSteps:\n[] Make sure the observable type provided is supported\n[] Make sure the endpoint exists and get its ID\n[] Reset the endpoint's static group assignment",
+          "display_name": "0030 - ISE - Remove Endpoint from Identity Group",
           "runtime_user": {
-            "target_default": true
+              "override_target_runtime_user": false,
+              "specify_on_workflow_start": false,
+              "target_default": true
           },
-          "skip_execution": false,
           "target": {
-            "use_workflow_target_group": true
-          },
-          "workflow_id": "definition_workflow_01PP741NI2OEW7ApUcPxHO8m6v9Lnerc155"
-        },
-        "object_type": "definition_activity"
-      },
-      {
-        "unique_name": "definition_activity_01O467EUWW6DH2tXpEROn840SkE6ov6yOco",
-        "name": "Condition Block",
-        "title": "Was the endpoint found?",
-        "type": "logic.if_else",
-        "base_type": "activity",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "Was the endpoint found?",
-          "skip_execution": false
-        },
-        "object_type": "definition_activity",
-        "blocks": [
-          {
-            "unique_name": "definition_activity_01O467G3MYV3E2BDpJrLZz9KD0cp3R0pZvW",
-            "name": "Condition Branch",
-            "title": "Yes",
-            "type": "logic.condition_block",
-            "base_type": "activity",
-            "properties": {
-              "condition": {
-                "left_operand": "$activity.definition_activity_01O467D8I2STS4lkaKt2B8IioAWHhsGngWa.output.variable_workflow_01PP741NBPNW00rOtLgdqQvS0ozvrzxn5fF$",
-                "operator": "gt",
-                "right_operand": 0
-              },
-              "continue_on_failure": false,
-              "display_name": "Yes",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity",
-            "actions": [
-              {
-                "unique_name": "definition_activity_01O467GK49ZKK0zTblH1msGPUlfpWYkkkqP",
-                "name": "JSONPath Query",
-                "title": "Extract endpoint ID",
-                "type": "corejava.jsonpathquery",
-                "base_type": "activity",
-                "properties": {
-                  "action_timeout": 180,
-                  "continue_on_failure": false,
-                  "display_name": "Extract endpoint ID",
-                  "input_json": "$activity.definition_activity_01O467D8I2STS4lkaKt2B8IioAWHhsGngWa.output.variable_workflow_01PP741NBPSSL0wvCm2qGI3xpayBHBuCWLx$",
-                  "jsonpath_queries": [
-                    {
-                      "jsonpath_query": "$.SearchResult.resources[0].id",
-                      "jsonpath_query_name": "endpointId",
-                      "jsonpath_query_type": "string"
-                    }
+              "execute_on_target_group": true,
+              "target_group": {
+                  "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+                  "run_on_all_targets": false,
+                  "selected_target_types": [
+                      "web-service.endpoint"
                   ],
-                  "skip_execution": false
-                },
-                "object_type": "definition_activity"
-              },
-              {
-                "unique_name": "definition_activity_01O467HV4K0BE6i4h2yzxix2hrxjA5Cyght",
-                "name": "ISE - ERS - Endpoint - Update Identity Group",
-                "title": "ISE - ERS - Endpoint - Update Identity Group",
-                "type": "workflow.atomic_workflow",
-                "base_type": "subworkflow",
-                "properties": {
+                  "use_criteria": {
+                      "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                      "conditions": [
+                          {
+                              "operator": "eqi",
+                              "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                              "right_operand": "Cisco ISE ERS"
+                          }
+                      ]
+                  }
+              }
+          }
+      },
+      "object_type": "definition_workflow",
+      "actions": [
+          {
+              "unique_name": "definition_activity_01O467691Z1HO1V2iac9Tbn9K3wLST0bsP0",
+              "name": "Condition Block",
+              "title": "Is the observable type supported?",
+              "type": "logic.if_else",
+              "base_type": "activity",
+              "properties": {
                   "continue_on_failure": false,
-                  "display_name": "ISE - ERS - Endpoint - Update Identity Group",
+                  "display_name": "Is the observable type supported?",
+                  "skip_execution": false
+              },
+              "object_type": "definition_activity",
+              "blocks": [
+                  {
+                      "unique_name": "definition_activity_01O46771WM9SI0EoLcCsmPTxnrRSCpUXtTe",
+                      "name": "Condition Branch",
+                      "title": "No",
+                      "type": "logic.condition_block",
+                      "base_type": "activity",
+                      "properties": {
+                          "condition": {
+                              "left_operand": "$workflow.definition_workflow_01O4672ZYS2D51XvK1Z5YkQO1YgjBHeAuiU.input.variable_workflow_01O4672ZS4M1L6ZOXLmJrwvryNp2cKWsJnX$",
+                              "operator": "ne",
+                              "right_operand": "mac_address"
+                          },
+                          "continue_on_failure": false,
+                          "display_name": "No",
+                          "skip_execution": false
+                      },
+                      "object_type": "definition_activity",
+                      "actions": [
+                          {
+                              "unique_name": "definition_activity_01O4677UP4HHT2HLGBvBMZEh9wr4XFE2uLV",
+                              "name": "Completed",
+                              "title": "Unsupported observable",
+                              "type": "logic.completed",
+                              "base_type": "activity",
+                              "properties": {
+                                  "completion_type": "failed-completed",
+                                  "continue_on_failure": false,
+                                  "display_name": "Unsupported observable",
+                                  "result_message": "The observable type \"$workflow.definition_workflow_01O4672ZYS2D51XvK1Z5YkQO1YgjBHeAuiU.input.variable_workflow_01O4672ZS4M1L6ZOXLmJrwvryNp2cKWsJnX$\" is not supported by this workflow",
+                                  "skip_execution": false
+                              },
+                              "object_type": "definition_activity"
+                          }
+                      ]
+                  }
+              ]
+          },
+          {
+              "unique_name": "definition_activity_01O467D8I2STS4lkaKt2B8IioAWHhsGngWa",
+              "name": "ISE - ERS - Endpoint - Search",
+              "title": "ISE - ERS - Endpoint - Search",
+              "type": "workflow.atomic_workflow",
+              "base_type": "subworkflow",
+              "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "ISE - ERS - Endpoint - Search",
                   "input": {
-                    "variable_workflow_01PP77IYSPYEV2dMVRlBpjSu8N9UYS2quKx": false,
-                    "variable_workflow_01PP77IYSPZY836dg7UIpvcX6yRlIAEn5FY": "$activity.definition_activity_01O467GK49ZKK0zTblH1msGPUlfpWYkkkqP.output.jsonpath_queries.endpointId$",
-                    "variable_workflow_01PP77IYSQALV7bF7MjSNlFxOJ484OBLLC7": ""
+                      "variable_workflow_01PP741NBPGDK3P3ojsN4Henv016yT3TpoE": "",
+                      "variable_workflow_01PP741NBPK9J2KfgPs4urcnQmVBVgDtKGl": "$workflow.definition_workflow_01O4672ZYS2D51XvK1Z5YkQO1YgjBHeAuiU.input.variable_workflow_01O4672ZS4NDL7kiMVAm6B2u583iNoqQFnJ$",
+                      "variable_workflow_01PP741NBPLKW1lNnikhh7vU4Mv3Z85Zpw6": "",
+                      "variable_workflow_01PP741NBPMQV2RC0CIicEQwrduDDVHydqt": 1,
+                      "variable_workflow_01PP741NBPQ7T4OgjEo5oJEDBEvzXpinnED": "",
+                      "variable_workflow_01PP741NBPRD45vrrjbW3JIJmYFBNdSLGxw": 1
                   },
                   "runtime_user": {
-                    "target_default": true
+                      "target_default": true
                   },
                   "skip_execution": false,
                   "target": {
-                    "use_workflow_target_group": true
+                      "use_workflow_target_group": true
                   },
-                  "workflow_id": "definition_workflow_01PP77IZNEYPG1haO9bFuIW04QCWzsAnX73"
-                },
-                "object_type": "definition_activity"
-              }
-            ]
+                  "workflow_id": "definition_workflow_01PP741NI2OEW7ApUcPxHO8m6v9Lnerc155",
+                  "workflow_name": "ISE - ERS - Endpoint - Search"
+              },
+              "object_type": "definition_activity"
+          },
+          {
+              "unique_name": "definition_activity_01O467EUWW6DH2tXpEROn840SkE6ov6yOco",
+              "name": "Condition Block",
+              "title": "Was the endpoint found?",
+              "type": "logic.if_else",
+              "base_type": "activity",
+              "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Was the endpoint found?",
+                  "skip_execution": false
+              },
+              "object_type": "definition_activity",
+              "blocks": [
+                  {
+                      "unique_name": "definition_activity_01O467G3MYV3E2BDpJrLZz9KD0cp3R0pZvW",
+                      "name": "Condition Branch",
+                      "title": "Yes",
+                      "type": "logic.condition_block",
+                      "base_type": "activity",
+                      "properties": {
+                          "condition": {
+                              "left_operand": "$activity.definition_activity_01O467D8I2STS4lkaKt2B8IioAWHhsGngWa.output.variable_workflow_01PP741NBPNW00rOtLgdqQvS0ozvrzxn5fF$",
+                              "operator": "gt",
+                              "right_operand": 0
+                          },
+                          "continue_on_failure": false,
+                          "display_name": "Yes",
+                          "skip_execution": false
+                      },
+                      "object_type": "definition_activity",
+                      "actions": [
+                          {
+                              "unique_name": "definition_activity_01O467GK49ZKK0zTblH1msGPUlfpWYkkkqP",
+                              "name": "JSONPath Query",
+                              "title": "Extract endpoint ID",
+                              "type": "corejava.jsonpathquery",
+                              "base_type": "activity",
+                              "properties": {
+                                  "action_timeout": 180,
+                                  "continue_on_failure": false,
+                                  "display_name": "Extract endpoint ID",
+                                  "input_json": "$activity.definition_activity_01O467D8I2STS4lkaKt2B8IioAWHhsGngWa.output.variable_workflow_01PP741NBPSSL0wvCm2qGI3xpayBHBuCWLx$",
+                                  "jsonpath_queries": [
+                                      {
+                                          "jsonpath_query": "$.SearchResult.resources[0].id",
+                                          "jsonpath_query_name": "endpointId",
+                                          "jsonpath_query_type": "string"
+                                      }
+                                  ],
+                                  "skip_execution": false
+                              },
+                              "object_type": "definition_activity"
+                          },
+                          {
+                              "unique_name": "definition_activity_01O467HV4K0BE6i4h2yzxix2hrxjA5Cyght",
+                              "name": "ISE - ERS - Endpoint - Update Identity Group",
+                              "title": "ISE - ERS - Endpoint - Update Identity Group",
+                              "type": "workflow.atomic_workflow",
+                              "base_type": "subworkflow",
+                              "properties": {
+                                  "continue_on_failure": false,
+                                  "display_name": "ISE - ERS - Endpoint - Update Identity Group",
+                                  "input": {
+                                      "variable_workflow_01PP77IYSPYEV2dMVRlBpjSu8N9UYS2quKx": false,
+                                      "variable_workflow_01PP77IYSPZY836dg7UIpvcX6yRlIAEn5FY": "$activity.definition_activity_01O467GK49ZKK0zTblH1msGPUlfpWYkkkqP.output.jsonpath_queries.endpointId$",
+                                      "variable_workflow_01PP77IYSQALV7bF7MjSNlFxOJ484OBLLC7": ""
+                                  },
+                                  "runtime_user": {
+                                      "target_default": true
+                                  },
+                                  "skip_execution": false,
+                                  "target": {
+                                      "use_workflow_target_group": true
+                                  },
+                                  "workflow_id": "definition_workflow_01PP77IZNEYPG1haO9bFuIW04QCWzsAnX73",
+                                  "workflow_name": "ISE - ERS - Endpoint - Update Identity Group"
+                              },
+                              "object_type": "definition_activity"
+                          }
+                      ]
+                  }
+              ]
           }
-        ]
-      }
-    ],
-    "categories": [
-      "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m"
-    ]
+      ],
+      "categories": [
+          "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m"
+      ]
   },
   "categories": {
-    "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m": {
-      "unique_name": "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m",
-      "name": "response",
-      "title": "response",
-      "type": "basic.category",
-      "base_type": "category",
-      "category_type": "custom",
-      "object_type": "category"
-    }
+      "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m": {
+          "unique_name": "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m",
+          "name": "response",
+          "title": "response",
+          "type": "basic.category",
+          "base_type": "category",
+          "category_type": "custom",
+          "object_type": "category"
+      }
   },
   "target_groups": {
-    "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
-      "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
-      "name": "Default TargetGroup",
-      "title": "Default TargetGroup",
-      "type": "generic.target_group",
-      "base_type": "target_group",
-      "version": "1.0.0",
-      "targets": [
-        {
-          "data_target_type": "web-service.endpoint",
-          "view_target_type": "web-service.endpoint",
-          "include_all_targets": true
-        },
-        {
-          "data_target_type": "email.smtp_endpoint",
-          "view_target_type": "email.smtp_endpoint",
-          "include_all_targets": true
-        }
-      ],
-      "object_type": "target_group"
-    }
+      "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+          "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+          "name": "Default TargetGroup",
+          "title": "Default TargetGroup",
+          "type": "generic.target_group",
+          "base_type": "target_group",
+          "version": "1.0.0",
+          "targets": [
+              {
+                  "data_target_type": "web-service.endpoint",
+                  "view_target_type": "web-service.endpoint",
+                  "include_all_targets": true
+              },
+              {
+                  "data_target_type": "email.smtp_endpoint",
+                  "view_target_type": "email.smtp_endpoint",
+                  "include_all_targets": true
+              }
+          ],
+          "object_type": "target_group"
+      }
   },
   "atomic_workflows": [
-    "definition_workflow_01PP741NI2OEW7ApUcPxHO8m6v9Lnerc155",
-    "definition_workflow_01PP77IZNEYPG1haO9bFuIW04QCWzsAnX73"
+      "definition_workflow_01PP741NI2OEW7ApUcPxHO8m6v9Lnerc155",
+      "definition_workflow_01PP77IZNEYPG1haO9bFuIW04QCWzsAnX73"
+  ],
+  "dependent_workflows": [
+      "definition_workflow_01PP741NI2OEW7ApUcPxHO8m6v9Lnerc155",
+      "definition_workflow_01PP77IZNEYPG1haO9bFuIW04QCWzsAnX73"
   ]
 }

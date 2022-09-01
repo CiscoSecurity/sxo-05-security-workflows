@@ -1,559 +1,565 @@
 {
   "workflow": {
-    "unique_name": "definition_workflow_01NLOGX5XZWH36I4ILmqUiBywWOAxnScesV",
-    "name": "0021 - Secure Endpoint - Vulnerabilities to ServiceNow Incidents",
-    "title": "0021 - Secure Endpoint - Vulnerabilities to ServiceNow Incidents",
-    "type": "generic.workflow",
-    "base_type": "workflow",
-    "variables": [
-      {
-        "schema_id": "datatype.number",
-        "properties": {
-          "value": 6.5,
-          "scope": "local",
-          "name": "CVE Score Threshold",
-          "type": "datatype.number",
-          "description": "The minimum score a vulnerability should have before being promoted to a ServiceNow incident. If at least one vulnerability for a given endpoint meets this threshold, all of its vulnerabilites will be included in the ticket",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01NLP82MVSO856OvN1Kj9Lxm3wneUkHeMeS",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.integer",
-        "properties": {
-          "value": 0,
-          "scope": "local",
-          "name": "Page Offset",
-          "type": "datatype.integer",
-          "description": "The index of the first record to fetch from Secure Endpoint. This is set automatically",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01NLOVBFP0V6F0RnLUZNy2oJh1Zpe2ex4hw",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.integer",
-        "properties": {
-          "value": 100,
-          "scope": "local",
-          "name": "Records Per Page",
-          "type": "datatype.integer",
-          "description": "How many event records to fetch per page",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01NLOVHM6S1J257o9GIy4uhgVsAg3rVqOVV",
-        "object_type": "variable_workflow"
-      }
-    ],
-    "properties": {
-      "atomic": {
-        "is_atomic": false
-      },
-      "delete_workflow_instance": false,
-      "description": "This workflow periodically checks for \"Vulnerable Application Detected\" events in Cisco Secure Endpoint. If events are found, the associated CVEs are checked to see if they meet the threshold configured in the workflow. If the threshold is met for at least one of the endpoint's vulnerabilities, a ServiceNow incident is opened. By default, the schedule trigger is disabled.\n\nTarget Group: Default TargetGroup\n\nTargets: AMP_Target, ServiceNow\n\nSteps:\n[] Calculate the time 24 hours ago\n[] While there are events to process:\n[]> Get events from Secure Endpoint\n[]> Convert the events to a table\n[]> Loop through each event:\n[]>> Extract attributes from the event\n[]>> Convert the list of vulnerabilities to text\n[]>> Check if the CVE threshold was met. If it was, open a ServiceNow incident\n[]> Check if there's another page of events\n[]>> If there is, update the paging variables and continue\n[]>> If there isn't, end the workflow\n\nMore information: http://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0021",
-      "display_name": "0021 - Secure Endpoint - Vulnerabilities to ServiceNow Incidents",
-      "runtime_user": {
-        "override_target_runtime_user": false,
-        "specify_on_workflow_start": false,
-        "target_default": true
-      },
-      "target": {
-        "execute_on_target_group": true,
-        "target_group": {
-          "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
-          "run_on_all_targets": false,
-          "selected_target_types": [
-            "web-service.endpoint"
-          ],
-          "use_criteria": {
-            "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-            "conditions": [
-              {
-                "operator": "eqi",
-                "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-                "right_operand": "AMP_Target"
-              }
-            ]
-          }
-        }
-      }
-    },
-    "object_type": "definition_workflow",
-    "actions": [
-      {
-        "unique_name": "definition_activity_01NLOOESAHZ3L2jlh0BPrqbzPqCP6jsbfPZ",
-        "name": "Calculate Date",
-        "title": "Calculate time 24 hours ago",
-        "type": "core.calculate_date",
-        "base_type": "activity",
-        "properties": {
-          "adjustment": -86400,
-          "continue_on_failure": false,
-          "display_name": "Calculate time 24 hours ago",
-          "original_date": "$workflow.definition_workflow_01NLOGX5XZWH36I4ILmqUiBywWOAxnScesV.output.start_time$",
-          "skip_execution": false
-        },
-        "object_type": "definition_activity"
-      },
-      {
-        "unique_name": "definition_activity_01NLOSBADXI4M4rS7YT3PjS1aEonQQTEONn",
-        "name": "While Loop",
-        "title": "While Loop",
-        "type": "logic.while",
-        "base_type": "activity",
-        "properties": {
-          "continue_on_failure": false,
-          "display_name": "While Loop",
-          "skip_execution": false
-        },
-        "object_type": "definition_activity",
-        "blocks": [
+      "unique_name": "definition_workflow_01NLOGX5XZWH36I4ILmqUiBywWOAxnScesV",
+      "name": "0021 - Secure Endpoint - Vulnerabilities to ServiceNow Incidents",
+      "title": "0021 - Secure Endpoint - Vulnerabilities to ServiceNow Incidents",
+      "type": "generic.workflow",
+      "base_type": "workflow",
+      "variables": [
           {
-            "unique_name": "definition_activity_01NLOSC2OMANV2RnluGhI5g9gWSq8nAU3jP",
-            "name": "Condition Branch",
-            "title": "True=True",
-            "type": "logic.condition_block",
-            "base_type": "activity",
-            "properties": {
-              "condition": {
-                "left_operand": "$workflow.definition_workflow_01NLOGX5XZWH36I4ILmqUiBywWOAxnScesV.output.instance_id$",
-                "operator": "eq",
-                "right_operand": "$workflow.definition_workflow_01NLOGX5XZWH36I4ILmqUiBywWOAxnScesV.output.instance_id$"
+              "schema_id": "datatype.integer",
+              "properties": {
+                  "value": 100,
+                  "scope": "local",
+                  "name": "Records Per Page",
+                  "type": "datatype.integer",
+                  "description": "How many event records to fetch per page",
+                  "is_required": false,
+                  "is_invisible": false
               },
-              "continue_on_failure": false,
-              "display_name": "True=True",
-              "skip_execution": false
-            },
-            "object_type": "definition_activity",
-            "actions": [
-              {
-                "unique_name": "definition_activity_01NLOO1BOLG090VSoBZiarPQr9rtYGucZPt",
-                "name": "Secure Endpoint - Get Events",
-                "title": "Secure Endpoint - Get Events",
-                "type": "workflow.atomic_workflow",
-                "base_type": "subworkflow",
-                "properties": {
-                  "continue_on_failure": false,
-                  "display_name": "Secure Endpoint - Get Events",
-                  "input": {
-                    "variable_workflow_01PP76FTIW76B6i8dsARoetEFjDV8PeExbc": "$activity.definition_activity_01NLOOESAHZ3L2jlh0BPrqbzPqCP6jsbfPZ.output.result$",
-                    "variable_workflow_01PP76FTIWBEE1vRRgKYgDMpmua9alDz5oL": "$workflow.definition_workflow_01NLOGX5XZWH36I4ILmqUiBywWOAxnScesV.local.variable_workflow_01NLOVBFP0V6F0RnLUZNy2oJh1Zpe2ex4hw$",
-                    "variable_workflow_01PP76FTIWCO51PbmnWtoPn7UnPPlCWmcKk": "",
-                    "variable_workflow_01PP76FTIWF081mpPdgdyGqtRJNVgp4aXvk": "1107296279",
-                    "variable_workflow_01PP76FTIWGCY73dmexNMVLCN0ZHBBhBW4d": "",
-                    "variable_workflow_01PP76FTIWHIT3p0c53p7gngfiLbXG6T3YX": "$workflow.definition_workflow_01NLOGX5XZWH36I4ILmqUiBywWOAxnScesV.local.variable_workflow_01NLOVHM6S1J257o9GIy4uhgVsAg3rVqOVV$"
-                  },
-                  "runtime_user": {
-                    "target_default": true
-                  },
-                  "skip_execution": false,
-                  "target": {
-                    "use_workflow_target_group": true
-                  },
-                  "workflow_id": "definition_workflow_01PP76FTQKEYW2dg8RXriNAf2EkkZ4Agqg9"
-                },
-                "object_type": "definition_activity"
+              "unique_name": "variable_workflow_01NLOVHM6S1J257o9GIy4uhgVsAg3rVqOVV",
+              "object_type": "variable_workflow"
+          },
+          {
+              "schema_id": "datatype.integer",
+              "properties": {
+                  "value": 0,
+                  "scope": "local",
+                  "name": "Page Offset",
+                  "type": "datatype.integer",
+                  "description": "The index of the first record to fetch from Secure Endpoint. This is set automatically",
+                  "is_required": false,
+                  "is_invisible": false
               },
-              {
-                "unique_name": "definition_activity_01NLOR040E1OF6hfJCph0YUxRkzV0xahh6i",
-                "name": "Read Table from JSON",
-                "title": "Convert events to table",
-                "type": "corejava.read_table_from_json",
-                "base_type": "activity",
-                "properties": {
-                  "action_timeout": 180,
-                  "continue_on_failure": false,
-                  "display_name": "Convert events to table",
-                  "input_json": "$activity.definition_activity_01NLOO1BOLG090VSoBZiarPQr9rtYGucZPt.output.variable_workflow_01PP76FTIWDTO0oCBTx9p4kTyE4bXcQlyDr$",
-                  "jsonpath_query": "$.data",
-                  "persist_output": false,
-                  "populate_columns": false,
-                  "skip_execution": false,
-                  "table_columns": [
-                    {
-                      "column_name": "connector_guid",
-                      "column_type": "string"
-                    },
-                    {
-                      "column_name": "severity",
-                      "column_type": "string"
-                    },
-                    {
-                      "column_name": "computer",
-                      "column_type": "string"
-                    },
-                    {
-                      "column_name": "vulnerabilities",
-                      "column_type": "string"
-                    }
-                  ]
-                },
-                "object_type": "definition_activity"
+              "unique_name": "variable_workflow_01NLOVBFP0V6F0RnLUZNy2oJh1Zpe2ex4hw",
+              "object_type": "variable_workflow"
+          },
+          {
+              "schema_id": "datatype.number",
+              "properties": {
+                  "value": 6.5,
+                  "scope": "local",
+                  "name": "CVE Score Threshold",
+                  "type": "datatype.number",
+                  "description": "The minimum score a vulnerability should have before being promoted to a ServiceNow incident. If at least one vulnerability for a given endpoint meets this threshold, all of its vulnerabilites will be included in the ticket",
+                  "is_required": false,
+                  "is_invisible": false
               },
-              {
-                "unique_name": "definition_activity_01NLOXNNGU8427csq1l19fIl65rEmtYlQHo",
-                "name": "For Each",
-                "title": "For each event",
-                "type": "logic.for_each",
-                "base_type": "activity",
-                "properties": {
+              "unique_name": "variable_workflow_01NLP82MVSO856OvN1Kj9Lxm3wneUkHeMeS",
+              "object_type": "variable_workflow"
+          }
+      ],
+      "properties": {
+          "atomic": {
+              "is_atomic": false
+          },
+          "delete_workflow_instance": false,
+          "description": "This workflow periodically checks for \"Vulnerable Application Detected\" events in Cisco Secure Endpoint. If events are found, the associated CVEs are checked to see if they meet the threshold configured in the workflow. If the threshold is met for at least one of the endpoint's vulnerabilities, a ServiceNow incident is opened. By default, the schedule trigger is disabled.\n\nDocumentation: http:\/\/ciscosecurity.github.io\/sxo-05-security-workflows\/workflows\/0021\n\nTarget Group: Default TargetGroup\n\nTargets: AMP_Target, ServiceNow\n\nSteps:\n[] Calculate the time 24 hours ago\n[] While there are events to process:\n[]> Get events from Secure Endpoint\n[]> Convert the events to a table\n[]> Loop through each event:\n[]>> Extract attributes from the event\n[]>> Convert the list of vulnerabilities to text\n[]>> Check if the CVE threshold was met. If it was, open a ServiceNow incident\n[]> Check if there's another page of events\n[]>> If there is, update the paging variables and continue\n[]>> If there isn't, end the workflow",
+          "display_name": "0021 - Secure Endpoint - Vulnerabilities to ServiceNow Incidents",
+          "runtime_user": {
+              "override_target_runtime_user": false,
+              "specify_on_workflow_start": false,
+              "target_default": true
+          },
+          "target": {
+              "execute_on_target_group": true,
+              "target_group": {
+                  "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+                  "run_on_all_targets": false,
+                  "selected_target_types": [
+                      "web-service.endpoint"
+                  ],
+                  "use_criteria": {
+                      "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                      "conditions": [
+                          {
+                              "operator": "eqi",
+                              "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                              "right_operand": "AMP_Target"
+                          }
+                      ]
+                  }
+              }
+          }
+      },
+      "object_type": "definition_workflow",
+      "actions": [
+          {
+              "unique_name": "definition_activity_01NLOOESAHZ3L2jlh0BPrqbzPqCP6jsbfPZ",
+              "name": "Calculate Date",
+              "title": "Calculate time 24 hours ago",
+              "type": "core.calculate_date",
+              "base_type": "activity",
+              "properties": {
+                  "adjustment": -86400,
                   "continue_on_failure": false,
-                  "display_name": "For each event",
-                  "skip_execution": false,
-                  "source_array": "$activity.definition_activity_01NLOR040E1OF6hfJCph0YUxRkzV0xahh6i.output.read_table_from_json$"
-                },
-                "object_type": "definition_activity",
-                "actions": [
+                  "display_name": "Calculate time 24 hours ago",
+                  "original_date": "$workflow.definition_workflow_01NLOGX5XZWH36I4ILmqUiBywWOAxnScesV.output.start_time$",
+                  "skip_execution": false
+              },
+              "object_type": "definition_activity"
+          },
+          {
+              "unique_name": "definition_activity_01NLOSBADXI4M4rS7YT3PjS1aEonQQTEONn",
+              "name": "While Loop",
+              "title": "While Loop",
+              "type": "logic.while",
+              "base_type": "activity",
+              "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "While Loop",
+                  "skip_execution": false
+              },
+              "object_type": "definition_activity",
+              "blocks": [
                   {
-                    "unique_name": "definition_activity_01NLOXW288VFR2ECg88BWP28rQfsh03jvPk",
-                    "name": "JSONPath Query",
-                    "title": "Extract computer attributes",
-                    "type": "corejava.jsonpathquery",
-                    "base_type": "activity",
-                    "properties": {
-                      "action_timeout": 180,
-                      "continue_on_failure": false,
-                      "display_name": "Extract computer attributes",
-                      "input_json": "$activity.definition_activity_01NLOXNNGU8427csq1l19fIl65rEmtYlQHo.input.source_array[@].computer$",
-                      "jsonpath_queries": [
-                        {
-                          "jsonpath_query": "$.hostname",
-                          "jsonpath_query_name": "hostname",
-                          "jsonpath_query_type": "string"
-                        },
-                        {
-                          "jsonpath_query": "$.network_addresses[0].ip",
-                          "jsonpath_query_name": "firstIp",
-                          "jsonpath_query_type": "string"
-                        },
-                        {
-                          "jsonpath_query": "$.links.computer",
-                          "jsonpath_query_name": "computerLink",
-                          "jsonpath_query_type": "string"
-                        }
-                      ],
-                      "skip_execution": false
-                    },
-                    "object_type": "definition_activity"
-                  },
-                  {
-                    "unique_name": "definition_activity_01NLPC0D6AYY8510VqRSGFTURduYYTnIeuF",
-                    "name": "Replace String",
-                    "title": "Tweak computer URL",
-                    "type": "core.replacestring",
-                    "base_type": "activity",
-                    "properties": {
-                      "continue_on_failure": false,
-                      "display_name": "Tweak computer URL",
-                      "input_string": "$activity.definition_activity_01NLOXW288VFR2ECg88BWP28rQfsh03jvPk.output.jsonpath_queries.computerLink$",
-                      "replace_list": [
-                        {
-                          "replaced_string": "api.",
-                          "replacement_string": ""
-                        },
-                        {
-                          "replaced_string": "v1/",
-                          "replacement_string": ""
-                        }
-                      ],
-                      "skip_execution": false
-                    },
-                    "object_type": "definition_activity"
-                  },
-                  {
-                    "unique_name": "definition_activity_01NLP2BK1WMOR55zd2amSMcXzlj7bNIMRvW",
-                    "name": "Execute Python Script",
-                    "title": "Convert vulnerability list to text",
-                    "type": "python3.script",
-                    "base_type": "activity",
-                    "properties": {
-                      "action_timeout": 180,
-                      "continue_on_failure": false,
-                      "display_name": "Convert vulnerability list to text",
-                      "script": "import json,sys\n\nvulnerabilities = json.loads(sys.argv[1])\nscoreThreshold = float(sys.argv[2])\nthresholdMet = False\noutString = '<table border=\"1\"><thead><tr><th>CVE</th><th>Score</th></tr></thead><tbody>'\n\nfor vulnerability in vulnerabilities:\n  if float(vulnerability['score']) >= scoreThreshold:\n    thresholdMet = True\n\n  outString = outString + '<tr><td><a href=\"' + vulnerability['url'] + '\" target=\"_blank\">' + vulnerability['cve'] + '</a></td><td>' + str(vulnerability['score']) + '</td></tr>'\n\noutString = outString + '</tbody></table>'",
-                      "script_arguments": [
-                        "$activity.definition_activity_01NLOXNNGU8427csq1l19fIl65rEmtYlQHo.input.source_array[@].vulnerabilities$",
-                        "$workflow.definition_workflow_01NLOGX5XZWH36I4ILmqUiBywWOAxnScesV.local.variable_workflow_01NLP82MVSO856OvN1Kj9Lxm3wneUkHeMeS$"
-                      ],
-                      "script_queries": [
-                        {
-                          "script_query": "thresholdMet",
-                          "script_query_name": "thresholdMet",
-                          "script_query_type": "boolean"
-                        },
-                        {
-                          "script_query": "outString",
-                          "script_query_name": "outString",
-                          "script_query_type": "string"
-                        }
-                      ],
-                      "skip_execution": false
-                    },
-                    "object_type": "definition_activity"
-                  },
-                  {
-                    "unique_name": "definition_activity_01NLP8VCP3BOG6vn9z7Qs2Jf7wjwhIDA8vN",
-                    "name": "Condition Block",
-                    "title": "Was the CVE score threshold met?",
-                    "type": "logic.if_else",
-                    "base_type": "activity",
-                    "properties": {
-                      "continue_on_failure": false,
-                      "display_name": "Was the CVE score threshold met?",
-                      "skip_execution": false
-                    },
-                    "object_type": "definition_activity",
-                    "blocks": [
-                      {
-                        "unique_name": "definition_activity_01NLP8WIC6GWM5OZRnjAbv4tWjMlsEkYtkD",
-                        "name": "Condition Branch",
-                        "title": "Yes",
-                        "type": "logic.condition_block",
-                        "base_type": "activity",
-                        "properties": {
+                      "unique_name": "definition_activity_01NLOSC2OMANV2RnluGhI5g9gWSq8nAU3jP",
+                      "name": "Condition Branch",
+                      "title": "True=True",
+                      "type": "logic.condition_block",
+                      "base_type": "activity",
+                      "properties": {
                           "condition": {
-                            "left_operand": "$activity.definition_activity_01NLP2BK1WMOR55zd2amSMcXzlj7bNIMRvW.output.script_queries.thresholdMet$",
-                            "operator": "eq",
-                            "right_operand": true
+                              "left_operand": "$workflow.definition_workflow_01NLOGX5XZWH36I4ILmqUiBywWOAxnScesV.output.instance_id$",
+                              "operator": "eq",
+                              "right_operand": "$workflow.definition_workflow_01NLOGX5XZWH36I4ILmqUiBywWOAxnScesV.output.instance_id$"
                           },
                           "continue_on_failure": false,
-                          "display_name": "Yes",
+                          "display_name": "True=True",
                           "skip_execution": false
-                        },
-                        "object_type": "definition_activity",
-                        "actions": [
+                      },
+                      "object_type": "definition_activity",
+                      "actions": [
                           {
-                            "unique_name": "definition_activity_01NLP2KPUGZ9Z4l69DzuSmreETryimF19Hw",
-                            "name": "ServiceNow - Create Incident",
-                            "title": "ServiceNow - Create Incident",
-                            "type": "workflow.atomic_workflow",
-                            "base_type": "subworkflow",
-                            "properties": {
-                              "continue_on_failure": false,
-                              "display_name": "ServiceNow - Create Incident",
-                              "input": {
-                                "variable_workflow_01C0CK2MY2SLG1FXph6ZHp7iHmRw1KvUFlN": "Computer with vulnerable software detected by Secure Endpoint",
-                                "variable_workflow_01FGYF0DUR8HV2TMpEKctsYjQR4mzjD5OTu": "Cisco Secure Endpoint has detected a known-vulnerable application running on an endpoint",
-                                "variable_workflow_01FGYGCZL5M2E1m1O5tvVVn0DVzVTLwytei": 2,
-                                "variable_workflow_01FGYGPFJYM4L5aVpzNOhRwMmzKJDofqufe": 2,
-                                "variable_workflow_01FGYGZ0OYYNM5pWjyyreMjNHDjusjNe8jx": "[code]<strong>Endpoint:</strong> <a href=\"$activity.definition_activity_01NLPC0D6AYY8510VqRSGFTURduYYTnIeuF.output.result_string$\" target=\"_blank\">$activity.definition_activity_01NLOXW288VFR2ECg88BWP28rQfsh03jvPk.output.jsonpath_queries.hostname$</a><br /><strong>IP Address:</strong> $activity.definition_activity_01NLOXW288VFR2ECg88BWP28rQfsh03jvPk.output.jsonpath_queries.firstIp$<br /><br />$activity.definition_activity_01NLP2BK1WMOR55zd2amSMcXzlj7bNIMRvW.output.script_queries.outString$[/code]",
-                                "variable_workflow_01FGYI8HES41K63G3UzMinBH3iApm37fBGt": "securex-orchestration",
-                                "variable_workflow_01FMQD0HIJIDU5kce0VNx4HQiMYjMfUvBlj": "v2"
+                              "unique_name": "definition_activity_01NLOO1BOLG090VSoBZiarPQr9rtYGucZPt",
+                              "name": "Secure Endpoint - Get Events",
+                              "title": "Secure Endpoint - Get Events",
+                              "type": "workflow.atomic_workflow",
+                              "base_type": "subworkflow",
+                              "properties": {
+                                  "continue_on_failure": false,
+                                  "display_name": "Secure Endpoint - Get Events",
+                                  "input": {
+                                      "variable_workflow_01PP76FTIW76B6i8dsARoetEFjDV8PeExbc": "$activity.definition_activity_01NLOOESAHZ3L2jlh0BPrqbzPqCP6jsbfPZ.output.result$",
+                                      "variable_workflow_01PP76FTIWBEE1vRRgKYgDMpmua9alDz5oL": "$workflow.definition_workflow_01NLOGX5XZWH36I4ILmqUiBywWOAxnScesV.local.variable_workflow_01NLOVBFP0V6F0RnLUZNy2oJh1Zpe2ex4hw$",
+                                      "variable_workflow_01PP76FTIWCO51PbmnWtoPn7UnPPlCWmcKk": "",
+                                      "variable_workflow_01PP76FTIWF081mpPdgdyGqtRJNVgp4aXvk": "1107296279",
+                                      "variable_workflow_01PP76FTIWGCY73dmexNMVLCN0ZHBBhBW4d": "",
+                                      "variable_workflow_01PP76FTIWHIT3p0c53p7gngfiLbXG6T3YX": "$workflow.definition_workflow_01NLOGX5XZWH36I4ILmqUiBywWOAxnScesV.local.variable_workflow_01NLOVHM6S1J257o9GIy4uhgVsAg3rVqOVV$"
+                                  },
+                                  "runtime_user": {
+                                      "target_default": true
+                                  },
+                                  "skip_execution": false,
+                                  "target": {
+                                      "use_workflow_target_group": true
+                                  },
+                                  "workflow_id": "definition_workflow_01PP76FTQKEYW2dg8RXriNAf2EkkZ4Agqg9",
+                                  "workflow_name": "Secure Endpoint - Get Events"
                               },
-                              "runtime_user": {
-                                "target_default": true
-                              },
-                              "skip_execution": false,
-                              "target": {
-                                "override_workflow_target_group_criteria": true,
-                                "target_group": {
-                                  "run_on_all_targets": false,
-                                  "use_criteria": {
-                                    "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-                                    "conditions": [
+                              "object_type": "definition_activity"
+                          },
+                          {
+                              "unique_name": "definition_activity_01NLOR040E1OF6hfJCph0YUxRkzV0xahh6i",
+                              "name": "Read Table from JSON",
+                              "title": "Convert events to table",
+                              "type": "corejava.read_table_from_json",
+                              "base_type": "activity",
+                              "properties": {
+                                  "action_timeout": 180,
+                                  "continue_on_failure": false,
+                                  "display_name": "Convert events to table",
+                                  "input_json": "$activity.definition_activity_01NLOO1BOLG090VSoBZiarPQr9rtYGucZPt.output.variable_workflow_01PP76FTIWDTO0oCBTx9p4kTyE4bXcQlyDr$",
+                                  "jsonpath_query": "$.data",
+                                  "persist_output": false,
+                                  "populate_columns": false,
+                                  "skip_execution": false,
+                                  "table_columns": [
                                       {
-                                        "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-                                        "operator": "eqi",
-                                        "right_operand": "ServiceNow"
+                                          "column_name": "connector_guid",
+                                          "column_type": "string"
+                                      },
+                                      {
+                                          "column_name": "severity",
+                                          "column_type": "string"
+                                      },
+                                      {
+                                          "column_name": "computer",
+                                          "column_type": "string"
+                                      },
+                                      {
+                                          "column_name": "vulnerabilities",
+                                          "column_type": "string"
                                       }
-                                    ]
-                                  }
-                                }
+                                  ]
                               },
-                              "workflow_id": "definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW"
-                            },
-                            "object_type": "definition_activity"
+                              "object_type": "definition_activity"
+                          },
+                          {
+                              "unique_name": "definition_activity_01NLOXNNGU8427csq1l19fIl65rEmtYlQHo",
+                              "name": "For Each",
+                              "title": "For each event",
+                              "type": "logic.for_each",
+                              "base_type": "activity",
+                              "properties": {
+                                  "continue_on_failure": false,
+                                  "display_name": "For each event",
+                                  "skip_execution": false,
+                                  "source_array": "$activity.definition_activity_01NLOR040E1OF6hfJCph0YUxRkzV0xahh6i.output.read_table_from_json$"
+                              },
+                              "object_type": "definition_activity",
+                              "actions": [
+                                  {
+                                      "unique_name": "definition_activity_01NLOXW288VFR2ECg88BWP28rQfsh03jvPk",
+                                      "name": "JSONPath Query",
+                                      "title": "Extract computer attributes",
+                                      "type": "corejava.jsonpathquery",
+                                      "base_type": "activity",
+                                      "properties": {
+                                          "action_timeout": 180,
+                                          "continue_on_failure": false,
+                                          "display_name": "Extract computer attributes",
+                                          "input_json": "$activity.definition_activity_01NLOXNNGU8427csq1l19fIl65rEmtYlQHo.input.source_array[@].computer$",
+                                          "jsonpath_queries": [
+                                              {
+                                                  "jsonpath_query": "$.hostname",
+                                                  "jsonpath_query_name": "hostname",
+                                                  "jsonpath_query_type": "string"
+                                              },
+                                              {
+                                                  "jsonpath_query": "$.network_addresses[0].ip",
+                                                  "jsonpath_query_name": "firstIp",
+                                                  "jsonpath_query_type": "string"
+                                              },
+                                              {
+                                                  "jsonpath_query": "$.links.computer",
+                                                  "jsonpath_query_name": "computerLink",
+                                                  "jsonpath_query_type": "string"
+                                              }
+                                          ],
+                                          "skip_execution": false
+                                      },
+                                      "object_type": "definition_activity"
+                                  },
+                                  {
+                                      "unique_name": "definition_activity_01NLPC0D6AYY8510VqRSGFTURduYYTnIeuF",
+                                      "name": "Replace String",
+                                      "title": "Tweak computer URL",
+                                      "type": "core.replacestring",
+                                      "base_type": "activity",
+                                      "properties": {
+                                          "continue_on_failure": false,
+                                          "display_name": "Tweak computer URL",
+                                          "input_string": "$activity.definition_activity_01NLOXW288VFR2ECg88BWP28rQfsh03jvPk.output.jsonpath_queries.computerLink$",
+                                          "replace_list": [
+                                              {
+                                                  "replaced_string": "api.",
+                                                  "replacement_string": ""
+                                              },
+                                              {
+                                                  "replaced_string": "v1\/",
+                                                  "replacement_string": ""
+                                              }
+                                          ],
+                                          "skip_execution": false
+                                      },
+                                      "object_type": "definition_activity"
+                                  },
+                                  {
+                                      "unique_name": "definition_activity_01NLP2BK1WMOR55zd2amSMcXzlj7bNIMRvW",
+                                      "name": "Execute Python Script",
+                                      "title": "Convert vulnerability list to text",
+                                      "type": "python3.script",
+                                      "base_type": "activity",
+                                      "properties": {
+                                          "action_timeout": 180,
+                                          "continue_on_failure": false,
+                                          "display_name": "Convert vulnerability list to text",
+                                          "script": "import json,sys\n\nvulnerabilities = json.loads(sys.argv[1])\nscoreThreshold = float(sys.argv[2])\nthresholdMet = False\noutString = '<table border=\"1\"><thead><tr><th>CVE<\/th><th>Score<\/th><\/tr><\/thead><tbody>'\n\nfor vulnerability in vulnerabilities:\n  if float(vulnerability['score']) >= scoreThreshold:\n    thresholdMet = True\n\n  outString = outString + '<tr><td><a href=\"' + vulnerability['url'] + '\" target=\"_blank\">' + vulnerability['cve'] + '<\/a><\/td><td>' + str(vulnerability['score']) + '<\/td><\/tr>'\n\noutString = outString + '<\/tbody><\/table>'",
+                                          "script_arguments": [
+                                              "$activity.definition_activity_01NLOXNNGU8427csq1l19fIl65rEmtYlQHo.input.source_array[@].vulnerabilities$",
+                                              "$workflow.definition_workflow_01NLOGX5XZWH36I4ILmqUiBywWOAxnScesV.local.variable_workflow_01NLP82MVSO856OvN1Kj9Lxm3wneUkHeMeS$"
+                                          ],
+                                          "script_queries": [
+                                              {
+                                                  "script_query": "thresholdMet",
+                                                  "script_query_name": "thresholdMet",
+                                                  "script_query_type": "boolean"
+                                              },
+                                              {
+                                                  "script_query": "outString",
+                                                  "script_query_name": "outString",
+                                                  "script_query_type": "string"
+                                              }
+                                          ],
+                                          "skip_execution": false
+                                      },
+                                      "object_type": "definition_activity"
+                                  },
+                                  {
+                                      "unique_name": "definition_activity_01NLP8VCP3BOG6vn9z7Qs2Jf7wjwhIDA8vN",
+                                      "name": "Condition Block",
+                                      "title": "Was the CVE score threshold met?",
+                                      "type": "logic.if_else",
+                                      "base_type": "activity",
+                                      "properties": {
+                                          "continue_on_failure": false,
+                                          "display_name": "Was the CVE score threshold met?",
+                                          "skip_execution": false
+                                      },
+                                      "object_type": "definition_activity",
+                                      "blocks": [
+                                          {
+                                              "unique_name": "definition_activity_01NLP8WIC6GWM5OZRnjAbv4tWjMlsEkYtkD",
+                                              "name": "Condition Branch",
+                                              "title": "Yes",
+                                              "type": "logic.condition_block",
+                                              "base_type": "activity",
+                                              "properties": {
+                                                  "condition": {
+                                                      "left_operand": "$activity.definition_activity_01NLP2BK1WMOR55zd2amSMcXzlj7bNIMRvW.output.script_queries.thresholdMet$",
+                                                      "operator": "eq",
+                                                      "right_operand": true
+                                                  },
+                                                  "continue_on_failure": false,
+                                                  "display_name": "Yes",
+                                                  "skip_execution": false
+                                              },
+                                              "object_type": "definition_activity",
+                                              "actions": [
+                                                  {
+                                                      "unique_name": "definition_activity_01NLP2KPUGZ9Z4l69DzuSmreETryimF19Hw",
+                                                      "name": "ServiceNow - Create Incident",
+                                                      "title": "ServiceNow - Create Incident",
+                                                      "type": "workflow.atomic_workflow",
+                                                      "base_type": "subworkflow",
+                                                      "properties": {
+                                                          "continue_on_failure": false,
+                                                          "display_name": "ServiceNow - Create Incident",
+                                                          "input": {
+                                                              "variable_workflow_01C0CK2MY2SLG1FXph6ZHp7iHmRw1KvUFlN": "Computer with vulnerable software detected by Secure Endpoint",
+                                                              "variable_workflow_01FGYF0DUR8HV2TMpEKctsYjQR4mzjD5OTu": "Cisco Secure Endpoint has detected a known-vulnerable application running on an endpoint",
+                                                              "variable_workflow_01FGYGCZL5M2E1m1O5tvVVn0DVzVTLwytei": 2,
+                                                              "variable_workflow_01FGYGPFJYM4L5aVpzNOhRwMmzKJDofqufe": 2,
+                                                              "variable_workflow_01FGYGZ0OYYNM5pWjyyreMjNHDjusjNe8jx": "[code]<strong>Endpoint:<\/strong> <a href=\"$activity.definition_activity_01NLPC0D6AYY8510VqRSGFTURduYYTnIeuF.output.result_string$\" target=\"_blank\">$activity.definition_activity_01NLOXW288VFR2ECg88BWP28rQfsh03jvPk.output.jsonpath_queries.hostname$<\/a><br \/><strong>IP Address:<\/strong> $activity.definition_activity_01NLOXW288VFR2ECg88BWP28rQfsh03jvPk.output.jsonpath_queries.firstIp$<br \/><br \/>$activity.definition_activity_01NLP2BK1WMOR55zd2amSMcXzlj7bNIMRvW.output.script_queries.outString$[\/code]",
+                                                              "variable_workflow_01FGYI8HES41K63G3UzMinBH3iApm37fBGt": "securex-orchestration",
+                                                              "variable_workflow_01FMQD0HIJIDU5kce0VNx4HQiMYjMfUvBlj": "v2"
+                                                          },
+                                                          "runtime_user": {
+                                                              "target_default": true
+                                                          },
+                                                          "skip_execution": false,
+                                                          "target": {
+                                                              "override_workflow_target_group_criteria": true,
+                                                              "target_group": {
+                                                                  "run_on_all_targets": false,
+                                                                  "use_criteria": {
+                                                                      "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                                                      "conditions": [
+                                                                          {
+                                                                              "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                                                              "operator": "eqi",
+                                                                              "right_operand": "ServiceNow"
+                                                                          }
+                                                                      ]
+                                                                  }
+                                                              }
+                                                          },
+                                                          "workflow_id": "definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW",
+                                                          "workflow_name": "ServiceNow - Create Incident"
+                                                      },
+                                                      "object_type": "definition_activity"
+                                                  }
+                                              ]
+                                          }
+                                      ]
+                                  }
+                              ]
+                          },
+                          {
+                              "unique_name": "definition_activity_01NLOT0OXD65Z6ti3kVQ2EugdGbnIzBSYL2",
+                              "name": "JSONPath Query",
+                              "title": "Check if there's a next page",
+                              "type": "corejava.jsonpathquery",
+                              "base_type": "activity",
+                              "properties": {
+                                  "action_timeout": 180,
+                                  "continue_on_failure": true,
+                                  "display_name": "Check if there's a next page",
+                                  "input_json": "$activity.definition_activity_01NLOO1BOLG090VSoBZiarPQr9rtYGucZPt.output.variable_workflow_01PP76FTIWDTO0oCBTx9p4kTyE4bXcQlyDr$",
+                                  "jsonpath_queries": [
+                                      {
+                                          "jsonpath_query": "$.metadata.links.next",
+                                          "jsonpath_query_name": "nextTest",
+                                          "jsonpath_query_type": "string"
+                                      }
+                                  ],
+                                  "skip_execution": false
+                              },
+                              "object_type": "definition_activity"
+                          },
+                          {
+                              "unique_name": "definition_activity_01NLOW7W3KMKD4oni9OipslDOIsUFNDF1nG",
+                              "name": "Condition Block",
+                              "title": "Is there a next page?",
+                              "type": "logic.if_else",
+                              "base_type": "activity",
+                              "properties": {
+                                  "continue_on_failure": false,
+                                  "display_name": "Is there a next page?",
+                                  "skip_execution": false
+                              },
+                              "object_type": "definition_activity",
+                              "blocks": [
+                                  {
+                                      "unique_name": "definition_activity_01NLOW8NT38Q57jdXytCJ8ZIP2EPpg57XrC",
+                                      "name": "Condition Branch",
+                                      "title": "Yes",
+                                      "type": "logic.condition_block",
+                                      "base_type": "activity",
+                                      "properties": {
+                                          "condition": {
+                                              "left_operand": "$activity.definition_activity_01NLOT0OXD65Z6ti3kVQ2EugdGbnIzBSYL2.output.succeeded$",
+                                              "operator": "eq",
+                                              "right_operand": true
+                                          },
+                                          "continue_on_failure": false,
+                                          "display_name": "Yes",
+                                          "skip_execution": false
+                                      },
+                                      "object_type": "definition_activity",
+                                      "actions": [
+                                          {
+                                              "unique_name": "definition_activity_01NLOWYDTGQKT2A2Oiz9eZXYrdTjs1kscdj",
+                                              "name": "Set Variables",
+                                              "title": "Update paging variables",
+                                              "type": "core.set_multiple_variables",
+                                              "base_type": "activity",
+                                              "properties": {
+                                                  "continue_on_failure": false,
+                                                  "display_name": "Update paging variables",
+                                                  "skip_execution": false,
+                                                  "variables_to_update": [
+                                                      {
+                                                          "variable_to_update": "$workflow.definition_workflow_01NLOGX5XZWH36I4ILmqUiBywWOAxnScesV.local.variable_workflow_01NLOVBFP0V6F0RnLUZNy2oJh1Zpe2ex4hw$",
+                                                          "variable_value_new": "($workflow.definition_workflow_01NLOGX5XZWH36I4ILmqUiBywWOAxnScesV.local.variable_workflow_01NLOVBFP0V6F0RnLUZNy2oJh1Zpe2ex4hw$+$workflow.definition_workflow_01NLOGX5XZWH36I4ILmqUiBywWOAxnScesV.local.variable_workflow_01NLOVHM6S1J257o9GIy4uhgVsAg3rVqOVV$)"
+                                                      }
+                                                  ]
+                                              },
+                                              "object_type": "definition_activity"
+                                          }
+                                      ]
+                                  },
+                                  {
+                                      "unique_name": "definition_activity_01NLOWP62CTZF6KedcygCPHdPJnTOdhXa02",
+                                      "name": "Condition Branch",
+                                      "title": "No",
+                                      "type": "logic.condition_block",
+                                      "base_type": "activity",
+                                      "properties": {
+                                          "condition": {
+                                              "left_operand": "$activity.definition_activity_01NLOT0OXD65Z6ti3kVQ2EugdGbnIzBSYL2.output.succeeded$",
+                                              "operator": "eq",
+                                              "right_operand": false
+                                          },
+                                          "continue_on_failure": false,
+                                          "display_name": "No",
+                                          "skip_execution": false
+                                      },
+                                      "object_type": "definition_activity",
+                                      "actions": [
+                                          {
+                                              "unique_name": "definition_activity_01NLQKHUYFBSZ372OLOQTCNZhaWyAVWQjkV",
+                                              "name": "Completed",
+                                              "title": "Completed",
+                                              "type": "logic.completed",
+                                              "base_type": "activity",
+                                              "properties": {
+                                                  "completion_type": "succeeded",
+                                                  "continue_on_failure": false,
+                                                  "display_name": "Completed",
+                                                  "skip_execution": false
+                                              },
+                                              "object_type": "definition_activity"
+                                          }
+                                      ]
+                                  }
+                              ]
                           }
-                        ]
-                      }
-                    ]
+                      ]
                   }
-                ]
-              },
-              {
-                "unique_name": "definition_activity_01NLOT0OXD65Z6ti3kVQ2EugdGbnIzBSYL2",
-                "name": "JSONPath Query",
-                "title": "Check if there's a next page",
-                "type": "corejava.jsonpathquery",
-                "base_type": "activity",
-                "properties": {
-                  "action_timeout": 180,
-                  "continue_on_failure": true,
-                  "display_name": "Check if there's a next page",
-                  "input_json": "$activity.definition_activity_01NLOO1BOLG090VSoBZiarPQr9rtYGucZPt.output.variable_workflow_01PP76FTIWDTO0oCBTx9p4kTyE4bXcQlyDr$",
-                  "jsonpath_queries": [
-                    {
-                      "jsonpath_query": "$.metadata.links.next",
-                      "jsonpath_query_name": "nextTest",
-                      "jsonpath_query_type": "string"
-                    }
-                  ],
-                  "skip_execution": false
-                },
-                "object_type": "definition_activity"
-              },
-              {
-                "unique_name": "definition_activity_01NLOW7W3KMKD4oni9OipslDOIsUFNDF1nG",
-                "name": "Condition Block",
-                "title": "Is there a next page?",
-                "type": "logic.if_else",
-                "base_type": "activity",
-                "properties": {
-                  "continue_on_failure": false,
-                  "display_name": "Is there a next page?",
-                  "skip_execution": false
-                },
-                "object_type": "definition_activity",
-                "blocks": [
-                  {
-                    "unique_name": "definition_activity_01NLOW8NT38Q57jdXytCJ8ZIP2EPpg57XrC",
-                    "name": "Condition Branch",
-                    "title": "Yes",
-                    "type": "logic.condition_block",
-                    "base_type": "activity",
-                    "properties": {
-                      "condition": {
-                        "left_operand": "$activity.definition_activity_01NLOT0OXD65Z6ti3kVQ2EugdGbnIzBSYL2.output.succeeded$",
-                        "operator": "eq",
-                        "right_operand": true
-                      },
-                      "continue_on_failure": false,
-                      "display_name": "Yes",
-                      "skip_execution": false
-                    },
-                    "object_type": "definition_activity",
-                    "actions": [
-                      {
-                        "unique_name": "definition_activity_01NLOWYDTGQKT2A2Oiz9eZXYrdTjs1kscdj",
-                        "name": "Set Variables",
-                        "title": "Update paging variables",
-                        "type": "core.set_multiple_variables",
-                        "base_type": "activity",
-                        "properties": {
-                          "continue_on_failure": false,
-                          "display_name": "Update paging variables",
-                          "skip_execution": false,
-                          "variables_to_update": [
-                            {
-                              "variable_to_update": "$workflow.definition_workflow_01NLOGX5XZWH36I4ILmqUiBywWOAxnScesV.local.variable_workflow_01NLOVBFP0V6F0RnLUZNy2oJh1Zpe2ex4hw$",
-                              "variable_value_new": "($workflow.definition_workflow_01NLOGX5XZWH36I4ILmqUiBywWOAxnScesV.local.variable_workflow_01NLOVBFP0V6F0RnLUZNy2oJh1Zpe2ex4hw$+$workflow.definition_workflow_01NLOGX5XZWH36I4ILmqUiBywWOAxnScesV.local.variable_workflow_01NLOVHM6S1J257o9GIy4uhgVsAg3rVqOVV$)"
-                            }
-                          ]
-                        },
-                        "object_type": "definition_activity"
-                      }
-                    ]
-                  },
-                  {
-                    "unique_name": "definition_activity_01NLOWP62CTZF6KedcygCPHdPJnTOdhXa02",
-                    "name": "Condition Branch",
-                    "title": "No",
-                    "type": "logic.condition_block",
-                    "base_type": "activity",
-                    "properties": {
-                      "condition": {
-                        "left_operand": "$activity.definition_activity_01NLOT0OXD65Z6ti3kVQ2EugdGbnIzBSYL2.output.succeeded$",
-                        "operator": "eq",
-                        "right_operand": false
-                      },
-                      "continue_on_failure": false,
-                      "display_name": "No",
-                      "skip_execution": false
-                    },
-                    "object_type": "definition_activity",
-                    "actions": [
-                      {
-                        "unique_name": "definition_activity_01NLQKHUYFBSZ372OLOQTCNZhaWyAVWQjkV",
-                        "name": "Completed",
-                        "title": "Completed",
-                        "type": "logic.completed",
-                        "base_type": "activity",
-                        "properties": {
-                          "completion_type": "succeeded",
-                          "continue_on_failure": false,
-                          "display_name": "Completed",
-                          "skip_execution": false
-                        },
-                        "object_type": "definition_activity"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
+              ]
           }
-        ]
-      }
-    ],
-    "categories": [
-      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
-    ]
+      ],
+      "categories": [
+          "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+      ]
   },
   "triggers": {
-    "triggerschedule_01NLPU090RXZJ3xJG2GO739Q10SNeVquP0M": {
-      "workflow_id": "definition_workflow_01NLOGX5XZWH36I4ILmqUiBywWOAxnScesV",
-      "name": "Secure Endpoint Event Polling",
-      "title": "",
-      "lowercase_name": "schedule.secure_endpoint_event_polling",
-      "type": "schedule",
-      "base_type": "trigger",
-      "ref_id": "schedule_01NLPPIQAY2L76MwcyKBSnNQxlx53dDyuhj",
-      "version": "1.0.0",
-      "disabled": true,
-      "unique_name": "triggerschedule_01NLPU090RXZJ3xJG2GO739Q10SNeVquP0M",
-      "object_type": "triggerschedule"
-    }
+      "triggerschedule_01NLPU090RXZJ3xJG2GO739Q10SNeVquP0M": {
+          "workflow_id": "definition_workflow_01NLOGX5XZWH36I4ILmqUiBywWOAxnScesV",
+          "name": "Secure Endpoint Event Polling",
+          "title": "",
+          "lowercase_name": "schedule.secure_endpoint_event_polling",
+          "type": "schedule",
+          "base_type": "trigger",
+          "ref_id": "schedule_01NLPPIQAY2L76MwcyKBSnNQxlx53dDyuhj",
+          "version": "1.0.0",
+          "disabled": true,
+          "unique_name": "triggerschedule_01NLPU090RXZJ3xJG2GO739Q10SNeVquP0M",
+          "object_type": "triggerschedule"
+      }
   },
   "schedules": {
-    "schedule_01NLPPIQAY2L76MwcyKBSnNQxlx53dDyuhj": {
-      "unique_name": "schedule_01NLPPIQAY2L76MwcyKBSnNQxlx53dDyuhj",
-      "name": "0021 - Secure Endpoint - Vulnerabilities to ServiceNow Incidents",
-      "description": "This schedule is used to check for new SecureX vulnerable application detection events in Secure Endpoint",
-      "type": "basic.schedule",
-      "base_type": "schedule",
-      "properties": {
-        "calendar": "calendar_recurring_1BMfMWvgiDhSjBQ7hTSyvz3NyVZ",
-        "timezone": "Etc/GMT+0",
-        "starttime": "02:00",
-        "interval_hours": 0,
-        "interval_minutes": 0,
-        "number_of_times": 1,
-        "display_name": "0021 - Secure Endpoint - Vulnerabilities to ServiceNow Incidents",
-        "description": "This schedule is used to check for new SecureX vulnerable application detection events in Secure Endpoint"
-      },
-      "version": "1.0.0",
-      "object_type": "schedule"
-    }
+      "schedule_01NLPPIQAY2L76MwcyKBSnNQxlx53dDyuhj": {
+          "unique_name": "schedule_01NLPPIQAY2L76MwcyKBSnNQxlx53dDyuhj",
+          "name": "0021 - Secure Endpoint - Vulnerabilities to ServiceNow Incidents",
+          "description": "This schedule is used to check for new SecureX vulnerable application detection events in Secure Endpoint",
+          "type": "basic.schedule",
+          "base_type": "schedule",
+          "properties": {
+              "calendar": "calendar_recurring_1BMfMWvgiDhSjBQ7hTSyvz3NyVZ",
+              "timezone": "Etc\/GMT+0",
+              "starttime": "02:00",
+              "interval_hours": 0,
+              "interval_minutes": 0,
+              "number_of_times": 1,
+              "display_name": "0021 - Secure Endpoint - Vulnerabilities to ServiceNow Incidents",
+              "description": "This schedule is used to check for new SecureX vulnerable application detection events in Secure Endpoint"
+          },
+          "version": "1.0.0",
+          "object_type": "schedule"
+      }
   },
   "target_groups": {
-    "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
-      "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
-      "name": "Default TargetGroup",
-      "title": "Default TargetGroup",
-      "type": "generic.target_group",
-      "base_type": "target_group",
-      "version": "1.0.0",
-      "targets": [
-        {
-          "data_target_type": "web-service.endpoint",
-          "view_target_type": "web-service.endpoint",
-          "include_all_targets": true
-        },
-        {
-          "data_target_type": "email.smtp_endpoint",
-          "view_target_type": "email.smtp_endpoint",
-          "include_all_targets": true
-        }
-      ],
-      "object_type": "target_group"
-    }
+      "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+          "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+          "name": "Default TargetGroup",
+          "title": "Default TargetGroup",
+          "type": "generic.target_group",
+          "base_type": "target_group",
+          "version": "1.0.0",
+          "targets": [
+              {
+                  "data_target_type": "web-service.endpoint",
+                  "view_target_type": "web-service.endpoint",
+                  "include_all_targets": true
+              },
+              {
+                  "data_target_type": "email.smtp_endpoint",
+                  "view_target_type": "email.smtp_endpoint",
+                  "include_all_targets": true
+              }
+          ],
+          "object_type": "target_group"
+      }
   },
   "atomic_workflows": [
-    "definition_workflow_01PP76FTQKEYW2dg8RXriNAf2EkkZ4Agqg9",
-    "definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW"
+      "definition_workflow_01PP76FTQKEYW2dg8RXriNAf2EkkZ4Agqg9",
+      "definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW"
+  ],
+  "dependent_workflows": [
+      "definition_workflow_01PP76FTQKEYW2dg8RXriNAf2EkkZ4Agqg9",
+      "definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW"
   ]
 }

@@ -16,6 +16,8 @@ Workflow #0023
 
 This workflow fetches request per category statistics from Cisco Umbrella for a 1 hour window. If any of the categories had a request count higher than the threshold configured in the workflow, an incident is created in Cisco SecureX.
 
+<div class="cisco-alert cisco-alert-info"><i class="fa fa-info-circle mr-1 cisco-icon-info"></i> This workflow has been updated to use the new "SecureX Token" account key. For more information about this, please see <a href="{{ site.baseurl }}/account-keys/securex-token">this page</a>. If you want to use legacy authentication, you can import an older version of the workflow.</div>
+
 [<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0023-Umbrella-ExcessiveRequestsToIncidents__definition_workflow_01NOZNOLQGMUL2K59yNj2rcOYLAsvxkoKuD){: .btn-cisco-outline }
 
 ---
@@ -28,6 +30,7 @@ This workflow fetches request per category statistics from Cisco Umbrella for a 
 | Jun 14, 2021 | - Additional error handling |
 | Sep 10, 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
 | Jul 25, 2022 | - Updated to enable sensitive header redirection for Umbrella APIs ([Issue #176]({{ site.github.repository_url }}/issues/176)) |
+| Sep 1, 2022 | - Updated to support [SecureX Tokens]({{ site.baseurl }}/account-keys/securex-token) |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 
@@ -36,7 +39,6 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 ## Requirements
 * The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
 	* Threat Response - Create Incident
-	* Threat Response - Generate Access Token
 	* Umbrella - Reporting v2 - Get Token
 * The following atomic actions must be imported before you can import this workflow:
 	* None
@@ -76,8 +78,7 @@ Target Group: `Default TargetGroup`
 
 | Target Name | Type | Details | Account Keys | Notes |
 |:------------|:-----|:--------|:-------------|:------|
-| [CTR_For_Access_Token]({{ site.baseurl }}/targets/default#ctr_for_access_token) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `visibility.amp.cisco.com`<br />_Path:_ `/iroh` | CTR_Credentials | Created by default |
-| [Private_CTIA_Target]({{ site.baseurl }}/targets/default#private_ctia_target) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `private.intel.amp.cisco.com`<br />_Path:_ None | None | Created by default |
+| [Private_CTIA_Target]({{ site.baseurl }}/targets/default#private_ctia_target) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `private.intel.amp.cisco.com`<br />_Path:_ None | CTR_Credentials | Created by default |
 | Umbrella OAuth | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `management.api.umbrella.com`<br />_Path:_ None | Umbrella Reporting | |
 | Umbrella Reporting v2 | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `reports.api.umbrella.com`<br />_Path:_ None | None | |
 
@@ -88,5 +89,5 @@ Target Group: `Default TargetGroup`
 
 | Account Key Name | Type | Details | Notes |
 |:-----------------|:-----|:--------|:------|
-| [CTR_Credentials]({{ site.baseurl }}/account-keys/default#ctr_credentials) | HTTP Basic Authentication | _Username:_ Client ID<br />_Password:_ Client Secret | Created by default |
+| [CTR_Credentials]({{ site.baseurl }}/account-keys/default#ctr_credentials) | SecureX Token | | See [this page]({{ site.baseurl }}/account-keys/securex-token) |
 | Umbrella Reporting | HTTP Basic Authentication | _Username:_ Client ID<br />_Password:_ Client Secret | Must be an API client for the reporting API |
