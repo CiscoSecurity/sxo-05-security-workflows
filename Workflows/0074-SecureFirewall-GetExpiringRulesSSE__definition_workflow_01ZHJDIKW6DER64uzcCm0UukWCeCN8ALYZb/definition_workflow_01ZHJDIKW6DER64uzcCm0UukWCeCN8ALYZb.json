@@ -1,0 +1,2012 @@
+{
+    "workflow": {
+        "unique_name": "definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb",
+        "name": "0074 - Secure Firewall - Get Expiring Rules (SSE)",
+        "title": "0074 - Secure Firewall - Get Expiring Rules (SSE)",
+        "type": "generic.workflow",
+        "base_type": "workflow",
+        "variables": [
+            {
+                "schema_id": "datatype.boolean",
+                "properties": {
+                    "value": true,
+                    "scope": "local",
+                    "name": "Check For Expired Rules",
+                    "type": "datatype.boolean",
+                    "description": "Whether or not to check for rules which have already expired",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01ZHJDIL7L7JG58RBjmfp5Cic2fINfYigvk",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "e276abec-e0f2-11e3-8169-6d9ed49b625f",
+                    "scope": "local",
+                    "name": "Domain UUID",
+                    "type": "datatype.string",
+                    "description": "The UUID of the FMC domain to modify objects for. You can leave this as the default UUID if you only have one default domain",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01ZHJSU1B73MY5czP0jGGIblDYtBkWXV32L",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.integer",
+                "properties": {
+                    "value": 30,
+                    "scope": "local",
+                    "name": "Expiring Soon Time Period",
+                    "type": "datatype.integer",
+                    "description": "The time period within which a rule is considered to be expiring soon. For example, if you set this to 7 days, any rule expiring within 7 days will be considered \"expiring soon.\" Note: This should match the workflow's scheduled execution interval",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01ZHJDIL7KROF1eVnzi2mf8NU4gV0tZb5uG",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "",
+                    "scope": "local",
+                    "name": "Webex Room Name",
+                    "type": "datatype.string",
+                    "description": "The name of the Webex room to post messages to. If using a bot, make sure to invite your bot to the room before attempting to send messages",
+                    "is_required": true,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01ZHJDIL7IQ4I2oJJJr7lAwGa0lhp39Yfih",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "",
+                    "scope": "local",
+                    "name": "Device ID",
+                    "type": "datatype.string",
+                    "description": "ID of the device to send the command to in SSE. This can be obtained from the device's summary page in SSE, the Devices page in the Administration section of SecureX, or by using the \"SecureX - SSE Proxy - List Devices\" atomic",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01ZHK8CCRZGUP75clQ5fyawDoesU4drddeq",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "",
+                    "scope": "local",
+                    "name": "Expiring Rules",
+                    "type": "datatype.string",
+                    "description": "Placeholder for rules that expire soon. This will be populated automatically",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01ZHJDIL7JLKY5puHbLhbqdqtZNz14vivQx",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.integer",
+                "properties": {
+                    "value": 0,
+                    "scope": "local",
+                    "name": "Rule Offset",
+                    "type": "datatype.integer",
+                    "description": "Placeholder used to keep track of which page of results has been fetched. This will be populated automatically",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01ZHJDIL7L0D03ZjHIQZdfhwlHdfSftfAiN",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.secure_string",
+                "properties": {
+                    "value": "",
+                    "scope": "local",
+                    "name": "Webex Access Token",
+                    "type": "datatype.secure_string",
+                    "description": "The access token to use to authenticate to the Webex API. Information about using a bot, which is what we recommend, can be found here: https:\/\/developer.webex.com\/docs\/bots",
+                    "is_required": true,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01ZHJDIL7JT7750RwItQMvzyGz5KNPj1Mni",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "",
+                    "scope": "local",
+                    "name": "Error Message",
+                    "type": "datatype.string",
+                    "description": "Placeholder for error messages. This will be populated automatically",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01ZHJDIL7K16Z3iwFU97DX4zBhKRZ1wJrGT",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "",
+                    "scope": "local",
+                    "name": "Results",
+                    "type": "datatype.string",
+                    "description": "Placeholder for workflow results. This will be populated automatically",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01ZHJDIL7KBIC4SEQsP9FGxA1p2UjUhEdMc",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "",
+                    "scope": "local",
+                    "name": "Expired Rules",
+                    "type": "datatype.string",
+                    "description": "Placeholder for expired rules. This will be populated automatically",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01ZHJDIL7J1T01Lvj2Uj4wcakoMCLAvkwGm",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "",
+                    "scope": "local",
+                    "name": "Secure Firewall Management Center URL",
+                    "type": "datatype.string",
+                    "description": "The Secure Firewall Management Center URL. Example: https:\/\/securefirewall.yourcompany.com",
+                    "is_required": true,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01ZHJDIL7KJW60MkWCijYvcQqyFZ2feGEv3",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "",
+                    "scope": "local",
+                    "name": "Workflow URL",
+                    "type": "datatype.string",
+                    "description": "Placeholder used to build the URL of the workflow instance. This will be populated automatically",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01ZHJDIL7JAEU4r7YCporxWdTCF96boje9M",
+                "object_type": "variable_workflow"
+            }
+        ],
+        "properties": {
+            "atomic": {
+                "is_atomic": false
+            },
+            "delete_workflow_instance": false,
+            "description": "This workflow searches up to 500 Cisco Secure Firewall Management Center policies for time-based rules that are set to expire within the configured expiry time. If expired or soon-to-expire rules are found, a message is posted in Webex with the rule details.\n\nNote: This workflow uses the SecureX SSE API Proxy. See the workflow documentation for more information.\n\nNote: This workflow has been updated to support SecureX Token account keys. See the workflow documentation for more information.\n\nDocumentation: http:\/\/ciscosecurity.github.io\/sxo-05-security-workflows\/workflows\/0074\n\nTarget Group: Default TargetGroup\n\nTargets: CTR_API, Webex Teams\n\nSteps:\n[] Validate required settings\n[] Get time-range objects\n[] Get access policies\n[] For each policy:\n[]> Check each rule for time-based objects\n[]> If time-based objects are found in rule:\n[]>> Calculate the expiry time and append to the workflow output as needed\n[] Finalize the output of the workflow based on what was found\n[]> Post message to Webex",
+            "display_name": "0074 - Secure Firewall - Get Expiring Rules (SSE)",
+            "runtime_user": {
+                "target_default": true
+            },
+            "target": {
+                "execute_on_target_group": true,
+                "target_group": {
+                    "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+                    "run_on_all_targets": false,
+                    "selected_target_types": [
+                        "web-service.endpoint"
+                    ],
+                    "use_criteria": {
+                        "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                        "conditions": [
+                            {
+                                "operator": "eqi",
+                                "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                "right_operand": "CTR_API"
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        "object_type": "definition_workflow",
+        "actions": [
+            {
+                "unique_name": "definition_activity_01ZHJDIQGED2R2zkIxkMbidOWanIQsVKAxL",
+                "name": "Group",
+                "title": "Fetch Global Variables",
+                "type": "logic.group",
+                "base_type": "activity",
+                "properties": {
+                    "continue_on_failure": false,
+                    "display_name": "Fetch Global Variables",
+                    "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                    {
+                        "unique_name": "definition_activity_01ZHJDIRW9TKO3nrWoMXNE45hGJhL6jmjLk",
+                        "name": "Set Variables",
+                        "title": "Update Local Variables",
+                        "type": "core.set_multiple_variables",
+                        "base_type": "activity",
+                        "properties": {
+                            "continue_on_failure": false,
+                            "display_name": "Update Local Variables",
+                            "skip_execution": false,
+                            "variables_to_update": [
+                                {
+                                    "variable_to_update": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7JT7750RwItQMvzyGz5KNPj1Mni$",
+                                    "variable_value_new": ""
+                                }
+                            ]
+                        },
+                        "object_type": "definition_activity"
+                    }
+                ]
+            },
+            {
+                "unique_name": "definition_activity_01ZHJDIT8HAQ16etjYEhePh1yPP1sVXU1rU",
+                "name": "Webex - Search for Room",
+                "title": "Webex - Search for Room",
+                "type": "workflow.atomic_workflow",
+                "base_type": "subworkflow",
+                "properties": {
+                    "continue_on_failure": true,
+                    "display_name": "Webex - Search for Room",
+                    "input": {
+                        "variable_workflow_01PP790MCX1DN3EitpQebkUyJS65DbwS3nU": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7JT7750RwItQMvzyGz5KNPj1Mni$",
+                        "variable_workflow_01PP790MCXB392D3R8pxh9fgOTjTde2bcMW": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7IQ4I2oJJJr7lAwGa0lhp39Yfih$",
+                        "variable_workflow_01PP790MCXHP55YE6ylOEITWsWbUFJeyWGv": "",
+                        "variable_workflow_01PP790MCXM9W1MUwo85y8iNRCoQuQ4RGNa": ""
+                    },
+                    "runtime_user": {
+                        "target_default": true
+                    },
+                    "skip_execution": false,
+                    "target": {
+                        "override_workflow_target_group_criteria": true,
+                        "target_group": {
+                            "run_on_all_targets": false,
+                            "use_criteria": {
+                                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                "conditions": [
+                                    {
+                                        "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                        "operator": "eqi",
+                                        "right_operand": "Webex Teams"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "workflow_id": "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez",
+                    "workflow_name": "Webex - Search for Room"
+                },
+                "object_type": "definition_activity"
+            },
+            {
+                "unique_name": "definition_activity_01ZHJDIUC0FO83BPqVlVcp3fBPU75vKM5fn",
+                "name": "Condition Block",
+                "title": "Check for required variables",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                    "continue_on_failure": false,
+                    "display_name": "Check for required variables",
+                    "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                    {
+                        "unique_name": "definition_activity_01ZHJDIV5CVU10MZK7Cg5lZ2l8pc9JVHYbN",
+                        "name": "Condition Branch",
+                        "title": "Webex Room Not Found",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$activity.definition_activity_01ZHJDIT8HAQ16etjYEhePh1yPP1sVXU1rU.output.succeeded$",
+                                "operator": "eq",
+                                "right_operand": false
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "Webex Room Not Found",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01ZHJDIW7WVM02iTWVazW4stXsRIzd19nCw",
+                                "name": "Completed",
+                                "title": "Failed",
+                                "type": "logic.completed",
+                                "base_type": "activity",
+                                "properties": {
+                                    "completion_type": "failed-completed",
+                                    "continue_on_failure": false,
+                                    "display_name": "Failed",
+                                    "result_message": "The Webex room \"$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7IQ4I2oJJJr7lAwGa0lhp39Yfih$\" was not found",
+                                    "skip_execution": false
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    },
+                    {
+                        "unique_name": "definition_activity_01ZHJDIWZ2HM16DolLqsvwsYjSQc1HO9Uoz",
+                        "name": "Condition Branch",
+                        "title": "Variables Not Set",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7KJW60MkWCijYvcQqyFZ2feGEv3$",
+                                "operator": "eq",
+                                "right_operand": ""
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "Variables Not Set",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01ZHJDIXZU2TS00mXvwmbkT44opMW0A9eej",
+                                "name": "Completed",
+                                "title": "Failed",
+                                "type": "logic.completed",
+                                "base_type": "activity",
+                                "properties": {
+                                    "completion_type": "failed-completed",
+                                    "continue_on_failure": false,
+                                    "display_name": "Failed",
+                                    "result_message": "You must configure the Secure Firewall Management Center URL local variable in the workflow",
+                                    "skip_execution": false
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "unique_name": "definition_activity_01ZHJDIYSVV051ch15HuqQdsfZJ7axKlAnE",
+                "name": "Condition Block",
+                "title": "What region are we in?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                    "continue_on_failure": false,
+                    "display_name": "What region are we in?",
+                    "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                    {
+                        "unique_name": "definition_activity_01ZHJDIZOZCQI65Dvkk1kSyHaJWZpUlM7y8",
+                        "name": "Condition Branch",
+                        "title": "US",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG.env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG$",
+                                "operator": "eqi",
+                                "right_operand": "prod-nam"
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "US",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01ZHJDJ0XHTL47AsYsskm9m58dLxlN6W4Pj",
+                                "name": "Set Variables",
+                                "title": "Set Variables",
+                                "type": "core.set_multiple_variables",
+                                "base_type": "activity",
+                                "properties": {
+                                    "continue_on_failure": false,
+                                    "display_name": "Set Variables",
+                                    "skip_execution": false,
+                                    "variables_to_update": [
+                                        {
+                                            "variable_to_update": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7JAEU4r7YCporxWdTCF96boje9M$",
+                                            "variable_value_new": "https:\/\/securex-ao.us.security.cisco.com\/orch-ui\/runs\/$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.output.instance_id$"
+                                        }
+                                    ]
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    },
+                    {
+                        "unique_name": "definition_activity_01ZHJDJ1XR00E1JctTxviiILBQ0YmwEeORy",
+                        "name": "Condition Branch",
+                        "title": "APJC",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG.env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG$",
+                                "operator": "eqi",
+                                "right_operand": "prod-apjc"
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "APJC",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01ZHJDJ2YV8HR1ftYAJK4aMRqz1yTkVDCq9",
+                                "name": "Set Variables",
+                                "title": "Set Variables",
+                                "type": "core.set_multiple_variables",
+                                "base_type": "activity",
+                                "properties": {
+                                    "continue_on_failure": false,
+                                    "display_name": "Set Variables",
+                                    "skip_execution": false,
+                                    "variables_to_update": [
+                                        {
+                                            "variable_to_update": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7JAEU4r7YCporxWdTCF96boje9M$",
+                                            "variable_value_new": "https:\/\/securex-ao.apjc.security.cisco.com\/orch-ui\/runs\/$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.output.instance_id$"
+                                        }
+                                    ]
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    },
+                    {
+                        "unique_name": "definition_activity_01ZHJDJ40UIIT0IoyQzAqkoHePzECo4EF4u",
+                        "name": "Condition Branch",
+                        "title": "EU",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG.env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG$",
+                                "operator": "eqi",
+                                "right_operand": "prod-eu"
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "EU",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01ZHJDJ5NJLV84FOGoXwJlQtpAAOu7Lnv0v",
+                                "name": "Set Variables",
+                                "title": "Set Variables",
+                                "type": "core.set_multiple_variables",
+                                "base_type": "activity",
+                                "properties": {
+                                    "continue_on_failure": false,
+                                    "display_name": "Set Variables",
+                                    "skip_execution": false,
+                                    "variables_to_update": [
+                                        {
+                                            "variable_to_update": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7JAEU4r7YCporxWdTCF96boje9M$",
+                                            "variable_value_new": "https:\/\/securex-ao.eu.security.cisco.com\/orch-ui\/runs\/$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.output.instance_id$"
+                                        }
+                                    ]
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "unique_name": "definition_activity_01ZHJZOQYHPAD3XiZpefkVlCGiwCyWDe20T",
+                "name": "SecureX - SSE Proxy - Get Timebased Objects",
+                "title": "SecureX - SSE Proxy - Get Timebased Objects",
+                "type": "workflow.atomic_workflow",
+                "base_type": "subworkflow",
+                "properties": {
+                    "continue_on_failure": true,
+                    "display_name": "SecureX - SSE Proxy - Get Timebased Objects",
+                    "input": {
+                        "variable_workflow_01UUUCRYBQBWC30Fw5BGwrisuIwKr1B16jB": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHK8CCRZGUP75clQ5fyawDoesU4drddeq$",
+                        "variable_workflow_01UUUCRYBR2L16QhfttSDythm7hS0YcPQPr": "",
+                        "variable_workflow_01UUUCRYBSLEW6KWWVhA1GUjnt1M0cCLeDO": "",
+                        "variable_workflow_01UUV44N9TINE4inTTzRsqoE5byTTPsevVA": "\/api\/fmc_config\/v1\/domain\/$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJSU1B73MY5czP0jGGIblDYtBkWXV32L$\/object\/timeranges?offset=0&limit=1000&expanded=true",
+                        "variable_workflow_01ZGIMVUVK0J75kxMRUp5zgDmd9peXNryTT": "{ \"Accept\": \"application\/json\" }",
+                        "variable_workflow_01ZGIN8I5V0FR7DhKhwFN5lEvDrmrVYMAeF": 60,
+                        "variable_workflow_01ZGINEBJPUNM39ftHczyzr5nhiqOwJqtGD": "GET",
+                        "variable_workflow_01ZGINNXM23JQ6NuUFn1uuzuUIt1sf76Gwh": "",
+                        "variable_workflow_01ZGIO1VTMROX4A5EUZANOPHp2CiUAXqAl1": "http"
+                    },
+                    "runtime_user": {
+                        "target_default": true
+                    },
+                    "skip_execution": false,
+                    "target": {
+                        "use_workflow_target_group": true
+                    },
+                    "workflow_id": "definition_workflow_01UUUCRXVK87D5cLmpNJa7yTmzajzPZKT6Z",
+                    "workflow_name": "SecureX - SSE Proxy - Send Request"
+                },
+                "object_type": "definition_activity"
+            },
+            {
+                "unique_name": "definition_activity_01ZHJDJDL5U566zRZWNowT8Axd3RSzdPUPb",
+                "name": "Condition Block",
+                "title": "Was the request successful?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                    "continue_on_failure": false,
+                    "display_name": "Was the request successful?",
+                    "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                    {
+                        "unique_name": "definition_activity_01ZHJDJKVRKFP4emVuH8tjwtWBxzwUczx2j",
+                        "name": "Condition Branch",
+                        "title": "No",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$activity.definition_activity_01ZHJZOQYHPAD3XiZpefkVlCGiwCyWDe20T.output.succeeded$",
+                                "operator": "eq",
+                                "right_operand": false
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "No",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01ZHJDJMDLXQB7V87m78RQeSfXEZ0ZI45gT",
+                                "name": "Webex - Post Message to Room",
+                                "title": "Webex - Post Message to Room",
+                                "type": "workflow.atomic_workflow",
+                                "base_type": "subworkflow",
+                                "properties": {
+                                    "continue_on_failure": false,
+                                    "display_name": "Webex - Post Message to Room",
+                                    "input": {
+                                        "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$activity.definition_activity_01ZHJDIT8HAQ16etjYEhePh1yPP1sVXU1rU.output.variable_workflow_01PP790MCXJ7Y5cAWcGZWbG4Es0126zb1I6$",
+                                        "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7JT7750RwItQMvzyGz5KNPj1Mni$",
+                                        "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "# Secure Firewall - Get Expiring Rules\n##  Workflow FAILED\n\nFailed to retrieve timerange objects.\n\nError: $activity.definition_activity_01ZHJZOQYHPAD3XiZpefkVlCGiwCyWDe20T.output.error.message$",
+                                        "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": "",
+                                        "variable_workflow_01SVERQNMKN8N6vqX2djMtAfshphGydGsH8": ""
+                                    },
+                                    "runtime_user": {
+                                        "target_default": true
+                                    },
+                                    "skip_execution": false,
+                                    "target": {
+                                        "override_workflow_target_group_criteria": true,
+                                        "target_group": {
+                                            "run_on_all_targets": false,
+                                            "use_criteria": {
+                                                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                                "conditions": [
+                                                    {
+                                                        "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                                        "operator": "eqi",
+                                                        "right_operand": "Webex Teams"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw",
+                                    "workflow_name": "Webex - Post Message to Room"
+                                },
+                                "object_type": "definition_activity"
+                            },
+                            {
+                                "unique_name": "definition_activity_01ZHJDJNL34OF3CtrzXBxznthVotl32kSWc",
+                                "name": "Completed",
+                                "title": "Failed",
+                                "type": "logic.completed",
+                                "base_type": "activity",
+                                "properties": {
+                                    "completion_type": "failed-completed",
+                                    "continue_on_failure": false,
+                                    "display_name": "Failed",
+                                    "result_message": "Failed to fetch the timerange objects.\n\nStatus code: $activity.01ZHJDJCCOKHE56k4VqOomqL5OG1LxOkoBi.output.status_code$\nResponse body: $activity.01ZHJDJCCOKHE56k4VqOomqL5OG1LxOkoBi.output.response_body$",
+                                    "skip_execution": false
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "unique_name": "definition_activity_01ZHK1902L5RF4m6zpW1Q6yLzvuiIX9TFIG",
+                "name": "JSONPath Query",
+                "title": "Extract the response body",
+                "type": "corejava.jsonpathquery",
+                "base_type": "activity",
+                "properties": {
+                    "action_timeout": 180,
+                    "continue_on_failure": false,
+                    "display_name": "Extract the response body",
+                    "input_json": "$activity.definition_activity_01ZHJZOQYHPAD3XiZpefkVlCGiwCyWDe20T.output.variable_workflow_01UUUCRYBS9WJ6dHk7gaeVBMCbysfvsQtne$",
+                    "jsonpath_queries": [
+                        {
+                            "jsonpath_query": "$.data[0].body",
+                            "jsonpath_query_name": "responseBody",
+                            "jsonpath_query_type": "string"
+                        }
+                    ],
+                    "skip_execution": false
+                },
+                "object_type": "definition_activity"
+            },
+            {
+                "unique_name": "definition_activity_01ZHJDJFLW6FT2e1Y4vAIETsXqkL7u3QSDi",
+                "name": "JSONPath Query",
+                "title": "Parse Object Count",
+                "type": "corejava.jsonpathquery",
+                "base_type": "activity",
+                "properties": {
+                    "action_timeout": 180,
+                    "continue_on_failure": false,
+                    "display_name": "Parse Object Count",
+                    "input_json": "$activity.definition_activity_01ZHK1902L5RF4m6zpW1Q6yLzvuiIX9TFIG.output.jsonpath_queries.responseBody$",
+                    "jsonpath_queries": [
+                        {
+                            "jsonpath_query": "$.paging.count",
+                            "jsonpath_query_name": "pagingCount",
+                            "jsonpath_query_type": "integer"
+                        }
+                    ],
+                    "skip_execution": false
+                },
+                "object_type": "definition_activity"
+            },
+            {
+                "unique_name": "definition_activity_01ZHJDJGLN4Q247dn550Z8Am24b9c2OUsr4",
+                "name": "Condition Block",
+                "title": "Were there records?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                    "continue_on_failure": false,
+                    "display_name": "Were there records?",
+                    "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                    {
+                        "unique_name": "definition_activity_01ZHJDJHFK3Q73XhHS6HxrGhbmCsq7U9YCd",
+                        "name": "Condition Branch",
+                        "title": "No",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$activity.definition_activity_01ZHJDJFLW6FT2e1Y4vAIETsXqkL7u3QSDi.output.jsonpath_queries.pagingCount$",
+                                "operator": "eq",
+                                "right_operand": 0
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "No",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01ZHJDJIXDOSO65uo3X4NQMeTpzKxALnMy3",
+                                "name": "Webex - Post Message to Room",
+                                "title": "Webex - Post Message to Room",
+                                "type": "workflow.atomic_workflow",
+                                "base_type": "subworkflow",
+                                "properties": {
+                                    "continue_on_failure": false,
+                                    "display_name": "Webex - Post Message to Room",
+                                    "input": {
+                                        "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$activity.definition_activity_01ZHJDIT8HAQ16etjYEhePh1yPP1sVXU1rU.output.variable_workflow_01PP790MCXJ7Y5cAWcGZWbG4Es0126zb1I6$",
+                                        "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7JT7750RwItQMvzyGz5KNPj1Mni$",
+                                        "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "# Secure Firewall - Get Expiring Rules\n## Workflow COMPLETED\n\nThere were no timerange objects to evaluate.",
+                                        "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": "",
+                                        "variable_workflow_01SVERQNMKN8N6vqX2djMtAfshphGydGsH8": ""
+                                    },
+                                    "runtime_user": {
+                                        "target_default": true
+                                    },
+                                    "skip_execution": false,
+                                    "target": {
+                                        "override_workflow_target_group_criteria": true,
+                                        "target_group": {
+                                            "run_on_all_targets": false,
+                                            "use_criteria": {
+                                                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                                "conditions": [
+                                                    {
+                                                        "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                                        "operator": "eqi",
+                                                        "right_operand": "Webex Teams"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw",
+                                    "workflow_name": "Webex - Post Message to Room"
+                                },
+                                "object_type": "definition_activity"
+                            },
+                            {
+                                "unique_name": "definition_activity_01ZHJDJK2J9FP1LN0EszLyk3SRM36FKExYA",
+                                "name": "Completed",
+                                "title": "Completed",
+                                "type": "logic.completed",
+                                "base_type": "activity",
+                                "properties": {
+                                    "completion_type": "succeeded",
+                                    "continue_on_failure": false,
+                                    "display_name": "Completed",
+                                    "skip_execution": false
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "unique_name": "definition_activity_01ZHK3KWBVIFW0WbEGjwUtBQgkIFsj9gup3",
+                "name": "SecureX - SSE Proxy - Get Access Policies",
+                "title": "SecureX - SSE Proxy - Get Access Policies",
+                "type": "workflow.atomic_workflow",
+                "base_type": "subworkflow",
+                "properties": {
+                    "continue_on_failure": true,
+                    "display_name": "SecureX - SSE Proxy - Get Access Policies",
+                    "input": {
+                        "variable_workflow_01UUUCRYBQBWC30Fw5BGwrisuIwKr1B16jB": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHK8CCRZGUP75clQ5fyawDoesU4drddeq$",
+                        "variable_workflow_01UUUCRYBR2L16QhfttSDythm7hS0YcPQPr": "",
+                        "variable_workflow_01UUUCRYBSLEW6KWWVhA1GUjnt1M0cCLeDO": "",
+                        "variable_workflow_01UUV44N9TINE4inTTzRsqoE5byTTPsevVA": "\/api\/fmc_config\/v1\/domain\/$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJSU1B73MY5czP0jGGIblDYtBkWXV32L$\/policy\/accesspolicies?offset=0&limit=500",
+                        "variable_workflow_01ZGIMVUVK0J75kxMRUp5zgDmd9peXNryTT": "{ \"Accept\": \"application\/json\" }",
+                        "variable_workflow_01ZGIN8I5V0FR7DhKhwFN5lEvDrmrVYMAeF": 60,
+                        "variable_workflow_01ZGINEBJPUNM39ftHczyzr5nhiqOwJqtGD": "GET",
+                        "variable_workflow_01ZGINNXM23JQ6NuUFn1uuzuUIt1sf76Gwh": "",
+                        "variable_workflow_01ZGIO1VTMROX4A5EUZANOPHp2CiUAXqAl1": "http"
+                    },
+                    "runtime_user": {
+                        "target_default": true
+                    },
+                    "skip_execution": false,
+                    "target": {
+                        "use_workflow_target_group": true
+                    },
+                    "workflow_id": "definition_workflow_01UUUCRXVK87D5cLmpNJa7yTmzajzPZKT6Z",
+                    "workflow_name": "SecureX - SSE Proxy - Send Request"
+                },
+                "object_type": "definition_activity"
+            },
+            {
+                "unique_name": "definition_activity_01ZHJDJPFZRH01Wx13EaeUAGBMFkaeeZMOE",
+                "name": "Condition Block",
+                "title": "Was the request successful?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                    "continue_on_failure": false,
+                    "display_name": "Was the request successful?",
+                    "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                    {
+                        "unique_name": "definition_activity_01ZHJDJQAKOX578BuMWiwPoLb77bzEs0yZs",
+                        "name": "Condition Branch",
+                        "title": "Yes",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$activity.definition_activity_01ZHK3KWBVIFW0WbEGjwUtBQgkIFsj9gup3.output.succeeded$",
+                                "operator": "eq",
+                                "right_operand": true
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "Yes",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01ZHK50Q8IOTY77vl9wyMTc7THjGgdXVAnA",
+                                "name": "JSONPath Query",
+                                "title": "Extract the response body",
+                                "type": "corejava.jsonpathquery",
+                                "base_type": "activity",
+                                "properties": {
+                                    "action_timeout": 180,
+                                    "continue_on_failure": false,
+                                    "display_name": "Extract the response body",
+                                    "input_json": "$activity.definition_activity_01ZHK3KWBVIFW0WbEGjwUtBQgkIFsj9gup3.output.variable_workflow_01UUUCRYBS9WJ6dHk7gaeVBMCbysfvsQtne$",
+                                    "jsonpath_queries": [
+                                        {
+                                            "jsonpath_query": "$.data[0].body",
+                                            "jsonpath_query_name": "responseBody",
+                                            "jsonpath_query_type": "string"
+                                        }
+                                    ],
+                                    "skip_execution": false
+                                },
+                                "object_type": "definition_activity"
+                            },
+                            {
+                                "unique_name": "definition_activity_01ZHJDJRDBNZ122RDZZ3WRhZerpxVTugMb7",
+                                "name": "Read Table from JSON",
+                                "title": "Parse Access Policies to Table",
+                                "type": "corejava.read_table_from_json",
+                                "base_type": "activity",
+                                "properties": {
+                                    "action_timeout": 180,
+                                    "continue_on_failure": false,
+                                    "display_name": "Parse Access Policies to Table",
+                                    "input_json": "$activity.definition_activity_01ZHK50Q8IOTY77vl9wyMTc7THjGgdXVAnA.output.jsonpath_queries.responseBody$",
+                                    "jsonpath_query": "$.items",
+                                    "persist_output": false,
+                                    "populate_columns": false,
+                                    "skip_execution": false,
+                                    "table_columns": [
+                                        {
+                                            "column_name": "name",
+                                            "column_type": "string"
+                                        },
+                                        {
+                                            "column_name": "id",
+                                            "column_type": "string"
+                                        }
+                                    ]
+                                },
+                                "object_type": "definition_activity"
+                            },
+                            {
+                                "unique_name": "definition_activity_01ZHJDJSNYQIS3dXoEivOFOq3GV98PDoOBy",
+                                "name": "For Each",
+                                "title": "For Each Policy",
+                                "type": "logic.for_each",
+                                "base_type": "activity",
+                                "properties": {
+                                    "continue_on_failure": false,
+                                    "display_name": "For Each Policy",
+                                    "skip_execution": false,
+                                    "source_array": "$activity.definition_activity_01ZHJDJRDBNZ122RDZZ3WRhZerpxVTugMb7.output.read_table_from_json$"
+                                },
+                                "object_type": "definition_activity",
+                                "actions": [
+                                    {
+                                        "unique_name": "definition_activity_01ZHJDJUBJQVA1jjUBDdSnnjHRgsOefT1Q0",
+                                        "name": "Set Variables",
+                                        "title": "Reset Rule Offset",
+                                        "type": "core.set_multiple_variables",
+                                        "base_type": "activity",
+                                        "properties": {
+                                            "continue_on_failure": false,
+                                            "display_name": "Reset Rule Offset",
+                                            "skip_execution": false,
+                                            "variables_to_update": [
+                                                {
+                                                    "variable_to_update": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7L0D03ZjHIQZdfhwlHdfSftfAiN$",
+                                                    "variable_value_new": 0
+                                                }
+                                            ]
+                                        },
+                                        "object_type": "definition_activity"
+                                    },
+                                    {
+                                        "unique_name": "definition_activity_01ZHJDJV790M83YiCzmn8z7RVMtectwXJKH",
+                                        "name": "While Loop",
+                                        "title": "While Loop",
+                                        "type": "logic.while",
+                                        "base_type": "activity",
+                                        "properties": {
+                                            "continue_on_failure": false,
+                                            "display_name": "While Loop",
+                                            "skip_execution": false
+                                        },
+                                        "object_type": "definition_activity",
+                                        "blocks": [
+                                            {
+                                                "unique_name": "definition_activity_01ZHJDJW77VXZ3gzHSZ1kHtKDRXkHl8YMIS",
+                                                "name": "Condition Branch",
+                                                "title": "True = true",
+                                                "type": "logic.condition_block",
+                                                "base_type": "activity",
+                                                "properties": {
+                                                    "condition": {
+                                                        "left_operand": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.output.instance_id$",
+                                                        "operator": "eq",
+                                                        "right_operand": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.output.instance_id$"
+                                                    },
+                                                    "continue_on_failure": false,
+                                                    "display_name": "True = true",
+                                                    "skip_execution": false
+                                                },
+                                                "object_type": "definition_activity",
+                                                "actions": [
+                                                    {
+                                                        "unique_name": "definition_activity_01ZHK62TMJUG92bvqHUMOZbLrU3b3K7IoU1",
+                                                        "name": "SecureX - SSE Proxy - Get Policy Rules",
+                                                        "title": "SecureX - SSE Proxy - Get Policy Rules",
+                                                        "type": "workflow.atomic_workflow",
+                                                        "base_type": "subworkflow",
+                                                        "properties": {
+                                                            "continue_on_failure": true,
+                                                            "display_name": "SecureX - SSE Proxy - Get Policy Rules",
+                                                            "input": {
+                                                                "variable_workflow_01UUUCRYBQBWC30Fw5BGwrisuIwKr1B16jB": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHK8CCRZGUP75clQ5fyawDoesU4drddeq$",
+                                                                "variable_workflow_01UUUCRYBR2L16QhfttSDythm7hS0YcPQPr": "",
+                                                                "variable_workflow_01UUUCRYBSLEW6KWWVhA1GUjnt1M0cCLeDO": "",
+                                                                "variable_workflow_01UUV44N9TINE4inTTzRsqoE5byTTPsevVA": "\/api\/fmc_config\/v1\/domain\/$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJSU1B73MY5czP0jGGIblDYtBkWXV32L$\/policy\/accesspolicies\/$activity.definition_activity_01ZHJDJSNYQIS3dXoEivOFOq3GV98PDoOBy.input.source_array[@].id$\/accessrules?expanded=true&offset=$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7L0D03ZjHIQZdfhwlHdfSftfAiN$&limit=500",
+                                                                "variable_workflow_01ZGIMVUVK0J75kxMRUp5zgDmd9peXNryTT": "{ \"Accept\": \"application\/json\" }",
+                                                                "variable_workflow_01ZGIN8I5V0FR7DhKhwFN5lEvDrmrVYMAeF": 60,
+                                                                "variable_workflow_01ZGINEBJPUNM39ftHczyzr5nhiqOwJqtGD": "GET",
+                                                                "variable_workflow_01ZGINNXM23JQ6NuUFn1uuzuUIt1sf76Gwh": "",
+                                                                "variable_workflow_01ZGIO1VTMROX4A5EUZANOPHp2CiUAXqAl1": "http"
+                                                            },
+                                                            "runtime_user": {
+                                                                "target_default": true
+                                                            },
+                                                            "skip_execution": false,
+                                                            "target": {
+                                                                "use_workflow_target_group": true
+                                                            },
+                                                            "workflow_id": "definition_workflow_01UUUCRXVK87D5cLmpNJa7yTmzajzPZKT6Z",
+                                                            "workflow_name": "SecureX - SSE Proxy - Send Request"
+                                                        },
+                                                        "object_type": "definition_activity"
+                                                    },
+                                                    {
+                                                        "unique_name": "definition_activity_01ZHJDJYJGOYB19WN0rRHZQ0KLSfKLANfCh",
+                                                        "name": "Condition Block",
+                                                        "title": "Was the request successful?",
+                                                        "type": "logic.if_else",
+                                                        "base_type": "activity",
+                                                        "properties": {
+                                                            "continue_on_failure": false,
+                                                            "display_name": "Was the request successful?",
+                                                            "skip_execution": false
+                                                        },
+                                                        "object_type": "definition_activity",
+                                                        "blocks": [
+                                                            {
+                                                                "unique_name": "definition_activity_01ZHJDJZG75SP0jicTSpLR5GYtiDfcMJX5X",
+                                                                "name": "Condition Branch",
+                                                                "title": "Yes",
+                                                                "type": "logic.condition_block",
+                                                                "base_type": "activity",
+                                                                "properties": {
+                                                                    "condition": {
+                                                                        "left_operand": "$activity.definition_activity_01ZHK62TMJUG92bvqHUMOZbLrU3b3K7IoU1.output.succeeded$",
+                                                                        "operator": "eq",
+                                                                        "right_operand": true
+                                                                    },
+                                                                    "continue_on_failure": false,
+                                                                    "display_name": "Yes",
+                                                                    "skip_execution": false
+                                                                },
+                                                                "object_type": "definition_activity",
+                                                                "actions": [
+                                                                    {
+                                                                        "unique_name": "definition_activity_01ZHJDK0QQKMQ3K7yAArhFU2Vd2jQgvj5u6",
+                                                                        "name": "Set Variables",
+                                                                        "title": "Update Rule Offset",
+                                                                        "type": "core.set_multiple_variables",
+                                                                        "base_type": "activity",
+                                                                        "properties": {
+                                                                            "continue_on_failure": false,
+                                                                            "display_name": "Update Rule Offset",
+                                                                            "skip_execution": false,
+                                                                            "variables_to_update": [
+                                                                                {
+                                                                                    "variable_to_update": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7L0D03ZjHIQZdfhwlHdfSftfAiN$",
+                                                                                    "variable_value_new": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7L0D03ZjHIQZdfhwlHdfSftfAiN$+500"
+                                                                                }
+                                                                            ]
+                                                                        },
+                                                                        "object_type": "definition_activity"
+                                                                    },
+                                                                    {
+                                                                        "unique_name": "definition_activity_01ZHK79W6AP023OesKboxZCa6dPoNywjyqs",
+                                                                        "name": "JSONPath Query",
+                                                                        "title": "Extract the response body",
+                                                                        "type": "corejava.jsonpathquery",
+                                                                        "base_type": "activity",
+                                                                        "properties": {
+                                                                            "action_timeout": 180,
+                                                                            "continue_on_failure": false,
+                                                                            "display_name": "Extract the response body",
+                                                                            "input_json": "$activity.definition_activity_01ZHK62TMJUG92bvqHUMOZbLrU3b3K7IoU1.output.variable_workflow_01UUUCRYBS9WJ6dHk7gaeVBMCbysfvsQtne$",
+                                                                            "jsonpath_queries": [
+                                                                                {
+                                                                                    "jsonpath_query": "$.data[0].body",
+                                                                                    "jsonpath_query_name": "responseBody",
+                                                                                    "jsonpath_query_type": "string"
+                                                                                }
+                                                                            ],
+                                                                            "skip_execution": false
+                                                                        },
+                                                                        "object_type": "definition_activity"
+                                                                    },
+                                                                    {
+                                                                        "unique_name": "definition_activity_01ZHJDK1R1K3P3JFxU9OXptNGy79JU58ovO",
+                                                                        "name": "JSONPath Query",
+                                                                        "title": "Parse Rule Object Count",
+                                                                        "type": "corejava.jsonpathquery",
+                                                                        "base_type": "activity",
+                                                                        "properties": {
+                                                                            "action_timeout": 180,
+                                                                            "continue_on_failure": false,
+                                                                            "display_name": "Parse Rule Object Count",
+                                                                            "input_json": "$activity.definition_activity_01ZHK79W6AP023OesKboxZCa6dPoNywjyqs.output.jsonpath_queries.responseBody$",
+                                                                            "jsonpath_queries": [
+                                                                                {
+                                                                                    "jsonpath_query": "$.paging.count",
+                                                                                    "jsonpath_query_name": "pagingCount",
+                                                                                    "jsonpath_query_type": "integer"
+                                                                                }
+                                                                            ],
+                                                                            "skip_execution": false
+                                                                        },
+                                                                        "object_type": "definition_activity"
+                                                                    },
+                                                                    {
+                                                                        "unique_name": "definition_activity_01ZHJDK2VST0G58zjMXerTpLtL2zZoMmFze",
+                                                                        "name": "Condition Block",
+                                                                        "title": "Are there rules to parse?",
+                                                                        "type": "logic.if_else",
+                                                                        "base_type": "activity",
+                                                                        "properties": {
+                                                                            "continue_on_failure": false,
+                                                                            "display_name": "Are there rules to parse?",
+                                                                            "skip_execution": false
+                                                                        },
+                                                                        "object_type": "definition_activity",
+                                                                        "blocks": [
+                                                                            {
+                                                                                "unique_name": "definition_activity_01ZHJDK3Q2VU9632LVDYv9lVsyCc2VfU9zR",
+                                                                                "name": "Condition Branch",
+                                                                                "title": "Yes",
+                                                                                "type": "logic.condition_block",
+                                                                                "base_type": "activity",
+                                                                                "properties": {
+                                                                                    "condition": {
+                                                                                        "left_operand": "$activity.definition_activity_01ZHJDK1R1K3P3JFxU9OXptNGy79JU58ovO.output.jsonpath_queries.pagingCount$",
+                                                                                        "operator": "gt",
+                                                                                        "right_operand": 0
+                                                                                    },
+                                                                                    "continue_on_failure": false,
+                                                                                    "display_name": "Yes",
+                                                                                    "skip_execution": false
+                                                                                },
+                                                                                "object_type": "definition_activity",
+                                                                                "actions": [
+                                                                                    {
+                                                                                        "unique_name": "definition_activity_01ZHJDK4UY0Q92iaAZWO4b9rtLC4SJEF5R8",
+                                                                                        "name": "Read Table from JSON",
+                                                                                        "title": "Parse Policy Rules with Timerange Objects to Table",
+                                                                                        "type": "corejava.read_table_from_json",
+                                                                                        "base_type": "activity",
+                                                                                        "properties": {
+                                                                                            "action_timeout": 180,
+                                                                                            "continue_on_failure": true,
+                                                                                            "display_name": "Parse Policy Rules with Timerange Objects to Table",
+                                                                                            "input_json": "$activity.definition_activity_01ZHK79W6AP023OesKboxZCa6dPoNywjyqs.output.jsonpath_queries.responseBody$",
+                                                                                            "jsonpath_query": "$.items[?(@.timeRangeObjects)]",
+                                                                                            "persist_output": false,
+                                                                                            "populate_columns": false,
+                                                                                            "skip_execution": false,
+                                                                                            "table_columns": [
+                                                                                                {
+                                                                                                    "column_name": "metadata",
+                                                                                                    "column_type": "string"
+                                                                                                },
+                                                                                                {
+                                                                                                    "column_name": "timeRangeObjects",
+                                                                                                    "column_type": "string"
+                                                                                                },
+                                                                                                {
+                                                                                                    "column_name": "name",
+                                                                                                    "column_type": "string"
+                                                                                                }
+                                                                                            ]
+                                                                                        },
+                                                                                        "object_type": "definition_activity"
+                                                                                    },
+                                                                                    {
+                                                                                        "unique_name": "definition_activity_01ZHJDK64KO2Y33xwy46L9dLSKKdMMKCTJ4",
+                                                                                        "name": "Condition Block",
+                                                                                        "title": "Policy rules parsed successfully?",
+                                                                                        "type": "logic.if_else",
+                                                                                        "base_type": "activity",
+                                                                                        "properties": {
+                                                                                            "continue_on_failure": false,
+                                                                                            "display_name": "Policy rules parsed successfully?",
+                                                                                            "skip_execution": false
+                                                                                        },
+                                                                                        "object_type": "definition_activity",
+                                                                                        "blocks": [
+                                                                                            {
+                                                                                                "unique_name": "definition_activity_01ZHJDK78GRHH6tZM40hnLIzaGQdbedWFuF",
+                                                                                                "name": "Condition Branch",
+                                                                                                "title": "Yes",
+                                                                                                "type": "logic.condition_block",
+                                                                                                "base_type": "activity",
+                                                                                                "properties": {
+                                                                                                    "condition": {
+                                                                                                        "left_operand": "$activity.definition_activity_01ZHJDK4UY0Q92iaAZWO4b9rtLC4SJEF5R8.output.succeeded$",
+                                                                                                        "operator": "eq",
+                                                                                                        "right_operand": true
+                                                                                                    },
+                                                                                                    "continue_on_failure": false,
+                                                                                                    "display_name": "Yes",
+                                                                                                    "skip_execution": false
+                                                                                                },
+                                                                                                "object_type": "definition_activity",
+                                                                                                "actions": [
+                                                                                                    {
+                                                                                                        "unique_name": "definition_activity_01ZHJDK8F0N7G2uc6jLpLxaPlMvK6MlkCcR",
+                                                                                                        "name": "For Each",
+                                                                                                        "title": "For Each Rule with a Timerange Object",
+                                                                                                        "type": "logic.for_each",
+                                                                                                        "base_type": "activity",
+                                                                                                        "properties": {
+                                                                                                            "continue_on_failure": false,
+                                                                                                            "display_name": "For Each Rule with a Timerange Object",
+                                                                                                            "skip_execution": false,
+                                                                                                            "source_array": "$activity.definition_activity_01ZHJDK4UY0Q92iaAZWO4b9rtLC4SJEF5R8.output.read_table_from_json$"
+                                                                                                        },
+                                                                                                        "object_type": "definition_activity",
+                                                                                                        "actions": [
+                                                                                                            {
+                                                                                                                "unique_name": "definition_activity_01ZHJDKA7W7TL2p5uzA9ewItn4o7DnzxWua",
+                                                                                                                "name": "JSONPath Query",
+                                                                                                                "title": "Parse Timerange Object ID",
+                                                                                                                "type": "corejava.jsonpathquery",
+                                                                                                                "base_type": "activity",
+                                                                                                                "properties": {
+                                                                                                                    "action_timeout": 180,
+                                                                                                                    "continue_on_failure": false,
+                                                                                                                    "display_name": "Parse Timerange Object ID",
+                                                                                                                    "input_json": "$activity.definition_activity_01ZHJDK8F0N7G2uc6jLpLxaPlMvK6MlkCcR.input.source_array[@].timeRangeObjects$",
+                                                                                                                    "jsonpath_queries": [
+                                                                                                                        {
+                                                                                                                            "jsonpath_query": "$..id",
+                                                                                                                            "jsonpath_query_name": "objectId",
+                                                                                                                            "jsonpath_query_type": "string"
+                                                                                                                        }
+                                                                                                                    ],
+                                                                                                                    "skip_execution": false
+                                                                                                                },
+                                                                                                                "object_type": "definition_activity"
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "unique_name": "definition_activity_01ZHJDKBB4D4T7cAqrfqJXuYUw6WvyYxkms",
+                                                                                                                "name": "JSONPath Query",
+                                                                                                                "title": "Parse Timerange Object ID Details",
+                                                                                                                "type": "corejava.jsonpathquery",
+                                                                                                                "base_type": "activity",
+                                                                                                                "properties": {
+                                                                                                                    "action_timeout": 180,
+                                                                                                                    "continue_on_failure": false,
+                                                                                                                    "display_name": "Parse Timerange Object ID Details",
+                                                                                                                    "input_json": "$activity.definition_activity_01ZHK1902L5RF4m6zpW1Q6yLzvuiIX9TFIG.output.jsonpath_queries.responseBody$",
+                                                                                                                    "jsonpath_queries": [
+                                                                                                                        {
+                                                                                                                            "jsonpath_query": "$.items[?(@.id == \"$activity.definition_activity_01ZHJDKA7W7TL2p5uzA9ewItn4o7DnzxWua.output.jsonpath_queries.objectId$\")].effectiveStartDateTime",
+                                                                                                                            "jsonpath_query_name": "startTime",
+                                                                                                                            "jsonpath_query_type": "string"
+                                                                                                                        },
+                                                                                                                        {
+                                                                                                                            "jsonpath_query": "$.items[?(@.id == \"$activity.definition_activity_01ZHJDKA7W7TL2p5uzA9ewItn4o7DnzxWua.output.jsonpath_queries.objectId$\")].effectiveEndDateTime",
+                                                                                                                            "jsonpath_query_name": "endTime",
+                                                                                                                            "jsonpath_query_type": "string",
+                                                                                                                            "zdate_type_format": "yyyy-MM-dd'T'HH:mm:ssXXX"
+                                                                                                                        },
+                                                                                                                        {
+                                                                                                                            "jsonpath_query": "$.items[?(@.id == \"$activity.definition_activity_01ZHJDKA7W7TL2p5uzA9ewItn4o7DnzxWua.output.jsonpath_queries.objectId$\")].name",
+                                                                                                                            "jsonpath_query_name": "timeObjectName",
+                                                                                                                            "jsonpath_query_type": "string"
+                                                                                                                        }
+                                                                                                                    ],
+                                                                                                                    "skip_execution": false
+                                                                                                                },
+                                                                                                                "object_type": "definition_activity"
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "unique_name": "definition_activity_01ZHJDKCHMKUW4LBwVf5yVRGk28cgU9eu4h",
+                                                                                                                "name": "Split String",
+                                                                                                                "title": "Split Time from End Date",
+                                                                                                                "type": "core.splitstring",
+                                                                                                                "base_type": "activity",
+                                                                                                                "properties": {
+                                                                                                                    "boundaries": [
+                                                                                                                        {
+                                                                                                                            "boundary": "T"
+                                                                                                                        }
+                                                                                                                    ],
+                                                                                                                    "continue_on_failure": false,
+                                                                                                                    "display_name": "Split Time from End Date",
+                                                                                                                    "input_string": "$activity.definition_activity_01ZHJDKBB4D4T7cAqrfqJXuYUw6WvyYxkms.output.jsonpath_queries.endTime$",
+                                                                                                                    "skip_execution": false
+                                                                                                                },
+                                                                                                                "object_type": "definition_activity"
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "unique_name": "definition_activity_01ZHJDKDKZAQE10IkROJcnVPXPOkAouSD6t",
+                                                                                                                "name": "Parse Date",
+                                                                                                                "title": "Parse End Date",
+                                                                                                                "type": "core.parse_date",
+                                                                                                                "base_type": "activity",
+                                                                                                                "properties": {
+                                                                                                                    "continue_on_failure": false,
+                                                                                                                    "display_name": "Parse End Date",
+                                                                                                                    "format_string": "2006-01-02",
+                                                                                                                    "input_string": "$activity.definition_activity_01ZHJDKCHMKUW4LBwVf5yVRGk28cgU9eu4h.output.parts[0]$",
+                                                                                                                    "skip_execution": false,
+                                                                                                                    "use_custom_format": false
+                                                                                                                },
+                                                                                                                "object_type": "definition_activity"
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "unique_name": "definition_activity_01ZHJDKETBI8I1wXchaPHHM46kHBxmfhi34",
+                                                                                                                "name": "Calculate Date Time Difference",
+                                                                                                                "title": "Calculate Days Expired",
+                                                                                                                "type": "core.calculate_date_time_difference",
+                                                                                                                "base_type": "activity",
+                                                                                                                "properties": {
+                                                                                                                    "continue_on_failure": false,
+                                                                                                                    "display_name": "Calculate Days Expired",
+                                                                                                                    "original_date": "$activity.definition_activity_01ZHJDKDKZAQE10IkROJcnVPXPOkAouSD6t.output.result$",
+                                                                                                                    "skip_execution": false,
+                                                                                                                    "subtract_date": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.output.start_time$"
+                                                                                                                },
+                                                                                                                "object_type": "definition_activity"
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "unique_name": "definition_activity_01ZHJDKFY1BPC4ZUpiDeJizXTBtOiWz7kWu",
+                                                                                                                "name": "Condition Block",
+                                                                                                                "title": "Is the rule set to expire soon?",
+                                                                                                                "type": "logic.if_else",
+                                                                                                                "base_type": "activity",
+                                                                                                                "properties": {
+                                                                                                                    "continue_on_failure": false,
+                                                                                                                    "display_name": "Is the rule set to expire soon?",
+                                                                                                                    "skip_execution": false
+                                                                                                                },
+                                                                                                                "object_type": "definition_activity",
+                                                                                                                "blocks": [
+                                                                                                                    {
+                                                                                                                        "unique_name": "definition_activity_01ZHJDKGW6XPE2n510p5SGcIWaRcnX87dH2",
+                                                                                                                        "name": "Condition Branch",
+                                                                                                                        "title": "Expired",
+                                                                                                                        "type": "logic.condition_block",
+                                                                                                                        "base_type": "activity",
+                                                                                                                        "properties": {
+                                                                                                                            "condition": {
+                                                                                                                                "left_operand": {
+                                                                                                                                    "left_operand": "$activity.definition_activity_01ZHJDKETBI8I1wXchaPHHM46kHBxmfhi34.output.total_days$",
+                                                                                                                                    "operator": "lte",
+                                                                                                                                    "right_operand": 0
+                                                                                                                                },
+                                                                                                                                "operator": "and",
+                                                                                                                                "right_operand": {
+                                                                                                                                    "left_operand": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7L7JG58RBjmfp5Cic2fINfYigvk$",
+                                                                                                                                    "operator": "eq",
+                                                                                                                                    "right_operand": true
+                                                                                                                                }
+                                                                                                                            },
+                                                                                                                            "continue_on_failure": false,
+                                                                                                                            "display_name": "Expired",
+                                                                                                                            "skip_execution": false
+                                                                                                                        },
+                                                                                                                        "object_type": "definition_activity",
+                                                                                                                        "actions": [
+                                                                                                                            {
+                                                                                                                                "unique_name": "definition_activity_01ZHJDKIIDY0Y2SDnkVFT31JQWUy1rgIkY7",
+                                                                                                                                "name": "Set Variables",
+                                                                                                                                "title": "Update Expired Rules",
+                                                                                                                                "type": "core.set_multiple_variables",
+                                                                                                                                "base_type": "activity",
+                                                                                                                                "properties": {
+                                                                                                                                    "continue_on_failure": false,
+                                                                                                                                    "display_name": "Update Expired Rules",
+                                                                                                                                    "skip_execution": false,
+                                                                                                                                    "variables_to_update": [
+                                                                                                                                        {
+                                                                                                                                            "variable_to_update": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7J1T01Lvj2Uj4wcakoMCLAvkwGm$",
+                                                                                                                                            "variable_value_new": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7J1T01Lvj2Uj4wcakoMCLAvkwGm$\n\n**Policy:** [$activity.definition_activity_01ZHJDJSNYQIS3dXoEivOFOq3GV98PDoOBy.input.source_array[@].name$]($workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7KJW60MkWCijYvcQqyFZ2feGEv3$\/ddd\/#FirewallPolicyEditor;uuid=$activity.definition_activity_01ZHJDJSNYQIS3dXoEivOFOq3GV98PDoOBy.input.source_array[@].id$)\n**Rule:** `$activity.definition_activity_01ZHJDK8F0N7G2uc6jLpLxaPlMvK6MlkCcR.input.source_array[@].name$`\n**Message:** Timebased object `$activity.definition_activity_01ZHJDKBB4D4T7cAqrfqJXuYUw6WvyYxkms.output.jsonpath_queries.timeObjectName$` expired $activity.definition_activity_01ZHJDKETBI8I1wXchaPHHM46kHBxmfhi34.output.days$ days ago on $activity.definition_activity_01ZHJDKCHMKUW4LBwVf5yVRGk28cgU9eu4h.output.parts[0]$."
+                                                                                                                                        }
+                                                                                                                                    ]
+                                                                                                                                },
+                                                                                                                                "object_type": "definition_activity"
+                                                                                                                            }
+                                                                                                                        ]
+                                                                                                                    },
+                                                                                                                    {
+                                                                                                                        "unique_name": "definition_activity_01ZHJDKK0JLGW1CqCuo2hHPvyeFSrv2BF8j",
+                                                                                                                        "name": "Condition Branch",
+                                                                                                                        "title": "Soon to expire",
+                                                                                                                        "type": "logic.condition_block",
+                                                                                                                        "base_type": "activity",
+                                                                                                                        "properties": {
+                                                                                                                            "condition": {
+                                                                                                                                "left_operand": {
+                                                                                                                                    "left_operand": "$activity.definition_activity_01ZHJDKETBI8I1wXchaPHHM46kHBxmfhi34.output.total_days$",
+                                                                                                                                    "operator": "lte",
+                                                                                                                                    "right_operand": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7KROF1eVnzi2mf8NU4gV0tZb5uG$"
+                                                                                                                                },
+                                                                                                                                "operator": "and",
+                                                                                                                                "right_operand": {
+                                                                                                                                    "left_operand": "$activity.definition_activity_01ZHJDKETBI8I1wXchaPHHM46kHBxmfhi34.output.days$",
+                                                                                                                                    "operator": "gte",
+                                                                                                                                    "right_operand": 0
+                                                                                                                                }
+                                                                                                                            },
+                                                                                                                            "continue_on_failure": false,
+                                                                                                                            "display_name": "Soon to expire",
+                                                                                                                            "skip_execution": false
+                                                                                                                        },
+                                                                                                                        "object_type": "definition_activity",
+                                                                                                                        "actions": [
+                                                                                                                            {
+                                                                                                                                "unique_name": "definition_activity_01ZHJDKLHU7F701wDnaygjmf9NrdpIYVC8E",
+                                                                                                                                "name": "Set Variables",
+                                                                                                                                "title": "Update Expiring Rules",
+                                                                                                                                "type": "core.set_multiple_variables",
+                                                                                                                                "base_type": "activity",
+                                                                                                                                "properties": {
+                                                                                                                                    "continue_on_failure": false,
+                                                                                                                                    "display_name": "Update Expiring Rules",
+                                                                                                                                    "skip_execution": false,
+                                                                                                                                    "variables_to_update": [
+                                                                                                                                        {
+                                                                                                                                            "variable_to_update": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7JLKY5puHbLhbqdqtZNz14vivQx$",
+                                                                                                                                            "variable_value_new": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7JLKY5puHbLhbqdqtZNz14vivQx$\n\n**Policy:** [$activity.definition_activity_01ZHJDJSNYQIS3dXoEivOFOq3GV98PDoOBy.input.source_array[@].name$]($workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7KJW60MkWCijYvcQqyFZ2feGEv3$\/ddd\/#FirewallPolicyEditor;uuid=$activity.definition_activity_01ZHJDJSNYQIS3dXoEivOFOq3GV98PDoOBy.input.source_array[@].id$)\n**Rule:** `$activity.definition_activity_01ZHJDK8F0N7G2uc6jLpLxaPlMvK6MlkCcR.input.source_array[@].name$`\n**Message:** Timebased object `$activity.definition_activity_01ZHJDKBB4D4T7cAqrfqJXuYUw6WvyYxkms.output.jsonpath_queries.timeObjectName$` is set to expire in $activity.definition_activity_01ZHJDKETBI8I1wXchaPHHM46kHBxmfhi34.output.days$ days on $activity.definition_activity_01ZHJDKCHMKUW4LBwVf5yVRGk28cgU9eu4h.output.parts[0]$."
+                                                                                                                                        }
+                                                                                                                                    ]
+                                                                                                                                },
+                                                                                                                                "object_type": "definition_activity"
+                                                                                                                            }
+                                                                                                                        ]
+                                                                                                                    }
+                                                                                                                ]
+                                                                                                            }
+                                                                                                        ]
+                                                                                                    }
+                                                                                                ]
+                                                                                            },
+                                                                                            {
+                                                                                                "unique_name": "definition_activity_01ZHJDKMSXKSI5KLIumPwiijAyAsTylG50Q",
+                                                                                                "name": "Condition Branch",
+                                                                                                "title": "No",
+                                                                                                "type": "logic.condition_block",
+                                                                                                "base_type": "activity",
+                                                                                                "properties": {
+                                                                                                    "condition": {
+                                                                                                        "left_operand": "$activity.definition_activity_01ZHJDK4UY0Q92iaAZWO4b9rtLC4SJEF5R8.output.succeeded$",
+                                                                                                        "operator": "eq",
+                                                                                                        "right_operand": false
+                                                                                                    },
+                                                                                                    "continue_on_failure": false,
+                                                                                                    "display_name": "No",
+                                                                                                    "skip_execution": false
+                                                                                                },
+                                                                                                "object_type": "definition_activity",
+                                                                                                "actions": [
+                                                                                                    {
+                                                                                                        "unique_name": "definition_activity_01ZHJDKO1RU9W3qPgWNS0JJ8xGhcFYlAm5P",
+                                                                                                        "name": "Set Variables",
+                                                                                                        "title": "Set Error Message",
+                                                                                                        "type": "core.set_multiple_variables",
+                                                                                                        "base_type": "activity",
+                                                                                                        "properties": {
+                                                                                                            "continue_on_failure": false,
+                                                                                                            "display_name": "Set Error Message",
+                                                                                                            "skip_execution": false,
+                                                                                                            "variables_to_update": [
+                                                                                                                {
+                                                                                                                    "variable_to_update": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7K16Z3iwFU97DX4zBhKRZ1wJrGT$",
+                                                                                                                    "variable_value_new": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7K16Z3iwFU97DX4zBhKRZ1wJrGT$\n\nFailed to parse policy rules to table for \"$activity.definition_activity_01ZHJDJSNYQIS3dXoEivOFOq3GV98PDoOBy.input.source_array[@].name$\"."
+                                                                                                                }
+                                                                                                            ]
+                                                                                                        },
+                                                                                                        "object_type": "definition_activity"
+                                                                                                    },
+                                                                                                    {
+                                                                                                        "unique_name": "definition_activity_01ZHJDKP3N1I91CqQ5eRAdOsGn94tHBXavh",
+                                                                                                        "name": "Continue",
+                                                                                                        "title": "Continue",
+                                                                                                        "type": "logic.continue",
+                                                                                                        "base_type": "activity",
+                                                                                                        "properties": {
+                                                                                                            "continue_on_failure": false,
+                                                                                                            "display_name": "Continue",
+                                                                                                            "skip_execution": false
+                                                                                                        },
+                                                                                                        "object_type": "definition_activity"
+                                                                                                    }
+                                                                                                ]
+                                                                                            }
+                                                                                        ]
+                                                                                    }
+                                                                                ]
+                                                                            },
+                                                                            {
+                                                                                "unique_name": "definition_activity_01ZHJDKPYB0TA2z9RWKHvcFcK1GMtrRkUPa",
+                                                                                "name": "Condition Branch",
+                                                                                "title": "No",
+                                                                                "type": "logic.condition_block",
+                                                                                "base_type": "activity",
+                                                                                "properties": {
+                                                                                    "condition": {
+                                                                                        "left_operand": "$activity.definition_activity_01ZHJDK1R1K3P3JFxU9OXptNGy79JU58ovO.output.jsonpath_queries.pagingCount$",
+                                                                                        "operator": "eq",
+                                                                                        "right_operand": "0"
+                                                                                    },
+                                                                                    "continue_on_failure": false,
+                                                                                    "display_name": "No",
+                                                                                    "skip_execution": false
+                                                                                },
+                                                                                "object_type": "definition_activity",
+                                                                                "actions": [
+                                                                                    {
+                                                                                        "unique_name": "definition_activity_01ZHJDKR4Q8RB0B36vIDQse1R5fwanuPLFR",
+                                                                                        "name": "Break",
+                                                                                        "title": "Break",
+                                                                                        "type": "logic.break",
+                                                                                        "base_type": "activity",
+                                                                                        "properties": {
+                                                                                            "continue_on_failure": false,
+                                                                                            "display_name": "Break",
+                                                                                            "skip_execution": false
+                                                                                        },
+                                                                                        "object_type": "definition_activity"
+                                                                                    }
+                                                                                ]
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                ]
+                                                            },
+                                                            {
+                                                                "unique_name": "definition_activity_01ZHJDKS0ZRJK5Gxfc2dYxRODoGexdvWub7",
+                                                                "name": "Condition Branch",
+                                                                "title": "No",
+                                                                "type": "logic.condition_block",
+                                                                "base_type": "activity",
+                                                                "properties": {
+                                                                    "condition": {
+                                                                        "left_operand": "$activity.definition_activity_01ZHK62TMJUG92bvqHUMOZbLrU3b3K7IoU1.output.succeeded$",
+                                                                        "operator": "eq",
+                                                                        "right_operand": false
+                                                                    },
+                                                                    "continue_on_failure": false,
+                                                                    "display_name": "No",
+                                                                    "skip_execution": false
+                                                                },
+                                                                "object_type": "definition_activity",
+                                                                "actions": [
+                                                                    {
+                                                                        "unique_name": "definition_activity_01ZHJDKTAPHMR150Hjbnrj4r1Jl4NZr0KEE",
+                                                                        "name": "Set Variables",
+                                                                        "title": "Set Error Message",
+                                                                        "type": "core.set_multiple_variables",
+                                                                        "base_type": "activity",
+                                                                        "properties": {
+                                                                            "continue_on_failure": false,
+                                                                            "display_name": "Set Error Message",
+                                                                            "skip_execution": false,
+                                                                            "variables_to_update": [
+                                                                                {
+                                                                                    "variable_to_update": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7K16Z3iwFU97DX4zBhKRZ1wJrGT$",
+                                                                                    "variable_value_new": "Failed to retrieve policy rules for \"$activity.definition_activity_01ZHJDJSNYQIS3dXoEivOFOq3GV98PDoOBy.input.source_array[@].name$\".\n\nError: $activity.definition_activity_01ZHK62TMJUG92bvqHUMOZbLrU3b3K7IoU1.output.error.message$"
+                                                                                }
+                                                                            ]
+                                                                        },
+                                                                        "object_type": "definition_activity"
+                                                                    },
+                                                                    {
+                                                                        "unique_name": "definition_activity_01ZHJDKUIO2NI1zszo775DHOYlbv8KtMUfj",
+                                                                        "name": "Break",
+                                                                        "title": "Break",
+                                                                        "type": "logic.break",
+                                                                        "base_type": "activity",
+                                                                        "properties": {
+                                                                            "continue_on_failure": false,
+                                                                            "display_name": "Break",
+                                                                            "skip_execution": false
+                                                                        },
+                                                                        "object_type": "definition_activity"
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "unique_name": "definition_activity_01ZHJDKVDAW0K1P9kacdNtI2WKglIPASNjZ",
+                        "name": "Condition Branch",
+                        "title": "No",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$activity.definition_activity_01ZHK3KWBVIFW0WbEGjwUtBQgkIFsj9gup3.output.succeeded$",
+                                "operator": "eq",
+                                "right_operand": false
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "No",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01ZHJDKWN20GK4W8KPERwrZcQ5GR8uzKXBC",
+                                "name": "Set Variables",
+                                "title": "Set Error Message",
+                                "type": "core.set_multiple_variables",
+                                "base_type": "activity",
+                                "properties": {
+                                    "continue_on_failure": false,
+                                    "display_name": "Set Error Message",
+                                    "skip_execution": false,
+                                    "variables_to_update": [
+                                        {
+                                            "variable_to_update": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7K16Z3iwFU97DX4zBhKRZ1wJrGT$",
+                                            "variable_value_new": "Failed to retrieve access policies from the Secure Firewall Management Center.\n\nError: $activity.definition_activity_01ZHK3KWBVIFW0WbEGjwUtBQgkIFsj9gup3.output.error.message$"
+                                        }
+                                    ]
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "unique_name": "definition_activity_01ZHJDKXQRBG83lNXbbUrzha7mKLJ8X2giQ",
+                "name": "Condition Block",
+                "title": "Results returned?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                    "continue_on_failure": false,
+                    "display_name": "Results returned?",
+                    "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                    {
+                        "unique_name": "definition_activity_01ZHJDKYMUW1U4nLA1xa23upanWKSSxfNdH",
+                        "name": "Condition Branch",
+                        "title": "Errors Found",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7K16Z3iwFU97DX4zBhKRZ1wJrGT$",
+                                "operator": "ne",
+                                "right_operand": ""
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "Errors Found",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01ZHJDL0707IF1UsFN6nMWmgyIRRr3nqpES",
+                                "name": "Set Variables",
+                                "title": "Update Results",
+                                "type": "core.set_multiple_variables",
+                                "base_type": "activity",
+                                "properties": {
+                                    "continue_on_failure": false,
+                                    "display_name": "Update Results",
+                                    "skip_execution": false,
+                                    "variables_to_update": [
+                                        {
+                                            "variable_to_update": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7KBIC4SEQsP9FGxA1p2UjUhEdMc$",
+                                            "variable_value_new": "# Secure Firewall - Get Expiring Rules\n## Worflow FAILED\n\n---\n\n[Click here]($workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7JAEU4r7YCporxWdTCF96boje9M$) to view the workflow run.\n\n---\n\n$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7K16Z3iwFU97DX4zBhKRZ1wJrGT$\n\n$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7KBIC4SEQsP9FGxA1p2UjUhEdMc$"
+                                        }
+                                    ]
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    },
+                    {
+                        "unique_name": "definition_activity_01ZHJDL17D1WJ5EufKpHK8eBSCzLdTLWwrq",
+                        "name": "Condition Branch",
+                        "title": "No errors, no results",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": {
+                                    "left_operand": {
+                                        "left_operand": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7K16Z3iwFU97DX4zBhKRZ1wJrGT$",
+                                        "operator": "eq",
+                                        "right_operand": ""
+                                    },
+                                    "operator": "and",
+                                    "right_operand": {
+                                        "left_operand": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7J1T01Lvj2Uj4wcakoMCLAvkwGm$",
+                                        "operator": "eq",
+                                        "right_operand": ""
+                                    }
+                                },
+                                "operator": "and",
+                                "right_operand": {
+                                    "left_operand": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7JLKY5puHbLhbqdqtZNz14vivQx$",
+                                    "operator": "eq",
+                                    "right_operand": ""
+                                }
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "No errors, no results",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01ZHJDL2AK20R21GbucbIJFAmttYiTmmexX",
+                                "name": "Completed",
+                                "title": "Completed",
+                                "type": "logic.completed",
+                                "base_type": "activity",
+                                "properties": {
+                                    "completion_type": "succeeded",
+                                    "continue_on_failure": false,
+                                    "display_name": "Completed",
+                                    "result_message": "No expired or soon-to-expire rules found.",
+                                    "skip_execution": false
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    },
+                    {
+                        "unique_name": "definition_activity_01ZHJDL34BMYC2Lz9sDnpLDj1c9bzYzjJ6M",
+                        "name": "Condition Branch",
+                        "title": "Expired\/Expiring Rules Found",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": {
+                                    "left_operand": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7J1T01Lvj2Uj4wcakoMCLAvkwGm$",
+                                    "operator": "ne",
+                                    "right_operand": ""
+                                },
+                                "operator": "or",
+                                "right_operand": {
+                                    "left_operand": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7JLKY5puHbLhbqdqtZNz14vivQx$",
+                                    "operator": "ne",
+                                    "right_operand": ""
+                                }
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "Expired\/Expiring Rules Found",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01ZHJDL4JPINK2RY3TiI4PliXb8wJrmlCcz",
+                                "name": "Set Variables",
+                                "title": "Update Results",
+                                "type": "core.set_multiple_variables",
+                                "base_type": "activity",
+                                "properties": {
+                                    "continue_on_failure": false,
+                                    "display_name": "Update Results",
+                                    "skip_execution": false,
+                                    "variables_to_update": [
+                                        {
+                                            "variable_to_update": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7KBIC4SEQsP9FGxA1p2UjUhEdMc$",
+                                            "variable_value_new": "# Secure Firewall - Get Expiring Rules\n## Workflow COMPLETE\n\n---\n\n[Click here]($workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7JAEU4r7YCporxWdTCF96boje9M$) to view the workflow run.\n\n---\n\nA SecureX Orchestration workflow has discovered one or more policies with time-based rules which are expired or are set to expire within the next **$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7KROF1eVnzi2mf8NU4gV0tZb5uG$** days. Please review each object and consider removing or updating any expired or soon-to-expire rules."
+                                        }
+                                    ]
+                                },
+                                "object_type": "definition_activity"
+                            },
+                            {
+                                "unique_name": "definition_activity_01ZHJDL63RR0X79FNGZJELDPF2dPCY8lYI5",
+                                "name": "Condition Block",
+                                "title": "Expired rules discovered?",
+                                "type": "logic.if_else",
+                                "base_type": "activity",
+                                "properties": {
+                                    "continue_on_failure": false,
+                                    "display_name": "Expired rules discovered?",
+                                    "skip_execution": false
+                                },
+                                "object_type": "definition_activity",
+                                "blocks": [
+                                    {
+                                        "unique_name": "definition_activity_01ZHJDL6ZKBQS4A7OcJNGmF4poGtgIwwpbu",
+                                        "name": "Condition Branch",
+                                        "title": "Yes",
+                                        "type": "logic.condition_block",
+                                        "base_type": "activity",
+                                        "properties": {
+                                            "condition": {
+                                                "left_operand": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7J1T01Lvj2Uj4wcakoMCLAvkwGm$",
+                                                "operator": "ne",
+                                                "right_operand": ""
+                                            },
+                                            "continue_on_failure": false,
+                                            "display_name": "Yes",
+                                            "skip_execution": false
+                                        },
+                                        "object_type": "definition_activity",
+                                        "actions": [
+                                            {
+                                                "unique_name": "definition_activity_01ZHJDL8ALVTV3iA0dJLBm9Xrl8n4A7thC2",
+                                                "name": "Set Variables",
+                                                "title": "Update Results",
+                                                "type": "core.set_multiple_variables",
+                                                "base_type": "activity",
+                                                "properties": {
+                                                    "continue_on_failure": false,
+                                                    "display_name": "Update Results",
+                                                    "skip_execution": false,
+                                                    "variables_to_update": [
+                                                        {
+                                                            "variable_to_update": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7KBIC4SEQsP9FGxA1p2UjUhEdMc$",
+                                                            "variable_value_new": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7KBIC4SEQsP9FGxA1p2UjUhEdMc$\n\n---\n\n### Expired Rules:\n$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7J1T01Lvj2Uj4wcakoMCLAvkwGm$"
+                                                        }
+                                                    ]
+                                                },
+                                                "object_type": "definition_activity"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "unique_name": "definition_activity_01ZHJDL993H854EOdtnOLgLGAdYFaouDgog",
+                                "name": "Condition Block",
+                                "title": "Expiring rules discovered?",
+                                "type": "logic.if_else",
+                                "base_type": "activity",
+                                "properties": {
+                                    "continue_on_failure": false,
+                                    "display_name": "Expiring rules discovered?",
+                                    "skip_execution": false
+                                },
+                                "object_type": "definition_activity",
+                                "blocks": [
+                                    {
+                                        "unique_name": "definition_activity_01ZHJDLA4X39P3xCUZ9PjI44QE0akZzTBuF",
+                                        "name": "Condition Branch",
+                                        "title": "Yes",
+                                        "type": "logic.condition_block",
+                                        "base_type": "activity",
+                                        "properties": {
+                                            "condition": {
+                                                "left_operand": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7JLKY5puHbLhbqdqtZNz14vivQx$",
+                                                "operator": "ne",
+                                                "right_operand": ""
+                                            },
+                                            "continue_on_failure": false,
+                                            "display_name": "Yes",
+                                            "skip_execution": false
+                                        },
+                                        "object_type": "definition_activity",
+                                        "actions": [
+                                            {
+                                                "unique_name": "definition_activity_01ZHJDLBLUUAL43kVO2P0GeCBjBMHAo8LHp",
+                                                "name": "Set Variables",
+                                                "title": "Update Results",
+                                                "type": "core.set_multiple_variables",
+                                                "base_type": "activity",
+                                                "properties": {
+                                                    "continue_on_failure": false,
+                                                    "display_name": "Update Results",
+                                                    "skip_execution": false,
+                                                    "variables_to_update": [
+                                                        {
+                                                            "variable_to_update": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7KBIC4SEQsP9FGxA1p2UjUhEdMc$",
+                                                            "variable_value_new": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7KBIC4SEQsP9FGxA1p2UjUhEdMc$\n\n---\n\n### Expiring Rules:\n$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7JLKY5puHbLhbqdqtZNz14vivQx$"
+                                                        }
+                                                    ]
+                                                },
+                                                "object_type": "definition_activity"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "unique_name": "definition_activity_01ZHJDLCJXJJ21JXVSekdeuRdw1rGaoESFN",
+                "name": "Group",
+                "title": "Send Webex message",
+                "type": "logic.group",
+                "base_type": "activity",
+                "properties": {
+                    "continue_on_failure": false,
+                    "display_name": "Send Webex message",
+                    "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                    {
+                        "unique_name": "definition_activity_01ZHJDLEHTDIX56tNFHY8GTXB5Fb8fMjYja",
+                        "name": "Webex - Post Message to Room",
+                        "title": "Webex - Post Message to Room",
+                        "type": "workflow.atomic_workflow",
+                        "base_type": "subworkflow",
+                        "properties": {
+                            "continue_on_failure": true,
+                            "display_name": "Webex - Post Message to Room",
+                            "input": {
+                                "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$activity.definition_activity_01ZHJDIT8HAQ16etjYEhePh1yPP1sVXU1rU.output.variable_workflow_01PP790MCXJ7Y5cAWcGZWbG4Es0126zb1I6$",
+                                "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7JT7750RwItQMvzyGz5KNPj1Mni$",
+                                "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "$workflow.definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb.local.variable_workflow_01ZHJDIL7KBIC4SEQsP9FGxA1p2UjUhEdMc$",
+                                "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": "",
+                                "variable_workflow_01SVERQNMKN8N6vqX2djMtAfshphGydGsH8": ""
+                            },
+                            "runtime_user": {
+                                "target_default": true
+                            },
+                            "skip_execution": false,
+                            "target": {
+                                "override_workflow_target_group_criteria": true,
+                                "target_group": {
+                                    "run_on_all_targets": false,
+                                    "use_criteria": {
+                                        "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                        "conditions": [
+                                            {
+                                                "left_operand": "$targetgroup.target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH.common.display_name$",
+                                                "operator": "eqi",
+                                                "right_operand": "Webex Teams"
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            "workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw",
+                            "workflow_name": "Webex - Post Message to Room"
+                        },
+                        "object_type": "definition_activity"
+                    },
+                    {
+                        "unique_name": "definition_activity_01ZHJDLFULYHW4WSzgrFOUuPIAwbOHAfPU2",
+                        "name": "Condition Block",
+                        "title": "Was the message posted successfully?",
+                        "type": "logic.if_else",
+                        "base_type": "activity",
+                        "properties": {
+                            "continue_on_failure": false,
+                            "display_name": "Was the message posted successfully?",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "blocks": [
+                            {
+                                "unique_name": "definition_activity_01ZHJDLGSKPVI5jOWZsfCkMRmU0vrfObZwN",
+                                "name": "Condition Branch",
+                                "title": "No",
+                                "type": "logic.condition_block",
+                                "base_type": "activity",
+                                "properties": {
+                                    "condition": {
+                                        "left_operand": "$activity.definition_activity_01ZHJDLEHTDIX56tNFHY8GTXB5Fb8fMjYja.output.succeeded$",
+                                        "operator": "eq",
+                                        "right_operand": false
+                                    },
+                                    "continue_on_failure": false,
+                                    "display_name": "No",
+                                    "skip_execution": false
+                                },
+                                "object_type": "definition_activity",
+                                "actions": [
+                                    {
+                                        "unique_name": "definition_activity_01ZHJDLHZ0IW15wfsYoybGAbN7DyXXE5AQa",
+                                        "name": "Completed",
+                                        "title": "Failed",
+                                        "type": "logic.completed",
+                                        "base_type": "activity",
+                                        "properties": {
+                                            "completion_type": "failed-completed",
+                                            "continue_on_failure": false,
+                                            "display_name": "Failed",
+                                            "result_message": "Workflow completed, however, the Webex message could not be sent.\n\nError: $activity.definition_activity_01ZHJDLEHTDIX56tNFHY8GTXB5Fb8fMjYja.output.error.message$",
+                                            "skip_execution": false
+                                        },
+                                        "object_type": "definition_activity"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "categories": [
+            "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+        ]
+    },
+    "target_groups": {
+        "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+            "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+            "name": "Default TargetGroup",
+            "title": "Default TargetGroup",
+            "type": "generic.target_group",
+            "base_type": "target_group",
+            "version": "1.0.0",
+            "targets": [
+                {
+                    "data_target_type": "web-service.endpoint",
+                    "view_target_type": "web-service.endpoint",
+                    "include_all_targets": true
+                },
+                {
+                    "data_target_type": "email.smtp_endpoint",
+                    "view_target_type": "email.smtp_endpoint",
+                    "include_all_targets": true
+                },
+                {
+                    "data_target_type": "terminal.endpoint",
+                    "view_target_type": "terminal.endpoint",
+                    "include_all_targets": true
+                },
+                {
+                    "data_target_type": "aws.endpoint",
+                    "view_target_type": "aws.endpoint",
+                    "include_all_targets": true
+                }
+            ],
+            "object_type": "target_group"
+        }
+    },
+    "atomic_workflows": [
+        "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez",
+        "definition_workflow_01UUUCRXVK87D5cLmpNJa7yTmzajzPZKT6Z",
+        "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw"
+    ],
+    "dependent_workflows": [
+        "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez",
+        "definition_workflow_01UUUCRXVK87D5cLmpNJa7yTmzajzPZKT6Z",
+        "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw"
+    ]
+}

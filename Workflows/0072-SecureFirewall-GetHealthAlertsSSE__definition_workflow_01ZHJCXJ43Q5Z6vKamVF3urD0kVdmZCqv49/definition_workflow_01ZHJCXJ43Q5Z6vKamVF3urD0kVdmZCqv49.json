@@ -1,0 +1,1394 @@
+{
+    "workflow": {
+        "unique_name": "definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49",
+        "name": "0072 - Secure Firewall - Get Health Alerts (SSE)",
+        "title": "0072 - Secure Firewall - Get Health Alerts (SSE)",
+        "type": "generic.workflow",
+        "base_type": "workflow",
+        "variables": [
+            {
+                "schema_id": "datatype.boolean",
+                "properties": {
+                    "value": true,
+                    "scope": "local",
+                    "name": "Status Code Yellow",
+                    "type": "datatype.boolean",
+                    "description": "If set to \"true\", the workflow will retrieve health alerts with a status code of \"Yellow\"",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01ZHJCXJDJ2M15Ed3CZTbC16Gd3UJWlszw9",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.secure_string",
+                "properties": {
+                    "value": "",
+                    "scope": "local",
+                    "name": "Webex Access Token",
+                    "type": "datatype.secure_string",
+                    "description": "The access token to use to authenticate to the Webex API. Information about using a bot, which is what we recommend, can be found here: https:\/\/developer.webex.com\/docs\/bots",
+                    "is_required": true,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01ZHJCXJDK09F6oKaAWTrq3EZAttuuIrboX",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "",
+                    "scope": "local",
+                    "name": "Device ID",
+                    "type": "datatype.string",
+                    "description": "ID of the device to send the command to in SSE. This can be obtained from the device's summary page in SSE, the Devices page in the Administration section of SecureX, or by using the \"SecureX - SSE Proxy - List Devices\" atomic",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01ZHK867OXE823EfjX0sRAkXcCn3JmCXkgT",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "",
+                    "scope": "local",
+                    "name": "Health Alerts Filter",
+                    "type": "datatype.string",
+                    "description": "Placeholder for a filter used when fetching alerts from Secure Firewall. This will be populated automatically",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01ZHJCXJDJFIR7H9TK9cqO0iV5Zx6Db2Ehu",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.integer",
+                "properties": {
+                    "value": 16,
+                    "scope": "local",
+                    "name": "Minutes to Search",
+                    "type": "datatype.integer",
+                    "description": "How many minutes back in time to fetch alerts from. This should match the workflow's scheduled interval",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01ZHJCXJDIJOE59m2GC0Oh6jz4FKK3Hqh3K",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "SecureX Orchestration",
+                    "scope": "local",
+                    "name": "Webex Room Name",
+                    "type": "datatype.string",
+                    "description": "The name of the Webex room to post messages to. If using a bot, make sure to invite your bot to the room before attempting to send messages",
+                    "is_required": true,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01ZHJCXJDJTWM4JjNTML3d2B1HUj4jJ1AHK",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "securex-orchestration",
+                    "scope": "local",
+                    "name": "ServiceNow User ID",
+                    "type": "datatype.string",
+                    "description": "The username of the user you're using to open incident tickets. This can either match the username in your ServiceNow account key or, if the account has the appropriate permissions, can be a different user",
+                    "is_required": true,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01ZHJCXJDIRZM63BrZhhMXcIp6QlNK3DhlG",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "",
+                    "scope": "local",
+                    "name": "Webex Message",
+                    "type": "datatype.string",
+                    "description": "Placeholder used to assemble a Webex message. This will be populated automatically",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01ZHJCXJDK82Q6GVz7oDGB3CQI68Upobajk",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "",
+                    "scope": "local",
+                    "name": "Workflow URL",
+                    "type": "datatype.string",
+                    "description": "Placeholder used to store a link to the workflow's run. This will be populated automatically",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01ZHJCXJDI7QR12rJ35dVyvTg5oq29q5TSv",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "e276abec-e0f2-11e3-8169-6d9ed49b625f",
+                    "scope": "local",
+                    "name": "Domain UUID",
+                    "type": "datatype.string",
+                    "description": "The UUID of the FMC domain to modify objects for. You can leave this as the default UUID if you only have one default domain",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01ZHJSNJMCM237GnWiF5uNfvxzYSrvraOVA",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.boolean",
+                "properties": {
+                    "value": true,
+                    "scope": "local",
+                    "name": "Status Code Red",
+                    "type": "datatype.boolean",
+                    "description": "If set to \"true\", the workflow will retrieve health alerts with a status code of \"Red\"",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01ZHJCXJDJNEP42TNRX6xBx5HsYpyVvyAWw",
+                "object_type": "variable_workflow"
+            }
+        ],
+        "properties": {
+            "atomic": {
+                "is_atomic": false
+            },
+            "delete_workflow_instance": false,
+            "description": "This workflow retrieves health monitor alerts from a Cisco Secure Firewall Management Center and, if alerts are returned, documents them in ServiceNow and sends a Webex message.\n\nNote: This workflow uses the SecureX SSE API Proxy. See the workflow documentation for more information.\n\nNote: This workflow has been updated to support SecureX Token account keys. See the workflow documentation for more information.\n\nDocumentation: http:\/\/ciscosecurity.github.io\/sxo-05-security-workflows\/workflows\/0072\n\nTarget Group: Default TargetGroup \n\nTargets: CTR_API, ServiceNow\n\nSteps: \n[] Fetch global variables\n[] Set the workflow run URL based on region\n[] Search for the Webex room provided\n[] Validate required variables are provided\n[] Build the search filter\n[] Fetch matching health alerts\n[] Check if any alerts were found:\n[]> If not, end the workflow\n[]> If there were alerts:\n[]>> Parse the alerts to markdown and HTML\n[]>> Create ServiceNow ticket\n[] Post the workflow result to Webex",
+            "display_name": "0072 - Secure Firewall - Get Health Alerts (SSE)",
+            "runtime_user": {
+                "target_default": true
+            },
+            "target": {
+                "execute_on_target_group": true,
+                "target_group": {
+                    "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+                    "run_on_all_targets": false,
+                    "selected_target_types": [
+                        "web-service.endpoint"
+                    ],
+                    "use_criteria": {
+                        "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                        "conditions": [
+                            {
+                                "operator": "eqi",
+                                "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                "right_operand": "CTR_API"
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        "object_type": "definition_workflow",
+        "actions": [
+            {
+                "unique_name": "definition_activity_01ZHJCXO8AGVI7daE8SalQaCBngb7NSogxh",
+                "name": "Group",
+                "title": "Fetch Global Variables",
+                "type": "logic.group",
+                "base_type": "activity",
+                "properties": {
+                    "continue_on_failure": false,
+                    "display_name": "Fetch Global Variables",
+                    "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                    {
+                        "unique_name": "definition_activity_01ZHJCXPOCIH14yW5CTFuJ68xGW6gkD6vbW",
+                        "name": "Set Variables",
+                        "title": "Fetch Global Variables",
+                        "type": "core.set_multiple_variables",
+                        "base_type": "activity",
+                        "properties": {
+                            "continue_on_failure": false,
+                            "display_name": "Fetch Global Variables",
+                            "skip_execution": false,
+                            "variables_to_update": [
+                                {
+                                    "variable_to_update": "$workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHJCXJDK09F6oKaAWTrq3EZAttuuIrboX$",
+                                    "variable_value_new": ""
+                                },
+                                {
+                                    "variable_to_update": "$workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHJCXJDJTWM4JjNTML3d2B1HUj4jJ1AHK$",
+                                    "variable_value_new": ""
+                                }
+                            ]
+                        },
+                        "object_type": "definition_activity"
+                    }
+                ]
+            },
+            {
+                "unique_name": "definition_activity_01ZHJCXQJAYGU1RipHXanAX1PidBxOZmnQk",
+                "name": "Condition Block",
+                "title": "What region are we in?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                    "continue_on_failure": false,
+                    "display_name": "What region are we in?",
+                    "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                    {
+                        "unique_name": "definition_activity_01ZHJCXRD8T6B1Ta11AfgUEZxwg6hdfN8la",
+                        "name": "Condition Branch",
+                        "title": "US",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG.env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG$",
+                                "operator": "eqi",
+                                "right_operand": "prod-nam"
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "US",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01ZHJCXSNVR156A0JaOAppBGx159A0TB0cq",
+                                "name": "Set Variables",
+                                "title": "Set Workflow URL",
+                                "type": "core.set_multiple_variables",
+                                "base_type": "activity",
+                                "properties": {
+                                    "continue_on_failure": false,
+                                    "display_name": "Set Workflow URL",
+                                    "skip_execution": false,
+                                    "variables_to_update": [
+                                        {
+                                            "variable_to_update": "$workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHJCXJDI7QR12rJ35dVyvTg5oq29q5TSv$",
+                                            "variable_value_new": "https:\/\/securex-ao.us.security.cisco.com\/orch-ui\/runs\/$workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.output.instance_id$\/"
+                                        }
+                                    ]
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    },
+                    {
+                        "unique_name": "definition_activity_01ZHJCXTLQQQP6QSqF440Vm9NmWzBFBsg6H",
+                        "name": "Condition Branch",
+                        "title": "APJC",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG.env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG$",
+                                "operator": "eqi",
+                                "right_operand": "prod-apjc"
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "APJC",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01ZHJCXUO9C8X3TDPT15aGH2GqfqmZfMH3j",
+                                "name": "Set Variables",
+                                "title": "Set Workflow URL",
+                                "type": "core.set_multiple_variables",
+                                "base_type": "activity",
+                                "properties": {
+                                    "continue_on_failure": false,
+                                    "display_name": "Set Workflow URL",
+                                    "skip_execution": false,
+                                    "variables_to_update": [
+                                        {
+                                            "variable_to_update": "$workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHJCXJDI7QR12rJ35dVyvTg5oq29q5TSv$",
+                                            "variable_value_new": "https:\/\/securex-ao.apjc.security.cisco.com\/orch-ui\/runs\/$workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.output.instance_id$\/"
+                                        }
+                                    ]
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    },
+                    {
+                        "unique_name": "definition_activity_01ZHJCXVMIGG02IPbTOElcd5YeUCL5CcrR9",
+                        "name": "Condition Branch",
+                        "title": "EU",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG.env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG$",
+                                "operator": "eqi",
+                                "right_operand": "prod-eu"
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "EU",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01ZHJCXWQ2OHL7ZOrA4tPBpXPXK0j6cVBKu",
+                                "name": "Set Variables",
+                                "title": "Set Workflow URL",
+                                "type": "core.set_multiple_variables",
+                                "base_type": "activity",
+                                "properties": {
+                                    "continue_on_failure": false,
+                                    "display_name": "Set Workflow URL",
+                                    "skip_execution": false,
+                                    "variables_to_update": [
+                                        {
+                                            "variable_to_update": "$workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHJCXJDI7QR12rJ35dVyvTg5oq29q5TSv$",
+                                            "variable_value_new": "https:\/\/securex-ao.eu.security.cisco.com\/orch-ui\/runs\/$workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.output.instance_id$\/"
+                                        }
+                                    ]
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "unique_name": "definition_activity_01ZHJCXXM7I9B5KifDuZcgFCVhwxMoce9Ta",
+                "name": "Group",
+                "title": "Search for Webex Room",
+                "type": "logic.group",
+                "base_type": "activity",
+                "properties": {
+                    "continue_on_failure": false,
+                    "display_name": "Search for Webex Room",
+                    "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                    {
+                        "unique_name": "definition_activity_01ZHJCXZIWEIZ5HKeVtmzWKSMy9nX6n3Oia",
+                        "name": "Webex - Search for Room",
+                        "title": "Webex - Search for Room",
+                        "type": "workflow.atomic_workflow",
+                        "base_type": "subworkflow",
+                        "properties": {
+                            "continue_on_failure": true,
+                            "display_name": "Webex - Search for Room",
+                            "input": {
+                                "variable_workflow_01PP790MCX1DN3EitpQebkUyJS65DbwS3nU": "$workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHJCXJDK09F6oKaAWTrq3EZAttuuIrboX$",
+                                "variable_workflow_01PP790MCXB392D3R8pxh9fgOTjTde2bcMW": "$workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHJCXJDJTWM4JjNTML3d2B1HUj4jJ1AHK$",
+                                "variable_workflow_01PP790MCXHP55YE6ylOEITWsWbUFJeyWGv": "",
+                                "variable_workflow_01PP790MCXM9W1MUwo85y8iNRCoQuQ4RGNa": ""
+                            },
+                            "runtime_user": {
+                                "target_default": true
+                            },
+                            "skip_execution": false,
+                            "target": {
+                                "override_workflow_target_group_criteria": true,
+                                "target_group": {
+                                    "run_on_all_targets": false,
+                                    "use_criteria": {
+                                        "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                        "conditions": [
+                                            {
+                                                "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                                "operator": "eqi",
+                                                "right_operand": "Webex Teams"
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            "workflow_id": "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez",
+                            "workflow_name": "Webex - Search for Room"
+                        },
+                        "object_type": "definition_activity"
+                    },
+                    {
+                        "unique_name": "definition_activity_01ZHJCY0MHRYF3KB18t18DpEyyLaetjpQKl",
+                        "name": "Condition Block",
+                        "title": "Was the room found?",
+                        "type": "logic.if_else",
+                        "base_type": "activity",
+                        "properties": {
+                            "continue_on_failure": false,
+                            "display_name": "Was the room found?",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "blocks": [
+                            {
+                                "unique_name": "definition_activity_01ZHJCY1FEOIO3gpVrxSdoR5ZcB1qFg0b2S",
+                                "name": "Condition Branch",
+                                "title": "No",
+                                "type": "logic.condition_block",
+                                "base_type": "activity",
+                                "properties": {
+                                    "condition": {
+                                        "left_operand": {
+                                            "left_operand": "$workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHJCXJDJTWM4JjNTML3d2B1HUj4jJ1AHK$",
+                                            "operator": "eq",
+                                            "right_operand": ""
+                                        },
+                                        "operator": "or",
+                                        "right_operand": {
+                                            "left_operand": "$activity.definition_activity_01ZHJCXZIWEIZ5HKeVtmzWKSMy9nX6n3Oia.output.succeeded$",
+                                            "operator": "eq",
+                                            "right_operand": false
+                                        }
+                                    },
+                                    "continue_on_failure": false,
+                                    "display_name": "No",
+                                    "skip_execution": false
+                                },
+                                "object_type": "definition_activity",
+                                "actions": [
+                                    {
+                                        "unique_name": "definition_activity_01ZHJCY2H2FLA46WVAaiTb1iynidsov0VZ0",
+                                        "name": "Completed",
+                                        "title": "Failed",
+                                        "type": "logic.completed",
+                                        "base_type": "activity",
+                                        "properties": {
+                                            "completion_type": "failed-completed",
+                                            "continue_on_failure": false,
+                                            "display_name": "Failed",
+                                            "result_message": "Could not find the Webex room \"$workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHJCXJDJTWM4JjNTML3d2B1HUj4jJ1AHK$\"",
+                                            "skip_execution": false
+                                        },
+                                        "object_type": "definition_activity"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "unique_name": "definition_activity_01ZHJCY3652LA6mbv1hFl6b6y6BKBIli3OX",
+                "name": "Condition Block",
+                "title": "Are required variables set?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                    "continue_on_failure": false,
+                    "display_name": "Are required variables set?",
+                    "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                    {
+                        "unique_name": "definition_activity_01ZHJCY3XIHVO3rjjIVBcootnGNtNzIsiW3",
+                        "name": "Condition Branch",
+                        "title": "Health alert status codes",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": {
+                                    "left_operand": "$workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHJCXJDJ2M15Ed3CZTbC16Gd3UJWlszw9$",
+                                    "operator": "eq",
+                                    "right_operand": false
+                                },
+                                "operator": "and",
+                                "right_operand": {
+                                    "left_operand": "$workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHJCXJDJNEP42TNRX6xBx5HsYpyVvyAWw$",
+                                    "operator": "eq",
+                                    "right_operand": false
+                                }
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "Health alert status codes",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01ZHJCY5DECKL2w7UvE9TLMpRmgCjTYjPfx",
+                                "name": "Webex - Post Message to Room",
+                                "title": "Webex - Post Message to Room",
+                                "type": "workflow.atomic_workflow",
+                                "base_type": "subworkflow",
+                                "properties": {
+                                    "continue_on_failure": false,
+                                    "display_name": "Webex - Post Message to Room",
+                                    "input": {
+                                        "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$activity.definition_activity_01ZHJCXZIWEIZ5HKeVtmzWKSMy9nX6n3Oia.output.variable_workflow_01PP790MCXJ7Y5cAWcGZWbG4Es0126zb1I6$",
+                                        "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHJCXJDK09F6oKaAWTrq3EZAttuuIrboX$",
+                                        "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "# Secure Firewall - Get Health Alerts\n## Workflow FAILED\n---\n\nAt least one health alert status code must be enabled. Please review the workflow configuration and set at least one of the following to \"true\":\n- Status Code Yellow\n- Status Code Red\n\n[Click here]($workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHJCXJDI7QR12rJ35dVyvTg5oq29q5TSv$) to view the workflow run.",
+                                        "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": "",
+                                        "variable_workflow_01SVERQNMKN8N6vqX2djMtAfshphGydGsH8": ""
+                                    },
+                                    "runtime_user": {
+                                        "target_default": true
+                                    },
+                                    "skip_execution": false,
+                                    "target": {
+                                        "override_workflow_target_group_criteria": true,
+                                        "target_group": {
+                                            "run_on_all_targets": false,
+                                            "use_criteria": {
+                                                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                                "conditions": [
+                                                    {
+                                                        "left_operand": "$targetgroup.target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH.common.display_name$",
+                                                        "operator": "eqi",
+                                                        "right_operand": "webex teams"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw",
+                                    "workflow_name": "Webex - Post Message to Room"
+                                },
+                                "object_type": "definition_activity"
+                            },
+                            {
+                                "unique_name": "definition_activity_01ZHJCY6JYTOL4o94MMiZz46FZGZo2nnBkQ",
+                                "name": "Completed",
+                                "title": "Failed",
+                                "type": "logic.completed",
+                                "base_type": "activity",
+                                "properties": {
+                                    "completion_type": "failed-completed",
+                                    "continue_on_failure": false,
+                                    "display_name": "Failed",
+                                    "result_message": "At least one of the following local variables must be set to \"true\":\n- Status Code Yellow\n- Status Code Red",
+                                    "skip_execution": false
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    },
+                    {
+                        "unique_name": "definition_activity_01ZHJCY7A0KWQ3oxyQGBJ9wb6ryqGS7EG65",
+                        "name": "Condition Branch",
+                        "title": "ServiceNow User ID",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHJCXJDIRZM63BrZhhMXcIp6QlNK3DhlG$",
+                                "operator": "eq",
+                                "right_operand": ""
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "ServiceNow User ID",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01ZHJCY8MZ9K34de4Z8VY3CpEEqIvK1WPzT",
+                                "name": "Webex - Post Message to Room",
+                                "title": "Webex - Post Message to Room",
+                                "type": "workflow.atomic_workflow",
+                                "base_type": "subworkflow",
+                                "properties": {
+                                    "continue_on_failure": false,
+                                    "display_name": "Webex - Post Message to Room",
+                                    "input": {
+                                        "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$activity.definition_activity_01ZHJCXZIWEIZ5HKeVtmzWKSMy9nX6n3Oia.output.variable_workflow_01PP790MCXJ7Y5cAWcGZWbG4Es0126zb1I6$",
+                                        "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHJCXJDK09F6oKaAWTrq3EZAttuuIrboX$",
+                                        "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "# Secure Firewall - Get Health Alerts\n## Workflow FAILED\n---\n\nA ServiceNow User ID is required. Please update the workflow configuration with the user ID of the ServiceNow user you want to use when submitting incidents. [Click here]($workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHJCXJDI7QR12rJ35dVyvTg5oq29q5TSv$) to view the workflow run.",
+                                        "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": "",
+                                        "variable_workflow_01SVERQNMKN8N6vqX2djMtAfshphGydGsH8": ""
+                                    },
+                                    "runtime_user": {
+                                        "target_default": true
+                                    },
+                                    "skip_execution": false,
+                                    "target": {
+                                        "override_workflow_target_group_criteria": true,
+                                        "target_group": {
+                                            "run_on_all_targets": false,
+                                            "use_criteria": {
+                                                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                                "conditions": [
+                                                    {
+                                                        "left_operand": "$targetgroup.target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH.common.display_name$",
+                                                        "operator": "eqi",
+                                                        "right_operand": "webex teams"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw",
+                                    "workflow_name": "Webex - Post Message to Room"
+                                },
+                                "object_type": "definition_activity"
+                            },
+                            {
+                                "unique_name": "definition_activity_01ZHJCY9R0UK917ShrzKeOF37PRlDbuNjVO",
+                                "name": "Completed",
+                                "title": "Failed",
+                                "type": "logic.completed",
+                                "base_type": "activity",
+                                "properties": {
+                                    "completion_type": "failed-completed",
+                                    "continue_on_failure": false,
+                                    "display_name": "Failed",
+                                    "result_message": "A ServiceNow User ID is required. Please update the workflow configuration with the user ID of the ServiceNow user you want to use when submitting incidents.",
+                                    "skip_execution": false
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "unique_name": "definition_activity_01ZHJCYAJ1PN72xTYkodWdat1omsWAJjt5Z",
+                "name": "Group",
+                "title": "Generate Health Alerts Filter",
+                "type": "logic.group",
+                "base_type": "activity",
+                "properties": {
+                    "continue_on_failure": false,
+                    "display_name": "Generate Health Alerts Filter",
+                    "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                    {
+                        "unique_name": "definition_activity_01ZHJCYBYN0JA5Q3C2E7VR7gkUbLxOr0iY2",
+                        "name": "Condition Block",
+                        "title": "Yellow alerts enabled?",
+                        "type": "logic.if_else",
+                        "base_type": "activity",
+                        "properties": {
+                            "continue_on_failure": false,
+                            "display_name": "Yellow alerts enabled?",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "blocks": [
+                            {
+                                "unique_name": "definition_activity_01ZHJCYCPSJ6A4ZlkvdG46F1KpCXGtq2vMq",
+                                "name": "Condition Branch",
+                                "title": "Yes",
+                                "type": "logic.condition_block",
+                                "base_type": "activity",
+                                "properties": {
+                                    "condition": {
+                                        "left_operand": "$workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHJCXJDJ2M15Ed3CZTbC16Gd3UJWlszw9$",
+                                        "operator": "eq",
+                                        "right_operand": true
+                                    },
+                                    "continue_on_failure": false,
+                                    "display_name": "Yes",
+                                    "skip_execution": false
+                                },
+                                "object_type": "definition_activity",
+                                "actions": [
+                                    {
+                                        "unique_name": "definition_activity_01ZHJCYDU31601BR72D9Os96PrKlftAA76h",
+                                        "name": "Set Variables",
+                                        "title": "Update Filter",
+                                        "type": "core.set_multiple_variables",
+                                        "base_type": "activity",
+                                        "properties": {
+                                            "continue_on_failure": false,
+                                            "display_name": "Update Filter",
+                                            "skip_execution": false,
+                                            "variables_to_update": [
+                                                {
+                                                    "variable_to_update": "$workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHJCXJDJFIR7H9TK9cqO0iV5Zx6Db2Ehu$",
+                                                    "variable_value_new": "yellow,$workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHJCXJDJFIR7H9TK9cqO0iV5Zx6Db2Ehu$"
+                                                }
+                                            ]
+                                        },
+                                        "object_type": "definition_activity"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "unique_name": "definition_activity_01ZHJCYETY1IN5RjL2T1dsR0SmVhpcnZKsw",
+                        "name": "Condition Block",
+                        "title": "Red alerts enabled?",
+                        "type": "logic.if_else",
+                        "base_type": "activity",
+                        "properties": {
+                            "continue_on_failure": false,
+                            "display_name": "Red alerts enabled?",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "blocks": [
+                            {
+                                "unique_name": "definition_activity_01ZHJCYFTWYCG4mWFlr52qAOoeD44SFGRYl",
+                                "name": "Condition Branch",
+                                "title": "Yes",
+                                "type": "logic.condition_block",
+                                "base_type": "activity",
+                                "properties": {
+                                    "condition": {
+                                        "left_operand": "$workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHJCXJDJNEP42TNRX6xBx5HsYpyVvyAWw$",
+                                        "operator": "eq",
+                                        "right_operand": true
+                                    },
+                                    "continue_on_failure": false,
+                                    "display_name": "Yes",
+                                    "skip_execution": false
+                                },
+                                "object_type": "definition_activity",
+                                "actions": [
+                                    {
+                                        "unique_name": "definition_activity_01ZHJCYHZMMO70Ib9OG049egiiMWOFl2bdA",
+                                        "name": "Set Variables",
+                                        "title": "Update Filter",
+                                        "type": "core.set_multiple_variables",
+                                        "base_type": "activity",
+                                        "properties": {
+                                            "continue_on_failure": false,
+                                            "display_name": "Update Filter",
+                                            "skip_execution": false,
+                                            "variables_to_update": [
+                                                {
+                                                    "variable_to_update": "$workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHJCXJDJFIR7H9TK9cqO0iV5Zx6Db2Ehu$",
+                                                    "variable_value_new": "red,$workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHJCXJDJFIR7H9TK9cqO0iV5Zx6Db2Ehu$"
+                                                }
+                                            ]
+                                        },
+                                        "object_type": "definition_activity"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "unique_name": "definition_activity_01ZHJCYJUAN460kP88Nr5bXq46WfFHhJd6H",
+                        "name": "Trim String",
+                        "title": "Trim Filter",
+                        "type": "core.trim_string",
+                        "base_type": "activity",
+                        "properties": {
+                            "characters_to_trim": ",",
+                            "continue_on_failure": false,
+                            "display_name": "Trim Filter",
+                            "skip_execution": false,
+                            "source": "$workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHJCXJDJFIR7H9TK9cqO0iV5Zx6Db2Ehu$",
+                            "trim_leading": false,
+                            "trim_trailing": true
+                        },
+                        "object_type": "definition_activity"
+                    },
+                    {
+                        "unique_name": "definition_activity_01ZHJCYLK828P36Y354SgJoCDn1NwJgSSAB",
+                        "name": "Set Variables",
+                        "title": "Set Filter",
+                        "type": "core.set_multiple_variables",
+                        "base_type": "activity",
+                        "properties": {
+                            "continue_on_failure": false,
+                            "display_name": "Set Filter",
+                            "skip_execution": false,
+                            "variables_to_update": [
+                                {
+                                    "variable_to_update": "$workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHJCXJDJFIR7H9TK9cqO0iV5Zx6Db2Ehu$",
+                                    "variable_value_new": "$activity.definition_activity_01ZHJCYJUAN460kP88Nr5bXq46WfFHhJd6H.output.trimmed$"
+                                }
+                            ]
+                        },
+                        "object_type": "definition_activity"
+                    }
+                ]
+            },
+            {
+                "unique_name": "definition_activity_01ZHJCYTGW75623rtqHo1cZJKsDt1pkzNww",
+                "name": "Group",
+                "title": "Calculate Start and end dates",
+                "type": "logic.group",
+                "base_type": "activity",
+                "properties": {
+                    "continue_on_failure": false,
+                    "display_name": "Calculate Start and end dates",
+                    "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                    {
+                        "unique_name": "definition_activity_01ZHJCYVY4NP80ivx6Zm7dz81BwiZfRom3c",
+                        "name": "Format Date",
+                        "title": "Format End Date",
+                        "type": "core.format_date",
+                        "base_type": "activity",
+                        "properties": {
+                            "continue_on_failure": false,
+                            "display_name": "Format End Date",
+                            "format_string": "2006-01-02T15:04:05Z",
+                            "original_date": "$workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.output.start_time$",
+                            "skip_execution": false,
+                            "use_custom_format": false
+                        },
+                        "object_type": "definition_activity"
+                    },
+                    {
+                        "unique_name": "definition_activity_01ZHJCYXG4SUD4okkJw6W5jUWeCG3vYdZxW",
+                        "name": "Calculate Date",
+                        "title": "Calculate Start Date",
+                        "type": "core.calculate_date",
+                        "base_type": "activity",
+                        "properties": {
+                            "adjustment": "-($workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHJCXJDIJOE59m2GC0Oh6jz4FKK3Hqh3K$*60)",
+                            "continue_on_failure": false,
+                            "display_name": "Calculate Start Date",
+                            "original_date": "$activity.definition_activity_01ZHJCYVY4NP80ivx6Zm7dz81BwiZfRom3c.output.result$",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity"
+                    },
+                    {
+                        "unique_name": "definition_activity_01ZHJCYYZOJDP6mW5zRGDmv1DLzlIlGHHN4",
+                        "name": "Format Date",
+                        "title": "Format Start Date",
+                        "type": "core.format_date",
+                        "base_type": "activity",
+                        "properties": {
+                            "continue_on_failure": false,
+                            "display_name": "Format Start Date",
+                            "format_string": "2006-01-02T15:04:05Z",
+                            "original_date": "$activity.definition_activity_01ZHJCYXG4SUD4okkJw6W5jUWeCG3vYdZxW.output.result$",
+                            "skip_execution": false,
+                            "use_custom_format": false
+                        },
+                        "object_type": "definition_activity"
+                    },
+                    {
+                        "unique_name": "definition_activity_01ZHJCZ0UDNTB6YgWK4doGAJfhGwT95Ulg8",
+                        "name": "Execute Python Script",
+                        "title": "Execute Python Script",
+                        "type": "python3.script",
+                        "base_type": "activity",
+                        "properties": {
+                            "action_timeout": 180,
+                            "continue_on_failure": false,
+                            "display_name": "Execute Python Script",
+                            "script": "import sys\n\nstartDate = sys.argv[1]\nendDate = sys.argv[2]",
+                            "script_arguments": [
+                                "$activity.definition_activity_01ZHJCYYZOJDP6mW5zRGDmv1DLzlIlGHHN4.output.result$",
+                                "$activity.definition_activity_01ZHJCYVY4NP80ivx6Zm7dz81BwiZfRom3c.output.result$"
+                            ],
+                            "script_queries": [
+                                {
+                                    "script_query": "startDate",
+                                    "script_query_name": "startDate",
+                                    "script_query_type": "date"
+                                },
+                                {
+                                    "script_query": "endDate",
+                                    "script_query_name": "endDate",
+                                    "script_query_type": "date"
+                                }
+                            ],
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity"
+                    }
+                ]
+            },
+            {
+                "unique_name": "definition_activity_01ZHJVW5K9JMB5xfPtKBEzMYRreDjSIX9zz",
+                "name": "Secure Firewall - SSE - Get Health Alerts",
+                "title": "Secure Firewall - SSE - Get Health Alerts",
+                "type": "workflow.atomic_workflow",
+                "base_type": "subworkflow",
+                "properties": {
+                    "continue_on_failure": true,
+                    "display_name": "Secure Firewall - SSE - Get Health Alerts",
+                    "input": {
+                        "variable_workflow_01ZGJXWLVI3SK4c6QeX5pjW31g1nCJYIAF9": "",
+                        "variable_workflow_01ZGJXWLVJ2FS6e6S1i6jGHRTaazbCSjK46": "$workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHJCXJDJFIR7H9TK9cqO0iV5Zx6Db2Ehu$",
+                        "variable_workflow_01ZGJXWLVJJHJ4HtHq6C3C0HqUrtUxI1RwZ": "",
+                        "variable_workflow_01ZGJXWLVJR9O3xUbpIKaMSPKiY52q1F5ym": "$workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHJSNJMCM237GnWiF5uNfvxzYSrvraOVA$",
+                        "variable_workflow_01ZGJXWLVK87B7h7ALMdwDX6pyMyhIX4bl6": "$activity.definition_activity_01ZHJCZ0UDNTB6YgWK4doGAJfhGwT95Ulg8.output.script_queries.startDate$",
+                        "variable_workflow_01ZGJXWLVKFDN4jPNgDeuX4Dhp4x52zyLKt": 500,
+                        "variable_workflow_01ZGJXWLVKO5A5iBmChxpyi3FZ0V0eSr88I": "$activity.definition_activity_01ZHJCZ0UDNTB6YgWK4doGAJfhGwT95Ulg8.output.script_queries.endDate$",
+                        "variable_workflow_01ZGJXWLVL65K68B0O8AWQ2A9xuse0bXamI": "",
+                        "variable_workflow_01ZGMZMZZ38N73GkxQhKG1UQKevnSNxYOLB": "$workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHK867OXE823EfjX0sRAkXcCn3JmCXkgT$"
+                    },
+                    "runtime_user": {
+                        "target_default": true
+                    },
+                    "skip_execution": false,
+                    "target": {
+                        "use_workflow_target_group": true
+                    },
+                    "workflow_id": "definition_workflow_01ZGJXWLO3S9L2IPWvXTde4RgbXCeC1PkmL",
+                    "workflow_name": "Secure Firewall - SSE - Get Health Alerts"
+                },
+                "object_type": "definition_activity"
+            },
+            {
+                "unique_name": "definition_activity_01ZHJCZ4YORHV5Fwurtvpdj7zEv6vtlmo8J",
+                "name": "Condition Block",
+                "title": "Alerts retrieved succesfully?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                    "continue_on_failure": false,
+                    "display_name": "Alerts retrieved succesfully?",
+                    "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                    {
+                        "unique_name": "definition_activity_01ZHJCZ5Y0FWK07mXhP1i3rVNQBOF0DPIEt",
+                        "name": "Condition Branch",
+                        "title": "Yes",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$activity.definition_activity_01ZHJVW5K9JMB5xfPtKBEzMYRreDjSIX9zz.output.succeeded$",
+                                "operator": "eq",
+                                "right_operand": true
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "Yes",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01ZHJCZ725HRC3Jka9dZ6jK0feCzmyefbw2",
+                                "name": "JSONPath Query",
+                                "title": "Parse Count of Alerts",
+                                "type": "corejava.jsonpathquery",
+                                "base_type": "activity",
+                                "properties": {
+                                    "action_timeout": 180,
+                                    "continue_on_failure": true,
+                                    "display_name": "Parse Count of Alerts",
+                                    "input_json": "$activity.definition_activity_01ZHJVW5K9JMB5xfPtKBEzMYRreDjSIX9zz.output.variable_workflow_01ZGJXWLVKYS90la1EtAAC2LqhgEkxxWqLK$",
+                                    "jsonpath_queries": [
+                                        {
+                                            "jsonpath_query": "$.paging.count",
+                                            "jsonpath_query_name": "count",
+                                            "jsonpath_query_type": "integer"
+                                        }
+                                    ],
+                                    "skip_execution": false
+                                },
+                                "object_type": "definition_activity"
+                            },
+                            {
+                                "unique_name": "definition_activity_01ZHJCZ83D3KJ7Ch1HOKPL6vzOXBtMnHThg",
+                                "name": "Condition Block",
+                                "title": "How many alerts are there?",
+                                "type": "logic.if_else",
+                                "base_type": "activity",
+                                "properties": {
+                                    "continue_on_failure": false,
+                                    "display_name": "How many alerts are there?",
+                                    "skip_execution": false
+                                },
+                                "object_type": "definition_activity",
+                                "blocks": [
+                                    {
+                                        "unique_name": "definition_activity_01ZHJCZ8Y5GAQ7goXF7WTStVJ9f3OgdqATH",
+                                        "name": "Condition Branch",
+                                        "title": "Greater than 0",
+                                        "type": "logic.condition_block",
+                                        "base_type": "activity",
+                                        "properties": {
+                                            "condition": {
+                                                "left_operand": "$activity.definition_activity_01ZHJCZ725HRC3Jka9dZ6jK0feCzmyefbw2.output.jsonpath_queries.count$",
+                                                "operator": "gt",
+                                                "right_operand": "0"
+                                            },
+                                            "continue_on_failure": false,
+                                            "display_name": "Greater than 0",
+                                            "skip_execution": false
+                                        },
+                                        "object_type": "definition_activity",
+                                        "actions": [
+                                            {
+                                                "unique_name": "definition_activity_01ZHJXHRYX2620NgXCANC0heCJ1oHpcyIpz",
+                                                "name": "Secure Firewall - SSE - Get Device Details",
+                                                "title": "Secure Firewall - SSE - Get Device Details",
+                                                "type": "workflow.atomic_workflow",
+                                                "base_type": "subworkflow",
+                                                "properties": {
+                                                    "continue_on_failure": false,
+                                                    "display_name": "Secure Firewall - SSE - Get Device Details",
+                                                    "input": {
+                                                        "variable_workflow_01ZGJXG1DHDQL1z2i4YY6jc1Un20BACGUMk": "$workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHJSNJMCM237GnWiF5uNfvxzYSrvraOVA$",
+                                                        "variable_workflow_01ZGJXG1DI6274ntt3vhQho7UTRSpcZBAn1": "",
+                                                        "variable_workflow_01ZGJXG1DIRML36OIVv88E0R3MZAhM4e8aM": "",
+                                                        "variable_workflow_01ZGMRVIUQ1OO5B8aqEhnjdWFYaBWKm473M": "$workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHK867OXE823EfjX0sRAkXcCn3JmCXkgT$"
+                                                    },
+                                                    "runtime_user": {
+                                                        "target_default": true
+                                                    },
+                                                    "skip_execution": false,
+                                                    "target": {
+                                                        "use_workflow_target_group": true
+                                                    },
+                                                    "workflow_id": "definition_workflow_01ZGJXG13OZPH3egeS836XhkqpL5ePjnC7x",
+                                                    "workflow_name": "Secure Firewall - SSE - Get Device Details"
+                                                },
+                                                "object_type": "definition_activity"
+                                            },
+                                            {
+                                                "unique_name": "definition_activity_01ZHJCZBWDYBV661webcf4Asf9GolMWQqNr",
+                                                "name": "Execute Python Script",
+                                                "title": "Execute Python Script",
+                                                "type": "python3.script",
+                                                "base_type": "activity",
+                                                "properties": {
+                                                    "action_timeout": 180,
+                                                    "continue_on_failure": false,
+                                                    "display_name": "Execute Python Script",
+                                                    "script": "import sys, json, datetime\n\nalertList = json.loads(sys.argv[1])\nyellowAlerts = sys.argv[2].capitalize()\nredAlerts = sys.argv[3].capitalize()\ndeviceList = json.loads(sys.argv[4])\n\n# Take alert data and filter for yellowAlerts or redAlerts\ndef filter_alerts(data, status):\n    alerts_filtered = []\n\n    # loop through data and search for items with matching status\n    for alert in data:\n        if status in alert['status']:\n            alerts_filtered.append(alert)\n    return alerts_filtered\n\n# Take a uuid and search for the associated name\ndef parse_devices(devices, uuid):\n    if uuid == \"0\":\n        device_results = \"Secure Firewall Management Center\"\n    else:\n        for device in devices:\n            if uuid in device['id']:\n                device_results = device['name']\n    return device_results\n\n# Take an item and parse out results in HTML\ndef parse_alert_html(item_, devices):\n    parse_results = ''\n    try:\n        module = item_['moduleID']\n        details = item_['details']\n        uuid = item_['deviceUUID']\n        timestamp = datetime.datetime.fromtimestamp(item_['timestamp'])\n        name = parse_devices(devices,uuid)\n        parse_results += f'<tr><td>{timestamp}<\/td><td>{name}<\/td><td>{module}<\/td><td>{details}<\/td><\/tr>'\n\n    except KeyError as err:\n        print(f'{err} not found')\n    return parse_results\n\n# Take an item and parse out in Markdown\ndef parse_alert_md(item_, devices):\n    parse_results = ''\n    try:\n        module = item_['moduleID']\n        details = item_['details'].strip('<br>')\n        uuid = item_['deviceUUID']\n        timestamp = datetime.datetime.fromtimestamp(item_['timestamp'])\n        name = parse_devices(devices,uuid)\n        parse_results += f'> {timestamp} : {name} : {module} : {details} \\n'\n\n    except KeyError as err:\n        print(f'{err} not found')\n    return parse_results\n\n# Determine if alertList is a dict or list then parse each alert and return results.\ndef main(data, devices):\n    results = { \"parsed_html\" :\"\", \"parsed_md\" : \"\"}\n    alerts_ = data['items']\n    devices_ = devices['items']\n\n    # Filter only RED alerts if enabled, get red alerts\n    if redAlerts:\n        red_ = filter_alerts(alerts_, \"RED\")\n\n        if len(red_) > 0:\n            \n            # Parse for HTML\n            # append header for Red section and add list tag for HTML\n            results[\"parsed_html\"] += '''<h2>Red Alerts<\/h2><br>'''\n            results[\"parsed_html\"] += '''<table border=\"1\"><tr><th>Timestamp<\/th><th>Device Name<\/th><th>Health Module<\/th><th>Details<\/th><\/tr>'''\n\n            # parse each item and append to results for HTML\n            for alert in red_:\n                results[\"parsed_html\"] += f'{parse_alert_html(alert, devices_)}'\n            results[\"parsed_html\"] += \"<\/table><br>\"\n\n            # Parse for Markdown\n            # Append header for Red section and add list tag for Markdown\n            results[\"parsed_md\"] += \"\\n## Red Alerts \\n\"\n            results[\"parsed_md\"] += \"**Timestamp : Device Name : Health Module : Details**\\n\"\n\n            # parse each item and append to results for Markdown\n            for alert in red_:\n                results[\"parsed_md\"] += f'{parse_alert_md(alert, devices_)}'\n\n    # check if search for YELLOW is enabled, get yellow alerts\n    if yellowAlerts:\n        yellow_ = filter_alerts(alerts_, \"YELLOW\")\n\n        if len(yellow_) > 0:\n            # append header for Yellow section\n            results[\"parsed_html\"] += '''<br>'''  \n            results[\"parsed_html\"] += '''<h2>Yellow Alerts<\/h2><br>'''\n            results[\"parsed_html\"] += '''<table border=\"1\"><tr><th>Timestamp<\/th><th>Device Name<\/th><th>Health Module<\/th><th>Details<\/th><\/tr>'''\n\n            # parse each item and append to results\n            for alert in yellow_:\n                results[\"parsed_html\"] += f'{parse_alert_html(alert, devices_)}'\n            results[\"parsed_html\"] += \"<\/table><br>\"\n\n            # Parse for Markdown\n            # Append header for Yellow section and add list tag for Markdown\n            results[\"parsed_md\"] += \"## Yellow Alerts \\n\" \n            results[\"parsed_md\"] += \"**Timestamp : Device Name : Health Module : Details**\\n\"\n\n            # parse each item and append to results for Markdown\n            for alert in yellow_:\n                results[\"parsed_md\"] += f'{parse_alert_md(alert, devices_)}'\n\n    # return results in both HTML and Markdown\n    return results\n\n# main function\nresults = main(alertList, deviceList)\nhtml = results['parsed_html']\nmarkdown = results['parsed_md']",
+                                                    "script_arguments": [
+                                                        "$activity.definition_activity_01ZHJVW5K9JMB5xfPtKBEzMYRreDjSIX9zz.output.variable_workflow_01ZGJXWLVKYS90la1EtAAC2LqhgEkxxWqLK$",
+                                                        "$workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHJCXJDJ2M15Ed3CZTbC16Gd3UJWlszw9$",
+                                                        "$workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHJCXJDJNEP42TNRX6xBx5HsYpyVvyAWw$",
+                                                        "$activity.definition_activity_01ZHJXHRYX2620NgXCANC0heCJ1oHpcyIpz.output.variable_workflow_01ZGJXG1DHSXZ5C4fgDDq3ehJpKAt32NZtE$"
+                                                    ],
+                                                    "script_queries": [
+                                                        {
+                                                            "script_query": "html",
+                                                            "script_query_name": "html_alerts",
+                                                            "script_query_type": "string"
+                                                        },
+                                                        {
+                                                            "script_query": "markdown",
+                                                            "script_query_name": "markdown_alerts",
+                                                            "script_query_type": "string"
+                                                        }
+                                                    ],
+                                                    "skip_execution": false
+                                                },
+                                                "object_type": "definition_activity"
+                                            },
+                                            {
+                                                "unique_name": "definition_activity_01ZHJCZDHP7673HEnQmA3Z8i5WPKmVNrVsY",
+                                                "name": "ServiceNow - Create Incident",
+                                                "title": "ServiceNow - Create Incident",
+                                                "type": "workflow.atomic_workflow",
+                                                "base_type": "subworkflow",
+                                                "properties": {
+                                                    "continue_on_failure": true,
+                                                    "display_name": "ServiceNow - Create Incident",
+                                                    "input": {
+                                                        "variable_workflow_01C0CK2MY2SLG1FXph6ZHp7iHmRw1KvUFlN": "Secure Firewall Management Center - Health Alerts Found",
+                                                        "variable_workflow_01FGYF0DUR8HV2TMpEKctsYjQR4mzjD5OTu": "This ticket was generated by SecureX Orchestration after finding health alerts for Secure Firewall Management Center. See work notes below for details.",
+                                                        "variable_workflow_01FGYGCZL5M2E1m1O5tvVVn0DVzVTLwytei": 2,
+                                                        "variable_workflow_01FGYGPFJYM4L5aVpzNOhRwMmzKJDofqufe": 2,
+                                                        "variable_workflow_01FGYGZ0OYYNM5pWjyyreMjNHDjusjNe8jx": "[code]$activity.definition_activity_01ZHJCZBWDYBV661webcf4Asf9GolMWQqNr.output.script_queries.html_alerts$[\/code]",
+                                                        "variable_workflow_01FGYI8HES41K63G3UzMinBH3iApm37fBGt": "$workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHJCXJDIRZM63BrZhhMXcIp6QlNK3DhlG$",
+                                                        "variable_workflow_01FMQD0HIJIDU5kce0VNx4HQiMYjMfUvBlj": "v2"
+                                                    },
+                                                    "runtime_user": {
+                                                        "target_default": true
+                                                    },
+                                                    "skip_execution": false,
+                                                    "target": {
+                                                        "override_workflow_target_group_criteria": true,
+                                                        "target_group": {
+                                                            "run_on_all_targets": false,
+                                                            "use_criteria": {
+                                                                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                                                "conditions": [
+                                                                    {
+                                                                        "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                                                        "operator": "eqi",
+                                                                        "right_operand": "ServiceNow"
+                                                                    }
+                                                                ]
+                                                            }
+                                                        }
+                                                    },
+                                                    "workflow_id": "definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW",
+                                                    "workflow_name": "ServiceNow - Create Incident"
+                                                },
+                                                "object_type": "definition_activity"
+                                            },
+                                            {
+                                                "unique_name": "definition_activity_01ZHJCZESHSGQ5v35DGW2NhaoXFzLrQN4GP",
+                                                "name": "Condition Block",
+                                                "title": "ServiceNow ticket created?",
+                                                "type": "logic.if_else",
+                                                "base_type": "activity",
+                                                "properties": {
+                                                    "continue_on_failure": false,
+                                                    "display_name": "ServiceNow ticket created?",
+                                                    "skip_execution": false
+                                                },
+                                                "object_type": "definition_activity",
+                                                "blocks": [
+                                                    {
+                                                        "unique_name": "definition_activity_01ZHJCZFNLF1A62nnUrEMDUKqF9T67AgMNd",
+                                                        "name": "Condition Branch",
+                                                        "title": "Yes",
+                                                        "type": "logic.condition_block",
+                                                        "base_type": "activity",
+                                                        "properties": {
+                                                            "condition": {
+                                                                "left_operand": "$activity.definition_activity_01ZHJCZDHP7673HEnQmA3Z8i5WPKmVNrVsY.output.succeeded$",
+                                                                "operator": "eq",
+                                                                "right_operand": true
+                                                            },
+                                                            "continue_on_failure": false,
+                                                            "display_name": "Yes",
+                                                            "skip_execution": false
+                                                        },
+                                                        "object_type": "definition_activity",
+                                                        "actions": [
+                                                            {
+                                                                "unique_name": "definition_activity_01ZHJCZH0ATBR6dFejWtUcZuqM0KONgZ1fC",
+                                                                "name": "Set Variables",
+                                                                "title": "Set Webex Message",
+                                                                "type": "core.set_multiple_variables",
+                                                                "base_type": "activity",
+                                                                "properties": {
+                                                                    "continue_on_failure": false,
+                                                                    "display_name": "Set Webex Message",
+                                                                    "skip_execution": false,
+                                                                    "variables_to_update": [
+                                                                        {
+                                                                            "variable_to_update": "$workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHJCXJDK82Q6GVz7oDGB3CQI68Upobajk$",
+                                                                            "variable_value_new": "# Secure Firewall - Get Health Alerts\n## Workflow Complete\n---\n\n- ServiceNow Ticket: $activity.definition_activity_01ZHJCZDHP7673HEnQmA3Z8i5WPKmVNrVsY.output.variable_workflow_01C0EMLG2EEYD14wKqkFjhK8dTwJa20Jihp$\n- [SecureX Workflow Run]($workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHJCXJDI7QR12rJ35dVyvTg5oq29q5TSv$)\n\n$activity.definition_activity_01ZHJCZBWDYBV661webcf4Asf9GolMWQqNr.output.script_queries.markdown_alerts$"
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                "object_type": "definition_activity"
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "unique_name": "definition_activity_01ZHJCZI5GSXF1okj5LjjUHIqwKoAJ3LOdw",
+                                                        "name": "Condition Branch",
+                                                        "title": "No",
+                                                        "type": "logic.condition_block",
+                                                        "base_type": "activity",
+                                                        "properties": {
+                                                            "condition": {
+                                                                "left_operand": "$activity.definition_activity_01ZHJCZDHP7673HEnQmA3Z8i5WPKmVNrVsY.output.succeeded$",
+                                                                "operator": "eq",
+                                                                "right_operand": false
+                                                            },
+                                                            "continue_on_failure": false,
+                                                            "display_name": "No",
+                                                            "skip_execution": false
+                                                        },
+                                                        "object_type": "definition_activity",
+                                                        "actions": [
+                                                            {
+                                                                "unique_name": "definition_activity_01ZHJCZJDCLRZ3jeJtX14ynOU69u2zhmWQ8",
+                                                                "name": "Set Variables",
+                                                                "title": "Set Webex Message",
+                                                                "type": "core.set_multiple_variables",
+                                                                "base_type": "activity",
+                                                                "properties": {
+                                                                    "continue_on_failure": false,
+                                                                    "display_name": "Set Webex Message",
+                                                                    "skip_execution": false,
+                                                                    "variables_to_update": [
+                                                                        {
+                                                                            "variable_to_update": "$workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHJCXJDK82Q6GVz7oDGB3CQI68Upobajk$",
+                                                                            "variable_value_new": "# Secure Firewall - Get Health Alerts\n## Workflow FAILED\n---\n\nAlerts were returned, but creating the the ServiceNow incident failed! [Click here]($workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHJCXJDI7QR12rJ35dVyvTg5oq29q5TSv$) to view the workflow run.\n\n$activity.definition_activity_01ZHJCZBWDYBV661webcf4Asf9GolMWQqNr.output.script_queries.markdown_alerts$"
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                "object_type": "definition_activity"
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "unique_name": "definition_activity_01ZHJCZKEZ1KS2csC2IgD175TTqst29Thmz",
+                                        "name": "Condition Branch",
+                                        "title": "None",
+                                        "type": "logic.condition_block",
+                                        "base_type": "activity",
+                                        "properties": {
+                                            "condition": {
+                                                "left_operand": "$activity.definition_activity_01ZHJCZ725HRC3Jka9dZ6jK0feCzmyefbw2.output.jsonpath_queries.count$",
+                                                "operator": "eq",
+                                                "right_operand": 0
+                                            },
+                                            "continue_on_failure": false,
+                                            "display_name": "None",
+                                            "skip_execution": false
+                                        },
+                                        "object_type": "definition_activity",
+                                        "actions": [
+                                            {
+                                                "unique_name": "definition_activity_01ZHJCZLG4QPC4Lpdu8xas9Z6Ku0tuJU6j4",
+                                                "name": "Completed",
+                                                "title": "Completed",
+                                                "type": "logic.completed",
+                                                "base_type": "activity",
+                                                "properties": {
+                                                    "completion_type": "succeeded",
+                                                    "continue_on_failure": false,
+                                                    "display_name": "Completed",
+                                                    "result_message": "No alerts were found, so there's nothing to do!",
+                                                    "skip_execution": false
+                                                },
+                                                "object_type": "definition_activity"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "unique_name": "definition_activity_01ZHJCZMBLTLF6gx3T65c0bfzcNkbJhYPOt",
+                        "name": "Condition Branch",
+                        "title": "No",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$activity.definition_activity_01ZHJVW5K9JMB5xfPtKBEzMYRreDjSIX9zz.output.succeeded$",
+                                "operator": "eq",
+                                "right_operand": false
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "No",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01ZHJCZNI99D52XObmJ1c4MI6xbNt6FRJcg",
+                                "name": "Set Variables",
+                                "title": "Set Webex Message",
+                                "type": "core.set_multiple_variables",
+                                "base_type": "activity",
+                                "properties": {
+                                    "continue_on_failure": false,
+                                    "display_name": "Set Webex Message",
+                                    "skip_execution": false,
+                                    "variables_to_update": [
+                                        {
+                                            "variable_to_update": "$workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHJCXJDK82Q6GVz7oDGB3CQI68Upobajk$",
+                                            "variable_value_new": "# Secure Firewall - Get Health Alerts\n## Workflow FAILED\n---\n\nFailed to fetch health alerts from Secure Firewall. [Click here]($workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHJCXJDI7QR12rJ35dVyvTg5oq29q5TSv$) to view the workflow run."
+                                        }
+                                    ]
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "unique_name": "definition_activity_01ZHJCZQVA3P72vYTfSglwqr4sprSGmsk6o",
+                "name": "Webex - Post Message to Room",
+                "title": "Webex - Post Message to Room",
+                "type": "workflow.atomic_workflow",
+                "base_type": "subworkflow",
+                "properties": {
+                    "continue_on_failure": false,
+                    "display_name": "Webex - Post Message to Room",
+                    "input": {
+                        "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$activity.definition_activity_01ZHJCXZIWEIZ5HKeVtmzWKSMy9nX6n3Oia.output.variable_workflow_01PP790MCXJ7Y5cAWcGZWbG4Es0126zb1I6$",
+                        "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHJCXJDK09F6oKaAWTrq3EZAttuuIrboX$",
+                        "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "$workflow.definition_workflow_01ZHJCXJ43Q5Z6vKamVF3urD0kVdmZCqv49.local.variable_workflow_01ZHJCXJDK82Q6GVz7oDGB3CQI68Upobajk$",
+                        "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": "",
+                        "variable_workflow_01SVERQNMKN8N6vqX2djMtAfshphGydGsH8": ""
+                    },
+                    "runtime_user": {
+                        "target_default": true
+                    },
+                    "skip_execution": false,
+                    "target": {
+                        "override_workflow_target_group_criteria": true,
+                        "target_group": {
+                            "run_on_all_targets": false,
+                            "use_criteria": {
+                                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                "conditions": [
+                                    {
+                                        "left_operand": "$targetgroup.target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH.common.display_name$",
+                                        "operator": "eqi",
+                                        "right_operand": "webex teams"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw",
+                    "workflow_name": "Webex - Post Message to Room"
+                },
+                "object_type": "definition_activity"
+            }
+        ],
+        "categories": [
+            "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+        ]
+    },
+    "target_groups": {
+        "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+            "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+            "name": "Default TargetGroup",
+            "title": "Default TargetGroup",
+            "type": "generic.target_group",
+            "base_type": "target_group",
+            "version": "1.0.0",
+            "targets": [
+                {
+                    "data_target_type": "web-service.endpoint",
+                    "view_target_type": "web-service.endpoint",
+                    "include_all_targets": true
+                },
+                {
+                    "data_target_type": "email.smtp_endpoint",
+                    "view_target_type": "email.smtp_endpoint",
+                    "include_all_targets": true
+                },
+                {
+                    "data_target_type": "terminal.endpoint",
+                    "view_target_type": "terminal.endpoint",
+                    "include_all_targets": true
+                },
+                {
+                    "data_target_type": "aws.endpoint",
+                    "view_target_type": "aws.endpoint",
+                    "include_all_targets": true
+                }
+            ],
+            "object_type": "target_group"
+        }
+    },
+    "atomic_workflows": [
+        "definition_workflow_01ZGJXWLO3S9L2IPWvXTde4RgbXCeC1PkmL",
+        "definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW",
+        "definition_workflow_01ZGJXG13OZPH3egeS836XhkqpL5ePjnC7x",
+        "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez",
+        "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw"
+    ],
+    "dependent_workflows": [
+        "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez",
+        "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw",
+        "definition_workflow_01ZGJXWLO3S9L2IPWvXTde4RgbXCeC1PkmL",
+        "definition_workflow_01ZGJXG13OZPH3egeS836XhkqpL5ePjnC7x",
+        "definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW"
+    ]
+}

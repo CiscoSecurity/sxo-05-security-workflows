@@ -1,0 +1,88 @@
+---
+layout: page
+title: Get Expiring Rules (SSE)
+permalink: /workflows/secure-firewall/0074-get-expiring-rules-sse
+redirect_from:
+  - /workflows/0074
+parent: Cisco Secure Firewall
+grand_parent: Workflows
+---
+
+# Get Expiring Rules (SSE)
+<div markdown="1">
+Workflow #0074
+{: .label }
+</div>
+
+This workflow searches up to 500 Cisco Secure Firewall Management Center policies for time-based rules that are set to expire within the configured expiry time. If expired or soon-to-expire rules are found, a message is posted in Webex with the rule details.
+
+<div class="cisco-alert cisco-alert-info"><i class="fa fa-info-circle mr-1 cisco-icon-info"></i> There are two different ways to integrate Secure Firewall with orchestration. For more information about these two methods and which to use, please see <a href="{{ site.baseurl }}/workflows/secure-firewall/api-types">this page</a>.</div>
+
+<div class="cisco-alert cisco-alert-info"><i class="fa fa-info-circle mr-1 cisco-icon-info"></i> This workflow expects the new "SecureX Token" account key. For more information about this, please see <a href="{{ site.baseurl }}/account-keys/securex-token">this page</a>.</div>
+
+[<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0074-SecureFirewall-GetExpiringRulesSSE__definition_workflow_01ZHJDIKW6DER64uzcCm0UukWCeCN8ALYZb){: .btn-cisco-outline }
+
+---
+
+## Change Log
+
+| Date | Notes |
+|:-----|:------|
+| Sep 7, 2022 | - Initial release |
+
+_See the [Important Notes](/sxo-05-security-workflows/notes) page for more information about updating workflows_
+
+---
+
+## Requirements
+* The following [system atomics](/sxo-05-security-workflows/atomics/system) are used by this workflow:
+	* SecureX - SSE Proxy - Send Request
+	* Webex - Post Message to Room
+	* Webex - Search for Room
+* The following atomic actions must be imported before you can import this workflow:
+	* None
+* The [targets](#targets) and [account keys](#account-keys) listed below
+* Cisco Secure Firewall
+* Cisco Webex
+
+---
+
+## Workflow Steps
+1. Validate required settings and fetch the Webex room ID
+1. Get time-range objects
+1. Get access policies
+1. For each policy:
+	* Check each rule for time-based objects
+	* If time-based objects are found in rule:
+		* Calculate the expiry time and append to the workflow output as needed
+1. Finalize the output of the workflow based on what was found
+1. Post message to Webex
+
+---
+
+## Configuration
+* Set the `Check For Expired Rules` local variable to `true` or `false` depending on whether you want to report on rules which already expired
+* Set the `Expiring Soon Time Period` local variable to the number of days you want to use as the threshold for considering a rule to be expiring soon. For example, if you set this to 7 days, any rule expiring within 7 days will be considered "expiring soon"
+* Set the `Secure Firewall Management Center URL` to the base URL of your FMC portal. For example: `https://securefirewall.yourcompany.com`
+* Set the `Domain UUID` to the UUID of the FMC domain you want the workflow to make changes to. If you're using the default domain, you can leave the default value
+* Set the `Device ID` to the ID of the device to send the command to in SSE. This can be obtained from the device's summary page in SSE, the Devices page in the Administration section of SecureX, or by using the "SecureX - SSE Proxy - List Devices" atomic
+* If you want the workflow to run on a schedule, you need to create a [schedule]({{ site.baseurl }}/schedules/) and then add it as a [trigger]({{ site.baseurl }}/workflows/triggers) within the workflow
+* See [this page]({{ site.baseurl }}/atomics/configuration/webex#configuring-our-workflows) for information on configuring the workflow for Webex
+
+---
+
+## Targets
+Target Group: `Default TargetGroup`
+
+| Target Name | Type | Details | Account Keys | Notes |
+|:------------|:-----|:--------|:-------------|:------|
+| [CTR_API]({{ site.baseurl }}/targets/default#ctr_api) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `visibility.amp.cisco.com`<br />_Path:_ `/iroh` | CTR_Credentials | Created by default |
+| Webex Teams | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `webexapis.com`<br />_Path:_ None | None | |
+
+---
+
+## Account Keys
+
+| Account Key Name | Type | Details | Notes |
+|:-----------------|:-----|:--------|:------|
+| [CTR_Credentials]({{ site.baseurl }}/account-keys/default#ctr_credentials) | SecureX Token | | See [this page]({{ site.baseurl }}/account-keys/securex-token) |
