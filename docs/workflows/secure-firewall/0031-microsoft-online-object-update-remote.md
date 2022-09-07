@@ -1,14 +1,14 @@
 ---
 layout: page
-title: Microsoft Online Dynamic Object Update
-permalink: /workflows/secure-firewall/0031-microsoft-online-object-update
+title: Microsoft Online Dynamic Object Update (Remote)
+permalink: /workflows/secure-firewall/0031-microsoft-online-object-update-remote
 redirect_from:
   - /workflows/0031
 parent: Cisco Secure Firewall
 grand_parent: Workflows
 ---
 
-# Microsoft Online Dynamic Object Update
+# Microsoft Online Dynamic Object Update (Remote)
 <div markdown="1">
 Workflow #0031
 {: .label }
@@ -16,7 +16,9 @@ Workflow #0031
 
 Microsoft provides a JSON-formatted feed of their networks and domains for their various cloud services. This workflow demonstrates fetching that JSON, reformatting it, and updating a dynamic object group on Cisco Secure Firewall.
 
-[<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0031-SecureFirewall-MicrosoftOnlineDynamicObjectUpdate__definition_workflow_01GBHSG8W1EU50QmDkyCiszg04ZzAGqbFsc){: .btn-cisco-outline }
+<div class="cisco-alert cisco-alert-info"><i class="fa fa-info-circle mr-1 cisco-icon-info"></i> There are two different ways to integrate Secure Firewall with orchestration. For more information about these two methods and which to use, please see <a href="{{ site.baseurl }}/workflows/secure-firewall/api-types">this page</a>.</div>
+
+[<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0031-SecureFirewall-MicrosoftOnlineDynamicObjectUpdateRemote__definition_workflow_01GBHSG8W1EU50QmDkyCiszg04ZzAGqbFsc){: .btn-cisco-outline }
 
 ---
 
@@ -26,6 +28,7 @@ Microsoft provides a JSON-formatted feed of their networks and domains for their
 |:-----|:------|
 | May 26, 2021 | - Initial release |
 | Sep 10, 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+| Sep 7, 2022 | - Minor updates to naming and descriptions |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 

@@ -22,6 +22,17 @@ Note: The link to download the file posted in Microsoft Teams contains a tempora
 
 ---
 
+## Change Log
+
+| Date | Notes |
+|:-----|:------|
+| Jul 30, 2021 | - Initial release |
+| Sep 7, 2022 | - Minor updates to naming and descriptions |
+
+_See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
+
+---
+
 ## Requirements
 * The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
 	* None

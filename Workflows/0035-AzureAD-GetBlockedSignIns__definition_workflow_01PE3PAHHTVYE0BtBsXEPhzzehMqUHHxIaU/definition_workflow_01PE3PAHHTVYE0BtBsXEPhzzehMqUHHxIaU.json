@@ -1,524 +1,533 @@
 {
-	"workflow": {
-	  "unique_name": "definition_workflow_01PE3PAHHTVYE0BtBsXEPhzzehMqUHHxIaU",
-	  "name": "0035 - Azure AD - Get Blocked Sign-Ins (Locked Out)",
-	  "title": "0035 - Azure AD - Get Blocked Sign-Ins (Locked Out)",
-	  "type": "generic.workflow",
-	  "base_type": "workflow",
-	  "variables": [
-		{
-		  "schema_id": "datatype.string",
-		  "properties": {
-			"value": "",
-			"scope": "local",
-			"name": "Webex Teams Room Name",
-			"type": "datatype.string",
-			"description": "The name of the Webex Teams room to post messages to. If using a bot, make sure to invite your bot to the room before attempting to send messages. If you don't want to use Webex, leave this blank",
-			"is_required": false,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01PE3PAHB5UPY6yPJMGtckDvLuDZ8kdt92U",
-		  "object_type": "variable_workflow"
-		},
-		{
-		  "schema_id": "datatype.string",
-		  "properties": {
-			"value": "",
-			"scope": "local",
-			"name": "Azure Tenant ID",
-			"type": "datatype.string",
-			"description": "The Microsoft Azure Tenant ID to fetch sign-in events for. You can either set this local variable or fetch a global variable's value using the Fetch Global Variables activity at the beginning of the workflow",
-			"is_required": false,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01PE59HSXKJ9M1Kaf2Syf5XD9RRF4JdYBZH",
-		  "object_type": "variable_workflow"
-		},
-		{
-		  "schema_id": "datatype.integer",
-		  "properties": {
-			"value": 24,
-			"scope": "local",
-			"name": "Hours to Check",
-			"type": "datatype.integer",
-			"description": "How many hours to go back in time when looking for events. We recommend running the workflow once a day, so the default value is 24",
-			"is_required": false,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01PE3PAHB5W157dcdGTX1XBFM8aGkPSQttw",
-		  "object_type": "variable_workflow"
-		},
-		{
-		  "schema_id": "datatype.secure_string",
-		  "properties": {
-			"value": "",
-			"scope": "local",
-			"name": "Webex Teams Access Token",
-			"type": "datatype.secure_string",
-			"description": "The access token to use to authenticate to the Webex Teams API. Information about using a bot, which is what we recommend, can be found here: https://developer.webex.com/docs/bots",
-			"is_required": false,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01PE3PAHB5PRB7Jda2lNNKSbQmOXwXGYts0",
-		  "object_type": "variable_workflow"
-		}
-	  ],
-	  "properties": {
-		"atomic": {
-		  "is_atomic": false
-		},
-		"delete_workflow_instance": false,
-		"description": "This workflow checks for sign-ins that were blocked because the account was locked out in Microsoft Azure (error code 50053). If any results are found, the attempts are aggregated and a Webex Teams message is sent. Required Graph API permissions: AuditLog.Read.All, Directory.Read.All\n\nNote: This workflow requires an Azure Active Directory Premium license.\n\nTarget Group: Default TargetGroup\n\nTargets: Microsoft Graph, Microsoft Graph Token, Webex Teams\n\nSteps:\n[] Fetch global variables\n[] Get an access token for the Graph API\n[] Calculate and format the start date\n[] Fetch sign in events\n[] Check if the request was successful:\n[]> If not, return an error message\n[]> If it was, aggregate the events and post a Webex Teams message\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0035",
-		"display_name": "0035 - Azure AD - Get Blocked Sign-Ins (Locked Out)",
-		"runtime_user": {
-		  "target_default": true
-		},
-		"target": {
-		  "execute_on_target_group": true,
-		  "target_group": {
-			"target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
-			"run_on_all_targets": false,
-			"selected_target_types": [
-			  "web-service.endpoint"
-			],
-			"use_criteria": {
-			  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-			  "conditions": [
-				{
-				  "operator": "eqi",
-				  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-				  "right_operand": "Microsoft Graph"
-				}
-			  ]
-			}
-		  }
-		}
-	  },
-	  "object_type": "definition_workflow",
-	  "actions": [
-		{
-		  "unique_name": "definition_activity_01PE3PAWVNFBA4ZvgWQrFFJtdobLceZzBzz",
-		  "name": "Group",
-		  "title": "Fetch global variables",
-		  "type": "logic.group",
-		  "base_type": "activity",
-		  "properties": {
-			"continue_on_failure": false,
-			"display_name": "Fetch global variables",
-			"skip_execution": true
-		  },
-		  "object_type": "definition_activity",
-		  "actions": [
-			{
-			  "unique_name": "definition_activity_01PE3PB1WEKRS673rXZS9QEmmlbPKheSTd9",
-			  "name": "Set Variables",
-			  "title": "Fetch global variables",
-			  "type": "core.set_multiple_variables",
-			  "base_type": "activity",
-			  "properties": {
-				"continue_on_failure": false,
-				"display_name": "Fetch global variables",
-				"skip_execution": false,
-				"variables_to_update": [
-				  {
-					"variable_to_update": "$workflow.definition_workflow_01PE3PAHHTVYE0BtBsXEPhzzehMqUHHxIaU.local.variable_workflow_01PE3PAHB5PRB7Jda2lNNKSbQmOXwXGYts0$",
-					"variable_value_new": ""
-				  },
-				  {
-					"variable_to_update": "$workflow.definition_workflow_01PE3PAHHTVYE0BtBsXEPhzzehMqUHHxIaU.local.variable_workflow_01PE3PAHB5UPY6yPJMGtckDvLuDZ8kdt92U$",
-					"variable_value_new": ""
-				  },
-				  {
-					"variable_to_update": "$workflow.definition_workflow_01PE3PAHHTVYE0BtBsXEPhzzehMqUHHxIaU.local.variable_workflow_01PE59HSXKJ9M1Kaf2Syf5XD9RRF4JdYBZH$",
-					"variable_value_new": ""
-				  }
-				]
-			  },
-			  "object_type": "definition_activity"
-			}
-		  ]
-		},
-		{
-		  "unique_name": "definition_activity_01PE3PB7WT9YT6amt6WyanIUU0TEF6N0j1K",
-		  "name": "Microsoft Graph - Get Access Token",
-		  "title": "Microsoft Graph - Get Access Token",
-		  "type": "workflow.atomic_workflow",
-		  "base_type": "subworkflow",
-		  "properties": {
-			"continue_on_failure": false,
-			"display_name": "Microsoft Graph - Get Access Token",
-			"input": {
-			  "variable_workflow_01HQN7N4UOTC65YnWUlkyv9piykyDJH4Mzv": "$workflow.definition_workflow_01PE3PAHHTVYE0BtBsXEPhzzehMqUHHxIaU.local.variable_workflow_01PE59HSXKJ9M1Kaf2Syf5XD9RRF4JdYBZH$"
-			},
-			"runtime_user": {
-			  "target_default": true
-			},
-			"skip_execution": false,
-			"target": {
-			  "override_workflow_target_group_criteria": true,
-			  "target_group": {
-				"run_on_all_targets": false,
-				"use_criteria": {
-				  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-				  "conditions": [
-					{
-					  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-					  "operator": "eqi",
-					  "right_operand": "Microsoft Graph Token"
-					}
-				  ]
-				}
-			  }
-			},
-			"workflow_id": "definition_workflow_01HQN7N57GLKN780LTDUabTblE3OpMPQVfx"
-		  },
-		  "object_type": "definition_activity"
-		},
-		{
-		  "unique_name": "definition_activity_01PE3PBF0UG9V3kSdzA0PKsnIpM21DM79EA",
-		  "name": "Calculate Date",
-		  "title": "Calculate date X hours ago",
-		  "type": "core.calculate_date",
-		  "base_type": "activity",
-		  "properties": {
-			"adjustment": "-($workflow.definition_workflow_01PE3PAHHTVYE0BtBsXEPhzzehMqUHHxIaU.local.variable_workflow_01PE3PAHB5W157dcdGTX1XBFM8aGkPSQttw$*3600)",
-			"continue_on_failure": false,
-			"display_name": "Calculate date X hours ago",
-			"original_date": "$workflow.definition_workflow_01PE3PAHHTVYE0BtBsXEPhzzehMqUHHxIaU.output.start_time$",
-			"skip_execution": false
-		  },
-		  "object_type": "definition_activity"
-		},
-		{
-		  "unique_name": "definition_activity_01PE3PBJOVSA36Tv4rg688pxXBZJGiJpPP7",
-		  "name": "Format Date",
-		  "title": "Format time stamp",
-		  "type": "core.format_date",
-		  "base_type": "activity",
-		  "properties": {
-			"continue_on_failure": false,
-			"display_name": "Format time stamp",
-			"format_string": "2006-01-02T15:04:05.999999999Z",
-			"original_date": "$activity.definition_activity_01PE3PBF0UG9V3kSdzA0PKsnIpM21DM79EA.output.result$",
-			"skip_execution": false,
-			"use_custom_format": false
-		  },
-		  "object_type": "definition_activity"
-		},
-		{
-		  "unique_name": "definition_activity_01PE3PBOLK1HS6rsn8VnxDgyj65dRR0T6oz",
-		  "name": "HTTP Request",
-		  "title": "Get sign-ins",
-		  "type": "web-service.http_request",
-		  "base_type": "activity",
-		  "properties": {
-			"accept": "application/json",
-			"action_timeout": 180,
-			"allow_auto_redirect": true,
-			"content_type": "application/json",
-			"continue_on_error_status_code": true,
-			"continue_on_failure": false,
-			"custom_headers": [
-			  {
-				"name": "Authorization",
-				"value": "Bearer $activity.definition_activity_01PE3PB7WT9YT6amt6WyanIUU0TEF6N0j1K.output.variable_workflow_01HQN7N4UOY2Q02vRhF0zXjAJoPNBVNKV9Q$"
-			  }
-			],
-			"display_name": "Get sign-ins",
-			"method": "GET",
-			"relative_url": "auditLogs/signIns?$filter=status/errorCode eq 50053 and createdDateTime ge $activity.definition_activity_01PE3PBJOVSA36Tv4rg688pxXBZJGiJpPP7.output.result$",
-			"runtime_user": {
-			  "target_default": true
-			},
-			"skip_execution": false,
-			"target": {
-			  "use_workflow_target_group": true
-			}
-		  },
-		  "object_type": "definition_activity"
-		},
-		{
-		  "unique_name": "definition_activity_01PE3PBTVSGVZ77cHv9TcFaUJ22H7arLBWq",
-		  "name": "Condition Block",
-		  "title": "Was the request successful?",
-		  "type": "logic.if_else",
-		  "base_type": "activity",
-		  "properties": {
-			"continue_on_failure": false,
-			"display_name": "Was the request successful?",
-			"skip_execution": false
-		  },
-		  "object_type": "definition_activity",
-		  "blocks": [
-			{
-			  "unique_name": "definition_activity_01PE3PBYGFSZV3euKMHk7d1OuGNqh59xFWo",
-			  "name": "Condition Branch",
-			  "title": "200/Success",
-			  "type": "logic.condition_block",
-			  "base_type": "activity",
-			  "properties": {
-				"condition": {
-				  "left_operand": "$activity.definition_activity_01PE3PBOLK1HS6rsn8VnxDgyj65dRR0T6oz.output.status_code$",
-				  "operator": "eq",
-				  "right_operand": 200
-				},
-				"continue_on_failure": false,
-				"display_name": "200/Success",
-				"skip_execution": false
-			  },
-			  "object_type": "definition_activity",
-			  "actions": [
-				{
-				  "unique_name": "definition_activity_01PE41HXICQX617haQoJ3A75vLB5p30OWBN",
-				  "name": "Execute Python Script",
-				  "title": "Aggregate the events",
-				  "type": "python3.script",
-				  "base_type": "activity",
-				  "properties": {
-					"action_timeout": 180,
-					"continue_on_failure": false,
-					"display_name": "Aggregate the events",
-					"script": "import sys, json\n# Get the events returned by MS Graph\nevents = json.loads(sys.argv[1])\n# Placeholder for results\naggregated = {}\n# Loop through each event\nfor event in events['value']:\n\tlocationString = event['location']['state'] + ', ' + event['location']['countryOrRegion']\n\t\n\t# Check if this user is already in our list\n\tif event['userPrincipalName'] not in aggregated:\n\t\t# They aren't, so add them\n\t\taggregated[event['userPrincipalName']] = {\n\t\t\t'userPrincipalName': event['userPrincipalName'],\n\t\t\t'userDisplayName': event['userDisplayName'],\n\t\t\t'appDisplayNames': [ event['appDisplayName'] ],\n\t\t\t'ipAddresses': [ event['ipAddress'] ],\n\t\t\t'locations': [ locationString ],\n\t\t\t'attemptCount': 1\n\t\t}\n\telse:\n\t\t# They are, so add values that aren't already in their object\n\t\tif event['appDisplayName'] not in aggregated[event['userPrincipalName']]['appDisplayNames']:\n\t\t\taggregated[event['userPrincipalName']]['appDisplayNames'].append(event['appDisplayName'])\n\t\t\n\t\tif event['ipAddress'] not in aggregated[event['userPrincipalName']]['ipAddresses']:\n\t\t\taggregated[event['userPrincipalName']]['ipAddresses'].append(event['ipAddress'])\n\t\t\t\n\t\tif locationString not in aggregated[event['userPrincipalName']]['locations']:\n\t\t\taggregated[event['userPrincipalName']]['locations'].append(locationString)\n\t\t\n\t\taggregated[event['userPrincipalName']]['attemptCount'] += 1\n# Convert the aggregate data to a Webex Teams message\ntextOut = ''\nfor item in aggregated:\n\ttextOut = textOut + '- **' + str(aggregated[item]['attemptCount']) + '** attempts for user **' + (aggregated[item]['userDisplayName'] if len(aggregated[item]['userDisplayName']) > 0 else 'No Display Name') + '** (' + aggregated[item]['userPrincipalName'] + ') from **' + str(len(aggregated[item]['ipAddresses'])) + '** distinct IP addresses (' + ', '.join(aggregated[item]['locations']) + ')' + \"\\n\"  ",
-					"script_arguments": [
-					  "$activity.definition_activity_01PE3PBOLK1HS6rsn8VnxDgyj65dRR0T6oz.output.response_body$"
-					],
-					"script_queries": [
-					  {
-						"script_query": "textOut",
-						"script_query_name": "textOut",
-						"script_query_type": "string"
-					  }
-					],
-					"skip_execution": false
-				  },
-				  "object_type": "definition_activity"
-				},
-				{
-				  "unique_name": "definition_activity_01PE3PEV7LEJF0Fn83obBdSfC5SCG6w4vbv",
-				  "name": "Condition Block",
-				  "title": "Is there any Webex text and was a room name given?",
-				  "type": "logic.if_else",
-				  "base_type": "activity",
-				  "properties": {
-					"continue_on_failure": false,
-					"display_name": "Is there any Webex text and was a room name given?",
-					"skip_execution": false
-				  },
-				  "object_type": "definition_activity",
-				  "blocks": [
-					{
-					  "unique_name": "definition_activity_01PE3PF1DP16L6dy2T8fNlJ4N5uD6eLt7Xe",
-					  "name": "Condition Branch",
-					  "title": "Yes",
-					  "type": "logic.condition_block",
-					  "base_type": "activity",
-					  "properties": {
-						"condition": {
-						  "left_operand": {
-							"left_operand": "$activity.definition_activity_01PE41HXICQX617haQoJ3A75vLB5p30OWBN.output.script_queries.textOut$",
-							"operator": "ne",
-							"right_operand": ""
-						  },
-						  "operator": "and",
-						  "right_operand": {
-							"left_operand": "$workflow.definition_workflow_01PE3PAHHTVYE0BtBsXEPhzzehMqUHHxIaU.local.variable_workflow_01PE3PAHB5UPY6yPJMGtckDvLuDZ8kdt92U$",
-							"operator": "ne",
-							"right_operand": ""
-						  }
-						},
-						"continue_on_failure": false,
-						"display_name": "Yes",
-						"skip_execution": false
-					  },
-					  "object_type": "definition_activity",
-					  "actions": [
-						{
-						  "unique_name": "definition_activity_01PE3PF4NH8HG6HotXaG4RblLuW7YVD1vNt",
-						  "name": "Webex Teams - Search for Room",
-						  "title": "Webex Teams - Search for Room",
-						  "type": "workflow.atomic_workflow",
-						  "base_type": "subworkflow",
-						  "properties": {
-							"continue_on_failure": true,
-							"display_name": "Webex Teams - Search for Room",
-							"input": {
-							  "variable_workflow_01PP790MCX1DN3EitpQebkUyJS65DbwS3nU": "$workflow.definition_workflow_01PE3PAHHTVYE0BtBsXEPhzzehMqUHHxIaU.local.variable_workflow_01PE3PAHB5PRB7Jda2lNNKSbQmOXwXGYts0$",
-							  "variable_workflow_01PP790MCXB392D3R8pxh9fgOTjTde2bcMW": "$workflow.definition_workflow_01PE3PAHHTVYE0BtBsXEPhzzehMqUHHxIaU.local.variable_workflow_01PE3PAHB5UPY6yPJMGtckDvLuDZ8kdt92U$",
-							  "variable_workflow_01PP790MCXHP55YE6ylOEITWsWbUFJeyWGv": "",
-							  "variable_workflow_01PP790MCXM9W1MUwo85y8iNRCoQuQ4RGNa": ""
-							},
-							"runtime_user": {
-							  "target_default": true
-							},
-							"skip_execution": false,
-							"target": {
-							  "override_workflow_target_group_criteria": true,
-							  "target_group": {
-								"run_on_all_targets": false,
-								"use_criteria": {
-								  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-								  "conditions": [
-									{
-									  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-									  "operator": "eqi",
-									  "right_operand": "Webex Teams"
-									}
-								  ]
-								}
-							  }
-							},
-							"workflow_id": "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez"
-						  },
-						  "object_type": "definition_activity"
-						},
-						{
-						  "unique_name": "definition_activity_01PE3PFBVMRI57c61TKNYgkYLo2b822jYEI",
-						  "name": "Condition Block",
-						  "title": "Was the room found?",
-						  "type": "logic.if_else",
-						  "base_type": "activity",
-						  "properties": {
-							"continue_on_failure": false,
-							"display_name": "Was the room found?",
-							"skip_execution": false
-						  },
-						  "object_type": "definition_activity",
-						  "blocks": [
-							{
-							  "unique_name": "definition_activity_01PE3PFGNEFW92Syfad9rZhMx1KUlq4kocr",
-							  "name": "Condition Branch",
-							  "title": "Yes",
-							  "type": "logic.condition_block",
-							  "base_type": "activity",
-							  "properties": {
-								"condition": {
-								  "left_operand": "$activity.definition_activity_01PE3PF4NH8HG6HotXaG4RblLuW7YVD1vNt.output.succeeded$",
-								  "operator": "eq",
-								  "right_operand": true
-								},
-								"continue_on_failure": false,
-								"display_name": "Yes",
-								"skip_execution": false
-							  },
-							  "object_type": "definition_activity",
-							  "actions": [
-								{
-								  "unique_name": "definition_activity_01PE3PFMXZCOB2tEVT7kMf5SbqrEi8oDTck",
-								  "name": "Webex Teams - Post Message to Room",
-								  "title": "Webex Teams - Post Message to Room",
-								  "type": "workflow.atomic_workflow",
-								  "base_type": "subworkflow",
-								  "properties": {
-									"continue_on_failure": false,
-									"display_name": "Webex Teams - Post Message to Room",
-									"input": {
-									  "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$activity.definition_activity_01PE3PF4NH8HG6HotXaG4RblLuW7YVD1vNt.output.variable_workflow_01PP790MCXJ7Y5cAWcGZWbG4Es0126zb1I6$",
-									  "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$workflow.definition_workflow_01PE3PAHHTVYE0BtBsXEPhzzehMqUHHxIaU.local.variable_workflow_01PE3PAHB5PRB7Jda2lNNKSbQmOXwXGYts0$",
-									  "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "Sign in attempts were made by users whose accounts are locked out. Here's a summary:\n$activity.definition_activity_01PE41HXICQX617haQoJ3A75vLB5p30OWBN.output.script_queries.textOut$",
-									  "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": ""
-									},
-									"runtime_user": {
-									  "target_default": true
-									},
-									"skip_execution": false,
-									"target": {
-									  "override_workflow_target_group_criteria": true,
-									  "target_group": {
-										"run_on_all_targets": false,
-										"use_criteria": {
-										  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-										  "conditions": [
-											{
-											  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-											  "operator": "eqi",
-											  "right_operand": "Webex Teams"
-											}
-										  ]
-										}
-									  }
-									},
-									"workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw"
-								  },
-								  "object_type": "definition_activity"
-								}
-							  ]
-							}
-						  ]
-						}
-					  ]
-					}
-				  ]
-				}
-			  ]
-			},
-			{
-			  "unique_name": "definition_activity_01PE3PEOMM6EV42wpbxZAxKfADp5eBGPQll",
-			  "name": "Condition Branch",
-			  "title": "Anything else",
-			  "type": "logic.condition_block",
-			  "base_type": "activity",
-			  "properties": {
-				"condition": {
-				  "left_operand": "$activity.definition_activity_01PE3PBOLK1HS6rsn8VnxDgyj65dRR0T6oz.output.status_code$",
-				  "operator": "ne",
-				  "right_operand": 200
-				},
-				"continue_on_failure": false,
-				"display_name": "Anything else",
-				"skip_execution": false
-			  },
-			  "object_type": "definition_activity",
-			  "actions": [
-				{
-				  "unique_name": "definition_activity_01PE3PEQW9FBC0HzTcNZktBSpA7ZqTbSYcz",
-				  "name": "Completed",
-				  "title": "Failed",
-				  "type": "logic.completed",
-				  "base_type": "activity",
-				  "properties": {
-					"completion_type": "failed-completed",
-					"continue_on_failure": false,
-					"display_name": "Failed",
-					"result_message": "Failed to fetch sign-in events from Microsoft Graph\n\nStatus code: $activity.definition_activity_01PE3PBOLK1HS6rsn8VnxDgyj65dRR0T6oz.output.status_code$\nResponse body: $activity.definition_activity_01PE3PBOLK1HS6rsn8VnxDgyj65dRR0T6oz.output.response_body$",
-					"skip_execution": false
-				  },
-				  "object_type": "definition_activity"
-				}
-			  ]
-			}
-		  ]
-		}
-	  ],
-	  "categories": [
-		"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
-	  ]
-	},
-	"target_groups": {
-	  "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
-		"unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
-		"name": "Default TargetGroup",
-		"title": "Default TargetGroup",
-		"type": "generic.target_group",
-		"base_type": "target_group",
-		"version": "1.0.0",
-		"targets": [
-		  {
-			"data_target_type": "web-service.endpoint",
-			"view_target_type": "web-service.endpoint",
-			"include_all_targets": true
-		  },
-		  {
-			"data_target_type": "email.smtp_endpoint",
-			"view_target_type": "email.smtp_endpoint",
-			"include_all_targets": true
-		  }
-		],
-		"object_type": "target_group"
-	  }
-	},
-	"atomic_workflows": [
-	  "definition_workflow_01HQN7N57GLKN780LTDUabTblE3OpMPQVfx",
-	  "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez",
-	  "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw"
-	]
-  }
+    "workflow": {
+        "unique_name": "definition_workflow_01PE3PAHHTVYE0BtBsXEPhzzehMqUHHxIaU",
+        "name": "0035 - Azure AD - Get Blocked Sign-Ins (Locked Out)",
+        "title": "0035 - Azure AD - Get Blocked Sign-Ins (Locked Out)",
+        "type": "generic.workflow",
+        "base_type": "workflow",
+        "variables": [
+            {
+                "schema_id": "datatype.integer",
+                "properties": {
+                    "value": 24,
+                    "scope": "local",
+                    "name": "Hours to Check",
+                    "type": "datatype.integer",
+                    "description": "How many hours to go back in time when looking for events. We recommend running the workflow once a day, so the default value is 24",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01PE3PAHB5W157dcdGTX1XBFM8aGkPSQttw",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "",
+                    "scope": "local",
+                    "name": "Webex Room Name",
+                    "type": "datatype.string",
+                    "description": "The name of the Webex room to post messages to. If using a bot, make sure to invite your bot to the room before attempting to send messages. If you don't want to use Webex, leave this blank",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01PE3PAHB5UPY6yPJMGtckDvLuDZ8kdt92U",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.secure_string",
+                "properties": {
+                    "value": "",
+                    "scope": "local",
+                    "name": "Webex Access Token",
+                    "type": "datatype.secure_string",
+                    "description": "The access token to use to authenticate to the Webex API. Information about using a bot, which is what we recommend, can be found here: https:\/\/developer.webex.com\/docs\/bots",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01PE3PAHB5PRB7Jda2lNNKSbQmOXwXGYts0",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "",
+                    "scope": "local",
+                    "name": "Azure Tenant ID",
+                    "type": "datatype.string",
+                    "description": "The Microsoft Azure Tenant ID to fetch sign-in events for. You can either set this local variable or fetch a global variable's value using the Fetch Global Variables activity at the beginning of the workflow",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01PE59HSXKJ9M1Kaf2Syf5XD9RRF4JdYBZH",
+                "object_type": "variable_workflow"
+            }
+        ],
+        "properties": {
+            "atomic": {
+                "is_atomic": false
+            },
+            "delete_workflow_instance": false,
+            "description": "This workflow checks for sign-ins that were blocked because the account was locked out in Microsoft Azure (error code 50053). If any results are found, the attempts are aggregated and a Webex message is sent. Required Graph API permissions: AuditLog.Read.All, Directory.Read.All\n\nNote: This workflow requires an Azure Active Directory Premium license.\n\nDocumentation: https:\/\/ciscosecurity.github.io\/sxo-05-security-workflows\/workflows\/0035\n\nTarget Group: Default TargetGroup\n\nTargets: Microsoft Graph, Microsoft Graph Token, Webex Teams\n\nSteps:\n[] Fetch global variables\n[] Get an access token for the Graph API\n[] Calculate and format the start date\n[] Fetch sign in events\n[] Check if the request was successful:\n[]> If not, return an error message\n[]> If it was, aggregate the events and post a Webex message",
+            "display_name": "0035 - Azure AD - Get Blocked Sign-Ins (Locked Out)",
+            "runtime_user": {
+                "target_default": true
+            },
+            "target": {
+                "execute_on_target_group": true,
+                "target_group": {
+                    "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+                    "run_on_all_targets": false,
+                    "selected_target_types": [
+                        "web-service.endpoint"
+                    ],
+                    "use_criteria": {
+                        "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                        "conditions": [
+                            {
+                                "operator": "eqi",
+                                "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                "right_operand": "Microsoft Graph"
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        "object_type": "definition_workflow",
+        "actions": [
+            {
+                "unique_name": "definition_activity_01PE3PAWVNFBA4ZvgWQrFFJtdobLceZzBzz",
+                "name": "Group",
+                "title": "Fetch global variables",
+                "type": "logic.group",
+                "base_type": "activity",
+                "properties": {
+                    "continue_on_failure": false,
+                    "display_name": "Fetch global variables",
+                    "skip_execution": true
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                    {
+                        "unique_name": "definition_activity_01PE3PB1WEKRS673rXZS9QEmmlbPKheSTd9",
+                        "name": "Set Variables",
+                        "title": "Fetch global variables",
+                        "type": "core.set_multiple_variables",
+                        "base_type": "activity",
+                        "properties": {
+                            "continue_on_failure": false,
+                            "display_name": "Fetch global variables",
+                            "skip_execution": false,
+                            "variables_to_update": [
+                                {
+                                    "variable_to_update": "$workflow.definition_workflow_01PE3PAHHTVYE0BtBsXEPhzzehMqUHHxIaU.local.variable_workflow_01PE3PAHB5PRB7Jda2lNNKSbQmOXwXGYts0$",
+                                    "variable_value_new": ""
+                                },
+                                {
+                                    "variable_to_update": "$workflow.definition_workflow_01PE3PAHHTVYE0BtBsXEPhzzehMqUHHxIaU.local.variable_workflow_01PE3PAHB5UPY6yPJMGtckDvLuDZ8kdt92U$",
+                                    "variable_value_new": ""
+                                },
+                                {
+                                    "variable_to_update": "$workflow.definition_workflow_01PE3PAHHTVYE0BtBsXEPhzzehMqUHHxIaU.local.variable_workflow_01PE59HSXKJ9M1Kaf2Syf5XD9RRF4JdYBZH$",
+                                    "variable_value_new": ""
+                                }
+                            ]
+                        },
+                        "object_type": "definition_activity"
+                    }
+                ]
+            },
+            {
+                "unique_name": "definition_activity_01PE3PB7WT9YT6amt6WyanIUU0TEF6N0j1K",
+                "name": "Microsoft Graph - Get Access Token",
+                "title": "Microsoft Graph - Get Access Token",
+                "type": "workflow.atomic_workflow",
+                "base_type": "subworkflow",
+                "properties": {
+                    "continue_on_failure": false,
+                    "display_name": "Microsoft Graph - Get Access Token",
+                    "input": {
+                        "variable_workflow_01HQN7N4UOTC65YnWUlkyv9piykyDJH4Mzv": "$workflow.definition_workflow_01PE3PAHHTVYE0BtBsXEPhzzehMqUHHxIaU.local.variable_workflow_01PE59HSXKJ9M1Kaf2Syf5XD9RRF4JdYBZH$"
+                    },
+                    "runtime_user": {
+                        "target_default": true
+                    },
+                    "skip_execution": false,
+                    "target": {
+                        "override_workflow_target_group_criteria": true,
+                        "target_group": {
+                            "run_on_all_targets": false,
+                            "use_criteria": {
+                                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                "conditions": [
+                                    {
+                                        "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                        "operator": "eqi",
+                                        "right_operand": "Microsoft Graph Token"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "workflow_id": "definition_workflow_01HQN7N57GLKN780LTDUabTblE3OpMPQVfx",
+                    "workflow_name": "MS Graph - Get Access Token"
+                },
+                "object_type": "definition_activity"
+            },
+            {
+                "unique_name": "definition_activity_01PE3PBF0UG9V3kSdzA0PKsnIpM21DM79EA",
+                "name": "Calculate Date",
+                "title": "Calculate date X hours ago",
+                "type": "core.calculate_date",
+                "base_type": "activity",
+                "properties": {
+                    "adjustment": "-($workflow.definition_workflow_01PE3PAHHTVYE0BtBsXEPhzzehMqUHHxIaU.local.variable_workflow_01PE3PAHB5W157dcdGTX1XBFM8aGkPSQttw$*3600)",
+                    "continue_on_failure": false,
+                    "display_name": "Calculate date X hours ago",
+                    "original_date": "$workflow.definition_workflow_01PE3PAHHTVYE0BtBsXEPhzzehMqUHHxIaU.output.start_time$",
+                    "skip_execution": false
+                },
+                "object_type": "definition_activity"
+            },
+            {
+                "unique_name": "definition_activity_01PE3PBJOVSA36Tv4rg688pxXBZJGiJpPP7",
+                "name": "Format Date",
+                "title": "Format time stamp",
+                "type": "core.format_date",
+                "base_type": "activity",
+                "properties": {
+                    "continue_on_failure": false,
+                    "display_name": "Format time stamp",
+                    "format_string": "2006-01-02T15:04:05.999999999Z",
+                    "original_date": "$activity.definition_activity_01PE3PBF0UG9V3kSdzA0PKsnIpM21DM79EA.output.result$",
+                    "skip_execution": false,
+                    "use_custom_format": false
+                },
+                "object_type": "definition_activity"
+            },
+            {
+                "unique_name": "definition_activity_01PE3PBOLK1HS6rsn8VnxDgyj65dRR0T6oz",
+                "name": "HTTP Request",
+                "title": "Get sign-ins",
+                "type": "web-service.http_request",
+                "base_type": "activity",
+                "properties": {
+                    "accept": "application\/json",
+                    "action_timeout": 180,
+                    "allow_auto_redirect": true,
+                    "content_type": "application\/json",
+                    "continue_on_error_status_code": true,
+                    "continue_on_failure": false,
+                    "custom_headers": [
+                        {
+                            "name": "Authorization",
+                            "value": "Bearer $activity.definition_activity_01PE3PB7WT9YT6amt6WyanIUU0TEF6N0j1K.output.variable_workflow_01HQN7N4UOY2Q02vRhF0zXjAJoPNBVNKV9Q$"
+                        }
+                    ],
+                    "display_name": "Get sign-ins",
+                    "method": "GET",
+                    "relative_url": "auditLogs\/signIns?$filter=status\/errorCode eq 50053 and createdDateTime ge $activity.definition_activity_01PE3PBJOVSA36Tv4rg688pxXBZJGiJpPP7.output.result$",
+                    "runtime_user": {
+                        "target_default": true
+                    },
+                    "skip_execution": false,
+                    "target": {
+                        "use_workflow_target_group": true
+                    }
+                },
+                "object_type": "definition_activity"
+            },
+            {
+                "unique_name": "definition_activity_01PE3PBTVSGVZ77cHv9TcFaUJ22H7arLBWq",
+                "name": "Condition Block",
+                "title": "Was the request successful?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                    "continue_on_failure": false,
+                    "display_name": "Was the request successful?",
+                    "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                    {
+                        "unique_name": "definition_activity_01PE3PBYGFSZV3euKMHk7d1OuGNqh59xFWo",
+                        "name": "Condition Branch",
+                        "title": "200\/Success",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$activity.definition_activity_01PE3PBOLK1HS6rsn8VnxDgyj65dRR0T6oz.output.status_code$",
+                                "operator": "eq",
+                                "right_operand": 200
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "200\/Success",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01PE41HXICQX617haQoJ3A75vLB5p30OWBN",
+                                "name": "Execute Python Script",
+                                "title": "Aggregate the events",
+                                "type": "python3.script",
+                                "base_type": "activity",
+                                "properties": {
+                                    "action_timeout": 180,
+                                    "continue_on_failure": false,
+                                    "display_name": "Aggregate the events",
+                                    "script": "import sys, json\n# Get the events returned by MS Graph\nevents = json.loads(sys.argv[1])\n# Placeholder for results\naggregated = {}\n# Loop through each event\nfor event in events['value']:\n\tlocationString = event['location']['state'] + ', ' + event['location']['countryOrRegion']\n\t\n\t# Check if this user is already in our list\n\tif event['userPrincipalName'] not in aggregated:\n\t\t# They aren't, so add them\n\t\taggregated[event['userPrincipalName']] = {\n\t\t\t'userPrincipalName': event['userPrincipalName'],\n\t\t\t'userDisplayName': event['userDisplayName'],\n\t\t\t'appDisplayNames': [ event['appDisplayName'] ],\n\t\t\t'ipAddresses': [ event['ipAddress'] ],\n\t\t\t'locations': [ locationString ],\n\t\t\t'attemptCount': 1\n\t\t}\n\telse:\n\t\t# They are, so add values that aren't already in their object\n\t\tif event['appDisplayName'] not in aggregated[event['userPrincipalName']]['appDisplayNames']:\n\t\t\taggregated[event['userPrincipalName']]['appDisplayNames'].append(event['appDisplayName'])\n\t\t\n\t\tif event['ipAddress'] not in aggregated[event['userPrincipalName']]['ipAddresses']:\n\t\t\taggregated[event['userPrincipalName']]['ipAddresses'].append(event['ipAddress'])\n\t\t\t\n\t\tif locationString not in aggregated[event['userPrincipalName']]['locations']:\n\t\t\taggregated[event['userPrincipalName']]['locations'].append(locationString)\n\t\t\n\t\taggregated[event['userPrincipalName']]['attemptCount'] += 1\n# Convert the aggregate data to a Webex Teams message\ntextOut = ''\nfor item in aggregated:\n\ttextOut = textOut + '- **' + str(aggregated[item]['attemptCount']) + '** attempts for user **' + (aggregated[item]['userDisplayName'] if len(aggregated[item]['userDisplayName']) > 0 else 'No Display Name') + '** (' + aggregated[item]['userPrincipalName'] + ') from **' + str(len(aggregated[item]['ipAddresses'])) + '** distinct IP addresses (' + ', '.join(aggregated[item]['locations']) + ')' + \"\\n\"  ",
+                                    "script_arguments": [
+                                        "$activity.definition_activity_01PE3PBOLK1HS6rsn8VnxDgyj65dRR0T6oz.output.response_body$"
+                                    ],
+                                    "script_queries": [
+                                        {
+                                            "script_query": "textOut",
+                                            "script_query_name": "textOut",
+                                            "script_query_type": "string"
+                                        }
+                                    ],
+                                    "skip_execution": false
+                                },
+                                "object_type": "definition_activity"
+                            },
+                            {
+                                "unique_name": "definition_activity_01PE3PEV7LEJF0Fn83obBdSfC5SCG6w4vbv",
+                                "name": "Condition Block",
+                                "title": "Is there any Webex text and was a room name given?",
+                                "type": "logic.if_else",
+                                "base_type": "activity",
+                                "properties": {
+                                    "continue_on_failure": false,
+                                    "display_name": "Is there any Webex text and was a room name given?",
+                                    "skip_execution": false
+                                },
+                                "object_type": "definition_activity",
+                                "blocks": [
+                                    {
+                                        "unique_name": "definition_activity_01PE3PF1DP16L6dy2T8fNlJ4N5uD6eLt7Xe",
+                                        "name": "Condition Branch",
+                                        "title": "Yes",
+                                        "type": "logic.condition_block",
+                                        "base_type": "activity",
+                                        "properties": {
+                                            "condition": {
+                                                "left_operand": {
+                                                    "left_operand": "$activity.definition_activity_01PE41HXICQX617haQoJ3A75vLB5p30OWBN.output.script_queries.textOut$",
+                                                    "operator": "ne",
+                                                    "right_operand": ""
+                                                },
+                                                "operator": "and",
+                                                "right_operand": {
+                                                    "left_operand": "$workflow.definition_workflow_01PE3PAHHTVYE0BtBsXEPhzzehMqUHHxIaU.local.variable_workflow_01PE3PAHB5UPY6yPJMGtckDvLuDZ8kdt92U$",
+                                                    "operator": "ne",
+                                                    "right_operand": ""
+                                                }
+                                            },
+                                            "continue_on_failure": false,
+                                            "display_name": "Yes",
+                                            "skip_execution": false
+                                        },
+                                        "object_type": "definition_activity",
+                                        "actions": [
+                                            {
+                                                "unique_name": "definition_activity_01PE3PF4NH8HG6HotXaG4RblLuW7YVD1vNt",
+                                                "name": "Webex - Search for Room",
+                                                "title": "Webex - Search for Room",
+                                                "type": "workflow.atomic_workflow",
+                                                "base_type": "subworkflow",
+                                                "properties": {
+                                                    "continue_on_failure": true,
+                                                    "display_name": "Webex - Search for Room",
+                                                    "input": {
+                                                        "variable_workflow_01PP790MCX1DN3EitpQebkUyJS65DbwS3nU": "$workflow.definition_workflow_01PE3PAHHTVYE0BtBsXEPhzzehMqUHHxIaU.local.variable_workflow_01PE3PAHB5PRB7Jda2lNNKSbQmOXwXGYts0$",
+                                                        "variable_workflow_01PP790MCXB392D3R8pxh9fgOTjTde2bcMW": "$workflow.definition_workflow_01PE3PAHHTVYE0BtBsXEPhzzehMqUHHxIaU.local.variable_workflow_01PE3PAHB5UPY6yPJMGtckDvLuDZ8kdt92U$",
+                                                        "variable_workflow_01PP790MCXHP55YE6ylOEITWsWbUFJeyWGv": "",
+                                                        "variable_workflow_01PP790MCXM9W1MUwo85y8iNRCoQuQ4RGNa": ""
+                                                    },
+                                                    "runtime_user": {
+                                                        "target_default": true
+                                                    },
+                                                    "skip_execution": false,
+                                                    "target": {
+                                                        "override_workflow_target_group_criteria": true,
+                                                        "target_group": {
+                                                            "run_on_all_targets": false,
+                                                            "use_criteria": {
+                                                                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                                                "conditions": [
+                                                                    {
+                                                                        "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                                                        "operator": "eqi",
+                                                                        "right_operand": "Webex Teams"
+                                                                    }
+                                                                ]
+                                                            }
+                                                        }
+                                                    },
+                                                    "workflow_id": "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez",
+                                                    "workflow_name": "Webex - Search for Room"
+                                                },
+                                                "object_type": "definition_activity"
+                                            },
+                                            {
+                                                "unique_name": "definition_activity_01PE3PFBVMRI57c61TKNYgkYLo2b822jYEI",
+                                                "name": "Condition Block",
+                                                "title": "Was the room found?",
+                                                "type": "logic.if_else",
+                                                "base_type": "activity",
+                                                "properties": {
+                                                    "continue_on_failure": false,
+                                                    "display_name": "Was the room found?",
+                                                    "skip_execution": false
+                                                },
+                                                "object_type": "definition_activity",
+                                                "blocks": [
+                                                    {
+                                                        "unique_name": "definition_activity_01PE3PFGNEFW92Syfad9rZhMx1KUlq4kocr",
+                                                        "name": "Condition Branch",
+                                                        "title": "Yes",
+                                                        "type": "logic.condition_block",
+                                                        "base_type": "activity",
+                                                        "properties": {
+                                                            "condition": {
+                                                                "left_operand": "$activity.definition_activity_01PE3PF4NH8HG6HotXaG4RblLuW7YVD1vNt.output.succeeded$",
+                                                                "operator": "eq",
+                                                                "right_operand": true
+                                                            },
+                                                            "continue_on_failure": false,
+                                                            "display_name": "Yes",
+                                                            "skip_execution": false
+                                                        },
+                                                        "object_type": "definition_activity",
+                                                        "actions": [
+                                                            {
+                                                                "unique_name": "definition_activity_01PE3PFMXZCOB2tEVT7kMf5SbqrEi8oDTck",
+                                                                "name": "Webex - Post Message to Room",
+                                                                "title": "Webex - Post Message to Room",
+                                                                "type": "workflow.atomic_workflow",
+                                                                "base_type": "subworkflow",
+                                                                "properties": {
+                                                                    "continue_on_failure": false,
+                                                                    "display_name": "Webex - Post Message to Room",
+                                                                    "input": {
+                                                                        "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$activity.definition_activity_01PE3PF4NH8HG6HotXaG4RblLuW7YVD1vNt.output.variable_workflow_01PP790MCXJ7Y5cAWcGZWbG4Es0126zb1I6$",
+                                                                        "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$workflow.definition_workflow_01PE3PAHHTVYE0BtBsXEPhzzehMqUHHxIaU.local.variable_workflow_01PE3PAHB5PRB7Jda2lNNKSbQmOXwXGYts0$",
+                                                                        "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "Sign in attempts were made by users whose accounts are locked out. Here's a summary:\n$activity.definition_activity_01PE41HXICQX617haQoJ3A75vLB5p30OWBN.output.script_queries.textOut$",
+                                                                        "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": "",
+                                                                        "variable_workflow_01SVERQNMKN8N6vqX2djMtAfshphGydGsH8": ""
+                                                                    },
+                                                                    "runtime_user": {
+                                                                        "target_default": true
+                                                                    },
+                                                                    "skip_execution": false,
+                                                                    "target": {
+                                                                        "override_workflow_target_group_criteria": true,
+                                                                        "target_group": {
+                                                                            "run_on_all_targets": false,
+                                                                            "use_criteria": {
+                                                                                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                                                                "conditions": [
+                                                                                    {
+                                                                                        "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                                                                        "operator": "eqi",
+                                                                                        "right_operand": "Webex Teams"
+                                                                                    }
+                                                                                ]
+                                                                            }
+                                                                        }
+                                                                    },
+                                                                    "workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw",
+                                                                    "workflow_name": "Webex - Post Message to Room"
+                                                                },
+                                                                "object_type": "definition_activity"
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "unique_name": "definition_activity_01PE3PEOMM6EV42wpbxZAxKfADp5eBGPQll",
+                        "name": "Condition Branch",
+                        "title": "Anything else",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$activity.definition_activity_01PE3PBOLK1HS6rsn8VnxDgyj65dRR0T6oz.output.status_code$",
+                                "operator": "ne",
+                                "right_operand": 200
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "Anything else",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01PE3PEQW9FBC0HzTcNZktBSpA7ZqTbSYcz",
+                                "name": "Completed",
+                                "title": "Failed",
+                                "type": "logic.completed",
+                                "base_type": "activity",
+                                "properties": {
+                                    "completion_type": "failed-completed",
+                                    "continue_on_failure": false,
+                                    "display_name": "Failed",
+                                    "result_message": "Failed to fetch sign-in events from Microsoft Graph\n\nStatus code: $activity.definition_activity_01PE3PBOLK1HS6rsn8VnxDgyj65dRR0T6oz.output.status_code$\nResponse body: $activity.definition_activity_01PE3PBOLK1HS6rsn8VnxDgyj65dRR0T6oz.output.response_body$",
+                                    "skip_execution": false
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "categories": [
+            "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+        ]
+    },
+    "target_groups": {
+        "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+            "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+            "name": "Default TargetGroup",
+            "title": "Default TargetGroup",
+            "type": "generic.target_group",
+            "base_type": "target_group",
+            "version": "1.0.0",
+            "targets": [
+                {
+                    "data_target_type": "web-service.endpoint",
+                    "view_target_type": "web-service.endpoint",
+                    "include_all_targets": true
+                },
+                {
+                    "data_target_type": "email.smtp_endpoint",
+                    "view_target_type": "email.smtp_endpoint",
+                    "include_all_targets": true
+                }
+            ],
+            "object_type": "target_group"
+        }
+    },
+    "atomic_workflows": [
+        "definition_workflow_01HQN7N57GLKN780LTDUabTblE3OpMPQVfx",
+        "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez",
+        "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw"
+    ],
+    "dependent_workflows": [
+        "definition_workflow_01HQN7N57GLKN780LTDUabTblE3OpMPQVfx",
+        "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez",
+        "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw"
+    ]
+}

@@ -26,6 +26,7 @@ This workflow checks for users that were created within the past X hours in Micr
 |:-----|:------|
 | Jun 29, 2021 | - Initial release |
 | Sep 10, 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+| Sep 7, 2022 | - Minor updates to naming and descriptions |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 

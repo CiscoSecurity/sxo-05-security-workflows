@@ -1,376 +1,383 @@
 {
-	"workflow": {
-	  "unique_name": "definition_workflow_01O1F6IBOLSP37KQEAt003257hQcJuDvvWu",
-	  "name": "0040 - Tufin - Request Server Decommission",
-	  "title": "0040 - Tufin - Request Server Decommission",
-	  "type": "generic.workflow",
-	  "base_type": "workflow",
-	  "variables": [
-		{
-		  "schema_id": "datatype.string",
-		  "properties": {
-			"value": "",
-			"scope": "input",
-			"name": "observable_value",
-			"type": "datatype.string",
-			"description": "The value of the observable pivoted on",
-			"is_required": true,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01O1FI9M8VOM72ixMxkoswkxFnCDbhDWAHy",
-		  "object_type": "variable_workflow"
-		},
-		{
-		  "schema_id": "datatype.string",
-		  "properties": {
-			"value": "",
-			"scope": "input",
-			"name": "observable_type",
-			"type": "datatype.string",
-			"description": "The type of observable pivoted on",
-			"is_required": true,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01O1FHWHGC6DY3yPYykHdkIlz7COuLErurn",
-		  "object_type": "variable_workflow"
-		},
-		{
-		  "schema_id": "datatype.string",
-		  "properties": {
-			"value": "",
-			"scope": "local",
-			"name": "Comment",
-			"type": "datatype.string",
-			"description": "An optional comment to add to the change request",
-			"is_required": false,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01O1FK7WJCLHW6qt9VbqDzPFf8nV0Ra2WLU",
-		  "object_type": "variable_workflow"
-		},
-		{
-		  "schema_id": "datatype.string",
-		  "properties": {
-			"value": "Normal",
-			"scope": "local",
-			"name": "Priority",
-			"type": "datatype.string",
-			"description": "The priority to use when submitting change requests. Valid values include: Critical, High, Normal, Low",
-			"is_required": false,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01O1FJO1LPP672t8s9yjY9aItX2zUbvuRrs",
-		  "object_type": "variable_workflow"
-		},
-		{
-		  "schema_id": "datatype.string",
-		  "properties": {
-			"value": "Server Decommission Request",
-			"scope": "local",
-			"name": "Subject",
-			"type": "datatype.string",
-			"description": "The subject to use for the change request",
-			"is_required": false,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01O1FJ5ELEFIU721cBQVeM0Zwx22GVDhwhg",
-		  "object_type": "variable_workflow"
-		}
-	  ],
-	  "properties": {
-		"atomic": {
-		  "is_atomic": false
-		},
-		"delete_workflow_instance": false,
-		"description": "This workflow submits a ticket for server decommission using the Tufin SecureChange API. A confirmation message is sent using Microsoft Teams. Supported observable: ip\n\nTarget Group: Default TargetGroup\n\nTargets: Microsoft Teams Webhook, Tufin Orchestration Suite\n\nSteps:\n[] Make sure the observable type provided is supported\n[] Submit the server decommission request\n[] Send a message to Microsoft Teams indicating if the request was submitted successfully\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0040",
-		"display_name": "0040 - Tufin - Request Server Decommission",
-		"runtime_user": {
-		  "override_target_runtime_user": false,
-		  "specify_on_workflow_start": false,
-		  "target_default": true
-		},
-		"target": {
-		  "execute_on_target_group": true,
-		  "target_group": {
-			"target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
-			"run_on_all_targets": false,
-			"selected_target_types": [
-			  "web-service.endpoint"
-			],
-			"use_criteria": {
-			  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-			  "conditions": [
-				{
-				  "operator": "eqi",
-				  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-				  "right_operand": "Tufin Orchestration Suite"
-				}
-			  ]
-			}
-		  }
-		}
-	  },
-	  "object_type": "definition_workflow",
-	  "actions": [
-		{
-		  "unique_name": "definition_activity_01Q9KHH85B7D12ZRXmy8YEnE2YjNxHywNSk",
-		  "name": "Condition Block",
-		  "title": "Is the observable type supported?",
-		  "type": "logic.if_else",
-		  "base_type": "activity",
-		  "properties": {
-			"continue_on_failure": false,
-			"display_name": "Is the observable type supported?",
-			"skip_execution": false
-		  },
-		  "object_type": "definition_activity",
-		  "blocks": [
-			{
-			  "unique_name": "definition_activity_01Q9KHHFZ9QQ234nrMCKQ1VHKp6SsfIUBNQ",
-			  "name": "Condition Branch",
-			  "title": "No",
-			  "type": "logic.condition_block",
-			  "base_type": "activity",
-			  "properties": {
-				"condition": {
-				  "left_operand": "$workflow.definition_workflow_01O1F6IBOLSP37KQEAt003257hQcJuDvvWu.input.variable_workflow_01O1FHWHGC6DY3yPYykHdkIlz7COuLErurn$",
-				  "operator": "ne",
-				  "right_operand": "ip"
-				},
-				"continue_on_failure": false,
-				"display_name": "No",
-				"skip_execution": false
-			  },
-			  "object_type": "definition_activity",
-			  "actions": [
-				{
-				  "unique_name": "definition_activity_01Q9KHNZNP7QV5YT5xqfJPexG4F60FMsuNN",
-				  "name": "Completed",
-				  "title": "Unsupported observable",
-				  "type": "logic.completed",
-				  "base_type": "activity",
-				  "properties": {
-					"completion_type": "failed-completed",
-					"continue_on_failure": false,
-					"display_name": "Unsupported observable",
-					"result_message": "The observable type \"$workflow.definition_workflow_01O1F6IBOLSP37KQEAt003257hQcJuDvvWu.input.variable_workflow_01O1FHWHGC6DY3yPYykHdkIlz7COuLErurn$\" is not supported by this workflow",
-					"skip_execution": false
-				  },
-				  "object_type": "definition_activity"
-				}
-			  ]
-			}
-		  ]
-		},
-		{
-		  "unique_name": "definition_activity_01O1F795Q50OR5jkA0PuZq3C5oZi8lej7mF",
-		  "name": "Tufin - Submit Server Decommission Request",
-		  "title": "Tufin - Submit Server Decommission Request",
-		  "type": "workflow.atomic_workflow",
-		  "base_type": "subworkflow",
-		  "properties": {
-			"continue_on_failure": true,
-			"display_name": "Tufin - Submit Server Decommission Request",
-			"input": {
-			  "variable_workflow_01G943M609WB567jbLATBSvnf6n3niE3uLn": "$workflow.definition_workflow_01O1F6IBOLSP37KQEAt003257hQcJuDvvWu.local.variable_workflow_01O1FJO1LPP672t8s9yjY9aItX2zUbvuRrs$",
-			  "variable_workflow_01G943M60A8NF1GIOk9aAzGNRF1E5sxT0Uu": "$workflow.definition_workflow_01O1F6IBOLSP37KQEAt003257hQcJuDvvWu.local.variable_workflow_01O1FJ5ELEFIU721cBQVeM0Zwx22GVDhwhg$",
-			  "variable_workflow_01G943M60A9Y34Tu06rCRbUSGcqNLceb2Pv": "$workflow.definition_workflow_01O1F6IBOLSP37KQEAt003257hQcJuDvvWu.local.variable_workflow_01O1FK7WJCLHW6qt9VbqDzPFf8nV0Ra2WLU$",
-			  "variable_workflow_01G9NPMUVN7L84MQjDHsxH2Fn4TmCEHp6J4": "$workflow.definition_workflow_01O1F6IBOLSP37KQEAt003257hQcJuDvvWu.input.variable_workflow_01O1FI9M8VOM72ixMxkoswkxFnCDbhDWAHy$"
-			},
-			"runtime_user": {
-			  "target_default": true
-			},
-			"skip_execution": false,
-			"target": {
-			  "use_workflow_target_group": true
-			},
-			"workflow_id": "definition_workflow_01G943M8DJPWH1Jm0QfMFVvJf5nRkNdHk3K"
-		  },
-		  "object_type": "definition_activity"
-		},
-		{
-		  "unique_name": "definition_activity_01O1FP16E8RT07XdruZ8CA3Asf62hWHBF4T",
-		  "name": "Condition Block",
-		  "title": "Was the request successful?",
-		  "type": "logic.if_else",
-		  "base_type": "activity",
-		  "properties": {
-			"continue_on_failure": false,
-			"display_name": "Was the request successful?",
-			"skip_execution": false
-		  },
-		  "object_type": "definition_activity",
-		  "blocks": [
-			{
-			  "unique_name": "definition_activity_01O1FP1L7WQ8V4oGUR7NziY1GcW2iKMbFvW",
-			  "name": "Condition Branch",
-			  "title": "Yes",
-			  "type": "logic.condition_block",
-			  "base_type": "activity",
-			  "properties": {
-				"condition": {
-				  "left_operand": "$activity.definition_activity_01O1F795Q50OR5jkA0PuZq3C5oZi8lej7mF.output.succeeded$",
-				  "operator": "eq",
-				  "right_operand": true
-				},
-				"continue_on_failure": false,
-				"display_name": "Yes",
-				"skip_execution": false
-			  },
-			  "object_type": "definition_activity",
-			  "actions": [
-				{
-				  "unique_name": "definition_activity_01O1FQHNL0SMO4zpIDpiR1bJ1Firt2p62oX",
-				  "name": "Microsoft Teams - Post Message via Webhook",
-				  "title": "Microsoft Teams - Post Message via Webhook",
-				  "type": "workflow.atomic_workflow",
-				  "base_type": "subworkflow",
-				  "properties": {
-					"continue_on_failure": false,
-					"display_name": "Microsoft Teams - Post Message via Webhook",
-					"input": {
-					  "variable_workflow_01MRIK9PFIH9457K2ZY1x7rEJvOPzYOE6eO": "Server Decommission Request Submitted",
-					  "variable_workflow_01MRIKICJKVS16L5nynmibtyxbFIqwxBhOV": "A server decommission request was submitted successfully for $workflow.definition_workflow_01O1F6IBOLSP37KQEAt003257hQcJuDvvWu.input.variable_workflow_01O1FI9M8VOM72ixMxkoswkxFnCDbhDWAHy$",
-					  "variable_workflow_01MRIL2TKZ8FM1EvIZeO4VFV9ITFhG3vSlI": "#00ebc2"
-					},
-					"runtime_user": {
-					  "target_default": true
-					},
-					"skip_execution": false,
-					"target": {
-					  "override_workflow_target_group_criteria": true,
-					  "target_group": {
-						"run_on_all_targets": false,
-						"use_criteria": {
-						  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-						  "conditions": [
-							{
-							  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-							  "operator": "eqi",
-							  "right_operand": "Microsoft Teams Webhook"
-							}
-						  ]
-						}
-					  }
-					},
-					"workflow_id": "definition_workflow_01MRIE3B3DNNQ3cdFSoyGkg1RnVsYA9VdZr"
-				  },
-				  "object_type": "definition_activity"
-				}
-			  ]
-			},
-			{
-			  "unique_name": "definition_activity_01O1FP1LT49J856OowOxEjuFKvAdv8eFk7x",
-			  "name": "Condition Branch",
-			  "title": "No",
-			  "type": "logic.condition_block",
-			  "base_type": "activity",
-			  "properties": {
-				"condition": {
-				  "left_operand": "$activity.definition_activity_01O1F795Q50OR5jkA0PuZq3C5oZi8lej7mF.output.succeeded$",
-				  "operator": "eq",
-				  "right_operand": false
-				},
-				"continue_on_failure": false,
-				"display_name": "No",
-				"skip_execution": false
-			  },
-			  "object_type": "definition_activity",
-			  "actions": [
-				{
-				  "unique_name": "definition_activity_01O1FS2HLQZC86MP7OFbpt4wpAGuhHqBAZg",
-				  "name": "Microsoft Teams - Post Message via Webhook",
-				  "title": "Microsoft Teams - Post Message via Webhook",
-				  "type": "workflow.atomic_workflow",
-				  "base_type": "subworkflow",
-				  "properties": {
-					"continue_on_failure": false,
-					"display_name": "Microsoft Teams - Post Message via Webhook",
-					"input": {
-					  "variable_workflow_01MRIK9PFIH9457K2ZY1x7rEJvOPzYOE6eO": "Server Decommission Request Failed",
-					  "variable_workflow_01MRIKICJKVS16L5nynmibtyxbFIqwxBhOV": "Failed to submit server decommission request for $workflow.definition_workflow_01O1F6IBOLSP37KQEAt003257hQcJuDvvWu.input.variable_workflow_01O1FI9M8VOM72ixMxkoswkxFnCDbhDWAHy$. Error: $activity.definition_activity_01O1F795Q50OR5jkA0PuZq3C5oZi8lej7mF.output.error.message$",
-					  "variable_workflow_01MRIL2TKZ8FM1EvIZeO4VFV9ITFhG3vSlI": "#e81123"
-					},
-					"runtime_user": {
-					  "target_default": true
-					},
-					"skip_execution": false,
-					"target": {
-					  "override_workflow_target_group_criteria": true,
-					  "target_group": {
-						"run_on_all_targets": false,
-						"use_criteria": {
-						  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-						  "conditions": [
-							{
-							  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-							  "operator": "eqi",
-							  "right_operand": "Microsoft Teams Webhook"
-							}
-						  ]
-						}
-					  }
-					},
-					"workflow_id": "definition_workflow_01MRIE3B3DNNQ3cdFSoyGkg1RnVsYA9VdZr"
-				  },
-				  "object_type": "definition_activity"
-				}
-			  ]
-			}
-		  ]
-		}
-	  ],
-	  "categories": [
-		"category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m",
-		"category_01G4JLUINA0E65x8iCa6Behj8y9V0ZE9f8O"
-	  ]
-	},
-	"categories": {
-	  "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m": {
-		"unique_name": "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m",
-		"name": "response",
-		"title": "response",
-		"type": "basic.category",
-		"base_type": "category",
-		"category_type": "custom",
-		"object_type": "category"
-	  },
-	  "category_01G4JLUINA0E65x8iCa6Behj8y9V0ZE9f8O": {
-		"unique_name": "category_01G4JLUINA0E65x8iCa6Behj8y9V0ZE9f8O",
-		"name": "Tufin",
-		"title": "Tufin",
-		"type": "basic.category",
-		"base_type": "category",
-		"description": "Tufin Orchestration Suite",
-		"category_type": "custom",
-		"object_type": "category"
-	  }
-	},
-	"target_groups": {
-	  "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
-		"unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
-		"name": "Default TargetGroup",
-		"title": "Default TargetGroup",
-		"type": "generic.target_group",
-		"base_type": "target_group",
-		"version": "1.0.0",
-		"targets": [
-		  {
-			"data_target_type": "web-service.endpoint",
-			"view_target_type": "web-service.endpoint",
-			"include_all_targets": true
-		  },
-		  {
-			"data_target_type": "email.smtp_endpoint",
-			"view_target_type": "email.smtp_endpoint",
-			"include_all_targets": true
-		  }
-		],
-		"object_type": "target_group"
-	  }
-	},
-	"atomic_workflows": [
-	  "definition_workflow_01G943M8DJPWH1Jm0QfMFVvJf5nRkNdHk3K",
-	  "definition_workflow_01MRIE3B3DNNQ3cdFSoyGkg1RnVsYA9VdZr"
-	]
-  }
+    "workflow": {
+        "unique_name": "definition_workflow_01O1F6IBOLSP37KQEAt003257hQcJuDvvWu",
+        "name": "0040 - Tufin - Request Server Decommission",
+        "title": "0040 - Tufin - Request Server Decommission",
+        "type": "generic.workflow",
+        "base_type": "workflow",
+        "variables": [
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "",
+                    "scope": "local",
+                    "name": "Comment",
+                    "type": "datatype.string",
+                    "description": "An optional comment to add to the change request",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01O1FK7WJCLHW6qt9VbqDzPFf8nV0Ra2WLU",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "Normal",
+                    "scope": "local",
+                    "name": "Priority",
+                    "type": "datatype.string",
+                    "description": "The priority to use when submitting change requests. Valid values include: Critical, High, Normal, Low",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01O1FJO1LPP672t8s9yjY9aItX2zUbvuRrs",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "",
+                    "scope": "input",
+                    "name": "observable_type",
+                    "type": "datatype.string",
+                    "description": "The type of observable pivoted on",
+                    "is_required": true,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01O1FHWHGC6DY3yPYykHdkIlz7COuLErurn",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "",
+                    "scope": "input",
+                    "name": "observable_value",
+                    "type": "datatype.string",
+                    "description": "The value of the observable pivoted on",
+                    "is_required": true,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01O1FI9M8VOM72ixMxkoswkxFnCDbhDWAHy",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "Server Decommission Request",
+                    "scope": "local",
+                    "name": "Subject",
+                    "type": "datatype.string",
+                    "description": "The subject to use for the change request",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01O1FJ5ELEFIU721cBQVeM0Zwx22GVDhwhg",
+                "object_type": "variable_workflow"
+            }
+        ],
+        "properties": {
+            "atomic": {
+                "is_atomic": false
+            },
+            "delete_workflow_instance": false,
+            "description": "This workflow submits a ticket for server decommission using the Tufin SecureChange API. A confirmation message is sent using Microsoft Teams. Supported observable: ip\n\nDocumentation: https:\/\/ciscosecurity.github.io\/sxo-05-security-workflows\/workflows\/0040\n\nTarget Group: Default TargetGroup\n\nTargets: Microsoft Teams Webhook, Tufin Orchestration Suite\n\nSteps:\n[] Make sure the observable type provided is supported\n[] Submit the server decommission request\n[] Send a message to Microsoft Teams indicating if the request was submitted successfully",
+            "display_name": "0040 - Tufin - Request Server Decommission",
+            "runtime_user": {
+                "override_target_runtime_user": false,
+                "specify_on_workflow_start": false,
+                "target_default": true
+            },
+            "target": {
+                "execute_on_target_group": true,
+                "target_group": {
+                    "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+                    "run_on_all_targets": false,
+                    "selected_target_types": [
+                        "web-service.endpoint"
+                    ],
+                    "use_criteria": {
+                        "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                        "conditions": [
+                            {
+                                "operator": "eqi",
+                                "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                "right_operand": "Tufin Orchestration Suite"
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        "object_type": "definition_workflow",
+        "actions": [
+            {
+                "unique_name": "definition_activity_01Q9KHH85B7D12ZRXmy8YEnE2YjNxHywNSk",
+                "name": "Condition Block",
+                "title": "Is the observable type supported?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                    "continue_on_failure": false,
+                    "display_name": "Is the observable type supported?",
+                    "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                    {
+                        "unique_name": "definition_activity_01Q9KHHFZ9QQ234nrMCKQ1VHKp6SsfIUBNQ",
+                        "name": "Condition Branch",
+                        "title": "No",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$workflow.definition_workflow_01O1F6IBOLSP37KQEAt003257hQcJuDvvWu.input.variable_workflow_01O1FHWHGC6DY3yPYykHdkIlz7COuLErurn$",
+                                "operator": "ne",
+                                "right_operand": "ip"
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "No",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01Q9KHNZNP7QV5YT5xqfJPexG4F60FMsuNN",
+                                "name": "Completed",
+                                "title": "Unsupported observable",
+                                "type": "logic.completed",
+                                "base_type": "activity",
+                                "properties": {
+                                    "completion_type": "failed-completed",
+                                    "continue_on_failure": false,
+                                    "display_name": "Unsupported observable",
+                                    "result_message": "The observable type \"$workflow.definition_workflow_01O1F6IBOLSP37KQEAt003257hQcJuDvvWu.input.variable_workflow_01O1FHWHGC6DY3yPYykHdkIlz7COuLErurn$\" is not supported by this workflow",
+                                    "skip_execution": false
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "unique_name": "definition_activity_01O1F795Q50OR5jkA0PuZq3C5oZi8lej7mF",
+                "name": "Tufin - Submit Server Decommission Request",
+                "title": "Tufin - Submit Server Decommission Request",
+                "type": "workflow.atomic_workflow",
+                "base_type": "subworkflow",
+                "properties": {
+                    "continue_on_failure": true,
+                    "display_name": "Tufin - Submit Server Decommission Request",
+                    "input": {
+                        "variable_workflow_01G943M609WB567jbLATBSvnf6n3niE3uLn": "$workflow.definition_workflow_01O1F6IBOLSP37KQEAt003257hQcJuDvvWu.local.variable_workflow_01O1FJO1LPP672t8s9yjY9aItX2zUbvuRrs$",
+                        "variable_workflow_01G943M60A8NF1GIOk9aAzGNRF1E5sxT0Uu": "$workflow.definition_workflow_01O1F6IBOLSP37KQEAt003257hQcJuDvvWu.local.variable_workflow_01O1FJ5ELEFIU721cBQVeM0Zwx22GVDhwhg$",
+                        "variable_workflow_01G943M60A9Y34Tu06rCRbUSGcqNLceb2Pv": "$workflow.definition_workflow_01O1F6IBOLSP37KQEAt003257hQcJuDvvWu.local.variable_workflow_01O1FK7WJCLHW6qt9VbqDzPFf8nV0Ra2WLU$",
+                        "variable_workflow_01G9NPMUVN7L84MQjDHsxH2Fn4TmCEHp6J4": "$workflow.definition_workflow_01O1F6IBOLSP37KQEAt003257hQcJuDvvWu.input.variable_workflow_01O1FI9M8VOM72ixMxkoswkxFnCDbhDWAHy$"
+                    },
+                    "runtime_user": {
+                        "target_default": true
+                    },
+                    "skip_execution": false,
+                    "target": {
+                        "use_workflow_target_group": true
+                    },
+                    "workflow_id": "definition_workflow_01G943M8DJPWH1Jm0QfMFVvJf5nRkNdHk3K",
+                    "workflow_name": "Tufin - Submit Server Decommission Request"
+                },
+                "object_type": "definition_activity"
+            },
+            {
+                "unique_name": "definition_activity_01O1FP16E8RT07XdruZ8CA3Asf62hWHBF4T",
+                "name": "Condition Block",
+                "title": "Was the request successful?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                    "continue_on_failure": false,
+                    "display_name": "Was the request successful?",
+                    "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                    {
+                        "unique_name": "definition_activity_01O1FP1L7WQ8V4oGUR7NziY1GcW2iKMbFvW",
+                        "name": "Condition Branch",
+                        "title": "Yes",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$activity.definition_activity_01O1F795Q50OR5jkA0PuZq3C5oZi8lej7mF.output.succeeded$",
+                                "operator": "eq",
+                                "right_operand": true
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "Yes",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01O1FQHNL0SMO4zpIDpiR1bJ1Firt2p62oX",
+                                "name": "Microsoft Teams - Post Message via Webhook",
+                                "title": "Microsoft Teams - Post Message via Webhook",
+                                "type": "workflow.atomic_workflow",
+                                "base_type": "subworkflow",
+                                "properties": {
+                                    "continue_on_failure": false,
+                                    "display_name": "Microsoft Teams - Post Message via Webhook",
+                                    "input": {
+                                        "variable_workflow_01MRIK9PFIH9457K2ZY1x7rEJvOPzYOE6eO": "Server Decommission Request Submitted",
+                                        "variable_workflow_01MRIKICJKVS16L5nynmibtyxbFIqwxBhOV": "A server decommission request was submitted successfully for $workflow.definition_workflow_01O1F6IBOLSP37KQEAt003257hQcJuDvvWu.input.variable_workflow_01O1FI9M8VOM72ixMxkoswkxFnCDbhDWAHy$",
+                                        "variable_workflow_01MRIL2TKZ8FM1EvIZeO4VFV9ITFhG3vSlI": "#00ebc2"
+                                    },
+                                    "runtime_user": {
+                                        "target_default": true
+                                    },
+                                    "skip_execution": false,
+                                    "target": {
+                                        "override_workflow_target_group_criteria": true,
+                                        "target_group": {
+                                            "run_on_all_targets": false,
+                                            "use_criteria": {
+                                                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                                "conditions": [
+                                                    {
+                                                        "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                                        "operator": "eqi",
+                                                        "right_operand": "Microsoft Teams Webhook"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "workflow_id": "definition_workflow_01MRIE3B3DNNQ3cdFSoyGkg1RnVsYA9VdZr",
+                                    "workflow_name": "Microsoft Teams - Post Message via Webhook"
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    },
+                    {
+                        "unique_name": "definition_activity_01O1FP1LT49J856OowOxEjuFKvAdv8eFk7x",
+                        "name": "Condition Branch",
+                        "title": "No",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$activity.definition_activity_01O1F795Q50OR5jkA0PuZq3C5oZi8lej7mF.output.succeeded$",
+                                "operator": "eq",
+                                "right_operand": false
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "No",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01O1FS2HLQZC86MP7OFbpt4wpAGuhHqBAZg",
+                                "name": "Microsoft Teams - Post Message via Webhook",
+                                "title": "Microsoft Teams - Post Message via Webhook",
+                                "type": "workflow.atomic_workflow",
+                                "base_type": "subworkflow",
+                                "properties": {
+                                    "continue_on_failure": false,
+                                    "display_name": "Microsoft Teams - Post Message via Webhook",
+                                    "input": {
+                                        "variable_workflow_01MRIK9PFIH9457K2ZY1x7rEJvOPzYOE6eO": "Server Decommission Request Failed",
+                                        "variable_workflow_01MRIKICJKVS16L5nynmibtyxbFIqwxBhOV": "Failed to submit server decommission request for $workflow.definition_workflow_01O1F6IBOLSP37KQEAt003257hQcJuDvvWu.input.variable_workflow_01O1FI9M8VOM72ixMxkoswkxFnCDbhDWAHy$. Error: $activity.definition_activity_01O1F795Q50OR5jkA0PuZq3C5oZi8lej7mF.output.error.message$",
+                                        "variable_workflow_01MRIL2TKZ8FM1EvIZeO4VFV9ITFhG3vSlI": "#e81123"
+                                    },
+                                    "runtime_user": {
+                                        "target_default": true
+                                    },
+                                    "skip_execution": false,
+                                    "target": {
+                                        "override_workflow_target_group_criteria": true,
+                                        "target_group": {
+                                            "run_on_all_targets": false,
+                                            "use_criteria": {
+                                                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                                "conditions": [
+                                                    {
+                                                        "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                                        "operator": "eqi",
+                                                        "right_operand": "Microsoft Teams Webhook"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "workflow_id": "definition_workflow_01MRIE3B3DNNQ3cdFSoyGkg1RnVsYA9VdZr",
+                                    "workflow_name": "Microsoft Teams - Post Message via Webhook"
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "categories": [
+            "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m",
+            "category_01G4JLUINA0E65x8iCa6Behj8y9V0ZE9f8O"
+        ]
+    },
+    "categories": {
+        "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m": {
+            "unique_name": "category_01FM7CGPZZCMY0KcvgiGjVH5UaB4y4aDJ7m",
+            "name": "response",
+            "title": "response",
+            "type": "basic.category",
+            "base_type": "category",
+            "category_type": "custom",
+            "object_type": "category"
+        },
+        "category_01G4JLUINA0E65x8iCa6Behj8y9V0ZE9f8O": {
+            "unique_name": "category_01G4JLUINA0E65x8iCa6Behj8y9V0ZE9f8O",
+            "name": "Tufin",
+            "title": "Tufin",
+            "type": "basic.category",
+            "base_type": "category",
+            "description": "Tufin Orchestration Suite",
+            "category_type": "custom",
+            "object_type": "category"
+        }
+    },
+    "target_groups": {
+        "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+            "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+            "name": "Default TargetGroup",
+            "title": "Default TargetGroup",
+            "type": "generic.target_group",
+            "base_type": "target_group",
+            "version": "1.0.0",
+            "targets": [
+                {
+                    "data_target_type": "web-service.endpoint",
+                    "view_target_type": "web-service.endpoint",
+                    "include_all_targets": true
+                },
+                {
+                    "data_target_type": "email.smtp_endpoint",
+                    "view_target_type": "email.smtp_endpoint",
+                    "include_all_targets": true
+                }
+            ],
+            "object_type": "target_group"
+        }
+    },
+    "atomic_workflows": [
+        "definition_workflow_01MRIE3B3DNNQ3cdFSoyGkg1RnVsYA9VdZr",
+        "definition_workflow_01G943M8DJPWH1Jm0QfMFVvJf5nRkNdHk3K"
+    ],
+    "dependent_workflows": [
+        "definition_workflow_01G943M8DJPWH1Jm0QfMFVvJf5nRkNdHk3K",
+        "definition_workflow_01MRIE3B3DNNQ3cdFSoyGkg1RnVsYA9VdZr"
+    ]
+}
