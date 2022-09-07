@@ -28,6 +28,7 @@ This workflow runs multiple Oribtal queries on the endpoint provided to look for
 | Date | Notes |
 |:-----|:------|
 | Jan 20, 2022 | - Initial release |
+| Sep 7, 2022 | - Minor updates to naming and descriptions |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 

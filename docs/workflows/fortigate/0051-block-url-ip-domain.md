@@ -28,6 +28,7 @@ This workflow blocks a URL, IP, or domain name in Fortinet FortiGate by adding t
 | Date | Notes |
 |:-----|:------|
 | Nov 10, 2021 | - Initial release |
+| Sep 7, 2022 | - Minor updates to naming and descriptions |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 
