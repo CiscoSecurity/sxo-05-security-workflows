@@ -16,6 +16,8 @@ Workflow #0070
 
 This workflow sends alerts via Webex if a specific quantity of similar incidents are generated in SecureX within a specified period of time. Alerting can be done for all incidents (by leaving "Aggregation Field" blank) or can be done by aggregating incidents by a certain field (specified in "Aggregation Field").
 
+<div class="cisco-alert cisco-alert-info"><i class="fa fa-info-circle mr-1 cisco-icon-info"></i> This workflow has been updated to use the new "SecureX Token" account key. For more information about this, please see <a href="{{ site.baseurl }}/account-keys/securex-token">this page</a>. If you want to use legacy authentication, you can import an older version of the workflow.</div>
+
 [<i class="fab fa-github mr-1"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0070-SecureX-RepeatIncidentAlerting__definition_workflow_01YYV4BH6JGPE5EjyBNbK1piyMmiT3iruXo){: .btn-cisco-outline }
 
 ---
@@ -25,6 +27,7 @@ This workflow sends alerts via Webex if a specific quantity of similar incidents
 | Date | Notes |
 |:-----|:------|
 | Aug 16, 2022 | - Initial release |
+| Sep 7, 2022 | - Updated to support [SecureX Tokens]({{ site.baseurl }}/account-keys/securex-token) |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 
@@ -32,7 +35,6 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 
 ## Requirements
 * The following [system atomics]({{ site.baseurl }}/atomics/system) are used by this workflow:
-	* Threat Response - Generate Access Token
 	* Threat Response - Search Incidents
 	* Webex - Post Message to Room
 	* Webex - Search for Room
@@ -46,7 +48,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 ## Workflow Steps
 1. Fetch global variables and detect region
 1. Calculate/format the date to search from
-1. Generate an access token for SecureX and search incidents
+1. Search incidents
 1. Aggregate the results and generate a list of alerts to send
 1. For each alert generated, send a Webex message
 
@@ -66,8 +68,7 @@ Target Group: `Default TargetGroup`
 
 | Target Name | Type | Details | Account Keys | Notes |
 |:------------|:-----|:--------|:-------------|:------|
-| [CTR_For_Access_Token]({{ site.baseurl }}/targets/default#ctr_for_access_token) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `visibility.amp.cisco.com`<br />_Path:_ `/iroh` | CTR_Credentials | Created by default |
-| [Private_CTIA_Target]({{ site.baseurl }}/targets/default#private_ctia_target) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `private.intel.amp.cisco.com`<br />_Path:_ None | None | Created by default |
+| [Private_CTIA_Target]({{ site.baseurl }}/targets/default#private_ctia_target) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `private.intel.amp.cisco.com`<br />_Path:_ None | CTR_Credentials | Created by default |
 | Webex Teams | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `webexapis.com`<br />_Path:_ None | None | Not necessary if Webex activities are removed |
 
 ---
@@ -76,4 +77,4 @@ Target Group: `Default TargetGroup`
 
 | Account Key Name | Type | Details | Notes |
 |:-----------------|:-----|:--------|:------|
-| [CTR_Credentials]({{ site.baseurl }}/account-keys/default#ctr_credentials) | HTTP Basic Authentication | _Username:_ Client ID<br />_Password:_ Client Secret | Created by default |
+| [CTR_Credentials]({{ site.baseurl }}/account-keys/default#ctr_credentials) | SecureX Token | | See [this page]({{ site.baseurl }}/account-keys/securex-token) |

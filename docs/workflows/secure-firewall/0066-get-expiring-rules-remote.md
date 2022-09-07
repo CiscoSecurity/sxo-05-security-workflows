@@ -1,14 +1,14 @@
 ---
 layout: page
-title: Get Expiring Rules
-permalink: /workflows/secure-firewall/0066-get-expiring-rules
+title: Get Expiring Rules (Remote)
+permalink: /workflows/secure-firewall/0066-get-expiring-rules-remote
 redirect_from:
   - /workflows/0066
 parent: Cisco Secure Firewall
 grand_parent: Workflows
 ---
 
-# Get Expiring Rules
+# Get Expiring Rules (Remote)
 <div markdown="1">
 Workflow #0066
 {: .label }
@@ -16,7 +16,9 @@ Workflow #0066
 
 This workflow searches up to 500 Cisco Secure Firewall Management Center policies for time-based rules that are set to expire within the configured expiry time. If expired or soon-to-expire rules are found, a message is posted in Webex with the rule details.
 
-[<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0066-SecureFirewall-GetExpiringRules__definition_workflow_01WVT28096I5E0j1oYDuwGpaxQwB2PO3DUC){: .btn-cisco-outline }
+<div class="cisco-alert cisco-alert-info"><i class="fa fa-info-circle mr-1 cisco-icon-info"></i> There are two different ways to integrate Secure Firewall with orchestration. For more information about these two methods and which to use, please see <a href="{{ site.baseurl }}/workflows/secure-firewall/api-types">this page</a>.</div>
+
+[<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0066-SecureFirewall-GetExpiringRulesRemote__definition_workflow_01WVT28096I5E0j1oYDuwGpaxQwB2PO3DUC){: .btn-cisco-outline }
 
 ---
 
@@ -25,6 +27,7 @@ This workflow searches up to 500 Cisco Secure Firewall Management Center policie
 | Date | Notes |
 |:-----|:------|
 | Aug 1, 2022 | - Initial release |
+| Sep 7, 2022 | - Name modified to reflect this workflow using orchestration remote |
 
 _See the [Important Notes](/sxo-05-security-workflows/notes) page for more information about updating workflows_
 
@@ -33,8 +36,8 @@ _See the [Important Notes](/sxo-05-security-workflows/notes) page for more infor
 ## Requirements
 * The following [system atomics](/sxo-05-security-workflows/atomics/system) are used by this workflow:
 	* Secure Firewall - Get Access Token
-    * Webex - Post Message to Room
-    * Webex - Search for Room
+	* Webex - Post Message to Room
+	* Webex - Search for Room
 * The following atomic actions must be imported before you can import this workflow:
 	* None
 * The [targets](#targets) and [account keys](#account-keys) listed below
@@ -49,9 +52,9 @@ _See the [Important Notes](/sxo-05-security-workflows/notes) page for more infor
 1. Get time-range objects
 1. Get access policies
 1. For each policy:
-    * Check each rule for time-based objects
-    * If time-based objects are found in rule:
-        * Calculate the expiry time and append to the workflow output as needed
+	* Check each rule for time-based objects
+	* If time-based objects are found in rule:
+		* Calculate the expiry time and append to the workflow output as needed
 1. Finalize the output of the workflow based on what was found
 1. Post message to Webex
 

@@ -1,14 +1,14 @@
 ---
 layout: page
-title: Get Health Alerts
-permalink: /workflows/secure-firewall/0064-get-health-alerts
+title: Get Health Alerts (Remote)
+permalink: /workflows/secure-firewall/0064-get-health-alerts-remote
 redirect_from:
   - /workflows/0064
 parent: Cisco Secure Firewall
 grand_parent: Workflows
 ---
 
-# Get Health Alerts
+# Get Health Alerts (Remote)
 <div markdown="1">
 Workflow #0064
 {: .label }
@@ -16,7 +16,9 @@ Workflow #0064
 
 This workflow retrieves health monitor alerts from a Cisco Secure Firewall Management Center and, if alerts are returned, documents them in ServiceNow and sends a Webex message.
 
-[<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0064-SecureFirewall-GetHealthAlerts__definition_workflow_01VAYJPBBZMKI3WDROBCN6moHGADdkU5WhD){: .btn-cisco-outline }
+<div class="cisco-alert cisco-alert-info"><i class="fa fa-info-circle mr-1 cisco-icon-info"></i> There are two different ways to integrate Secure Firewall with orchestration. For more information about these two methods and which to use, please see <a href="{{ site.baseurl }}/workflows/secure-firewall/api-types">this page</a>.</div>
+
+[<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0064-SecureFirewall-GetHealthAlertsRemote__definition_workflow_01VAYJPBBZMKI3WDROBCN6moHGADdkU5WhD){: .btn-cisco-outline }
 
 ---
 
@@ -26,6 +28,7 @@ This workflow retrieves health monitor alerts from a Cisco Secure Firewall Manag
 |:-----|:------|
 | May 4, 2022 | - Initial release |
 | May 19, 2022 | - Updated to use standard target name `FMC Target` instead of `FMC_Target` |
+| Sep 7, 2022 | - Name modified to reflect this workflow using orchestration remote |
 
 _See the [Important Notes](/sxo-05-security-workflows/notes) page for more information about updating workflows_
 
@@ -34,12 +37,12 @@ _See the [Important Notes](/sxo-05-security-workflows/notes) page for more infor
 ## Requirements
 * The following [system atomics](/sxo-05-security-workflows/atomics/system) are used by this workflow:
 	* Secure Firewall - Get Access Token
-    * Secure Firewall - Get Device Details
-    * Secure Firewall - Get Health Alerts
-    * Webex - Post Message to Room
-    * Webex - Search for Room
+	* Secure Firewall - Get Device Details
+	* Secure Firewall - Get Health Alerts
+	* Webex - Post Message to Room
+	* Webex - Search for Room
 * The following atomic actions must be imported before you can import this workflow:
-	* ServiceNow - Create Incident  ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
+	* ServiceNow - Create Incident ([CiscoSecurity_Atomics]({{ site.baseurl }}/configuration))
 * The [targets](#targets) and [account keys](#account-keys) listed at the bottom of the page
 * Cisco Secure Firewall
 * Cisco Webex
@@ -56,10 +59,10 @@ _See the [Important Notes](/sxo-05-security-workflows/notes) page for more infor
 1. Fetch a token for FMC
 1. Fetch matching health alerts
 1. Check if any alerts were found:
-    * If not, end the workflow
-    * If there were alerts:
-        * Parse the alerts to markdown and HTML
-        * Create ServiceNow ticke
+	* If not, end the workflow
+	* If there were alerts:
+		* Parse the alerts to markdown and HTML
+		* Create ServiceNow ticket
 1. Post the workflow result to Webex
 
 ---
