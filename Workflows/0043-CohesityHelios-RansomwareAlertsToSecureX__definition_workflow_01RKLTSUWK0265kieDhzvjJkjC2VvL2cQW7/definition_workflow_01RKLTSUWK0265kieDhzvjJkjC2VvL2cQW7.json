@@ -1,145 +1,145 @@
 {
-	"workflow": {
-	  "unique_name": "definition_workflow_01RKLTSUWK0265kieDhzvjJkjC2VvL2cQW7",
-	  "name": "0043 - Cohesity Helios - Ransomware Alerts to SecureX",
-	  "title": "0043 - Cohesity Helios - Ransomware Alerts to SecureX",
-	  "type": "generic.workflow",
-	  "base_type": "workflow",
-	  "variables": [
-		{
-		  "schema_id": "datatype.secure_string",
-		  "properties": {
-			"value": "",
-			"scope": "local",
-			"name": "SecureX API Secret",
-			"type": "datatype.secure_string",
-			"description": "Secret for your Cisco SecureX API client. You can generate API clients in the Administration section of SecureX",
-			"is_required": false,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01RKLTSUO1OD33Zj2sywDFff4cura7aOSvH",
-		  "object_type": "variable_workflow"
-		},
-		{
-		  "schema_id": "datatype.secure_string",
-		  "properties": {
-			"value": "",
-			"scope": "local",
-			"name": "Helios API Key",
-			"type": "datatype.secure_string",
-			"description": "Your Cohesity Helios API key",
-			"is_required": false,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01RKLTSUO1JZU2zjPbBZgD9RR7pgMN6TX42",
-		  "object_type": "variable_workflow"
-		},
-		{
-		  "schema_id": "datatype.string",
-		  "properties": {
-			"value": "10000",
-			"scope": "local",
-			"name": "Number of Hours",
-			"type": "datatype.string",
-			"description": "Specifies how many hours ago alerts will be fetched from. For example, if you set this to 1,000, all alerts from the past 1,000 hours will be fetched",
-			"is_required": false,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01RKLTSUO1U2K4sBtYOlSpRYzSb1N2Kr9PN",
-		  "object_type": "variable_workflow"
-		},
-		{
-		  "schema_id": "datatype.string",
-		  "properties": {
-			"value": "",
-			"scope": "local",
-			"name": "SecureX API Client ID",
-			"type": "datatype.string",
-			"description": "Client ID for your Cisco SecureX API client. You can generate API clients in the Administration section of SecureX",
-			"is_required": false,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01RLEOQHO2PYS1dPAasoZVz6i50RJB4KDIT",
-		  "object_type": "variable_workflow"
-		}
-	  ],
-	  "properties": {
-		"atomic": {
-		  "is_atomic": false
-		},
-		"delete_workflow_instance": false,
-		"description": "Note: This workflow was developed and is supported by Cohesity\n\nThis workflow pushes Cohesity Helios ransomware alerts to SecureX Threat Response incidents with matching sightings.\n\nTargets: None\n\nSteps:\n[] Execute a Python script to fetch alerts from Cohesity and create corresponding incidents in SecureX\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0043",
-		"display_name": "0043 - Cohesity Helios - Ransomware Alerts to SecureX",
-		"runtime_user": {
-		  "target_default": true
-		},
-		"target": {
-		  "no_target": true
-		}
-	  },
-	  "object_type": "definition_workflow",
-	  "actions": [
-		{
-		  "unique_name": "definition_activity_01RKLTTIR481C2hoPrxmEkb6SQtHc6tzvjE",
-		  "name": "Execute Python Script",
-		  "title": "Push ransomware alerts to SecureX private intelligence",
-		  "type": "python3.script",
-		  "base_type": "activity",
-		  "properties": {
-			"action_timeout": 180,
-			"continue_on_failure": false,
-			"display_name": "Push ransomware alerts to SecureX private intelligence",
-			"script": "'''\nSecureX orchestration workflow python script used to get anomalous objects detected\nin the last n hours from Cohesity Helios and push to SecureX private intelligence\nScript usage:\npython push_ransonware_data.py <client_id> <client_password> <helios_api_key> <n>\nclient_id: Threat Response API client id\nclient_password: Threat Response API client password\nhelios_api_key: Cohesity Helios API key\nn: number of hours, used to get anomalous objects detected in the last n hours\n'''\nimport argparse\nimport datetime\nimport json\nimport requests\nimport sys\nimport datetime\nimport time\n##### Cisco Functions #####\ndef _get_access_token(args):\n    '''\n    Get Threat Response access token\n    :param args:\n    :return:\n    '''\n    try:\n        url = \"https://visibility.amp.cisco.com/iroh/oauth2/token\"\n        headers = {\n            \"Content-Type\": \"application/x-www-form-urlencoded\",\n            \"Accept\": \"application/json\"\n        }\n        response = requests.post(url, headers=headers, auth=(args.client_id, args.client_password),\n                                 verify=False, data={'grant_type': 'client_credentials'})\n        if response.status_code != 200:\n            raise Exception(str(response.json()))\n        return response.json()['access_token']\n    except Exception as e:\n        raise Exception(\"Failed to get threat response access token, \" + str(e))\ndef _get_sightings_from_external_id(external_id, tr_access_token):\n    try:\n        url = 'https://private.intel.amp.cisco.com/ctia/sighting/external_id/' + external_id\n        headers = {\n            'Authorization': 'Bearer ' + tr_access_token,\n            'Content-Type': 'application/json'\n        }\n        response = requests.get(url, headers=headers, verify=False)\n        if response.status_code != 200:\n            raise Exception('Failed to get sightings from external id, ' + str(response.json()))\n        return response.json()\n    except Exception as e:\n        raise Exception(str(e))\ndef _get_incidents_from_external_id(external_id, tr_access_token):\n    try:\n        url = 'https://private.intel.amp.cisco.com/ctia/incident/external_id/' + external_id\n        headers = {\n            'Authorization': 'Bearer ' + tr_access_token,\n            'Content-Type': 'application/json'\n        }\n        response = requests.get(url, headers=headers, verify=False)\n        if response.status_code != 200:\n            raise Exception('Failed to get incidents from external id, ' + str(response.json()))\n        return response.json()\n    except Exception as e:\n        raise Exception(str(e))\ndef create_sightings(tr_access_token, alert):\n    try:\n        service_now_description = {}\n        headers = {\n            'Authorization': 'Bearer ' + tr_access_token,\n            'Content-Type': 'application/json'\n        }\n        property_dict = _get_property_dict(alert['propertyList'])\n        external_id = property_dict.get('object', '') + '___' +\\\n                        property_dict.get('entityId', '') + '___' +\\\n                        property_dict.get('source', '') + '___' +\\\n                        property_dict.get('cluster', '') + '___' +\\\n                        property_dict.get('cid', '')\n        service_now_description = {\n            \"shortDescription\": \"[CiscoSecureX]Anomalous object \\'\" + property_dict.get(\"object\", \"\") +\n                                \"\\' from Cohesity. Source: \\'\" +\n                                property_dict.get(\"source\", \"\") + \"\\' Cluster: \\'\" +\n                                property_dict.get(\"cluster\", \"\") + \"\\'\",\n            \"description\": alert.get('alertDocument')['alertName'] + \". \\n\" +\n                            alert.get('alertDocument')['alertDescription'] + \". \\n\" +\n                            alert.get('alertDocument')['alertCause'] + \". \\n\" +\n                            alert.get('alertDocument')['alertHelpText']\n        }\n        sightings = _get_sightings_from_external_id(external_id, tr_access_token)\n        if sightings:\n            sighting = sightings[0]\n            url = 'https://private.intel.amp.cisco.com/ctia/sighting/' + sighting['id'].split('/')[-1]\n            sighting['resolution'] = ''\n            sighting['observed_time']['start_time'] = datetime.datetime.utcfromtimestamp(\n                    float(alert['firstTimestampUsecs']) / 1000000).isoformat()\n            sighting['observed_time']['end_time'] = datetime.datetime.utcfromtimestamp(\n                    float(alert['latestTimestampUsecs']) / 1000000).isoformat()\n            response = requests.put(url, headers=headers,\n                                        verify=False, json=sighting)\n            if response.status_code != 200:\n                raise Exception('Failed to update the sighting, ' + str(response.json()))\n            else:\n                return json.loads(response.content), service_now_description\n        else:\n            url = 'https://private.intel.amp.cisco.com/ctia/sighting'\n            sighting = {\n                \"description\": \"Anomalous object from Cohesity\"\n                                \" Helios. The object is under source \\'\" +\n                                property_dict.get(\"source\", \"\") +\n                                \"\\' on cluster \\'\" + property_dict.get(\"cluster\", \"\") + \"\\'\",\n                \"observables\": [\n                    {\n                        \"type\": \"hostname\",\n                        \"value\": property_dict.get(\"object\", \"\")\n                    }\n                ],\n                \"source\": \"Cohesity Helios\",\n                \"severity\": \"High\",\n                \"confidence\": \"High\",\n                \"internal\": True,\n                \"observed_time\": {\n                    \"start_time\": datetime.datetime.utcfromtimestamp(\n                        float(alert['firstTimestampUsecs']) / 1000000).isoformat(),\n                    \"end_time\": datetime.datetime.utcfromtimestamp(\n                        float(alert['latestTimestampUsecs']) / 1000000).isoformat()\n                },\n                \"external_ids\": [external_id],\n                \"external_references\": [\n                    {\n                        \"source_name\": property_dict.get('source', ''),\n                        \"description\": \"The source in which the anomalous object is present\"\n                    }\n                ]\n            }\n            response = requests.post(url, headers=headers,\n                                        verify=False, json=sighting)\n            if response.status_code != 201:\n                raise Exception('Failed to create sighting, ' + str(response.json()))\n            else:\n                return json.loads(response.content), service_now_description\n    except Exception as e:\n        raise Exception(str(e))\ndef create_incidents(tr_access_token, alert):\n    try:\n        headers = {\n            'Authorization': 'Bearer ' + tr_access_token,\n            'Content-Type': 'application/json'\n        }\n        property_dict = _get_property_dict(alert['propertyList'])\n        external_id = property_dict.get('object', '') + '___' +\\\n                        property_dict.get('entityId', '') + '___' +\\\n                        property_dict.get('source', '') + '___' +\\\n                        property_dict.get('cluster', '') + '___' +\\\n                        property_dict.get('cid', '')\n        incidents = _get_incidents_from_external_id(external_id, tr_access_token)\n        if incidents:\n            incident = incidents[0]\n            url = 'https://private.intel.amp.cisco.com/ctia/incident/' + incident['id'].split('/')[-1]\n            incident['incident_time']['opened'] = datetime.datetime.utcfromtimestamp(\n                    float(alert['firstTimestampUsecs']) / 1000000).isoformat()\n            incident['incident_time']['discovered'] = datetime.datetime.utcfromtimestamp(\n                    float(alert['firstTimestampUsecs']) / 1000000).isoformat()\n            incident['incident_time']['reported'] = datetime.datetime.utcfromtimestamp(\n                    float(alert['firstTimestampUsecs']) / 1000000).isoformat()\n            response = requests.put(url, headers=headers,\n                                        verify=False, json=incident)\n            if response.status_code != 200:\n                raise Exception('Failed to update the incident, ' + str(response.json()))\n            else:\n                return json.loads(response.content)\n        else:\n            url = 'https://private.intel.amp.cisco.com/ctia/incident'\n            incident = {\n                \"description\": \"Anomalous object from Cohesity\"\n                                \" Helios. The object is under source \\'\" +\n                                property_dict.get(\"source\", \"\") +\n                                \"\\' on cluster \\'\" + property_dict.get(\"cluster\", \"\") + \"\\'\" + \"\\n\" +\n                                \"# Alert Info \\n\\n\" + \n                                \"*Alert Name* : \" + alert['alertDocument']['alertName'] + \"\\n\\n\" + \n                                \"*Alert Description* : \" + alert['alertDocument']['alertDescription'] + \"\\n\\n\" + \n                                \"*Alert Cause* : \" + alert['alertDocument']['alertCause']+ \"\\n\\n\" + \n                                \"*Alert Help Text* : \" + alert['alertDocument']['alertHelpText'] ,\n                \"confidence\": \"High\",\n                \"incident_time\": {\n                    \"opened\": datetime.datetime.utcfromtimestamp(float(alert['firstTimestampUsecs']) / 1000000).isoformat(),\n                    \"discovered\": datetime.datetime.utcfromtimestamp(float(alert['firstTimestampUsecs']) / 1000000).isoformat(),\n                    \"reported\": datetime.datetime.utcfromtimestamp(float(alert['firstTimestampUsecs']) / 1000000).isoformat()\n                },\n                \"schema_version\": \"1.1.3\", \n                \"status\": \"New\",\n                \"type\": \"incident\",\n                \"source\": \"Cohesity Helios\",\n                \"external_ids\": [external_id],\n                \"title\": \"Cohesity Helios: \" + property_dict.get(\"object\", \"\"),\n                \"external_references\": [\n                    {\n                        \"source_name\": property_dict.get('source', ''),\n                        \"description\": \"The source in which the anomalous object is present\"\n                    }\n                ]\n            }\n            response = requests.post(url, headers=headers,\n                                        verify=False, json=incident)\n            if response.status_code != 201:\n                raise Exception('Failed to create Incident, ' + str(response.json()))\n            else:\n                return json.loads(response.content)\n    except Exception as e:\n        raise Exception(str(e))\ndef create_relationship(tr_access_token, source, destination):\n    try:\n        headers = {\n            'Authorization': 'Bearer ' + tr_access_token,\n            'Content-Type': 'application/json'\n        }\n        url = 'https://private.intel.amp.cisco.com/ctia/relationship'\n        relation = {\n            \"description\": \"Cohesity Anomalous Object Sighting to Incident Relation\",\n            \"title\": \"Cohesity Anomalous Object Sighting to Incident Relation\",\n            \"relationship_type\": \"related-to\",\n            \"schema_version\": \"1.1.3\",\n            \"type\": \"relationship\",\n            \"source_ref\": source,\n            \"target_ref\": destination\n        }\n        response = requests.post(url, headers=headers,\n                                    verify=False, json=relation)\n        if response.status_code != 201:\n            raise Exception('Failed to create relation, ' + str(response.json()))\n    except Exception as e:\n        raise Exception(str(e))\n###### Cohesity Functions ###### \ndef _get_property_dict(property_list):\n    '''\n    get property dictionary from list of property dicts\n    with keys, values\n    :param property_list:\n    :return:\n    '''\n    property_dict = {}\n    for property in property_list:\n        property_dict[property['key']] = property['value']\n    return property_dict\ndef get_ransomware_alerts(args):\n    '''\n    get ransomware alerts from Cohesity Helios\n    :param args:\n    :return:\n    '''\n    try:\n        ransomware_alerts = []\n        url = 'https://helios.cohesity.com/mcm/alerts?' \\\n              'alertCategoryList=kSecurity&alertStateList=kOpen'\n        params = {\n            \"maxAlerts\": 1000,\n            \"alertCategoryList\": \"kSecurity\",\n            \"alertStateList\": \"kOpen\",\n            \"_includeTenantInfo\": True,\n            \"startDateUsecs\": int((time.time() - int(args.n) * 60 * 60) * 1000000)\n        }\n        headers = {'Content-Type': 'application/json',\n                   'apiKey': args.helios_api_key}\n        response = requests.get(url, headers=headers, params=params, verify=False)\n        if response.status_code != 200:\n            raise Exception(str(response.json()))\n        for alert in response.json():\n            if alert['alertCode'] == 'CE01516011':\n                ransomware_alerts.append(alert)\n        return ransomware_alerts\n    except Exception as e:\n        raise Exception(\"Failed to get ransomware alerts from Helios, \" + str(e))\ndef main(args):\n    service_now_descriptions = []\n    try:\n        tr_access_token = _get_access_token(args)\n        ransomware_alerts = get_ransomware_alerts(args)\n        for alert in ransomware_alerts:\n            sighting, service_now_description = create_sightings(tr_access_token, alert)\n            incident = create_incidents(tr_access_token, alert)\n            service_now_description['description'] = service_now_description['description'] + \"\\n\" + incident['id']\n            create_relationship(tr_access_token, sighting['id'], incident['id'])\n            service_now_descriptions.append(service_now_description)\n        print(json.dumps(service_now_descriptions))\n    except Exception as e:\n        sys.exit(str(e))\nparser = argparse.ArgumentParser(\n    description=\"Arguments to get anomalous objects from Helios\"\n                \" and push to private intelligence\")\nparser.add_argument(\"client_id\", help=\"Threat Response API client id\")\nparser.add_argument(\"client_password\", help=\"Threat Response API client password\")\nparser.add_argument(\"helios_api_key\", help=\"Cohesity Helios API key\")\nparser.add_argument(\"n\", help=\"Number of hours, filter anomalous objects detected\"\n                              \" in the last n hours\")\nargs = parser.parse_args()\nmain(args)",
-			"script_arguments": [
-			  "$workflow.definition_workflow_01RKLTSUWK0265kieDhzvjJkjC2VvL2cQW7.local.variable_workflow_01RLEOQHO2PYS1dPAasoZVz6i50RJB4KDIT$",
-			  "$workflow.definition_workflow_01RKLTSUWK0265kieDhzvjJkjC2VvL2cQW7.local.variable_workflow_01RKLTSUO1OD33Zj2sywDFff4cura7aOSvH$",
-			  "$workflow.definition_workflow_01RKLTSUWK0265kieDhzvjJkjC2VvL2cQW7.local.variable_workflow_01RKLTSUO1JZU2zjPbBZgD9RR7pgMN6TX42$",
-			  "$workflow.definition_workflow_01RKLTSUWK0265kieDhzvjJkjC2VvL2cQW7.local.variable_workflow_01RKLTSUO1U2K4sBtYOlSpRYzSb1N2Kr9PN$"
-			],
-			"skip_execution": false
-		  },
-		  "object_type": "definition_activity"
-		}
-	  ],
-	  "categories": [
-		"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
-	  ]
-	},
-	"triggers": {
-	  "triggerschedule_01RKLTT6OH6412sBLKnr0XcClOrzWBD5lpt": {
-		"workflow_id": "definition_workflow_01RKLTSUWK0265kieDhzvjJkjC2VvL2cQW7",
-		"name": "Cohesity Ransomware Alerts",
-		"title": "",
-		"lowercase_name": "schedule.cohesity_ransomware_alerts",
-		"description": "Trigger to push ransomeware alert data to Threat Response private intelligence data store and Service Now ",
-		"type": "schedule",
-		"base_type": "trigger",
-		"ref_id": "schedule_01OD0U5F998SU05n5KmkBk6cfVG8udoEcnw",
-		"version": "",
-		"disabled": true,
-		"unique_name": "triggerschedule_01RKLTT6OH6412sBLKnr0XcClOrzWBD5lpt",
-		"object_type": "triggerschedule"
-	  }
-	},
-	"schedules": {
-	  "schedule_01OD0U5F998SU05n5KmkBk6cfVG8udoEcnw": {
-		"unique_name": "schedule_01OD0U5F998SU05n5KmkBk6cfVG8udoEcnw",
-		"name": "Cohesity Helios Ransomware Data Push Schedule",
-		"description": "Schedule to trigger orchestration workflow to push Helios ransomware data to private intelligence",
-		"type": "basic.schedule",
-		"base_type": "schedule",
-		"properties": {
-		  "calendar": "calendar_recurring_1BMfMWvgiDhSjBQ7hTSyvz3NyVZ",
-		  "timezone": "Etc/GMT+0",
-		  "starttime": "00:00",
-		  "interval_hours": 12,
-		  "interval_minutes": 0,
-		  "number_of_times": 2,
-		  "display_name": "Cohesity Helios Ransomware Data Push Schedule",
-		  "description": "Schedule to trigger orchestration workflow to push Helios ransomware data to private intelligence"
-		},
-		"version": "1.0.0",
-		"object_type": "schedule"
-	  }
-	}
-  }
+    "workflow": {
+        "unique_name": "definition_workflow_01RKLTSUWK0265kieDhzvjJkjC2VvL2cQW7",
+        "name": "0043 - Cohesity Helios - Ransomware Alerts to SecureX",
+        "title": "0043 - Cohesity Helios - Ransomware Alerts to SecureX",
+        "type": "generic.workflow",
+        "base_type": "workflow",
+        "variables": [
+            {
+                "schema_id": "datatype.secure_string",
+                "properties": {
+                    "value": "",
+                    "scope": "local",
+                    "name": "Helios API Key",
+                    "type": "datatype.secure_string",
+                    "description": "Your Cohesity Helios API key",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01RKLTSUO1JZU2zjPbBZgD9RR7pgMN6TX42",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "",
+                    "scope": "local",
+                    "name": "SecureX API Client ID",
+                    "type": "datatype.string",
+                    "description": "Client ID for your Cisco SecureX API client. You can generate API clients in the Administration section of SecureX",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01RLEOQHO2PYS1dPAasoZVz6i50RJB4KDIT",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "10000",
+                    "scope": "local",
+                    "name": "Number of Hours",
+                    "type": "datatype.string",
+                    "description": "Specifies how many hours ago alerts will be fetched from. For example, if you set this to 1,000, all alerts from the past 1,000 hours will be fetched",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01RKLTSUO1U2K4sBtYOlSpRYzSb1N2Kr9PN",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.secure_string",
+                "properties": {
+                    "value": "",
+                    "scope": "local",
+                    "name": "SecureX API Secret",
+                    "type": "datatype.secure_string",
+                    "description": "Secret for your Cisco SecureX API client. You can generate API clients in the Administration section of SecureX",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01RKLTSUO1OD33Zj2sywDFff4cura7aOSvH",
+                "object_type": "variable_workflow"
+            }
+        ],
+        "properties": {
+            "atomic": {
+                "is_atomic": false
+            },
+            "delete_workflow_instance": false,
+            "description": "Note: This workflow was developed and is supported by Cohesity\n\nThis workflow pushes Cohesity Helios ransomware alerts to SecureX Threat Response incidents with matching sightings.\n\nDocumentation: https:\/\/ciscosecurity.github.io\/sxo-05-security-workflows\/workflows\/0043\n\nSteps:\n[] Execute a Python script to fetch alerts from Cohesity and create corresponding incidents in SecureX",
+            "display_name": "0043 - Cohesity Helios - Ransomware Alerts to SecureX",
+            "runtime_user": {
+                "target_default": true
+            },
+            "target": {
+                "no_target": true
+            }
+        },
+        "object_type": "definition_workflow",
+        "actions": [
+            {
+                "unique_name": "definition_activity_01RKLTTIR481C2hoPrxmEkb6SQtHc6tzvjE",
+                "name": "Execute Python Script",
+                "title": "Push ransomware alerts to SecureX private intelligence",
+                "type": "python3.script",
+                "base_type": "activity",
+                "properties": {
+                    "action_timeout": 180,
+                    "continue_on_failure": false,
+                    "display_name": "Push ransomware alerts to SecureX private intelligence",
+                    "script": "'''\nSecureX orchestration workflow python script used to get anomalous objects detected\nin the last n hours from Cohesity Helios and push to SecureX private intelligence\nScript usage:\npython push_ransonware_data.py <client_id> <client_password> <helios_api_key> <n>\nclient_id: Threat Response API client id\nclient_password: Threat Response API client password\nhelios_api_key: Cohesity Helios API key\nn: number of hours, used to get anomalous objects detected in the last n hours\n'''\nimport argparse\nimport datetime\nimport json\nimport requests\nimport sys\nimport datetime\nimport time\n##### Cisco Functions #####\ndef _get_access_token(args):\n    '''\n    Get Threat Response access token\n    :param args:\n    :return:\n    '''\n    try:\n        url = \"https:\/\/visibility.amp.cisco.com\/iroh\/oauth2\/token\"\n        headers = {\n            \"Content-Type\": \"application\/x-www-form-urlencoded\",\n            \"Accept\": \"application\/json\"\n        }\n        response = requests.post(url, headers=headers, auth=(args.client_id, args.client_password),\n                                 verify=False, data={'grant_type': 'client_credentials'})\n        if response.status_code != 200:\n            raise Exception(str(response.json()))\n        return response.json()['access_token']\n    except Exception as e:\n        raise Exception(\"Failed to get threat response access token, \" + str(e))\ndef _get_sightings_from_external_id(external_id, tr_access_token):\n    try:\n        url = 'https:\/\/private.intel.amp.cisco.com\/ctia\/sighting\/external_id\/' + external_id\n        headers = {\n            'Authorization': 'Bearer ' + tr_access_token,\n            'Content-Type': 'application\/json'\n        }\n        response = requests.get(url, headers=headers, verify=False)\n        if response.status_code != 200:\n            raise Exception('Failed to get sightings from external id, ' + str(response.json()))\n        return response.json()\n    except Exception as e:\n        raise Exception(str(e))\ndef _get_incidents_from_external_id(external_id, tr_access_token):\n    try:\n        url = 'https:\/\/private.intel.amp.cisco.com\/ctia\/incident\/external_id\/' + external_id\n        headers = {\n            'Authorization': 'Bearer ' + tr_access_token,\n            'Content-Type': 'application\/json'\n        }\n        response = requests.get(url, headers=headers, verify=False)\n        if response.status_code != 200:\n            raise Exception('Failed to get incidents from external id, ' + str(response.json()))\n        return response.json()\n    except Exception as e:\n        raise Exception(str(e))\ndef create_sightings(tr_access_token, alert):\n    try:\n        service_now_description = {}\n        headers = {\n            'Authorization': 'Bearer ' + tr_access_token,\n            'Content-Type': 'application\/json'\n        }\n        property_dict = _get_property_dict(alert['propertyList'])\n        external_id = property_dict.get('object', '') + '___' +\\\n                        property_dict.get('entityId', '') + '___' +\\\n                        property_dict.get('source', '') + '___' +\\\n                        property_dict.get('cluster', '') + '___' +\\\n                        property_dict.get('cid', '')\n        service_now_description = {\n            \"shortDescription\": \"[CiscoSecureX]Anomalous object \\'\" + property_dict.get(\"object\", \"\") +\n                                \"\\' from Cohesity. Source: \\'\" +\n                                property_dict.get(\"source\", \"\") + \"\\' Cluster: \\'\" +\n                                property_dict.get(\"cluster\", \"\") + \"\\'\",\n            \"description\": alert.get('alertDocument')['alertName'] + \". \\n\" +\n                            alert.get('alertDocument')['alertDescription'] + \". \\n\" +\n                            alert.get('alertDocument')['alertCause'] + \". \\n\" +\n                            alert.get('alertDocument')['alertHelpText']\n        }\n        sightings = _get_sightings_from_external_id(external_id, tr_access_token)\n        if sightings:\n            sighting = sightings[0]\n            url = 'https:\/\/private.intel.amp.cisco.com\/ctia\/sighting\/' + sighting['id'].split('\/')[-1]\n            sighting['resolution'] = ''\n            sighting['observed_time']['start_time'] = datetime.datetime.utcfromtimestamp(\n                    float(alert['firstTimestampUsecs']) \/ 1000000).isoformat()\n            sighting['observed_time']['end_time'] = datetime.datetime.utcfromtimestamp(\n                    float(alert['latestTimestampUsecs']) \/ 1000000).isoformat()\n            response = requests.put(url, headers=headers,\n                                        verify=False, json=sighting)\n            if response.status_code != 200:\n                raise Exception('Failed to update the sighting, ' + str(response.json()))\n            else:\n                return json.loads(response.content), service_now_description\n        else:\n            url = 'https:\/\/private.intel.amp.cisco.com\/ctia\/sighting'\n            sighting = {\n                \"description\": \"Anomalous object from Cohesity\"\n                                \" Helios. The object is under source \\'\" +\n                                property_dict.get(\"source\", \"\") +\n                                \"\\' on cluster \\'\" + property_dict.get(\"cluster\", \"\") + \"\\'\",\n                \"observables\": [\n                    {\n                        \"type\": \"hostname\",\n                        \"value\": property_dict.get(\"object\", \"\")\n                    }\n                ],\n                \"source\": \"Cohesity Helios\",\n                \"severity\": \"High\",\n                \"confidence\": \"High\",\n                \"internal\": True,\n                \"observed_time\": {\n                    \"start_time\": datetime.datetime.utcfromtimestamp(\n                        float(alert['firstTimestampUsecs']) \/ 1000000).isoformat(),\n                    \"end_time\": datetime.datetime.utcfromtimestamp(\n                        float(alert['latestTimestampUsecs']) \/ 1000000).isoformat()\n                },\n                \"external_ids\": [external_id],\n                \"external_references\": [\n                    {\n                        \"source_name\": property_dict.get('source', ''),\n                        \"description\": \"The source in which the anomalous object is present\"\n                    }\n                ]\n            }\n            response = requests.post(url, headers=headers,\n                                        verify=False, json=sighting)\n            if response.status_code != 201:\n                raise Exception('Failed to create sighting, ' + str(response.json()))\n            else:\n                return json.loads(response.content), service_now_description\n    except Exception as e:\n        raise Exception(str(e))\ndef create_incidents(tr_access_token, alert):\n    try:\n        headers = {\n            'Authorization': 'Bearer ' + tr_access_token,\n            'Content-Type': 'application\/json'\n        }\n        property_dict = _get_property_dict(alert['propertyList'])\n        external_id = property_dict.get('object', '') + '___' +\\\n                        property_dict.get('entityId', '') + '___' +\\\n                        property_dict.get('source', '') + '___' +\\\n                        property_dict.get('cluster', '') + '___' +\\\n                        property_dict.get('cid', '')\n        incidents = _get_incidents_from_external_id(external_id, tr_access_token)\n        if incidents:\n            incident = incidents[0]\n            url = 'https:\/\/private.intel.amp.cisco.com\/ctia\/incident\/' + incident['id'].split('\/')[-1]\n            incident['incident_time']['opened'] = datetime.datetime.utcfromtimestamp(\n                    float(alert['firstTimestampUsecs']) \/ 1000000).isoformat()\n            incident['incident_time']['discovered'] = datetime.datetime.utcfromtimestamp(\n                    float(alert['firstTimestampUsecs']) \/ 1000000).isoformat()\n            incident['incident_time']['reported'] = datetime.datetime.utcfromtimestamp(\n                    float(alert['firstTimestampUsecs']) \/ 1000000).isoformat()\n            response = requests.put(url, headers=headers,\n                                        verify=False, json=incident)\n            if response.status_code != 200:\n                raise Exception('Failed to update the incident, ' + str(response.json()))\n            else:\n                return json.loads(response.content)\n        else:\n            url = 'https:\/\/private.intel.amp.cisco.com\/ctia\/incident'\n            incident = {\n                \"description\": \"Anomalous object from Cohesity\"\n                                \" Helios. The object is under source \\'\" +\n                                property_dict.get(\"source\", \"\") +\n                                \"\\' on cluster \\'\" + property_dict.get(\"cluster\", \"\") + \"\\'\" + \"\\n\" +\n                                \"# Alert Info \\n\\n\" + \n                                \"*Alert Name* : \" + alert['alertDocument']['alertName'] + \"\\n\\n\" + \n                                \"*Alert Description* : \" + alert['alertDocument']['alertDescription'] + \"\\n\\n\" + \n                                \"*Alert Cause* : \" + alert['alertDocument']['alertCause']+ \"\\n\\n\" + \n                                \"*Alert Help Text* : \" + alert['alertDocument']['alertHelpText'] ,\n                \"confidence\": \"High\",\n                \"incident_time\": {\n                    \"opened\": datetime.datetime.utcfromtimestamp(float(alert['firstTimestampUsecs']) \/ 1000000).isoformat(),\n                    \"discovered\": datetime.datetime.utcfromtimestamp(float(alert['firstTimestampUsecs']) \/ 1000000).isoformat(),\n                    \"reported\": datetime.datetime.utcfromtimestamp(float(alert['firstTimestampUsecs']) \/ 1000000).isoformat()\n                },\n                \"schema_version\": \"1.1.3\", \n                \"status\": \"New\",\n                \"type\": \"incident\",\n                \"source\": \"Cohesity Helios\",\n                \"external_ids\": [external_id],\n                \"title\": \"Cohesity Helios: \" + property_dict.get(\"object\", \"\"),\n                \"external_references\": [\n                    {\n                        \"source_name\": property_dict.get('source', ''),\n                        \"description\": \"The source in which the anomalous object is present\"\n                    }\n                ]\n            }\n            response = requests.post(url, headers=headers,\n                                        verify=False, json=incident)\n            if response.status_code != 201:\n                raise Exception('Failed to create Incident, ' + str(response.json()))\n            else:\n                return json.loads(response.content)\n    except Exception as e:\n        raise Exception(str(e))\ndef create_relationship(tr_access_token, source, destination):\n    try:\n        headers = {\n            'Authorization': 'Bearer ' + tr_access_token,\n            'Content-Type': 'application\/json'\n        }\n        url = 'https:\/\/private.intel.amp.cisco.com\/ctia\/relationship'\n        relation = {\n            \"description\": \"Cohesity Anomalous Object Sighting to Incident Relation\",\n            \"title\": \"Cohesity Anomalous Object Sighting to Incident Relation\",\n            \"relationship_type\": \"related-to\",\n            \"schema_version\": \"1.1.3\",\n            \"type\": \"relationship\",\n            \"source_ref\": source,\n            \"target_ref\": destination\n        }\n        response = requests.post(url, headers=headers,\n                                    verify=False, json=relation)\n        if response.status_code != 201:\n            raise Exception('Failed to create relation, ' + str(response.json()))\n    except Exception as e:\n        raise Exception(str(e))\n###### Cohesity Functions ###### \ndef _get_property_dict(property_list):\n    '''\n    get property dictionary from list of property dicts\n    with keys, values\n    :param property_list:\n    :return:\n    '''\n    property_dict = {}\n    for property in property_list:\n        property_dict[property['key']] = property['value']\n    return property_dict\ndef get_ransomware_alerts(args):\n    '''\n    get ransomware alerts from Cohesity Helios\n    :param args:\n    :return:\n    '''\n    try:\n        ransomware_alerts = []\n        url = 'https:\/\/helios.cohesity.com\/mcm\/alerts?' \\\n              'alertCategoryList=kSecurity&alertStateList=kOpen'\n        params = {\n            \"maxAlerts\": 1000,\n            \"alertCategoryList\": \"kSecurity\",\n            \"alertStateList\": \"kOpen\",\n            \"_includeTenantInfo\": True,\n            \"startDateUsecs\": int((time.time() - int(args.n) * 60 * 60) * 1000000)\n        }\n        headers = {'Content-Type': 'application\/json',\n                   'apiKey': args.helios_api_key}\n        response = requests.get(url, headers=headers, params=params, verify=False)\n        if response.status_code != 200:\n            raise Exception(str(response.json()))\n        for alert in response.json():\n            if alert['alertCode'] == 'CE01516011':\n                ransomware_alerts.append(alert)\n        return ransomware_alerts\n    except Exception as e:\n        raise Exception(\"Failed to get ransomware alerts from Helios, \" + str(e))\ndef main(args):\n    service_now_descriptions = []\n    try:\n        tr_access_token = _get_access_token(args)\n        ransomware_alerts = get_ransomware_alerts(args)\n        for alert in ransomware_alerts:\n            sighting, service_now_description = create_sightings(tr_access_token, alert)\n            incident = create_incidents(tr_access_token, alert)\n            service_now_description['description'] = service_now_description['description'] + \"\\n\" + incident['id']\n            create_relationship(tr_access_token, sighting['id'], incident['id'])\n            service_now_descriptions.append(service_now_description)\n        print(json.dumps(service_now_descriptions))\n    except Exception as e:\n        sys.exit(str(e))\nparser = argparse.ArgumentParser(\n    description=\"Arguments to get anomalous objects from Helios\"\n                \" and push to private intelligence\")\nparser.add_argument(\"client_id\", help=\"Threat Response API client id\")\nparser.add_argument(\"client_password\", help=\"Threat Response API client password\")\nparser.add_argument(\"helios_api_key\", help=\"Cohesity Helios API key\")\nparser.add_argument(\"n\", help=\"Number of hours, filter anomalous objects detected\"\n                              \" in the last n hours\")\nargs = parser.parse_args()\nmain(args)",
+                    "script_arguments": [
+                        "$workflow.definition_workflow_01RKLTSUWK0265kieDhzvjJkjC2VvL2cQW7.local.variable_workflow_01RLEOQHO2PYS1dPAasoZVz6i50RJB4KDIT$",
+                        "$workflow.definition_workflow_01RKLTSUWK0265kieDhzvjJkjC2VvL2cQW7.local.variable_workflow_01RKLTSUO1OD33Zj2sywDFff4cura7aOSvH$",
+                        "$workflow.definition_workflow_01RKLTSUWK0265kieDhzvjJkjC2VvL2cQW7.local.variable_workflow_01RKLTSUO1JZU2zjPbBZgD9RR7pgMN6TX42$",
+                        "$workflow.definition_workflow_01RKLTSUWK0265kieDhzvjJkjC2VvL2cQW7.local.variable_workflow_01RKLTSUO1U2K4sBtYOlSpRYzSb1N2Kr9PN$"
+                    ],
+                    "skip_execution": false
+                },
+                "object_type": "definition_activity"
+            }
+        ],
+        "categories": [
+            "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+        ]
+    },
+    "triggers": {
+        "triggerschedule_01RKLTT6OH6412sBLKnr0XcClOrzWBD5lpt": {
+            "workflow_id": "definition_workflow_01RKLTSUWK0265kieDhzvjJkjC2VvL2cQW7",
+            "name": "Cohesity Ransomware Alerts",
+            "title": "",
+            "lowercase_name": "schedule.cohesity_ransomware_alerts",
+            "description": "Trigger to push ransomeware alert data to Threat Response private intelligence data store and Service Now ",
+            "type": "schedule",
+            "base_type": "trigger",
+            "ref_id": "schedule_01OD0U5F998SU05n5KmkBk6cfVG8udoEcnw",
+            "version": "1.0.0",
+            "disabled": true,
+            "unique_name": "triggerschedule_01RKLTT6OH6412sBLKnr0XcClOrzWBD5lpt",
+            "object_type": "triggerschedule"
+        }
+    },
+    "schedules": {
+        "schedule_01OD0U5F998SU05n5KmkBk6cfVG8udoEcnw": {
+            "unique_name": "schedule_01OD0U5F998SU05n5KmkBk6cfVG8udoEcnw",
+            "name": "Cohesity Helios Ransomware Data Push Schedule",
+            "description": "Schedule to trigger orchestration workflow to push Helios ransomware data to private intelligence",
+            "type": "basic.schedule",
+            "base_type": "schedule",
+            "properties": {
+                "calendar": "calendar_recurring_1BMfMWvgiDhSjBQ7hTSyvz3NyVZ",
+                "timezone": "Etc\/GMT+0",
+                "starttime": "00:00",
+                "interval_hours": 12,
+                "interval_minutes": 0,
+                "number_of_times": 2,
+                "display_name": "Cohesity Helios Ransomware Data Push Schedule",
+                "description": "Schedule to trigger orchestration workflow to push Helios ransomware data to private intelligence"
+            },
+            "version": "1.0.0",
+            "object_type": "schedule"
+        }
+    }
+}

@@ -28,6 +28,7 @@ This workflow locks a Jamf-managed mobile device. Supported observables: `mac_ad
 | Date | Notes |
 |:-----|:------|
 | Oct 11, 2021 | - Initial release |
+| Sep 7, 2022 | - Minor updates to naming and descriptions |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 

@@ -25,6 +25,7 @@ This workflow searches alerts in Cisco Secure Endpoint for hosts with multiple l
 | Date | Notes |
 |:-----|:------|
 | Nov 2, 2021 | - Initial release |
+| Sep 7, 2022 | - Minor updates to naming and descriptions |
 
 ---
 

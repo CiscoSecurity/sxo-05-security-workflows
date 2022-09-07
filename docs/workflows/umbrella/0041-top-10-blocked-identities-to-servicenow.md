@@ -27,6 +27,7 @@ This workflow searches and returns the top 10 identities in Cisco Umbrella with 
 | Aug 23, 2021 | - Initial release |
 | Mar 21, 2022 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
 | Jul 25, 2022 | - Updated to enable sensitive header redirection for Umbrella APIs ([Issue #176]({{ site.github.repository_url }}/issues/176)) |
+| Sep 7, 2022 | - Minor updates to naming and descriptions |
 
 ---
 
