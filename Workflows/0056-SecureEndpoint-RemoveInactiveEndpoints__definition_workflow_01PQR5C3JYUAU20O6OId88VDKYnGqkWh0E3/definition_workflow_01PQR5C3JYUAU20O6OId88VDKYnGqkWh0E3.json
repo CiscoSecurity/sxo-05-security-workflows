@@ -1,1554 +1,1561 @@
 {
-	"workflow": {
-	  "unique_name": "definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3",
-	  "name": "0056 - Secure Endpoint - Remove Inactive Endpoints",
-	  "title": "0056 - Secure Endpoint - Remove Inactive Endpoints",
-	  "type": "generic.workflow",
-	  "base_type": "workflow",
-	  "variables": [
-		{
-		  "schema_id": "datatype.string",
-		  "properties": {
-			"value": "",
-			"scope": "local",
-			"name": "SecureX Region",
-			"type": "datatype.string",
-			"description": "Placeholder for the SecureX region URL. This will be populated automatically",
-			"is_required": false,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01UEIB0YB1TPX5ItLLdLAew04YzgG45P82B",
-		  "object_type": "variable_workflow"
-		},
-		{
-		  "schema_id": "datatype.string",
-		  "properties": {
-			"value": "",
-			"scope": "local",
-			"name": "Removal Results",
-			"type": "datatype.string",
-			"description": "Placeholder for the results of the computer deletions. This will be populated automatically",
-			"is_required": false,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01UEHFGTTLB5W2gP6xfF04oHnsx1aAlDF33",
-		  "object_type": "variable_workflow"
-		},
-		{
-		  "schema_id": "datatype.string",
-		  "properties": {
-			"value": "owner@company.com",
-			"scope": "local",
-			"name": "Task Owner",
-			"type": "datatype.string",
-			"description": "Who the approval task should be owned by. This should be the user's SecureX email address",
-			"is_required": false,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01U7KFJ4TGK425ih3qBVRDzlfI1MmzyDwhy",
-		  "object_type": "variable_workflow"
-		},
-		{
-		  "schema_id": "datatype.string",
-		  "properties": {
-			"value": "assignee@company.com",
-			"scope": "local",
-			"name": "Task Assignee",
-			"type": "datatype.string",
-			"description": "Who the approval task should be assigned to. This should be the user's SecureX email address",
-			"is_required": false,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01U7KGJY8B2LF7b3gn1C6CfwonBZUVsIIRi",
-		  "object_type": "variable_workflow"
-		},
-		{
-		  "schema_id": "datatype.string",
-		  "properties": {
-			"value": "requestor@company.com",
-			"scope": "local",
-			"name": "Task Requestor",
-			"type": "datatype.string",
-			"description": "Who the approval task should be requested by. This should be the user's SecureX email address and can be the same as the owner",
-			"is_required": false,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01U7KF39YRO8O7gkY12BQsHjMO3qzbN4bzi",
-		  "object_type": "variable_workflow"
-		},
-		{
-		  "schema_id": "datatype.integer",
-		  "properties": {
-			"value": 30,
-			"scope": "local",
-			"name": "Inactivity Threshold",
-			"type": "datatype.integer",
-			"description": "How many days a computer must be inactive before the workflow will remove it",
-			"is_required": false,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01UEGSFGG1ZIP237j7luq27IPIfrc0QTr66",
-		  "object_type": "variable_workflow"
-		},
-		{
-		  "schema_id": "datatype.string",
-		  "properties": {
-			"value": "",
-			"scope": "local",
-			"name": "Computers to Remove (Readable)",
-			"type": "datatype.string",
-			"description": "Placeholder for a list of computers to remove. This will be populated automatically",
-			"is_required": false,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01UEH8Q8ECWB642r725yjbgW4X1yq9b0igL",
-		  "object_type": "variable_workflow"
-		},
-		{
-		  "schema_id": "datatype.string",
-		  "properties": {
-			"value": "/computers?limit=100",
-			"scope": "local",
-			"name": "This Page URL",
-			"type": "datatype.string",
-			"description": "Placeholder for the URL of this page of computers. This will be populated automatically",
-			"is_required": false,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01UEGVH1YTHJ76FrjixLByLkqMUSWztMkct",
-		  "object_type": "variable_workflow"
-		},
-		{
-		  "schema_id": "datatype.string",
-		  "properties": {
-			"value": "SecureX Orchestration",
-			"scope": "local",
-			"name": "Webex Teams Room Name",
-			"type": "datatype.string",
-			"description": "The name of the Webex Teams room to post messages to. If using a bot, make sure to invite your bot to the room before attempting to send messages",
-			"is_required": false,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01QEQDMTR1LT074Qws7rTXbmgM3KxwJrUVj",
-		  "object_type": "variable_workflow"
-		},
-		{
-		  "schema_id": "datatype.secure_string",
-		  "properties": {
-			"value": "",
-			"scope": "local",
-			"name": "Webex Teams Access Token",
-			"type": "datatype.secure_string",
-			"description": "The access token to use to authenticate to the Webex Teams API. Information about using a bot, which is what we recommend, can be found here: https://developer.webex.com/docs/bots",
-			"is_required": false,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01QEQBZ5MWE0268wO5oBmUqMhzQJ6WKfuNd",
-		  "object_type": "variable_workflow"
-		},
-		{
-		  "schema_id": "datatype.boolean",
-		  "properties": {
-			"value": true,
-			"scope": "local",
-			"name": "Require Approval",
-			"type": "datatype.boolean",
-			"description": "If this is true, the workflow will request approval before removing any endpoints. If this is false, the workflow will remove the endpoints automatically",
-			"is_required": false,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01U7KIC2KOLW91xQY8bhLTwFC3F9rhzvfol",
-		  "object_type": "variable_workflow"
-		},
-		{
-		  "schema_id": "datatype.string",
-		  "properties": {
-			"value": "[]",
-			"scope": "local",
-			"name": "Computers to Remove (JSON)",
-			"type": "datatype.string",
-			"description": "Placeholder for a list of computers to remove. This will be populated automatically",
-			"is_required": false,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01UEGMHLWWP4K2t7E5RjwhCD9JZva2t8CV3",
-		  "object_type": "variable_workflow"
-		}
-	  ],
-	  "properties": {
-		"atomic": {
-		  "is_atomic": false
-		},
-		"delete_workflow_instance": false,
-		"description": "This workflow looks for endpoints in Cisco Secure Endpoint that have been inactive for a specified number of days. If inactive endpoints are found, a list is compiled and they are deleted. An optional approval task can be used to request approval prior to deletion.\n\nTarget Group: Default TargetGroup\n\nTargets: AMP_Target, Webex Teams\n\nSteps:\n[] Fetch global variables\n[] Search for the Webex Teams room\n[] Calculate the date before which endpoints will be removed\n[] Fetch computers from Secure Endpoint:\n[]> Parse each computer and add it to the list to remove if it's old\n[]> Update the local variables with the new lists\n[]> Check if there's a next page to parse\n[] Check if there are endpoints to remove:\n[]> If not, end the workflow\n[]> If there are:\n[]>> Check if approval is required (if so, request it and wait)\n[]>> Loop through each computer:\n[]>>> Attempt to delete the computer and check if the request was successful\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0056",
-		"display_name": "0056 - Secure Endpoint - Remove Inactive Endpoints",
-		"runtime_user": {
-		  "target_default": true
-		},
-		"target": {
-		  "execute_on_target_group": true,
-		  "target_group": {
-			"target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
-			"run_on_all_targets": false,
-			"selected_target_types": [
-			  "web-service.endpoint"
-			],
-			"use_criteria": {
-			  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-			  "conditions": [
-				{
-				  "operator": "eqi",
-				  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-				  "right_operand": "AMP_Target"
-				}
-			  ]
-			}
-		  }
-		}
-	  },
-	  "object_type": "definition_workflow",
-	  "actions": [
-		{
-		  "unique_name": "definition_activity_01UEGJYVDJ0RB4lIqSLZBZZ4KdBcbwZ0jDZ",
-		  "name": "Group",
-		  "title": "Fetch global variables",
-		  "type": "logic.group",
-		  "base_type": "activity",
-		  "properties": {
-			"continue_on_failure": false,
-			"display_name": "Fetch global variables",
-			"skip_execution": true
-		  },
-		  "object_type": "definition_activity",
-		  "actions": [
-			{
-			  "unique_name": "definition_activity_01UEGK70GKZBI5iMe37iKpUU7X2B3iuz2Hz",
-			  "name": "Set Variables",
-			  "title": "Fetch global variables",
-			  "type": "core.set_multiple_variables",
-			  "base_type": "activity",
-			  "properties": {
-				"continue_on_failure": false,
-				"display_name": "Fetch global variables",
-				"skip_execution": false,
-				"variables_to_update": [
-				  {
-					"variable_to_update": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01QEQBZ5MWE0268wO5oBmUqMhzQJ6WKfuNd$",
-					"variable_value_new": ""
-				  }
-				]
-			  },
-			  "object_type": "definition_activity"
-			}
-		  ]
-		},
-		{
-		  "unique_name": "definition_activity_01UEOY7MQOOL45vgwEkyNbVY0fC6cGb4HKK",
-		  "name": "Condition Block",
-		  "title": "Is the threshold dangerously low?",
-		  "type": "logic.if_else",
-		  "base_type": "activity",
-		  "properties": {
-			"continue_on_failure": false,
-			"display_name": "Is the threshold dangerously low?",
-			"skip_execution": false
-		  },
-		  "object_type": "definition_activity",
-		  "blocks": [
-			{
-			  "unique_name": "definition_activity_01UEOY7NMT92O7g5ndIreoDH5LFHFN9QQFb",
-			  "name": "Condition Branch",
-			  "title": "Yes",
-			  "type": "logic.condition_block",
-			  "base_type": "activity",
-			  "properties": {
-				"condition": {
-				  "left_operand": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEGSFGG1ZIP237j7luq27IPIfrc0QTr66$",
-				  "operator": "lt",
-				  "right_operand": 14
-				},
-				"continue_on_failure": false,
-				"display_name": "Yes",
-				"skip_execution": false
-			  },
-			  "object_type": "definition_activity",
-			  "actions": [
-				{
-				  "unique_name": "definition_activity_01UEOYFLE58Q723XL1NvN7vhilMTXIXOmhU",
-				  "name": "Completed",
-				  "title": "Threshold low",
-				  "type": "logic.completed",
-				  "base_type": "activity",
-				  "properties": {
-					"completion_type": "failed-completed",
-					"continue_on_failure": false,
-					"display_name": "Threshold low",
-					"result_message": "The inactivity threshold configured is relatively low. If you want to set the threshold to less than 14 days, you can delete or disable this condition branch",
-					"skip_execution": false
-				  },
-				  "object_type": "definition_activity"
-				}
-			  ]
-			}
-		  ]
-		},
-		{
-		  "unique_name": "definition_activity_01UEIAPON93282Vt7A3ZOvZlcHhorjFWYq3",
-		  "name": "Condition Block",
-		  "title": "Detect the SecureX region",
-		  "type": "logic.if_else",
-		  "base_type": "activity",
-		  "properties": {
-			"continue_on_failure": false,
-			"display_name": "Detect the SecureX region",
-			"skip_execution": false
-		  },
-		  "object_type": "definition_activity",
-		  "blocks": [
-			{
-			  "unique_name": "definition_activity_01UEIAPP1WQ1B7kX97pDOkCnNH4VTUfzVpl",
-			  "name": "Condition Branch",
-			  "title": "North America",
-			  "type": "logic.condition_block",
-			  "base_type": "activity",
-			  "properties": {
-				"condition": {
-				  "left_operand": "$env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG.env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG$",
-				  "operator": "eqi",
-				  "right_operand": "prod-nam"
-				},
-				"continue_on_failure": false,
-				"display_name": "North America",
-				"skip_execution": false
-			  },
-			  "object_type": "definition_activity",
-			  "actions": [
-				{
-				  "unique_name": "definition_activity_01UEIBBY5B57F1upvWrXME0o6TuP6pYKxeO",
-				  "name": "Set Variables",
-				  "title": "Set region variable",
-				  "type": "core.set_multiple_variables",
-				  "base_type": "activity",
-				  "properties": {
-					"continue_on_failure": false,
-					"display_name": "Set region variable",
-					"skip_execution": false,
-					"variables_to_update": [
-					  {
-						"variable_to_update": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEIB0YB1TPX5ItLLdLAew04YzgG45P82B$",
-						"variable_value_new": "us"
-					  }
-					]
-				  },
-				  "object_type": "definition_activity"
-				}
-			  ]
-			},
-			{
-			  "unique_name": "definition_activity_01UEIBLYWT46C7b8w4naHVqPfQKUtUGYXqw",
-			  "name": "Condition Branch",
-			  "title": "Europe",
-			  "type": "logic.condition_block",
-			  "base_type": "activity",
-			  "properties": {
-				"condition": {
-				  "left_operand": "$env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG.env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG$",
-				  "operator": "eqi",
-				  "right_operand": "prod-eu"
-				},
-				"continue_on_failure": false,
-				"display_name": "Europe",
-				"skip_execution": false
-			  },
-			  "object_type": "definition_activity",
-			  "actions": [
-				{
-				  "unique_name": "definition_activity_01UEIBLYWTOJG19d8FrBc9kQgLqXCqDX3rs",
-				  "name": "Set Variables",
-				  "title": "Set region variable",
-				  "type": "core.set_multiple_variables",
-				  "base_type": "activity",
-				  "properties": {
-					"continue_on_failure": false,
-					"display_name": "Set region variable",
-					"skip_execution": false,
-					"variables_to_update": [
-					  {
-						"variable_to_update": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEIB0YB1TPX5ItLLdLAew04YzgG45P82B$",
-						"variable_value_new": "eu"
-					  }
-					]
-				  },
-				  "object_type": "definition_activity"
-				}
-			  ]
-			},
-			{
-			  "unique_name": "definition_activity_01UEIBQN3N8LU4WcgDDBB1HzrpmjLNqVtDW",
-			  "name": "Condition Branch",
-			  "title": "Asia Pacific",
-			  "type": "logic.condition_block",
-			  "base_type": "activity",
-			  "properties": {
-				"condition": {
-				  "left_operand": "$env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG.env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG$",
-				  "operator": "eqi",
-				  "right_operand": "prod-apjc"
-				},
-				"continue_on_failure": false,
-				"display_name": "Asia Pacific",
-				"skip_execution": false
-			  },
-			  "object_type": "definition_activity",
-			  "actions": [
-				{
-				  "unique_name": "definition_activity_01UEIBQN3NWDW1PNSsPqGKNHZGX9ejcxqJA",
-				  "name": "Set Variables",
-				  "title": "Set region variable",
-				  "type": "core.set_multiple_variables",
-				  "base_type": "activity",
-				  "properties": {
-					"continue_on_failure": false,
-					"display_name": "Set region variable",
-					"skip_execution": false,
-					"variables_to_update": [
-					  {
-						"variable_to_update": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEIB0YB1TPX5ItLLdLAew04YzgG45P82B$",
-						"variable_value_new": "apjc"
-					  }
-					]
-				  },
-				  "object_type": "definition_activity"
-				}
-			  ]
-			}
-		  ]
-		},
-		{
-		  "unique_name": "definition_activity_01UEI8BRVO49P4heFiYlHQb3SpEEN1ZvC4v",
-		  "name": "Webex Teams - Search for Room",
-		  "title": "Webex Teams - Search for Room",
-		  "type": "workflow.atomic_workflow",
-		  "base_type": "subworkflow",
-		  "properties": {
-			"continue_on_failure": true,
-			"display_name": "Webex Teams - Search for Room",
-			"input": {
-			  "variable_workflow_01PP790MCX1DN3EitpQebkUyJS65DbwS3nU": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01QEQBZ5MWE0268wO5oBmUqMhzQJ6WKfuNd$",
-			  "variable_workflow_01PP790MCXB392D3R8pxh9fgOTjTde2bcMW": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01QEQDMTR1LT074Qws7rTXbmgM3KxwJrUVj$",
-			  "variable_workflow_01PP790MCXHP55YE6ylOEITWsWbUFJeyWGv": "",
-			  "variable_workflow_01PP790MCXM9W1MUwo85y8iNRCoQuQ4RGNa": ""
-			},
-			"runtime_user": {
-			  "target_default": true
-			},
-			"skip_execution": false,
-			"target": {
-			  "override_workflow_target_group_criteria": true,
-			  "target_group": {
-				"run_on_all_targets": false,
-				"use_criteria": {
-				  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-				  "conditions": [
-					{
-					  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-					  "operator": "eqi",
-					  "right_operand": "Webex Teams"
-					}
-				  ]
-				}
-			  }
-			},
-			"workflow_id": "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez"
-		  },
-		  "object_type": "definition_activity"
-		},
-		{
-		  "unique_name": "definition_activity_01UEI930ZM3YF6W5M7QGaUEHflVEHfDwbxS",
-		  "name": "Condition Block",
-		  "title": "Was the Webex room found?",
-		  "type": "logic.if_else",
-		  "base_type": "activity",
-		  "properties": {
-			"continue_on_failure": false,
-			"display_name": "Was the Webex room found?",
-			"skip_execution": false
-		  },
-		  "object_type": "definition_activity",
-		  "blocks": [
-			{
-			  "unique_name": "definition_activity_01UEI931VVTQS0QcOtsDMF1wUQxIh2xtY2F",
-			  "name": "Condition Branch",
-			  "title": "No",
-			  "type": "logic.condition_block",
-			  "base_type": "activity",
-			  "properties": {
-				"condition": {
-				  "left_operand": "$activity.definition_activity_01UEI8BRVO49P4heFiYlHQb3SpEEN1ZvC4v.output.succeeded$",
-				  "operator": "eq",
-				  "right_operand": false
-				},
-				"continue_on_failure": false,
-				"display_name": "No",
-				"skip_execution": false
-			  },
-			  "object_type": "definition_activity",
-			  "actions": [
-				{
-				  "unique_name": "definition_activity_01UEI9OQUE61V2Y0fAqrI1Gpjg5uPZMpc4r",
-				  "name": "Completed",
-				  "title": "Failed",
-				  "type": "logic.completed",
-				  "base_type": "activity",
-				  "properties": {
-					"completion_type": "failed-completed",
-					"continue_on_failure": false,
-					"display_name": "Failed",
-					"result_message": "The Webex Teams room provided could not be found or the access token provided does not have access to the room",
-					"skip_execution": false
-				  },
-				  "object_type": "definition_activity"
-				}
-			  ]
-			}
-		  ]
-		},
-		{
-		  "unique_name": "definition_activity_01UEGRV9G8TGV22VsAxnGiCz3KvUAwnZ4tT",
-		  "name": "Calculate Date",
-		  "title": "Calculate threshold date",
-		  "type": "core.calculate_date",
-		  "base_type": "activity",
-		  "properties": {
-			"adjustment": "-($workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEGSFGG1ZIP237j7luq27IPIfrc0QTr66$*86400)",
-			"continue_on_failure": false,
-			"display_name": "Calculate threshold date",
-			"original_date": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.output.start_time$",
-			"skip_execution": false
-		  },
-		  "object_type": "definition_activity"
-		},
-		{
-		  "unique_name": "definition_activity_01UEGUHKQEGQ164YpwY2dPTKbcIz65A5GjB",
-		  "name": "While Loop",
-		  "title": "While there are computers to process",
-		  "type": "logic.while",
-		  "base_type": "activity",
-		  "properties": {
-			"continue_on_failure": false,
-			"display_name": "While there are computers to process",
-			"skip_execution": false
-		  },
-		  "object_type": "definition_activity",
-		  "blocks": [
-			{
-			  "unique_name": "definition_activity_01UEGUHL97BNX02iDSAVXkGfh7EjgCJKwi3",
-			  "name": "Condition Branch",
-			  "title": "TRUE=TRUE",
-			  "type": "logic.condition_block",
-			  "base_type": "activity",
-			  "properties": {
-				"condition": {
-				  "left_operand": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.output.instance_id$",
-				  "operator": "eq",
-				  "right_operand": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.output.instance_id$"
-				},
-				"continue_on_failure": false,
-				"display_name": "TRUE=TRUE",
-				"skip_execution": false
-			  },
-			  "object_type": "definition_activity",
-			  "actions": [
-				{
-				  "unique_name": "definition_activity_01PQR5ZLO4T6O68gvpClUU1cBjwhYFMhQcM",
-				  "name": "HTTP Request",
-				  "title": "Get this page of computers",
-				  "type": "web-service.http_request",
-				  "base_type": "activity",
-				  "properties": {
-					"accept": "application/json",
-					"action_timeout": 180,
-					"allow_auto_redirect": true,
-					"content_type": "application/json",
-					"continue_on_error_status_code": true,
-					"continue_on_failure": false,
-					"display_name": "Get this page of computers",
-					"method": "GET",
-					"relative_url": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEGVH1YTHJ76FrjixLByLkqMUSWztMkct$",
-					"runtime_user": {
-					  "target_default": true
-					},
-					"skip_execution": false,
-					"target": {
-					  "use_workflow_target_group": true
-					}
-				  },
-				  "object_type": "definition_activity"
-				},
-				{
-				  "unique_name": "definition_activity_01UEGVX1UG3ZX1kTm4xOqypnwD5DyQDpQtZ",
-				  "name": "Condition Block",
-				  "title": "Was the request successful?",
-				  "type": "logic.if_else",
-				  "base_type": "activity",
-				  "properties": {
-					"continue_on_failure": false,
-					"display_name": "Was the request successful?",
-					"skip_execution": false
-				  },
-				  "object_type": "definition_activity",
-				  "blocks": [
-					{
-					  "unique_name": "definition_activity_01UEGVX2NC03E7Io1jdzKK2lyzxOemOzLjy",
-					  "name": "Condition Branch",
-					  "title": "No",
-					  "type": "logic.condition_block",
-					  "base_type": "activity",
-					  "properties": {
-						"condition": {
-						  "left_operand": "$activity.definition_activity_01PQR5ZLO4T6O68gvpClUU1cBjwhYFMhQcM.output.status_code$",
-						  "operator": "ne",
-						  "right_operand": 200
-						},
-						"continue_on_failure": false,
-						"display_name": "No",
-						"skip_execution": false
-					  },
-					  "object_type": "definition_activity",
-					  "actions": [
-						{
-						  "unique_name": "definition_activity_01UEGW5S55S572WtMJXoGOyVyqvWUvKL26E",
-						  "name": "Completed",
-						  "title": "Failed",
-						  "type": "logic.completed",
-						  "base_type": "activity",
-						  "properties": {
-							"completion_type": "failed-completed",
-							"continue_on_failure": false,
-							"display_name": "Failed",
-							"result_message": "Failed to fetch this page of computers from Cisco Secure Endpoint\n\nURL: $workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEGVH1YTHJ76FrjixLByLkqMUSWztMkct$\nStatus code: $activity.definition_activity_01PQR5ZLO4T6O68gvpClUU1cBjwhYFMhQcM.output.status_code$\nResponse body: $activity.definition_activity_01PQR5ZLO4T6O68gvpClUU1cBjwhYFMhQcM.output.response_body$",
-							"skip_execution": false
-						  },
-						  "object_type": "definition_activity"
-						}
-					  ]
-					}
-				  ]
-				},
-				{
-				  "unique_name": "definition_activity_01UEGX7BUCYF07A8BKulumVUrTD0mFSM1Zv",
-				  "name": "Read Table from JSON",
-				  "title": "Parse list of computers",
-				  "type": "corejava.read_table_from_json",
-				  "base_type": "activity",
-				  "properties": {
-					"action_timeout": 180,
-					"continue_on_failure": false,
-					"display_name": "Parse list of computers",
-					"input_json": "$activity.definition_activity_01PQR5ZLO4T6O68gvpClUU1cBjwhYFMhQcM.output.response_body$",
-					"jsonpath_query": "$.data",
-					"persist_output": false,
-					"populate_columns": false,
-					"skip_execution": false,
-					"table_columns": [
-					  {
-						"column_name": "connector_guid",
-						"column_type": "string"
-					  },
-					  {
-						"column_name": "hostname",
-						"column_type": "string"
-					  },
-					  {
-						"column_name": "last_seen",
-						"column_type": "string"
-					  }
-					]
-				  },
-				  "object_type": "definition_activity"
-				},
-				{
-				  "unique_name": "definition_activity_01UEGZL98LVIK5lUOXd2R4N5Z60l4OE0FBA",
-				  "name": "Condition Block",
-				  "title": "Are there any more computers?",
-				  "type": "logic.if_else",
-				  "base_type": "activity",
-				  "properties": {
-					"continue_on_failure": false,
-					"display_name": "Are there any more computers?",
-					"skip_execution": false
-				  },
-				  "object_type": "definition_activity",
-				  "blocks": [
-					{
-					  "unique_name": "definition_activity_01UEH02NNBOLQ3WLP2MCb7CRxSyouQqiBRr",
-					  "name": "Condition Branch",
-					  "title": "Yes",
-					  "type": "logic.condition_block",
-					  "base_type": "activity",
-					  "properties": {
-						"condition": {
-						  "left_operand": "$activity.definition_activity_01UEGX7BUCYF07A8BKulumVUrTD0mFSM1Zv.output.row_count$",
-						  "operator": "gt",
-						  "right_operand": 0
-						},
-						"continue_on_failure": false,
-						"display_name": "Yes",
-						"skip_execution": false
-					  },
-					  "object_type": "definition_activity",
-					  "actions": [
-						{
-						  "unique_name": "definition_activity_01UEH4YZ57E3P7N7msSEE3GnbseK1MCApr2",
-						  "name": "Execute Python Script",
-						  "title": "Update the list of computers",
-						  "type": "python3.script",
-						  "base_type": "activity",
-						  "properties": {
-							"action_timeout": 180,
-							"continue_on_failure": false,
-							"display_name": "Update the list of computers",
-							"script": "import datetime\nimport json,sys\n\ncurrentEndpoints = json.loads(sys.argv[1])\nnewEndpoints = json.loads(sys.argv[2])\ncurrentReadable = sys.argv[3]\nthresholdDays = int(sys.argv[4])\n\nthresholdDate = (datetime.datetime.now() - datetime.timedelta(days = thresholdDays))\n\nfor endpoint in newEndpoints['data']:\n\tlastSeen = datetime.datetime.strptime(endpoint['last_seen'], \"%Y-%m-%dT%H:%M:%SZ\")\n\n\tif lastSeen < thresholdDate:\n\t\tcurrentEndpoints.append({\n\t\t\t\"connector_guid\": endpoint['connector_guid'],\n\t\t\t\"hostname\": endpoint['hostname'],\n\t\t\t\"last_seen\": endpoint['last_seen']\n\t\t})\n\t\t\n\t\tcurrentReadable = (currentReadable + \"\\n\" if len(currentReadable) > 0 else currentReadable) + f\"{endpoint['hostname']} ({endpoint['connector_guid']}) - Last Seen: {endpoint['last_seen']}\"\n\nnewList = json.dumps(currentEndpoints)",
-							"script_arguments": [
-							  "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEGMHLWWP4K2t7E5RjwhCD9JZva2t8CV3$",
-							  "$activity.definition_activity_01PQR5ZLO4T6O68gvpClUU1cBjwhYFMhQcM.output.response_body$",
-							  "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEH8Q8ECWB642r725yjbgW4X1yq9b0igL$",
-							  "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEGSFGG1ZIP237j7luq27IPIfrc0QTr66$"
-							],
-							"script_queries": [
-							  {
-								"script_query": "newList",
-								"script_query_name": "newList",
-								"script_query_type": "string"
-							  },
-							  {
-								"script_query": "currentReadable",
-								"script_query_name": "currentReadable",
-								"script_query_type": "string"
-							  }
-							],
-							"skip_execution": false
-						  },
-						  "object_type": "definition_activity"
-						},
-						{
-						  "unique_name": "definition_activity_01UEH3QIG32ZJ0PydRc0lrMoJz47f0HH1Cj",
-						  "name": "Set Variables",
-						  "title": "Update the local variables",
-						  "type": "core.set_multiple_variables",
-						  "base_type": "activity",
-						  "properties": {
-							"continue_on_failure": false,
-							"display_name": "Update the local variables",
-							"skip_execution": false,
-							"variables_to_update": [
-							  {
-								"variable_to_update": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEGMHLWWP4K2t7E5RjwhCD9JZva2t8CV3$",
-								"variable_value_new": "$activity.definition_activity_01UEH4YZ57E3P7N7msSEE3GnbseK1MCApr2.output.script_queries.newList$"
-							  },
-							  {
-								"variable_to_update": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEH8Q8ECWB642r725yjbgW4X1yq9b0igL$",
-								"variable_value_new": "$activity.definition_activity_01UEH4YZ57E3P7N7msSEE3GnbseK1MCApr2.output.script_queries.currentReadable$"
-							  }
-							]
-						  },
-						  "object_type": "definition_activity"
-						},
-						{
-						  "unique_name": "definition_activity_01UEGVVKGQ97D4vcC2UUha3zUrCUYpOLHLU",
-						  "name": "JSONPath Query",
-						  "title": "Extract pagination information",
-						  "type": "corejava.jsonpathquery",
-						  "base_type": "activity",
-						  "properties": {
-							"action_timeout": 180,
-							"continue_on_failure": true,
-							"display_name": "Extract pagination information",
-							"input_json": "$activity.definition_activity_01PQR5ZLO4T6O68gvpClUU1cBjwhYFMhQcM.output.response_body$",
-							"jsonpath_queries": [
-							  {
-								"jsonpath_query": "$.metadata.links.next",
-								"jsonpath_query_name": "nextPage",
-								"jsonpath_query_type": "string"
-							  }
-							],
-							"skip_execution": false
-						  },
-						  "object_type": "definition_activity"
-						},
-						{
-						  "unique_name": "definition_activity_01UEH181ANVOZ5tOfmXAjPLro4451Ifrw5J",
-						  "name": "Condition Block",
-						  "title": "Is there a next page?",
-						  "type": "logic.if_else",
-						  "base_type": "activity",
-						  "properties": {
-							"continue_on_failure": false,
-							"display_name": "Is there a next page?",
-							"skip_execution": false
-						  },
-						  "object_type": "definition_activity",
-						  "blocks": [
-							{
-							  "unique_name": "definition_activity_01UEH1824O6ZA3prXGkKaXr3teykN9bbOHc",
-							  "name": "Condition Branch",
-							  "title": "Yes",
-							  "type": "logic.condition_block",
-							  "base_type": "activity",
-							  "properties": {
-								"condition": {
-								  "left_operand": "$activity.definition_activity_01UEGVVKGQ97D4vcC2UUha3zUrCUYpOLHLU.output.succeeded$",
-								  "operator": "eq",
-								  "right_operand": true
-								},
-								"continue_on_failure": false,
-								"display_name": "Yes",
-								"skip_execution": false
-							  },
-							  "object_type": "definition_activity",
-							  "actions": [
-								{
-								  "unique_name": "definition_activity_01UEH20VLMC5S3YKgx2yvckhK9jDmij4kW0",
-								  "name": "Match Regex",
-								  "title": "Extract the relative URL",
-								  "type": "core.matchregex",
-								  "base_type": "activity",
-								  "properties": {
-									"continue_on_failure": false,
-									"display_name": "Extract the relative URL",
-									"input_regex": "/computers.*",
-									"input_string": "$activity.definition_activity_01UEGVVKGQ97D4vcC2UUha3zUrCUYpOLHLU.output.jsonpath_queries.nextPage$",
-									"skip_execution": false
-								  },
-								  "object_type": "definition_activity"
-								},
-								{
-								  "unique_name": "definition_activity_01UEH2UGCYYNH63RgEYk7NokhQwlGq7nqMB",
-								  "name": "Set Variables",
-								  "title": "Update the page URL",
-								  "type": "core.set_multiple_variables",
-								  "base_type": "activity",
-								  "properties": {
-									"continue_on_failure": false,
-									"display_name": "Update the page URL",
-									"skip_execution": false,
-									"variables_to_update": [
-									  {
-										"variable_to_update": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEGVH1YTHJ76FrjixLByLkqMUSWztMkct$",
-										"variable_value_new": "$activity.definition_activity_01UEH20VLMC5S3YKgx2yvckhK9jDmij4kW0.output.matching_strings[0]$"
-									  }
-									]
-								  },
-								  "object_type": "definition_activity"
-								}
-							  ]
-							},
-							{
-							  "unique_name": "definition_activity_01UEH1833ASC32xRMDXaDVhhQERpSPtTeXJ",
-							  "name": "Condition Branch",
-							  "title": "No",
-							  "type": "logic.condition_block",
-							  "base_type": "activity",
-							  "properties": {
-								"condition": {
-								  "left_operand": "$activity.definition_activity_01UEGVVKGQ97D4vcC2UUha3zUrCUYpOLHLU.output.succeeded$",
-								  "operator": "eq",
-								  "right_operand": false
-								},
-								"continue_on_failure": false,
-								"display_name": "No",
-								"skip_execution": false
-							  },
-							  "object_type": "definition_activity",
-							  "actions": [
-								{
-								  "unique_name": "definition_activity_01UEH1P4YZ5YB368PPj1HxURQqg4JOraecX",
-								  "name": "Break",
-								  "title": "End the loop",
-								  "type": "logic.break",
-								  "base_type": "activity",
-								  "properties": {
-									"continue_on_failure": false,
-									"display_name": "End the loop",
-									"skip_execution": false
-								  },
-								  "object_type": "definition_activity"
-								}
-							  ]
-							}
-						  ]
-						}
-					  ]
-					},
-					{
-					  "unique_name": "definition_activity_01UEGZL9Z366J0zpm2IB9EY9H1mxga9LCFY",
-					  "name": "Condition Branch",
-					  "title": "No",
-					  "type": "logic.condition_block",
-					  "base_type": "activity",
-					  "properties": {
-						"condition": {
-						  "left_operand": "$activity.definition_activity_01UEGX7BUCYF07A8BKulumVUrTD0mFSM1Zv.output.row_count$",
-						  "operator": "eq",
-						  "right_operand": 0
-						},
-						"continue_on_failure": false,
-						"display_name": "No",
-						"skip_execution": false
-					  },
-					  "object_type": "definition_activity",
-					  "actions": [
-						{
-						  "unique_name": "definition_activity_01UEGZPQ1CAB465ggfAtn3Rm0ZeZsHkw4r0",
-						  "name": "Break",
-						  "title": "End the loop",
-						  "type": "logic.break",
-						  "base_type": "activity",
-						  "properties": {
-							"continue_on_failure": false,
-							"display_name": "End the loop",
-							"skip_execution": false
-						  },
-						  "object_type": "definition_activity"
-						}
-					  ]
-					}
-				  ]
-				}
-			  ]
-			}
-		  ]
-		},
-		{
-		  "unique_name": "definition_activity_01UEH7GPTDAWC2DBoo4aw80oo6RV5He8oK1",
-		  "name": "Condition Block",
-		  "title": "Are there endpoints to remove?",
-		  "type": "logic.if_else",
-		  "base_type": "activity",
-		  "properties": {
-			"continue_on_failure": false,
-			"display_name": "Are there endpoints to remove?",
-			"skip_execution": false
-		  },
-		  "object_type": "definition_activity",
-		  "blocks": [
-			{
-			  "unique_name": "definition_activity_01UEH7GQNC5ZA1UzxzF3rEzgt6SWf1aDXDD",
-			  "name": "Condition Branch",
-			  "title": "Yes",
-			  "type": "logic.condition_block",
-			  "base_type": "activity",
-			  "properties": {
-				"condition": {
-				  "left_operand": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEGMHLWWP4K2t7E5RjwhCD9JZva2t8CV3$",
-				  "operator": "ne",
-				  "right_operand": "[]"
-				},
-				"continue_on_failure": false,
-				"display_name": "Yes",
-				"skip_execution": false
-			  },
-			  "object_type": "definition_activity",
-			  "actions": [
-				{
-				  "unique_name": "definition_activity_01UEH84VYIYS74uNZJ7M09KRmi6hnCjUB32",
-				  "name": "Condition Block",
-				  "title": "Is approval required?",
-				  "type": "logic.if_else",
-				  "base_type": "activity",
-				  "properties": {
-					"continue_on_failure": false,
-					"display_name": "Is approval required?",
-					"skip_execution": false
-				  },
-				  "object_type": "definition_activity",
-				  "blocks": [
-					{
-					  "unique_name": "definition_activity_01UEH84WT4JT80ovz6jdG2vz7E1Es4YTfSq",
-					  "name": "Condition Branch",
-					  "title": "Yes",
-					  "type": "logic.condition_block",
-					  "base_type": "activity",
-					  "properties": {
-						"condition": {
-						  "left_operand": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01U7KIC2KOLW91xQY8bhLTwFC3F9rhzvfol$",
-						  "operator": "eq",
-						  "right_operand": true
-						},
-						"continue_on_failure": false,
-						"display_name": "Yes",
-						"skip_execution": false
-					  },
-					  "object_type": "definition_activity",
-					  "actions": [
-						{
-						  "unique_name": "definition_activity_01UEH9K1ZNXES0QdTLT0HTWljzqciqSKI6b",
-						  "name": "Create Approval Request",
-						  "title": "Approval to Remove Endpoints from Cisco Secure Endpoint",
-						  "type": "task.approval_request",
-						  "base_type": "activity",
-						  "properties": {
-							"approval_choices": [
-							  "Approve",
-							  "Reject"
-							],
-							"assignees": [
-							  "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01U7KGJY8B2LF7b3gn1C6CfwonBZUVsIIRi$"
-							],
-							"continue_on_failure": false,
-							"display_name": "Approval to Remove Endpoints from Cisco Secure Endpoint",
-							"due_date": {
-							  "is_relative_time": true,
-							  "relative_time": {
-								"duration": 23,
-								"time_units": "hours"
-							  },
-							  "set_due_date": true
-							},
-							"expiration_date": {
-							  "is_relative_time": true,
-							  "relative_time": {
-								"duration": 23,
-								"time_units": "hours"
-							  }
-							},
-							"expiration_status": "Expired",
-							"minimum_approvals": 1,
-							"priority": "normal",
-							"skip_execution": false,
-							"subject_line": "Inactive Endpoints to Remove from Secure Endpoint",
-							"task_message": "A SecureX orchestration workflow has detected inactive endpoints in Cisco Secure Endpoint. If you approve this task, they will be removed.\n\nEndpoint List:\n$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEH8Q8ECWB642r725yjbgW4X1yq9b0igL$",
-							"task_owner": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01U7KFJ4TGK425ih3qBVRDzlfI1MmzyDwhy$",
-							"task_requestor": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01U7KF39YRO8O7gkY12BQsHjMO3qzbN4bzi$"
-						  },
-						  "object_type": "definition_activity"
-						},
-						{
-						  "unique_name": "definition_activity_01U7RUWK5SERZ1OH9MUGYfK542r66Rvt2ki",
-						  "name": "Webex Teams - Post Message to Room",
-						  "title": "Webex Teams - Post Message to Room",
-						  "type": "workflow.atomic_workflow",
-						  "base_type": "subworkflow",
-						  "properties": {
-							"continue_on_failure": false,
-							"display_name": "Webex Teams - Post Message to Room",
-							"input": {
-							  "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$activity.definition_activity_01UEI8BRVO49P4heFiYlHQb3SpEEN1ZvC4v.output.variable_workflow_01PP790MCXJ7Y5cAWcGZWbG4Es0126zb1I6$",
-							  "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01QEQBZ5MWE0268wO5oBmUqMhzQJ6WKfuNd$",
-							  "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "",
-							  "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": "",
-							  "variable_workflow_01SVERQNMKN8N6vqX2djMtAfshphGydGsH8": "[{\n\"contentType\": \"application/vnd.microsoft.card.adaptive\",\n\"content\": {\n\"$schema\": \"http://adaptivecards.io/schemas/adaptive-card.json\",\n\"version\": \"1.2\",\n\"type\": \"AdaptiveCard\",\n\"body\": [\n{\n\"type\": \"ColumnSet\",\n\"columns\": [\n{\n\"type\": \"Column\",\n\"items\": [\n{\n\"type\": \"Image\",\n\"url\": \"https://securex.us.security.cisco.com/logo192.png\",\n\"size\": \"Medium\",\n\"height\": \"50px\"\n}\n],\n\"width\": \"auto\"\n},\n{\n\"type\": \"Column\",\n\"items\": [\n{\n\"type\": \"TextBlock\",\n\"text\": \"SecureX orchestration\",\n\"weight\": \"Lighter\",\n\"color\": \"Accent\"\n},\n{\n\"type\": \"TextBlock\",\n\"weight\": \"Bolder\",\n\"text\": \"Endpoint Deletion Approval\",\n\"wrap\": true,\n\"color\": \"Light\",\n\"size\": \"Large\",\n\"spacing\": \"Small\"\n}\n],\n\"width\": \"stretch\"\n}\n]\n},\n{\n\"type\": \"TextBlock\",\n\"text\": \"Endpoints have been identified that were inactive for over $workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEGSFGG1ZIP237j7luq27IPIfrc0QTr66$ days in Cisco Secure Endpoint. Please click the button below to view the approval request in SecureX orchestration.\",\n\"wrap\": true\n},\n{\n\"type\": \"ActionSet\",\n\"actions\": [\n{\n\"type\": \"Action.OpenUrl\",\n\"title\": \"View Approval Request\",\n\"style\": \"default\",\n\"url\": \"https://securex-ao.$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEIB0YB1TPX5ItLLdLAew04YzgG45P82B$.security.cisco.com/orch-ui/tasks/$activity.definition_activity_01UEH9K1ZNXES0QdTLT0HTWljzqciqSKI6b.output.task_id$\"\n}\n],\n\"spacing\": \"Medium\"\n}\n]\n}\n}\n]"
-							},
-							"runtime_user": {
-							  "target_default": true
-							},
-							"skip_execution": false,
-							"target": {
-							  "override_workflow_target_group_criteria": true,
-							  "target_group": {
-								"run_on_all_targets": false,
-								"use_criteria": {
-								  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-								  "conditions": [
-									{
-									  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-									  "operator": "eqi",
-									  "right_operand": "Webex Teams"
-									}
-								  ]
-								}
-							  }
-							},
-							"workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw"
-						  },
-						  "object_type": "definition_activity"
-						},
-						{
-						  "unique_name": "definition_activity_01UEHAUVZCTIW2P0478D4pDNR9eOs1N0bNZ",
-						  "name": "Wait For Event",
-						  "title": "Wait for approval",
-						  "type": "task.wait_for_event",
-						  "base_type": "activity",
-						  "properties": {
-							"continue_on_failure": false,
-							"display_name": "Wait for approval",
-							"event_info": {
-							  "add_event": true,
-							  "event_definition": {
-								"conditions": {
-								  "left_operand": "$output.task_id$",
-								  "operator": "eq",
-								  "right_operand": "$activity.definition_activity_01UEH9K1ZNXES0QdTLT0HTWljzqciqSKI6b.output.task_id$"
-								}
-							  }
-							},
-							"event_timeout": 82800,
-							"event_type": "approval_task.event",
-							"skip_execution": false
-						  },
-						  "object_type": "definition_activity"
-						},
-						{
-						  "unique_name": "definition_activity_01UEHCDWO6WQQ6mx9I5fvKdjTsgiTAxUXEB",
-						  "name": "Condition Block",
-						  "title": "What was the task result?",
-						  "type": "logic.if_else",
-						  "base_type": "activity",
-						  "properties": {
-							"continue_on_failure": false,
-							"display_name": "What was the task result?",
-							"skip_execution": false
-						  },
-						  "object_type": "definition_activity",
-						  "blocks": [
-							{
-							  "unique_name": "definition_activity_01UEHCDX2ECFG7Kmnx6SFgfwI5E2yawqL1z",
-							  "name": "Condition Branch",
-							  "title": "Anything but approved",
-							  "type": "logic.condition_block",
-							  "base_type": "activity",
-							  "properties": {
-								"condition": {
-								  "left_operand": "$activity.definition_activity_01UEHAUVZCTIW2P0478D4pDNR9eOs1N0bNZ.output.response$",
-								  "operator": "ne",
-								  "right_operand": "Approve"
-								},
-								"continue_on_failure": false,
-								"display_name": "Anything but approved",
-								"skip_execution": false
-							  },
-							  "object_type": "definition_activity",
-							  "actions": [
-								{
-								  "unique_name": "definition_activity_01UEHCMQFQHX63iZeYXAOaupMW5eZVm8v3j",
-								  "name": "Completed",
-								  "title": "Not approved",
-								  "type": "logic.completed",
-								  "base_type": "activity",
-								  "properties": {
-									"completion_type": "succeeded",
-									"continue_on_failure": false,
-									"display_name": "Not approved",
-									"result_message": "Endpoints to remove from Cisco Secure Endpoint were identified but approval was not provided to remove them",
-									"skip_execution": false
-								  },
-								  "object_type": "definition_activity"
-								}
-							  ]
-							}
-						  ]
-						}
-					  ]
-					}
-				  ]
-				},
-				{
-				  "unique_name": "definition_activity_01UEHDD3RYYKQ5pJ2g5bc8mVvrvKViYUCz6",
-				  "name": "Read Table from JSON",
-				  "title": "Parse list of computers to remove",
-				  "type": "corejava.read_table_from_json",
-				  "base_type": "activity",
-				  "properties": {
-					"action_timeout": 180,
-					"continue_on_failure": false,
-					"display_name": "Parse list of computers to remove",
-					"input_json": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEGMHLWWP4K2t7E5RjwhCD9JZva2t8CV3$",
-					"jsonpath_query": "$.",
-					"persist_output": false,
-					"populate_columns": false,
-					"skip_execution": false,
-					"table_columns": [
-					  {
-						"column_name": "connector_guid",
-						"column_type": "string"
-					  },
-					  {
-						"column_name": "hostname",
-						"column_type": "string"
-					  }
-					]
-				  },
-				  "object_type": "definition_activity"
-				},
-				{
-				  "unique_name": "definition_activity_01UEHDU6BY6O40jgq9xwreFlwPUJb84X8u2",
-				  "name": "For Each",
-				  "title": "For each computer",
-				  "type": "logic.for_each",
-				  "base_type": "activity",
-				  "properties": {
-					"continue_on_failure": false,
-					"display_name": "For each computer",
-					"skip_execution": false,
-					"source_array": "$activity.definition_activity_01UEHDD3RYYKQ5pJ2g5bc8mVvrvKViYUCz6.output.read_table_from_json$"
-				  },
-				  "object_type": "definition_activity",
-				  "actions": [
-					{
-					  "unique_name": "definition_activity_01U7LBBZJAPMX0fjuDsPNpdLGXMF4IJsLkW",
-					  "name": "HTTP Request",
-					  "title": "Delete the computer",
-					  "type": "web-service.http_request",
-					  "base_type": "activity",
-					  "properties": {
-						"accept": "application/json",
-						"action_timeout": 180,
-						"allow_auto_redirect": true,
-						"content_type": "application/json",
-						"continue_on_error_status_code": true,
-						"continue_on_failure": false,
-						"display_name": "Delete the computer",
-						"method": "DELETE",
-						"relative_url": "/computers/$activity.definition_activity_01UEHDU6BY6O40jgq9xwreFlwPUJb84X8u2.input.source_array[@].connector_guid$",
-						"runtime_user": {
-						  "target_default": true
-						},
-						"skip_execution": false,
-						"target": {
-						  "use_workflow_target_group": true
-						}
-					  },
-					  "object_type": "definition_activity"
-					},
-					{
-					  "unique_name": "definition_activity_01UEHEFYJB67C4f9TDQJdv7RPng2LWGD0bi",
-					  "name": "Condition Block",
-					  "title": "Was the request successful?",
-					  "type": "logic.if_else",
-					  "base_type": "activity",
-					  "properties": {
-						"continue_on_failure": false,
-						"display_name": "Was the request successful?",
-						"skip_execution": false
-					  },
-					  "object_type": "definition_activity",
-					  "blocks": [
-						{
-						  "unique_name": "definition_activity_01UEHEFZI6BOG2V9Z802oQ5wOWQFBaCRq8y",
-						  "name": "Condition Branch",
-						  "title": "Yes",
-						  "type": "logic.condition_block",
-						  "base_type": "activity",
-						  "properties": {
-							"condition": {
-							  "left_operand": "$activity.definition_activity_01U7LBBZJAPMX0fjuDsPNpdLGXMF4IJsLkW.output.status_code$",
-							  "operator": "eq",
-							  "right_operand": 200
-							},
-							"continue_on_failure": false,
-							"display_name": "Yes",
-							"skip_execution": false
-						  },
-						  "object_type": "definition_activity",
-						  "actions": [
-							{
-							  "unique_name": "definition_activity_01UEHG4IFX5M144jbWNjLVaLtvj1ZObKUdc",
-							  "name": "JSONPath Query",
-							  "title": "Extract the deletion result",
-							  "type": "corejava.jsonpathquery",
-							  "base_type": "activity",
-							  "properties": {
-								"action_timeout": 180,
-								"continue_on_failure": true,
-								"display_name": "Extract the deletion result",
-								"input_json": "$activity.definition_activity_01U7LBBZJAPMX0fjuDsPNpdLGXMF4IJsLkW.output.response_body$",
-								"jsonpath_queries": [
-								  {
-									"jsonpath_query": "$.data.deleted",
-									"jsonpath_query_name": "actuallyDeleted",
-									"jsonpath_query_type": "boolean"
-								  }
-								],
-								"skip_execution": false
-							  },
-							  "object_type": "definition_activity"
-							},
-							{
-							  "unique_name": "definition_activity_01UEHGRCIU6KJ4inV82EzPZs86630FmpLzH",
-							  "name": "Condition Block",
-							  "title": "Was the computer actually deleted?",
-							  "type": "logic.if_else",
-							  "base_type": "activity",
-							  "properties": {
-								"continue_on_failure": false,
-								"display_name": "Was the computer actually deleted?",
-								"skip_execution": false
-							  },
-							  "object_type": "definition_activity",
-							  "blocks": [
-								{
-								  "unique_name": "definition_activity_01UEHGRD70LXN7IU4YyM4e5ihpng8GHeBr4",
-								  "name": "Condition Branch",
-								  "title": "No (error)",
-								  "type": "logic.condition_block",
-								  "base_type": "activity",
-								  "properties": {
-									"condition": {
-									  "left_operand": "$activity.definition_activity_01UEHG4IFX5M144jbWNjLVaLtvj1ZObKUdc.output.succeeded$",
-									  "operator": "eq",
-									  "right_operand": false
-									},
-									"continue_on_failure": false,
-									"display_name": "No (error)",
-									"skip_execution": false
-								  },
-								  "object_type": "definition_activity",
-								  "actions": [
-									{
-									  "unique_name": "definition_activity_01UEHHVM6ZY9X41t51Aqz6wawowqNw4xxW4",
-									  "name": "Set Variables",
-									  "title": "Update results variable",
-									  "type": "core.set_multiple_variables",
-									  "base_type": "activity",
-									  "properties": {
-										"continue_on_failure": false,
-										"display_name": "Update results variable",
-										"skip_execution": false,
-										"variables_to_update": [
-										  {
-											"variable_to_update": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEHFGTTLB5W2gP6xfF04oHnsx1aAlDF33$",
-											"variable_value_new": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEHFGTTLB5W2gP6xfF04oHnsx1aAlDF33$\n- $activity.definition_activity_01UEHDU6BY6O40jgq9xwreFlwPUJb84X8u2.input.source_array[@].hostname$ ($activity.definition_activity_01UEHDU6BY6O40jgq9xwreFlwPUJb84X8u2.input.source_array[@].connector_guid$) - *FAILED*"
-										  }
-										]
-									  },
-									  "object_type": "definition_activity"
-									}
-								  ]
-								},
-								{
-								  "unique_name": "definition_activity_01UEHGRDX4H1I4u0ZaxCHWtzTekeDyPPr0t",
-								  "name": "Condition Branch",
-								  "title": "No (failed)",
-								  "type": "logic.condition_block",
-								  "base_type": "activity",
-								  "properties": {
-									"condition": {
-									  "left_operand": "$activity.definition_activity_01UEHG4IFX5M144jbWNjLVaLtvj1ZObKUdc.output.jsonpath_queries.actuallyDeleted$",
-									  "operator": "eq",
-									  "right_operand": false
-									},
-									"continue_on_failure": false,
-									"display_name": "No (failed)",
-									"skip_execution": false
-								  },
-								  "object_type": "definition_activity",
-								  "actions": [
-									{
-									  "unique_name": "definition_activity_01UEHHQ4UPOPN0k9ci29uWxYgC86kHJD6OT",
-									  "name": "Set Variables",
-									  "title": "Update results variable",
-									  "type": "core.set_multiple_variables",
-									  "base_type": "activity",
-									  "properties": {
-										"continue_on_failure": false,
-										"display_name": "Update results variable",
-										"skip_execution": false,
-										"variables_to_update": [
-										  {
-											"variable_to_update": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEHFGTTLB5W2gP6xfF04oHnsx1aAlDF33$",
-											"variable_value_new": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEHFGTTLB5W2gP6xfF04oHnsx1aAlDF33$\n- $activity.definition_activity_01UEHDU6BY6O40jgq9xwreFlwPUJb84X8u2.input.source_array[@].hostname$ ($activity.definition_activity_01UEHDU6BY6O40jgq9xwreFlwPUJb84X8u2.input.source_array[@].connector_guid$) - *FAILED*"
-										  }
-										]
-									  },
-									  "object_type": "definition_activity"
-									}
-								  ]
-								},
-								{
-								  "unique_name": "definition_activity_01UEHHFDYTP0M1vYTBKes0CxKr20L6GxYM7",
-								  "name": "Condition Branch",
-								  "title": "Yes",
-								  "type": "logic.condition_block",
-								  "base_type": "activity",
-								  "properties": {
-									"condition": {
-									  "left_operand": "$activity.definition_activity_01UEHG4IFX5M144jbWNjLVaLtvj1ZObKUdc.output.jsonpath_queries.actuallyDeleted$",
-									  "operator": "eq",
-									  "right_operand": true
-									},
-									"continue_on_failure": false,
-									"display_name": "Yes",
-									"skip_execution": false
-								  },
-								  "object_type": "definition_activity",
-								  "actions": [
-									{
-									  "unique_name": "definition_activity_01UEHHJ7Z3EAH2f8iIc9GV9fZQZXd5yF4Ml",
-									  "name": "Set Variables",
-									  "title": "Update results variable",
-									  "type": "core.set_multiple_variables",
-									  "base_type": "activity",
-									  "properties": {
-										"continue_on_failure": false,
-										"display_name": "Update results variable",
-										"skip_execution": false,
-										"variables_to_update": [
-										  {
-											"variable_to_update": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEHFGTTLB5W2gP6xfF04oHnsx1aAlDF33$",
-											"variable_value_new": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEHFGTTLB5W2gP6xfF04oHnsx1aAlDF33$\n- $activity.definition_activity_01UEHDU6BY6O40jgq9xwreFlwPUJb84X8u2.input.source_array[@].hostname$ ($activity.definition_activity_01UEHDU6BY6O40jgq9xwreFlwPUJb84X8u2.input.source_array[@].connector_guid$) - *Deleted*"
-										  }
-										]
-									  },
-									  "object_type": "definition_activity"
-									}
-								  ]
-								}
-							  ]
-							}
-						  ]
-						},
-						{
-						  "unique_name": "definition_activity_01UEHEG09VKCU4PrKYbs3EifLZnZwZn3e04",
-						  "name": "Condition Branch",
-						  "title": "No",
-						  "type": "logic.condition_block",
-						  "base_type": "activity",
-						  "properties": {
-							"condition": {
-							  "left_operand": "$activity.definition_activity_01U7LBBZJAPMX0fjuDsPNpdLGXMF4IJsLkW.output.status_code$",
-							  "operator": "ne",
-							  "right_operand": 200
-							},
-							"continue_on_failure": false,
-							"display_name": "No",
-							"skip_execution": false
-						  },
-						  "object_type": "definition_activity",
-						  "actions": [
-							{
-							  "unique_name": "definition_activity_01UEHFJNC3NFI6hmYMcCJmlDBXot92eEr5R",
-							  "name": "Set Variables",
-							  "title": "Update results variable",
-							  "type": "core.set_multiple_variables",
-							  "base_type": "activity",
-							  "properties": {
-								"continue_on_failure": false,
-								"display_name": "Update results variable",
-								"skip_execution": false,
-								"variables_to_update": [
-								  {
-									"variable_to_update": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEHFGTTLB5W2gP6xfF04oHnsx1aAlDF33$",
-									"variable_value_new": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEHFGTTLB5W2gP6xfF04oHnsx1aAlDF33$\n- $activity.definition_activity_01UEHDU6BY6O40jgq9xwreFlwPUJb84X8u2.input.source_array[@].hostname$ ($activity.definition_activity_01UEHDU6BY6O40jgq9xwreFlwPUJb84X8u2.input.source_array[@].connector_guid$) - *FAILED $activity.definition_activity_01U7LBBZJAPMX0fjuDsPNpdLGXMF4IJsLkW.output.status_code$*"
-								  }
-								]
-							  },
-							  "object_type": "definition_activity"
-							}
-						  ]
-						}
-					  ]
-					}
-				  ]
-				},
-				{
-				  "unique_name": "definition_activity_01UEIIFOHUR3G4UhO1vqxzTfNflUqnhVOAe",
-				  "name": "Webex Teams - Post Message to Room",
-				  "title": "Webex Teams - Post Message to Room",
-				  "type": "workflow.atomic_workflow",
-				  "base_type": "subworkflow",
-				  "properties": {
-					"continue_on_failure": false,
-					"display_name": "Webex Teams - Post Message to Room",
-					"input": {
-					  "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$activity.definition_activity_01UEI8BRVO49P4heFiYlHQb3SpEEN1ZvC4v.output.variable_workflow_01PP790MCXJ7Y5cAWcGZWbG4Es0126zb1I6$",
-					  "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01QEQBZ5MWE0268wO5oBmUqMhzQJ6WKfuNd$",
-					  "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "Inactive endpoints were removed from Cisco Secure Endpoint. Here's a summary:\n$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEHFGTTLB5W2gP6xfF04oHnsx1aAlDF33$",
-					  "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": "",
-					  "variable_workflow_01SVERQNMKN8N6vqX2djMtAfshphGydGsH8": ""
-					},
-					"runtime_user": {
-					  "target_default": true
-					},
-					"skip_execution": false,
-					"target": {
-					  "override_workflow_target_group_criteria": true,
-					  "target_group": {
-						"run_on_all_targets": false,
-						"use_criteria": {
-						  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-						  "conditions": [
-							{
-							  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-							  "operator": "eqi",
-							  "right_operand": "Webex Teams"
-							}
-						  ]
-						}
-					  }
-					},
-					"workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw"
-				  },
-				  "object_type": "definition_activity"
-				}
-			  ]
-			},
-			{
-			  "unique_name": "definition_activity_01UEH7GRFQMKG5rylzTNpiP584YZB7PPwtG",
-			  "name": "Condition Branch",
-			  "title": "No",
-			  "type": "logic.condition_block",
-			  "base_type": "activity",
-			  "properties": {
-				"condition": {
-				  "left_operand": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEGMHLWWP4K2t7E5RjwhCD9JZva2t8CV3$",
-				  "operator": "eq",
-				  "right_operand": "[]"
-				},
-				"continue_on_failure": false,
-				"display_name": "No",
-				"skip_execution": false
-			  },
-			  "object_type": "definition_activity",
-			  "actions": [
-				{
-				  "unique_name": "definition_activity_01UEH7W8OVAYT3at1KlGyvDuwPoLx6AlsAY",
-				  "name": "Completed",
-				  "title": "Nothing to do",
-				  "type": "logic.completed",
-				  "base_type": "activity",
-				  "properties": {
-					"completion_type": "succeeded",
-					"continue_on_failure": false,
-					"display_name": "Nothing to do",
-					"result_message": "No endpoints need to be removed",
-					"skip_execution": false
-				  },
-				  "object_type": "definition_activity"
-				}
-			  ]
-			}
-		  ]
-		}
-	  ],
-	  "categories": [
-		"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
-	  ]
-	},
-	"target_groups": {
-	  "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
-		"unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
-		"name": "Default TargetGroup",
-		"title": "Default TargetGroup",
-		"type": "generic.target_group",
-		"base_type": "target_group",
-		"version": "1.0.0",
-		"targets": [
-		  {
-			"data_target_type": "web-service.endpoint",
-			"view_target_type": "web-service.endpoint",
-			"include_all_targets": true
-		  },
-		  {
-			"data_target_type": "email.smtp_endpoint",
-			"view_target_type": "email.smtp_endpoint",
-			"include_all_targets": true
-		  }
-		],
-		"object_type": "target_group"
-	  }
-	},
-	"atomic_workflows": [
-	  "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez",
-	  "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw"
-	]
-  }
+    "workflow": {
+        "unique_name": "definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3",
+        "name": "0056 - Secure Endpoint - Remove Inactive Endpoints",
+        "title": "0056 - Secure Endpoint - Remove Inactive Endpoints",
+        "type": "generic.workflow",
+        "base_type": "workflow",
+        "variables": [
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "requestor@company.com",
+                    "scope": "local",
+                    "name": "Task Requestor",
+                    "type": "datatype.string",
+                    "description": "Who the approval task should be requested by. This should be the user's SecureX email address and can be the same as the owner",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01U7KF39YRO8O7gkY12BQsHjMO3qzbN4bzi",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.boolean",
+                "properties": {
+                    "value": true,
+                    "scope": "local",
+                    "name": "Require Approval",
+                    "type": "datatype.boolean",
+                    "description": "If this is true, the workflow will request approval before removing any endpoints. If this is false, the workflow will remove the endpoints automatically",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01U7KIC2KOLW91xQY8bhLTwFC3F9rhzvfol",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "",
+                    "scope": "local",
+                    "name": "Removal Results",
+                    "type": "datatype.string",
+                    "description": "Placeholder for the results of the computer deletions. This will be populated automatically",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01UEHFGTTLB5W2gP6xfF04oHnsx1aAlDF33",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "\/computers?limit=100",
+                    "scope": "local",
+                    "name": "This Page URL",
+                    "type": "datatype.string",
+                    "description": "Placeholder for the URL of this page of computers. This will be populated automatically",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01UEGVH1YTHJ76FrjixLByLkqMUSWztMkct",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "",
+                    "scope": "local",
+                    "name": "Computers to Remove (Readable)",
+                    "type": "datatype.string",
+                    "description": "Placeholder for a list of computers to remove. This will be populated automatically",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01UEH8Q8ECWB642r725yjbgW4X1yq9b0igL",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "SecureX Orchestration",
+                    "scope": "local",
+                    "name": "Webex Room Name",
+                    "type": "datatype.string",
+                    "description": "The name of the Webex room to post messages to. If using a bot, make sure to invite your bot to the room before attempting to send messages",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01QEQDMTR1LT074Qws7rTXbmgM3KxwJrUVj",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "owner@company.com",
+                    "scope": "local",
+                    "name": "Task Owner",
+                    "type": "datatype.string",
+                    "description": "Who the approval task should be owned by. This should be the user's SecureX email address",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01U7KFJ4TGK425ih3qBVRDzlfI1MmzyDwhy",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.integer",
+                "properties": {
+                    "value": 30,
+                    "scope": "local",
+                    "name": "Inactivity Threshold",
+                    "type": "datatype.integer",
+                    "description": "How many days a computer must be inactive before the workflow will remove it",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01UEGSFGG1ZIP237j7luq27IPIfrc0QTr66",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.secure_string",
+                "properties": {
+                    "value": "",
+                    "scope": "local",
+                    "name": "Webex Access Token",
+                    "type": "datatype.secure_string",
+                    "description": "The access token to use to authenticate to the Webex API. Information about using a bot, which is what we recommend, can be found here: https:\/\/developer.webex.com\/docs\/bots",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01QEQBZ5MWE0268wO5oBmUqMhzQJ6WKfuNd",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "",
+                    "scope": "local",
+                    "name": "SecureX Region",
+                    "type": "datatype.string",
+                    "description": "Placeholder for the SecureX region URL. This will be populated automatically",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01UEIB0YB1TPX5ItLLdLAew04YzgG45P82B",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "[]",
+                    "scope": "local",
+                    "name": "Computers to Remove (JSON)",
+                    "type": "datatype.string",
+                    "description": "Placeholder for a list of computers to remove. This will be populated automatically",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01UEGMHLWWP4K2t7E5RjwhCD9JZva2t8CV3",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "assignee@company.com",
+                    "scope": "local",
+                    "name": "Task Assignee",
+                    "type": "datatype.string",
+                    "description": "Who the approval task should be assigned to. This should be the user's SecureX email address",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01U7KGJY8B2LF7b3gn1C6CfwonBZUVsIIRi",
+                "object_type": "variable_workflow"
+            }
+        ],
+        "properties": {
+            "atomic": {
+                "is_atomic": false
+            },
+            "delete_workflow_instance": false,
+            "description": "This workflow looks for endpoints in Cisco Secure Endpoint that have been inactive for a specified number of days. If inactive endpoints are found, a list is compiled and they are deleted. An optional approval task can be used to request approval prior to deletion.\n\nDocumentation: https:\/\/ciscosecurity.github.io\/sxo-05-security-workflows\/workflows\/0056\n\nTarget Group: Default TargetGroup\n\nTargets: AMP_Target, Webex Teams\n\nSteps:\n[] Fetch global variables\n[] Search for the Webex room\n[] Calculate the date before which endpoints will be removed\n[] Fetch computers from Secure Endpoint:\n[]> Parse each computer and add it to the list to remove if it's old\n[]> Update the local variables with the new lists\n[]> Check if there's a next page to parse\n[] Check if there are endpoints to remove:\n[]> If not, end the workflow\n[]> If there are:\n[]>> Check if approval is required (if so, request it and wait)\n[]>> Loop through each computer:\n[]>>> Attempt to delete the computer and check if the request was successful",
+            "display_name": "0056 - Secure Endpoint - Remove Inactive Endpoints",
+            "runtime_user": {
+                "target_default": true
+            },
+            "target": {
+                "execute_on_target_group": true,
+                "target_group": {
+                    "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+                    "run_on_all_targets": false,
+                    "selected_target_types": [
+                        "web-service.endpoint"
+                    ],
+                    "use_criteria": {
+                        "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                        "conditions": [
+                            {
+                                "operator": "eqi",
+                                "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                "right_operand": "AMP_Target"
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        "object_type": "definition_workflow",
+        "actions": [
+            {
+                "unique_name": "definition_activity_01UEGJYVDJ0RB4lIqSLZBZZ4KdBcbwZ0jDZ",
+                "name": "Group",
+                "title": "Fetch global variables",
+                "type": "logic.group",
+                "base_type": "activity",
+                "properties": {
+                    "continue_on_failure": false,
+                    "display_name": "Fetch global variables",
+                    "skip_execution": true
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                    {
+                        "unique_name": "definition_activity_01UEGK70GKZBI5iMe37iKpUU7X2B3iuz2Hz",
+                        "name": "Set Variables",
+                        "title": "Fetch global variables",
+                        "type": "core.set_multiple_variables",
+                        "base_type": "activity",
+                        "properties": {
+                            "continue_on_failure": false,
+                            "display_name": "Fetch global variables",
+                            "skip_execution": false,
+                            "variables_to_update": [
+                                {
+                                    "variable_to_update": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01QEQBZ5MWE0268wO5oBmUqMhzQJ6WKfuNd$",
+                                    "variable_value_new": ""
+                                }
+                            ]
+                        },
+                        "object_type": "definition_activity"
+                    }
+                ]
+            },
+            {
+                "unique_name": "definition_activity_01UEOY7MQOOL45vgwEkyNbVY0fC6cGb4HKK",
+                "name": "Condition Block",
+                "title": "Is the threshold dangerously low?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                    "continue_on_failure": false,
+                    "display_name": "Is the threshold dangerously low?",
+                    "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                    {
+                        "unique_name": "definition_activity_01UEOY7NMT92O7g5ndIreoDH5LFHFN9QQFb",
+                        "name": "Condition Branch",
+                        "title": "Yes",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEGSFGG1ZIP237j7luq27IPIfrc0QTr66$",
+                                "operator": "lt",
+                                "right_operand": 14
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "Yes",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01UEOYFLE58Q723XL1NvN7vhilMTXIXOmhU",
+                                "name": "Completed",
+                                "title": "Threshold low",
+                                "type": "logic.completed",
+                                "base_type": "activity",
+                                "properties": {
+                                    "completion_type": "failed-completed",
+                                    "continue_on_failure": false,
+                                    "display_name": "Threshold low",
+                                    "result_message": "The inactivity threshold configured is relatively low. If you want to set the threshold to less than 14 days, you can delete or disable this condition branch",
+                                    "skip_execution": false
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "unique_name": "definition_activity_01UEIAPON93282Vt7A3ZOvZlcHhorjFWYq3",
+                "name": "Condition Block",
+                "title": "Detect the SecureX region",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                    "continue_on_failure": false,
+                    "display_name": "Detect the SecureX region",
+                    "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                    {
+                        "unique_name": "definition_activity_01UEIAPP1WQ1B7kX97pDOkCnNH4VTUfzVpl",
+                        "name": "Condition Branch",
+                        "title": "North America",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG.env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG$",
+                                "operator": "eqi",
+                                "right_operand": "prod-nam"
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "North America",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01UEIBBY5B57F1upvWrXME0o6TuP6pYKxeO",
+                                "name": "Set Variables",
+                                "title": "Set region variable",
+                                "type": "core.set_multiple_variables",
+                                "base_type": "activity",
+                                "properties": {
+                                    "continue_on_failure": false,
+                                    "display_name": "Set region variable",
+                                    "skip_execution": false,
+                                    "variables_to_update": [
+                                        {
+                                            "variable_to_update": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEIB0YB1TPX5ItLLdLAew04YzgG45P82B$",
+                                            "variable_value_new": "us"
+                                        }
+                                    ]
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    },
+                    {
+                        "unique_name": "definition_activity_01UEIBLYWT46C7b8w4naHVqPfQKUtUGYXqw",
+                        "name": "Condition Branch",
+                        "title": "Europe",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG.env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG$",
+                                "operator": "eqi",
+                                "right_operand": "prod-eu"
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "Europe",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01UEIBLYWTOJG19d8FrBc9kQgLqXCqDX3rs",
+                                "name": "Set Variables",
+                                "title": "Set region variable",
+                                "type": "core.set_multiple_variables",
+                                "base_type": "activity",
+                                "properties": {
+                                    "continue_on_failure": false,
+                                    "display_name": "Set region variable",
+                                    "skip_execution": false,
+                                    "variables_to_update": [
+                                        {
+                                            "variable_to_update": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEIB0YB1TPX5ItLLdLAew04YzgG45P82B$",
+                                            "variable_value_new": "eu"
+                                        }
+                                    ]
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    },
+                    {
+                        "unique_name": "definition_activity_01UEIBQN3N8LU4WcgDDBB1HzrpmjLNqVtDW",
+                        "name": "Condition Branch",
+                        "title": "Asia Pacific",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG.env.variable_01A6C871LSO9A26D0zcBjJoAKgRglrC10aG$",
+                                "operator": "eqi",
+                                "right_operand": "prod-apjc"
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "Asia Pacific",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01UEIBQN3NWDW1PNSsPqGKNHZGX9ejcxqJA",
+                                "name": "Set Variables",
+                                "title": "Set region variable",
+                                "type": "core.set_multiple_variables",
+                                "base_type": "activity",
+                                "properties": {
+                                    "continue_on_failure": false,
+                                    "display_name": "Set region variable",
+                                    "skip_execution": false,
+                                    "variables_to_update": [
+                                        {
+                                            "variable_to_update": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEIB0YB1TPX5ItLLdLAew04YzgG45P82B$",
+                                            "variable_value_new": "apjc"
+                                        }
+                                    ]
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "unique_name": "definition_activity_01UEI8BRVO49P4heFiYlHQb3SpEEN1ZvC4v",
+                "name": "Webex - Search for Room",
+                "title": "Webex - Search for Room",
+                "type": "workflow.atomic_workflow",
+                "base_type": "subworkflow",
+                "properties": {
+                    "continue_on_failure": true,
+                    "display_name": "Webex - Search for Room",
+                    "input": {
+                        "variable_workflow_01PP790MCX1DN3EitpQebkUyJS65DbwS3nU": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01QEQBZ5MWE0268wO5oBmUqMhzQJ6WKfuNd$",
+                        "variable_workflow_01PP790MCXB392D3R8pxh9fgOTjTde2bcMW": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01QEQDMTR1LT074Qws7rTXbmgM3KxwJrUVj$",
+                        "variable_workflow_01PP790MCXHP55YE6ylOEITWsWbUFJeyWGv": "",
+                        "variable_workflow_01PP790MCXM9W1MUwo85y8iNRCoQuQ4RGNa": ""
+                    },
+                    "runtime_user": {
+                        "target_default": true
+                    },
+                    "skip_execution": false,
+                    "target": {
+                        "override_workflow_target_group_criteria": true,
+                        "target_group": {
+                            "run_on_all_targets": false,
+                            "use_criteria": {
+                                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                "conditions": [
+                                    {
+                                        "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                        "operator": "eqi",
+                                        "right_operand": "Webex Teams"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "workflow_id": "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez",
+                    "workflow_name": "Webex - Search for Room"
+                },
+                "object_type": "definition_activity"
+            },
+            {
+                "unique_name": "definition_activity_01UEI930ZM3YF6W5M7QGaUEHflVEHfDwbxS",
+                "name": "Condition Block",
+                "title": "Was the Webex room found?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                    "continue_on_failure": false,
+                    "display_name": "Was the Webex room found?",
+                    "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                    {
+                        "unique_name": "definition_activity_01UEI931VVTQS0QcOtsDMF1wUQxIh2xtY2F",
+                        "name": "Condition Branch",
+                        "title": "No",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$activity.definition_activity_01UEI8BRVO49P4heFiYlHQb3SpEEN1ZvC4v.output.succeeded$",
+                                "operator": "eq",
+                                "right_operand": false
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "No",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01UEI9OQUE61V2Y0fAqrI1Gpjg5uPZMpc4r",
+                                "name": "Completed",
+                                "title": "Failed",
+                                "type": "logic.completed",
+                                "base_type": "activity",
+                                "properties": {
+                                    "completion_type": "failed-completed",
+                                    "continue_on_failure": false,
+                                    "display_name": "Failed",
+                                    "result_message": "The Webex room provided could not be found or the access token provided does not have access to the room",
+                                    "skip_execution": false
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "unique_name": "definition_activity_01UEGRV9G8TGV22VsAxnGiCz3KvUAwnZ4tT",
+                "name": "Calculate Date",
+                "title": "Calculate threshold date",
+                "type": "core.calculate_date",
+                "base_type": "activity",
+                "properties": {
+                    "adjustment": "-($workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEGSFGG1ZIP237j7luq27IPIfrc0QTr66$*86400)",
+                    "continue_on_failure": false,
+                    "display_name": "Calculate threshold date",
+                    "original_date": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.output.start_time$",
+                    "skip_execution": false
+                },
+                "object_type": "definition_activity"
+            },
+            {
+                "unique_name": "definition_activity_01UEGUHKQEGQ164YpwY2dPTKbcIz65A5GjB",
+                "name": "While Loop",
+                "title": "While there are computers to process",
+                "type": "logic.while",
+                "base_type": "activity",
+                "properties": {
+                    "continue_on_failure": false,
+                    "display_name": "While there are computers to process",
+                    "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                    {
+                        "unique_name": "definition_activity_01UEGUHL97BNX02iDSAVXkGfh7EjgCJKwi3",
+                        "name": "Condition Branch",
+                        "title": "TRUE=TRUE",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.output.instance_id$",
+                                "operator": "eq",
+                                "right_operand": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.output.instance_id$"
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "TRUE=TRUE",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01PQR5ZLO4T6O68gvpClUU1cBjwhYFMhQcM",
+                                "name": "HTTP Request",
+                                "title": "Get this page of computers",
+                                "type": "web-service.http_request",
+                                "base_type": "activity",
+                                "properties": {
+                                    "accept": "application\/json",
+                                    "action_timeout": 180,
+                                    "allow_auto_redirect": true,
+                                    "content_type": "application\/json",
+                                    "continue_on_error_status_code": true,
+                                    "continue_on_failure": false,
+                                    "display_name": "Get this page of computers",
+                                    "method": "GET",
+                                    "relative_url": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEGVH1YTHJ76FrjixLByLkqMUSWztMkct$",
+                                    "runtime_user": {
+                                        "target_default": true
+                                    },
+                                    "skip_execution": false,
+                                    "target": {
+                                        "use_workflow_target_group": true
+                                    }
+                                },
+                                "object_type": "definition_activity"
+                            },
+                            {
+                                "unique_name": "definition_activity_01UEGVX1UG3ZX1kTm4xOqypnwD5DyQDpQtZ",
+                                "name": "Condition Block",
+                                "title": "Was the request successful?",
+                                "type": "logic.if_else",
+                                "base_type": "activity",
+                                "properties": {
+                                    "continue_on_failure": false,
+                                    "display_name": "Was the request successful?",
+                                    "skip_execution": false
+                                },
+                                "object_type": "definition_activity",
+                                "blocks": [
+                                    {
+                                        "unique_name": "definition_activity_01UEGVX2NC03E7Io1jdzKK2lyzxOemOzLjy",
+                                        "name": "Condition Branch",
+                                        "title": "No",
+                                        "type": "logic.condition_block",
+                                        "base_type": "activity",
+                                        "properties": {
+                                            "condition": {
+                                                "left_operand": "$activity.definition_activity_01PQR5ZLO4T6O68gvpClUU1cBjwhYFMhQcM.output.status_code$",
+                                                "operator": "ne",
+                                                "right_operand": 200
+                                            },
+                                            "continue_on_failure": false,
+                                            "display_name": "No",
+                                            "skip_execution": false
+                                        },
+                                        "object_type": "definition_activity",
+                                        "actions": [
+                                            {
+                                                "unique_name": "definition_activity_01UEGW5S55S572WtMJXoGOyVyqvWUvKL26E",
+                                                "name": "Completed",
+                                                "title": "Failed",
+                                                "type": "logic.completed",
+                                                "base_type": "activity",
+                                                "properties": {
+                                                    "completion_type": "failed-completed",
+                                                    "continue_on_failure": false,
+                                                    "display_name": "Failed",
+                                                    "result_message": "Failed to fetch this page of computers from Cisco Secure Endpoint\n\nURL: $workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEGVH1YTHJ76FrjixLByLkqMUSWztMkct$\nStatus code: $activity.definition_activity_01PQR5ZLO4T6O68gvpClUU1cBjwhYFMhQcM.output.status_code$\nResponse body: $activity.definition_activity_01PQR5ZLO4T6O68gvpClUU1cBjwhYFMhQcM.output.response_body$",
+                                                    "skip_execution": false
+                                                },
+                                                "object_type": "definition_activity"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "unique_name": "definition_activity_01UEGX7BUCYF07A8BKulumVUrTD0mFSM1Zv",
+                                "name": "Read Table from JSON",
+                                "title": "Parse list of computers",
+                                "type": "corejava.read_table_from_json",
+                                "base_type": "activity",
+                                "properties": {
+                                    "action_timeout": 180,
+                                    "continue_on_failure": false,
+                                    "display_name": "Parse list of computers",
+                                    "input_json": "$activity.definition_activity_01PQR5ZLO4T6O68gvpClUU1cBjwhYFMhQcM.output.response_body$",
+                                    "jsonpath_query": "$.data",
+                                    "persist_output": false,
+                                    "populate_columns": false,
+                                    "skip_execution": false,
+                                    "table_columns": [
+                                        {
+                                            "column_name": "connector_guid",
+                                            "column_type": "string"
+                                        },
+                                        {
+                                            "column_name": "hostname",
+                                            "column_type": "string"
+                                        },
+                                        {
+                                            "column_name": "last_seen",
+                                            "column_type": "string"
+                                        }
+                                    ]
+                                },
+                                "object_type": "definition_activity"
+                            },
+                            {
+                                "unique_name": "definition_activity_01UEGZL98LVIK5lUOXd2R4N5Z60l4OE0FBA",
+                                "name": "Condition Block",
+                                "title": "Are there any more computers?",
+                                "type": "logic.if_else",
+                                "base_type": "activity",
+                                "properties": {
+                                    "continue_on_failure": false,
+                                    "display_name": "Are there any more computers?",
+                                    "skip_execution": false
+                                },
+                                "object_type": "definition_activity",
+                                "blocks": [
+                                    {
+                                        "unique_name": "definition_activity_01UEH02NNBOLQ3WLP2MCb7CRxSyouQqiBRr",
+                                        "name": "Condition Branch",
+                                        "title": "Yes",
+                                        "type": "logic.condition_block",
+                                        "base_type": "activity",
+                                        "properties": {
+                                            "condition": {
+                                                "left_operand": "$activity.definition_activity_01UEGX7BUCYF07A8BKulumVUrTD0mFSM1Zv.output.row_count$",
+                                                "operator": "gt",
+                                                "right_operand": 0
+                                            },
+                                            "continue_on_failure": false,
+                                            "display_name": "Yes",
+                                            "skip_execution": false
+                                        },
+                                        "object_type": "definition_activity",
+                                        "actions": [
+                                            {
+                                                "unique_name": "definition_activity_01UEH4YZ57E3P7N7msSEE3GnbseK1MCApr2",
+                                                "name": "Execute Python Script",
+                                                "title": "Update the list of computers",
+                                                "type": "python3.script",
+                                                "base_type": "activity",
+                                                "properties": {
+                                                    "action_timeout": 180,
+                                                    "continue_on_failure": false,
+                                                    "display_name": "Update the list of computers",
+                                                    "script": "import datetime\nimport json,sys\n\ncurrentEndpoints = json.loads(sys.argv[1])\nnewEndpoints = json.loads(sys.argv[2])\ncurrentReadable = sys.argv[3]\nthresholdDays = int(sys.argv[4])\n\nthresholdDate = (datetime.datetime.now() - datetime.timedelta(days = thresholdDays))\n\nfor endpoint in newEndpoints['data']:\n\tlastSeen = datetime.datetime.strptime(endpoint['last_seen'], \"%Y-%m-%dT%H:%M:%SZ\")\n\n\tif lastSeen < thresholdDate:\n\t\tcurrentEndpoints.append({\n\t\t\t\"connector_guid\": endpoint['connector_guid'],\n\t\t\t\"hostname\": endpoint['hostname'],\n\t\t\t\"last_seen\": endpoint['last_seen']\n\t\t})\n\t\t\n\t\tcurrentReadable = (currentReadable + \"\\n\" if len(currentReadable) > 0 else currentReadable) + f\"{endpoint['hostname']} ({endpoint['connector_guid']}) - Last Seen: {endpoint['last_seen']}\"\n\nnewList = json.dumps(currentEndpoints)",
+                                                    "script_arguments": [
+                                                        "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEGMHLWWP4K2t7E5RjwhCD9JZva2t8CV3$",
+                                                        "$activity.definition_activity_01PQR5ZLO4T6O68gvpClUU1cBjwhYFMhQcM.output.response_body$",
+                                                        "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEH8Q8ECWB642r725yjbgW4X1yq9b0igL$",
+                                                        "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEGSFGG1ZIP237j7luq27IPIfrc0QTr66$"
+                                                    ],
+                                                    "script_queries": [
+                                                        {
+                                                            "script_query": "newList",
+                                                            "script_query_name": "newList",
+                                                            "script_query_type": "string"
+                                                        },
+                                                        {
+                                                            "script_query": "currentReadable",
+                                                            "script_query_name": "currentReadable",
+                                                            "script_query_type": "string"
+                                                        }
+                                                    ],
+                                                    "skip_execution": false
+                                                },
+                                                "object_type": "definition_activity"
+                                            },
+                                            {
+                                                "unique_name": "definition_activity_01UEH3QIG32ZJ0PydRc0lrMoJz47f0HH1Cj",
+                                                "name": "Set Variables",
+                                                "title": "Update the local variables",
+                                                "type": "core.set_multiple_variables",
+                                                "base_type": "activity",
+                                                "properties": {
+                                                    "continue_on_failure": false,
+                                                    "display_name": "Update the local variables",
+                                                    "skip_execution": false,
+                                                    "variables_to_update": [
+                                                        {
+                                                            "variable_to_update": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEGMHLWWP4K2t7E5RjwhCD9JZva2t8CV3$",
+                                                            "variable_value_new": "$activity.definition_activity_01UEH4YZ57E3P7N7msSEE3GnbseK1MCApr2.output.script_queries.newList$"
+                                                        },
+                                                        {
+                                                            "variable_to_update": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEH8Q8ECWB642r725yjbgW4X1yq9b0igL$",
+                                                            "variable_value_new": "$activity.definition_activity_01UEH4YZ57E3P7N7msSEE3GnbseK1MCApr2.output.script_queries.currentReadable$"
+                                                        }
+                                                    ]
+                                                },
+                                                "object_type": "definition_activity"
+                                            },
+                                            {
+                                                "unique_name": "definition_activity_01UEGVVKGQ97D4vcC2UUha3zUrCUYpOLHLU",
+                                                "name": "JSONPath Query",
+                                                "title": "Extract pagination information",
+                                                "type": "corejava.jsonpathquery",
+                                                "base_type": "activity",
+                                                "properties": {
+                                                    "action_timeout": 180,
+                                                    "continue_on_failure": true,
+                                                    "display_name": "Extract pagination information",
+                                                    "input_json": "$activity.definition_activity_01PQR5ZLO4T6O68gvpClUU1cBjwhYFMhQcM.output.response_body$",
+                                                    "jsonpath_queries": [
+                                                        {
+                                                            "jsonpath_query": "$.metadata.links.next",
+                                                            "jsonpath_query_name": "nextPage",
+                                                            "jsonpath_query_type": "string"
+                                                        }
+                                                    ],
+                                                    "skip_execution": false
+                                                },
+                                                "object_type": "definition_activity"
+                                            },
+                                            {
+                                                "unique_name": "definition_activity_01UEH181ANVOZ5tOfmXAjPLro4451Ifrw5J",
+                                                "name": "Condition Block",
+                                                "title": "Is there a next page?",
+                                                "type": "logic.if_else",
+                                                "base_type": "activity",
+                                                "properties": {
+                                                    "continue_on_failure": false,
+                                                    "display_name": "Is there a next page?",
+                                                    "skip_execution": false
+                                                },
+                                                "object_type": "definition_activity",
+                                                "blocks": [
+                                                    {
+                                                        "unique_name": "definition_activity_01UEH1824O6ZA3prXGkKaXr3teykN9bbOHc",
+                                                        "name": "Condition Branch",
+                                                        "title": "Yes",
+                                                        "type": "logic.condition_block",
+                                                        "base_type": "activity",
+                                                        "properties": {
+                                                            "condition": {
+                                                                "left_operand": "$activity.definition_activity_01UEGVVKGQ97D4vcC2UUha3zUrCUYpOLHLU.output.succeeded$",
+                                                                "operator": "eq",
+                                                                "right_operand": true
+                                                            },
+                                                            "continue_on_failure": false,
+                                                            "display_name": "Yes",
+                                                            "skip_execution": false
+                                                        },
+                                                        "object_type": "definition_activity",
+                                                        "actions": [
+                                                            {
+                                                                "unique_name": "definition_activity_01UEH20VLMC5S3YKgx2yvckhK9jDmij4kW0",
+                                                                "name": "Match Regex",
+                                                                "title": "Extract the relative URL",
+                                                                "type": "core.matchregex",
+                                                                "base_type": "activity",
+                                                                "properties": {
+                                                                    "continue_on_failure": false,
+                                                                    "display_name": "Extract the relative URL",
+                                                                    "input_regex": "\/computers.*",
+                                                                    "input_string": "$activity.definition_activity_01UEGVVKGQ97D4vcC2UUha3zUrCUYpOLHLU.output.jsonpath_queries.nextPage$",
+                                                                    "skip_execution": false
+                                                                },
+                                                                "object_type": "definition_activity"
+                                                            },
+                                                            {
+                                                                "unique_name": "definition_activity_01UEH2UGCYYNH63RgEYk7NokhQwlGq7nqMB",
+                                                                "name": "Set Variables",
+                                                                "title": "Update the page URL",
+                                                                "type": "core.set_multiple_variables",
+                                                                "base_type": "activity",
+                                                                "properties": {
+                                                                    "continue_on_failure": false,
+                                                                    "display_name": "Update the page URL",
+                                                                    "skip_execution": false,
+                                                                    "variables_to_update": [
+                                                                        {
+                                                                            "variable_to_update": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEGVH1YTHJ76FrjixLByLkqMUSWztMkct$",
+                                                                            "variable_value_new": "$activity.definition_activity_01UEH20VLMC5S3YKgx2yvckhK9jDmij4kW0.output.matching_strings[0]$"
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                "object_type": "definition_activity"
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "unique_name": "definition_activity_01UEH1833ASC32xRMDXaDVhhQERpSPtTeXJ",
+                                                        "name": "Condition Branch",
+                                                        "title": "No",
+                                                        "type": "logic.condition_block",
+                                                        "base_type": "activity",
+                                                        "properties": {
+                                                            "condition": {
+                                                                "left_operand": "$activity.definition_activity_01UEGVVKGQ97D4vcC2UUha3zUrCUYpOLHLU.output.succeeded$",
+                                                                "operator": "eq",
+                                                                "right_operand": false
+                                                            },
+                                                            "continue_on_failure": false,
+                                                            "display_name": "No",
+                                                            "skip_execution": false
+                                                        },
+                                                        "object_type": "definition_activity",
+                                                        "actions": [
+                                                            {
+                                                                "unique_name": "definition_activity_01UEH1P4YZ5YB368PPj1HxURQqg4JOraecX",
+                                                                "name": "Break",
+                                                                "title": "End the loop",
+                                                                "type": "logic.break",
+                                                                "base_type": "activity",
+                                                                "properties": {
+                                                                    "continue_on_failure": false,
+                                                                    "display_name": "End the loop",
+                                                                    "skip_execution": false
+                                                                },
+                                                                "object_type": "definition_activity"
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "unique_name": "definition_activity_01UEGZL9Z366J0zpm2IB9EY9H1mxga9LCFY",
+                                        "name": "Condition Branch",
+                                        "title": "No",
+                                        "type": "logic.condition_block",
+                                        "base_type": "activity",
+                                        "properties": {
+                                            "condition": {
+                                                "left_operand": "$activity.definition_activity_01UEGX7BUCYF07A8BKulumVUrTD0mFSM1Zv.output.row_count$",
+                                                "operator": "eq",
+                                                "right_operand": 0
+                                            },
+                                            "continue_on_failure": false,
+                                            "display_name": "No",
+                                            "skip_execution": false
+                                        },
+                                        "object_type": "definition_activity",
+                                        "actions": [
+                                            {
+                                                "unique_name": "definition_activity_01UEGZPQ1CAB465ggfAtn3Rm0ZeZsHkw4r0",
+                                                "name": "Break",
+                                                "title": "End the loop",
+                                                "type": "logic.break",
+                                                "base_type": "activity",
+                                                "properties": {
+                                                    "continue_on_failure": false,
+                                                    "display_name": "End the loop",
+                                                    "skip_execution": false
+                                                },
+                                                "object_type": "definition_activity"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "unique_name": "definition_activity_01UEH7GPTDAWC2DBoo4aw80oo6RV5He8oK1",
+                "name": "Condition Block",
+                "title": "Are there endpoints to remove?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                    "continue_on_failure": false,
+                    "display_name": "Are there endpoints to remove?",
+                    "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                    {
+                        "unique_name": "definition_activity_01UEH7GQNC5ZA1UzxzF3rEzgt6SWf1aDXDD",
+                        "name": "Condition Branch",
+                        "title": "Yes",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEGMHLWWP4K2t7E5RjwhCD9JZva2t8CV3$",
+                                "operator": "ne",
+                                "right_operand": "[]"
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "Yes",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01UEH84VYIYS74uNZJ7M09KRmi6hnCjUB32",
+                                "name": "Condition Block",
+                                "title": "Is approval required?",
+                                "type": "logic.if_else",
+                                "base_type": "activity",
+                                "properties": {
+                                    "continue_on_failure": false,
+                                    "display_name": "Is approval required?",
+                                    "skip_execution": false
+                                },
+                                "object_type": "definition_activity",
+                                "blocks": [
+                                    {
+                                        "unique_name": "definition_activity_01UEH84WT4JT80ovz6jdG2vz7E1Es4YTfSq",
+                                        "name": "Condition Branch",
+                                        "title": "Yes",
+                                        "type": "logic.condition_block",
+                                        "base_type": "activity",
+                                        "properties": {
+                                            "condition": {
+                                                "left_operand": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01U7KIC2KOLW91xQY8bhLTwFC3F9rhzvfol$",
+                                                "operator": "eq",
+                                                "right_operand": true
+                                            },
+                                            "continue_on_failure": false,
+                                            "display_name": "Yes",
+                                            "skip_execution": false
+                                        },
+                                        "object_type": "definition_activity",
+                                        "actions": [
+                                            {
+                                                "unique_name": "definition_activity_01UEH9K1ZNXES0QdTLT0HTWljzqciqSKI6b",
+                                                "name": "Create Approval Request",
+                                                "title": "Approval to Remove Endpoints from Cisco Secure Endpoint",
+                                                "type": "task.approval_request",
+                                                "base_type": "activity",
+                                                "properties": {
+                                                    "approval_choices": [
+                                                        "Approve",
+                                                        "Reject"
+                                                    ],
+                                                    "assignees": [
+                                                        "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01U7KGJY8B2LF7b3gn1C6CfwonBZUVsIIRi$"
+                                                    ],
+                                                    "continue_on_failure": false,
+                                                    "display_name": "Approval to Remove Endpoints from Cisco Secure Endpoint",
+                                                    "due_date": {
+                                                        "is_relative_time": true,
+                                                        "relative_time": {
+                                                            "duration": 23,
+                                                            "time_units": "hours"
+                                                        },
+                                                        "set_due_date": true
+                                                    },
+                                                    "expiration_date": {
+                                                        "is_relative_time": true,
+                                                        "relative_time": {
+                                                            "duration": 23,
+                                                            "time_units": "hours"
+                                                        }
+                                                    },
+                                                    "expiration_status": "Expired",
+                                                    "minimum_approvals": 1,
+                                                    "priority": "normal",
+                                                    "skip_execution": false,
+                                                    "subject_line": "Inactive Endpoints to Remove from Secure Endpoint",
+                                                    "task_message": "A SecureX orchestration workflow has detected inactive endpoints in Cisco Secure Endpoint. If you approve this task, they will be removed.\n\nEndpoint List:\n$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEH8Q8ECWB642r725yjbgW4X1yq9b0igL$",
+                                                    "task_owner": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01U7KFJ4TGK425ih3qBVRDzlfI1MmzyDwhy$",
+                                                    "task_requestor": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01U7KF39YRO8O7gkY12BQsHjMO3qzbN4bzi$"
+                                                },
+                                                "object_type": "definition_activity"
+                                            },
+                                            {
+                                                "unique_name": "definition_activity_01U7RUWK5SERZ1OH9MUGYfK542r66Rvt2ki",
+                                                "name": "Webex - Post Message to Room",
+                                                "title": "Webex - Post Message to Room",
+                                                "type": "workflow.atomic_workflow",
+                                                "base_type": "subworkflow",
+                                                "properties": {
+                                                    "continue_on_failure": false,
+                                                    "display_name": "Webex - Post Message to Room",
+                                                    "input": {
+                                                        "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$activity.definition_activity_01UEI8BRVO49P4heFiYlHQb3SpEEN1ZvC4v.output.variable_workflow_01PP790MCXJ7Y5cAWcGZWbG4Es0126zb1I6$",
+                                                        "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01QEQBZ5MWE0268wO5oBmUqMhzQJ6WKfuNd$",
+                                                        "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "",
+                                                        "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": "",
+                                                        "variable_workflow_01SVERQNMKN8N6vqX2djMtAfshphGydGsH8": "[{\n\"contentType\": \"application\/vnd.microsoft.card.adaptive\",\n\"content\": {\n\"$schema\": \"http:\/\/adaptivecards.io\/schemas\/adaptive-card.json\",\n\"version\": \"1.2\",\n\"type\": \"AdaptiveCard\",\n\"body\": [\n{\n\"type\": \"ColumnSet\",\n\"columns\": [\n{\n\"type\": \"Column\",\n\"items\": [\n{\n\"type\": \"Image\",\n\"url\": \"https:\/\/securex.us.security.cisco.com\/logo192.png\",\n\"size\": \"Medium\",\n\"height\": \"50px\"\n}\n],\n\"width\": \"auto\"\n},\n{\n\"type\": \"Column\",\n\"items\": [\n{\n\"type\": \"TextBlock\",\n\"text\": \"SecureX orchestration\",\n\"weight\": \"Lighter\",\n\"color\": \"Accent\"\n},\n{\n\"type\": \"TextBlock\",\n\"weight\": \"Bolder\",\n\"text\": \"Endpoint Deletion Approval\",\n\"wrap\": true,\n\"color\": \"Light\",\n\"size\": \"Large\",\n\"spacing\": \"Small\"\n}\n],\n\"width\": \"stretch\"\n}\n]\n},\n{\n\"type\": \"TextBlock\",\n\"text\": \"Endpoints have been identified that were inactive for over $workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEGSFGG1ZIP237j7luq27IPIfrc0QTr66$ days in Cisco Secure Endpoint. Please click the button below to view the approval request in SecureX orchestration.\",\n\"wrap\": true\n},\n{\n\"type\": \"ActionSet\",\n\"actions\": [\n{\n\"type\": \"Action.OpenUrl\",\n\"title\": \"View Approval Request\",\n\"style\": \"default\",\n\"url\": \"https:\/\/securex-ao.$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEIB0YB1TPX5ItLLdLAew04YzgG45P82B$.security.cisco.com\/orch-ui\/tasks\/$activity.definition_activity_01UEH9K1ZNXES0QdTLT0HTWljzqciqSKI6b.output.task_id$\"\n}\n],\n\"spacing\": \"Medium\"\n}\n]\n}\n}\n]"
+                                                    },
+                                                    "runtime_user": {
+                                                        "target_default": true
+                                                    },
+                                                    "skip_execution": false,
+                                                    "target": {
+                                                        "override_workflow_target_group_criteria": true,
+                                                        "target_group": {
+                                                            "run_on_all_targets": false,
+                                                            "use_criteria": {
+                                                                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                                                "conditions": [
+                                                                    {
+                                                                        "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                                                        "operator": "eqi",
+                                                                        "right_operand": "Webex Teams"
+                                                                    }
+                                                                ]
+                                                            }
+                                                        }
+                                                    },
+                                                    "workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw",
+                                                    "workflow_name": "Webex - Post Message to Room"
+                                                },
+                                                "object_type": "definition_activity"
+                                            },
+                                            {
+                                                "unique_name": "definition_activity_01UEHAUVZCTIW2P0478D4pDNR9eOs1N0bNZ",
+                                                "name": "Wait For Event",
+                                                "title": "Wait for approval",
+                                                "type": "task.wait_for_event",
+                                                "base_type": "activity",
+                                                "properties": {
+                                                    "continue_on_failure": false,
+                                                    "display_name": "Wait for approval",
+                                                    "event_info": {
+                                                        "add_event": true,
+                                                        "event_definition": {
+                                                            "conditions": {
+                                                                "left_operand": "$output.task_id$",
+                                                                "operator": "eq",
+                                                                "right_operand": "$activity.definition_activity_01UEH9K1ZNXES0QdTLT0HTWljzqciqSKI6b.output.task_id$"
+                                                            }
+                                                        }
+                                                    },
+                                                    "event_timeout": 82800,
+                                                    "event_type": "approval_task.event",
+                                                    "skip_execution": false
+                                                },
+                                                "object_type": "definition_activity"
+                                            },
+                                            {
+                                                "unique_name": "definition_activity_01UEHCDWO6WQQ6mx9I5fvKdjTsgiTAxUXEB",
+                                                "name": "Condition Block",
+                                                "title": "What was the task result?",
+                                                "type": "logic.if_else",
+                                                "base_type": "activity",
+                                                "properties": {
+                                                    "continue_on_failure": false,
+                                                    "display_name": "What was the task result?",
+                                                    "skip_execution": false
+                                                },
+                                                "object_type": "definition_activity",
+                                                "blocks": [
+                                                    {
+                                                        "unique_name": "definition_activity_01UEHCDX2ECFG7Kmnx6SFgfwI5E2yawqL1z",
+                                                        "name": "Condition Branch",
+                                                        "title": "Anything but approved",
+                                                        "type": "logic.condition_block",
+                                                        "base_type": "activity",
+                                                        "properties": {
+                                                            "condition": {
+                                                                "left_operand": "$activity.definition_activity_01UEHAUVZCTIW2P0478D4pDNR9eOs1N0bNZ.output.response$",
+                                                                "operator": "ne",
+                                                                "right_operand": "Approve"
+                                                            },
+                                                            "continue_on_failure": false,
+                                                            "display_name": "Anything but approved",
+                                                            "skip_execution": false
+                                                        },
+                                                        "object_type": "definition_activity",
+                                                        "actions": [
+                                                            {
+                                                                "unique_name": "definition_activity_01UEHCMQFQHX63iZeYXAOaupMW5eZVm8v3j",
+                                                                "name": "Completed",
+                                                                "title": "Not approved",
+                                                                "type": "logic.completed",
+                                                                "base_type": "activity",
+                                                                "properties": {
+                                                                    "completion_type": "succeeded",
+                                                                    "continue_on_failure": false,
+                                                                    "display_name": "Not approved",
+                                                                    "result_message": "Endpoints to remove from Cisco Secure Endpoint were identified but approval was not provided to remove them",
+                                                                    "skip_execution": false
+                                                                },
+                                                                "object_type": "definition_activity"
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "unique_name": "definition_activity_01UEHDD3RYYKQ5pJ2g5bc8mVvrvKViYUCz6",
+                                "name": "Read Table from JSON",
+                                "title": "Parse list of computers to remove",
+                                "type": "corejava.read_table_from_json",
+                                "base_type": "activity",
+                                "properties": {
+                                    "action_timeout": 180,
+                                    "continue_on_failure": false,
+                                    "display_name": "Parse list of computers to remove",
+                                    "input_json": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEGMHLWWP4K2t7E5RjwhCD9JZva2t8CV3$",
+                                    "jsonpath_query": "$.",
+                                    "persist_output": false,
+                                    "populate_columns": false,
+                                    "skip_execution": false,
+                                    "table_columns": [
+                                        {
+                                            "column_name": "connector_guid",
+                                            "column_type": "string"
+                                        },
+                                        {
+                                            "column_name": "hostname",
+                                            "column_type": "string"
+                                        }
+                                    ]
+                                },
+                                "object_type": "definition_activity"
+                            },
+                            {
+                                "unique_name": "definition_activity_01UEHDU6BY6O40jgq9xwreFlwPUJb84X8u2",
+                                "name": "For Each",
+                                "title": "For each computer",
+                                "type": "logic.for_each",
+                                "base_type": "activity",
+                                "properties": {
+                                    "continue_on_failure": false,
+                                    "display_name": "For each computer",
+                                    "skip_execution": false,
+                                    "source_array": "$activity.definition_activity_01UEHDD3RYYKQ5pJ2g5bc8mVvrvKViYUCz6.output.read_table_from_json$"
+                                },
+                                "object_type": "definition_activity",
+                                "actions": [
+                                    {
+                                        "unique_name": "definition_activity_01U7LBBZJAPMX0fjuDsPNpdLGXMF4IJsLkW",
+                                        "name": "HTTP Request",
+                                        "title": "Delete the computer",
+                                        "type": "web-service.http_request",
+                                        "base_type": "activity",
+                                        "properties": {
+                                            "accept": "application\/json",
+                                            "action_timeout": 180,
+                                            "allow_auto_redirect": true,
+                                            "content_type": "application\/json",
+                                            "continue_on_error_status_code": true,
+                                            "continue_on_failure": false,
+                                            "display_name": "Delete the computer",
+                                            "method": "DELETE",
+                                            "relative_url": "\/computers\/$activity.definition_activity_01UEHDU6BY6O40jgq9xwreFlwPUJb84X8u2.input.source_array[@].connector_guid$",
+                                            "runtime_user": {
+                                                "target_default": true
+                                            },
+                                            "skip_execution": false,
+                                            "target": {
+                                                "use_workflow_target_group": true
+                                            }
+                                        },
+                                        "object_type": "definition_activity"
+                                    },
+                                    {
+                                        "unique_name": "definition_activity_01UEHEFYJB67C4f9TDQJdv7RPng2LWGD0bi",
+                                        "name": "Condition Block",
+                                        "title": "Was the request successful?",
+                                        "type": "logic.if_else",
+                                        "base_type": "activity",
+                                        "properties": {
+                                            "continue_on_failure": false,
+                                            "display_name": "Was the request successful?",
+                                            "skip_execution": false
+                                        },
+                                        "object_type": "definition_activity",
+                                        "blocks": [
+                                            {
+                                                "unique_name": "definition_activity_01UEHEFZI6BOG2V9Z802oQ5wOWQFBaCRq8y",
+                                                "name": "Condition Branch",
+                                                "title": "Yes",
+                                                "type": "logic.condition_block",
+                                                "base_type": "activity",
+                                                "properties": {
+                                                    "condition": {
+                                                        "left_operand": "$activity.definition_activity_01U7LBBZJAPMX0fjuDsPNpdLGXMF4IJsLkW.output.status_code$",
+                                                        "operator": "eq",
+                                                        "right_operand": 200
+                                                    },
+                                                    "continue_on_failure": false,
+                                                    "display_name": "Yes",
+                                                    "skip_execution": false
+                                                },
+                                                "object_type": "definition_activity",
+                                                "actions": [
+                                                    {
+                                                        "unique_name": "definition_activity_01UEHG4IFX5M144jbWNjLVaLtvj1ZObKUdc",
+                                                        "name": "JSONPath Query",
+                                                        "title": "Extract the deletion result",
+                                                        "type": "corejava.jsonpathquery",
+                                                        "base_type": "activity",
+                                                        "properties": {
+                                                            "action_timeout": 180,
+                                                            "continue_on_failure": true,
+                                                            "display_name": "Extract the deletion result",
+                                                            "input_json": "$activity.definition_activity_01U7LBBZJAPMX0fjuDsPNpdLGXMF4IJsLkW.output.response_body$",
+                                                            "jsonpath_queries": [
+                                                                {
+                                                                    "jsonpath_query": "$.data.deleted",
+                                                                    "jsonpath_query_name": "actuallyDeleted",
+                                                                    "jsonpath_query_type": "boolean"
+                                                                }
+                                                            ],
+                                                            "skip_execution": false
+                                                        },
+                                                        "object_type": "definition_activity"
+                                                    },
+                                                    {
+                                                        "unique_name": "definition_activity_01UEHGRCIU6KJ4inV82EzPZs86630FmpLzH",
+                                                        "name": "Condition Block",
+                                                        "title": "Was the computer actually deleted?",
+                                                        "type": "logic.if_else",
+                                                        "base_type": "activity",
+                                                        "properties": {
+                                                            "continue_on_failure": false,
+                                                            "display_name": "Was the computer actually deleted?",
+                                                            "skip_execution": false
+                                                        },
+                                                        "object_type": "definition_activity",
+                                                        "blocks": [
+                                                            {
+                                                                "unique_name": "definition_activity_01UEHGRD70LXN7IU4YyM4e5ihpng8GHeBr4",
+                                                                "name": "Condition Branch",
+                                                                "title": "No (error)",
+                                                                "type": "logic.condition_block",
+                                                                "base_type": "activity",
+                                                                "properties": {
+                                                                    "condition": {
+                                                                        "left_operand": "$activity.definition_activity_01UEHG4IFX5M144jbWNjLVaLtvj1ZObKUdc.output.succeeded$",
+                                                                        "operator": "eq",
+                                                                        "right_operand": false
+                                                                    },
+                                                                    "continue_on_failure": false,
+                                                                    "display_name": "No (error)",
+                                                                    "skip_execution": false
+                                                                },
+                                                                "object_type": "definition_activity",
+                                                                "actions": [
+                                                                    {
+                                                                        "unique_name": "definition_activity_01UEHHVM6ZY9X41t51Aqz6wawowqNw4xxW4",
+                                                                        "name": "Set Variables",
+                                                                        "title": "Update results variable",
+                                                                        "type": "core.set_multiple_variables",
+                                                                        "base_type": "activity",
+                                                                        "properties": {
+                                                                            "continue_on_failure": false,
+                                                                            "display_name": "Update results variable",
+                                                                            "skip_execution": false,
+                                                                            "variables_to_update": [
+                                                                                {
+                                                                                    "variable_to_update": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEHFGTTLB5W2gP6xfF04oHnsx1aAlDF33$",
+                                                                                    "variable_value_new": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEHFGTTLB5W2gP6xfF04oHnsx1aAlDF33$\n- $activity.definition_activity_01UEHDU6BY6O40jgq9xwreFlwPUJb84X8u2.input.source_array[@].hostname$ ($activity.definition_activity_01UEHDU6BY6O40jgq9xwreFlwPUJb84X8u2.input.source_array[@].connector_guid$) - *FAILED*"
+                                                                                }
+                                                                            ]
+                                                                        },
+                                                                        "object_type": "definition_activity"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            {
+                                                                "unique_name": "definition_activity_01UEHGRDX4H1I4u0ZaxCHWtzTekeDyPPr0t",
+                                                                "name": "Condition Branch",
+                                                                "title": "No (failed)",
+                                                                "type": "logic.condition_block",
+                                                                "base_type": "activity",
+                                                                "properties": {
+                                                                    "condition": {
+                                                                        "left_operand": "$activity.definition_activity_01UEHG4IFX5M144jbWNjLVaLtvj1ZObKUdc.output.jsonpath_queries.actuallyDeleted$",
+                                                                        "operator": "eq",
+                                                                        "right_operand": false
+                                                                    },
+                                                                    "continue_on_failure": false,
+                                                                    "display_name": "No (failed)",
+                                                                    "skip_execution": false
+                                                                },
+                                                                "object_type": "definition_activity",
+                                                                "actions": [
+                                                                    {
+                                                                        "unique_name": "definition_activity_01UEHHQ4UPOPN0k9ci29uWxYgC86kHJD6OT",
+                                                                        "name": "Set Variables",
+                                                                        "title": "Update results variable",
+                                                                        "type": "core.set_multiple_variables",
+                                                                        "base_type": "activity",
+                                                                        "properties": {
+                                                                            "continue_on_failure": false,
+                                                                            "display_name": "Update results variable",
+                                                                            "skip_execution": false,
+                                                                            "variables_to_update": [
+                                                                                {
+                                                                                    "variable_to_update": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEHFGTTLB5W2gP6xfF04oHnsx1aAlDF33$",
+                                                                                    "variable_value_new": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEHFGTTLB5W2gP6xfF04oHnsx1aAlDF33$\n- $activity.definition_activity_01UEHDU6BY6O40jgq9xwreFlwPUJb84X8u2.input.source_array[@].hostname$ ($activity.definition_activity_01UEHDU6BY6O40jgq9xwreFlwPUJb84X8u2.input.source_array[@].connector_guid$) - *FAILED*"
+                                                                                }
+                                                                            ]
+                                                                        },
+                                                                        "object_type": "definition_activity"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            {
+                                                                "unique_name": "definition_activity_01UEHHFDYTP0M1vYTBKes0CxKr20L6GxYM7",
+                                                                "name": "Condition Branch",
+                                                                "title": "Yes",
+                                                                "type": "logic.condition_block",
+                                                                "base_type": "activity",
+                                                                "properties": {
+                                                                    "condition": {
+                                                                        "left_operand": "$activity.definition_activity_01UEHG4IFX5M144jbWNjLVaLtvj1ZObKUdc.output.jsonpath_queries.actuallyDeleted$",
+                                                                        "operator": "eq",
+                                                                        "right_operand": true
+                                                                    },
+                                                                    "continue_on_failure": false,
+                                                                    "display_name": "Yes",
+                                                                    "skip_execution": false
+                                                                },
+                                                                "object_type": "definition_activity",
+                                                                "actions": [
+                                                                    {
+                                                                        "unique_name": "definition_activity_01UEHHJ7Z3EAH2f8iIc9GV9fZQZXd5yF4Ml",
+                                                                        "name": "Set Variables",
+                                                                        "title": "Update results variable",
+                                                                        "type": "core.set_multiple_variables",
+                                                                        "base_type": "activity",
+                                                                        "properties": {
+                                                                            "continue_on_failure": false,
+                                                                            "display_name": "Update results variable",
+                                                                            "skip_execution": false,
+                                                                            "variables_to_update": [
+                                                                                {
+                                                                                    "variable_to_update": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEHFGTTLB5W2gP6xfF04oHnsx1aAlDF33$",
+                                                                                    "variable_value_new": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEHFGTTLB5W2gP6xfF04oHnsx1aAlDF33$\n- $activity.definition_activity_01UEHDU6BY6O40jgq9xwreFlwPUJb84X8u2.input.source_array[@].hostname$ ($activity.definition_activity_01UEHDU6BY6O40jgq9xwreFlwPUJb84X8u2.input.source_array[@].connector_guid$) - *Deleted*"
+                                                                                }
+                                                                            ]
+                                                                        },
+                                                                        "object_type": "definition_activity"
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "unique_name": "definition_activity_01UEHEG09VKCU4PrKYbs3EifLZnZwZn3e04",
+                                                "name": "Condition Branch",
+                                                "title": "No",
+                                                "type": "logic.condition_block",
+                                                "base_type": "activity",
+                                                "properties": {
+                                                    "condition": {
+                                                        "left_operand": "$activity.definition_activity_01U7LBBZJAPMX0fjuDsPNpdLGXMF4IJsLkW.output.status_code$",
+                                                        "operator": "ne",
+                                                        "right_operand": 200
+                                                    },
+                                                    "continue_on_failure": false,
+                                                    "display_name": "No",
+                                                    "skip_execution": false
+                                                },
+                                                "object_type": "definition_activity",
+                                                "actions": [
+                                                    {
+                                                        "unique_name": "definition_activity_01UEHFJNC3NFI6hmYMcCJmlDBXot92eEr5R",
+                                                        "name": "Set Variables",
+                                                        "title": "Update results variable",
+                                                        "type": "core.set_multiple_variables",
+                                                        "base_type": "activity",
+                                                        "properties": {
+                                                            "continue_on_failure": false,
+                                                            "display_name": "Update results variable",
+                                                            "skip_execution": false,
+                                                            "variables_to_update": [
+                                                                {
+                                                                    "variable_to_update": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEHFGTTLB5W2gP6xfF04oHnsx1aAlDF33$",
+                                                                    "variable_value_new": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEHFGTTLB5W2gP6xfF04oHnsx1aAlDF33$\n- $activity.definition_activity_01UEHDU6BY6O40jgq9xwreFlwPUJb84X8u2.input.source_array[@].hostname$ ($activity.definition_activity_01UEHDU6BY6O40jgq9xwreFlwPUJb84X8u2.input.source_array[@].connector_guid$) - *FAILED $activity.definition_activity_01U7LBBZJAPMX0fjuDsPNpdLGXMF4IJsLkW.output.status_code$*"
+                                                                }
+                                                            ]
+                                                        },
+                                                        "object_type": "definition_activity"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "unique_name": "definition_activity_01UEIIFOHUR3G4UhO1vqxzTfNflUqnhVOAe",
+                                "name": "Webex - Post Message to Room",
+                                "title": "Webex - Post Message to Room",
+                                "type": "workflow.atomic_workflow",
+                                "base_type": "subworkflow",
+                                "properties": {
+                                    "continue_on_failure": false,
+                                    "display_name": "Webex - Post Message to Room",
+                                    "input": {
+                                        "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$activity.definition_activity_01UEI8BRVO49P4heFiYlHQb3SpEEN1ZvC4v.output.variable_workflow_01PP790MCXJ7Y5cAWcGZWbG4Es0126zb1I6$",
+                                        "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01QEQBZ5MWE0268wO5oBmUqMhzQJ6WKfuNd$",
+                                        "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "Inactive endpoints were removed from Cisco Secure Endpoint. Here's a summary:\n$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEHFGTTLB5W2gP6xfF04oHnsx1aAlDF33$",
+                                        "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": "",
+                                        "variable_workflow_01SVERQNMKN8N6vqX2djMtAfshphGydGsH8": ""
+                                    },
+                                    "runtime_user": {
+                                        "target_default": true
+                                    },
+                                    "skip_execution": false,
+                                    "target": {
+                                        "override_workflow_target_group_criteria": true,
+                                        "target_group": {
+                                            "run_on_all_targets": false,
+                                            "use_criteria": {
+                                                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                                "conditions": [
+                                                    {
+                                                        "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                                        "operator": "eqi",
+                                                        "right_operand": "Webex Teams"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw",
+                                    "workflow_name": "Webex - Post Message to Room"
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    },
+                    {
+                        "unique_name": "definition_activity_01UEH7GRFQMKG5rylzTNpiP584YZB7PPwtG",
+                        "name": "Condition Branch",
+                        "title": "No",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$workflow.definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3.local.variable_workflow_01UEGMHLWWP4K2t7E5RjwhCD9JZva2t8CV3$",
+                                "operator": "eq",
+                                "right_operand": "[]"
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "No",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01UEH7W8OVAYT3at1KlGyvDuwPoLx6AlsAY",
+                                "name": "Completed",
+                                "title": "Nothing to do",
+                                "type": "logic.completed",
+                                "base_type": "activity",
+                                "properties": {
+                                    "completion_type": "succeeded",
+                                    "continue_on_failure": false,
+                                    "display_name": "Nothing to do",
+                                    "result_message": "No endpoints need to be removed",
+                                    "skip_execution": false
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "categories": [
+            "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+        ]
+    },
+    "target_groups": {
+        "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+            "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+            "name": "Default TargetGroup",
+            "title": "Default TargetGroup",
+            "type": "generic.target_group",
+            "base_type": "target_group",
+            "version": "1.0.0",
+            "targets": [
+                {
+                    "data_target_type": "web-service.endpoint",
+                    "view_target_type": "web-service.endpoint",
+                    "include_all_targets": true
+                },
+                {
+                    "data_target_type": "email.smtp_endpoint",
+                    "view_target_type": "email.smtp_endpoint",
+                    "include_all_targets": true
+                }
+            ],
+            "object_type": "target_group"
+        }
+    },
+    "atomic_workflows": [
+        "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez",
+        "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw"
+    ],
+    "dependent_workflows": [
+        "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez",
+        "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw"
+    ]
+}

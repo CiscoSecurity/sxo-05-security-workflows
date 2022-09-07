@@ -1,912 +1,876 @@
 {
-	"workflow": {
-	  "unique_name": "definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2",
-	  "name": "0061 - Meraki - MX - Security Events to Incidents",
-	  "title": "0061 - Meraki - MX - Security Events to Incidents",
-	  "type": "generic.workflow",
-	  "base_type": "workflow",
-	  "variables": [
-		{
-		  "schema_id": "datatype.secure_string",
-		  "properties": {
-			"value": "",
-			"scope": "local",
-			"name": "Webex Teams Access Token",
-			"type": "datatype.secure_string",
-			"description": "The access token to use to authenticate to the Webex Teams API. Information about using a bot, which is what we recommend, can be found here: https://developer.webex.com/docs/bots",
-			"is_required": false,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01S26OGJC1MIC2lE4n2fRKEkeRAUWH3y6Hj",
-		  "object_type": "variable_workflow"
-		},
-		{
-		  "schema_id": "datatype.string",
-		  "properties": {
-			"value": "SecureX Orchestration",
-			"scope": "local",
-			"name": "Webex Teams Room Name",
-			"type": "datatype.string",
-			"description": "The name of the Webex Teams room to post messages to. If using a bot, make sure to invite your bot to the room before attempting to send messages",
-			"is_required": false,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01S26OGJC2S3W5SNtSji2W2AHW10oYLBlSC",
-		  "object_type": "variable_workflow"
-		},
-		{
-		  "schema_id": "datatype.secure_string",
-		  "properties": {
-			"value": "",
-			"scope": "local",
-			"name": "Meraki API Key",
-			"type": "datatype.secure_string",
-			"description": "Your Meraki API key. This can be generated in your Meraki dashboard",
-			"is_required": false,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01S26OGJC2DZM08kzmijV6KSuoqhHLKTNF5",
-		  "object_type": "variable_workflow"
-		},
-		{
-		  "schema_id": "datatype.string",
-		  "properties": {
-			"value": "",
-			"scope": "local",
-			"name": "Meraki Organization ID",
-			"type": "datatype.string",
-			"description": "The ID of the Meraki organization you want to fetch security events for. You can find this ID in your Meraki dashboard",
-			"is_required": false,
-			"is_invisible": false
-		  },
-		  "unique_name": "variable_workflow_01S26OGJC20DA3Ox1eUf3ijOFD3r1ImyPfE",
-		  "object_type": "variable_workflow"
-		}
-	  ],
-	  "properties": {
-		"atomic": {
-		  "is_atomic": false
-		},
-		"delete_workflow_instance": false,
-		"description": "This workflow fetches security events for the last hour from Meraki for a specific organization. If there are any Malware Downloaded or IDS Priority 1 events, a sighting and incident are created in Threat Response and a Webex Teams message is sent.\n\nTarget Group: Default TargetGroup\n\nTargets: Cisco Meraki, CTR_For_Access_Token, Private_CTIA_Target, Webex Teams\n\nSteps:\n[] Fetch global variables\n[] Calculate the time 1 hour ago\n[] Make sure the Webex Teams room exists\n[] Fetch security events from Meraki\n[] Check if the events were retrieved successfully:\n[] If not, end the workflow\n[] If they were:\n[]> Loop through each event checking if it's an event type we care about\n[]> If it is, strip the ports from the IPs, create the Threat Response objects, and send a Webex message\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0061",
-		"display_name": "0061 - Meraki - MX - Security Events to Incidents",
-		"runtime_user": {
-		  "target_default": true
-		},
-		"target": {
-		  "execute_on_target_group": true,
-		  "target_group": {
-			"target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
-			"run_on_all_targets": false,
-			"selected_target_types": [
-			  "web-service.endpoint"
-			],
-			"use_criteria": {
-			  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-			  "conditions": [
-				{
-				  "operator": "eqi",
-				  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-				  "right_operand": "Private_CTIA_Target"
-				}
-			  ]
-			}
-		  }
-		}
-	  },
-	  "object_type": "definition_workflow",
-	  "actions": [
-		{
-		  "unique_name": "definition_activity_01WJVU5L7L6WS0GhQcCmiL2wDCdmWtjt5CC",
-		  "name": "Group",
-		  "title": "Fetch Global Variables",
-		  "type": "logic.group",
-		  "base_type": "activity",
-		  "properties": {
-			"continue_on_failure": false,
-			"display_name": "Fetch Global Variables",
-			"skip_execution": false
-		  },
-		  "object_type": "definition_activity",
-		  "actions": [
-			{
-			  "unique_name": "definition_activity_01WJVU9GHL44Y16NRCt4bRChEV2gFaCgHcq",
-			  "name": "Set Variables",
-			  "title": "Set local variables",
-			  "type": "core.set_multiple_variables",
-			  "base_type": "activity",
-			  "properties": {
-				"continue_on_failure": false,
-				"display_name": "Set local variables",
-				"skip_execution": true,
-				"variables_to_update": [
-				  {
-					"variable_to_update": "$workflow.definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2.local.variable_workflow_01S26OGJC1MIC2lE4n2fRKEkeRAUWH3y6Hj$",
-					"variable_value_new": ""
-				  },
-				  {
-					"variable_to_update": "$workflow.definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2.local.variable_workflow_01S26OGJC2DZM08kzmijV6KSuoqhHLKTNF5$",
-					"variable_value_new": ""
-				  },
-				  {
-					"variable_to_update": "$workflow.definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2.local.variable_workflow_01S26OGJC20DA3Ox1eUf3ijOFD3r1ImyPfE$",
-					"variable_value_new": ""
-				  }
-				]
-			  },
-			  "object_type": "definition_activity"
-			}
-		  ]
-		},
-		{
-		  "unique_name": "definition_activity_01S26OH8QI3FC1Z7psyukh1Ux5yyNa6MYlR",
-		  "name": "Calculate Date",
-		  "title": "Get the time 1 hour ago",
-		  "type": "core.calculate_date",
-		  "base_type": "activity",
-		  "properties": {
-			"adjustment": -3600,
-			"continue_on_failure": false,
-			"display_name": "Get the time 1 hour ago",
-			"original_date": "$workflow.definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2.output.start_time$",
-			"skip_execution": false
-		  },
-		  "object_type": "definition_activity"
-		},
-		{
-		  "unique_name": "definition_activity_01WJVU2U1YLVA1yZhqOyug6LbGSVPL76VI5",
-		  "name": "Webex Teams - Search for Room",
-		  "title": "Webex Teams - Search for Room",
-		  "type": "workflow.atomic_workflow",
-		  "base_type": "subworkflow",
-		  "properties": {
-			"continue_on_failure": true,
-			"display_name": "Webex Teams - Search for Room",
-			"input": {
-			  "variable_workflow_01PP790MCX1DN3EitpQebkUyJS65DbwS3nU": "$workflow.definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2.local.variable_workflow_01S26OGJC1MIC2lE4n2fRKEkeRAUWH3y6Hj$",
-			  "variable_workflow_01PP790MCXB392D3R8pxh9fgOTjTde2bcMW": "$workflow.definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2.local.variable_workflow_01S26OGJC2S3W5SNtSji2W2AHW10oYLBlSC$",
-			  "variable_workflow_01PP790MCXHP55YE6ylOEITWsWbUFJeyWGv": "",
-			  "variable_workflow_01PP790MCXM9W1MUwo85y8iNRCoQuQ4RGNa": ""
-			},
-			"runtime_user": {
-			  "target_default": true
-			},
-			"skip_execution": false,
-			"target": {
-			  "override_workflow_target_group_criteria": true,
-			  "target_group": {
-				"run_on_all_targets": false,
-				"use_criteria": {
-				  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-				  "conditions": [
-					{
-					  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-					  "operator": "eqi",
-					  "right_operand": "Webex Teams"
-					}
-				  ]
-				}
-			  }
-			},
-			"workflow_id": "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez",
-			"workflow_name": "Webex Teams - Search for Room"
-		  },
-		  "object_type": "definition_activity"
-		},
-		{
-		  "unique_name": "definition_activity_01WJVV9BW9E042hOzq14xeKAY9rgWNY3LOE",
-		  "name": "Condition Block",
-		  "title": "Was the Webex room found?",
-		  "type": "logic.if_else",
-		  "base_type": "activity",
-		  "properties": {
-			"continue_on_failure": false,
-			"display_name": "Was the Webex room found?",
-			"skip_execution": false
-		  },
-		  "object_type": "definition_activity",
-		  "blocks": [
-			{
-			  "unique_name": "definition_activity_01WJVV9EYFIGO1glM6AAr0k3kuIoJIPuwZ2",
-			  "name": "Condition Branch",
-			  "title": "No",
-			  "type": "logic.condition_block",
-			  "base_type": "activity",
-			  "properties": {
-				"condition": {
-				  "left_operand": "$activity.definition_activity_01WJVU2U1YLVA1yZhqOyug6LbGSVPL76VI5.output.succeeded$",
-				  "operator": "eq",
-				  "right_operand": false
-				},
-				"continue_on_failure": false,
-				"display_name": "No",
-				"skip_execution": false
-			  },
-			  "object_type": "definition_activity",
-			  "actions": [
-				{
-				  "unique_name": "definition_activity_01WJVW27GNV267LNaHqfjezP3L0Zwpo8RTj",
-				  "name": "Completed",
-				  "title": "Failed",
-				  "type": "logic.completed",
-				  "base_type": "activity",
-				  "properties": {
-					"completion_type": "failed-completed",
-					"continue_on_failure": false,
-					"display_name": "Failed",
-					"result_message": "Failed to fetch the room ID for Webex room \"$workflow.definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2.local.variable_workflow_01S26OGJC2S3W5SNtSji2W2AHW10oYLBlSC$\"",
-					"skip_execution": false
-				  },
-				  "object_type": "definition_activity"
-				}
-			  ]
-			}
-		  ]
-		},
-		{
-		  "unique_name": "definition_activity_01S26OHBASNKU3cAnT9lheEnybBqJj62L7F",
-		  "name": "HTTP Request",
-		  "title": "Fetch Meraki Security Events",
-		  "type": "web-service.http_request",
-		  "base_type": "activity",
-		  "properties": {
-			"accept": "application/json",
-			"action_timeout": 180,
-			"allow_auto_redirect": true,
-			"content_type": "application/json",
-			"continue_on_error_status_code": true,
-			"continue_on_failure": false,
-			"custom_headers": [
-			  {
-				"name": "X-Cisco-Meraki-API-Key",
-				"value": "$workflow.definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2.local.variable_workflow_01S26OGJC2DZM08kzmijV6KSuoqhHLKTNF5$"
-			  }
-			],
-			"display_name": "Fetch Meraki Security Events",
-			"method": "GET",
-			"relative_url": "/v1/organizations/$workflow.definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2.local.variable_workflow_01S26OGJC20DA3Ox1eUf3ijOFD3r1ImyPfE$/appliance/security/events?t0=$activity.definition_activity_01S26OH8QI3FC1Z7psyukh1Ux5yyNa6MYlR.output.result$",
-			"runtime_user": {
-			  "override_target_runtime_user": false,
-			  "target_default": true
-			},
-			"skip_execution": false,
-			"target": {
-			  "override_workflow_target_group_criteria": true,
-			  "target_group": {
-				"use_criteria": {
-				  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-				  "conditions": [
-					{
-					  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-					  "operator": "eqi",
-					  "right_operand": "Cisco Meraki"
-					}
-				  ]
-				}
-			  }
-			}
-		  },
-		  "object_type": "definition_activity"
-		},
-		{
-		  "unique_name": "definition_activity_01S26OHCC042Q79FOx05WQCW0N9eDNnl7tS",
-		  "name": "Condition Block",
-		  "title": "Was the request successful?",
-		  "type": "logic.if_else",
-		  "base_type": "activity",
-		  "properties": {
-			"continue_on_failure": false,
-			"display_name": "Was the request successful?",
-			"skip_execution": false
-		  },
-		  "object_type": "definition_activity",
-		  "blocks": [
-			{
-			  "unique_name": "definition_activity_01S26OHDFAV6D2hbvmIZS3CjGcbLotPmnz0",
-			  "name": "Condition Branch",
-			  "title": "200/Success",
-			  "type": "logic.condition_block",
-			  "base_type": "activity",
-			  "properties": {
-				"condition": {
-				  "left_operand": "$activity.definition_activity_01S26OHBASNKU3cAnT9lheEnybBqJj62L7F.output.status_code$",
-				  "operator": "eq",
-				  "right_operand": 200
-				},
-				"continue_on_failure": false,
-				"display_name": "200/Success",
-				"skip_execution": false
-			  },
-			  "object_type": "definition_activity",
-			  "actions": [
-				{
-				  "unique_name": "definition_activity_01S26OHF0TY2Z6xMOgS4i9Iv2nGw4ljINfB",
-				  "name": "Read Table from JSON",
-				  "title": "Parse Security Events",
-				  "type": "corejava.read_table_from_json",
-				  "base_type": "activity",
-				  "properties": {
-					"action_timeout": 180,
-					"continue_on_failure": false,
-					"display_name": "Parse Security Events",
-					"input_json": "$activity.definition_activity_01S26OHBASNKU3cAnT9lheEnybBqJj62L7F.output.response_body$",
-					"jsonpath_query": "$.",
-					"persist_output": true,
-					"populate_columns": false,
-					"skip_execution": false,
-					"table_columns": [
-					  {
-						"column_name": "eventType",
-						"column_type": "string"
-					  },
-					  {
-						"column_name": "action",
-						"column_type": "string"
-					  },
-					  {
-						"column_name": "blocked",
-						"column_type": "boolean"
-					  },
-					  {
-						"column_name": "priority",
-						"column_type": "string"
-					  },
-					  {
-						"column_name": "ruleId",
-						"column_type": "string"
-					  },
-					  {
-						"column_name": "fileHash",
-						"column_type": "string"
-					  },
-					  {
-						"column_name": "message",
-						"column_type": "string"
-					  },
-					  {
-						"column_name": "uri",
-						"column_type": "string"
-					  },
-					  {
-						"column_name": "srcIp",
-						"column_type": "string"
-					  },
-					  {
-						"column_name": "destIp",
-						"column_type": "string"
-					  },
-					  {
-						"column_name": "canonicalName",
-						"column_type": "string"
-					  },
-					  {
-						"column_name": "ts",
-						"column_type": "string"
-					  }
-					]
-				  },
-				  "object_type": "definition_activity"
-				},
-				{
-				  "unique_name": "definition_activity_01S277IRBPFD80gvwYIMus4jaLWTbJ9tgEP",
-				  "name": "Threat Response - Generate Access Token",
-				  "title": "Threat Response - Generate Access Token",
-				  "type": "workflow.atomic_workflow",
-				  "base_type": "subworkflow",
-				  "properties": {
-					"continue_on_failure": false,
-					"display_name": "Threat Response - Generate Access Token",
-					"runtime_user": {
-					  "target_default": true
-					},
-					"skip_execution": false,
-					"target": {
-					  "override_workflow_target_group_criteria": true,
-					  "target_group": {
-						"run_on_all_targets": false,
-						"use_criteria": {
-						  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-						  "conditions": [
-							{
-							  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-							  "operator": "eqi",
-							  "right_operand": "CTR_For_Access_Token"
-							}
-						  ]
-						}
-					  }
-					},
-					"workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH",
-					"workflow_name": "Threat Response - Generate Access Token"
-				  },
-				  "object_type": "definition_activity"
-				},
-				{
-				  "unique_name": "definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF",
-				  "name": "For Each",
-				  "title": "For Each Security Event",
-				  "type": "logic.for_each",
-				  "base_type": "activity",
-				  "properties": {
-					"continue_on_failure": false,
-					"display_name": "For Each Security Event",
-					"skip_execution": false,
-					"source_array": "$activity.definition_activity_01S26OHF0TY2Z6xMOgS4i9Iv2nGw4ljINfB.output.read_table_from_json$"
-				  },
-				  "object_type": "definition_activity",
-				  "actions": [
-					{
-					  "unique_name": "definition_activity_01S26OHHIS75B1BlEVv8S0wGaKV6QgTnLbx",
-					  "name": "Condition Block",
-					  "title": "What is the event type?",
-					  "type": "logic.if_else",
-					  "base_type": "activity",
-					  "properties": {
-						"continue_on_failure": false,
-						"display_name": "What is the event type?",
-						"skip_execution": false
-					  },
-					  "object_type": "definition_activity",
-					  "blocks": [
-						{
-						  "unique_name": "definition_activity_01S26OHIBW99V3FLOX2SVQVQMD8BilbkW9h",
-						  "name": "Condition Branch",
-						  "title": "Malware Downloaded",
-						  "type": "logic.condition_block",
-						  "base_type": "activity",
-						  "properties": {
-							"condition": {
-							  "left_operand": "$activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].eventType$",
-							  "operator": "eqi",
-							  "right_operand": "Malware Downloaded"
-							},
-							"continue_on_failure": false,
-							"display_name": "Malware Downloaded",
-							"skip_execution": false
-						  },
-						  "object_type": "definition_activity",
-						  "actions": [
-							{
-							  "unique_name": "definition_activity_01S27C9FTKOH413oM90cVlTtFJZFmphPJNd",
-							  "name": "Execute Python Script",
-							  "title": "Remove port from IP address",
-							  "type": "python3.script",
-							  "base_type": "activity",
-							  "properties": {
-								"action_timeout": 180,
-								"continue_on_failure": false,
-								"display_name": "Remove port from IP address",
-								"script": "import sys\nsource_ip_port = sys.argv[1]\ndest_ip_port = sys.argv[2]\nif \":\" in source_ip_port:\n  source_ip = source_ip_port.split(':')[0]\nif \":\" in dest_ip_port:\n  dest_ip = dest_ip_port.split(':')[0]",
-								"script_arguments": [
-								  "$activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].srcIp$",
-								  "$activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].destIp$"
-								],
-								"script_queries": [
-								  {
-									"script_query": "source_ip",
-									"script_query_name": "source_ip",
-									"script_query_type": "string"
-								  },
-								  {
-									"script_query": "dest_ip",
-									"script_query_name": "dest_ip",
-									"script_query_type": "string"
-								  }
-								],
-								"skip_execution": false
-							  },
-							  "object_type": "definition_activity"
-							},
-							{
-							  "unique_name": "definition_activity_01S276U070OFL5jiSK9dIYabgQp7No5ypm4",
-							  "name": "Threat Response - Create Sighting",
-							  "title": "Threat Response - Create Sighting",
-							  "type": "workflow.atomic_workflow",
-							  "base_type": "subworkflow",
-							  "properties": {
-								"continue_on_failure": false,
-								"display_name": "Threat Response - Create Sighting",
-								"input": {
-								  "variable_workflow_01PP74DHJ8XU51NVPLntEun5tp9o8KR83zJ": "[\n{\n\"type\": \"ip\",\n\"value\": \"$activity.definition_activity_01S27C9FTKOH413oM90cVlTtFJZFmphPJNd.output.script_queries.source_ip$\"\n},\n{\n\"type\": \"ip\",\n\"value\": \"$activity.definition_activity_01S27C9FTKOH413oM90cVlTtFJZFmphPJNd.output.script_queries.dest_ip$\"\n},\n{\n\"type\": \"sha256\",\n\"value\": \"$activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].fileHash$\"\n},\n{\n\"type\": \"url\",\n\"value\": \"$activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].uri$\"\n},\n{\n\"type\": \"file_name\",\n\"value\": \"$activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].canonicalName$\"\n}\n]",
-								  "variable_workflow_01PP74DHJ913T5hOMl3EkIZtk7LiiQ2y1lv": "High",
-								  "variable_workflow_01PP74DHJ93KY4W3oJh8Fg8G0FtZvIcWRnn": "[\n{\n\"type\": \"endpoint\",\n\"observables\": [\n{\n\"value\": \"$activity.definition_activity_01S27C9FTKOH413oM90cVlTtFJZFmphPJNd.output.script_queries.source_ip$\",\n\"type\": \"ip\"\n}\n],\n\"observed_time\": {\n\"start_time\": \"$activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ts$\"\n}\n}\n]",
-								  "variable_workflow_01PP74DHJ94QR7IwrK8FFJ7w9dF90hOhQPJ": "High",
-								  "variable_workflow_01PP74DHJ95XG4OD0Oerb03wh756BfcC48H": "**Meraki Security Event: Malware Downloaded for $activity.definition_activity_01S27C9FTKOH413oM90cVlTtFJZFmphPJNd.output.script_queries.source_ip$ @ $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ts$**\n\n*Please check incident tab and below for more information!*\n\n**Message:** $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].message$\n\n**File name:** $activity.For Each Security EVENT.input.Source Array[@].canonicalName$\n\n**Meraki Rule ID:** $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ruleId$\n\n**Action taken:** $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].action$",
-								  "variable_workflow_01PP74DHJ973W3os2PwE2QF1JBKKZxC18jZ": "$activity.definition_activity_01S277IRBPFD80gvwYIMus4jaLWTbJ9tgEP.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$",
-								  "variable_workflow_01PP74DHJ98JF0qum4O6sDBuhh4xcV7c0pE": "Meraki Security Event: Malware Downloaded for $activity.definition_activity_01S27C9FTKOH413oM90cVlTtFJZFmphPJNd.output.script_queries.source_ip$ @ $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ts$",
-								  "variable_workflow_01PP74DHJ99R34tbMy9eetTEbaLfWVGscCW": "amber"
-								},
-								"runtime_user": {
-								  "target_default": true
-								},
-								"skip_execution": false,
-								"target": {
-								  "use_workflow_target_group": true
-								},
-								"workflow_id": "definition_workflow_01PP74DHPLES477KZo2MCv9N9Dx5fza9wiU",
-								"workflow_name": "Threat Response - Create Sighting"
-							  },
-							  "object_type": "definition_activity"
-							},
-							{
-							  "unique_name": "definition_activity_01S277EOV14V73w58OT8b0JW87ejdv5cNX0",
-							  "name": "Threat Response - Create Incident",
-							  "title": "Threat Response - Create Incident",
-							  "type": "workflow.atomic_workflow",
-							  "base_type": "subworkflow",
-							  "properties": {
-								"continue_on_failure": false,
-								"description": "https://visibility.amp.cisco.com/incidents?q=id:incident-e221bf08-7e25-46c5-8c61-a9f3ad5254cd#summary",
-								"display_name": "Threat Response - Create Incident",
-								"input": {
-								  "variable_workflow_01PP773PC153N1sUPzhFqV9bCbaxsz3yDwH": "$activity.definition_activity_01S277IRBPFD80gvwYIMus4jaLWTbJ9tgEP.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$",
-								  "variable_workflow_01PP773PC19C57fpPyxEFzuX0kP8dAqdVoQ": "# Meraki Security Event: Malware Downloaded for $activity.definition_activity_01S27C9FTKOH413oM90cVlTtFJZFmphPJNd.output.script_queries.source_ip$ @ $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ts$\n\n## Please check sightings tab and below for more information.\n\n**Message:** [$activity.For Each Security EVENT.input.Source Array[@].message$]\n\n**File name:** $activity.For Each Security EVENT.input.Source Array[@].canonicalName$\n\n**Meraki Rule ID:** $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ruleId$\n\n**Action taken:** $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].action$",
-								  "variable_workflow_01PP773PC1ALV47FYVyDKQsPCuKzTZwYeyv": "New",
-								  "variable_workflow_01PP773PC1DZZ2rpbgvgD3IRrMsngkGxWkK": "Meraki Security Event: Malware Downloaded for $activity.definition_activity_01S27C9FTKOH413oM90cVlTtFJZFmphPJNd.output.script_queries.source_ip$ @ $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ts$",
-								  "variable_workflow_01PP773PC1F547IibuvGX89UFFJE9ZNlHgb": "amber",
-								  "variable_workflow_01PP773PC1G7V6ZMj5IyCTQcEPiVhQm1fYO": "High"
-								},
-								"runtime_user": {
-								  "target_default": true
-								},
-								"skip_execution": false,
-								"target": {
-								  "use_workflow_target_group": true
-								},
-								"workflow_id": "definition_workflow_01PP773PI1X3Y1YQWhirIL8Uy40Thd6ND7r",
-								"workflow_name": "Threat Response - Create Incident"
-							  },
-							  "object_type": "definition_activity"
-							},
-							{
-							  "unique_name": "definition_activity_01S277GAU9W043ZXzkyLM8cz8ctG4fdeFJh",
-							  "name": "Threat Response - Create Relationship",
-							  "title": "Threat Response - Create Relationship",
-							  "type": "workflow.atomic_workflow",
-							  "base_type": "subworkflow",
-							  "properties": {
-								"continue_on_failure": false,
-								"display_name": "Threat Response - Create Relationship",
-								"input": {
-								  "variable_workflow_01PP78LVV8JKR6NKKuym8RA2VYFgUJrR4qU": "$activity.definition_activity_01S277EOV14V73w58OT8b0JW87ejdv5cNX0.output.variable_workflow_01PP773PC1BPV1bDuA5gxMPKC5vx4EJTYXw$",
-								  "variable_workflow_01PP78LVV8NS94TRyx07G3ajwZ5eE5oWZ36": "Meraki Sighting for Incident",
-								  "variable_workflow_01PP78LVV8P3X5wkMhrcIXTnToxb6HxuLpk": "$activity.definition_activity_01S277IRBPFD80gvwYIMus4jaLWTbJ9tgEP.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$",
-								  "variable_workflow_01PP78LVV8QB314gJIqe5PQHoWnRTMtwhK4": "amber",
-								  "variable_workflow_01PP78LVV8RLZ02Yzy68Uz59X8kInnUomdU": "Meraki Sighting for Incident",
-								  "variable_workflow_01PP78LVV8SVF31gxGXEVhu26vewW98cJxO": "$activity.definition_activity_01S276U070OFL5jiSK9dIYabgQp7No5ypm4.output.variable_workflow_01PP74DHJ92FH4K1jCaTCFvVKlkim02lhCn$",
-								  "variable_workflow_01PP78LVV8V4B28e1wJKo9WReVhIZ3bvM6f": "related-to"
-								},
-								"runtime_user": {
-								  "target_default": true
-								},
-								"skip_execution": false,
-								"target": {
-								  "use_workflow_target_group": true
-								},
-								"workflow_id": "definition_workflow_01PP78LW2WNY80aDM6OHNiRu2VPG4BrR8bq",
-								"workflow_name": "Threat Response - Create Relationship"
-							  },
-							  "object_type": "definition_activity"
-							},
-							{
-							  "unique_name": "definition_activity_01S274G85RWZK1U6r4IJinl3ab9PxrsiFQQ",
-							  "name": "Webex Teams - Post Message to Room",
-							  "title": "Webex Teams - Post Message to Room",
-							  "type": "workflow.atomic_workflow",
-							  "base_type": "subworkflow",
-							  "properties": {
-								"continue_on_failure": false,
-								"display_name": "Webex Teams - Post Message to Room",
-								"input": {
-								  "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$activity.definition_activity_01WJVU2U1YLVA1yZhqOyug6LbGSVPL76VI5.output.variable_workflow_01PP790MCXJ7Y5cAWcGZWbG4Es0126zb1I6$",
-								  "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$workflow.definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2.local.variable_workflow_01S26OGJC1MIC2lE4n2fRKEkeRAUWH3y6Hj$",
-								  "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "**Malware Downloaded @ $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ts$!**\n\n*Message:* $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].message$\n\n*File Hash:* $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].fileHash$\n\n*Source IP and Port:* $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].srcIp$\n\n*Destination IP and Port:* $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].destIp$\n\n*Timestamp event:* $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ts$\n\n**SECUREX INCIDENT:** https://visibility.amp.cisco.com/incidents?q=id:$activity.definition_activity_01S277EOV14V73w58OT8b0JW87ejdv5cNX0.output.variable_workflow_01PP773PC1CVM3SzJJrvuZfEsO3Nbw7IO7S$\n\n**INVESTIGATE WITH THREAT RESPONSE:** https://visibility.amp.cisco.com/investigate?q=ip%3A$activity.definition_activity_01S27C9FTKOH413oM90cVlTtFJZFmphPJNd.output.script_queries.source_ip$%0Aip%3A$activity.definition_activity_01S27C9FTKOH413oM90cVlTtFJZFmphPJNd.output.script_queries.dest_ip$%0Aurl%3A$activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].uri$%0Asha256%3A$activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].fileHash$",
-								  "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": "",
-								  "variable_workflow_01SVERQNMKN8N6vqX2djMtAfshphGydGsH8": ""
-								},
-								"runtime_user": {
-								  "target_default": true
-								},
-								"skip_execution": false,
-								"target": {
-								  "override_workflow_target_group_criteria": true,
-								  "target_group": {
-									"run_on_all_targets": false,
-									"use_criteria": {
-									  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-									  "conditions": [
-										{
-										  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-										  "operator": "eqi",
-										  "right_operand": "Webex Teams"
-										}
-									  ]
-									}
-								  }
-								},
-								"workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw",
-								"workflow_name": "Webex Teams - Post Message to Room"
-							  },
-							  "object_type": "definition_activity"
-							}
-						  ]
-						},
-						{
-						  "unique_name": "definition_activity_01S290HK506MN1gMyVkRJzC5arOYBpGYpHL",
-						  "name": "Condition Branch",
-						  "title": "IDS Alert Priority 1",
-						  "type": "logic.condition_block",
-						  "base_type": "activity",
-						  "properties": {
-							"condition": {
-							  "left_operand": {
-								"left_operand": "$activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].eventType$",
-								"operator": "eqi",
-								"right_operand": "IDS Alert"
-							  },
-							  "operator": "and",
-							  "right_operand": {
-								"left_operand": "$activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].priority$",
-								"operator": "eq",
-								"right_operand": "1"
-							  }
-							},
-							"continue_on_failure": false,
-							"display_name": "IDS Alert Priority 1",
-							"skip_execution": false
-						  },
-						  "object_type": "definition_activity",
-						  "actions": [
-							{
-							  "unique_name": "definition_activity_01S290HK542EE43MVXV7ECxrGf0rCbugmVG",
-							  "name": "Execute Python Script",
-							  "title": "Remove port from IP address",
-							  "type": "python3.script",
-							  "base_type": "activity",
-							  "properties": {
-								"action_timeout": 180,
-								"continue_on_failure": false,
-								"display_name": "Remove port from IP address",
-								"script": "import sys\nsource_ip_port = sys.argv[1]\ndest_ip_port = sys.argv[2]\nif \":\" in source_ip_port:\n  source_ip = source_ip_port.split(':')[0]\nif \":\" in dest_ip_port:\n  dest_ip = dest_ip_port.split(':')[0]",
-								"script_arguments": [
-								  "$activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].srcIp$",
-								  "$activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].destIp$"
-								],
-								"script_queries": [
-								  {
-									"script_query": "source_ip",
-									"script_query_name": "source_ip",
-									"script_query_type": "string"
-								  },
-								  {
-									"script_query": "dest_ip",
-									"script_query_name": "dest_ip",
-									"script_query_type": "string"
-								  }
-								],
-								"skip_execution": false
-							  },
-							  "object_type": "definition_activity"
-							},
-							{
-							  "unique_name": "definition_activity_01S290HK588XT39sgxdJunqkWRuwRH9n9KD",
-							  "name": "Threat Response - Create Sighting",
-							  "title": "Threat Response - Create Sighting",
-							  "type": "workflow.atomic_workflow",
-							  "base_type": "subworkflow",
-							  "properties": {
-								"continue_on_failure": false,
-								"display_name": "Threat Response - Create Sighting",
-								"input": {
-								  "variable_workflow_01PP74DHJ8XU51NVPLntEun5tp9o8KR83zJ": "[\n{\n\"type\": \"ip\",\n\"value\": \"$activity.definition_activity_01S290HK542EE43MVXV7ECxrGf0rCbugmVG.output.script_queries.source_ip$\"\n},\n{\n\"type\": \"ip\",\n\"value\": \"$activity.definition_activity_01S290HK542EE43MVXV7ECxrGf0rCbugmVG.output.script_queries.dest_ip$\"\n}\n]",
-								  "variable_workflow_01PP74DHJ913T5hOMl3EkIZtk7LiiQ2y1lv": "High",
-								  "variable_workflow_01PP74DHJ93KY4W3oJh8Fg8G0FtZvIcWRnn": "[\n{\n\"type\": \"endpoint\",\n\"observables\": [\n{\n\"value\": \"$activity.definition_activity_01S290HK542EE43MVXV7ECxrGf0rCbugmVG.output.script_queries.source_ip$\",\n\"type\": \"ip\"\n}\n],\n\"observed_time\": {\n\"start_time\": \"$activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ts$\"\n}\n}\n]",
-								  "variable_workflow_01PP74DHJ94QR7IwrK8FFJ7w9dF90hOhQPJ": "High",
-								  "variable_workflow_01PP74DHJ95XG4OD0Oerb03wh756BfcC48H": "**Meraki Security Event: IDS Alert Priority 1 for $activity.definition_activity_01S290HK542EE43MVXV7ECxrGf0rCbugmVG.output.script_queries.source_ip$ @ $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ts$**\n\n*Please check incident tab and below for more information!*\n\n**Message:** $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].message$\n\n**Meraki Rule ID:** $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ruleId$\n\n**Action taken:** $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].action$",
-								  "variable_workflow_01PP74DHJ973W3os2PwE2QF1JBKKZxC18jZ": "$activity.definition_activity_01S277IRBPFD80gvwYIMus4jaLWTbJ9tgEP.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$",
-								  "variable_workflow_01PP74DHJ98JF0qum4O6sDBuhh4xcV7c0pE": "Meraki Security Event: IDS Alert Priority 1 for $activity.definition_activity_01S290HK542EE43MVXV7ECxrGf0rCbugmVG.output.script_queries.source_ip$ @ $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ts$",
-								  "variable_workflow_01PP74DHJ99R34tbMy9eetTEbaLfWVGscCW": "amber"
-								},
-								"runtime_user": {
-								  "target_default": true
-								},
-								"skip_execution": false,
-								"target": {
-								  "use_workflow_target_group": true
-								},
-								"workflow_id": "definition_workflow_01PP74DHPLES477KZo2MCv9N9Dx5fza9wiU",
-								"workflow_name": "Threat Response - Create Sighting"
-							  },
-							  "object_type": "definition_activity"
-							},
-							{
-							  "unique_name": "definition_activity_01S290HK59XYW2FgS24yENSRwrGqsDmxqYc",
-							  "name": "Threat Response - Create Incident",
-							  "title": "Threat Response - Create Incident",
-							  "type": "workflow.atomic_workflow",
-							  "base_type": "subworkflow",
-							  "properties": {
-								"continue_on_failure": false,
-								"description": "https://visibility.amp.cisco.com/incidents?q=id:incident-e221bf08-7e25-46c5-8c61-a9f3ad5254cd#summary",
-								"display_name": "Threat Response - Create Incident",
-								"input": {
-								  "variable_workflow_01PP773PC153N1sUPzhFqV9bCbaxsz3yDwH": "$activity.definition_activity_01S277IRBPFD80gvwYIMus4jaLWTbJ9tgEP.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$",
-								  "variable_workflow_01PP773PC19C57fpPyxEFzuX0kP8dAqdVoQ": "# Meraki Security Event: IDS Alert Priority 1 for $activity.definition_activity_01S290HK542EE43MVXV7ECxrGf0rCbugmVG.output.script_queries.source_ip$ @ $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ts$\n\n## Please check sightings tab and below for more information.\n\n**Message:** $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].message$\n\n**Meraki Rule ID:** $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ruleId$\n\n**Action taken:** $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].action$",
-								  "variable_workflow_01PP773PC1ALV47FYVyDKQsPCuKzTZwYeyv": "New",
-								  "variable_workflow_01PP773PC1DZZ2rpbgvgD3IRrMsngkGxWkK": "Meraki Security Event: IDS Alert Priority 1 for $activity.definition_activity_01S290HK542EE43MVXV7ECxrGf0rCbugmVG.output.script_queries.source_ip$ @ $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ts$",
-								  "variable_workflow_01PP773PC1F547IibuvGX89UFFJE9ZNlHgb": "amber",
-								  "variable_workflow_01PP773PC1G7V6ZMj5IyCTQcEPiVhQm1fYO": "High"
-								},
-								"runtime_user": {
-								  "target_default": true
-								},
-								"skip_execution": false,
-								"target": {
-								  "use_workflow_target_group": true
-								},
-								"workflow_id": "definition_workflow_01PP773PI1X3Y1YQWhirIL8Uy40Thd6ND7r",
-								"workflow_name": "Threat Response - Create Incident"
-							  },
-							  "object_type": "definition_activity"
-							},
-							{
-							  "unique_name": "definition_activity_01S290HK5E0SS6lAjcjCrNDvz0vwbha1Kha",
-							  "name": "Threat Response - Create Relationship",
-							  "title": "Threat Response - Create Relationship",
-							  "type": "workflow.atomic_workflow",
-							  "base_type": "subworkflow",
-							  "properties": {
-								"continue_on_failure": false,
-								"display_name": "Threat Response - Create Relationship",
-								"input": {
-								  "variable_workflow_01PP78LVV8JKR6NKKuym8RA2VYFgUJrR4qU": "$activity.definition_activity_01S290HK59XYW2FgS24yENSRwrGqsDmxqYc.output.variable_workflow_01PP773PC1BPV1bDuA5gxMPKC5vx4EJTYXw$",
-								  "variable_workflow_01PP78LVV8NS94TRyx07G3ajwZ5eE5oWZ36": "Meraki Sighting for Incident",
-								  "variable_workflow_01PP78LVV8P3X5wkMhrcIXTnToxb6HxuLpk": "$activity.definition_activity_01S277IRBPFD80gvwYIMus4jaLWTbJ9tgEP.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$",
-								  "variable_workflow_01PP78LVV8QB314gJIqe5PQHoWnRTMtwhK4": "amber",
-								  "variable_workflow_01PP78LVV8RLZ02Yzy68Uz59X8kInnUomdU": "Meraki Sighting for Incident",
-								  "variable_workflow_01PP78LVV8SVF31gxGXEVhu26vewW98cJxO": "$activity.definition_activity_01S290HK588XT39sgxdJunqkWRuwRH9n9KD.output.variable_workflow_01PP74DHJ92FH4K1jCaTCFvVKlkim02lhCn$",
-								  "variable_workflow_01PP78LVV8V4B28e1wJKo9WReVhIZ3bvM6f": "related-to"
-								},
-								"runtime_user": {
-								  "target_default": true
-								},
-								"skip_execution": false,
-								"target": {
-								  "use_workflow_target_group": true
-								},
-								"workflow_id": "definition_workflow_01PP78LW2WNY80aDM6OHNiRu2VPG4BrR8bq",
-								"workflow_name": "Threat Response - Create Relationship"
-							  },
-							  "object_type": "definition_activity"
-							},
-							{
-							  "unique_name": "definition_activity_01S290HK5F2CD2F4sFemuBzra5pbEU1v59g",
-							  "name": "Webex Teams - Post Message to Room",
-							  "title": "Webex Teams - Post Message to Room",
-							  "type": "workflow.atomic_workflow",
-							  "base_type": "subworkflow",
-							  "properties": {
-								"continue_on_failure": false,
-								"display_name": "Webex Teams - Post Message to Room",
-								"input": {
-								  "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$activity.definition_activity_01WJVU2U1YLVA1yZhqOyug6LbGSVPL76VI5.output.variable_workflow_01PP790MCXJ7Y5cAWcGZWbG4Es0126zb1I6$",
-								  "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$workflow.definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2.local.variable_workflow_01S26OGJC1MIC2lE4n2fRKEkeRAUWH3y6Hj$",
-								  "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "**Meraki Security Event: IDS Alert Priority 1 @ $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ts$!**\n\n*Message:* $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].message$\n\n*Source IP and Port:* $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].srcIp$\n\n*Destination IP and Port:* $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].destIp$\n\n*Timestamp event:* $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ts$\n\n**SECUREX INCIDENT:** https://visibility.amp.cisco.com/incidents?q=id:$activity.definition_activity_01S290HK59XYW2FgS24yENSRwrGqsDmxqYc.output.variable_workflow_01PP773PC1CVM3SzJJrvuZfEsO3Nbw7IO7S$\n\n**INVESTIGATE WITH THREAT RESPONSE:** https://visibility.amp.cisco.com/investigate?q=ip%3A$activity.definition_activity_01S290HK542EE43MVXV7ECxrGf0rCbugmVG.output.script_queries.source_ip$%0Aip%3A$activity.definition_activity_01S290HK542EE43MVXV7ECxrGf0rCbugmVG.output.script_queries.dest_ip$",
-								  "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": "",
-								  "variable_workflow_01SVERQNMKN8N6vqX2djMtAfshphGydGsH8": ""
-								},
-								"runtime_user": {
-								  "target_default": true
-								},
-								"skip_execution": false,
-								"target": {
-								  "override_workflow_target_group_criteria": true,
-								  "target_group": {
-									"run_on_all_targets": false,
-									"use_criteria": {
-									  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-									  "conditions": [
-										{
-										  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-										  "operator": "eqi",
-										  "right_operand": "Webex Teams"
-										}
-									  ]
-									}
-								  }
-								},
-								"workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw",
-								"workflow_name": "Webex Teams - Post Message to Room"
-							  },
-							  "object_type": "definition_activity"
-							}
-						  ]
-						}
-					  ]
-					}
-				  ]
-				}
-			  ]
-			},
-			{
-			  "unique_name": "definition_activity_01S26OHUMWGGM2cU3rTTOiPFjYACsA6rkQJ",
-			  "name": "Condition Branch",
-			  "title": "Anything else",
-			  "type": "logic.condition_block",
-			  "base_type": "activity",
-			  "properties": {
-				"condition": {
-				  "left_operand": "$activity.definition_activity_01S26OHBASNKU3cAnT9lheEnybBqJj62L7F.output.status_code$",
-				  "operator": "ne",
-				  "right_operand": 200
-				},
-				"continue_on_failure": false,
-				"display_name": "Anything else",
-				"skip_execution": false
-			  },
-			  "object_type": "definition_activity",
-			  "actions": [
-				{
-				  "unique_name": "definition_activity_01S26OHX5TIW236aWo593Wikju3U7IL2lJd",
-				  "name": "Completed",
-				  "title": "Failed",
-				  "type": "logic.completed",
-				  "base_type": "activity",
-				  "properties": {
-					"completion_type": "failed-completed",
-					"continue_on_failure": false,
-					"display_name": "Failed",
-					"result_message": "Failed to fetch security events from Meraki\n\nStatus code: $activity.definition_activity_01S26OHBASNKU3cAnT9lheEnybBqJj62L7F.output.status_code$\nResponse body: $activity.definition_activity_01S26OHBASNKU3cAnT9lheEnybBqJj62L7F.output.response_body$",
-					"skip_execution": false
-				  },
-				  "object_type": "definition_activity"
-				}
-			  ]
-			}
-		  ]
-		}
-	  ],
-	  "categories": [
-		"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
-	  ]
-	},
-	"target_groups": {
-	  "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
-		"unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
-		"name": "Default TargetGroup",
-		"title": "Default TargetGroup",
-		"type": "generic.target_group",
-		"base_type": "target_group",
-		"version": "1.0.0",
-		"targets": [
-		  {
-			"data_target_type": "web-service.endpoint",
-			"view_target_type": "web-service.endpoint",
-			"include_all_targets": true
-		  },
-		  {
-			"data_target_type": "email.smtp_endpoint",
-			"view_target_type": "email.smtp_endpoint",
-			"include_all_targets": true
-		  }
-		],
-		"object_type": "target_group"
-	  }
-	},
-	"atomic_workflows": [
-	  "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw",
-	  "definition_workflow_01PP74DHPLES477KZo2MCv9N9Dx5fza9wiU",
-	  "definition_workflow_01PP773PI1X3Y1YQWhirIL8Uy40Thd6ND7r",
-	  "definition_workflow_01PP78LW2WNY80aDM6OHNiRu2VPG4BrR8bq",
-	  "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez",
-	  "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
-	],
-	"dependent_workflows": [
-	  "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez",
-	  "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH",
-	  "definition_workflow_01PP74DHPLES477KZo2MCv9N9Dx5fza9wiU",
-	  "definition_workflow_01PP773PI1X3Y1YQWhirIL8Uy40Thd6ND7r",
-	  "definition_workflow_01PP78LW2WNY80aDM6OHNiRu2VPG4BrR8bq",
-	  "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw"
-	]
-  }
+    "workflow": {
+        "unique_name": "definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2",
+        "name": "0061 - Meraki - MX - Security Events to Incidents",
+        "title": "0061 - Meraki - MX - Security Events to Incidents",
+        "type": "generic.workflow",
+        "base_type": "workflow",
+        "variables": [
+            {
+                "schema_id": "datatype.secure_string",
+                "properties": {
+                    "value": "",
+                    "scope": "local",
+                    "name": "Webex Access Token",
+                    "type": "datatype.secure_string",
+                    "description": "The access token to use to authenticate to the Webex API. Information about using a bot, which is what we recommend, can be found here: https:\/\/developer.webex.com\/docs\/bots",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01S26OGJC1MIC2lE4n2fRKEkeRAUWH3y6Hj",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.secure_string",
+                "properties": {
+                    "value": "",
+                    "scope": "local",
+                    "name": "Meraki API Key",
+                    "type": "datatype.secure_string",
+                    "description": "Your Meraki API key. This can be generated in your Meraki dashboard",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01S26OGJC2DZM08kzmijV6KSuoqhHLKTNF5",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "SecureX Orchestration",
+                    "scope": "local",
+                    "name": "Webex Room Name",
+                    "type": "datatype.string",
+                    "description": "The name of the Webex room to post messages to. If using a bot, make sure to invite your bot to the room before attempting to send messages",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01S26OGJC2S3W5SNtSji2W2AHW10oYLBlSC",
+                "object_type": "variable_workflow"
+            },
+            {
+                "schema_id": "datatype.string",
+                "properties": {
+                    "value": "",
+                    "scope": "local",
+                    "name": "Meraki Organization ID",
+                    "type": "datatype.string",
+                    "description": "The ID of the Meraki organization you want to fetch security events for. You can find this ID in your Meraki dashboard",
+                    "is_required": false,
+                    "is_invisible": false
+                },
+                "unique_name": "variable_workflow_01S26OGJC20DA3Ox1eUf3ijOFD3r1ImyPfE",
+                "object_type": "variable_workflow"
+            }
+        ],
+        "properties": {
+            "atomic": {
+                "is_atomic": false
+            },
+            "delete_workflow_instance": false,
+            "description": "This workflow fetches security events for the last hour from Meraki for a specific organization. If there are any Malware Downloaded or IDS Priority 1 events, a sighting and incident are created in Threat Response and a Webex message is sent.\n\nNote: This workflow has been updated to support SecureX Token account keys. See the workflow documentation for more information.\n\nDocumentation: https:\/\/ciscosecurity.github.io\/sxo-05-security-workflows\/workflows\/0061\n\nTarget Group: Default TargetGroup\n\nTargets: Cisco Meraki, Private_CTIA_Target, Webex Teams\n\nSteps:\n[] Fetch global variables\n[] Calculate the time 1 hour ago\n[] Make sure the Webex room exists\n[] Fetch security events from Meraki\n[] Check if the events were retrieved successfully:\n[] If not, end the workflow\n[] If they were:\n[]> Loop through each event checking if it's an event type we care about\n[]> If it is, strip the ports from the IPs, create the Threat Response objects, and send a Webex message",
+            "display_name": "0061 - Meraki - MX - Security Events to Incidents",
+            "runtime_user": {
+                "target_default": true
+            },
+            "target": {
+                "execute_on_target_group": true,
+                "target_group": {
+                    "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+                    "run_on_all_targets": false,
+                    "selected_target_types": [
+                        "web-service.endpoint"
+                    ],
+                    "use_criteria": {
+                        "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                        "conditions": [
+                            {
+                                "operator": "eqi",
+                                "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                "right_operand": "Private_CTIA_Target"
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        "object_type": "definition_workflow",
+        "actions": [
+            {
+                "unique_name": "definition_activity_01WJVU5L7L6WS0GhQcCmiL2wDCdmWtjt5CC",
+                "name": "Group",
+                "title": "Fetch Global Variables",
+                "type": "logic.group",
+                "base_type": "activity",
+                "properties": {
+                    "continue_on_failure": false,
+                    "display_name": "Fetch Global Variables",
+                    "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                    {
+                        "unique_name": "definition_activity_01WJVU9GHL44Y16NRCt4bRChEV2gFaCgHcq",
+                        "name": "Set Variables",
+                        "title": "Set local variables",
+                        "type": "core.set_multiple_variables",
+                        "base_type": "activity",
+                        "properties": {
+                            "continue_on_failure": false,
+                            "display_name": "Set local variables",
+                            "skip_execution": true,
+                            "variables_to_update": [
+                                {
+                                    "variable_to_update": "$workflow.definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2.local.variable_workflow_01S26OGJC1MIC2lE4n2fRKEkeRAUWH3y6Hj$",
+                                    "variable_value_new": ""
+                                },
+                                {
+                                    "variable_to_update": "$workflow.definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2.local.variable_workflow_01S26OGJC2DZM08kzmijV6KSuoqhHLKTNF5$",
+                                    "variable_value_new": ""
+                                },
+                                {
+                                    "variable_to_update": "$workflow.definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2.local.variable_workflow_01S26OGJC20DA3Ox1eUf3ijOFD3r1ImyPfE$",
+                                    "variable_value_new": ""
+                                }
+                            ]
+                        },
+                        "object_type": "definition_activity"
+                    }
+                ]
+            },
+            {
+                "unique_name": "definition_activity_01S26OH8QI3FC1Z7psyukh1Ux5yyNa6MYlR",
+                "name": "Calculate Date",
+                "title": "Get the time 1 hour ago",
+                "type": "core.calculate_date",
+                "base_type": "activity",
+                "properties": {
+                    "adjustment": -3600,
+                    "continue_on_failure": false,
+                    "display_name": "Get the time 1 hour ago",
+                    "original_date": "$workflow.definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2.output.start_time$",
+                    "skip_execution": false
+                },
+                "object_type": "definition_activity"
+            },
+            {
+                "unique_name": "definition_activity_01WJVU2U1YLVA1yZhqOyug6LbGSVPL76VI5",
+                "name": "Webex - Search for Room",
+                "title": "Webex - Search for Room",
+                "type": "workflow.atomic_workflow",
+                "base_type": "subworkflow",
+                "properties": {
+                    "continue_on_failure": true,
+                    "display_name": "Webex - Search for Room",
+                    "input": {
+                        "variable_workflow_01PP790MCX1DN3EitpQebkUyJS65DbwS3nU": "$workflow.definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2.local.variable_workflow_01S26OGJC1MIC2lE4n2fRKEkeRAUWH3y6Hj$",
+                        "variable_workflow_01PP790MCXB392D3R8pxh9fgOTjTde2bcMW": "$workflow.definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2.local.variable_workflow_01S26OGJC2S3W5SNtSji2W2AHW10oYLBlSC$",
+                        "variable_workflow_01PP790MCXHP55YE6ylOEITWsWbUFJeyWGv": "",
+                        "variable_workflow_01PP790MCXM9W1MUwo85y8iNRCoQuQ4RGNa": ""
+                    },
+                    "runtime_user": {
+                        "target_default": true
+                    },
+                    "skip_execution": false,
+                    "target": {
+                        "override_workflow_target_group_criteria": true,
+                        "target_group": {
+                            "run_on_all_targets": false,
+                            "use_criteria": {
+                                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                "conditions": [
+                                    {
+                                        "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                        "operator": "eqi",
+                                        "right_operand": "Webex Teams"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "workflow_id": "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez",
+                    "workflow_name": "Webex - Search for Room"
+                },
+                "object_type": "definition_activity"
+            },
+            {
+                "unique_name": "definition_activity_01WJVV9BW9E042hOzq14xeKAY9rgWNY3LOE",
+                "name": "Condition Block",
+                "title": "Was the Webex room found?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                    "continue_on_failure": false,
+                    "display_name": "Was the Webex room found?",
+                    "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                    {
+                        "unique_name": "definition_activity_01WJVV9EYFIGO1glM6AAr0k3kuIoJIPuwZ2",
+                        "name": "Condition Branch",
+                        "title": "No",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$activity.definition_activity_01WJVU2U1YLVA1yZhqOyug6LbGSVPL76VI5.output.succeeded$",
+                                "operator": "eq",
+                                "right_operand": false
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "No",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01WJVW27GNV267LNaHqfjezP3L0Zwpo8RTj",
+                                "name": "Completed",
+                                "title": "Failed",
+                                "type": "logic.completed",
+                                "base_type": "activity",
+                                "properties": {
+                                    "completion_type": "failed-completed",
+                                    "continue_on_failure": false,
+                                    "display_name": "Failed",
+                                    "result_message": "Failed to fetch the room ID for Webex room \"$workflow.definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2.local.variable_workflow_01S26OGJC2S3W5SNtSji2W2AHW10oYLBlSC$\"",
+                                    "skip_execution": false
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "unique_name": "definition_activity_01S26OHBASNKU3cAnT9lheEnybBqJj62L7F",
+                "name": "HTTP Request",
+                "title": "Fetch Meraki Security Events",
+                "type": "web-service.http_request",
+                "base_type": "activity",
+                "properties": {
+                    "accept": "application\/json",
+                    "action_timeout": 180,
+                    "allow_auto_redirect": true,
+                    "content_type": "application\/json",
+                    "continue_on_error_status_code": true,
+                    "continue_on_failure": false,
+                    "custom_headers": [
+                        {
+                            "name": "X-Cisco-Meraki-API-Key",
+                            "value": "$workflow.definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2.local.variable_workflow_01S26OGJC2DZM08kzmijV6KSuoqhHLKTNF5$"
+                        }
+                    ],
+                    "display_name": "Fetch Meraki Security Events",
+                    "method": "GET",
+                    "relative_url": "\/v1\/organizations\/$workflow.definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2.local.variable_workflow_01S26OGJC20DA3Ox1eUf3ijOFD3r1ImyPfE$\/appliance\/security\/events?t0=$activity.definition_activity_01S26OH8QI3FC1Z7psyukh1Ux5yyNa6MYlR.output.result$",
+                    "runtime_user": {
+                        "override_target_runtime_user": false,
+                        "target_default": true
+                    },
+                    "skip_execution": false,
+                    "target": {
+                        "override_workflow_target_group_criteria": true,
+                        "target_group": {
+                            "use_criteria": {
+                                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                "conditions": [
+                                    {
+                                        "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                        "operator": "eqi",
+                                        "right_operand": "Cisco Meraki"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "object_type": "definition_activity"
+            },
+            {
+                "unique_name": "definition_activity_01S26OHCC042Q79FOx05WQCW0N9eDNnl7tS",
+                "name": "Condition Block",
+                "title": "Was the request successful?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                    "continue_on_failure": false,
+                    "display_name": "Was the request successful?",
+                    "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                    {
+                        "unique_name": "definition_activity_01S26OHDFAV6D2hbvmIZS3CjGcbLotPmnz0",
+                        "name": "Condition Branch",
+                        "title": "200\/Success",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$activity.definition_activity_01S26OHBASNKU3cAnT9lheEnybBqJj62L7F.output.status_code$",
+                                "operator": "eq",
+                                "right_operand": 200
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "200\/Success",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01S26OHF0TY2Z6xMOgS4i9Iv2nGw4ljINfB",
+                                "name": "Read Table from JSON",
+                                "title": "Parse Security Events",
+                                "type": "corejava.read_table_from_json",
+                                "base_type": "activity",
+                                "properties": {
+                                    "action_timeout": 180,
+                                    "continue_on_failure": false,
+                                    "display_name": "Parse Security Events",
+                                    "input_json": "$activity.definition_activity_01S26OHBASNKU3cAnT9lheEnybBqJj62L7F.output.response_body$",
+                                    "jsonpath_query": "$.",
+                                    "persist_output": true,
+                                    "populate_columns": false,
+                                    "skip_execution": false,
+                                    "table_columns": [
+                                        {
+                                            "column_name": "eventType",
+                                            "column_type": "string"
+                                        },
+                                        {
+                                            "column_name": "action",
+                                            "column_type": "string"
+                                        },
+                                        {
+                                            "column_name": "blocked",
+                                            "column_type": "boolean"
+                                        },
+                                        {
+                                            "column_name": "priority",
+                                            "column_type": "string"
+                                        },
+                                        {
+                                            "column_name": "ruleId",
+                                            "column_type": "string"
+                                        },
+                                        {
+                                            "column_name": "fileHash",
+                                            "column_type": "string"
+                                        },
+                                        {
+                                            "column_name": "message",
+                                            "column_type": "string"
+                                        },
+                                        {
+                                            "column_name": "uri",
+                                            "column_type": "string"
+                                        },
+                                        {
+                                            "column_name": "srcIp",
+                                            "column_type": "string"
+                                        },
+                                        {
+                                            "column_name": "destIp",
+                                            "column_type": "string"
+                                        },
+                                        {
+                                            "column_name": "canonicalName",
+                                            "column_type": "string"
+                                        },
+                                        {
+                                            "column_name": "ts",
+                                            "column_type": "string"
+                                        }
+                                    ]
+                                },
+                                "object_type": "definition_activity"
+                            },
+                            {
+                                "unique_name": "definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF",
+                                "name": "For Each",
+                                "title": "For Each Security Event",
+                                "type": "logic.for_each",
+                                "base_type": "activity",
+                                "properties": {
+                                    "continue_on_failure": false,
+                                    "display_name": "For Each Security Event",
+                                    "skip_execution": false,
+                                    "source_array": "$activity.definition_activity_01S26OHF0TY2Z6xMOgS4i9Iv2nGw4ljINfB.output.read_table_from_json$"
+                                },
+                                "object_type": "definition_activity",
+                                "actions": [
+                                    {
+                                        "unique_name": "definition_activity_01S26OHHIS75B1BlEVv8S0wGaKV6QgTnLbx",
+                                        "name": "Condition Block",
+                                        "title": "What is the event type?",
+                                        "type": "logic.if_else",
+                                        "base_type": "activity",
+                                        "properties": {
+                                            "continue_on_failure": false,
+                                            "display_name": "What is the event type?",
+                                            "skip_execution": false
+                                        },
+                                        "object_type": "definition_activity",
+                                        "blocks": [
+                                            {
+                                                "unique_name": "definition_activity_01S26OHIBW99V3FLOX2SVQVQMD8BilbkW9h",
+                                                "name": "Condition Branch",
+                                                "title": "Malware Downloaded",
+                                                "type": "logic.condition_block",
+                                                "base_type": "activity",
+                                                "properties": {
+                                                    "condition": {
+                                                        "left_operand": "$activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].eventType$",
+                                                        "operator": "eqi",
+                                                        "right_operand": "Malware Downloaded"
+                                                    },
+                                                    "continue_on_failure": false,
+                                                    "display_name": "Malware Downloaded",
+                                                    "skip_execution": false
+                                                },
+                                                "object_type": "definition_activity",
+                                                "actions": [
+                                                    {
+                                                        "unique_name": "definition_activity_01S27C9FTKOH413oM90cVlTtFJZFmphPJNd",
+                                                        "name": "Execute Python Script",
+                                                        "title": "Remove port from IP address",
+                                                        "type": "python3.script",
+                                                        "base_type": "activity",
+                                                        "properties": {
+                                                            "action_timeout": 180,
+                                                            "continue_on_failure": false,
+                                                            "display_name": "Remove port from IP address",
+                                                            "script": "import sys\nsource_ip_port = sys.argv[1]\ndest_ip_port = sys.argv[2]\nif \":\" in source_ip_port:\n  source_ip = source_ip_port.split(':')[0]\nif \":\" in dest_ip_port:\n  dest_ip = dest_ip_port.split(':')[0]",
+                                                            "script_arguments": [
+                                                                "$activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].srcIp$",
+                                                                "$activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].destIp$"
+                                                            ],
+                                                            "script_queries": [
+                                                                {
+                                                                    "script_query": "source_ip",
+                                                                    "script_query_name": "source_ip",
+                                                                    "script_query_type": "string"
+                                                                },
+                                                                {
+                                                                    "script_query": "dest_ip",
+                                                                    "script_query_name": "dest_ip",
+                                                                    "script_query_type": "string"
+                                                                }
+                                                            ],
+                                                            "skip_execution": false
+                                                        },
+                                                        "object_type": "definition_activity"
+                                                    },
+                                                    {
+                                                        "unique_name": "definition_activity_01S276U070OFL5jiSK9dIYabgQp7No5ypm4",
+                                                        "name": "Threat Response - Create Sighting",
+                                                        "title": "Threat Response - Create Sighting",
+                                                        "type": "workflow.atomic_workflow",
+                                                        "base_type": "subworkflow",
+                                                        "properties": {
+                                                            "continue_on_failure": false,
+                                                            "display_name": "Threat Response - Create Sighting",
+                                                            "input": {
+                                                                "variable_workflow_01PP74DHJ8XU51NVPLntEun5tp9o8KR83zJ": "[\n{\n\"type\": \"ip\",\n\"value\": \"$activity.definition_activity_01S27C9FTKOH413oM90cVlTtFJZFmphPJNd.output.script_queries.source_ip$\"\n},\n{\n\"type\": \"ip\",\n\"value\": \"$activity.definition_activity_01S27C9FTKOH413oM90cVlTtFJZFmphPJNd.output.script_queries.dest_ip$\"\n},\n{\n\"type\": \"sha256\",\n\"value\": \"$activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].fileHash$\"\n},\n{\n\"type\": \"url\",\n\"value\": \"$activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].uri$\"\n},\n{\n\"type\": \"file_name\",\n\"value\": \"$activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].canonicalName$\"\n}\n]",
+                                                                "variable_workflow_01PP74DHJ913T5hOMl3EkIZtk7LiiQ2y1lv": "High",
+                                                                "variable_workflow_01PP74DHJ93KY4W3oJh8Fg8G0FtZvIcWRnn": "[\n{\n\"type\": \"endpoint\",\n\"observables\": [\n{\n\"value\": \"$activity.definition_activity_01S27C9FTKOH413oM90cVlTtFJZFmphPJNd.output.script_queries.source_ip$\",\n\"type\": \"ip\"\n}\n],\n\"observed_time\": {\n\"start_time\": \"$activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ts$\"\n}\n}\n]",
+                                                                "variable_workflow_01PP74DHJ94QR7IwrK8FFJ7w9dF90hOhQPJ": "High",
+                                                                "variable_workflow_01PP74DHJ95XG4OD0Oerb03wh756BfcC48H": "**Meraki Security Event: Malware Downloaded for $activity.definition_activity_01S27C9FTKOH413oM90cVlTtFJZFmphPJNd.output.script_queries.source_ip$ @ $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ts$**\n\n*Please check incident tab and below for more information!*\n\n**Message:** $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].message$\n\n**File name:** $activity.For Each Security EVENT.input.Source Array[@].canonicalName$\n\n**Meraki Rule ID:** $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ruleId$\n\n**Action taken:** $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].action$",
+                                                                "variable_workflow_01PP74DHJ973W3os2PwE2QF1JBKKZxC18jZ": "",
+                                                                "variable_workflow_01PP74DHJ98JF0qum4O6sDBuhh4xcV7c0pE": "Meraki Security Event: Malware Downloaded for $activity.definition_activity_01S27C9FTKOH413oM90cVlTtFJZFmphPJNd.output.script_queries.source_ip$ @ $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ts$",
+                                                                "variable_workflow_01PP74DHJ99R34tbMy9eetTEbaLfWVGscCW": "amber"
+                                                            },
+                                                            "runtime_user": {
+                                                                "target_default": true
+                                                            },
+                                                            "skip_execution": false,
+                                                            "target": {
+                                                                "use_workflow_target_group": true
+                                                            },
+                                                            "workflow_id": "definition_workflow_01PP74DHPLES477KZo2MCv9N9Dx5fza9wiU",
+                                                            "workflow_name": "Threat Response - Create Sighting"
+                                                        },
+                                                        "object_type": "definition_activity"
+                                                    },
+                                                    {
+                                                        "unique_name": "definition_activity_01S277EOV14V73w58OT8b0JW87ejdv5cNX0",
+                                                        "name": "Threat Response - Create Incident",
+                                                        "title": "Threat Response - Create Incident",
+                                                        "type": "workflow.atomic_workflow",
+                                                        "base_type": "subworkflow",
+                                                        "properties": {
+                                                            "continue_on_failure": false,
+                                                            "description": "https:\/\/visibility.amp.cisco.com\/incidents?q=id:incident-e221bf08-7e25-46c5-8c61-a9f3ad5254cd#summary",
+                                                            "display_name": "Threat Response - Create Incident",
+                                                            "input": {
+                                                                "variable_workflow_01PP773PC153N1sUPzhFqV9bCbaxsz3yDwH": "",
+                                                                "variable_workflow_01PP773PC19C57fpPyxEFzuX0kP8dAqdVoQ": "# Meraki Security Event: Malware Downloaded for $activity.definition_activity_01S27C9FTKOH413oM90cVlTtFJZFmphPJNd.output.script_queries.source_ip$ @ $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ts$\n\n## Please check sightings tab and below for more information.\n\n**Message:** [$activity.For Each Security EVENT.input.Source Array[@].message$]\n\n**File name:** $activity.For Each Security EVENT.input.Source Array[@].canonicalName$\n\n**Meraki Rule ID:** $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ruleId$\n\n**Action taken:** $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].action$",
+                                                                "variable_workflow_01PP773PC1ALV47FYVyDKQsPCuKzTZwYeyv": "New",
+                                                                "variable_workflow_01PP773PC1DZZ2rpbgvgD3IRrMsngkGxWkK": "Meraki Security Event: Malware Downloaded for $activity.definition_activity_01S27C9FTKOH413oM90cVlTtFJZFmphPJNd.output.script_queries.source_ip$ @ $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ts$",
+                                                                "variable_workflow_01PP773PC1F547IibuvGX89UFFJE9ZNlHgb": "amber",
+                                                                "variable_workflow_01PP773PC1G7V6ZMj5IyCTQcEPiVhQm1fYO": "High"
+                                                            },
+                                                            "runtime_user": {
+                                                                "target_default": true
+                                                            },
+                                                            "skip_execution": false,
+                                                            "target": {
+                                                                "use_workflow_target_group": true
+                                                            },
+                                                            "workflow_id": "definition_workflow_01PP773PI1X3Y1YQWhirIL8Uy40Thd6ND7r",
+                                                            "workflow_name": "Threat Response - Create Incident"
+                                                        },
+                                                        "object_type": "definition_activity"
+                                                    },
+                                                    {
+                                                        "unique_name": "definition_activity_01S277GAU9W043ZXzkyLM8cz8ctG4fdeFJh",
+                                                        "name": "Threat Response - Create Relationship",
+                                                        "title": "Threat Response - Create Relationship",
+                                                        "type": "workflow.atomic_workflow",
+                                                        "base_type": "subworkflow",
+                                                        "properties": {
+                                                            "continue_on_failure": false,
+                                                            "display_name": "Threat Response - Create Relationship",
+                                                            "input": {
+                                                                "variable_workflow_01PP78LVV8JKR6NKKuym8RA2VYFgUJrR4qU": "$activity.definition_activity_01S277EOV14V73w58OT8b0JW87ejdv5cNX0.output.variable_workflow_01PP773PC1BPV1bDuA5gxMPKC5vx4EJTYXw$",
+                                                                "variable_workflow_01PP78LVV8NS94TRyx07G3ajwZ5eE5oWZ36": "Meraki Sighting for Incident",
+                                                                "variable_workflow_01PP78LVV8P3X5wkMhrcIXTnToxb6HxuLpk": "",
+                                                                "variable_workflow_01PP78LVV8QB314gJIqe5PQHoWnRTMtwhK4": "amber",
+                                                                "variable_workflow_01PP78LVV8RLZ02Yzy68Uz59X8kInnUomdU": "Meraki Sighting for Incident",
+                                                                "variable_workflow_01PP78LVV8SVF31gxGXEVhu26vewW98cJxO": "$activity.definition_activity_01S276U070OFL5jiSK9dIYabgQp7No5ypm4.output.variable_workflow_01PP74DHJ92FH4K1jCaTCFvVKlkim02lhCn$",
+                                                                "variable_workflow_01PP78LVV8V4B28e1wJKo9WReVhIZ3bvM6f": "related-to"
+                                                            },
+                                                            "runtime_user": {
+                                                                "target_default": true
+                                                            },
+                                                            "skip_execution": false,
+                                                            "target": {
+                                                                "use_workflow_target_group": true
+                                                            },
+                                                            "workflow_id": "definition_workflow_01PP78LW2WNY80aDM6OHNiRu2VPG4BrR8bq",
+                                                            "workflow_name": "Threat Response - Create Relationship"
+                                                        },
+                                                        "object_type": "definition_activity"
+                                                    },
+                                                    {
+                                                        "unique_name": "definition_activity_01S274G85RWZK1U6r4IJinl3ab9PxrsiFQQ",
+                                                        "name": "Webex - Post Message to Room",
+                                                        "title": "Webex - Post Message to Room",
+                                                        "type": "workflow.atomic_workflow",
+                                                        "base_type": "subworkflow",
+                                                        "properties": {
+                                                            "continue_on_failure": false,
+                                                            "display_name": "Webex - Post Message to Room",
+                                                            "input": {
+                                                                "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$activity.definition_activity_01WJVU2U1YLVA1yZhqOyug6LbGSVPL76VI5.output.variable_workflow_01PP790MCXJ7Y5cAWcGZWbG4Es0126zb1I6$",
+                                                                "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$workflow.definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2.local.variable_workflow_01S26OGJC1MIC2lE4n2fRKEkeRAUWH3y6Hj$",
+                                                                "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "**Malware Downloaded @ $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ts$!**\n\n*Message:* $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].message$\n\n*File Hash:* $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].fileHash$\n\n*Source IP and Port:* $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].srcIp$\n\n*Destination IP and Port:* $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].destIp$\n\n*Timestamp event:* $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ts$\n\n**SECUREX INCIDENT:** https:\/\/visibility.amp.cisco.com\/incidents?q=id:$activity.definition_activity_01S277EOV14V73w58OT8b0JW87ejdv5cNX0.output.variable_workflow_01PP773PC1CVM3SzJJrvuZfEsO3Nbw7IO7S$\n\n**INVESTIGATE WITH THREAT RESPONSE:** https:\/\/visibility.amp.cisco.com\/investigate?q=ip%3A$activity.definition_activity_01S27C9FTKOH413oM90cVlTtFJZFmphPJNd.output.script_queries.source_ip$%0Aip%3A$activity.definition_activity_01S27C9FTKOH413oM90cVlTtFJZFmphPJNd.output.script_queries.dest_ip$%0Aurl%3A$activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].uri$%0Asha256%3A$activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].fileHash$",
+                                                                "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": "",
+                                                                "variable_workflow_01SVERQNMKN8N6vqX2djMtAfshphGydGsH8": ""
+                                                            },
+                                                            "runtime_user": {
+                                                                "target_default": true
+                                                            },
+                                                            "skip_execution": false,
+                                                            "target": {
+                                                                "override_workflow_target_group_criteria": true,
+                                                                "target_group": {
+                                                                    "run_on_all_targets": false,
+                                                                    "use_criteria": {
+                                                                        "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                                                        "conditions": [
+                                                                            {
+                                                                                "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                                                                "operator": "eqi",
+                                                                                "right_operand": "Webex Teams"
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                }
+                                                            },
+                                                            "workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw",
+                                                            "workflow_name": "Webex - Post Message to Room"
+                                                        },
+                                                        "object_type": "definition_activity"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "unique_name": "definition_activity_01S290HK506MN1gMyVkRJzC5arOYBpGYpHL",
+                                                "name": "Condition Branch",
+                                                "title": "IDS Alert Priority 1",
+                                                "type": "logic.condition_block",
+                                                "base_type": "activity",
+                                                "properties": {
+                                                    "condition": {
+                                                        "left_operand": {
+                                                            "left_operand": "$activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].eventType$",
+                                                            "operator": "eqi",
+                                                            "right_operand": "IDS Alert"
+                                                        },
+                                                        "operator": "and",
+                                                        "right_operand": {
+                                                            "left_operand": "$activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].priority$",
+                                                            "operator": "eq",
+                                                            "right_operand": "1"
+                                                        }
+                                                    },
+                                                    "continue_on_failure": false,
+                                                    "display_name": "IDS Alert Priority 1",
+                                                    "skip_execution": false
+                                                },
+                                                "object_type": "definition_activity",
+                                                "actions": [
+                                                    {
+                                                        "unique_name": "definition_activity_01S290HK542EE43MVXV7ECxrGf0rCbugmVG",
+                                                        "name": "Execute Python Script",
+                                                        "title": "Remove port from IP address",
+                                                        "type": "python3.script",
+                                                        "base_type": "activity",
+                                                        "properties": {
+                                                            "action_timeout": 180,
+                                                            "continue_on_failure": false,
+                                                            "display_name": "Remove port from IP address",
+                                                            "script": "import sys\nsource_ip_port = sys.argv[1]\ndest_ip_port = sys.argv[2]\nif \":\" in source_ip_port:\n  source_ip = source_ip_port.split(':')[0]\nif \":\" in dest_ip_port:\n  dest_ip = dest_ip_port.split(':')[0]",
+                                                            "script_arguments": [
+                                                                "$activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].srcIp$",
+                                                                "$activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].destIp$"
+                                                            ],
+                                                            "script_queries": [
+                                                                {
+                                                                    "script_query": "source_ip",
+                                                                    "script_query_name": "source_ip",
+                                                                    "script_query_type": "string"
+                                                                },
+                                                                {
+                                                                    "script_query": "dest_ip",
+                                                                    "script_query_name": "dest_ip",
+                                                                    "script_query_type": "string"
+                                                                }
+                                                            ],
+                                                            "skip_execution": false
+                                                        },
+                                                        "object_type": "definition_activity"
+                                                    },
+                                                    {
+                                                        "unique_name": "definition_activity_01S290HK588XT39sgxdJunqkWRuwRH9n9KD",
+                                                        "name": "Threat Response - Create Sighting",
+                                                        "title": "Threat Response - Create Sighting",
+                                                        "type": "workflow.atomic_workflow",
+                                                        "base_type": "subworkflow",
+                                                        "properties": {
+                                                            "continue_on_failure": false,
+                                                            "display_name": "Threat Response - Create Sighting",
+                                                            "input": {
+                                                                "variable_workflow_01PP74DHJ8XU51NVPLntEun5tp9o8KR83zJ": "[\n{\n\"type\": \"ip\",\n\"value\": \"$activity.definition_activity_01S290HK542EE43MVXV7ECxrGf0rCbugmVG.output.script_queries.source_ip$\"\n},\n{\n\"type\": \"ip\",\n\"value\": \"$activity.definition_activity_01S290HK542EE43MVXV7ECxrGf0rCbugmVG.output.script_queries.dest_ip$\"\n}\n]",
+                                                                "variable_workflow_01PP74DHJ913T5hOMl3EkIZtk7LiiQ2y1lv": "High",
+                                                                "variable_workflow_01PP74DHJ93KY4W3oJh8Fg8G0FtZvIcWRnn": "[\n{\n\"type\": \"endpoint\",\n\"observables\": [\n{\n\"value\": \"$activity.definition_activity_01S290HK542EE43MVXV7ECxrGf0rCbugmVG.output.script_queries.source_ip$\",\n\"type\": \"ip\"\n}\n],\n\"observed_time\": {\n\"start_time\": \"$activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ts$\"\n}\n}\n]",
+                                                                "variable_workflow_01PP74DHJ94QR7IwrK8FFJ7w9dF90hOhQPJ": "High",
+                                                                "variable_workflow_01PP74DHJ95XG4OD0Oerb03wh756BfcC48H": "**Meraki Security Event: IDS Alert Priority 1 for $activity.definition_activity_01S290HK542EE43MVXV7ECxrGf0rCbugmVG.output.script_queries.source_ip$ @ $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ts$**\n\n*Please check incident tab and below for more information!*\n\n**Message:** $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].message$\n\n**Meraki Rule ID:** $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ruleId$\n\n**Action taken:** $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].action$",
+                                                                "variable_workflow_01PP74DHJ973W3os2PwE2QF1JBKKZxC18jZ": "",
+                                                                "variable_workflow_01PP74DHJ98JF0qum4O6sDBuhh4xcV7c0pE": "Meraki Security Event: IDS Alert Priority 1 for $activity.definition_activity_01S290HK542EE43MVXV7ECxrGf0rCbugmVG.output.script_queries.source_ip$ @ $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ts$",
+                                                                "variable_workflow_01PP74DHJ99R34tbMy9eetTEbaLfWVGscCW": "amber"
+                                                            },
+                                                            "runtime_user": {
+                                                                "target_default": true
+                                                            },
+                                                            "skip_execution": false,
+                                                            "target": {
+                                                                "use_workflow_target_group": true
+                                                            },
+                                                            "workflow_id": "definition_workflow_01PP74DHPLES477KZo2MCv9N9Dx5fza9wiU",
+                                                            "workflow_name": "Threat Response - Create Sighting"
+                                                        },
+                                                        "object_type": "definition_activity"
+                                                    },
+                                                    {
+                                                        "unique_name": "definition_activity_01S290HK59XYW2FgS24yENSRwrGqsDmxqYc",
+                                                        "name": "Threat Response - Create Incident",
+                                                        "title": "Threat Response - Create Incident",
+                                                        "type": "workflow.atomic_workflow",
+                                                        "base_type": "subworkflow",
+                                                        "properties": {
+                                                            "continue_on_failure": false,
+                                                            "description": "https:\/\/visibility.amp.cisco.com\/incidents?q=id:incident-e221bf08-7e25-46c5-8c61-a9f3ad5254cd#summary",
+                                                            "display_name": "Threat Response - Create Incident",
+                                                            "input": {
+                                                                "variable_workflow_01PP773PC153N1sUPzhFqV9bCbaxsz3yDwH": "",
+                                                                "variable_workflow_01PP773PC19C57fpPyxEFzuX0kP8dAqdVoQ": "# Meraki Security Event: IDS Alert Priority 1 for $activity.definition_activity_01S290HK542EE43MVXV7ECxrGf0rCbugmVG.output.script_queries.source_ip$ @ $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ts$\n\n## Please check sightings tab and below for more information.\n\n**Message:** $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].message$\n\n**Meraki Rule ID:** $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ruleId$\n\n**Action taken:** $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].action$",
+                                                                "variable_workflow_01PP773PC1ALV47FYVyDKQsPCuKzTZwYeyv": "New",
+                                                                "variable_workflow_01PP773PC1DZZ2rpbgvgD3IRrMsngkGxWkK": "Meraki Security Event: IDS Alert Priority 1 for $activity.definition_activity_01S290HK542EE43MVXV7ECxrGf0rCbugmVG.output.script_queries.source_ip$ @ $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ts$",
+                                                                "variable_workflow_01PP773PC1F547IibuvGX89UFFJE9ZNlHgb": "amber",
+                                                                "variable_workflow_01PP773PC1G7V6ZMj5IyCTQcEPiVhQm1fYO": "High"
+                                                            },
+                                                            "runtime_user": {
+                                                                "target_default": true
+                                                            },
+                                                            "skip_execution": false,
+                                                            "target": {
+                                                                "use_workflow_target_group": true
+                                                            },
+                                                            "workflow_id": "definition_workflow_01PP773PI1X3Y1YQWhirIL8Uy40Thd6ND7r",
+                                                            "workflow_name": "Threat Response - Create Incident"
+                                                        },
+                                                        "object_type": "definition_activity"
+                                                    },
+                                                    {
+                                                        "unique_name": "definition_activity_01S290HK5E0SS6lAjcjCrNDvz0vwbha1Kha",
+                                                        "name": "Threat Response - Create Relationship",
+                                                        "title": "Threat Response - Create Relationship",
+                                                        "type": "workflow.atomic_workflow",
+                                                        "base_type": "subworkflow",
+                                                        "properties": {
+                                                            "continue_on_failure": false,
+                                                            "display_name": "Threat Response - Create Relationship",
+                                                            "input": {
+                                                                "variable_workflow_01PP78LVV8JKR6NKKuym8RA2VYFgUJrR4qU": "$activity.definition_activity_01S290HK59XYW2FgS24yENSRwrGqsDmxqYc.output.variable_workflow_01PP773PC1BPV1bDuA5gxMPKC5vx4EJTYXw$",
+                                                                "variable_workflow_01PP78LVV8NS94TRyx07G3ajwZ5eE5oWZ36": "Meraki Sighting for Incident",
+                                                                "variable_workflow_01PP78LVV8P3X5wkMhrcIXTnToxb6HxuLpk": "",
+                                                                "variable_workflow_01PP78LVV8QB314gJIqe5PQHoWnRTMtwhK4": "amber",
+                                                                "variable_workflow_01PP78LVV8RLZ02Yzy68Uz59X8kInnUomdU": "Meraki Sighting for Incident",
+                                                                "variable_workflow_01PP78LVV8SVF31gxGXEVhu26vewW98cJxO": "$activity.definition_activity_01S290HK588XT39sgxdJunqkWRuwRH9n9KD.output.variable_workflow_01PP74DHJ92FH4K1jCaTCFvVKlkim02lhCn$",
+                                                                "variable_workflow_01PP78LVV8V4B28e1wJKo9WReVhIZ3bvM6f": "related-to"
+                                                            },
+                                                            "runtime_user": {
+                                                                "target_default": true
+                                                            },
+                                                            "skip_execution": false,
+                                                            "target": {
+                                                                "use_workflow_target_group": true
+                                                            },
+                                                            "workflow_id": "definition_workflow_01PP78LW2WNY80aDM6OHNiRu2VPG4BrR8bq",
+                                                            "workflow_name": "Threat Response - Create Relationship"
+                                                        },
+                                                        "object_type": "definition_activity"
+                                                    },
+                                                    {
+                                                        "unique_name": "definition_activity_01S290HK5F2CD2F4sFemuBzra5pbEU1v59g",
+                                                        "name": "Webex - Post Message to Room",
+                                                        "title": "Webex - Post Message to Room",
+                                                        "type": "workflow.atomic_workflow",
+                                                        "base_type": "subworkflow",
+                                                        "properties": {
+                                                            "continue_on_failure": false,
+                                                            "display_name": "Webex - Post Message to Room",
+                                                            "input": {
+                                                                "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$activity.definition_activity_01WJVU2U1YLVA1yZhqOyug6LbGSVPL76VI5.output.variable_workflow_01PP790MCXJ7Y5cAWcGZWbG4Es0126zb1I6$",
+                                                                "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$workflow.definition_workflow_01S26OGJ17BMU4bSaWxdgVB4MNvHmqUY3S2.local.variable_workflow_01S26OGJC1MIC2lE4n2fRKEkeRAUWH3y6Hj$",
+                                                                "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "**Meraki Security Event: IDS Alert Priority 1 @ $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ts$!**\n\n*Message:* $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].message$\n\n*Source IP and Port:* $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].srcIp$\n\n*Destination IP and Port:* $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].destIp$\n\n*Timestamp event:* $activity.definition_activity_01S26OHGCAIWU6tdWf624oQC0sD0Dz1yTUF.input.source_array[@].ts$\n\n**SECUREX INCIDENT:** https:\/\/visibility.amp.cisco.com\/incidents?q=id:$activity.definition_activity_01S290HK59XYW2FgS24yENSRwrGqsDmxqYc.output.variable_workflow_01PP773PC1CVM3SzJJrvuZfEsO3Nbw7IO7S$\n\n**INVESTIGATE WITH THREAT RESPONSE:** https:\/\/visibility.amp.cisco.com\/investigate?q=ip%3A$activity.definition_activity_01S290HK542EE43MVXV7ECxrGf0rCbugmVG.output.script_queries.source_ip$%0Aip%3A$activity.definition_activity_01S290HK542EE43MVXV7ECxrGf0rCbugmVG.output.script_queries.dest_ip$",
+                                                                "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": "",
+                                                                "variable_workflow_01SVERQNMKN8N6vqX2djMtAfshphGydGsH8": ""
+                                                            },
+                                                            "runtime_user": {
+                                                                "target_default": true
+                                                            },
+                                                            "skip_execution": false,
+                                                            "target": {
+                                                                "override_workflow_target_group_criteria": true,
+                                                                "target_group": {
+                                                                    "run_on_all_targets": false,
+                                                                    "use_criteria": {
+                                                                        "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                                                                        "conditions": [
+                                                                            {
+                                                                                "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                                                                "operator": "eqi",
+                                                                                "right_operand": "Webex Teams"
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                }
+                                                            },
+                                                            "workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw",
+                                                            "workflow_name": "Webex - Post Message to Room"
+                                                        },
+                                                        "object_type": "definition_activity"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "unique_name": "definition_activity_01S26OHUMWGGM2cU3rTTOiPFjYACsA6rkQJ",
+                        "name": "Condition Branch",
+                        "title": "Anything else",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$activity.definition_activity_01S26OHBASNKU3cAnT9lheEnybBqJj62L7F.output.status_code$",
+                                "operator": "ne",
+                                "right_operand": 200
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "Anything else",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01S26OHX5TIW236aWo593Wikju3U7IL2lJd",
+                                "name": "Completed",
+                                "title": "Failed",
+                                "type": "logic.completed",
+                                "base_type": "activity",
+                                "properties": {
+                                    "completion_type": "failed-completed",
+                                    "continue_on_failure": false,
+                                    "display_name": "Failed",
+                                    "result_message": "Failed to fetch security events from Meraki\n\nStatus code: $activity.definition_activity_01S26OHBASNKU3cAnT9lheEnybBqJj62L7F.output.status_code$\nResponse body: $activity.definition_activity_01S26OHBASNKU3cAnT9lheEnybBqJj62L7F.output.response_body$",
+                                    "skip_execution": false
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "categories": [
+            "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+        ]
+    },
+    "target_groups": {
+        "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+            "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+            "name": "Default TargetGroup",
+            "title": "Default TargetGroup",
+            "type": "generic.target_group",
+            "base_type": "target_group",
+            "version": "1.0.0",
+            "targets": [
+                {
+                    "data_target_type": "web-service.endpoint",
+                    "view_target_type": "web-service.endpoint",
+                    "include_all_targets": true
+                },
+                {
+                    "data_target_type": "email.smtp_endpoint",
+                    "view_target_type": "email.smtp_endpoint",
+                    "include_all_targets": true
+                }
+            ],
+            "object_type": "target_group"
+        }
+    },
+    "atomic_workflows": [
+        "definition_workflow_01PP78LW2WNY80aDM6OHNiRu2VPG4BrR8bq",
+        "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw",
+        "definition_workflow_01PP773PI1X3Y1YQWhirIL8Uy40Thd6ND7r",
+        "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez",
+        "definition_workflow_01PP74DHPLES477KZo2MCv9N9Dx5fza9wiU"
+    ],
+    "dependent_workflows": [
+        "definition_workflow_01PP790MKJNWV6XyJuLdUyNlM2UV3JJACez",
+        "definition_workflow_01PP74DHPLES477KZo2MCv9N9Dx5fza9wiU",
+        "definition_workflow_01PP773PI1X3Y1YQWhirIL8Uy40Thd6ND7r",
+        "definition_workflow_01PP78LW2WNY80aDM6OHNiRu2VPG4BrR8bq",
+        "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw"
+    ]
+}

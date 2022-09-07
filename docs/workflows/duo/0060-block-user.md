@@ -30,6 +30,7 @@ Note: This workflow uses the Duo Admin API which is not enabled by default. Cont
 | Date | Notes |
 |:-----|:------|
 | Mar 9, 2022 | - Initial release |
+| Sep 7, 2022 | - Minor updates to naming and descriptions |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 

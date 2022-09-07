@@ -28,6 +28,7 @@ This workflow takes a Duo Security user’s username as input and retrieves the 
 | Date | Notes |
 |:-----|:------|
 | Apr 29, 2022 | - Initial release |
+| Sep 7, 2022 | - Minor updates to naming and descriptions |
 
 _See the [Important Notes](/sxo-05-security-workflows/notes) page for more information about updating workflows_
 

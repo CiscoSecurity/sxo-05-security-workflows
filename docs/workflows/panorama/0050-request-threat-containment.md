@@ -33,6 +33,7 @@ This workflow is designed to be triggered by ServiceNow in response to a new Fir
 | Date | Notes |
 |:-----|:------|
 | Nov 4, 2021 | - Initial release |
+| Sep 7, 2022 | - Minor updates to naming and descriptions |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 

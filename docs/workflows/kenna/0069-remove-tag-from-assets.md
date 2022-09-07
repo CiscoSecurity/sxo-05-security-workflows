@@ -19,6 +19,8 @@ Response Workflow
 
 This workflow searches Kenna for assets matching the observable provided and removes a tag from them. A casebook is created for each asset if "Create Casebook" is set to true. Supported observables: `ip`, `hostname`, `mac_address`
 
+<div class="cisco-alert cisco-alert-info"><i class="fa fa-info-circle mr-1 cisco-icon-info"></i> This workflow has been updated to use the new "SecureX Token" account key. For more information about this, please see <a href="{{ site.baseurl }}/account-keys/securex-token">this page</a>. If you want to use legacy authentication, you can import an older version of the workflow.</div>
+
 [<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0069-Kenna-RemoveTagFromAssets__definition_workflow_01YLWTK4FJG3Y32dHeJPok5cEvCQv6xRHyl){: .btn-cisco-outline }
 
 ---
@@ -28,6 +30,7 @@ This workflow searches Kenna for assets matching the observable provided and rem
 | Date | Notes |
 |:-----|:------|
 | Aug 4, 2022 | - Initial release |
+| Sep 7, 2022 | - Updated to support [SecureX Tokens]({{ site.baseurl }}/account-keys/securex-token) |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 
@@ -38,7 +41,6 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 	* Kenna - Remove Tag from Asset
 	* Kenna - Search Assets
 	* Threat Response - Create Casebook
-	* Threat Response - Generate Access Token
 * The following atomic actions must be imported before you can import this workflow:
 	* None
 * The [targets](#targets) and [account keys](#account-keys) listed at the bottom of the page
@@ -51,7 +53,6 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 1. Build the query string based on the observable provided
 1. Search for matching assets
 1. Convert the asset list to a table
-1. Fetch an access token for Threat Response
 1. For each asset:
 	* Remove the tag from the asset
 	* If creating casebooks is enabled, create a casebook
@@ -72,9 +73,8 @@ Target Group: `Default TargetGroup`
 
 | Target Name | Type | Details | Account Keys | Notes |
 |:------------|:-----|:--------|:-------------|:------|
-| [CTR_For_Access_Token]({{ site.baseurl }}/targets/default#ctr_for_access_token) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `visibility.amp.cisco.com`<br />_Path:_ `/iroh` | CTR_Credentials | Created by default |
 | Kenna_Target | HTTP Endpoint | _Protocol:_ `HTTPS` <br/> _Host:_ `api.kennasecurity.com` <br/> _Path_: None | None | |
-| [Private_CTIA_Target]({{ site.baseurl }}/targets/default#private_ctia_target) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `private.intel.amp.cisco.com`<br />_Path:_ None | None | Created by default |
+| [Private_CTIA_Target]({{ site.baseurl }}/targets/default#private_ctia_target) | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `private.intel.amp.cisco.com`<br />_Path:_ None | CTR_Credentials | Created by default |
 
 ---
 
@@ -82,4 +82,4 @@ Target Group: `Default TargetGroup`
 
 | Account Key Name | Type | Details | Notes |
 |:-----------------|:-----|:--------|:------|
-| [CTR_Credentials]({{ site.baseurl }}/account-keys/default#ctr_credentials) | HTTP Basic Authentication | _Username:_ Client ID<br />_Password:_ Client Secret | Created by default |
+| [CTR_Credentials]({{ site.baseurl }}/account-keys/default#ctr_credentials) | SecureX Token | | See [this page]({{ site.baseurl }}/account-keys/securex-token) |

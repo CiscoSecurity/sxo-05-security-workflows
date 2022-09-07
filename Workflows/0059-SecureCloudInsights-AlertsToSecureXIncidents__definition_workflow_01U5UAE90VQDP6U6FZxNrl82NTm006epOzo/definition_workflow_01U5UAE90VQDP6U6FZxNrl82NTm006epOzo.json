@@ -1,285 +1,255 @@
 {
-	"workflow": {
-	  "unique_name": "definition_workflow_01U5UAE90VQDP6U6FZxNrl82NTm006epOzo",
-	  "name": "0059 - Secure Cloud Insights - Alerts to SecureX Incidents",
-	  "title": "0059 - Secure Cloud Insights - Alerts to SecureX Incidents",
-	  "type": "generic.workflow",
-	  "base_type": "workflow",
-	  "variables": null,
-	  "properties": {
-		"atomic": {
-		  "is_atomic": false
-		},
-		"delete_workflow_instance": false,
-		"description": "This workflow is triggered by a webhook for an alert from Cisco Secure Cloud Insights. When a webhook is received, the alert data is parsed and a new SecureX incident is created.\n\nTarget Group: Default TargetGroup\n\nTargets: CTR_For_Access_Token, Private_CTIA_Target\n\nSteps:\n[] Extract the data from the alert JSON\n[] Check if extraction was successful\n[]> If not, end the workflow\n[] Format the event data\n[] Fetch an access token for the Threat Response API\n[] Create a new incident\n\nMore information: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0059",
-		"display_name": "0059 - Secure Cloud Insights - Alerts to SecureX Incidents",
-		"runtime_user": {
-		  "target_default": true
-		},
-		"target": {
-		  "execute_on_target_group": true,
-		  "target_group": {
-			"target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
-			"run_on_all_targets": false,
-			"selected_target_types": [
-			  "web-service.endpoint"
-			],
-			"use_criteria": {
-			  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-			  "conditions": [
-				{
-				  "operator": "eqi",
-				  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-				  "right_operand": "Private_CTIA_Target"
-				}
-			  ]
-			}
-		  }
-		}
-	  },
-	  "object_type": "definition_workflow",
-	  "actions": [
-		{
-		  "unique_name": "definition_activity_01U6LHV55T8F15v75Q6bCMDHT0XJOOaYKMo",
-		  "name": "JSONPath Query",
-		  "title": "Extract the alert data",
-		  "type": "corejava.jsonpathquery",
-		  "base_type": "activity",
-		  "properties": {
-			"action_timeout": 180,
-			"continue_on_failure": true,
-			"display_name": "Extract the alert data",
-			"input_json": "$trigger.triggerevent_01U5UAMYTKX0G0R141iqpu7rl4Zh94j4amV.output.request_body$",
-			"jsonpath_queries": [
-			  {
-				"jsonpath_query": "$.query0Data[*]",
-				"jsonpath_query_name": "QueryData",
-				"jsonpath_query_type": "string"
-			  },
-			  {
-				"jsonpath_query": "$.name",
-				"jsonpath_query_name": "AlertName",
-				"jsonpath_query_type": "string"
-			  }
-			],
-			"skip_execution": false
-		  },
-		  "object_type": "definition_activity"
-		},
-		{
-		  "unique_name": "definition_activity_01UMRGWKRRE4Y3gIOHkvKpg47mIcaGojBlB",
-		  "name": "Condition Block",
-		  "title": "Was extraction successful?",
-		  "type": "logic.if_else",
-		  "base_type": "activity",
-		  "properties": {
-			"continue_on_failure": false,
-			"display_name": "Was extraction successful?",
-			"skip_execution": false
-		  },
-		  "object_type": "definition_activity",
-		  "blocks": [
-			{
-			  "unique_name": "definition_activity_01UMRGWL84U3U3ek8sBea5ZLhgcVfGLfV3D",
-			  "name": "Condition Branch",
-			  "title": "No",
-			  "type": "logic.condition_block",
-			  "base_type": "activity",
-			  "properties": {
-				"condition": {
-				  "left_operand": "$activity.definition_activity_01U6LHV55T8F15v75Q6bCMDHT0XJOOaYKMo.output.succeeded$",
-				  "operator": "eq",
-				  "right_operand": false
-				},
-				"continue_on_failure": false,
-				"display_name": "No",
-				"skip_execution": false
-			  },
-			  "object_type": "definition_activity",
-			  "actions": [
-				{
-				  "unique_name": "definition_activity_01UMRLUMWI7Q37IDn0Caq2YVlJNhhUaCXaj",
-				  "name": "Completed",
-				  "title": "Failed",
-				  "type": "logic.completed",
-				  "base_type": "activity",
-				  "properties": {
-					"completion_type": "failed-completed",
-					"continue_on_failure": false,
-					"display_name": "Failed",
-					"result_message": "Could not parse the alert message from Secure Cloud Insights",
-					"skip_execution": false
-				  },
-				  "object_type": "definition_activity"
-				}
-			  ]
-			}
-		  ]
-		},
-		{
-		  "unique_name": "definition_activity_01UUQUK60MELQ1pZbBUslHy8cGVMaSwLMpV",
-		  "name": "Execute Python Script",
-		  "title": "Format event for incident",
-		  "type": "python3.script",
-		  "base_type": "activity",
-		  "properties": {
-			"action_timeout": 180,
-			"continue_on_failure": false,
-			"display_name": "Format event for incident",
-			"script": "import sys, json\n\nrawEvent = json.loads(sys.argv[1])\ncharacterLimit = 4500\n\ndef processObject(object):\n\toutput = ''\n\t\n\tif type(object) is dict:\n\t\toutput = output + '<br /><table border=\"1\" cellspacing=\"1\">'\n\t\t\n\t\tfor item in object:\n\t\t\tif len(output) > characterLimit:\n\t\t\t\toutput = output + '<tr><td>&nbsp;</td><td><strong>Output truncated due to length</strong></td></tr>'\n\t\t\t\tbreak\n\t\t\t\n\t\t\toutput = output + f'<tr><td>{item}</td><td>' + processObject(object[item]) + '</td></tr>'\n\t\t\n\t\toutput = output + '</table>'\n\telif type(object) is list:\n\t\tfor item in object:\n\t\t\tif len(output) > characterLimit:\n\t\t\t\toutput = output + '<br /><strong>Output truncated due to length</strong>'\n\t\t\t\tbreak\n\t\t\t\n\t\t\toutput = output + processObject(item)\n\telse:\n\t\treturn str(object)\n\t\n\treturn output\n\nformattedEvent = processObject(rawEvent)",
-			"script_arguments": [
-			  "$activity.definition_activity_01U6LHV55T8F15v75Q6bCMDHT0XJOOaYKMo.output.jsonpath_queries.QueryData$"
-			],
-			"script_queries": [
-			  {
-				"script_query": "formattedEvent",
-				"script_query_name": "formattedEvent",
-				"script_query_type": "string"
-			  }
-			],
-			"skip_execution": false
-		  },
-		  "object_type": "definition_activity"
-		},
-		{
-		  "unique_name": "definition_activity_01U6KZ5GZHSRW68zEJVNUw9KC2ksYIeqMcN",
-		  "name": "Threat Response - Generate Access Token",
-		  "title": "Threat Response - Generate Access Token",
-		  "type": "workflow.atomic_workflow",
-		  "base_type": "subworkflow",
-		  "properties": {
-			"continue_on_failure": false,
-			"display_name": "Threat Response - Generate Access Token",
-			"runtime_user": {
-			  "target_default": true
-			},
-			"skip_execution": false,
-			"target": {
-			  "override_workflow_target_group_criteria": true,
-			  "target_group": {
-				"run_on_all_targets": false,
-				"use_criteria": {
-				  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-				  "conditions": [
-					{
-					  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-					  "operator": "eqi",
-					  "right_operand": "CTR_For_Access_Token"
-					}
-				  ]
-				}
-			  }
-			},
-			"workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
-		  },
-		  "object_type": "definition_activity"
-		},
-		{
-		  "unique_name": "definition_activity_01U6KXUD2PGKS1yxDsS5HM1txiL8Ay6Ubn9",
-		  "name": "Threat Response - Create Incident",
-		  "title": "Threat Response - Create Incident",
-		  "type": "workflow.atomic_workflow",
-		  "base_type": "subworkflow",
-		  "properties": {
-			"continue_on_failure": false,
-			"display_name": "Threat Response - Create Incident",
-			"input": {
-			  "variable_workflow_01PP773PC153N1sUPzhFqV9bCbaxsz3yDwH": "$activity.definition_activity_01U6KZ5GZHSRW68zEJVNUw9KC2ksYIeqMcN.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$",
-			  "variable_workflow_01PP773PC19C57fpPyxEFzuX0kP8dAqdVoQ": "$activity.definition_activity_01UUQUK60MELQ1pZbBUslHy8cGVMaSwLMpV.output.script_queries.formattedEvent$",
-			  "variable_workflow_01PP773PC1ALV47FYVyDKQsPCuKzTZwYeyv": "New",
-			  "variable_workflow_01PP773PC1DZZ2rpbgvgD3IRrMsngkGxWkK": "Secure Cloud Insights Alert - $activity.definition_activity_01U6LHV55T8F15v75Q6bCMDHT0XJOOaYKMo.output.jsonpath_queries.AlertName$",
-			  "variable_workflow_01PP773PC1F547IibuvGX89UFFJE9ZNlHgb": "amber",
-			  "variable_workflow_01PP773PC1G7V6ZMj5IyCTQcEPiVhQm1fYO": "High"
-			},
-			"runtime_user": {
-			  "target_default": true
-			},
-			"skip_execution": false,
-			"target": {
-			  "use_workflow_target_group": true
-			},
-			"workflow_id": "definition_workflow_01PP773PI1X3Y1YQWhirIL8Uy40Thd6ND7r"
-		  },
-		  "object_type": "definition_activity"
-		}
-	  ],
-	  "categories": [
-		"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
-	  ]
-	},
-	"triggers": {
-	  "triggerevent_01U5UAMYTKX0G0R141iqpu7rl4Zh94j4amV": {
-		"workflow_id": "definition_workflow_01U5UAE90VQDP6U6FZxNrl82NTm006epOzo",
-		"name": "Webhook Trigger",
-		"title": "",
-		"lowercase_name": "event.webhook_trigger",
-		"type": "event",
-		"base_type": "trigger",
-		"ref_id": "event_webhook_01U5U9ELDNGE61kbWGjH7wOnJkNgebJl3jQ",
-		"version": "",
-		"disabled": false,
-		"unique_name": "triggerevent_01U5UAMYTKX0G0R141iqpu7rl4Zh94j4amV",
-		"object_type": "triggerevent"
-	  }
-	},
-	"events": {
-	  "event_webhook_01U5U9ELDNGE61kbWGjH7wOnJkNgebJl3jQ": {
-		"name": "0059 - Secure Cloud Insights - Event",
-		"title": "0059 - Secure Cloud Insights - Event",
-		"type": "webhook.event",
-		"base_type": "event",
-		"object_type": "event_webhook",
-		"target_id": "",
-		"webhook_id": "webhook_01U5RRCNE11SB6IRJLK9R5YgUQYeDKtQjd9",
-		"version": "1.0.0",
-		"properties": {
-		  "display_name": "0059 - Secure Cloud Insights - Event",
-		  "title": "0059 - Secure Cloud Insights - Event",
-		  "webhook_id": "webhook_01U5RRCNE11SB6IRJLK9R5YgUQYeDKtQjd9"
-		},
-		"unique_name": "event_webhook_01U5U9ELDNGE61kbWGjH7wOnJkNgebJl3jQ"
-	  }
-	},
-	"target_groups": {
-	  "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
-		"unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
-		"name": "Default TargetGroup",
-		"title": "Default TargetGroup",
-		"type": "generic.target_group",
-		"base_type": "target_group",
-		"version": "1.0.0",
-		"targets": [
-		  {
-			"data_target_type": "web-service.endpoint",
-			"view_target_type": "web-service.endpoint",
-			"include_all_targets": true
-		  },
-		  {
-			"data_target_type": "email.smtp_endpoint",
-			"view_target_type": "email.smtp_endpoint",
-			"include_all_targets": true
-		  }
-		],
-		"object_type": "target_group"
-	  }
-	},
-	"atomic_workflows": [
-	  "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH",
-	  "definition_workflow_01PP773PI1X3Y1YQWhirIL8Uy40Thd6ND7r"
-	],
-	"webhooks": {
-	  "webhook_01U5RRCNE11SB6IRJLK9R5YgUQYeDKtQjd9": {
-		"name": "0059 - Secure Cloud Insights - Webhook",
-		"title": "0059 - Secure Cloud Insights - Webhook",
-		"type": "generic.webhook",
-		"base_type": "webhook",
-		"object_type": "webhook",
-		"version": "1.0.0",
-		"properties": {
-		  "display_name": "0059 - Secure Cloud Insights - Webhook",
-		  "request_content_type": "application/json"
-		},
-		"unique_name": "webhook_01U5RRCNE11SB6IRJLK9R5YgUQYeDKtQjd9"
-	  }
-	}
-  }
+    "workflow": {
+        "unique_name": "definition_workflow_01U5UAE90VQDP6U6FZxNrl82NTm006epOzo",
+        "name": "0059 - Secure Cloud Insights - Alerts to SecureX Incidents",
+        "title": "0059 - Secure Cloud Insights - Alerts to SecureX Incidents",
+        "type": "generic.workflow",
+        "base_type": "workflow",
+        "variables": null,
+        "properties": {
+            "atomic": {
+                "is_atomic": false
+            },
+            "delete_workflow_instance": false,
+            "description": "This workflow is triggered by a webhook for an alert from Cisco Secure Cloud Insights. When a webhook is received, the alert data is parsed and a new SecureX incident is created.\n\nNote: This workflow has been updated to support SecureX Token account keys. See the workflow documentation for more information.\n\nDocumentation: https:\/\/ciscosecurity.github.io\/sxo-05-security-workflows\/workflows\/0059\n\nTarget Group: Default TargetGroup\n\nTargets: Private_CTIA_Target\n\nSteps:\n[] Extract the data from the alert JSON\n[] Check if extraction was successful\n[]> If not, end the workflow\n[] Format the event data\n[] Create a new incident",
+            "display_name": "0059 - Secure Cloud Insights - Alerts to SecureX Incidents",
+            "runtime_user": {
+                "target_default": true
+            },
+            "target": {
+                "execute_on_target_group": true,
+                "target_group": {
+                    "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+                    "run_on_all_targets": false,
+                    "selected_target_types": [
+                        "web-service.endpoint"
+                    ],
+                    "use_criteria": {
+                        "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                        "conditions": [
+                            {
+                                "operator": "eqi",
+                                "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                "right_operand": "Private_CTIA_Target"
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        "object_type": "definition_workflow",
+        "actions": [
+            {
+                "unique_name": "definition_activity_01U6LHV55T8F15v75Q6bCMDHT0XJOOaYKMo",
+                "name": "JSONPath Query",
+                "title": "Extract the alert data",
+                "type": "corejava.jsonpathquery",
+                "base_type": "activity",
+                "properties": {
+                    "action_timeout": 180,
+                    "continue_on_failure": true,
+                    "display_name": "Extract the alert data",
+                    "input_json": "$trigger.triggerevent_01U5UAMYTKX0G0R141iqpu7rl4Zh94j4amV.output.request_body$",
+                    "jsonpath_queries": [
+                        {
+                            "jsonpath_query": "$.query0Data[*]",
+                            "jsonpath_query_name": "QueryData",
+                            "jsonpath_query_type": "string"
+                        },
+                        {
+                            "jsonpath_query": "$.name",
+                            "jsonpath_query_name": "AlertName",
+                            "jsonpath_query_type": "string"
+                        }
+                    ],
+                    "skip_execution": false
+                },
+                "object_type": "definition_activity"
+            },
+            {
+                "unique_name": "definition_activity_01UMRGWKRRE4Y3gIOHkvKpg47mIcaGojBlB",
+                "name": "Condition Block",
+                "title": "Was extraction successful?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                    "continue_on_failure": false,
+                    "display_name": "Was extraction successful?",
+                    "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                    {
+                        "unique_name": "definition_activity_01UMRGWL84U3U3ek8sBea5ZLhgcVfGLfV3D",
+                        "name": "Condition Branch",
+                        "title": "No",
+                        "type": "logic.condition_block",
+                        "base_type": "activity",
+                        "properties": {
+                            "condition": {
+                                "left_operand": "$activity.definition_activity_01U6LHV55T8F15v75Q6bCMDHT0XJOOaYKMo.output.succeeded$",
+                                "operator": "eq",
+                                "right_operand": false
+                            },
+                            "continue_on_failure": false,
+                            "display_name": "No",
+                            "skip_execution": false
+                        },
+                        "object_type": "definition_activity",
+                        "actions": [
+                            {
+                                "unique_name": "definition_activity_01UMRLUMWI7Q37IDn0Caq2YVlJNhhUaCXaj",
+                                "name": "Completed",
+                                "title": "Failed",
+                                "type": "logic.completed",
+                                "base_type": "activity",
+                                "properties": {
+                                    "completion_type": "failed-completed",
+                                    "continue_on_failure": false,
+                                    "display_name": "Failed",
+                                    "result_message": "Could not parse the alert message from Secure Cloud Insights",
+                                    "skip_execution": false
+                                },
+                                "object_type": "definition_activity"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "unique_name": "definition_activity_01UUQUK60MELQ1pZbBUslHy8cGVMaSwLMpV",
+                "name": "Execute Python Script",
+                "title": "Format event for incident",
+                "type": "python3.script",
+                "base_type": "activity",
+                "properties": {
+                    "action_timeout": 180,
+                    "continue_on_failure": false,
+                    "display_name": "Format event for incident",
+                    "script": "import sys, json\n\nrawEvent = json.loads(sys.argv[1])\ncharacterLimit = 4500\n\ndef processObject(object):\n\toutput = ''\n\t\n\tif type(object) is dict:\n\t\toutput = output + '<br \/><table border=\"1\" cellspacing=\"1\">'\n\t\t\n\t\tfor item in object:\n\t\t\tif len(output) > characterLimit:\n\t\t\t\toutput = output + '<tr><td>&nbsp;<\/td><td><strong>Output truncated due to length<\/strong><\/td><\/tr>'\n\t\t\t\tbreak\n\t\t\t\n\t\t\toutput = output + f'<tr><td>{item}<\/td><td>' + processObject(object[item]) + '<\/td><\/tr>'\n\t\t\n\t\toutput = output + '<\/table>'\n\telif type(object) is list:\n\t\tfor item in object:\n\t\t\tif len(output) > characterLimit:\n\t\t\t\toutput = output + '<br \/><strong>Output truncated due to length<\/strong>'\n\t\t\t\tbreak\n\t\t\t\n\t\t\toutput = output + processObject(item)\n\telse:\n\t\treturn str(object)\n\t\n\treturn output\n\nformattedEvent = processObject(rawEvent)",
+                    "script_arguments": [
+                        "$activity.definition_activity_01U6LHV55T8F15v75Q6bCMDHT0XJOOaYKMo.output.jsonpath_queries.QueryData$"
+                    ],
+                    "script_queries": [
+                        {
+                            "script_query": "formattedEvent",
+                            "script_query_name": "formattedEvent",
+                            "script_query_type": "string"
+                        }
+                    ],
+                    "skip_execution": false
+                },
+                "object_type": "definition_activity"
+            },
+            {
+                "unique_name": "definition_activity_01U6KXUD2PGKS1yxDsS5HM1txiL8Ay6Ubn9",
+                "name": "Threat Response - Create Incident",
+                "title": "Threat Response - Create Incident",
+                "type": "workflow.atomic_workflow",
+                "base_type": "subworkflow",
+                "properties": {
+                    "continue_on_failure": false,
+                    "display_name": "Threat Response - Create Incident",
+                    "input": {
+                        "variable_workflow_01PP773PC153N1sUPzhFqV9bCbaxsz3yDwH": "",
+                        "variable_workflow_01PP773PC19C57fpPyxEFzuX0kP8dAqdVoQ": "$activity.definition_activity_01UUQUK60MELQ1pZbBUslHy8cGVMaSwLMpV.output.script_queries.formattedEvent$",
+                        "variable_workflow_01PP773PC1ALV47FYVyDKQsPCuKzTZwYeyv": "New",
+                        "variable_workflow_01PP773PC1DZZ2rpbgvgD3IRrMsngkGxWkK": "Secure Cloud Insights Alert - $activity.definition_activity_01U6LHV55T8F15v75Q6bCMDHT0XJOOaYKMo.output.jsonpath_queries.AlertName$",
+                        "variable_workflow_01PP773PC1F547IibuvGX89UFFJE9ZNlHgb": "amber",
+                        "variable_workflow_01PP773PC1G7V6ZMj5IyCTQcEPiVhQm1fYO": "High"
+                    },
+                    "runtime_user": {
+                        "target_default": true
+                    },
+                    "skip_execution": false,
+                    "target": {
+                        "use_workflow_target_group": true
+                    },
+                    "workflow_id": "definition_workflow_01PP773PI1X3Y1YQWhirIL8Uy40Thd6ND7r",
+                    "workflow_name": "Threat Response - Create Incident"
+                },
+                "object_type": "definition_activity"
+            }
+        ],
+        "categories": [
+            "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+        ]
+    },
+    "triggers": {
+        "triggerevent_01U5UAMYTKX0G0R141iqpu7rl4Zh94j4amV": {
+            "workflow_id": "definition_workflow_01U5UAE90VQDP6U6FZxNrl82NTm006epOzo",
+            "name": "Webhook Trigger",
+            "title": "",
+            "lowercase_name": "event.webhook_trigger",
+            "type": "event",
+            "base_type": "trigger",
+            "ref_id": "event_webhook_01U5U9ELDNGE61kbWGjH7wOnJkNgebJl3jQ",
+            "version": "1.0.0",
+            "disabled": false,
+            "unique_name": "triggerevent_01U5UAMYTKX0G0R141iqpu7rl4Zh94j4amV",
+            "object_type": "triggerevent"
+        }
+    },
+    "events": {
+        "event_webhook_01U5U9ELDNGE61kbWGjH7wOnJkNgebJl3jQ": {
+            "name": "0059 - Secure Cloud Insights - Event",
+            "title": "0059 - Secure Cloud Insights - Event",
+            "type": "webhook.event",
+            "base_type": "event",
+            "object_type": "event_webhook",
+            "target_id": "",
+            "webhook_id": "webhook_01U5RRCNE11SB6IRJLK9R5YgUQYeDKtQjd9",
+            "version": "1.0.0",
+            "properties": {
+                "display_name": "0059 - Secure Cloud Insights - Event",
+                "title": "0059 - Secure Cloud Insights - Event",
+                "webhook_id": "webhook_01U5RRCNE11SB6IRJLK9R5YgUQYeDKtQjd9"
+            },
+            "unique_name": "event_webhook_01U5U9ELDNGE61kbWGjH7wOnJkNgebJl3jQ"
+        }
+    },
+    "target_groups": {
+        "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+            "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+            "name": "Default TargetGroup",
+            "title": "Default TargetGroup",
+            "type": "generic.target_group",
+            "base_type": "target_group",
+            "version": "1.0.0",
+            "targets": [
+                {
+                    "data_target_type": "web-service.endpoint",
+                    "view_target_type": "web-service.endpoint",
+                    "include_all_targets": true
+                },
+                {
+                    "data_target_type": "email.smtp_endpoint",
+                    "view_target_type": "email.smtp_endpoint",
+                    "include_all_targets": true
+                }
+            ],
+            "object_type": "target_group"
+        }
+    },
+    "atomic_workflows": [
+        "definition_workflow_01PP773PI1X3Y1YQWhirIL8Uy40Thd6ND7r"
+    ],
+    "webhooks": {
+        "webhook_01U5RRCNE11SB6IRJLK9R5YgUQYeDKtQjd9": {
+            "name": "0059 - Secure Cloud Insights - Webhook",
+            "title": "0059 - Secure Cloud Insights - Webhook",
+            "type": "generic.webhook",
+            "base_type": "webhook",
+            "object_type": "webhook",
+            "version": "1.0.0",
+            "properties": {
+                "display_name": "0059 - Secure Cloud Insights - Webhook",
+                "request_content_type": "application\/json"
+            },
+            "unique_name": "webhook_01U5RRCNE11SB6IRJLK9R5YgUQYeDKtQjd9"
+        }
+    },
+    "dependent_workflows": [
+        "definition_workflow_01PP773PI1X3Y1YQWhirIL8Uy40Thd6ND7r"
+    ]
+}
