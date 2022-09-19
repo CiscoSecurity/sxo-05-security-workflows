@@ -8,7 +8,7 @@ parent: Account Keys
 # SecureX Token
 The SecureX Token is an [account key]({{ site.baseurl }}/account-keys/) which allows for easier use of SecureX APIs. Instead of having to generate an API client in SecureX and then enter the client ID and secret in orchestration, you can now simply use the SecureX Token account key. When you create this type of account key, an API client is automatically generated for you and can be associated with your HTTP-based [targets]({{ site.baseurl}}/targets/).
 
-<div class="cisco-alert cisco-alert-info"><i class="fa fa-info-circle mr-1 cisco-icon-info"></i> We're in the process of updating our existing workflows to support SecureX Tokens. For customers already using SecureX Tokens, you'll be able to import these new versions and use them without needing to reconfigure them for tokens. For customers using legacy authentication, you can either import an older version of the workflow or update your account key and target configurations. This page contains more information about how to tell which method you're using and how to migrate between them.</div>
+<div class="cisco-alert cisco-alert-info"><i class="fa fa-info-circle mr-1 cisco-icon-info"></i> All of our existing workflows have been updated to support SecureX Tokens. For customers already using SecureX Tokens, you'll be able to import these new versions and use them without needing to reconfigure them for tokens. For customers using legacy authentication, you can either import an older version of the workflow or update your account key and target configurations. This page contains more information about how to tell which method you're using and how to migrate between them.</div>
 
 ---
 
