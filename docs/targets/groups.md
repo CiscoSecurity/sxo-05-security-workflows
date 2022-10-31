@@ -42,10 +42,3 @@ To use the default target selected at the workflow level, simply select `Use Wor
 To override the default target and select a different target from the group, select `Override Workflow Target Group Critera` and provide alternate criteria. In this example, the workflow's default target is `CTR_API` and this activity is overriding the target to `CTR_For_Access_Token`:
 
 ![]({{ site.baseurl }}/assets/images/targets/groups/activity1.png)
-
----
-
-## Sample Workflows
-The following sample workflows are available in our repository's workflows folder to help you get familiar with this concept. These can be imported using the instructions [here]({{ site.baseurl }}/importing) or you can view the workflow in GitHub by clicking on it.
-
-* [Sample - Target Groups]({{ site.github.repository_url }}/tree/Main/Workflows/Sample-TargetGroups__definition_workflow_01JXUIVJ6VJXX6zclBJvmH65Wca5sWxbDoy)

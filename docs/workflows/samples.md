@@ -20,7 +20,6 @@ This page contains an index of sample workflows available for various SecureX or
 * [Response Workflows]({{ site.baseurl }}/workflows/response/#sample-workflows)
 * [Threat Response API]({{ site.baseurl }}/workflows/response/tr-api#sample-workflows)
 * [Tables]({{ site.baseurl }}/activities/tables#sample-workflows)
-* [Target Groups]({{ site.baseurl }}/targets/groups#sample-workflows)
 * [Wait For Event]({{ site.baseurl }}/activities/tasks/wait-for-event)
 * [While Loop]({{ site.baseurl }}/activities/while-loop#sample-workflows)
 * [XPath Query]({{ site.baseurl }}/activities/xpath-query#sample-workflows)
