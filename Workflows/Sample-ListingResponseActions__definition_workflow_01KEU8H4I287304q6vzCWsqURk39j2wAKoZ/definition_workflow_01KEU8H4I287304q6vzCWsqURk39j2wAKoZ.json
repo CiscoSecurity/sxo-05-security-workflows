@@ -9,20 +9,6 @@
       {
         "schema_id": "datatype.string",
         "properties": {
-          "value": "ip",
-          "scope": "input",
-          "name": "Observable Type",
-          "type": "datatype.string",
-          "description": "The type of observable to get actions for. Examples of valid observable types include: domain, ip, hostname, url, and sha256",
-          "is_required": true,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_01KEV7Z7YL8AC51AMFt4X6AN1yrBbqHoMR4",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
           "value": "",
           "scope": "input",
           "name": "Action to Find",
@@ -46,6 +32,20 @@
           "is_invisible": false
         },
         "unique_name": "variable_workflow_01KEV89F69NZJ21iHOK9fy65CrazIlF8nw8",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "ip",
+          "scope": "input",
+          "name": "Observable Type",
+          "type": "datatype.string",
+          "description": "The type of observable to get actions for. Examples of valid observable types include: domain, ip, hostname, url, and sha256",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01KEV7Z7YL8AC51AMFt4X6AN1yrBbqHoMR4",
         "object_type": "variable_workflow"
       }
     ],
@@ -98,39 +98,6 @@
         "object_type": "definition_activity",
         "actions": [
           {
-            "unique_name": "definition_activity_01KEU8QQU6GLB2SEvO3NK9F6icINwbIk5ZN",
-            "name": "Threat Response - Generate Access Token",
-            "title": "Threat Response - Generate Access Token",
-            "type": "workflow.atomic_workflow",
-            "base_type": "subworkflow",
-            "properties": {
-              "continue_on_failure": false,
-              "display_name": "Threat Response - Generate Access Token",
-              "runtime_user": {
-                "target_default": true
-              },
-              "skip_execution": false,
-              "target": {
-                "override_workflow_target_group_criteria": true,
-                "target_group": {
-                  "run_on_all_targets": false,
-                  "use_criteria": {
-                    "choose_target_using_algorithm": "choose_first_with_matching_criteria",
-                    "conditions": [
-                      {
-                        "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
-                        "operator": "eqi",
-                        "right_operand": "CTR_For_Access_Token"
-                      }
-                    ]
-                  }
-                }
-              },
-              "workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
-            },
-            "object_type": "definition_activity"
-          },
-          {
             "unique_name": "definition_activity_01KEU8OOOMYPO4NANeFXCz2SCARC73pqc1u",
             "name": "Threat Response - List Response Actions",
             "title": "Threat Response - List Response Actions",
@@ -140,7 +107,7 @@
               "continue_on_failure": false,
               "display_name": "Threat Response - List Response Actions",
               "input": {
-                "variable_workflow_01PP74F8NFMVL1nunnh0tHmJ6q93eKENUIo": "$activity.definition_activity_01KEU8QQU6GLB2SEvO3NK9F6icINwbIk5ZN.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$",
+                "variable_workflow_01PP74F8NFMVL1nunnh0tHmJ6q93eKENUIo": "",
                 "variable_workflow_01PP74F8NFSAR6gmDctGdu1ipiminc8zxQ9": "$workflow.definition_workflow_01KEU8H4I287304q6vzCWsqURk39j2wAKoZ.input.variable_workflow_01KEV89F69NZJ21iHOK9fy65CrazIlF8nw8$",
                 "variable_workflow_01PP74F8NFTHL23oJ81CQyQ3RzEdWnabkIB": "$workflow.definition_workflow_01KEU8H4I287304q6vzCWsqURk39j2wAKoZ.input.variable_workflow_01KEV7Z7YL8AC51AMFt4X6AN1yrBbqHoMR4$"
               },
@@ -151,7 +118,8 @@
               "target": {
                 "use_workflow_target_group": true
               },
-              "workflow_id": "definition_workflow_01PP74F8V7XK02YLxMMHUqVt4JVetzJhR9D"
+              "workflow_id": "definition_workflow_01PP74F8V7XK02YLxMMHUqVt4JVetzJhR9D",
+              "workflow_name": "Threat Response - List Response Actions"
             },
             "object_type": "definition_activity"
           }
@@ -376,7 +344,9 @@
     }
   },
   "atomic_workflows": [
-    "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH",
+    "definition_workflow_01PP74F8V7XK02YLxMMHUqVt4JVetzJhR9D"
+  ],
+  "dependent_workflows": [
     "definition_workflow_01PP74F8V7XK02YLxMMHUqVt4JVetzJhR9D"
   ]
 }

@@ -57,10 +57,13 @@ If your API uses a static key or token that doesn't change, you can store it in 
 
 ---
 
-## OAuth / OIDC / etc.
-If you're working with an API that uses OAuth, OIDC, or some other form of authentication, how you'll need to interact with it will vary. There are multiple implementations of each form and not all APIs are the same. Generally, these types of APIs use bearer tokens so you should be able to use the steps in the [bearer token](#bearer-token) section above, potentially with some tweaks.
+## OAuth
+Typically, authentication with OAuth-based APIs is a two step process:
+1. Using a client ID and secret, fetch an access/bearer token from a token endpoint (ex: `https://cool-api.somewhere.com/oauth2/token`). The client ID is usually used as the username for HTTP Basic authentication and the client secret is used as the password.
+2. Use that access/bearer token for all subsequent requests to the API (ex: `https://cool-api.somewhere.com/api/awesome-data`). The token obtained from step 1 is usually put in an `Authorization` header with the word `Bearer` (ex: `Authorization: Bearer my-long-token-here`).
+3. Refresh the access/bearer token as needed (this will depend on how the specific API is implemented).
 
-Think we should add an authentication scheme here that we didn't cover? [Let us know]({{ site.github.repository_url }}/issues/new?labels=documentation)!
+SecureX orchestration does not support following OAuth authorization/grant flows. If your API requires you to follow a web-based authorization flow to give an API client permission to a resource, you'll need to do that yourself and then use the resulting client ID/secret/tokens within orchestration. OAuth implementations vary, so we're only able to document some generic guidelines. Please refer to the individual product's API documentation for more information about how to authenticate properly.
 
 ---
 
