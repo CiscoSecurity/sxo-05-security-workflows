@@ -29,6 +29,7 @@ Note: This workflow will only fetch the first 10 external hosts. If you want to 
 | Jun 17, 2021 | - Initial release |
 | Sep 10, 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
 | Sep 7, 2022 | - Minor updates to naming and descriptions |
+| Nov 4, 2022 | - Fixed appending to the blocked/not blocked lists ([Issue #215]({{ site.github.repository_url }}/issues/215)) |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 
