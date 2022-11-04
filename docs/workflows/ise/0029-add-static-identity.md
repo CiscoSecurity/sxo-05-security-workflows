@@ -30,6 +30,7 @@ This workflow adds a static identity group assignment to a MAC address in Cisco 
 | May 26, 2021 | - Initial release |
 | Sep 10, 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
 | Sep 1, 2022 | - Minor updates to naming and descriptions |
+| Nov 4, 2022 | - Fixed the `Update Identity Group` activity ([Issue #214]({{ site.github.repository_url }}/issues/214)) |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 
