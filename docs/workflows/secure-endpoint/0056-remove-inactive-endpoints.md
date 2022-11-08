@@ -16,7 +16,7 @@ Workflow #0056
 
 This workflow looks for endpoints in Cisco Secure Endpoint that have been inactive for a specified number of days. If inactive endpoints are found, a list is compiled and they are deleted. An optional approval task can be used to request approval prior to deletion.
 
-Note: This workflow will only remove as many endpoints as your global `AO_LOOP_LIMIT` variable is set to. By default, this is 500.
+Note: This workflow will only remove 500 endpoints at a time. If you need to remove more than that, you can run the workflow multiple times or scheduled it to run periodically.
 
 [<i class="fab fa-github"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0056-SecureEndpoint-RemoveInactiveEndpoints__definition_workflow_01PQR5C3JYUAU20O6OId88VDKYnGqkWh0E3){: .btn-cisco-outline }
 
