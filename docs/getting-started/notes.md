@@ -24,7 +24,7 @@ When using SecureX orchestration, it's important to be aware of the items listed
 * A workflow must be in a valid state to be executed manually or triggered by an event. Examples:
 	* If you make changes to a workflow and don't validate it, the next time the workflow is scheduled to run it may fail to execute.
 	* If you have a workflow configured with an [`Email Event`]({{ site.baseurl }}/events/email) [trigger]({{ site.baseurl }}/workflows/triggers) and you're working on the workflow when an email arrives, the workflow may fail to execute if it isn't in a valid state.
-* By default, loops are limited to 500 iterations. If a loop attempts to run more than 500 times, the loop will be terminated and the workflow will fail. You can change the maximum number of iterations using the `AO_LOOP_LIMIT` environment [variable]({{ site.baseurl }}/variables/).
+* Loops are limited to a total of 500 iterations. This limit cannot be changed. If you need to iterate over more than 500 objects, you can nest loops inside each other or use a [Python script]({{ site.baseurl }}/activities/python/).
 * If you want to import an updated version of a workflow that you already have, keep in mind that any changes you've made will be overwritten. To avoid overwriting your changes, you can always import a workflow as a copy.
 
 ---

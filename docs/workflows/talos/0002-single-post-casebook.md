@@ -37,6 +37,7 @@ This workflow is an adaptation of the sub-workflow used by the [Talos - Get New 
 | Jun 24, 2021 | - Updated the user agent header being used to fetch blog posts from Talos |
 | Sep 10, 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
 | Aug 31, 2022 | - Updated to support [SecureX Tokens]({{ site.baseurl }}/account-keys/securex-token) |
+| Nov 8, 2022 | - Minor fix to error generation in one of the Python scripts |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 
