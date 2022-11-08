@@ -40,6 +40,7 @@ This workflow has two components: a parent workflow and a sub-workflow. Importin
 | Apr 5, 2022 | - Fixed the Post URL link markdown for the SecureX casebook |
 | Jul 25, 2022 | - Updated to handle the new Talos blog feed format ([Issue #177]({{ site.github.repository_url }}/issues/177)) |
 | Aug 31, 2022 | - Updated to support [SecureX Tokens]({{ site.baseurl }}/account-keys/securex-token) |
+| Nov 8, 2022 | - Updated to use the new Talos RSS feed |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 
@@ -96,7 +97,7 @@ These steps are executed for each new or updated blog post the parent workflow d
 
 | Target Name | Type | Details | Account Keys | Notes |
 |:------------|:-----|:--------|:-------------|:------|
-| Talos Intelligence Blog | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `feeds.feedburner.com`<br />_Path:_ `/feedburner/Talos` | None | |
+| Talos Blog RSS | HTTP Endpoint | _Protocol:_ `HTTPS`<br />_Host:_ `blog.talosintelligence.com`<br />_Path:_ `/rss/` | None | |
 
 ### Sub-Workflow
 Target Group: `Default TargetGroup`
