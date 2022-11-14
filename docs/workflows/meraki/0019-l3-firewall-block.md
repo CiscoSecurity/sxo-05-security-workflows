@@ -31,6 +31,7 @@ This workflow blocks the given IP address on a Cisco Meraki MX L3 outbound firew
 | Apr 8, 2021 | - Fixed an issue in one of the Python scripts that caused the rule list JSON to be double wrapped |
 | Sep 10, 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
 | Aug 31, 2022 | - Minor updates to naming and descriptions |
+| Nov 14, 2022| - Updated to support multiple organizations and multiple networks ([Issue #211]({{ site.github.repository_url }}/issues/211)) |
 
 _See the [Important Notes]({{ site.baseurl }}/notes#workflows) page for more information about updating workflows_
 
@@ -52,15 +53,19 @@ _See the [Important Notes]({{ site.baseurl }}/notes#workflows) page for more inf
 ## Workflow Steps
 1. Make sure the observable type provided is supported
 1. Get the Meraki API key from a global variable (optional)
-1. Get information about the Meraki network being modified
-1. Get the existing L3 firewall rules
-1. Add the new L3 firewall rule
-1. Update the firewall rules
+1. Loop through each organization:
+	* Check the organization name is in scope
+	* Loop through each network:
+		* Check the network name is in scope
+		* Get the existing L3 firewall rules
+		* Add the new L3 firewall rule
+		* Update the firewall rules
 
 ---
 
 ## Configuration
-* Set the `Network Name` local variable to the name of your Meraki network
+* Set the `Organization Names` local variable to a comma-separated list of organization names you want to apply updated rules to. If you leave this blank, all organizations will be updated. Note that these values are case sensitive
+* Set the `Network Names` local variable to comma-separated list of network names you want to apply updated rules to. If you leave this blank, all networks will be updated. Note that these values are case sensitive
 * Provide the workflow your Meraki API key by either:
 	* Storing your token in a [global variable]({{ site.baseurl }}/variables/global) and using the `Fetch Global Variables` group at the beginning of the workflow to update the `Meraki API Key` local variable; or
 	* Disable the `Fetch Global Variables` group and add your token directly to the `Meraki API Key` local variable
