@@ -14,7 +14,7 @@ Workflow #0076
 {: .label }
 </div>
 
-This workflow consumes the Talos Intelligence Blog RSS feed and converts individual blog posts into Cisco SecureX casebooks if they contain suspicious observables. These casebooks can then be investigated with one click in Cisco Threat Response.
+This workflow fetches the Google Threat Analytics Group's Intelligence Blog RSS feed and converts individual blog posts into Cisco SecureX casebooks if they contain suspicious observables. These casebooks can then be investigated with one click in Cisco Threat Response.
 
 [<i class="fab fa-github mr-1"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0076-GoogleTAG-GetNewBlogPosts__definition_workflow_01VW2B5RSJLWJ3FrIiDZbsk83nCwTZDOeiw){: .btn-cisco-outline }
 
@@ -46,7 +46,7 @@ _See the [Important Notes]({{ site.baseurl }}/notes) page for more information a
 ---
 
 ## Workflow Steps
-This workflow is designed to run on a [schedule]({{ site.baseurl }}/schedules/) to periodically check the Talos blog for new posts.
+This workflow is designed to run on a [schedule]({{ site.baseurl }}/schedules/) to periodically check the Google TAG blog for new posts.
 
 1. Fetch and validate global variables
 1. Get the RSS feed XML
@@ -60,17 +60,8 @@ This workflow is designed to run on a [schedule]({{ site.baseurl }}/schedules/) 
 1. Update the global variables last modified date and last run date
 
 ### Sub-Workflow Steps
-These steps are executed for each new or updated blog post the parent workflow discovers on the Talos blog.
+These steps are executed for each new or updated blog post the parent workflow discovers on the Google TAG blog.
 
-This workflow takes a Google TAG blog post, conducts an investigation into it using Cisco Threat Response, and posts the results to a SecureX casebook. If a Webex room name and bot token are provided, a message with the investigation's results will be sent.
-
-Documentation: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0076
-
-Target Group: Default TargetGroup
-
-Targets: CTR_API, Private_CTIA_Target, Webex Teams
-
-Steps:
 1. Fetch the blog post content and strip out any HTML
 1. Inspect the blog post content for observables
 1. Loop through each observable and get its Threat Response disposition
