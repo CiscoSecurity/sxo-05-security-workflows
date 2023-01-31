@@ -29,6 +29,7 @@ This workflow collects Cisco PSIRT Security Advisories and device details from y
 | Date | Notes |
 |:-----|:------|
 | Sep 7, 2022 | - Initial release |
+| Jan 31, 2023 | - Fix to API path in the `SecureX - SSE Proxy - Get Device Details` activity |
 
 _See the [Important Notes](/sxo-05-security-workflows/notes) page for more information about updating workflows_
 
