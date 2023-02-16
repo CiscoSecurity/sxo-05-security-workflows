@@ -42,6 +42,7 @@ This workflow has two components: a parent workflow and a sub-workflow. Importin
 | Aug 31, 2022 | - Updated to support [SecureX Tokens]({{ site.baseurl }}/account-keys/securex-token) |
 | Nov 8, 2022 | - Updated to use the new Talos RSS feed |
 | Nov 14, 2022 | - Updated to stop trimming blog post titles |
+| Feb 16, 2023 | - Minor tweak to how blog posts are stripped of HTML ([Issue #230]({{ site.github.repository_url }}/issues/230)) |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 
