@@ -29,6 +29,7 @@ This workflow monitors a mailbox for retrospective detection alerts from Cisco S
 | Apr 16, 2021 | - Initial release |
 | Sep 10, 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
 | Sep 1, 2022 | - Updated to support [SecureX Tokens]({{ site.baseurl }}/account-keys/securex-token) |
+| Feb 16, 2023 | - Updated workflow JSON to avoid an import failure ([Issue #231]({{ site.github.repository_url }}/issues/231)) |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 
@@ -85,4 +86,4 @@ Target Group: `Default TargetGroup`
 | Account Key Name | Type | Details | Notes |
 |:-----------------|:-----|:--------|:------|
 | [CTR_Credentials]({{ site.baseurl }}/account-keys/default#ctr_credentials) | SecureX Token | | See [this page]({{ site.baseurl }}/account-keys/securex-token) |
-| 0025 - Retrospective Alert Mailbox Credentials | Email Credentials | _Username:_ Mailbox Username<br />_Password:_ Mailbox Password | |
+| 0025 - Retrospective Alert Mailbox | Email Credentials | _Username:_ Mailbox Username<br />_Password:_ Mailbox Password | |
