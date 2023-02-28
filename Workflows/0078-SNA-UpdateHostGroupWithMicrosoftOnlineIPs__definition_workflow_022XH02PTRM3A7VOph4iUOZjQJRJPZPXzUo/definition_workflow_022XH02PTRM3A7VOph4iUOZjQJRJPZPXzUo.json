@@ -1,0 +1,633 @@
+{
+	"workflow": {
+	  "unique_name": "definition_workflow_022XH02PTRM3A7VOph4iUOZjQJRJPZPXzUo",
+	  "name": "0078 - SNA - Update Host Group with Microsoft Online IPs",
+	  "title": "0078 - SNA - Update Host Group with Microsoft Online IPs",
+	  "type": "generic.workflow",
+	  "base_type": "workflow",
+	  "variables": [
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "SEE VARIABLE DESCRIPTION",
+			"scope": "local",
+			"name": "Microsoft Endpoints URL",
+			"type": "datatype.string",
+			"description": "URL of the Microsoft endpoints JSON. This URL must have a unique GUID appended to it! To get your unique URL, go to https://docs.microsoft.com/en-us/microsoft-365/enterprise/microsoft-365-ip-web-service?view=o365-worldwide, click on the link on the second bullet, and copy the URL",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_022XH02QEXGPS066kGbHj58fEmY0FPBzm2l",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "Trusted Internet Hosts",
+			"scope": "local",
+			"name": "Host Group Name",
+			"type": "datatype.string",
+			"description": "The name of the Secure Network Analytics host group to add Microsoft IP addresses to",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_022XKEI6R0IWT7lBjAqcxXvuHhoXUq1HUdW",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "SNA Tenant Name",
+			"type": "datatype.string",
+			"description": "The name of the Secure Network Analytics tenant you want to operate in. This is case sensitive",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_023T5RNYN2D5J5XZHXs7Vcz1ln0eMrpUKRE",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.string",
+		  "properties": {
+			"value": "admin",
+			"scope": "local",
+			"name": "SNA Username",
+			"type": "datatype.string",
+			"description": "The username of the user account to use when accessing the Secure Network Analytics Management Center API",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_0235WE2WAI3HC0TtCecifEqB4xNuu4oyXpA",
+		  "object_type": "variable_workflow"
+		},
+		{
+		  "schema_id": "datatype.secure_string",
+		  "properties": {
+			"value": "",
+			"scope": "local",
+			"name": "SNA Password",
+			"type": "datatype.secure_string",
+			"description": "The password of the user account to use when accessing the Secure Network Analytics Management Center API",
+			"is_required": false,
+			"is_invisible": false
+		  },
+		  "unique_name": "variable_workflow_0235YY1UYY94L0vFFwJwFzAvAdIbAAdXjmR",
+		  "object_type": "variable_workflow"
+		}
+	  ],
+	  "properties": {
+		"atomic": {
+		  "is_atomic": false
+		},
+		"delete_workflow_instance": false,
+		"description": "This workflow fetches information about Microsoft Online IP addresses and subnets. These IPs and subnets are then added to a host group on Secure Network Analytics.\n\nNote: You may need to use a SecureX orchestration remote to communicate with Secure Network Analytics if it's on-premises. See: https://cs.co/SXO_remote\n\nDocumentation: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0078\n\nTarget Group: Default TargetGroup\n\nTargets: Secure Network Analytics\n\nSteps:\n[] Fetch the IP addresses/networks from Microsoft\n[] Fetch API tokens for Secure Network Analytics\n[] Fetch a list of SNA tenants and extract the domain ID of the tenant configured in the \"SNA Tenant Name\" variable\n[] Fetch a list of host groups\n[] Extract the group list and search for the group ID of the group configured in the \"Host Group Name\" variable\n[] Request the IPs from Microsoft be added to the host group",
+		"display_name": "0078 - SNA - Update Host Group with Microsoft Online IPs",
+		"runtime_user": {
+		  "target_default": true
+		},
+		"target": {
+		  "execute_on_target_group": true,
+		  "target_group": {
+			"target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+			"run_on_all_targets": false,
+			"selected_target_types": [
+			  "web-service.endpoint"
+			],
+			"use_criteria": {
+			  "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+			  "conditions": [
+				{
+				  "operator": "eqi",
+				  "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+				  "right_operand": "Secure Network Analytics"
+				}
+			  ]
+			}
+		  }
+		}
+	  },
+	  "object_type": "definition_workflow",
+	  "actions": [
+		{
+		  "unique_name": "definition_activity_022XH02YCL2HB5qSKfwV6FdhnVCiCGGwaKa",
+		  "name": "Execute Python Script",
+		  "title": "Get Microsoft IPs from URL",
+		  "type": "python3.script",
+		  "base_type": "activity",
+		  "properties": {
+			"action_timeout": 180,
+			"continue_on_failure": false,
+			"display_name": "Get Microsoft IPs from URL",
+			"script": "import sys,json,requests\n\n# Fetch the Microsoft Online JSON from Microsoft\ncontent = requests.request(\"GET\", sys.argv[1])\ncontent = content.text\n\n# Did we get the content?\nif len(content) == 0:\n\tprint('No input provided')\n\texit\n\n# Parse the JSON\nnetworks = json.loads(content)\n\n# Placeholders\nmicrosoftIPs = []\n\n# Parse each service and get its IPs\nfor service in networks:\n\tif not service['required']: continue\n\n\tif 'ips' in service:\n\t\tfor ip in service['ips']:\n\t\t\tif ':' in ip:\n\t\t\t\tip = ip.replace('/128', '')\n\t\t\t\t\n\t\t\t\tif ip not in microsoftIPs:\n\t\t\t\t\tmicrosoftIPs.append(ip)\n\t\t\telse:\n\t\t\t\tip = ip.replace('/32', '')\n\t\t\t\t\n\t\t\t\tif ip not in microsoftIPs:\n\t\t\t\t\tmicrosoftIPs.append(ip)\n\n# Remove duplicates\nmicrosoftIPs = json.dumps(list(dict.fromkeys(microsoftIPs)))",
+			"script_arguments": [
+			  "$workflow.definition_workflow_022XH02PTRM3A7VOph4iUOZjQJRJPZPXzUo.local.variable_workflow_022XH02QEXGPS066kGbHj58fEmY0FPBzm2l$"
+			],
+			"script_queries": [
+			  {
+				"script_query": "microsoftIPs",
+				"script_query_name": "microsoftIPs",
+				"script_query_type": "string"
+			  }
+			],
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_023T5SUW7FICC0xoGnLzN1SGFRokRoGtzVt",
+		  "name": "Group",
+		  "title": "Get Tokens and Tenant",
+		  "type": "logic.group",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Get Tokens and Tenant",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "actions": [
+			{
+			  "unique_name": "definition_activity_022XH02SKZM1B0mBW9g1DX4KAK3Xi6a0F8g",
+			  "name": "Secure Network Analytics - Get Tokens",
+			  "title": "Secure Network Analytics - Get Tokens",
+			  "type": "workflow.atomic_workflow",
+			  "base_type": "subworkflow",
+			  "properties": {
+				"continue_on_failure": false,
+				"display_name": "Secure Network Analytics - Get Tokens",
+				"input": {
+				  "variable_workflow_01PP77WNJZR8O6EmgrneE38PqpQGAdDLHP9": "$workflow.definition_workflow_022XH02PTRM3A7VOph4iUOZjQJRJPZPXzUo.local.variable_workflow_0235WE2WAI3HC0TtCecifEqB4xNuu4oyXpA$",
+				  "variable_workflow_01PP77WNJZUTO5HBYxlCRb8YoxIpqKI226W": "$workflow.definition_workflow_022XH02PTRM3A7VOph4iUOZjQJRJPZPXzUo.local.variable_workflow_0235YY1UYY94L0vFFwJwFzAvAdIbAAdXjmR$"
+				},
+				"runtime_user": {
+				  "target_default": true
+				},
+				"skip_execution": false,
+				"target": {
+				  "use_workflow_target_group": true
+				},
+				"workflow_id": "definition_workflow_01PP77WNPU2BN3NLVN76izYSiOOsrn8CSKk",
+				"workflow_name": "Secure Network Analytics - Get Tokens"
+			  },
+			  "object_type": "definition_activity"
+			},
+			{
+			  "unique_name": "definition_activity_022XH02UA60DY2FW7HClKGFtyxUd9Wmmm8u",
+			  "name": "Secure Network Analytics - Get Tenants",
+			  "title": "Secure Network Analytics - Get Tenants",
+			  "type": "workflow.atomic_workflow",
+			  "base_type": "subworkflow",
+			  "properties": {
+				"continue_on_failure": false,
+				"display_name": "Secure Network Analytics - Get Tenants",
+				"input": {
+				  "variable_workflow_01PP74BRJD1I739hU0oWIBzYJ8VVh5YdiIx": "$activity.definition_activity_022XH02SKZM1B0mBW9g1DX4KAK3Xi6a0F8g.output.variable_workflow_01PP77WNJZXB95ChLW4Z8YpZyZRIoHAQOMf$",
+				  "variable_workflow_01PP74BRJD6GZ6viFJIE8h5phuAxS45A7qp": "$activity.definition_activity_022XH02SKZM1B0mBW9g1DX4KAK3Xi6a0F8g.output.variable_workflow_01PP77WNJZW466xJB4ifxkhlUFYL1VzZIUC$"
+				},
+				"runtime_user": {
+				  "target_default": true
+				},
+				"skip_execution": false,
+				"target": {
+				  "use_workflow_target_group": true
+				},
+				"workflow_id": "definition_workflow_01PP74BRQ6UWD4BGykZegThMmriMz2isf2V",
+				"workflow_name": "Secure Network Analytics - Get Tenants"
+			  },
+			  "object_type": "definition_activity"
+			},
+			{
+			  "unique_name": "definition_activity_022XHFGFZ71JM2DnLgeFl6XpENXi6dGoSnn",
+			  "name": "JSONPath Query",
+			  "title": "Extract Tenant ID",
+			  "type": "corejava.jsonpathquery",
+			  "base_type": "activity",
+			  "properties": {
+				"action_timeout": 180,
+				"continue_on_failure": true,
+				"display_name": "Extract Tenant ID",
+				"input_json": "$activity.definition_activity_022XH02UA60DY2FW7HClKGFtyxUd9Wmmm8u.output.variable_workflow_01PP74BRJD58J2b2PD6lrEZocnboTm7BmfR$",
+				"jsonpath_queries": [
+				  {
+					"jsonpath_query": "*.[?(@.displayName==\"$workflow.definition_workflow_022XH02PTRM3A7VOph4iUOZjQJRJPZPXzUo.local.variable_workflow_023T5RNYN2D5J5XZHXs7Vcz1ln0eMrpUKRE$\")].id",
+					"jsonpath_query_name": "domain_id",
+					"jsonpath_query_type": "string",
+					"zdate_type_format": "yyyy-MM-dd'T'HH:mm:ssZ"
+				  }
+				],
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity"
+			},
+			{
+			  "unique_name": "definition_activity_023T5RTJGVRF14F67HSK7Y8B5BqvMnctexE",
+			  "name": "Condition Block",
+			  "title": "Was extraction successful?",
+			  "type": "logic.if_else",
+			  "base_type": "activity",
+			  "properties": {
+				"continue_on_failure": false,
+				"display_name": "Was extraction successful?",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "blocks": [
+				{
+				  "unique_name": "definition_activity_023T5RTJROBWE3Ma9DqVdkPVtcipnnQLZXy",
+				  "name": "Condition Branch",
+				  "title": "No",
+				  "type": "logic.condition_block",
+				  "base_type": "activity",
+				  "properties": {
+					"condition": {
+					  "left_operand": "$activity.definition_activity_022XHFGFZ71JM2DnLgeFl6XpENXi6dGoSnn.output.succeeded$",
+					  "operator": "eq",
+					  "right_operand": false
+					},
+					"continue_on_failure": false,
+					"display_name": "No",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity",
+				  "actions": [
+					{
+					  "unique_name": "definition_activity_023T5RUZFO0DK16yvolnEufXpxStnTbAvR7",
+					  "name": "Completed",
+					  "title": "Completed",
+					  "type": "logic.completed",
+					  "base_type": "activity",
+					  "properties": {
+						"completion_type": "failed-completed",
+						"continue_on_failure": false,
+						"display_name": "Completed",
+						"result_message": "Failed to extract the ID for tenant named \"$workflow.definition_workflow_022XH02PTRM3A7VOph4iUOZjQJRJPZPXzUo.local.variable_workflow_023T5RNYN2D5J5XZHXs7Vcz1ln0eMrpUKRE$\"",
+						"skip_execution": false
+					  },
+					  "object_type": "definition_activity"
+					}
+				  ]
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_022XH030UT46C01Sl0HXbdOoivGbW3zYa7P",
+		  "name": "HTTP Request",
+		  "title": "Get Host Groups",
+		  "type": "web-service.http_request",
+		  "base_type": "activity",
+		  "properties": {
+			"accept": "application/json",
+			"action_timeout": 180,
+			"allow_auto_redirect": true,
+			"allow_headers_redirect": false,
+			"content_type": "application/json",
+			"continue_on_error_status_code": true,
+			"continue_on_failure": false,
+			"cookie": [
+			  "stealthwatch.jwt=$activity.definition_activity_022XH02SKZM1B0mBW9g1DX4KAK3Xi6a0F8g.output.variable_workflow_01PP77WNJZW466xJB4ifxkhlUFYL1VzZIUC$"
+			],
+			"custom_headers": [
+			  {
+				"name": "X-XSRF-TOKEN",
+				"value": "$activity.definition_activity_022XH02SKZM1B0mBW9g1DX4KAK3Xi6a0F8g.output.variable_workflow_01PP77WNJZXB95ChLW4Z8YpZyZRIoHAQOMf$"
+			  }
+			],
+			"display_name": "Get Host Groups",
+			"method": "GET",
+			"relative_url": "smc-configuration/rest/v1/tenants/$activity.definition_activity_022XHFGFZ71JM2DnLgeFl6XpENXi6dGoSnn.output.jsonpath_queries.domain_id$/tags",
+			"runtime_user": {
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "use_workflow_target_group": true
+			}
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_0239IAHXAMRKN3lVDocJgnUawl9QRBDXN29",
+		  "name": "Condition Block",
+		  "title": "Was the request successful?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Was the request successful?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_0239IAHY06XI81URLU31yPwEzQz7sRvGQFS",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_022XH030UT46C01Sl0HXbdOoivGbW3zYa7P.output.status_code$",
+				  "operator": "ne",
+				  "right_operand": 200
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_0239IAQG68M207FikhL86okODhGB9H0RMhH",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "Failed to fetch the list of host groups\n\nStatus code: $activity.definition_activity_022XH030UT46C01Sl0HXbdOoivGbW3zYa7P.output.status_code$\nResponse body: $activity.definition_activity_022XH030UT46C01Sl0HXbdOoivGbW3zYa7P.output.response_body$",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_022XHLFT9PZE41xfbUcz8nRC918MF5OkWIg",
+		  "name": "JSONPath Query",
+		  "title": "Extract Group List",
+		  "type": "corejava.jsonpathquery",
+		  "base_type": "activity",
+		  "properties": {
+			"action_timeout": 180,
+			"continue_on_failure": true,
+			"display_name": "Extract Group List",
+			"input_json": "$activity.definition_activity_022XH030UT46C01Sl0HXbdOoivGbW3zYa7P.output.response_body$",
+			"jsonpath_queries": [
+			  {
+				"jsonpath_query": "$.data[0:]",
+				"jsonpath_query_name": "group_list",
+				"jsonpath_query_type": "string",
+				"zdate_type_format": "yyyy-MM-dd'T'HH:mm:ssZ"
+			  }
+			],
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_0239IBG9LVBQQ2ShfWUsFqP8QZIGGxTzqbW",
+		  "name": "Condition Block",
+		  "title": "Was a group list extracted?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Was a group list extracted?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_0239IBG9XR47P15AJkGHG2uu3CN6vN3aEj4",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_022XHLFT9PZE41xfbUcz8nRC918MF5OkWIg.output.succeeded$",
+				  "operator": "eq",
+				  "right_operand": false
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_0239IBGWQ70JS0YIv259yyuEhGPqPO8bsdi",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "Failed to extract the list of host groups",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_022XHMND7MQ311pS9Al1fV3GztmncmErIK9",
+		  "name": "Execute Python Script",
+		  "title": "Search for Host Group ID",
+		  "type": "python3.script",
+		  "base_type": "activity",
+		  "properties": {
+			"action_timeout": 180,
+			"continue_on_failure": false,
+			"display_name": "Search for Host Group ID",
+			"script": "import sys\nimport json\n\ncontent = sys.argv[1]\naDict = json.loads(content)\ngroup_id=''\n\nfor group in aDict:\n if group['name'] == \"$workflow.definition_workflow_022XH02PTRM3A7VOph4iUOZjQJRJPZPXzUo.local.variable_workflow_022XKEI6R0IWT7lBjAqcxXvuHhoXUq1HUdW$\":\n   group_id=str(group['id'])",
+			"script_arguments": [
+			  "$activity.definition_activity_022XHLFT9PZE41xfbUcz8nRC918MF5OkWIg.output.jsonpath_queries.group_list$"
+			],
+			"script_queries": [
+			  {
+				"script_query": "group_id",
+				"script_query_name": "group_id",
+				"script_query_type": "string"
+			  }
+			],
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_0239ICM0PDDX82VKSUdcmdayHGUcDWTiEr0",
+		  "name": "Condition Block",
+		  "title": "Was a host group ID found?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Was a host group ID found?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_0239ICM1GQRQF4nEcmHRe4rXH5BiRKNtfKK",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_022XHMND7MQ311pS9Al1fV3GztmncmErIK9.output.script_queries.group_id$",
+				  "operator": "eq",
+				  "right_operand": ""
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_0239ICVMUB5EZ1vfTuXiySs9aDy68Eer9cT",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "Failed to extract a host group ID for the group \"$workflow.definition_workflow_022XH02PTRM3A7VOph4iUOZjQJRJPZPXzUo.input.variable_workflow_022XKEI6R0IWT7lBjAqcxXvuHhoXUq1HUdW$\"",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		},
+		{
+		  "unique_name": "definition_activity_022XHH050MR760BsC6c5G9RUqgpUV0XFhWq",
+		  "name": "HTTP Request",
+		  "title": "Add Microsoft IPs to Host Group",
+		  "type": "web-service.http_request",
+		  "base_type": "activity",
+		  "properties": {
+			"accept": "application/json",
+			"action_timeout": 180,
+			"allow_auto_redirect": true,
+			"allow_headers_redirect": false,
+			"body": "[\n  {\n    \"id\": \"$activity.definition_activity_022XHMND7MQ311pS9Al1fV3GztmncmErIK9.output.script_queries.group_id$\",\n    \"name\": \"$workflow.definition_workflow_022XH02PTRM3A7VOph4iUOZjQJRJPZPXzUo.local.variable_workflow_022XKEI6R0IWT7lBjAqcxXvuHhoXUq1HUdW$\",\n    \"location\": \"OUTSIDE\",\n    \"description\": \"Host Group for Microsoft IP Devices\",\n    \"ranges\":\n      $activity.definition_activity_022XH02YCL2HB5qSKfwV6FdhnVCiCGGwaKa.output.script_queries.microsoftIPs$     \n    ,\n    \"hostBaselines\": false,\n    \"suppressExcludedServices\": true,\n    \"inverseSuppression\": false,\n    \"hostTrap\": false,\n    \"sendToCta\": false,\n    \"parentId\": 0\n  }\n]",
+			"content_type": "application/json",
+			"continue_on_error_status_code": true,
+			"continue_on_failure": false,
+			"cookie": [
+			  "stealthwatch.jwt=$activity.definition_activity_022XH02SKZM1B0mBW9g1DX4KAK3Xi6a0F8g.output.variable_workflow_01PP77WNJZW466xJB4ifxkhlUFYL1VzZIUC$"
+			],
+			"custom_headers": [
+			  {
+				"name": "X-XSRF-TOKEN",
+				"value": "$activity.definition_activity_022XH02SKZM1B0mBW9g1DX4KAK3Xi6a0F8g.output.variable_workflow_01PP77WNJZXB95ChLW4Z8YpZyZRIoHAQOMf$"
+			  }
+			],
+			"display_name": "Add Microsoft IPs to Host Group",
+			"method": "PUT",
+			"relative_url": "smc-configuration/rest/v1/tenants/$activity.definition_activity_022XHFGFZ71JM2DnLgeFl6XpENXi6dGoSnn.output.jsonpath_queries.domain_id$/tags",
+			"runtime_user": {
+			  "target_default": true
+			},
+			"skip_execution": false,
+			"target": {
+			  "use_workflow_target_group": true
+			}
+		  },
+		  "object_type": "definition_activity"
+		},
+		{
+		  "unique_name": "definition_activity_0239IDC39PM554RL5litzStQ3OJJ2hpQjXJ",
+		  "name": "Condition Block",
+		  "title": "Was the request successful?",
+		  "type": "logic.if_else",
+		  "base_type": "activity",
+		  "properties": {
+			"continue_on_failure": false,
+			"display_name": "Was the request successful?",
+			"skip_execution": false
+		  },
+		  "object_type": "definition_activity",
+		  "blocks": [
+			{
+			  "unique_name": "definition_activity_0239IDC3L7UJ62sIycM9VBhdxSmmXaYhcHt",
+			  "name": "Condition Branch",
+			  "title": "No",
+			  "type": "logic.condition_block",
+			  "base_type": "activity",
+			  "properties": {
+				"condition": {
+				  "left_operand": "$activity.definition_activity_022XHH050MR760BsC6c5G9RUqgpUV0XFhWq.output.status_code$",
+				  "operator": "ne",
+				  "right_operand": 200
+				},
+				"continue_on_failure": false,
+				"display_name": "No",
+				"skip_execution": false
+			  },
+			  "object_type": "definition_activity",
+			  "actions": [
+				{
+				  "unique_name": "definition_activity_0239IDDQFKLTU7gV48fWrf60cIPQLM7wcYp",
+				  "name": "Completed",
+				  "title": "Failed",
+				  "type": "logic.completed",
+				  "base_type": "activity",
+				  "properties": {
+					"completion_type": "failed-completed",
+					"continue_on_failure": false,
+					"display_name": "Failed",
+					"result_message": "Failed to update host group with new IP addresses\n\nStatus code: $activity.definition_activity_022XHH050MR760BsC6c5G9RUqgpUV0XFhWq.output.status_code$\nResponse body: $activity.definition_activity_022XHH050MR760BsC6c5G9RUqgpUV0XFhWq.output.response_body$",
+					"skip_execution": false
+				  },
+				  "object_type": "definition_activity"
+				}
+			  ]
+			}
+		  ]
+		}
+	  ],
+	  "categories": [
+		"category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+	  ]
+	},
+	"target_groups": {
+	  "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+		"unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+		"name": "Default TargetGroup",
+		"title": "Default TargetGroup",
+		"type": "generic.target_group",
+		"base_type": "target_group",
+		"version": "1.0.0",
+		"targets": [
+		  {
+			"data_target_type": "web-service.endpoint",
+			"view_target_type": "web-service.endpoint",
+			"include_all_targets": true
+		  },
+		  {
+			"data_target_type": "email.smtp_endpoint",
+			"view_target_type": "email.smtp_endpoint",
+			"include_all_targets": true
+		  }
+		],
+		"object_type": "target_group"
+	  }
+	},
+	"atomic_workflows": [
+	  "definition_workflow_01PP77WNPU2BN3NLVN76izYSiOOsrn8CSKk",
+	  "definition_workflow_01PP74BRQ6UWD4BGykZegThMmriMz2isf2V"
+	],
+	"dependent_workflows": [
+	  "definition_workflow_01PP77WNPU2BN3NLVN76izYSiOOsrn8CSKk",
+	  "definition_workflow_01PP74BRQ6UWD4BGykZegThMmriMz2isf2V"
+	]
+  }
