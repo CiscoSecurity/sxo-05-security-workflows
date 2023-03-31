@@ -20,6 +20,8 @@ Response Workflow
 
 This workflow will move the endpoint identified by the provided observable to a triage device group in Cisco Secure Endpoint. Supported observables: `ip`, `hostname`, `amp_computer_guid`
 
+[<i class="fab fa-github mr-1"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows-Default/D004-SecureEndpoint-MoveComputerToTriageGroup__definition_workflow_01R2NJSB9JFRK633nOAkT1cxLRDjSKU3h8L){: .btn-cisco-outline }
+
 ---
 
 ## Change Log

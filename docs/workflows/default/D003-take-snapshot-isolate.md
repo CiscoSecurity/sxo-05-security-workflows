@@ -20,6 +20,8 @@ Response Workflow
 
 This workflow initiates a Cisco Orbital forensic snapshot for the endpoint identified by the provided observable and then attempts to enable host isolation using Cisco Secure Endpoint. Supported observables: `ip`, `mac_address`, `amp_computer_guid`
 
+[<i class="fab fa-github mr-1"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows-Default/D003-SecureEndpoint-TakeForensicSnapshotAndIsolate__definition_workflow_01R2NK2L7QPTJ1Is1emHSntVW5u7yNWm84T){: .btn-cisco-outline }
+
 ---
 
 ## Change Log

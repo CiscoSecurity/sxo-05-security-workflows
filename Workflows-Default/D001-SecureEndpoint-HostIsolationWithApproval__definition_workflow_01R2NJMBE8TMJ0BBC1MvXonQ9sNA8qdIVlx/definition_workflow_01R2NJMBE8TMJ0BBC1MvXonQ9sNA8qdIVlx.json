@@ -192,7 +192,8 @@
               }
             }
           },
-          "workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
+          "workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH",
+          "workflow_name": "Threat Response - Generate Access Token"
         },
         "object_type": "definition_activity"
       },
@@ -217,26 +218,36 @@
           "target": {
             "use_workflow_target_group": true
           },
-          "workflow_id": "definition_workflow_01PP74F8V7XK02YLxMMHUqVt4JVetzJhR9D"
+          "workflow_id": "definition_workflow_01PP74F8V7XK02YLxMMHUqVt4JVetzJhR9D",
+          "workflow_name": "Threat Response - List Response Actions"
         },
         "object_type": "definition_activity"
       },
       {
-        "unique_name": "definition_activity_01R2NJMTRU1TP0cND3pgAnbjE8jvupl9VLi",
-        "name": "JSONPath Query",
-        "title": "Extract the module",
-        "type": "corejava.jsonpathquery",
+        "unique_name": "definition_activity_024M3U0LRBMQR20aOwB0r7Z13di00oPt1yl",
+        "name": "Execute Python Script",
+        "title": "Extract the module ID",
+        "type": "python3.script",
         "base_type": "activity",
         "properties": {
           "action_timeout": 180,
           "continue_on_failure": true,
-          "display_name": "Extract the module",
-          "input_json": "$activity.definition_activity_01R2NJMRODWOS4bG4v20IVzY1o6p51Kh4o7.output.variable_workflow_01PP74F8NFQWX7VN6IXaZIyIoHTzy3tJDxa$  ",
-          "jsonpath_queries": [
+          "display_name": "Extract the module ID",
+          "script": "import sys, json\n\nactions = json.loads(sys.argv[1])\nmoduleName = sys.argv[2]\nmoduleId = ''\nalreadyIsolated = False\n\nif isinstance(actions, list):\n  for action in actions:\n    if action['module'] == moduleName:\n      moduleId = action['module_instance_id']\n      if action['id'] == 'amp-stop-isolation-amp-computer-guid':\n        alreadyIsolated = True\nelse:\n  moduleId = actions['module_instance_id']\n  if actions['id'] == 'amp-stop-isolation-amp-computer-guid':\n    alreadyIsolated = True\n",
+          "script_arguments": [
+            "$activity.definition_activity_01R2NJMRODWOS4bG4v20IVzY1o6p51Kh4o7.output.variable_workflow_01PP74F8NFQWX7VN6IXaZIyIoHTzy3tJDxa$",
+            "$workflow.definition_workflow_01R2NJMBE8TMJ0BBC1MvXonQ9sNA8qdIVlx.local.variable_workflow_01R2NJMBQGSTA3XYg1jWS1Ne2EyGkLghChk$"
+          ],
+          "script_queries": [
             {
-              "jsonpath_query": "$.data.[?(@.module=='$workflow.definition_workflow_01R2NJMBE8TMJ0BBC1MvXonQ9sNA8qdIVlx.local.variable_workflow_01R2NJMBQGSTA3XYg1jWS1Ne2EyGkLghChk$')]",
-              "jsonpath_query_name": "modules",
-              "jsonpath_query_type": "string"
+              "script_query": "moduleId",
+              "script_query_name": "moduleId",
+              "script_query_type": "string"
+            },
+            {
+              "script_query": "alreadyIsolated",
+              "script_query_name": "alreadyIsolated",
+              "script_query_type": "boolean"
             }
           ],
           "skip_execution": false
@@ -264,7 +275,7 @@
             "base_type": "activity",
             "properties": {
               "condition": {
-                "left_operand": "$activity.definition_activity_01R2NJMTRU1TP0cND3pgAnbjE8jvupl9VLi.output.succeeded$",
+                "left_operand": "$activity.definition_activity_024M3U0LRBMQR20aOwB0r7Z13di00oPt1yl.output.succeeded$",
                 "operator": "eq",
                 "right_operand": false
               },
@@ -294,26 +305,54 @@
         ]
       },
       {
-        "unique_name": "definition_activity_01R2NJMZB70B14M0PTIdbNEcFpT3haJzbdR",
-        "name": "JSONPath Query",
-        "title": "Extract the module instance ID",
-        "type": "corejava.jsonpathquery",
+        "unique_name": "definition_activity_024M3Z77FEMCG2KDPFG9ukhP91EGmwJW8vD",
+        "name": "Condition Block",
+        "title": "Was the device already isolated?",
+        "type": "logic.if_else",
         "base_type": "activity",
         "properties": {
-          "action_timeout": 180,
           "continue_on_failure": false,
-          "display_name": "Extract the module instance ID",
-          "input_json": "$activity.definition_activity_01R2NJMTRU1TP0cND3pgAnbjE8jvupl9VLi.output.jsonpath_queries.modules$",
-          "jsonpath_queries": [
-            {
-              "jsonpath_query": "$.[0].module_instance_id",
-              "jsonpath_query_name": "moduleInstanceId",
-              "jsonpath_query_type": "string"
-            }
-          ],
+          "display_name": "Was the device already isolated?",
           "skip_execution": false
         },
-        "object_type": "definition_activity"
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_024M3Z78887973FLtZ5f0y3UFLZaTrAWGCC",
+            "name": "Condition Branch",
+            "title": "Yes",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_024M3U0LRBMQR20aOwB0r7Z13di00oPt1yl.output.script_queries.alreadyIsolated$",
+                "operator": "eq",
+                "right_operand": true
+              },
+              "continue_on_failure": false,
+              "display_name": "Yes",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_024M3ZFRHUM3T2tVZaA1CQOuyRWXu3NPtEw",
+                "name": "Completed",
+                "title": "Completed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "succeeded",
+                  "continue_on_failure": false,
+                  "display_name": "Completed",
+                  "result_message": "The requested computer is already isolated in Secure Endpoint",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
       },
       {
         "unique_name": "definition_activity_01R2NJN1JNQZY0SmozNVjtmZaQbqpSIq1aa",
@@ -415,6 +454,7 @@
               }
             }
           },
+          "event_timeout": 2580000,
           "event_type": "approval_task.event",
           "skip_execution": false
         },
@@ -480,7 +520,8 @@
                       }
                     }
                   },
-                  "workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
+                  "workflow_id": "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH",
+                  "workflow_name": "Threat Response - Generate Access Token"
                 },
                 "object_type": "definition_activity"
               },
@@ -497,7 +538,7 @@
                     "variable_workflow_01PP78A5DV9V56KZdyeivoLTMkTbz5ekKij": "$activity.definition_activity_01R2NJN6FTUUO4aAjAZSrxTmUXMk16IMVFs.output.variable_workflow_01PP75S3G7CJY6WAQr2IJC7qga2SIoE09gQ$",
                     "variable_workflow_01PP78A5DVEZD4w3lMF930OCo7g09iIEXaA": "$workflow.definition_workflow_01R2NJMBE8TMJ0BBC1MvXonQ9sNA8qdIVlx.input.variable_workflow_01R2NJMBQGC8Z2vr90yc9oOygTerJx7cMS3$",
                     "variable_workflow_01PP78A5DVG8Z4DyPKNPwN8vRnZZjPMX6Kv": "$workflow.definition_workflow_01R2NJMBE8TMJ0BBC1MvXonQ9sNA8qdIVlx.input.variable_workflow_01R2NJMBQGKEL3p7Gp8iNfevLh7Ik2UUzlJ$",
-                    "variable_workflow_01PP78A5DVHGO154mbjdWl8LrFNbWQh1BLW": "$activity.definition_activity_01R2NJMZB70B14M0PTIdbNEcFpT3haJzbdR.output.jsonpath_queries.moduleInstanceId$",
+                    "variable_workflow_01PP78A5DVHGO154mbjdWl8LrFNbWQh1BLW": "$activity.definition_activity_024M3U0LRBMQR20aOwB0r7Z13di00oPt1yl.output.script_queries.moduleId$",
                     "variable_workflow_01PP78A5DVINP4cS0HN9ZngNtE0GuQBPVBv": "amp-start-isolation-amp-computer-guid"
                   },
                   "runtime_user": {
@@ -507,7 +548,8 @@
                   "target": {
                     "use_workflow_target_group": true
                   },
-                  "workflow_id": "definition_workflow_01PP78A5LQXZA7PavA44Ex35KroriQgIjvH"
+                  "workflow_id": "definition_workflow_01PP78A5LQXZA7PavA44Ex35KroriQgIjvH",
+                  "workflow_name": "Threat Response - Trigger Response Action"
                 },
                 "object_type": "definition_activity"
               }
@@ -555,8 +597,13 @@
     }
   },
   "atomic_workflows": [
+    "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH",
     "definition_workflow_01PP74F8V7XK02YLxMMHUqVt4JVetzJhR9D",
-    "definition_workflow_01PP78A5LQXZA7PavA44Ex35KroriQgIjvH",
-    "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH"
+    "definition_workflow_01PP78A5LQXZA7PavA44Ex35KroriQgIjvH"
+  ],
+  "dependent_workflows": [
+    "definition_workflow_01PP75S3LTBW4420OZU3rdHWKHFnE6aC7yH",
+    "definition_workflow_01PP74F8V7XK02YLxMMHUqVt4JVetzJhR9D",
+    "definition_workflow_01PP78A5LQXZA7PavA44Ex35KroriQgIjvH"
   ]
 }

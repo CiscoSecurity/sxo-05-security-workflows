@@ -20,6 +20,8 @@ Response Workflow
 
 This workflow requests approval to isolate an endpoint using Cisco Secure Endpoint host isolation. If approved, isolation is enabled using the Cisco Threat Response host isolation response action. Supported observable: `amp_computer_guid`
 
+[<i class="fab fa-github mr-1"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows-Default/D001-SecureEndpoint-HostIsolationWithApproval__definition_workflow_01R2NJMBE8TMJ0BBC1MvXonQ9sNA8qdIVlx){: .btn-cisco-outline }
+
 ---
 
 ## Change Log
@@ -28,6 +30,7 @@ This workflow requests approval to isolate an endpoint using Cisco Secure Endpoi
 |:-----|:------|
 | Jun 23, 2020 | - Initial release |
 | Sep 10, 2021 | - Updated to use the new [system atomics]({{ site.baseurl }}/atomics/system) |
+| Mar 31, 2023 | - Updated to fix a JSONpath query parsing issue. The workflow will also now end successfully if the endpoint being isolated is already in isolation |
 
 _See the [Important Notes]({{ site.baseurl }}/notes) page for more information about updating workflows_
 
