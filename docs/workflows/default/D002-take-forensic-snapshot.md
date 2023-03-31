@@ -20,6 +20,8 @@ Response Workflow
 
 This workflow initiates a Cisco Orbital forensic snapshot for the endpoint identified by the provided observable. Supported observables: `ip`, `mac_address`, `amp_computer_guid`
 
+[<i class="fab fa-github mr-1"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows-Default/D002-Orbital-TakeOrbitalForensicSnapshot__definition_workflow_01R2NJZSH5F970JChJDQNSHI6ERLyvF672U){: .btn-cisco-outline }
+
 ---
 
 ## Change Log
