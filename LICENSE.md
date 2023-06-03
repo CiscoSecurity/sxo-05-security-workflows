@@ -3,7 +3,7 @@ are subject to the following license:
 
 MIT License
 
-Copyright (c) 2021 Cisco Systems, Inc.
+Copyright (c) 2023 Cisco Systems, Inc.
 Third party content Copyright (c) 2021 each respective third party
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
