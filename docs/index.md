@@ -4,7 +4,7 @@ title: Home
 nav_order: 1
 ---
 
-![]({{ site.baseurl }}/assets/images/header-graphic.png)
+<div class="cisco-banner">This documentation is currently being updated for the future release of Cisco XDR. During this transition period, you will see references to both SecureX Orchestration and XDR Automation. For more information about this, see <a href="{{ site.baseurl }}/transition" target="_self">this page</a>.</div>
 
 # SecureX orchestration
 SecureX orchestration provides a no-to-low code approach for building automated workflows. These workflows can interact with various types of resources and systems, whether they're from Cisco or a third-party. Our GitHub repositories contain a wide variety of [atomic actions](#atomic-actions) and [workflows](#workflows) that can be imported into SecureX orchestration.
