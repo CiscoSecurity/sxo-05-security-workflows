@@ -19,6 +19,8 @@ Response Workflow
 
 This workflow adds an observable to the configured destination list in Cisco Umbrella. Supported observables: `ip`, `domain`
 
+Note: Umbrella does not support adding IP addresses to block lists. If you use this workflow with a block destination list, adding IP addresses will have no effect.
+
 [<i class="fab fa-github mr-1"></i> GitHub]({{ site.github.repository_url }}/tree/Main/Workflows/0017-Umbrella-AddToDestinationList__definition_workflow_01N8STV59EM7C519ZuO1Sx67ovm5MDpdBn5){: .btn-cisco-outline }
 
 ---
