@@ -11,15 +11,6 @@ When using SecureX orchestration, it's important to be aware of the items listed
 
 ---
 
-## General
-* If you see the error `upstream connect error or disconnect/reset before headers. reset reason: connection termination`, clear your cache/cookies and try again. This is a known issue and a fix is being worked on.
-	* [Instructions for Chrome](https://support.google.com/accounts/answer/32050?hl=en&co=GENIE.Platform=Desktop)
-	* [Instructions for Firefox](https://support.mozilla.org/en-US/kb/how-clear-firefox-cache)
-	* [Instructions for Safari](https://support.apple.com/guide/safari/manage-cookies-and-website-data-sfri11471/mac)
-	* [Instructions for Edge](https://support.microsoft.com/en-us/microsoft-edge/view-and-delete-browser-history-in-microsoft-edge-00cf7943-a9e1-975a-a33d-ac10ce454ca4)
-
----
-
 ## Workflows
 * A workflow must be in a valid state to be executed manually or triggered by an event. Examples:
 	* If you make changes to a workflow and don't validate it, the next time the workflow is scheduled to run it may fail to execute.

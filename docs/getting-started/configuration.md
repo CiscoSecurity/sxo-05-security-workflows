@@ -50,21 +50,6 @@ Are you seeing a 403 error when you try to import content from GitHub? Some of t
 
 ---
 
-## Creating the Git Repository for Default Workflows
-1. In SecureX orchestration, expand the main menu and click on **Admin** and then **Git Repositories**.
-1. Click on the **New Git Repository** button (or click on the existing repository you want to update).
-1. Provide a name for the repository (suggested: `CiscoSecurity_Default_Workflows`).
-1. Set **No Account Keys** to `True` (see [above](#403---rate-limit-exceeded)).
-1. Fill in the Git information:
-	* Protocol: `HTTPS`
-	* REST API Repository Type: `GitHub`
-	* REST API Repository: `api.github.com/repos/CiscoSecurity/sxo-05-security-workflows`
-	* Branch: `Main`
-	* Code Path: `Workflows-Default`
-1. Click **Submit**.
-
----
-
 ## Adding an Account Key
 Note: If your GitHub account has two-factor authentication enabled, you'll need to use a personal access token. To generate a token, check out [these instructions](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token).
 
