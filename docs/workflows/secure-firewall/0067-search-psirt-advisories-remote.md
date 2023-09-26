@@ -65,7 +65,7 @@ _See the [Important Notes](/sxo-05-security-workflows/notes) page for more infor
 ## Configuration
 * If you don't already have an API client for the Cisco PSIRT openVuln API:
 	* Log into the [Cisco API Console](https://apiconsole.cisco.com/apps/register) and click the "Register a New App" button
-	* Give the app a name (for example: SecureX Orchestration)
+	* Give the app a name (for example: SecureX orchestration)
 	* Check the "Client Credentials" box under the "OAuth2 Credentials" section
 	* Check the "Cisco PSIRT openVuln API" box
 	* Agree to the Terms of Service and click the "Register" button

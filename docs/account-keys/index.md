@@ -10,8 +10,6 @@ has_toc: false
 # Account Keys
 Account keys are what SecureX orchestration calls credentials. They come in a wide variety of different types that correspond to the types of [targets]({{ site.baseurl }}/targets/) that are available. Targets are not required to have account keys, however, for targets with account keys the key type must match the target type. SecureX orchestration comes out of the box with some [default account keys]({{ site.baseurl }}/account-keys/default) configured.
 
-<div class="cisco-alert cisco-alert-info"><i class="fa fa-info-circle mr-1 cisco-icon-info"></i> We've released a new account key type called "SecureX Token." This is a special account key that allows you to communicate with SecureX APIs without needing to generate a client ID and secret. <a href="{{ site.baseurl }}/account-keys/securex-token">Click here</a> for more information about this new account key type and how to use it.</div>
-
 ---
 
 ## Key Types

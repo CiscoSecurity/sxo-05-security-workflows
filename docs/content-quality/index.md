@@ -16,22 +16,3 @@ Finally, workflows should have a clear, specific objective and accomplish that o
 The purpose of this section is to:
 1. Enable transparency so customers and partners can see how Cisco develops and tests content; and
 1. Document Cisco's standards and best practices for others who want to develop their own content.
-
-While adhering to the guidelines in this section is not required for you to be successful with SecureX Orchestration, it is required if you wish to submit your content for publishing in this repository. Information about contributing to this repository can be found [here]({{ site.baseurl }}/contributing).
-
----
-
-## Our Process
-Content being developed for publishing to this repository goes through these steps:
-1. The content is created by the author following our best practices and guidelines.
-1. The author submits the content to our SecureX ecosystem manager for review via [GitHub]({{ site.github.repository_url }}/issues/new?label=suggestion).
-1. The content goes through one or more quality control checks to make sure:
-	* Best practices and guidelines are followed.
-	* There is an easily understood outcome.
-	* Documentation is complete and clearly describes the success criteria for the use case (required products, dependencies, configuration steps, and so on). See our [documentation template]({{ site.baseurl }}/content-quality/documentation-template).
-1. If all checks pass, the content is queued for publishing. If the review team finds issues or room for improvement, the content is returned to the author with notes and the cycle continues. Note that the content author is responsible for correcting any issues uncovered by the review team.
-
----
-
-## Workflow Analyzer
-Want an easy way to check if your content meets our requirements? Check out our [workflow analyzer]({{ site.baseurl }}/analyzer). The analyzer will check for **most** of our best practices and give you guidance on how to resolve potential issues. Keep in mind this is strictly a technical assessment and does not verify that the workflow will actually accomplish what it's intended to.

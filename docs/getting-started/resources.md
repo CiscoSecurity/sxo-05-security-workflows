@@ -18,21 +18,4 @@ This page contains links to a variety of additional SecureX and SecureX orchestr
 ---
 
 ## Videos
-
-| Title        | Description       | Link  |
-|:-------------|:------------------|:------|
-| Orchestration Overview | In this video, we take a tour of SecureX orchestration and talk about its primary components including targets, account keys, variables, and schedules. | [YouTube](https://www.youtube.com/watch?v=Vmn2KpS1H7I&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo) |
-| Building a Workflow | Once you understand the basics of SecureX orchestration, you can dive into building your first workflow. In this video, we build a simple demo workflow to help you get familiar with the workflow editor. | [YouTube](https://www.youtube.com/watch?v=gs-XWrCXQbE&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo) |
-| Building an Atomic Action | Atomic actions simplify repetitive tasks by allowing you to build reusable activities in SecureX orchestration. | [YouTube](https://www.youtube.com/watch?v=sNN6SLgeNpQ&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo) |
-| Response Workflows | Response workflows appear in SecureX and Threat Response pivot menus and allow you to customize incident investigation and response. | [YouTube](https://www.youtube.com/watch?v=KlV0bGO4qRI&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo) |
-| Import and Export | In this video, we'll explore the various options available in SecureX orchestration for importing and exporting your workflows and atomic actions. | [YouTube](https://www.youtube.com/watch?v=qmJk994qLOg&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo) |
-| ThreatWiseTV - Secure Remote Workers | Experience how SecureX scales secure remote access by optimizing VPN capacity. | [YouTube](https://www.youtube.com/watch?v=1ujhfDhZ7cY&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo) |
-| ThreatWiseTV - Simplify Threat Hunting | Watch how SecureX with Cisco Talos and third-party vulnerability sources simplify the hunt. | [YouTube](https://www.youtube.com/watch?v=k8eoT_1fZDM&list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo) |
-
----
-
-## Restricted Resources
-These resources are restricted to the groups of people indicated next to each item.
-
-* [dCloud - Orchestration Demo](https://dcloud.cisco.com/content/instantdemo/cisco-securex-orchestration-v1-instant-demo) *(Cisco Employees and Partners)*
-* [dCloud - SecureX demo](https://dcloud.cisco.com/content/instantdemo/cisco-securex-v1-instant-demo-2) *(Cisco Employees and Partners)*
+Our YouTube playlist of automation-related videos can be found [here](https://www.youtube.com/playlist?list=PLPFIie48Myg2tu2gHbgm-moYg8LDaXsSo).
