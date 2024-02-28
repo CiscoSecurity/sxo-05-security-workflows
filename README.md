@@ -1,3 +1,5 @@
+> On August 11, 2023, Cisco [announced](https://www.cisco.com/c/en/us/products/collateral/security/securex/securex-eol.html) that Cisco SecureX will go end-of-life on July 31, 2024. The content in this Github repository will not be actively maintained following this announcement.
+
 # Cisco SecureX orchestration
 [![published](https://static.production.devnetcloud.com/codeexchange/assets/images/devnet-published.svg)](https://developer.cisco.com/codeexchange/github/repo/CiscoSecurity/sxo-05-security-workflows)
 
